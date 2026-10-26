@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-scale="md">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>對比小偵探｜小學對比修辭互動遊戲</title>
+<meta name="description" content="用卡通繪本風格教小學生認識對比修辭，含教學關卡與三種互動遊戲，支援手機、平板與電腦。">
+<script src="https://yiyanstatic.cdn.bcebos.com/advisory/tailwindcss.js"></script>
+<style>
+:root{
+  --ink:#2B2118;
+  --ink-soft:#6E5C4A;
+  --cream:#FFF8EC;
+  --card:#FFFFFF;
+  --orange:#FF9F1C;
+  --orange-d:#DE7A00;
+  --blue:#3AA6E8;
+  --blue-d:#1C7EB8;
+  --green:#2FBF8F;
+  --green-d:#199A6F;
+  --pink:#FF6B8B;
+  --yellow:#FFE08A;
+  --line:#2B2118;
+  --r-lg:26px;
+  --r-md:18px;
+  --shadow:0 6px 0 rgba(43,33,24,.9);
+  --shadow-sm:0 4px 0 rgba(43,33,24,.9);
+}
+html{font-size:18px;-webkit-text-size-adjust:100%;}
+html[data-scale="lg"]{font-size:20.5px;}
+html[data-scale="xl"]{font-size:23px;}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:'PingFang TC','Microsoft JhengHei','Heiti TC','Noto Sans TC','Songti TC',sans-serif;
+  color:var(--ink);
+  line-height:1.65;
+  background:
+    radial-gradient(circle at 10% 6%, #FFE7C2 0, rgba(255,231,194,0) 42%),
+    radial-gradient(circle at 92% 10%, #D8EEFF 0, rgba(216,238,255,0) 38%),
+    radial-gradient(circle at 50% 104%, #DDF7EC 0, rgba(221,247,236,0) 45%),
+    var(--cream);
+  background-attachment:fixed;
+  min-height:100vh;
+  padding-bottom:3rem;
+}
+body::before{
+  content:"";
+  position:fixed;inset:0;
+  background-image:radial-gradient(rgba(43,33,24,.055) 1.4px, transparent 1.4px);
+  background-size:22px 22px;
+  pointer-events:none;z-index:0;
+}
+.wrap{max-width:1040px;margin:0 auto;padding:0 1rem;position:relative;z-index:1;}
+.screen{display:none;}
+.screen.on{display:block;animation:pop .32s cubic-bezier(.2,.8,.2,1) both;}
+@keyframes pop{from{transform:translateY(10px);opacity:.85}to{transform:none;opacity:1}}
+
+/* ---------- 頂欄 ---------- */
+.topbar{
+  position:sticky;top:0;z-index:30;
+  display:flex;align-items:center;gap:.6rem;
+  padding:.55rem 0;
+  backdrop-filter:blur(10px);
+  background:rgba(255,248,236,.86);
+  border-bottom:2px dashed rgba(43,33,24,.16);
+  margin-bottom:1rem;
+  flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:.5rem;font-weight:900;font-size:1.05rem;letter-spacing:.02em;}
+.brand svg{width:32px;height:32px;flex-shrink:0;}
+.spacer{flex:1;}
+.chip-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.35rem;
+  min-height:42px;padding:0 .8rem;
+  border:2.5px solid var(--line);border-radius:999px;
+  background:#fff;color:var(--ink);
+  font-weight:800;font-size:.9rem;line-height:1;
+  box-shadow:0 3px 0 var(--line);
+  cursor:pointer;transition:transform .12s, box-shadow .12s;
+  font-family:inherit;
+}
+.chip-btn:active{transform:translateY(3px);box-shadow:0 0 0 var(--line);}
+.chip-btn[aria-pressed="true"]{background:var(--yellow);}
+
+/* ---------- 首頁 ---------- */
+.hero{
+  display:grid;grid-template-columns:1.15fr .85fr;gap:1.2rem;align-items:center;
+  padding:1.4rem 1.3rem;margin-bottom:1.3rem;
+  background:#fff;
+  border:3px solid var(--line);border-radius:var(--r-lg);
+  box-shadow:var(--shadow);
+  position:relative;overflow:hidden;
+}
+.hero::after{
+  content:"";position:absolute;right:-40px;bottom:-50px;
+  width:180px;height:180px;border-radius:50%;
+  background:repeating-conic-gradient(from 0deg,#FFE08A 0 12deg,transparent 12deg 24deg);
+  opacity:.45;
+}
+.hero h1{
+  font-size:2.2rem;line-height:1.2;margin:0 0 .5rem;font-weight:900;letter-spacing:.01em;
+}
+.hero h1 .hl{
+  background:linear-gradient(transparent 58%,var(--yellow) 58%);
+  padding:0 .1em;
+}
+.hero p{margin:0;font-size:1rem;color:var(--ink-soft);font-weight:600;}
+.tag-row{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.9rem;}
+.tag{
+  font-size:.78rem;font-weight:800;padding:.28rem .65rem;border-radius:999px;
+  border:2px solid var(--line);background:#fff;
+}
+.tag.b{background:#E4F4FF;}
+.tag.o{background:#FFEBD0;}
+.tag.g{background:#DFF8EE;}
+.hero-art{display:flex;justify-content:center;}
+.hero-art svg{width:100%;max-width:260px;height:auto;}
+
+.sec-title{
+  display:flex;align-items:center;gap:.5rem;
+  font-size:1.15rem;font-weight:900;margin:1.6rem 0 .8rem;
+}
+.sec-title svg{width:26px;height:26px;flex-shrink:0;}
+
+/* ---------- 難度卡（已修正 .lv-body 直向排列） ---------- */
+.lv-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.lv-card{
+  display:flex;gap:.85rem;align-items:flex-start;
+  padding:1.05rem;border:3px solid var(--line);border-radius:var(--r-lg);
+  background:#fff;box-shadow:var(--shadow-sm);
+  text-align:left;cursor:pointer;font-family:inherit;color:var(--ink);
+  transition:transform .14s, box-shadow .14s, background .14s;
+  position:relative;
+}
+.lv-card:hover{transform:translateY(-3px);box-shadow:0 7px 0 rgba(43,33,24,.9);}
+.lv-card:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(43,33,24,.9);}
+.lv-card.low{background:linear-gradient(160deg,#FFFDF6,#FFF1D8);}
+.lv-card.high{background:linear-gradient(160deg,#F9FDFF,#E2F3FF);}
+.lv-icon{
+  width:56px;height:56px;flex-shrink:0;border-radius:16px;
+  border:2.5px solid var(--line);display:grid;place-items:center;background:#fff;
+}
+.lv-icon svg{width:34px;height:34px;}
+.lv-body{display:flex;flex-direction:column;gap:.18rem;flex:1 1 auto;min-width:0;}
+.lv-name{display:block;font-size:1.1rem;font-weight:900;line-height:1.35;}
+.lv-desc{display:block;font-size:.86rem;color:var(--ink-soft);font-weight:600;line-height:1.5;}
+.lv-meta{
+  display:inline-block;margin-top:.35rem;font-size:.74rem;font-weight:800;
+  padding:.15rem .5rem;border-radius:999px;background:rgba(43,33,24,.08);
+}
+.lv-arrow{position:absolute;right:.9rem;top:.9rem;width:22px;height:22px;opacity:.5;}
+
+.note-box{
+  margin-top:1.2rem;padding:.85rem 1rem;border-radius:var(--r-md);
+  border:2.5px dashed var(--line);background:#FFFCF2;
+  font-size:.9rem;font-weight:700;color:var(--ink-soft);
+  display:flex;gap:.6rem;align-items:flex-start;
+}
+.note-box svg{width:22px;height:22px;flex-shrink:0;margin-top:.15rem;}
+
+/* ---------- 關卡地圖 ---------- */
+.map-head{
+  display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap;
+}
+.back-btn{
+  display:inline-flex;align-items:center;gap:.3rem;
+  min-height:44px;padding:0 .85rem;border:2.5px solid var(--line);border-radius:999px;
+  background:#fff;font-weight:800;font-size:.9rem;cursor:pointer;font-family:inherit;
+  box-shadow:0 3px 0 var(--line);color:var(--ink);
+}
+.back-btn:active{transform:translateY(3px);box-shadow:none;}
+.map-title{font-size:1.3rem;font-weight:900;margin:0;}
+.map-sub{font-size:.85rem;color:var(--ink-soft);font-weight:700;margin:0;}
+
+.node-list{display:flex;flex-direction:column;gap:.85rem;position:relative;}
+.node{
+  display:flex;gap:.9rem;align-items:center;
+  padding:1rem 1.1rem;background:#fff;
+  border:3px solid var(--line);border-radius:var(--r-lg);
+  box-shadow:var(--shadow-sm);cursor:pointer;font-family:inherit;
+  color:var(--ink);text-align:left;transition:transform .14s;
+  width:100%;
+}
+.node:hover{transform:translateX(4px);}
+.node:active{transform:scale(.99);}
+.node-num{
+  width:52px;height:52px;flex-shrink:0;border-radius:50%;
+  border:2.5px solid var(--line);display:grid;place-items:center;
+  font-weight:900;font-size:1.15rem;background:var(--yellow);
+}
+.node.teach .node-num{background:#FFD9A0;}
+.node.m1 .node-num{background:#CDEBFF;}
+.node.m2 .node-num{background:#D8F7E8;}
+.node.m3 .node-num{background:#FFE1E8;}
+.node-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.1rem;}
+.node-name{font-size:1.02rem;font-weight:900;line-height:1.4;}
+.node-desc{font-size:.84rem;color:var(--ink-soft);font-weight:600;line-height:1.5;}
+.node-right{display:flex;flex-direction:column;align-items:flex-end;gap:.25rem;flex-shrink:0;}
+.stars{display:flex;gap:2px;}
+.stars svg{width:16px;height:16px;}
+.node-cta{font-size:.74rem;font-weight:800;color:var(--orange-d);white-space:nowrap;}
+
+/* ---------- 教學頁 ---------- */
+.teach-card{
+  background:#fff;border:3px solid var(--line);border-radius:var(--r-lg);
+  box-shadow:var(--shadow);padding:1.3rem;position:relative;overflow:hidden;
+}
+.teach-card::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:12px;background:var(--orange);
+}
+.teach-inner{padding-left:.6rem;}
+.teach-tag{
+  display:inline-block;font-size:.75rem;font-weight:900;padding:.2rem .6rem;
+  border-radius:999px;border:2px solid var(--line);background:var(--yellow);margin-bottom:.6rem;
+}
+.teach-h{font-size:1.5rem;font-weight:900;margin:.1rem 0 .5rem;line-height:1.3;}
+.teach-lead{font-size:1rem;font-weight:600;color:var(--ink-soft);margin:0 0 1rem;}
+.teach-art{display:flex;justify-content:center;margin:.4rem 0 1rem;}
+.teach-art svg{width:100%;max-width:300px;height:auto;}
+.points{display:flex;flex-direction:column;gap:.7rem;}
+.point{
+  display:flex;gap:.7rem;align-items:flex-start;
+  padding:.8rem .9rem;border-radius:var(--r-md);
+  background:#FFFBF0;border:2px solid rgba(43,33,24,.14);
+}
+.point .dot{
+  width:30px;height:30px;flex-shrink:0;border-radius:9px;
+  border:2.5px solid var(--line);display:grid;place-items:center;
+  font-weight:900;font-size:.85rem;background:#FFD9A0;
+}
+.point .dot.blue{background:#CDEBFF;}
+.point .dot.green{background:#D8F7E8;}
+.point .dot.pink{background:#FFE1E8;}
+.point-text{font-size:.95rem;font-weight:600;line-height:1.6;}
+.point-text b{font-weight:900;}
+.ex-chip{
+  display:inline-block;margin-top:.3rem;padding:.2rem .55rem;border-radius:8px;
+  background:#fff;border:2px dashed rgba(43,33,24,.3);
+  font-size:.9rem;font-weight:800;
+}
+.warn-item{
+  border-left:6px solid var(--pink);
+  background:#FFF6F8;
+}
+.teach-nav{display:flex;gap:.7rem;justify-content:space-between;margin-top:1.2rem;flex-wrap:wrap;}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
+  min-height:52px;padding:0 1.3rem;border-radius:999px;
+  border:3px solid var(--line);font-weight:900;font-size:1rem;
+  cursor:pointer;font-family:inherit;color:var(--ink);
+  background:#fff;box-shadow:0 4px 0 var(--line);
+  transition:transform .12s, box-shadow .12s;
+}
+.btn:active{transform:translateY(4px);box-shadow:none;}
+.btn.primary{background:var(--orange);color:#3A2400;}
+.btn.blue{background:#BFE6FF;}
+.btn.ghost{background:#fff;}
+.btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:0 4px 0 rgba(43,33,24,.3);}
+
+/* ---------- 遊戲 ---------- */
+.game-shell{
+  background:#fff;border:3px solid var(--line);border-radius:var(--r-lg);
+  box-shadow:var(--shadow);padding:1.15rem;
+}
+.game-top{display:flex;align-items:center;gap:.7rem;margin-bottom:.9rem;flex-wrap:wrap;}
+.game-mode{font-size:1.02rem;font-weight:900;margin:0;}
+.game-count{font-size:.85rem;font-weight:800;color:var(--ink-soft);margin-left:auto;}
+.bar{
+  height:16px;border-radius:999px;background:#F0E6D6;
+  border:2.5px solid var(--line);overflow:hidden;margin-bottom:1.1rem;
+}
+.bar-fill{
+  height:100%;width:0%;background:linear-gradient(90deg,var(--orange),#FFC85C);
+  transition:width .35s cubic-bezier(.2,.8,.2,1);
+}
+.q-text{
+  font-size:1.25rem;font-weight:900;line-height:1.55;margin:.2rem 0 1.1rem;
+  padding:.9rem 1rem;border-radius:var(--r-md);
+  background:#FFFCF2;border:2.5px dashed rgba(43,33,24,.25);
+}
+.q-text:focus{outline:3px solid var(--blue);outline-offset:3px;}
+.opts{display:flex;flex-direction:column;gap:.65rem;}
+.opt{
+  display:flex;align-items:center;gap:.75rem;
+  padding:.85rem 1rem;border-radius:var(--r-md);
+  border:2.5px solid var(--line);background:#fff;
+  font-size:1.02rem;font-weight:700;line-height:1.5;
+  cursor:pointer;font-family:inherit;color:var(--ink);text-align:left;
+  box-shadow:0 3px 0 rgba(43,33,24,.85);
+  transition:transform .12s, box-shadow .12s, background .18s;
+  min-height:56px;
+}
+.opt:hover:not(:disabled){background:#FFF9EC;}
+.opt:active:not(:disabled){transform:translateY(3px);box-shadow:none;}
+.opt .key{
+  width:32px;height:32px;flex-shrink:0;border-radius:50%;
+  border:2px solid var(--line);display:grid;place-items:center;
+  font-weight:900;font-size:.88rem;background:#F3EADC;
+}
+.opt.correct{background:#DFF8EE;border-color:var(--green-d);}
+.opt.correct .key{background:var(--green);color:#fff;}
+.opt.wrong{background:#FFE6EB;border-color:#D63B5C;}
+.opt.wrong .key{background:var(--pink);color:#fff;}
+.opt:disabled{cursor:default;}
+.opt.dim{opacity:.55;}
+
+.explain{
+  margin-top:.95rem;padding:.9rem 1rem;border-radius:var(--r-md);
+  border:2.5px solid var(--line);background:#F2FBF7;
+  display:none;
+}
+.explain.on{display:block;animation:pop .3s both;}
+.explain.bad{background:#FFF4F6;}
+.ex-head{display:flex;align-items:center;gap:.45rem;font-weight:900;font-size:1rem;margin-bottom:.35rem;}
+.ex-head svg{width:22px;height:22px;flex-shrink:0;}
+.ex-body{font-size:.94rem;font-weight:600;line-height:1.65;color:#3C3229;}
+.game-actions{display:flex;justify-content:flex-end;margin-top:.9rem;}
+
+/* ---------- 成績 ---------- */
+.result-card{
+  background:#fff;border:3px solid var(--line);border-radius:var(--r-lg);
+  box-shadow:var(--shadow);padding:1.6rem 1.2rem;text-align:center;
+  position:relative;overflow:hidden;
+}
+.result-card::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 50% -20%,rgba(255,224,138,.65),transparent 60%);
+  pointer-events:none;
+}
+.result-emoji{display:none;}
+.big-stars{display:flex;justify-content:center;gap:.5rem;margin:.5rem 0 .2rem;}
+.big-stars svg{width:56px;height:56px;}
+.score-num{font-size:2.6rem;font-weight:900;line-height:1.1;margin:.3rem 0;}
+.score-num small{font-size:1.1rem;color:var(--ink-soft);font-weight:800;}
+.result-msg{font-size:1rem;font-weight:700;color:var(--ink-soft);margin:.3rem 0 1.1rem;}
+.result-acts{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap;}
+
+/* ---------- 響應式 ---------- */
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr;text-align:left;}
+  .hero-art{order:-1;max-width:200px;}
+  .hero h1{font-size:1.85rem;}
+  .lv-grid{grid-template-columns:1fr;}
+}
+@media (max-width:560px){
+  html{font-size:17px;}
+  .wrap{padding:0 .85rem;}
+  .hero{padding:1.05rem;border-radius:22px;}
+  .hero h1{font-size:1.6rem;}
+  .hero-art{display:none;}
+  .game-shell,.teach-card{padding:.95rem;border-radius:22px;}
+  .q-text{font-size:1.12rem;padding:.8rem .85rem;}
+  .opt{font-size:.98rem;padding:.75rem .8rem;}
+  .btn{width:100%;}
+  .teach-nav .btn{width:100%;}
+  .node{padding:.85rem .9rem;gap:.7rem;}
+  .node-num{width:44px;height:44px;font-size:1rem;}
+  .node-cta{display:none;}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;transition-duration:.01ms !important;}
+}
+</style>
+</head>
+<body>
+<div data-generated-by="aurora-frontend-design">
+
+<!-- 頂欄 -->
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="24" r="21" fill="#FFE08A" stroke="#2B2118" stroke-width="3"/>
+        <circle cx="17" cy="20" r="3.2" fill="#2B2118"/>
+        <circle cx="31" cy="20" r="3.2" fill="#2B2118"/>
+        <path d="M16 30c2.6 3 13.4 3 16 0" fill="none" stroke="#2B2118" stroke-width="3" stroke-linecap="round"/>
+        <path d="M24 3v5M24 40v5M3 24h5M40 24h5" stroke="#2B2118" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <span>對比小偵探</span>
+    </div>
+    <div class="spacer"></div>
+    <button class="chip-btn" id="soundBtn" aria-pressed="true" aria-label="切換音效">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#2B2118" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 8.5a5 5 0 010 7"/><path d="M19.5 6a8.5 8.5 0 010 12"/>
+      </svg>
+      <span id="soundTxt">音效開</span>
+    </button>
+    <button class="chip-btn" id="scaleBtn" aria-label="放大字體">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#2B2118" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 19L10 5l6 14"/><path d="M6.2 14.5h7.6"/><path d="M17 10h4M19 8v4"/>
+      </svg>
+      <span id="scaleTxt">大字</span>
+    </button>
+  </div>
+</div>
+
+<!-- 首頁 -->
+<main class="wrap">
+<section class="screen on" id="screen-home" aria-label="首頁">
+  <div class="hero">
+    <div>
+      <h1>找出句子裡的<br><span class="hl">對比小祕密</span></h1>
+      <p>把兩個不同的人、事、物放在一起，<br>讓它們的差別一眼就看出來——這就是對比。</p>
+      <div class="tag-row">
+        <span class="tag o">圖解教學</span>
+        <span class="tag b">三種遊戲</span>
+        <span class="tag g">36 道題目</span>
+      </div>
+    </div>
+    <div class="hero-art">
+      <svg viewBox="0 0 260 220" role="img" aria-label="兩個小朋友站在天平兩端">
+        <ellipse cx="130" cy="203" rx="86" ry="9" fill="rgba(43,33,24,.10)"/>
+        <rect x="124" y="70" width="12" height="122" rx="6" fill="#F2C078" stroke="#2B2118" stroke-width="3"/>
+        <rect x="52" y="62" width="156" height="12" rx="6" fill="#FFD9A0" stroke="#2B2118" stroke-width="3"/>
+        <circle cx="130" cy="66" r="8" fill="#FF9F1C" stroke="#2B2118" stroke-width="3"/>
+        <!-- 左盤 -->
+        <path d="M56 74v18" stroke="#2B2118" stroke-width="3"/>
+        <path d="M30 92h52l-8 16H38z" fill="#BFE6FF" stroke="#2B2118" stroke-width="3" stroke-linejoin="round"/>
+        <!-- 右盤 -->
+        <path d="M204 74v18" stroke="#2B2118" stroke-width="3"/>
+        <path d="M178 92h52l-8 16h-36z" fill="#FFE1E8" stroke="#2B2118" stroke-width="3" stroke-linejoin="round"/>
+        <!-- 左小人 -->
+        <g>
+          <circle cx="56" cy="34" r="15" fill="#FFE0BD" stroke="#2B2118" stroke-width="3"/>
+          <path d="M44 26c3-9 17-9 22-2-2 4-7 6-11 5-4 3-8 1-11-3z" fill="#3C3229"/>
+          <circle cx="51" cy="35" r="2" fill="#2B2118"/><circle cx="61" cy="35" r="2" fill="#2B2118"/>
+          <path d="M53 41c2 2 5 2 7 0" stroke="#2B2118" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M56 49v26" stroke="#2B2118" stroke-width="9" stroke-linecap="round"/>
+          <path d="M56 56l-11 10M56 56l11 8" stroke="#2B2118" stroke-width="5" stroke-linecap="round"/>
+        </g>
+        <!-- 右小人（高） -->
+        <g>
+          <circle cx="204" cy="20" r="15" fill="#FFE0BD" stroke="#2B2118" stroke-width="3"/>
+          <path d="M192 14c2-10 20-11 24-1-3 5-9 6-13 4-4 3-9 1-11-3z" fill="#5A4633"/>
+          <circle cx="199" cy="21" r="2" fill="#2B2118"/><circle cx="209" cy="21" r="2" fill="#2B2118"/>
+          <path d="M200 27c2 2 5 2 7 0" stroke="#2B2118" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M204 35v40" stroke="#3AA6E8" stroke-width="9" stroke-linecap="round"/>
+          <path d="M204 44l-12 12M204 44l12 10" stroke="#2B2118" stroke-width="5" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <h2 class="sec-title">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#2B2118" stroke-width="2.3" stroke-linecap="round" aria-hidden="true"><path d="M12 3l2.6 5.6 6.1.8-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L3.3 9.4l6.1-.8z"/></svg>
+    選一個難度，開始挑戰
+  </h2>
+  <div class="lv-grid">
+    <button class="lv-card low" data-level="low">
+      <span class="lv-icon">
+        <svg viewBox="0 0 32 32" fill="none" stroke="#2B2118" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="14" cy="13" r="9" fill="#CDEBFF"/><path d="M21 20l7 7"/><path d="M10 13h8"/>
+        </svg>
+      </span>
+      <span class="lv-body">
+        <span class="lv-name">初階版</span>
+        <span class="lv-desc">認識四個對比小法寶，學會分辨「有沒有對比」。</span>
+        <span class="lv-meta">18 題 · 約 8 分鐘</span>
+      </span>
+      <svg class="lv-arrow" viewBox="0 0 24 24" fill="none" stroke="#2B2118" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+
+    <button class="lv-card high" data-level="high">
+      <span class="lv-icon">
+        <svg viewBox="0 0 32 32" fill="none" stroke="#2B2118" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M16 4l3.2 7.2L27 12l-5.6 5.2L23 25l-7-4.1L9 25l1.6-7.8L5 12l7.8-.8z" fill="#FFE08A"/>
+        </svg>
+      </span>
+      <span class="lv-body">
+        <span class="lv-name">高階版</span>
+        <span class="lv-desc">分清對比與比喻，把平淡的句子改寫得更有張力。</span>
+        <span class="lv-meta">18 題 · 約 10 分鐘</span>
+      </span>
+      <svg class="lv-arrow" viewBox="0 0 24 24" fill="none" stroke="#2B2118" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+
+  <div class="note-box">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#2B2118" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>
+    <span>玩法：先看圖解教學，再進入三種遊戲。答錯不會扣分，會告訴你為什麼，慢慢想就好。</span>
+  </div>
+</section>
+
+<!-- 關卡地圖 -->
+<section class="screen" id="screen-map" aria-label="關卡地圖">
+  <div class="map-head">
+    <button class="back-btn" data-go="home">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#2B2118" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+      返回
+    </button>
+    <div>
+      <h2 class="map-title" id="mapTitle">初階版 · 關卡地圖</h2>
+      <p class="map-sub" id="mapSub">先學後玩，四關卡等你破解</p>
+    </div>
+  </div>
+  <div class="node-list" id="nodeList"></div>
+</section>
+
+<!-- 教學 -->
+<section class="screen" id="screen-teach" aria-label="圖解教學">
+  <div class="teach-card">
+    <div class="teach-inner" id="teachInner"></div>
+    <div class="teach-nav">
+      <button class="btn ghost" id="teachPrev">上一頁</button>
+      <button class="btn primary" id="teachNext">下一頁</button>
+    </div>
+  </div>
+</section>
+
+<!-- 遊戲 -->
+<section class="screen" id="screen-game" aria-label="互動遊戲">
+  <div class="game-shell">
+    <div class="game-top">
+      <button class="back-btn" data-go="map" aria-label="返回地圖">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#2B2118" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+      </button>
+      <h2 class="game-mode" id="gameMode">對比偵探</h2>
+      <span class="game-count" id="gameCount">第 1 / 6 題</span>
+    </div>
+    <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0" aria-label="答題進度" id="progressBar">
+      <div class="bar-fill" id="barFill"></div>
+    </div>
+
+    <h3 class="q-text" id="qText" tabindex="-1"></h3>
+    <div class="opts" id="opts"></div>
+
+    <div class="explain" id="explain" aria-live="polite" aria-atomic="true">
+      <div class="ex-head" id="exHead"><span id="exTitle"></span></div>
+      <div class="ex-body" id="exBody"></div>
+    </div>
+
+    <div class="game-actions">
+      <button class="btn primary" id="nextBtn" style="display:none">下一題</button>
+    </div>
+  </div>
+</section>
+
+<!-- 成績 -->
+<section class="screen" id="screen-result" aria-label="成績">
+  <div class="result-card">
+    <div class="big-stars" id="bigStars"></div>
+    <div class="score-num" id="scoreNum">0 <small>/ 6 題</small></div>
+    <p class="result-msg" id="resultMsg"></p>
+    <div class="result-acts">
+      <button class="btn blue" id="retryBtn">再玩一次</button>
+      <button class="btn primary" data-go="map">回關卡地圖</button>
+    </div>
+  </div>
+</section>
+</main>
+
+<script>
+/* ========== 音效（Web Audio 即時合成，無外部檔案） ========== */
+var soundOn = true;
+var audioCtx = null;
+try { soundOn = localStorage.getItem('cd_sound') !== '0'; } catch (e) {}
+
+function ac() {
+  if (!audioCtx) {
+    var C = window.AudioContext || window.webkitAudioContext;
+    if (!C) return null;
+    audioCtx = new C();
+  }
+  if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+  return audioCtx;
+}
+function tone(freq, start, dur, type, vol) {
+  var c = ac(); if (!c) return;
+  var o = c.createOscillator(), g = c.createGain();
+  o.type = type || 'sine';
+  o.frequency.setValueAtTime(freq, c.currentTime + start);
+  g.gain.setValueAtTime(0, c.currentTime + start);
+  g.gain.linearRampToValueAtTime(vol || 0.16, c.currentTime + start + 0.012);
+  g.gain.exponentialRampToValueAtTime(0.0008, c.currentTime + start + dur);
+  o.connect(g); g.connect(c.destination);
+  o.start(c.currentTime + start);
+  o.stop(c.currentTime + start + dur + 0.03);
+}
+function sfx(name) {
+  if (!soundOn) return;
+  try {
+    if (name === 'tap') { tone(660, 0, 0.07, 'triangle', 0.10); }
+    else if (name === 'right') {
+      tone(523.25, 0, 0.12, 'triangle', 0.16);
+      tone(659.25, 0.09, 0.12, 'triangle', 0.16);
+      tone(783.99, 0.18, 0.22, 'triangle', 0.16);
+    } else if (name === 'wrong') {
+      tone(233.08, 0, 0.16, 'sine', 0.14);
+      tone(185.00, 0.13, 0.24, 'sine', 0.13);
+    } else if (name === 'win') {
+      [523.25, 659.25, 783.99, 1046.5].forEach(function (f, i) { tone(f, i * 0.11, 0.3, 'triangle', 0.14); });
+    } else if (name === 'page') {
+      tone(440, 0, 0.06, 'sine', 0.08);
+      tone(587.33, 0.05, 0.08, 'sine', 0.07);
+    }
+  } catch (e) {}
+}
+
+/* ========== 圖示 ========== */
+var I = {
+  star: function (fill) {
+    return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6.1 6.7.9-4.9 4.7 1.2 6.6L12 17.7l-5.9 3.2 1.2-6.6L2.4 9.6l6.7-.9z" fill="' + (fill || '#D9CBB6') + '" stroke="#2B2118" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+  },
+  check: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#199A6F" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>',
+  close: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#D63B5C" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>'
+};
+
+/* ========== 教學內容 ========== */
+var TEACH = {
+  low: [
+    {
+      tag: '第 1 頁 · 什麼是對比',
+      h: '把兩樣東西放在一起',
+      lead: '對比，就是把兩個不同的人、事、物並排放在一起，讓它們的差別變得特別明顯。',
+      art: 'scale',
+      points: [
+        { c: 'o', t: '<b>想一想：</b>一個人的高矮，單看很難說；但和另一個人站在一起，差別馬上就出來了。' },
+        { c: 'b', t: '<b>看例子：</b>哥哥跑得快，弟弟跑得慢。<span class="ex-chip">快 ↔ 慢</span>' },
+        { c: 'g', t: '<b>記住：</b>對比一定要有<b>兩個對象</b>，而且比的是<b>同一個方面</b>。' }
+      ]
+    },
+    {
+      tag: '第 2 頁 · 法寶一、二',
+      h: '「卻」和「而」',
+      lead: '這兩個小法寶，專門用來把兩種不同的情況接起來。',
+      art: 'magic',
+      points: [
+        { c: 'o', t: '<b>法寶一「卻」：</b>姐姐愛畫畫，妹妹<b>卻</b>愛唱歌。' },
+        { c: 'b', t: '<b>法寶二「而」：</b>我喜歡夏天，<b>而</b>不喜歡冬天。' },
+        { c: 'g', t: '<b>小訣竅：</b>「卻」的口氣比較驚訝，像在說「咦，怎麼不一樣？」' }
+      ]
+    },
+    {
+      tag: '第 3 頁 · 法寶三、四',
+      h: '「比」和「有的…有的…」',
+      lead: '一個用來比高低，一個用來列出不同的樣子。',
+      art: 'garden',
+      points: [
+        { c: 'o', t: '<b>法寶三「比」：</b>爸爸的力氣<b>比</b>大象還大。' },
+        { c: 'b', t: '<b>法寶四「有的…有的…」：</b>花園裡<b>有的</b>花紅，<b>有的</b>花白。' },
+        { c: 'p', t: '<b>注意：</b>「比」後面要接比較的對象，不能只說「我比他高」卻不說比誰高。' }
+      ]
+    },
+    {
+      tag: '第 4 頁 · 小提醒',
+      h: '對比三部曲',
+      lead: '寫對比句，照著這三步走就不會出錯。',
+      art: 'steps',
+      points: [
+        { c: 'o', t: '<b>第一步 找對象：</b>要拿哪兩樣東西來比？' },
+        { c: 'b', t: '<b>第二步 抓差異：</b>它們哪裡不一樣？快／慢、大／小、冷／熱。' },
+        { c: 'g', t: '<b>第三步 加法寶：</b>用「卻、而、比、有的…有的」把兩邊連起來。' },
+        { c: 'p', t: '<b>陷阱：</b>不要比錯方面。例：哥哥很高，弟弟很愛吃——身高和愛好不能比。' }
+      ]
+    }
+  ],
+  high: [
+    {
+      tag: '第 1 頁 · 進階技法',
+      h: '對比三部曲（升級版）',
+      lead: '高階的對比，講究「比得準、比得狠、比得美」。',
+      art: 'steps',
+      points: [
+        { c: 'o', t: '<b>找對象：</b>選兩個真的能比的對象，例如「自己」和「別人」、「從前」和「現在」。' },
+        { c: 'b', t: '<b>抓差異：</b>找出最關鍵的一點，不要什麼都比，否則重點會散掉。' },
+        { c: 'g', t: '<b>用標誌詞：</b>卻、而、比…還…、與其…不如、寧可…也不。' },
+        { c: 'p', t: '<b>加分：</b>加上程度詞，例如「比大象還大」「像山泉一樣清亮」。' }
+      ]
+    },
+    {
+      tag: '第 2 頁 · 容易混淆',
+      h: '對比和比喻，哪裡不一樣？',
+      lead: '兩者常在同一句話裡出現，但作用完全不同。',
+      art: 'vs',
+      points: [
+        { c: 'o', t: '<b>比喻：</b>看的是「<b>相似</b>」。月亮像一個大玉盤。' },
+        { c: 'b', t: '<b>對比：</b>看的是「<b>差別</b>」。月亮很亮，星星卻很暗。' },
+        { c: 'g', t: '<b>兩者都有：</b>他的眼睛像星星一樣亮，聲音卻像悶雷一樣沉。' },
+        { c: 'p', t: '<b>判斷法：</b>先問「有沒有把 A 說成 B？」有就是比喻；再問「有沒有兩個對象的差別？」有就是對比。' }
+      ]
+    },
+    {
+      tag: '第 3 頁 · 三個陷阱',
+      h: '這樣寫，對比會失效',
+      lead: '很多同學以為自己在寫對比，其實掉進了陷阱。',
+      art: 'trap',
+      points: [
+        { c: 'p', t: '<b>陷阱一 比錯方面：</b>哥哥很高，弟弟很愛吃。身高和愛好是兩件事，無法比較。' },
+        { c: 'o', t: '<b>陷阱二 同類相同硬湊：</b>哥哥很高，弟弟也很高。兩邊一樣，沒有差別，不算對比。' },
+        { c: 'b', t: '<b>陷阱三 標誌詞用錯：</b>「不但…而且…」是遞進，不是對比，別用錯。' }
+      ]
+    },
+    {
+      tag: '第 4 頁 · 升級技巧',
+      h: '讓對比更有畫面',
+      lead: '三個小動作，句子立刻從平淡變生動。',
+      art: 'grow',
+      points: [
+        { c: 'o', t: '<b>具體化：</b>「很亂」→「亂得像被颱風掃過」。' },
+        { c: 'b', t: '<b>加程度：</b>「比大象還大」「比蝸牛還慢」。' },
+        { c: 'g', t: '<b>一句雙比：</b>「失敗的人找藉口，成功的人找方法。」兩邊並列，張力最強。' },
+        { c: 'p', t: '<b>提醒：</b>修辭是為內容服務，不要為了華麗而堆砌。' }
+      ]
+    }
+  ]
+};
+
+/* ========== 教學插圖 ========== */
+function artSVG(key) {
+  if (key === 'scale') {
+    return '<svg viewBox="0 0 300 170" role="img" aria-label="天平兩端一邊高一邊低"><ellipse cx="150" cy="158" rx="94" ry="8" fill="rgba(43,33,24,.1)"/><rect x="145" y="52" width="10" height="98" rx="5" fill="#F2C078" stroke="#2B2118" stroke-width="3"/><rect x="78" y="46" width="144" height="10" rx="5" fill="#FFD9A0" stroke="#2B2118" stroke-width="3"/><circle cx="150" cy="51" r="7" fill="#FF9F1C" stroke="#2B2118" stroke-width="3"/><path d="M86 56v14M214 56v14" stroke="#2B2118" stroke-width="3"/><path d="M62 70h48l-7 14H69z" fill="#BFE6FF" stroke="#2B2118" stroke-width="3" stroke-linejoin="round"/><path d="M190 70h48l-7 14h-34z" fill="#FFE1E8" stroke="#2B2118" stroke-width="3" stroke-linejoin="round"/><rect x="74" y="86" width="24" height="16" rx="4" fill="#3AA6E8" stroke="#2B2118" stroke-width="2.5"/><rect x="202" y="86" width="24" height="16" rx="4" fill="#FF6B8B" stroke="#2B2118" stroke-width="2.5"/><text x="118" y="34" font-size="15" font-weight="700" fill="#6E5C4A">重</text><text x="172" y="34" font-size="15" font-weight="700" fill="#6E5C4A">輕</text></svg>';
+  }
+  if (key === 'magic') {
+    return '<svg viewBox="0 0 300 170" role="img" aria-label="兩張寫著卻和而的法寶卡"><rect x="26" y="34" width="110" height="104" rx="18" fill="#FFE08A" stroke="#2B2118" stroke-width="3.5" transform="rotate(-6 81 86)"/><text x="81" y="105" font-size="52" font-weight="900" fill="#2B2118" text-anchor="middle" transform="rotate(-6 81 86)">卻</text><rect x="164" y="34" width="110" height="104" rx="18" fill="#BFE6FF" stroke="#2B2118" stroke-width="3.5" transform="rotate(6 219 86)"/><text x="219" y="105" font-size="52" font-weight="900" fill="#2B2118" text-anchor="middle" transform="rotate(6 219 86)">而</text><path d="M110 20l10-12M150 14l2-14M190 20l10-12" stroke="#FF9F1C" stroke-width="4" stroke-linecap="round"/></svg>';
+  }
+  if (key === 'garden') {
+    return '<svg viewBox="0 0 300 170" role="img" aria-label="花園裡紅色和白色的花"><ellipse cx="150" cy="156" rx="118" ry="9" fill="rgba(43,33,24,.08)"/><path d="M150 150V96" stroke="#2FBF8F" stroke-width="6" stroke-linecap="round"/><g><circle cx="112" cy="70" r="16" fill="#FF6B8B" stroke="#2B2118" stroke-width="3"/><circle cx="94" cy="70" r="11" fill="#FF9FB4" stroke="#2B2118" stroke-width="2.5"/><circle cx="130" cy="70" r="11" fill="#FF9FB4" stroke="#2B2118" stroke-width="2.5"/><circle cx="112" cy="52" r="11" fill="#FF9FB4" stroke="#2B2118" stroke-width="2.5"/><circle cx="112" cy="88" r="11" fill="#FF9FB4" stroke="#2B2118" stroke-width="2.5"/><circle cx="112" cy="70" r="7" fill="#FFE08A" stroke="#2B2118" stroke-width="2.5"/><path d="M112 96v46" stroke="#2FBF8F" stroke-width="6" stroke-linecap="round"/></g><g><circle cx="204" cy="76" r="16" fill="#fff" stroke="#2B2118" stroke-width="3"/><circle cx="186" cy="76" r="11" fill="#F4F4F4" stroke="#2B2118" stroke-width="2.5"/><circle cx="222" cy="76" r="11" fill="#F4F4F4" stroke="#2B2118" stroke-width="2.5"/><circle cx="204" cy="58" r="11" fill="#F4F4F4" stroke="#2B2118" stroke-width="2.5"/><circle cx="204" cy="94" r="11" fill="#F4F4F4" stroke="#2B2118" stroke-width="2.5"/><circle cx="204" cy="76" r="7" fill="#FFE08A" stroke="#2B2118" stroke-width="2.5"/><path d="M204 102v40" stroke="#2FBF8F" stroke-width="6" stroke-linecap="round"/></g><path d="M150 132c-20-14-40-6-44 8 16 10 34 6 44-8z" fill="#8ED9B8" stroke="#2B2118" stroke-width="2.5"/></svg>';
+  }
+  if (key === 'steps') {
+    return '<svg viewBox="0 0 300 170" role="img" aria-label="三個階梯代表對比三步"><rect x="30" y="118" width="70" height="40" rx="10" fill="#FFE08A" stroke="#2B2118" stroke-width="3"/><rect x="112" y="88" width="70" height="70" rx="10" fill="#BFE6FF" stroke="#2B2118" stroke-width="3"/><rect x="194" y="58" width="70" height="100" rx="10" fill="#CDEFDF" stroke="#2B2118" stroke-width="3"/><text x="65" y="146" font-size="20" font-weight="900" fill="#2B2118" text-anchor="middle">1</text><text x="147" y="130" font-size="20" font-weight="900" fill="#2B2118" text-anchor="middle">2</text><text x="229" y="118" font-size="20" font-weight="900" fill="#2B2118" text-anchor="middle">3</text><path d="M100 44l16 0M108 36l8 8-8 8" stroke="#FF9F1C" stroke-width="3.5" stroke-linecap="round" fill="none"/><text x="126" y="50" font-size="15" font-weight="800" fill="#6E5C4A">找 → 抓 → 加</text></svg>';
+  }
+  if (key === 'vs') {
+    return '<svg viewBox="0 0 300 170" role="img" aria-label="比喻與對比兩個對話框"><rect x="18" y="26" width="118" height="82" rx="20" fill="#CDEBFF" stroke="#2B2118" stroke-width="3"/><path d="M52 108l-4 22 22-22" fill="#CDEBFF" stroke="#2B2118" stroke-width="3" stroke-linejoin="round"/><text x="77" y="62" font-size="19" font-weight="900" fill="#2B2118" text-anchor="middle">比喻</text><text x="77" y="88" font-size="14" font-weight="700" fill="#34627E" text-anchor="middle">看相似</text><rect x="164" y="60" width="118" height="82" rx="20" fill="#FFE1E8" stroke="#2B2118" stroke-width="3"/><path d="M248 142l4 20-22-20" fill="#FFE1E8" stroke="#2B2118" stroke-width="3" stroke-linejoin="round"/><text x="223" y="96" font-size="19" font-weight="900" fill="#2B2118" text-anchor="middle">對比</text><text x="223" y="122" font-size="14" font-weight="700" fill="#8A3B52" text-anchor="middle">看差別</text></svg>';
+  }
+  if (key === 'trap') {
+    return '<svg viewBox="0 0 300 170" role="img" aria-label="警示三角與陷阱"><path d="M150 24l100 118H50z" fill="#FFE08A" stroke="#2B2118" stroke-width="3.5" stroke-linejoin="round"/><path d="M150 62v40" stroke="#2B2118" stroke-width="9" stroke-linecap="round"/><circle cx="150" cy="118" r="7" fill="#2B2118"/><path d="M24 148h48M228 148h48" stroke="#2B2118" stroke-width="3" stroke-linecap="round"/></svg>';
+  }
+  return '<svg viewBox="0 0 300 170" role="img" aria-label="小樹苗往上生長"><ellipse cx="150" cy="156" rx="70" ry="8" fill="rgba(43,33,24,.08)"/><path d="M150 150V78" stroke="#8B6B47" stroke-width="7" stroke-linecap="round"/><path d="M150 112c-26-6-38-24-36-40 20-2 36 12 36 40z" fill="#8ED9B8" stroke="#2B2118" stroke-width="3" stroke-linejoin="round"/><path d="M150 96c24-8 34-26 31-42-20-1-34 14-31 42z" fill="#2FBF8F" stroke="#2B2118" stroke-width="3" stroke-linejoin="round"/><circle cx="150" cy="64" r="17" fill="#FFE08A" stroke="#2B2118" stroke-width="3"/><path d="M120 40l-12-10M180 40l12-10M150 26V14" stroke="#FF9F1C" stroke-width="4" stroke-linecap="round"/></svg>';
+}
+
+/* ========== 題庫 ========== */
+var BANK = {
+  low: {
+    m1: {
+      name: '對比偵探',
+      desc: '判斷句子裡有沒有用到對比',
+      items: [
+        { q: '哥哥跑得像風一樣快，弟弟慢得像蝸牛。', o: ['有對比', '沒有對比'], a: 0,
+          why: '「快」和「慢」是相反的特點，放在一起就是對比。句子同時用了比喻（像風、像蝸牛），但重點是快與慢的差別。' },
+        { q: '小鳥在樹上唱歌。', o: ['有對比', '沒有對比'], a: 1,
+          why: '句子只寫小鳥在唱歌，沒有把兩個對象放在一起比較，所以沒有對比。' },
+        { q: '這顆蘋果又大又紅。', o: ['有對比', '沒有對比'], a: 1,
+          why: '「又大又紅」是同時形容同一顆蘋果的兩個特點，不是兩樣東西互相對照。' },
+        { q: '姐姐愛畫畫，妹妹卻愛唱歌。', o: ['有對比', '沒有對比'], a: 0,
+          why: '姐姐和妹妹喜歡的事不一樣，「卻」把這個差別點了出來，是典型的對比。' },
+        { q: '今天天氣很熱。', o: ['有對比', '沒有對比'], a: 1,
+          why: '只說今天熱，沒有另一個對象來比較，因此構不成對比。' },
+        { q: '爸爸的力氣比大象還大。', o: ['有對比', '沒有對比'], a: 0,
+          why: '把爸爸的力氣和大象放在一起比，「比」就是對比的標誌詞。' }
+      ]
+    },
+    m2: {
+      name: '法寶尋寶',
+      desc: '找出句子裡的對比標誌詞',
+      items: [
+        { q: '這本書很厚，那本書卻很薄。', o: ['卻', '很', '那本'], a: 0,
+          why: '「卻」把「厚」和「薄」兩種相反的情況接起來，是對比標誌詞。' },
+        { q: '我喜歡夏天，而不喜歡冬天。', o: ['喜歡', '而', '冬天'], a: 1,
+          why: '「而」在這裡表示轉折，把「喜歡夏天」和「不喜歡冬天」對照起來。' },
+        { q: '哥哥比我高。', o: ['比', '高', '哥哥'], a: 0,
+          why: '「比」用來比較兩個對象，是初階最常見的對比標誌詞。' },
+        { q: '與其在家發呆，不如出去走走。', o: ['與其…不如', '在家', '走走'], a: 0,
+          why: '「與其…不如」是選擇式的對比，把兩種做法擺出來比較。' },
+        { q: '花園裡有的花紅，有的花白。', o: ['花園', '有的…有的', '紅'], a: 1,
+          why: '「有的…有的」列出不同樣子，形成並列對比。' },
+        { q: '他寧可走路，也不坐車。', o: ['走路', '坐車', '寧可…也不'], a: 2,
+          why: '「寧可…也不」表示取捨，把兩種選擇對照起來，是對比句式。' }
+      ]
+    },
+    m3: {
+      name: '句子急救室',
+      desc: '選出能讓句子形成對比的後半句',
+      items: [
+        { q: '太陽很大，______', o: ['月亮卻很溫柔', '天空很藍', '我戴上了帽子'], a: 0,
+          why: '「大」和「溫柔」形成強烈對照，加上「卻」就成為對比句。另外兩項只是補充說明，沒有對照。' },
+        { q: '妹妹連螞蟻都怕，______', o: ['哥哥卻敢抓蚯蚓', '妹妹很膽小', '媽媽安慰她'], a: 0,
+          why: '妹妹怕螞蟻、哥哥敢抓蚯蚓，兩人膽量相反，對比很清楚。' },
+        { q: '這條路很窄，______', o: ['那條路卻很寬', '路邊種滿了樹', '我們慢慢走過去'], a: 0,
+          why: '「窄」和「寬」是同一方面的相反特點，兩條路一對比就成立。' },
+        { q: '爺爺喜歡喝茶，______', o: ['奶奶卻喜歡喝咖啡', '茶很香', '爺爺年紀很大'], a: 0,
+          why: '爺爺和奶奶的喜好不同，用「卻」連接，構成人物對比。' },
+        { q: '小明做功課很快，______', o: ['小美卻寫得很慢', '小明很認真', '老師批改作業'], a: 0,
+          why: '「快」和「慢」比的是同一件事（做功課的速度），對比才成立。' },
+        { q: '冬天很冷，______', o: ['夏天卻很熱', '我穿上外套', '外面下雪了'], a: 0,
+          why: '冬天冷、夏天熱，是季節之間的對比，也是同一方面（溫度）的比較。' }
+      ]
+    }
+  },
+  high: {
+    m1: {
+      name: '三選一考驗',
+      desc: '判斷句子是對比、比喻，還是兩者都有',
+      items: [
+        { q: '媽媽很節儉，對我卻很大方。', o: ['對比', '比喻', '兩者都有'], a: 0,
+          why: '「節儉」和「大方」是兩種相反的態度，用「卻」連接，全句沒有把 A 說成 B，所以只有對比。' },
+        { q: '月亮像一個大玉盤。', o: ['對比', '比喻', '兩者都有'], a: 1,
+          why: '用「像」把月亮比作玉盤，只取相似的形狀，沒有兩個對象的差別對照，所以是比喻。' },
+        { q: '他的眼睛像星星一樣亮，聲音卻像悶雷一樣沉。', o: ['對比', '比喻', '兩者都有'], a: 2,
+          why: '「像星星」「像悶雷」是比喻；「亮」和「沉」一高一低，用「卻」形成對比，兩者同時存在。' },
+        { q: '與其抱怨，不如行動。', o: ['對比', '比喻', '兩者都有'], a: 0,
+          why: '「抱怨」和「行動」是兩種相反的做法，「與其…不如」把兩者擺出來比較，沒有比喻。' },
+        { q: '失敗的人找藉口，成功的人找方法。', o: ['對比', '比喻', '兩者都有'], a: 0,
+          why: '兩種人的做法完全相反，並列對照，是純粹的對比，句中沒有「像、似、如」等比喻詞。' },
+        { q: '時間像流水，一去不回頭。', o: ['對比', '比喻', '兩者都有'], a: 1,
+          why: '把時間比作流水，只取「一去不回」的相似點，並沒有拿兩個對象互相比較差別。' }
+      ]
+    },
+    m2: {
+      name: '升級大師',
+      desc: '選出對比更鮮明、更有畫面的改寫',
+      items: [
+        { q: '原句：這間房間很亂。', o: ['這間房間亂得像被颱風掃過，隔壁那間卻整齊得像樣品屋。', '這間房間非常非常亂。', '這間房間有點亂。'], a: 0,
+          why: '第一項用「颱風掃過」和「樣品屋」形成強烈對照，既有畫面又有對比；另外兩項只是把「亂」重複或減弱。' },
+        { q: '原句：他很瘦。', o: ['他瘦得像竹竿，弟弟卻壯得像小牛。', '他很瘦很瘦。', '他不太胖。'], a: 0,
+          why: '「竹竿」對「小牛」，瘦與壯的反差具體可見；只說「很瘦」缺少比較對象。' },
+        { q: '原句：今天很熱。', o: ['今天熱得像烤箱，昨天卻涼得像秋天。', '今天真的很熱。', '今天比昨天熱一點。'], a: 0,
+          why: '「烤箱」對「秋天」把冷熱差距拉到最大；「熱一點」對比太弱，感受不到張力。' },
+        { q: '原句：她唱歌很好聽。', o: ['她的歌聲像山泉，哥哥的歌聲卻像砂紙磨鐵。', '她唱歌非常好聽。', '她唱歌不錯。'], a: 0,
+          why: '山泉與砂紙磨鐵一美一刺耳，對比鮮明又有聲音感；另外兩項沒有比較對象。' },
+        { q: '原句：這本書很有趣。', o: ['這本書像磁鐵一樣吸住我，那本書卻讓我直打呵欠。', '這本書很有意思。', '這本書比那本書好看。'], a: 0,
+          why: '「吸住」對「打呵欠」把有趣和沉悶寫成具體反應；「比…好看」雖有對比，但沒有畫面。' },
+        { q: '原句：爺爺走得很慢。', o: ['爺爺走路像蝸牛，小孫子卻跑得像一陣風。', '爺爺走得很慢很慢。', '爺爺走得比奶奶慢。'], a: 0,
+          why: '蝸牛對一陣風，慢與快拉到極致；「走得比奶奶慢」差距小，畫面也弱。' }
+      ]
+    },
+    m3: {
+      name: '補上對比',
+      desc: '原句太平淡，選出最合適的對比下半句',
+      items: [
+        { q: '媽媽很節儉。', o: ['對自己省吃儉用，對我卻從不吝嗇。', '她很少買新衣服。', '媽媽很愛我。'], a: 0,
+          why: '「對自己省」和「對我大方」形成同一方面的強烈對照；另外兩項只是補充，沒有反差。' },
+        { q: '爺爺的朋友不多。', o: ['電話卻天天響個不停。', '他喜歡安靜。', '他住得很遠。'], a: 0,
+          why: '朋友少卻電話多，用「卻」製造意料之外的反差，對比最有味道。' },
+        { q: '這間教室很安靜。', o: ['隔壁那間卻吵得像菜市場。', '同學都在看書。', '老師還沒有來。'], a: 0,
+          why: '安靜對菜市場般的吵鬧，兩個空間一比較，畫面立刻出現。' },
+        { q: '小明讀書很認真。', o: ['妹妹卻總是把書本丟在一邊。', '他每天都複習。', '老師常常稱讚他。'], a: 0,
+          why: '用妹妹的散漫反襯小明的認真，人物對比清楚；其餘兩項同方向，沒有反差。' },
+        { q: '這家店的麵很大碗。', o: ['價錢卻比別家便宜。', '老闆人很好。', '我常來吃。'], a: 0,
+          why: '「大碗」和「便宜」是消費者最在意的兩項，用「卻」突顯物超所值。' },
+        { q: '冬天的早晨很冷。', o: ['被窩裡卻暖得像春天。', '我總是不想起床。', '媽媽會煮熱湯。'], a: 0,
+          why: '被外的冷與被裡的暖形成溫差對比，「像春天」讓溫暖更可感。' }
+      ]
+    }
+  }
+};
+
+var META = {
+  low: { label: '初階版', order: ['teach', 'm1', 'm2', 'm3'] },
+  high: { label: '高階版', order: ['teach', 'm1', 'm2', 'm3'] }
+};
+
+/* ========== 狀態 ========== */
+var S = {
+  level: 'low',
+  mode: null,
+  idx: 0,
+  score: 0,
+  answered: false,
+  teachPage: 0,
+  best: {}
+};
+
+try {
+  var raw = localStorage.getItem('cd_best');
+  if (raw) { S.best = JSON.parse(raw) || {}; }
+} catch (e) { S.best = {}; }
+
+function saveBest() {
+  try { localStorage.setItem('cd_best', JSON.stringify(S.best)); } catch (e) {}
+}
+
+/* ========== 畫面切換 ========== */
+function showScreen(id) {
+  var all = document.querySelectorAll('.screen');
+  for (var i = 0; i < all.length; i++) { all[i].classList.remove('on'); }
+  var el = document.getElementById('screen-' + id);
+  if (el) { el.classList.add('on'); }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ========== 地圖 ========== */
+function renderMap() {
+  var lv = S.level;
+  document.getElementById('mapTitle').textContent = META[lv].label + ' · 關卡地圖';
+  document.getElementById('mapSub').textContent = lv === 'low'
+    ? '先學會四個小法寶，再挑戰三種遊戲'
+    : '先分清對比與比喻，再挑戰三種進階遊戲';
+
+  var list = document.getElementById('nodeList');
+  list.innerHTML = '';
+  var order = META[lv].order;
+
+  for (var i = 0; i < order.length; i++) {
+    var key = order[i];
+    var isTeach = key === 'teach';
+    var data = isTeach ? null : BANK[lv][key];
+    var bestScore = S.best[lv + '_' + key];
+    var has = typeof bestScore === 'number';
+
+    var btn = document.createElement('button');
+    btn.className = 'node ' + key;
+    btn.setAttribute('type', 'button');
+    btn.setAttribute('data-mode', key);
+
+    var starsHTML = '';
+    if (isTeach) {
+      starsHTML = '';
+    } else {
+      var n = has ? starsFor(bestScore) : 0;
+      starsHTML = '<div class="stars" aria-label="最佳成績 ' + (has ? bestScore : 0) + ' 分">' +
+        I.star(n >= 1 ? '#FFCC3D' : '#E6DCCB') +
+        I.star(n >= 2 ? '#FFCC3D' : '#E6DCCB') +
+        I.star(n >= 3 ? '#FFCC3D' : '#E6DCCB') + '</div>';
+    }
+
+    btn.innerHTML =
+      '<span class="node-num">' + (i + 1) + '</span>' +
+      '<span class="node-body">' +
+        '<span class="node-name">' + (isTeach ? '圖解教學' : data.name) + '</span>' +
+        '<span class="node-desc">' + (isTeach ? '用圖和例子認識對比的核心概念' : data.desc) + '</span>' +
+      '</span>' +
+      '<span class="node-right">' + starsHTML +
+        '<span class="node-cta">' + (isTeach ? '開始學習' : '開始挑戰') + '</span>' +
+      '</span>';
+
+    btn.addEventListener('click', (function (m) {
+      return function () {
+        sfx('tap');
+        if (m === 'teach') { openTeach(); }
+        else { startGame(m); }
+      };
+    })(key));
+
+    list.appendChild(btn);
+  }
+}
+
+function starsFor(score) {
+  if (score >= 6) return 3;
+  if (score >= 4) return 2;
+  if (score >= 1) return 1;
+  return 0;
+}
+
+/* ========== 教學 ========== */
+function openTeach() {
+  S.teachPage = 0;
+  renderTeach();
+  showScreen('teach');
+}
+
+function renderTeach() {
+  var pages = TEACH[S.level];
+  var p = pages[S.teachPage];
+  var html =
+    '<span class="teach-tag">' + p.tag + '</span>' +
+    '<h2 class="teach-h">' + p.h + '</h2>' +
+    '<p class="teach-lead">' + p.lead + '</p>' +
+    '<div class="teach-art">' + artSVG(p.art) + '</div>' +
+    '<div class="points">';
+
+  var cls = { o: '', b: 'blue', g: 'green', p: 'pink' };
+  for (var i = 0; i < p.points.length; i++) {
+    var pt = p.points[i];
+    html += '<div class="point' + (pt.c === 'p' ? ' warn-item' : '') + '">' +
+      '<span class="dot ' + (cls[pt.c] || '') + '">' + (i + 1) + '</span>' +
+      '<span class="point-text">' + pt.t + '</span>' +
+    '</div>';
+  }
+  html += '</div>';
+  document.getElementById('teachInner').innerHTML = html;
+
+  var prev = document.getElementById('teachPrev');
+  var next = document.getElementById('teachNext');
+  prev.disabled = S.teachPage === 0;
+  next.textContent = S.teachPage === pages.length - 1 ? '學完了，回地圖' : '下一頁';
+}
+
+document.getElementById('teachPrev').addEventListener('click', function () {
+  if (S.teachPage > 0) { S.teachPage--; sfx('page'); renderTeach(); }
+});
+document.getElementById('teachNext').addEventListener('click', function () {
+  var pages = TEACH[S.level];
+  if (S.teachPage < pages.length - 1) {
+    S.teachPage++; sfx('page'); renderTeach();
+  } else {
+    sfx('tap'); renderMap(); showScreen('map');
+  }
+});
+
+/* ========== 遊戲 ========== */
+function startGame(mode) {
+  S.mode = mode;
+  S.idx = 0;
+  S.score = 0;
+  S.answered = false;
+  document.getElementById('gameMode').textContent = BANK[S.level][mode].name;
+  renderQ();
+  showScreen('game');
+}
+
+function renderQ() {
+  var data = BANK[S.level][S.mode];
+  var item = data.items[S.idx];
+  S.answered = false;
+
+  document.getElementById('gameCount').textContent = '第 ' + (S.idx + 1) + ' / ' + data.items.length + ' 題';
+  document.getElementById('barFill').style.width = (S.idx / data.items.length * 100) + '%';
+  var bar = document.getElementById('progressBar');
+  bar.setAttribute('aria-valuenow', String(S.idx));
+  bar.setAttribute('aria-valuemax', String(data.items.length));
+
+  var qEl = document.getElementById('qText');
+  qEl.textContent = item.q;
+
+  var box = document.getElementById('opts');
+  box.innerHTML = '';
+  var letters = ['A', 'B', 'C', 'D'];
+
+  for (var i = 0; i < item.o.length; i++) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'opt';
+    b.setAttribute('data-i', String(i));
+    b.innerHTML = '<span class="key">' + letters[i] + '</span><span>' + item.o[i] + '</span>';
+    b.addEventListener('click', onPick);
+    box.appendChild(b);
+  }
+
+  var ex = document.getElementById('explain');
+  ex.classList.remove('on', 'bad');
+  document.getElementById('nextBtn').style.display = 'none';
+  qEl.focus({ preventScroll: true });
+}
+
+function onPick(e) {
+  if (S.answered) return;
+  S.answered = true;
+
+  var data = BANK[S.level][S.mode];
+  var item = data.items[S.idx];
+  var picked = parseInt(e.currentTarget.getAttribute('data-i'), 10);
+  var correct = picked === item.a;
+
+  var opts = document.querySelectorAll('#opts .opt');
+  for (var i = 0; i < opts.length; i++) {
+    var btn = opts[i];
+    btn.disabled = true;
+    var idx = parseInt(btn.getAttribute('data-i'), 10);
+    if (idx === item.a) { btn.classList.add('correct'); }
+    else if (idx === picked) { btn.classList.add('wrong'); }
+    else { btn.classList.add('dim'); }
+  }
+
+  var ex = document.getElementById('explain');
+  var head = document.getElementById('exHead');
+  ex.classList.add('on');
+  ex.classList.remove('bad');
+
+  if (correct) {
+    S.score++;
+    sfx('right');
+    document.getElementById('exTitle').textContent = '答對了！';
+    head.innerHTML = I.check + '<span>答對了！</span>';
+  } else {
+    sfx('wrong');
+    ex.classList.add('bad');
+    head.innerHTML = I.close + '<span>再想一想</span>';
+  }
+  document.getElementById('exBody').innerHTML = '<b>說明：</b>' + item.why;
+
+  document.getElementById('barFill').style.width = ((S.idx + 1) / data.items.length * 100) + '%';
+  document.getElementById('progressBar').setAttribute('aria-valuenow', String(S.idx + 1));
+
+  var next = document.getElementById('nextBtn');
+  next.style.display = 'inline-flex';
+  next.textContent = (S.idx === data.items.length - 1) ? '看成績' : '下一題';
+  next.focus({ preventScroll: true });
+  next.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+document.getElementById('nextBtn').addEventListener('click', function () {
+  var data = BANK[S.level][S.mode];
+  sfx('tap');
+  if (S.idx < data.items.length - 1) {
+    S.idx++;
+    renderQ();
+  } else {
+    finish();
+  }
+});
+
+function finish() {
+  var total = BANK[S.level][S.mode].items.length;
+  var key = S.level + '_' + S.mode;
+  if (typeof S.best[key] !== 'number' || S.score > S.best[key]) {
+    S.best[key] = S.score;
+    saveBest();
+  }
+
+  var n = starsFor(S.score);
+  var starsHTML = '';
+  for (var i = 0; i < 3; i++) {
+    starsHTML += I.star(i < n ? '#FFCC3D' : '#E6DCCB');
+  }
+  document.getElementById('bigStars').innerHTML = starsHTML;
+  document.getElementById('scoreNum').innerHTML = S.score + ' <small>/ ' + total + ' 題</small>';
+
+  var msg;
+  if (S.score === total) { msg = '全對！你已經是對比修辭小達人了。'; }
+  else if (S.score >= total - 2) { msg = '很不錯！再複習一下說明，就更穩了。'; }
+  else if (S.score >= 2) { msg = '有抓到感覺了，回教學頁再看一次小法寶吧。'; }
+  else { msg = '別灰心，先看圖解教學，再回來挑戰一次。'; }
+  document.getElementById('resultMsg').textContent = msg;
+
+  sfx('win');
+  showScreen('result');
+}
+
+document.getElementById('retryBtn').addEventListener('click', function () {
+  startGame(S.mode);
+});
+
+/* ========== 全域事件 ========== */
+document.querySelectorAll('[data-level]').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    S.level = btn.getAttribute('data-level');
+    sfx('tap');
+    renderMap();
+    showScreen('map');
+  });
+});
+
+document.querySelectorAll('[data-go]').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var to = btn.getAttribute('data-go');
+    sfx('tap');
+    if (to === 'map') { renderMap(); }
+    showScreen(to);
+  });
+});
+
+var soundBtn = document.getElementById('soundBtn');
+function paintSound() {
+  soundBtn.setAttribute('aria-pressed', soundOn ? 'true' : 'false');
+  document.getElementById('soundTxt').textContent = soundOn ? '音效開' : '音效關';
+}
+soundBtn.addEventListener('click', function () {
+  soundOn = !soundOn;
+  try { localStorage.setItem('cd_sound', soundOn ? '1' : '0'); } catch (e) {}
+  paintSound();
+  if (soundOn) { sfx('tap'); }
+});
+
+var scaleBtn = document.getElementById('scaleBtn');
+var SCALES = ['md', 'lg', 'xl'];
+var SCALE_TXT = ['大字', '更大', '最大'];
+function paintScale() {
+  var cur = document.documentElement.getAttribute('data-scale');
+  var i = SCALES.indexOf(cur);
+  if (i < 0) i = 0;
+  document.getElementById('scaleTxt').textContent = SCALE_TXT[i];
+}
+scaleBtn.addEventListener('click', function () {
+  var cur = document.documentElement.getAttribute('data-scale');
+  var i = SCALES.indexOf(cur);
+  if (i < 0) i = 0;
+  var next = SCALES[(i + 1) % SCALES.length];
+  document.documentElement.setAttribute('data-scale', next);
+  try { localStorage.setItem('cd_scale', next); } catch (e) {}
+  paintScale();
+  sfx('tap');
+});
+
+(function init() {
+  paintSound();
+  try {
+    var sc = localStorage.getItem('cd_scale');
+    if (sc && SCALES.indexOf(sc) >= 0) { document.documentElement.setAttribute('data-scale', sc); }
+  } catch (e) {}
+  paintScale();
+})();
+</script>
+</div>
+</body>
+</html>

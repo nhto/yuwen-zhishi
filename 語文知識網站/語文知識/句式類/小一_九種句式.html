@@ -1,0 +1,3089 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>句子小鎮 · 九種句式探險隊</title>
+<meta name="description" content="小一、小二繁體中文句式遊戲：有……、有……還有……、又……又……、……得……、更……、一邊……一邊……、……，還……。、……一面……，一面……。、……有時……，有時……。，每種句式兩種玩法，Q版卡通圖文配合，手機可直接玩。">
+<meta name="theme-color" content="#FBF6EA">
+<script src="https://yiyanstatic.cdn.bcebos.com/advisory/tailwindcss.js"></script>
+<style>
+:root{
+  --font:"Yuanti TC","Yuanti SC","Noto Sans TC","PingFang TC","Microsoft JhengHei","Heiti TC",sans-serif;
+  --paper:#FBF6EA;
+  --card:#FFFDF7;
+  --ink:#332F45;
+  --ink-2:#615B78;
+  --ink-3:#948DA8;
+  --line:rgba(51,47,69,.14);
+  --yellow:#FFC94A;
+  --blue:#3FA9DC; --blue-l:#DDF2FC; --blue-d:#1B7BA8;
+  --green:#57B98A; --green-l:#DFF4E9; --green-d:#2E8A61;
+  --pink:#F2749A; --pink-l:#FDE3EC; --pink-d:#C74A72;
+  --purple:#8B7BD8; --purple-l:#EAE5FC; --purple-d:#6353B8;
+  --warn:#FFE7DA; --warn-d:#A94E27;
+  --red:#E85A5A; --red-l:#FDE2E2; --red-d:#B83A3A;
+  --teal:#2EB8A8; --teal-l:#D4F4F0; --teal-d:#1A8A7D;
+  --orange:#FF8A5C; --orange-l:#FFE7DA; --orange-d:#A94E27;
+  --brown:#B9805A; --brown-l:#F2E6D8; --brown-d:#8B5A3C;
+  --lavender:#B8A9D9; --lavender-l:#F0EDF8; --lavender-d:#7A6BA8;
+  --shadow:0 5px 0 rgba(51,47,69,.13);
+  --shadow-sm:0 3px 0 rgba(51,47,69,.13);
+  --accent:var(--blue); --accent-l:var(--blue-l); --accent-d:var(--blue-d);
+}
+[data-p="you"]{--accent:var(--blue);--accent-l:var(--blue-l);--accent-d:var(--blue-d)}
+[data-p="haiyou"]{--accent:var(--green);--accent-l:var(--green-l);--accent-d:var(--green-d)}
+[data-p="youyou"]{--accent:var(--pink);--accent-l:var(--pink-l);--accent-d:var(--pink-d)}
+[data-p="de"]{--accent:var(--purple);--accent-l:var(--purple-l);--accent-d:var(--purple-d)}
+[data-p="geng"]{--accent:var(--red);--accent-l:var(--red-l);--accent-d:var(--red-d)}
+[data-p="yibian"]{--accent:var(--teal);--accent-l:var(--teal-l);--accent-d:var(--teal-d)}
+[data-p="hai"]{--accent:var(--orange);--accent-l:var(--orange-l);--accent-d:var(--orange-d)}
+[data-p="yimian"]{--accent:var(--brown);--accent-l:var(--brown-l);--accent-d:var(--brown-d)}
+[data-p="youshi"]{--accent:var(--lavender);--accent-l:var(--lavender-l);--accent-d:var(--lavender-d)}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100dvh;color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.5;
+  background-color:var(--paper);
+  background-image:
+    radial-gradient(circle at 6% -8%, #FFE9C9 0, rgba(255,233,201,0) 38%),
+    radial-gradient(circle at 98% 2%, #DDF2FC 0, rgba(221,242,252,0) 34%),
+    radial-gradient(circle at 50% 106%, #E3F6EA 0, rgba(227,246,234,0) 44%);
+  background-attachment:fixed;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(rgba(51,47,69,.12) 1.2px, transparent 1.2px);
+  background-size:24px 24px;opacity:.32;
+}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;touch-action:manipulation}
+button:focus-visible{outline:3px solid var(--accent-d);outline-offset:3px;border-radius:14px}
+[hidden]{display:none!important}
+svg{display:block}
+::selection{background:var(--accent-l)}
+.app{position:relative;z-index:1;width:100%;max-width:600px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 16px calc(34px + env(safe-area-inset-bottom))}
+.screen{display:none}
+.screen.is-active{display:block;animation:rise .34s cubic-bezier(.2,.8,.2,1)}
+@keyframes rise{from{transform:translateY(10px)}to{transform:translateY(0)}}
+
+/* ---------- top bar ---------- */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand-mark{width:42px;height:42px;flex:0 0 42px;filter:drop-shadow(0 3px 0 rgba(51,47,69,.14))}
+.brand-text{min-width:0}
+.brand-text strong{display:block;font-size:17px;font-weight:900;letter-spacing:.04em;line-height:1.2}
+.brand-text span{display:block;font-size:11px;font-weight:700;letter-spacing:.16em;color:var(--ink-3)}
+.icon-btn{
+  width:44px;height:44px;flex:0 0 44px;display:grid;place-items:center;
+  background:var(--card);border:2.5px solid var(--ink);border-radius:15px;box-shadow:var(--shadow-sm);
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.icon-btn:active{transform:translateY(3px);box-shadow:none}
+.icon-btn svg{width:21px;height:21px}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative;overflow:hidden;margin-top:2px;padding:16px 16px 14px;
+  background:var(--card);border:2.5px solid var(--ink);border-radius:28px;box-shadow:var(--shadow);
+}
+.hero::before{
+  content:"";position:absolute;right:-52px;top:-58px;width:186px;height:186px;border-radius:50%;
+  background:var(--yellow);opacity:.28;
+}
+.hero::after{
+  content:"";position:absolute;right:34px;bottom:-46px;width:110px;height:110px;border-radius:50%;
+  background:var(--blue-l);opacity:.8;
+}
+.hero-copy{position:relative;z-index:2;max-width:64%}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:6px;margin:0 0 8px;padding:4px 9px;
+  font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--accent-d);
+  background:var(--accent-l);border:1.5px solid rgba(51,47,69,.18);border-radius:999px;
+}
+.hero h1{margin:0;font-size:clamp(30px,9vw,38px);line-height:1.08;font-weight:900;letter-spacing:.03em}
+.hero h1 em{font-style:normal;color:var(--accent-d)}
+.hero-sub{margin:8px 0 12px;font-size:13.5px;line-height:1.6;color:var(--ink-2);font-weight:600}
+.stat-pill{
+  display:inline-flex;align-items:center;gap:6px;padding:6px 11px;
+  background:#FFF3D4;border:2px solid var(--ink);border-radius:999px;
+  font-size:13px;font-weight:800;box-shadow:0 2px 0 rgba(51,47,69,.16);
+}
+.stat-pill b{font-size:16px;color:#9A6B00}
+.stat-pill svg{width:15px;height:15px}
+.hero-art{position:absolute;right:-4px;bottom:-2px;width:140px;height:140px;z-index:1;pointer-events:none}
+.hero-art svg{width:100%;height:100%}
+
+/* ---------- section head ---------- */
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin:24px 2px 10px}
+.section-head h2{margin:0;font-size:20px;font-weight:900;letter-spacing:.03em}
+.section-head p{margin:0;font-size:11.5px;font-weight:700;color:var(--ink-3);text-align:right;line-height:1.4}
+
+/* ---------- trail / stations ---------- */
+.trail{position:relative;display:flex;flex-direction:column;gap:14px;padding:4px 0 2px}
+.trail::before{
+  content:"";position:absolute;left:25px;top:22px;bottom:26px;width:0;
+  border-left:3px dashed rgba(51,47,69,.2);
+}
+.station{
+  position:relative;background:var(--card);border:2.5px solid var(--ink);border-radius:24px;
+  padding:13px 13px 12px;box-shadow:var(--shadow);
+}
+.station:nth-child(even){margin-left:14px}
+.station-top{display:flex;align-items:center;gap:11px}
+.station-badge{
+  width:46px;height:46px;flex:0 0 46px;display:grid;place-items:center;
+  background:var(--accent-l);border:2.5px solid var(--ink);border-radius:15px;
+  font-size:15px;font-weight:900;color:var(--accent-d);letter-spacing:.02em;
+}
+.station-info{flex:1;min-width:0}
+.station-info h3{margin:0;font-size:21px;font-weight:900;line-height:1.2;letter-spacing:.02em}
+.station-info p{margin:2px 0 0;font-size:12.5px;font-weight:600;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.station-mascot{width:52px;height:52px;flex:0 0 52px}
+.station-mascot svg{width:100%;height:100%}
+.mode-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:11px}
+.mode-btn{
+  display:flex;flex-direction:column;align-items:flex-start;gap:4px;
+  padding:9px 11px 8px;background:var(--accent-l);border:2px solid var(--ink);border-radius:15px;
+  box-shadow:0 3px 0 rgba(51,47,69,.16);transition:transform .12s ease, box-shadow .12s ease;
+}
+.mode-btn:active{transform:translateY(3px);box-shadow:none}
+.mode-name{font-size:14.5px;font-weight:800;letter-spacing:.02em}
+.mode-stars{display:flex;align-items:center;gap:2px}
+.mode-stars svg{width:12px;height:12px}
+
+/* ---------- dictionary entry ---------- */
+.dict-entry{
+  width:100%;display:flex;align-items:center;gap:12px;margin-top:20px;padding:14px;
+  background:#FFF3D4;border:2.5px solid var(--ink);border-radius:22px;box-shadow:var(--shadow);
+  text-align:left;transition:transform .12s ease, box-shadow .12s ease;
+}
+.dict-entry:active{transform:translateY(3px);box-shadow:none}
+.dict-ico{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;background:var(--card);border:2px solid var(--ink);border-radius:13px}
+.dict-ico svg{width:22px;height:22px}
+.dict-txt{flex:1;min-width:0}
+.dict-txt strong{display:block;font-size:15.5px;font-weight:900}
+.dict-txt span{display:block;font-size:12px;font-weight:600;color:var(--ink-2);margin-top:2px}
+.dict-entry > svg{width:18px;height:18px;flex:0 0 18px}
+
+.foot-note{margin:18px 4px 0;font-size:11.5px;line-height:1.7;color:var(--ink-3);text-align:center;font-weight:600}
+
+/* ---------- game ---------- */
+.game-bar{display:flex;align-items:center;gap:10px;padding:2px 0 10px}
+.game-title{flex:1;min-width:0}
+.game-title strong{display:block;font-size:18px;font-weight:900;line-height:1.25;letter-spacing:.02em}
+.game-title span{display:block;font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--accent-d)}
+.q-pill{
+  flex:0 0 auto;padding:7px 11px;background:var(--card);border:2.5px solid var(--ink);border-radius:13px;
+  font-size:12px;font-weight:800;box-shadow:var(--shadow-sm);color:var(--ink-2);
+}
+.q-pill b{font-size:16px;color:var(--ink)}
+.dots{display:flex;gap:5px;margin:0 1px 14px}
+.dot{height:8px;flex:1;border-radius:99px;background:rgba(51,47,69,.13);transition:background .3s ease}
+.dot.done{background:var(--accent)}
+.dot.now{background:var(--accent);opacity:.45}
+
+.pic-card{
+  position:relative;margin:6px 0 0;padding:7px;background:#fff;
+  border:2.5px solid var(--ink);border-radius:22px;box-shadow:var(--shadow);
+  transform:rotate(-1.2deg);
+}
+.pic-card .tape{
+  position:absolute;top:-11px;left:50%;z-index:3;width:66px;height:20px;
+  transform:translateX(-50%) rotate(-2.5deg);
+  background:rgba(255,201,74,.8);border:1.5px solid rgba(51,47,69,.28);border-radius:3px;
+}
+.pic-box{border-radius:16px;overflow:hidden;background:#EAF6FF;aspect-ratio:320/220}
+.pic-box svg{width:100%;height:100%}
+
+.q-panel{margin-top:16px}
+.q-label{margin:0 0 7px;font-size:13px;font-weight:800;letter-spacing:.08em;color:var(--accent-d)}
+.sentence{
+  display:flex;align-items:center;flex-wrap:wrap;gap:4px;
+  font-size:clamp(25px,7.4vw,30px);font-weight:900;line-height:1.5;letter-spacing:.02em;
+  min-height:48px;
+}
+.sentence .txt{white-space:pre-wrap}
+.blank{
+  display:inline-grid;place-items:center;min-width:2.1em;padding:0 8px;margin:0 2px;
+  border-bottom:4px dashed var(--accent);color:var(--accent-d);line-height:1.35;
+}
+.blank.filled{border-bottom-style:solid;background:var(--accent-l);border-radius:8px 8px 4px 4px}
+.speak-btn{
+  width:34px;height:34px;flex:0 0 34px;display:grid;place-items:center;margin-left:2px;
+  background:var(--accent-l);border:2px solid rgba(51,47,69,.2);border-radius:11px;
+}
+.speak-btn svg{width:17px;height:17px}
+
+.options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:14px}
+.opt{
+  min-height:60px;display:grid;place-items:center;padding:8px 4px;
+  background:var(--card);border:2.5px solid var(--ink);border-radius:16px;
+  font-size:21px;font-weight:900;letter-spacing:.03em;box-shadow:var(--shadow-sm);
+  transition:transform .12s ease, box-shadow .12s ease, background .2s ease, opacity .2s ease;
+}
+.opt:active{transform:translateY(3px);box-shadow:none}
+.opt.correct{background:var(--accent-l);border-color:var(--accent-d);color:var(--accent-d)}
+.options.solved .opt:not(.correct){opacity:.42;border-color:rgba(51,47,69,.3);color:var(--ink-3)}
+.opt.wrong{opacity:.4;text-decoration:line-through;border-color:rgba(51,47,69,.35)}
+.opt[disabled]{cursor:default}
+
+.build-area{margin-top:12px}
+.slots{
+  display:flex;flex-wrap:wrap;gap:7px;align-content:flex-start;
+  min-height:78px;padding:10px;border:2.5px dashed rgba(51,47,69,.3);border-radius:17px;
+  background:rgba(255,255,255,.55);transition:border-color .2s ease,background .2s ease;
+}
+.slots.has-item{border-style:solid;border-color:rgba(51,47,69,.22);background:var(--card)}
+.slots.shake{animation:shake .38s ease}
+.slots.ok{border-color:var(--accent);background:var(--accent-l)}
+.slots .ghost{font-size:12.5px;font-weight:700;color:var(--ink-3);align-self:center;margin:auto;text-align:center;line-height:1.5;padding:0 6px}
+.tray{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;min-height:56px}
+.tile{
+  padding:10px 13px;background:var(--accent-l);border:2.5px solid var(--ink);border-radius:14px;
+  font-size:18px;font-weight:900;letter-spacing:.02em;box-shadow:var(--shadow-sm);
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.tile:active{transform:translateY(3px);box-shadow:none}
+.tile.placed{background:#fff}
+.tile.pop{animation:pop .25s ease}
+.reset-btn{
+  margin-top:12px;font-size:12.5px;font-weight:800;color:var(--ink-2);
+  padding:7px 12px;border:2px dashed rgba(51,47,69,.28);border-radius:12px;background:rgba(255,255,255,.6);
+}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes pop{from{transform:scale(.86)}to{transform:scale(1)}}
+
+.feedback{
+  display:flex;gap:9px;align-items:flex-start;margin-top:13px;padding:11px 12px;
+  border:2px solid var(--ink);border-radius:16px;background:var(--accent-l);
+  animation:rise .26s ease;
+}
+.feedback.bad{background:var(--warn)}
+.fb-ico{width:26px;height:26px;flex:0 0 26px;margin-top:1px}
+.fb-body{min-width:0}
+.fb-body strong{display:block;font-size:14.5px;font-weight:900;margin-bottom:2px}
+.fb-body p{margin:0;font-size:13.5px;line-height:1.55;font-weight:600;color:var(--ink-2)}
+.feedback.bad .fb-body p{color:#6E3A22}
+.next-btn{
+  width:100%;margin-top:13px;padding:15px 16px;
+  background:var(--accent);border:2.5px solid var(--ink);border-radius:18px;
+  font-size:17px;font-weight:900;letter-spacing:.05em;color:var(--ink);box-shadow:var(--shadow);
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.next-btn:active{transform:translateY(4px);box-shadow:none}
+
+/* ---------- result ---------- */
+.result-wrap{padding-top:12px;text-align:center}
+.result-card{
+  position:relative;overflow:hidden;padding:24px 18px 20px;
+  background:var(--card);border:2.5px solid var(--ink);border-radius:30px;box-shadow:var(--shadow);
+}
+.result-card::before{
+  content:"";position:absolute;left:-60px;top:-70px;width:190px;height:190px;border-radius:50%;
+  background:var(--accent-l);
+}
+.result-mascot{position:relative;z-index:1;width:96px;height:96px;margin:0 auto 6px}
+.result-mascot svg{width:100%;height:100%}
+.result-kicker{position:relative;z-index:1;margin:0;font-size:11px;font-weight:800;letter-spacing:.18em;color:var(--accent-d)}
+.result-card h2{position:relative;z-index:1;margin:4px 0 4px;font-size:25px;font-weight:900;letter-spacing:.03em}
+.result-sub{position:relative;z-index:1;margin:0;font-size:13.5px;font-weight:600;color:var(--ink-2)}
+.big-stars{position:relative;z-index:1;display:flex;justify-content:center;gap:6px;margin:14px 0 4px}
+.big-stars svg{width:48px;height:48px;animation:starPop .45s cubic-bezier(.2,1.5,.4,1) backwards}
+.big-stars svg:nth-child(1){animation-delay:.06s}
+.big-stars svg:nth-child(2){animation-delay:.2s}
+.big-stars svg:nth-child(3){animation-delay:.34s}
+@keyframes starPop{from{transform:scale(.2) rotate(-25deg)}to{transform:scale(1) rotate(0)}}
+.score-line{position:relative;z-index:1;margin:8px 0 0;font-size:14px;font-weight:800;color:var(--ink-2)}
+.score-line b{font-size:22px;color:var(--accent-d)}
+.result-actions{display:grid;gap:10px;margin-top:18px;position:relative;z-index:1}
+.btn-primary{
+  padding:15px;background:var(--accent);border:2.5px solid var(--ink);border-radius:18px;
+  font-size:16.5px;font-weight:900;box-shadow:var(--shadow);transition:transform .12s ease,box-shadow .12s ease;
+}
+.btn-primary:active{transform:translateY(4px);box-shadow:none}
+.btn-ghost{
+  padding:13px;background:var(--card);border:2.5px solid var(--ink);border-radius:18px;
+  font-size:15px;font-weight:800;box-shadow:var(--shadow-sm);transition:transform .12s ease,box-shadow .12s ease;
+}
+.btn-ghost:active{transform:translateY(3px);box-shadow:none}
+.new-best{
+  display:inline-block;margin-top:10px;padding:5px 11px;background:var(--yellow);
+  border:2px solid var(--ink);border-radius:999px;font-size:11.5px;font-weight:900;letter-spacing:.06em;
+  transform:rotate(-2deg);
+}
+.confetti{position:fixed;inset:0;z-index:20;pointer-events:none;overflow:hidden}
+.confetti i{position:absolute;top:-14px;width:9px;height:14px;border-radius:2px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(520deg)}}
+
+/* ---------- dictionary ---------- */
+.dict-head{padding:8px 2px 14px}
+.dict-head h2{margin:6px 0 4px;font-size:26px;font-weight:900;letter-spacing:.03em}
+.dict-head p{margin:0;font-size:13.5px;font-weight:600;color:var(--ink-2);line-height:1.6}
+.dict-card{
+  position:relative;margin-bottom:12px;padding:14px;background:var(--card);
+  border:2.5px solid var(--ink);border-radius:22px;box-shadow:var(--shadow);
+}
+.dict-card-top{display:flex;align-items:center;gap:10px}
+.dict-num{
+  width:34px;height:34px;flex:0 0 34px;display:grid;place-items:center;border-radius:11px;
+  background:var(--accent-l);border:2px solid var(--ink);font-size:12px;font-weight:900;color:var(--accent-d);
+}
+.dict-card h3{margin:0;font-size:20px;font-weight:900;letter-spacing:.02em}
+.formula{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:10px 0 4px}
+.formula span{
+  padding:5px 9px;background:var(--accent-l);border:1.5px solid rgba(51,47,69,.22);
+  border-radius:9px;font-size:12.5px;font-weight:800;color:var(--accent-d);
+}
+.formula em{font-style:normal;font-weight:900;color:var(--ink-3);font-size:13px}
+.dict-ex{margin:8px 0 0;font-size:14.5px;font-weight:700;line-height:1.75;color:var(--ink-2)}
+.dict-ex b{color:var(--accent-d)}
+.dict-tip{margin:8px 0 0;padding-top:8px;border-top:1.5px dashed rgba(51,47,69,.18);font-size:12.5px;font-weight:600;color:var(--ink-3);line-height:1.6}
+
+/* ---------- responsive ---------- */
+@media (min-width:860px){
+  .app{max-width:980px;padding:26px 28px 44px}
+  .brand-text strong{font-size:19px}
+  .hero{padding:24px 26px;border-radius:32px;min-height:220px;display:flex;align-items:center}
+  .hero-copy{max-width:58%}
+  .hero h1{font-size:46px}
+  .hero-sub{font-size:15px;max-width:340px}
+  .hero-art{width:210px;height:210px;right:34px;bottom:-6px}
+  .section-head h2{font-size:24px}
+  .trail{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+  .trail::before{display:none}
+  .station:nth-child(even){margin-left:0}
+  .station{padding:16px}
+  .station-info h3{font-size:23px}
+  .mode-btn{padding:11px 13px}
+  .mode-name{font-size:15.5px}
+  .stage{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center;margin-top:4px;min-height:calc(100vh - 220px)}
+  .pic-card{transform:rotate(-1.4deg);margin-top:4px}
+  .q-panel{margin-top:0;padding-top:6px}
+  .sentence{font-size:30px}
+  .options{gap:11px}
+  .opt{min-height:68px;font-size:23px}
+  .result-card{max-width:520px;margin:26px auto 0;padding:32px 26px 26px}
+  .dict-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  .dict-card{margin-bottom:0}
+  .dict-entry{margin-top:24px}
+}
+@media (max-width:360px){
+  .app{padding-left:12px;padding-right:12px}
+  .hero-copy{max-width:68%}
+  .hero-art{width:112px;height:112px;right:-12px}
+  .station-info h3{font-size:19px}
+  .opt{font-size:19px;min-height:56px}
+  .tile{font-size:16.5px;padding:9px 11px}
+  .sentence{font-size:24px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+</style>
+</head>
+<body>
+<div class="app" data-generated-by="aurora-frontend-design">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 42 42" width="42" height="42">
+          <rect x="3" y="3" width="36" height="29" rx="13" fill="#FFC94A" stroke="#332F45" stroke-width="3"/>
+          <path d="M14 32 l-2 7 9-6" fill="#FFC94A" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+          <circle cx="15" cy="17" r="2.3" fill="#332F45"/>
+          <circle cx="27" cy="17" r="2.3" fill="#332F45"/>
+          <path d="M15 22 q6 5 12 0" fill="none" stroke="#332F45" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <div class="brand-text">
+        <strong>句子小鎮</strong>
+        <span>句式探險隊</span>
+      </div>
+    </div>
+    <button class="icon-btn" id="soundBtn" type="button" aria-label="關閉音效" aria-pressed="true">
+      <svg id="soundOnIcon" viewBox="0 0 24 24" fill="none" stroke="#332F45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 9.5h3.2L12 5.2v13.6L7.2 14.5H4z"/>
+        <path d="M16 9a4.2 4.2 0 0 1 0 6"/>
+        <path d="M18.8 6.3a8 8 0 0 1 0 11.4"/>
+      </svg>
+      <svg id="soundOffIcon" viewBox="0 0 24 24" fill="none" stroke="#332F45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" hidden>
+        <path d="M4 9.5h3.2L12 5.2v13.6L7.2 14.5H4z"/>
+        <path d="M16.5 9.5l5 5M21.5 9.5l-5 5"/>
+      </svg>
+    </button>
+  </header>
+
+  <main>
+    <!-- ================= HOME ================= -->
+    <section class="screen is-active" id="screen-home">
+      <div class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">小一 · 小二 語文遊戲</p>
+          <h1>句子<em>小鎮</em></h1>
+          <p class="hero-sub">跟着九隻小動物，把句子說得清楚又好聽。</p>
+          <span class="stat-pill">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.6l6.1-.9z" fill="#FFC94A" stroke="#332F45" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            <b id="totalStars">0</b> / 54 顆星
+          </span>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <svg viewBox="0 0 160 160">
+            <path d="M118 128 q38 4 30 -30 q-5 -17 -22 -12" fill="#FF8A5C" stroke="#332F45" stroke-width="4" stroke-linecap="round"/>
+            <path d="M118 128 q38 4 30 -30 q-5 -17 -22 -12" fill="none" stroke="#332F45" stroke-width="4" stroke-linecap="round"/>
+            <ellipse cx="82" cy="126" rx="38" ry="27" fill="#FF8A5C" stroke="#332F45" stroke-width="4"/>
+            <path d="M48 62 l-7 -30 l27 12 z" fill="#FF8A5C" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M112 62 l7 -30 l-27 12 z" fill="#FF8A5C" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+            <ellipse cx="80" cy="70" rx="38" ry="34" fill="#FF8A5C" stroke="#332F45" stroke-width="4"/>
+            <ellipse cx="80" cy="84" rx="22" ry="16" fill="#FFF6E8" stroke="#332F45" stroke-width="4"/>
+            <circle cx="80" cy="76" r="5.2" fill="#332F45"/>
+            <path d="M71 85 q9 8 18 0" fill="none" stroke="#332F45" stroke-width="3.2" stroke-linecap="round"/>
+            <circle cx="56" cy="64" r="3.6" fill="#332F45"/>
+            <circle cx="104" cy="64" r="3.6" fill="#332F45"/>
+            <circle cx="49" cy="78" r="5.4" fill="#FFB7A2" opacity=".85"/>
+            <circle cx="111" cy="78" r="5.4" fill="#FFB7A2" opacity=".85"/>
+            <rect x="96" y="112" width="42" height="12" rx="6" transform="rotate(-28 96 112)" fill="#FFC94A" stroke="#332F45" stroke-width="3.4"/>
+            <path d="M92 124 l-8 8 l11 -2 z" fill="#FFF6E8" stroke="#332F45" stroke-width="3.2" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="section-head">
+        <h2>今天走哪一站？</h2>
+        <p>每站兩種玩法<br>選一選 · 拼一拼</p>
+      </div>
+      <div class="trail" id="trail"></div>
+
+      <button class="dict-entry" id="openDict" type="button">
+        <span class="dict-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#332F45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v16H6.5A2.5 2.5 0 0 0 4 21.5z"/>
+            <path d="M8 7h7M8 11h7M8 15h4"/>
+          </svg>
+        </span>
+        <span class="dict-txt">
+          <strong>句式小秘訣</strong>
+          <span>九張小卡，看懂句型怎麼用</span>
+        </span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#332F45" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+
+      <p class="foot-note">9 種句式 · 18 個關卡 · 108 道題<br>每題只有一個正確答案，答錯可以再試一次。</p>
+    </section>
+
+    <!-- ================= GAME ================= -->
+    <section class="screen" id="screen-game" data-p="you">
+      <div class="game-bar">
+        <button class="icon-btn" id="backHome" type="button" aria-label="返回小鎮">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#332F45" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <div class="game-title">
+          <strong id="gamePattern">有……</strong>
+          <span id="gameMode">選一選</span>
+        </div>
+        <div class="q-pill"><b id="qNow">1</b> / <span id="qTotal">6</span></div>
+      </div>
+      <div class="dots" id="dots" aria-hidden="true"></div>
+
+      <div class="stage">
+        <figure class="pic-card">
+          <span class="tape" aria-hidden="true"></span>
+          <div class="pic-box" id="picBox"></div>
+        </figure>
+
+        <div class="q-panel">
+          <p class="q-label" id="qLabel">看圖，選出正確的詞</p>
+          <div class="sentence" id="sentence"></div>
+          <div class="options" id="options"></div>
+
+          <div class="build-area" id="buildArea" hidden>
+            <div class="slots" id="slots"></div>
+            <div class="tray" id="tray"></div>
+            <button class="reset-btn" id="resetBtn" type="button">重排一次</button>
+          </div>
+
+          <div class="feedback" id="feedback" hidden aria-live="polite"></div>
+          <button class="next-btn" id="nextBtn" type="button" hidden>下一題</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= RESULT ================= -->
+    <section class="screen" id="screen-result" data-p="you">
+      <div class="result-wrap">
+        <div class="result-card">
+          <div class="result-mascot" id="resultMascot" aria-hidden="true"></div>
+          <p class="result-kicker" id="resultKicker">第 1 站 · 選一選</p>
+          <h2 id="resultTitle">過關了！</h2>
+          <p class="result-sub" id="resultSub">你把句子排得整整齊齊。</p>
+          <div class="big-stars" id="bigStars" aria-hidden="true"></div>
+          <p class="score-line">答對 <b id="resultScore">6</b> / <span id="resultTotal">6</span> 題</p>
+          <div id="bestTag"></div>
+          <div class="result-actions">
+            <button class="btn-primary" id="againBtn" type="button">再玩一次</button>
+            <button class="btn-ghost" id="resultHome" type="button">回到句子小鎮</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= DICTIONARY ================= -->
+    <section class="screen" id="screen-dict">
+      <div class="dict-head">
+        <button class="icon-btn" id="dictBack" type="button" aria-label="返回小鎮" style="margin-bottom:10px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#332F45" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <h2>句式小秘訣</h2>
+        <p>九種句式，九把造句小鑰匙。看完再玩，會更順手。</p>
+      </div>
+      <div class="dict-grid" id="dictGrid"></div>
+      <p class="foot-note">小提醒：句子要說得完整，主語、動作和特點都要交代清楚。</p>
+    </section>
+  </main>
+</div>
+<script>
+/* ============================================================
+   句子小鎮 · 資料層
+   9 種句式 × 2 種玩法 × 6 題 = 108 題
+   全部插畫為內嵌 SVG，不依賴外部圖片
+   ============================================================ */
+
+const wrap = (bg, inner, label) =>
+  `<svg viewBox="0 0 320 220" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${label}"><rect width="320" height="220" fill="${bg}"/>${inner}</svg>`;
+
+const ART = {
+
+  /* ---------- 有…… ---------- */
+  'tree-bird': wrap('#DCF1FB', `
+    <circle cx="272" cy="40" r="20" fill="#FFD166" stroke="#332F45" stroke-width="4"/>
+    <g stroke="#FFD166" stroke-width="3" stroke-linecap="round">
+      <path d="M272 10v-6M272 76v-6M244 40h-6M304 40h-6M254 22l-5-5M290 22l5-5M254 58l-5 5M290 58l5 5"/>
+    </g>
+    <path d="M0 192 Q78 172 158 188 T320 184 V220 H0Z" fill="#8FD6A2"/>
+    <path d="M150 194 L152 102 Q153 88 166 88 Q179 88 180 102 L182 194" fill="#D19A6A" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+    <circle cx="118" cy="94" r="33" fill="#7FCB8F" stroke="#332F45" stroke-width="4"/>
+    <circle cx="166" cy="68" r="37" fill="#93D8A2" stroke="#332F45" stroke-width="4"/>
+    <circle cx="210" cy="96" r="29" fill="#7FCB8F" stroke="#332F45" stroke-width="4"/>
+    <!-- 鳥窩 -->
+    <ellipse cx="230" cy="100" rx="22" ry="12" fill="#C49A6A" stroke="#332F45" stroke-width="3.4"/>
+    <path d="M212 100 q6 -6 18 -6 q14 0 18 6" fill="none" stroke="#8B6A3A" stroke-width="2.4"/>
+    <!-- 小鳥在樹枝上唱歌 -->
+    <ellipse cx="240" cy="86" rx="16" ry="13" fill="#63B8E8" stroke="#332F45" stroke-width="4"/>
+    <circle cx="252" cy="74" r="11" fill="#63B8E8" stroke="#332F45" stroke-width="4"/>
+    <path d="M262 73 l9 4 -9 6z" fill="#FFB03A" stroke="#332F45" stroke-width="3.4" stroke-linejoin="round"/>
+    <circle cx="255" cy="71" r="2.4" fill="#332F45"/>
+    <!-- 張嘴唱歌 -->
+    <path d="M256 78 q3 3 6 1" fill="#FF8A5C" stroke="#332F45" stroke-width="2"/>
+    <!-- 翅膀 -->
+    <ellipse cx="236" cy="88" rx="8" ry="5" fill="#8FD0F0" stroke="#332F45" stroke-width="3"/>
+    <!-- 樹枝 -->
+    <path d="M214 100 l-16 8" stroke="#332F45" stroke-width="4" stroke-linecap="round"/>
+    <path d="M84 196 q4 -12 10 0 M96 198 q4 -10 9 0 M232 198 q4 -12 10 0" fill="none" stroke="#4FA86A" stroke-width="3.4" stroke-linecap="round"/>
+    <path d="M278 96 q7 -10 14 0 M294 82 q7 -10 14 0" fill="none" stroke="#7A94A8" stroke-width="3" stroke-linecap="round"/>
+  `, '樹上停着一隻小鳥'),
+
+  'fish-tank': wrap('#FFF3D9', `
+    <ellipse cx="160" cy="199" rx="86" ry="8" fill="#EAD9BE"/>
+    <rect x="62" y="34" width="196" height="146" rx="22" fill="#DFF4FF" stroke="#332F45" stroke-width="4"/>
+    <path d="M66 106 H254 V156 Q254 176 232 176 H88 Q66 176 66 156 Z" fill="#A8DDF5"/>
+    <!-- 水底石頭 -->
+    <path d="M66 158 Q96 150 126 158 T186 158 T254 158 V176 H66 Z" fill="#F2D6A8"/>
+    <ellipse cx="100" cy="170" rx="12" ry="6" fill="#D9A06A" stroke="#332F45" stroke-width="2"/>
+    <ellipse cx="160" cy="172" rx="10" ry="5" fill="#B9C4D6" stroke="#332F45" stroke-width="2"/>
+    <ellipse cx="218" cy="170" rx="14" ry="7" fill="#C98B5E" stroke="#332F45" stroke-width="2"/>
+    <!-- 水草 -->
+    <path d="M86 168 q-6 -26 4 -44 M98 170 q8 -22 2 -38" fill="none" stroke="#4FA86A" stroke-width="5" stroke-linecap="round"/>
+    <path d="M238 168 q8 -24 0 -40" fill="none" stroke="#4FA86A" stroke-width="5" stroke-linecap="round"/>
+    <!-- 橘色小魚 -->
+    <ellipse cx="138" cy="118" rx="21" ry="15" fill="#FF9D6E" stroke="#332F45" stroke-width="4"/>
+    <path d="M119 118 l-15 -9 v18 z" fill="#FF9D6E" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+    <circle cx="146" cy="114" r="2.8" fill="#332F45"/>
+    <path d="M136 124 q5 3 9 0" fill="none" stroke="#332F45" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M132 107 q6 4 12 0" fill="none" stroke="#332F45" stroke-width="3"/>
+    <!-- 藍色小魚 -->
+    <ellipse cx="206" cy="142" rx="16" ry="12" fill="#63B8E8" stroke="#332F45" stroke-width="4"/>
+    <path d="M221 142 l12 -7 v14 z" fill="#63B8E8" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+    <circle cx="199" cy="139" r="2.4" fill="#332F45"/>
+    <!-- 泡泡 -->
+    <circle cx="172" cy="88" r="5" fill="#fff" stroke="#332F45" stroke-width="2.4"/>
+    <circle cx="186" cy="72" r="3.6" fill="#fff" stroke="#332F45" stroke-width="2.2"/>
+    <circle cx="196" cy="100" r="4.2" fill="#fff" stroke="#332F45" stroke-width="2.2"/>
+    <circle cx="160" cy="60" r="3" fill="#fff" stroke="#332F45" stroke-width="2"/>
+    <rect x="96" y="180" width="128" height="13" rx="6.5" fill="#E0B08A" stroke="#332F45" stroke-width="4"/>
+  `, '魚缸裏有兩條小魚'),
+
+  'garden-flower': wrap('#EAF7E3', `
+    <circle cx="56" cy="44" r="19" fill="#FFD166" stroke="#332F45" stroke-width="4"/>
+    <g stroke="#332F45" stroke-width="3.4" stroke-linecap="round">
+      <path d="M56 14v-7M56 81v-7M26 44h-7M93 44h-7M35 23l-5-5M82 23l5-5"/>
+    </g>
+    <path d="M0 202 Q84 172 168 194 T320 182 V220 H0 Z" fill="#8FD6A2"/>
+    <path d="M92 202 Q88 172 92 136" fill="none" stroke="#4FA86A" stroke-width="5" stroke-linecap="round"/>
+    <ellipse cx="79" cy="172" rx="14" ry="7" transform="rotate(-28 79 172)" fill="#6FC28B" stroke="#332F45" stroke-width="3"/>
+    <circle cx="92" cy="116" r="12" fill="#F2749A" stroke="#332F45" stroke-width="3.6"/>
+    <circle cx="110" cy="128" r="12" fill="#F2749A" stroke="#332F45" stroke-width="3.6"/>
+    <circle cx="104" cy="146" r="12" fill="#F2749A" stroke="#332F45" stroke-width="3.6"/>
+    <circle cx="82" cy="146" r="12" fill="#F2749A" stroke="#332F45" stroke-width="3.6"/>
+    <circle cx="76" cy="128" r="12" fill="#F2749A" stroke="#332F45" stroke-width="3.6"/>
+    <circle cx="92" cy="132" r="9" fill="#FFD166" stroke="#332F45" stroke-width="3.4"/>
+    <path d="M170 202 Q168 174 170 140" fill="none" stroke="#4FA86A" stroke-width="5" stroke-linecap="round"/>
+    <ellipse cx="184" cy="176" rx="14" ry="7" transform="rotate(26 184 176)" fill="#6FC28B" stroke="#332F45" stroke-width="3"/>
+    <circle cx="170" cy="120" r="11" fill="#FFC94A" stroke="#332F45" stroke-width="3.6"/>
+    <circle cx="187" cy="131" r="11" fill="#FFC94A" stroke="#332F45" stroke-width="3.6"/>
+    <circle cx="182" cy="148" r="11" fill="#FFC94A" stroke="#332F45" stroke-width="3.6"/>
+    <circle cx="160" cy="148" r="11" fill="#FFC94A" stroke="#332F45" stroke-width="3.6"/>
+    <circle cx="155" cy="131" r="11" fill="#FFC94A" stroke="#332F45" stroke-width="3.6"/>
+    <circle cx="170" cy="135" r="8" fill="#FF8A5C" stroke="#332F45" stroke-width="3.2"/>
+    <path d="M246 202 Q243 174 246 144" fill="none" stroke="#4FA86A" stroke-width="5" stroke-linecap="round"/>
+    <ellipse cx="234" cy="178" rx="13" ry="7" transform="rotate(-26 234 178)" fill="#6FC28B" stroke="#332F45" stroke-width="3"/>
+    <circle cx="246" cy="126" r="11" fill="#8B7BD8" stroke="#332F45" stroke-width="3.6"/>
+    <circle cx="262" cy="136" r="11" fill="#8B7BD8" stroke="#332F45" stroke-width="3.6"/>
+    <circle cx="257" cy="153" r="11" fill="#8B7BD8" stroke="#332F45" stroke-width="3.6"/>
+    <circle cx="236" cy="153" r="11" fill="#8B7BD8" stroke="#332F45" stroke-width="3.6"/>
+    <circle cx="231" cy="136" r="11" fill="#8B7BD8" stroke="#332F45" stroke-width="3.6"/>
+    <circle cx="246" cy="140" r="8" fill="#FFF0B8" stroke="#332F45" stroke-width="3.2"/>
+    <g transform="rotate(-16 274 92)">
+      <ellipse cx="268" cy="88" rx="9" ry="13" fill="#FFB3A0" stroke="#332F45" stroke-width="3"/>
+      <ellipse cx="282" cy="88" rx="9" ry="13" fill="#FFB3A0" stroke="#332F45" stroke-width="3"/>
+      <path d="M275 78 v20" stroke="#332F45" stroke-width="3"/>
+    </g>
+  `, '花園裏開着紅花、黃花和紫花'),
+
+  backpack: wrap('#FFF0E6', `
+    <ellipse cx="160" cy="197" rx="68" ry="9" fill="#EBD9C8"/>
+    <path d="M128 60 q0 -22 32 -22 q32 0 32 22" fill="none" stroke="#332F45" stroke-width="9" stroke-linecap="round"/>
+    <rect x="100" y="66" width="120" height="118" rx="30" fill="#63B8E8" stroke="#332F45" stroke-width="4"/>
+    <path d="M100 104 q0 -38 30 -38 h60 q30 0 30 38 z" fill="#8FD0F0" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+    <rect x="124" y="124" width="72" height="42" rx="15" fill="#8FD0F0" stroke="#332F45" stroke-width="4"/>
+    <rect x="152" y="128" width="16" height="12" rx="4" fill="#FFC94A" stroke="#332F45" stroke-width="3"/>
+    <rect x="110" y="82" width="12" height="26" rx="6" fill="#FFC94A" stroke="#332F45" stroke-width="3"/>
+    <rect x="128" y="38" width="48" height="26" rx="5" fill="#FFFDF7" stroke="#332F45" stroke-width="4"/>
+    <path d="M136 46h32M136 54h24" stroke="#332F45" stroke-width="2.6" stroke-linecap="round"/>
+    <g transform="rotate(30 194 40)">
+      <rect x="188" y="22" width="10" height="34" rx="4" fill="#FFC94A" stroke="#332F45" stroke-width="3"/>
+      <path d="M188 56 h10 l-5 9 z" fill="#FFF6E8" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+    </g>
+  `, '書包裏放着課本'),
+
+  'sky-cloud': wrap('#DCF1FB', `
+    <circle cx="66" cy="52" r="23" fill="#FFD166" stroke="#332F45" stroke-width="4"/>
+    <g stroke="#332F45" stroke-width="3.2" stroke-linecap="round">
+      <path d="M66 18v-8M66 94v-8M32 52h-8M108 52h-8M42 28l-6-6M90 28l6-6"/>
+    </g>
+    <path d="M172 108 c-15 0 -25 -10 -25 -22 c0 -12 10 -21 23 -21 c3 -16 16 -27 32 -27 c15 0 27 9 31 23 c5 -3 10 -4 15 -4 c17 0 29 11 29 26 c0 14 -12 25 -28 25 z" fill="#fff" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M60 158 c-11 0 -19 -7 -19 -16 c0 -9 7 -15 17 -16 c2 -11 12 -19 23 -19 c11 0 20 7 22 17 c3 -2 7 -3 11 -3 c12 0 21 8 21 18 c0 10 -9 19 -20 19 z" fill="#fff" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M118 66 q7 -9 14 0 q7 -9 14 0" fill="none" stroke="#7A94A8" stroke-width="3.4" stroke-linecap="round"/>
+    <path d="M236 150 q6 -8 12 0 q6 -8 12 0" fill="none" stroke="#7A94A8" stroke-width="3.4" stroke-linecap="round"/>
+    <circle cx="286" cy="108" r="4" fill="#FFC94A"/>
+  `, '天上有白白的雲'),
+
+  'table-cake': wrap('#FFF4E8', `
+    <rect x="0" y="178" width="320" height="42" fill="#F6E3C6"/>
+    <rect x="56" y="150" width="208" height="15" rx="7" fill="#D9A06A" stroke="#332F45" stroke-width="4"/>
+    <rect x="78" y="165" width="12" height="44" rx="5" fill="#C98B5E" stroke="#332F45" stroke-width="4"/>
+    <rect x="230" y="165" width="12" height="44" rx="5" fill="#C98B5E" stroke="#332F45" stroke-width="4"/>
+    <ellipse cx="160" cy="149" rx="66" ry="11" fill="#FFFDF7" stroke="#332F45" stroke-width="4"/>
+    <path d="M116 118 h88 v18 q0 12 -12 12 h-64 q-12 0 -12 -12 z" fill="#F7A8BE" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M116 118 v-6 q0 -12 12 -12 h64 q12 0 12 12 v6 z" fill="#FFE7C4" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M116 112 q11 9 22 0 q11 9 22 0 q11 9 22 0 q11 9 22 0" fill="none" stroke="#FFFDF7" stroke-width="7" stroke-linecap="round"/>
+    <rect x="156" y="70" width="9" height="26" rx="4" fill="#8B7BD8" stroke="#332F45" stroke-width="3"/>
+    <path d="M160 62 q7 -8 12 -2 q-6 2 -7 8 q-2 -5 -5 -6z" fill="#FFB03A" stroke="#332F45" stroke-width="2.6" stroke-linejoin="round"/>
+    <circle cx="138" cy="132" r="3.2" fill="#FFC94A"/>
+    <circle cx="182" cy="132" r="3.2" fill="#63B8E8"/>
+    <circle cx="160" cy="138" r="3.2" fill="#8B7BD8"/>
+    <circle cx="200" cy="112" r="3.2" fill="#F2749A"/>
+  `, '桌子上放着一個蛋糕'),
+
+  /* ---------- 有……還有…… ---------- */
+  'table-fruit': wrap('#FFF6E5', `
+    <rect x="0" y="178" width="320" height="42" fill="#F6E3C6"/>
+    <rect x="50" y="150" width="220" height="15" rx="7" fill="#D9A06A" stroke="#332F45" stroke-width="4"/>
+    <rect x="72" y="165" width="12" height="44" rx="5" fill="#C98B5E" stroke="#332F45" stroke-width="4"/>
+    <rect x="236" y="165" width="12" height="44" rx="5" fill="#C98B5E" stroke="#332F45" stroke-width="4"/>
+    <ellipse cx="160" cy="149" rx="84" ry="12" fill="#FFFDF7" stroke="#332F45" stroke-width="4"/>
+    <path d="M118 128 q-14 -10 -12 -26 q2 -16 18 -20 q16 4 18 20 q2 16 -12 26 z" fill="#F2605E" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M124 82 q8 -12 20 -10" fill="none" stroke="#332F45" stroke-width="4" stroke-linecap="round"/>
+    <path d="M126 82 q10 -14 24 -6 q-12 12 -24 6z" fill="#6FC28B" stroke="#332F45" stroke-width="3.4" stroke-linejoin="round"/>
+    <path d="M114 104 q-6 2 -8 8" fill="none" stroke="#FFFDF7" stroke-width="4" stroke-linecap="round"/>
+    <path d="M196 108 q36 -2 40 26 q2 18 -14 20" fill="none" stroke="#332F45" stroke-width="26" stroke-linecap="round"/>
+    <path d="M196 108 q36 -2 40 26 q2 18 -14 20" fill="none" stroke="#FFD166" stroke-width="19" stroke-linecap="round"/>
+    <path d="M198 104 q-4 -10 4 -14" fill="none" stroke="#8B6A3A" stroke-width="6" stroke-linecap="round"/>
+  `, '桌上有蘋果，還有香蕉'),
+
+  'grass-bug': wrap('#EAF7E3', `
+    <path d="M0 196 Q80 176 162 190 T320 184 V220 H0 Z" fill="#8FD6A2"/>
+    <g stroke="#4FA86A" stroke-width="4" stroke-linecap="round" fill="none">
+      <path d="M34 204 q2 -20 8 -32M50 206 q-2 -16 2 -26M270 204 q-2 -20 4 -30M286 206 q4 -18 10 -24"/>
+    </g>
+    <circle cx="58" cy="150" r="9" fill="#FFC94A" stroke="#332F45" stroke-width="3.4"/>
+    <circle cx="48" cy="160" r="9" fill="#FFC94A" stroke="#332F45" stroke-width="3.4"/>
+    <circle cx="68" cy="160" r="9" fill="#FFC94A" stroke="#332F45" stroke-width="3.4"/>
+    <circle cx="58" cy="170" r="9" fill="#FFC94A" stroke="#332F45" stroke-width="3.4"/>
+    <circle cx="58" cy="160" r="6" fill="#FF8A5C" stroke="#332F45" stroke-width="3"/>
+    <path d="M58 172 v18" stroke="#4FA86A" stroke-width="4" stroke-linecap="round"/>
+    <ellipse cx="172" cy="132" rx="38" ry="31" fill="#F2605E" stroke="#332F45" stroke-width="4"/>
+    <circle cx="134" cy="118" r="17" fill="#4A4058" stroke="#332F45" stroke-width="4"/>
+    <path d="M172 103 v58" stroke="#332F45" stroke-width="3.4"/>
+    <circle cx="158" cy="122" r="5" fill="#332F45"/>
+    <circle cx="188" cy="122" r="5" fill="#332F45"/>
+    <circle cx="152" cy="148" r="5.5" fill="#332F45"/>
+    <circle cx="192" cy="150" r="5.5" fill="#332F45"/>
+    <circle cx="175" cy="164" r="4.6" fill="#332F45"/>
+    <circle cx="126" cy="112" r="2.6" fill="#fff"/>
+    <circle cx="142" cy="112" r="2.6" fill="#fff"/>
+    <path d="M122 104 q-8 -10 -16 -10M146 104 q8 -10 16 -10" fill="none" stroke="#332F45" stroke-width="3" stroke-linecap="round"/>
+    <g stroke="#332F45" stroke-width="2.8" stroke-linecap="round">
+      <path d="M172 88 q-14 -10 -20 -24M176 88 q14 -12 18 -26"/>
+      <path d="M116 168 l-14 12M224 168 l14 12M126 178 l-6 14M216 178 l6 14"/>
+    </g>
+  `, '草地上有小花，還有小蟲'),
+
+  'bag-pencil': wrap('#FFF0E6', `
+    <ellipse cx="160" cy="196" rx="92" ry="9" fill="#EBD9C8"/>
+    <rect x="62" y="104" width="196" height="80" rx="26" fill="#FFB03A" stroke="#332F45" stroke-width="4"/>
+    <path d="M70 120 h180" stroke="#332F45" stroke-width="3.4" stroke-linecap="round"/>
+    <path d="M78 120 l8 -6 v12 z M94 120 l8 -6 v12 z M110 120 l8 -6 v12 z M126 120 l8 -6 v12 z M142 120 l8 -6 v12 z M158 120 l8 -6 v12 z" fill="#FFF3D4" stroke="#332F45" stroke-width="2"/>
+    <rect x="228" y="110" width="26" height="15" rx="7" fill="#FFF3D4" stroke="#332F45" stroke-width="3"/>
+    <circle cx="241" cy="117" r="3.4" fill="#332F45"/>
+    <g transform="rotate(-22 108 96)">
+      <rect x="96" y="52" width="22" height="56" rx="4" fill="#FFD166" stroke="#332F45" stroke-width="4"/>
+      <rect x="96" y="52" width="22" height="12" rx="4" fill="#F7A8BE" stroke="#332F45" stroke-width="4"/>
+      <path d="M96 108 h22 l-11 16 z" fill="#FFF6E8" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M104 118 h6 l-3 6 z" fill="#332F45"/>
+    </g>
+    <g transform="rotate(18 212 96)">
+      <rect x="198" y="58" width="28" height="48" rx="9" fill="#FFFDF7" stroke="#332F45" stroke-width="4"/>
+      <rect x="198" y="58" width="28" height="20" rx="9" fill="#F7A8BE" stroke="#332F45" stroke-width="4"/>
+    </g>
+  `, '書包裏有鉛筆，還有擦膠'),
+
+  zoo: wrap('#E8F6E9', `
+    <g stroke="#332F45" stroke-width="4" stroke-linecap="round">
+      <path d="M24 96 h272M24 124 h272"/>
+      <path d="M40 82 v58M96 82 v58M160 82 v58M224 82 v58M280 82 v58"/>
+    </g>
+    <path d="M0 194 Q80 178 160 190 T320 184 V220 H0 Z" fill="#9BD9A8"/>
+    <g>
+      <path d="M112 172 q-30 -6 -32 -28" fill="none" stroke="#A9744F" stroke-width="6" stroke-linecap="round"/>
+      <ellipse cx="92" cy="176" rx="34" ry="30" fill="#B9805A" stroke="#332F45" stroke-width="4"/>
+      <circle cx="92" cy="132" r="34" fill="#B9805A" stroke="#332F45" stroke-width="4"/>
+      <circle cx="64" cy="128" r="13" fill="#B9805A" stroke="#332F45" stroke-width="4"/>
+      <circle cx="120" cy="128" r="13" fill="#B9805A" stroke="#332F45" stroke-width="4"/>
+      <ellipse cx="92" cy="142" rx="22" ry="18" fill="#F2D6B8" stroke="#332F45" stroke-width="3.6"/>
+      <circle cx="83" cy="128" r="3.4" fill="#332F45"/>
+      <circle cx="101" cy="128" r="3.4" fill="#332F45"/>
+      <circle cx="92" cy="141" r="2.8" fill="#332F45"/>
+      <path d="M84 148 q8 7 16 0" fill="none" stroke="#332F45" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <g>
+      <ellipse cx="236" cy="162" rx="44" ry="34" fill="#B9C4D6" stroke="#332F45" stroke-width="4"/>
+      <circle cx="214" cy="118" r="30" fill="#B9C4D6" stroke="#332F45" stroke-width="4"/>
+      <ellipse cx="188" cy="120" rx="20" ry="25" fill="#CBD5E4" stroke="#332F45" stroke-width="4"/>
+      <path d="M200 140 q-6 26 6 40 q6 8 12 2" fill="none" stroke="#332F45" stroke-width="14" stroke-linecap="round"/>
+      <path d="M200 140 q-6 26 6 40 q6 8 12 2" fill="none" stroke="#B9C4D6" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="222" cy="110" r="3.4" fill="#332F45"/>
+      <path d="M236 128 q10 4 12 -6" fill="none" stroke="#332F45" stroke-width="3" stroke-linecap="round"/>
+      <path d="M210 146 l-6 12" stroke="#FFFDF7" stroke-width="5" stroke-linecap="round"/>
+      <rect x="248" y="188" width="12" height="20" rx="5" fill="#B9C4D6" stroke="#332F45" stroke-width="4"/>
+      <rect x="220" y="188" width="12" height="20" rx="5" fill="#B9C4D6" stroke="#332F45" stroke-width="4"/>
+    </g>
+  `, '動物園裏有猴子，還有大象'),
+
+  'sky-sun-cloud': wrap('#DCF1FB', `
+    <circle cx="252" cy="62" r="32" fill="#FFD166" stroke="#332F45" stroke-width="4"/>
+    <g stroke="#332F45" stroke-width="3.4" stroke-linecap="round">
+      <path d="M252 16v-9M252 116v-8M206 62h-9M307 62h-8M219 29l-7-7M285 29l7-7M219 95l-7 7M285 95l7 7"/>
+    </g>
+    <path d="M92 116 c-17 0 -28 -11 -28 -25 c0 -13 11 -23 25 -23 c3 -17 17 -29 34 -29 c16 0 29 10 33 24 c5 -3 11 -5 16 -5 c18 0 31 12 31 28 c0 16 -13 27 -30 27 z" fill="#fff" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M36 176 c-13 0 -22 -8 -22 -19 c0 -10 8 -18 19 -19 c2 -12 13 -21 26 -21 c12 0 22 8 25 19 c4 -2 8 -3 13 -3 c14 0 24 9 24 21 c0 12 -10 22 -23 22 z" fill="#fff" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M150 60 q8 -10 16 0 q8 -10 16 0" fill="none" stroke="#7A94A8" stroke-width="3.4" stroke-linecap="round"/>
+    <path d="M120 92 q7 -9 14 0 q7 -9 14 0" fill="none" stroke="#7A94A8" stroke-width="3" stroke-linecap="round"/>
+  `, '天上有太陽，還有白雲'),
+
+  park: wrap('#EAF7E3', `
+    <circle cx="282" cy="42" r="18" fill="#FFD166" stroke="#332F45" stroke-width="4"/>
+    <path d="M0 198 Q80 180 160 192 T320 186 V220 H0 Z" fill="#8FD6A2"/>
+    <g stroke="#332F45" stroke-width="4" stroke-linecap="round">
+      <path d="M58 196 V104M104 196 V104M58 104 h46"/>
+      <path d="M58 128 h46M58 152 h46M58 176 h46"/>
+    </g>
+    <path d="M104 108 q22 34 60 84" fill="none" stroke="#332F45" stroke-width="20" stroke-linecap="round"/>
+    <path d="M104 108 q22 34 60 84" fill="none" stroke="#FFC94A" stroke-width="14" stroke-linecap="round"/>
+    <path d="M230 196 L252 92M300 196 L278 92M252 92 h26" fill="none" stroke="#332F45" stroke-width="4" stroke-linecap="round"/>
+    <path d="M256 96 v58M284 96 v58" stroke="#8B6A3A" stroke-width="3" stroke-linecap="round"/>
+    <rect x="248" y="152" width="46" height="11" rx="5" fill="#F2749A" stroke="#332F45" stroke-width="3.4"/>
+    <circle cx="222" cy="80" r="5" fill="#FFC94A"/>
+    <path d="M196 112 q6 -8 12 0 q6 -8 12 0" fill="none" stroke="#7A94A8" stroke-width="3" stroke-linecap="round"/>
+  `, '公園裏有滑梯，還有鞦韆'),
+
+  /* ---------- 又……又…… ---------- */
+  watermelon: wrap('#FFF3E6', `
+    <ellipse cx="160" cy="196" rx="86" ry="11" fill="#EBD9C8"/>
+    <circle cx="146" cy="120" r="66" fill="#6FC28B" stroke="#332F45" stroke-width="4"/>
+    <g fill="none" stroke="#3E9E63" stroke-width="10" stroke-linecap="round" opacity=".8">
+      <path d="M114 60 q30 6 64 1"/>
+      <path d="M92 82 q18 28 16 62"/>
+      <path d="M200 82 q-16 28 -14 60"/>
+    </g>
+    <path d="M146 56 q4 -12 16 -12 q-4 10 -12 12" fill="none" stroke="#4FA86A" stroke-width="7" stroke-linecap="round"/>
+    <path d="M152 54 q16 -10 28 2 q-14 12 -28 4z" fill="#4FA86A" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="126" cy="112" r="5" fill="#332F45"/>
+    <circle cx="166" cy="112" r="5" fill="#332F45"/>
+    <path d="M134 128 q12 10 24 0" fill="none" stroke="#332F45" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="110" cy="128" r="7" fill="#FFB3A0" opacity=".8"/>
+    <circle cx="182" cy="128" r="7" fill="#FFB3A0" opacity=".8"/>
+  `, '又大又圓的西瓜'),
+
+  'smart-girl': wrap('#FFF0F5', `
+    <circle cx="160" cy="112" r="56" fill="#5B4A6B" stroke="#332F45" stroke-width="4"/>
+    <circle cx="104" cy="108" r="22" fill="#5B4A6B" stroke="#332F45" stroke-width="4"/>
+    <circle cx="216" cy="108" r="22" fill="#5B4A6B" stroke="#332F45" stroke-width="4"/>
+    <rect x="94" y="96" width="12" height="9" rx="4" fill="#FFC94A" stroke="#332F45" stroke-width="2.6"/>
+    <rect x="214" y="96" width="12" height="9" rx="4" fill="#FFC94A" stroke="#332F45" stroke-width="2.6"/>
+    <circle cx="160" cy="118" r="46" fill="#FFE0C8" stroke="#332F45" stroke-width="4"/>
+    <path d="M114 108 q10 -34 46 -34 q36 0 46 34 q-16 -10 -46 -10 q-30 0 -46 10z" fill="#5B4A6B" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+    <circle cx="142" cy="118" r="5" fill="#332F45"/>
+    <circle cx="178" cy="118" r="5" fill="#332F45"/>
+    <path d="M150 136 q10 9 20 0" fill="none" stroke="#332F45" stroke-width="3.8" stroke-linecap="round"/>
+    <circle cx="128" cy="132" r="6.5" fill="#FFB3A0" opacity=".85"/>
+    <circle cx="192" cy="132" r="6.5" fill="#FFB3A0" opacity=".85"/>
+    <path d="M70 62 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z" fill="#FFC94A" stroke="#332F45" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M250 148 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z" fill="#FFC94A" stroke="#332F45" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M60 150 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z" fill="#63B8E8" stroke="#332F45" stroke-width="2.2" stroke-linejoin="round"/>
+  `, '聰明又可愛的妹妹'),
+
+  apple: wrap('#FFF6E5', `
+    <ellipse cx="160" cy="198" rx="64" ry="9" fill="#EBD9C8"/>
+    <path d="M160 74 q40 -18 58 18 q18 38 -10 70 q-20 22 -48 22 q-28 0 -48 -22 q-28 -32 -10 -70 q18 -36 58 -18z" fill="#F2605E" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M160 82 q-6 -18 6 -28" fill="none" stroke="#8B6A3A" stroke-width="7" stroke-linecap="round"/>
+    <path d="M168 62 q18 -14 34 0 q-16 16 -34 0z" fill="#6FC28B" stroke="#332F45" stroke-width="3.6" stroke-linejoin="round"/>
+    <path d="M120 100 q-10 12 -8 26" fill="none" stroke="#FFFDF7" stroke-width="6" stroke-linecap="round" opacity=".8"/>
+    <circle cx="144" cy="134" r="5" fill="#332F45"/>
+    <circle cx="180" cy="134" r="5" fill="#332F45"/>
+    <path d="M152 152 q10 8 20 0" fill="none" stroke="#332F45" stroke-width="3.8" stroke-linecap="round"/>
+    <circle cx="128" cy="148" r="7" fill="#FFB3A0" opacity=".8"/>
+    <circle cx="196" cy="148" r="7" fill="#FFB3A0" opacity=".8"/>
+  `, '又紅又甜的蘋果'),
+
+  rabbit: wrap('#F3F0FF', `
+    <ellipse cx="160" cy="196" rx="70" ry="9" fill="#E2DCF5"/>
+    <ellipse cx="160" cy="156" rx="46" ry="38" fill="#FFFDF7" stroke="#332F45" stroke-width="4"/>
+    <ellipse cx="140" cy="52" rx="13" ry="36" fill="#FFFDF7" stroke="#332F45" stroke-width="4"/>
+    <ellipse cx="182" cy="52" rx="13" ry="36" fill="#FFFDF7" stroke="#332F45" stroke-width="4"/>
+    <ellipse cx="140" cy="54" rx="6" ry="26" fill="#FFC0D0"/>
+    <ellipse cx="182" cy="54" rx="6" ry="26" fill="#FFC0D0"/>
+    <circle cx="160" cy="106" r="38" fill="#FFFDF7" stroke="#332F45" stroke-width="4"/>
+    <circle cx="146" cy="102" r="4.6" fill="#332F45"/>
+    <circle cx="174" cy="102" r="4.6" fill="#332F45"/>
+    <path d="M155 118 q5 5 10 0" fill="none" stroke="#332F45" stroke-width="3.4" stroke-linecap="round"/>
+    <path d="M160 112 l-5 5 h10z" fill="#F7A8BE"/>
+    <path d="M132 118 h-16M132 124 h-16M188 118 h16M188 124 h16" stroke="#332F45" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="129" cy="118" r="6" fill="#FFB3A0" opacity=".8"/>
+    <circle cx="191" cy="118" r="6" fill="#FFB3A0" opacity=".8"/>
+    <ellipse cx="132" cy="186" rx="15" ry="9" fill="#FFFDF7" stroke="#332F45" stroke-width="4"/>
+    <ellipse cx="188" cy="186" rx="15" ry="9" fill="#FFFDF7" stroke="#332F45" stroke-width="4"/>
+    <circle cx="206" cy="164" r="12" fill="#FFFDF7" stroke="#332F45" stroke-width="4"/>
+  `, '又白又軟的兔子'),
+
+  cake: wrap('#FFF3E6', `
+    <ellipse cx="160" cy="198" rx="78" ry="9" fill="#EBD9C8"/>
+    <ellipse cx="160" cy="180" rx="76" ry="14" fill="#FFC94A" stroke="#332F45" stroke-width="4"/>
+    <rect x="122" y="178" width="76" height="10" rx="5" fill="#E0B08A" stroke="#332F45" stroke-width="3"/>
+    <rect x="96" y="120" width="128" height="58" rx="14" fill="#FFF0D6" stroke="#332F45" stroke-width="4"/>
+    <rect x="106" y="86" width="108" height="46" rx="13" fill="#F7A8BE" stroke="#332F45" stroke-width="4"/>
+    <path d="M96 128 q12 10 24 0 q12 10 24 0 q12 10 24 0 q12 10 24 0 q12 10 24 0" fill="none" stroke="#FFFDF7" stroke-width="7" stroke-linecap="round"/>
+    <path d="M106 94 q11 10 22 0 q11 10 22 0 q11 10 22 0 q11 10 22 0" fill="none" stroke="#FFFDF7" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="160" cy="74" r="12" fill="#F2605E" stroke="#332F45" stroke-width="4"/>
+    <path d="M160 62 q4 -10 12 -10" fill="none" stroke="#332F45" stroke-width="3" stroke-linecap="round"/>
+    <path d="M160 62 q-6 -8 -12 -6 q2 8 12 10z" fill="#6FC28B" stroke="#332F45" stroke-width="2.8"/>
+    <circle cx="122" cy="104" r="3" fill="#FFC94A"/>
+    <circle cx="198" cy="104" r="3" fill="#8B7BD8"/>
+    <circle cx="150" cy="152" r="3" fill="#63B8E8"/>
+    <circle cx="176" cy="152" r="3" fill="#FFC94A"/>
+  `, '又香又軟的蛋糕'),
+
+  snowman: wrap('#E8F4FF', `
+    <path d="M0 196 Q80 182 160 192 T320 188 V220 H0 Z" fill="#FFFDF7"/>
+    <circle cx="160" cy="164" r="46" fill="#FFFDF7" stroke="#332F45" stroke-width="4"/>
+    <circle cx="160" cy="88" r="34" fill="#FFFDF7" stroke="#332F45" stroke-width="4"/>
+    <rect x="130" y="44" width="60" height="9" rx="4" fill="#4A4058" stroke="#332F45" stroke-width="3"/>
+    <rect x="138" y="16" width="44" height="30" rx="6" fill="#4A4058" stroke="#332F45" stroke-width="3"/>
+    <path d="M136 62 q24 12 48 0 v12 q-24 10 -48 0z" fill="#F2605E" stroke="#332F45" stroke-width="3.4"/>
+    <path d="M188 70 q18 8 12 28" fill="none" stroke="#F2605E" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="150" cy="82" r="3.6" fill="#332F45"/>
+    <circle cx="170" cy="82" r="3.6" fill="#332F45"/>
+    <path d="M160 92 l16 6 -16 6z" fill="#FF8A5C" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="160" cy="146" r="3.6" fill="#332F45"/>
+    <circle cx="160" cy="164" r="3.6" fill="#332F45"/>
+    <circle cx="160" cy="182" r="3.6" fill="#332F45"/>
+    <path d="M116 130 l-24 -12M204 130 l24 -12" stroke="#8B6A3A" stroke-width="5" stroke-linecap="round"/>
+    <path d="M92 118 l-8 -8M92 118 l-2 -12M212 118 l8 -8M212 118 l2 -12" stroke="#8B6A3A" stroke-width="4" stroke-linecap="round"/>
+    <g fill="#fff" opacity=".9">
+      <circle cx="60" cy="60" r="4"/><circle cx="260" cy="52" r="4"/><circle cx="286" cy="120" r="3"/><circle cx="42" cy="128" r="3"/>
+    </g>
+  `, '又白又胖的雪人'),
+
+  /* ---------- ……得…… ---------- */
+  'boy-run': wrap('#EAF3FF', `
+    <path d="M0 196 Q80 184 160 192 T320 190 V220 H0 Z" fill="#9BD9A8"/>
+    <!-- 速度線 -->
+    <g stroke="#7A94A8" stroke-width="4" stroke-linecap="round" opacity=".7">
+      <path d="M42 112 h28M32 130 h38M46 148 h26"/>
+      <path d="M26 102 h18M36 158 h22"/>
+    </g>
+    <!-- 跑步的灰塵 -->
+    <circle cx="126" cy="182" r="6" fill="#D9D2C0" opacity=".6"/>
+    <circle cx="112" cy="186" r="4" fill="#D9D2C0" opacity=".5"/>
+    <g transform="translate(-20 0)">
+      <path d="M146 108 L120 126" stroke="#332F45" stroke-width="16" stroke-linecap="round"/>
+      <path d="M146 108 L120 126" stroke="#FFDCC2" stroke-width="9" stroke-linecap="round"/>
+      <path d="M154 142 L120 174" stroke="#332F45" stroke-width="20" stroke-linecap="round"/>
+      <path d="M154 142 L120 174" stroke="#FFDCC2" stroke-width="12" stroke-linecap="round"/>
+      <ellipse cx="114" cy="180" rx="15" ry="8" fill="#FF8A5C" stroke="#332F45" stroke-width="3.4"/>
+      <rect x="158" y="82" width="14" height="18" rx="6" fill="#FFDCC2" stroke="#332F45" stroke-width="3.4"/>
+      <rect x="142" y="98" width="46" height="48" rx="12" fill="#63B8E8" stroke="#332F45" stroke-width="4"/>
+      <path d="M142 136 h46 v10 q0 6 -6 6 h-11 q-4 0 -6 -4 l-2 -4 -2 4 q-2 4 -6 4 h-11 q-6 0 -6 -6z" fill="#4A4058" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M176 142 L206 158" stroke="#332F45" stroke-width="20" stroke-linecap="round"/>
+      <path d="M176 142 L206 158" stroke="#FFDCC2" stroke-width="12" stroke-linecap="round"/>
+      <ellipse cx="212" cy="164" rx="15" ry="8" fill="#FF8A5C" stroke="#332F45" stroke-width="3.4"/>
+      <path d="M184 108 L218 88" stroke="#332F45" stroke-width="16" stroke-linecap="round"/>
+      <path d="M184 108 L218 88" stroke="#FFDCC2" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="164" cy="62" r="23" fill="#FFDCC2" stroke="#332F45" stroke-width="4"/>
+      <path d="M142 58 q2 -24 24 -24 q20 0 22 22 q-10 -8 -24 -8 q-12 0 -22 10z" fill="#4A4058" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="157" cy="60" r="3" fill="#332F45"/>
+      <circle cx="173" cy="60" r="3" fill="#332F45"/>
+      <!-- 專注的表情，咬牙 -->
+      <path d="M160 70 q3 -3 6 0" fill="none" stroke="#332F45" stroke-width="2.8" stroke-linecap="round"/>
+      <!-- 流汗 -->
+      <path d="M148 52 q-4 8 0 12 q4 -4 0 -12z" fill="#8FD0F0" stroke="#332F45" stroke-width="2"/>
+      <circle cx="146" cy="70" r="4" fill="#FFB3A0" opacity=".8"/>
+      <circle cx="182" cy="70" r="4" fill="#FFB3A0" opacity=".8"/>
+    </g>
+    <path d="M96 186 q10 -6 20 0" fill="none" stroke="#4FA86A" stroke-width="3" stroke-linecap="round"/>
+    <path d="M236 190 q10 -6 20 0" fill="none" stroke="#4FA86A" stroke-width="3" stroke-linecap="round"/>
+  `, '弟弟跑得很快'),
+
+  'girl-laugh': wrap('#FFF0F5', `
+    <circle cx="160" cy="130" r="52" fill="#FFE0C8" stroke="#332F45" stroke-width="4"/>
+    <path d="M108 122 q2 -52 52 -52 q50 0 52 52 q-8 -14 -22 -22 q-12 10 -30 10 q-18 0 -30 -10 q-14 8 -22 22z" fill="#5B4A6B" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+    <circle cx="160" cy="56" r="16" fill="#5B4A6B" stroke="#332F45" stroke-width="4"/>
+    <circle cx="160" cy="52" r="7" fill="#FFC94A" stroke="#332F45" stroke-width="2.6"/>
+    <!-- 笑到彎起來的眼睛 -->
+    <path d="M132 126 q8 -9 16 0M172 126 q8 -9 16 0" fill="none" stroke="#332F45" stroke-width="4.6" stroke-linecap="round"/>
+    <!-- 笑出眼淚 -->
+    <path d="M134 132 q-2 10 2 12 q4 -2 0 -12z" fill="#8FD0F0" stroke="#332F45" stroke-width="2"/>
+    <path d="M186 132 q2 10 -2 12 q-4 -2 0 -12z" fill="#8FD0F0" stroke="#332F45" stroke-width="2"/>
+    <!-- 張大嘴巴笑 -->
+    <ellipse cx="160" cy="152" rx="18" ry="14" fill="#B4544E" stroke="#332F45" stroke-width="3.6"/>
+    <path d="M148 148 q12 8 24 0" fill="none" stroke="#FF9A9A" stroke-width="3" stroke-linecap="round"/>
+    <!-- 牙齒 -->
+    <rect x="148" y="144" width="24" height="5" rx="2" fill="#FFFDF7" stroke="#332F45" stroke-width="2"/>
+    <circle cx="126" cy="144" r="7" fill="#FFB3A0" opacity=".85"/>
+    <circle cx="194" cy="144" r="7" fill="#FFB3A0" opacity=".85"/>
+    <!-- 笑的聲波 -->
+    <g stroke="#F2749A" stroke-width="3" stroke-linecap="round" opacity=".7">
+      <path d="M78 118 l-16 -6M78 134 l-16 4M74 150 l-14 8"/>
+      <path d="M242 118 l16 -6M242 134 l16 4M246 150 l14 8"/>
+    </g>
+    <!-- 手舉起來開心 -->
+    <path d="M96 168 q14 14 32 18M224 168 q-14 14 -32 18" fill="none" stroke="#FF9DB4" stroke-width="4" stroke-linecap="round"/>
+    <!-- 小星星裝飾 -->
+    <path d="M70 80 l2 5 l5 1 l-4 3 l1 6 l-4 -3 l-4 3 l1 -6 l-4 -3 l5 -1z" fill="#FFD166" stroke="#332F45" stroke-width="1.8" stroke-linejoin="round"/>
+    <path d="M250 82 l2 5 l5 1 l-4 3 l1 6 l-4 -3 l-4 3 l1 -6 l-4 -3 l5 -1z" fill="#FFD166" stroke="#332F45" stroke-width="1.8" stroke-linejoin="round"/>
+  `, '妹妹笑得很大聲'),
+
+  'bird-fly': wrap('#DCF1FB', `
+    <circle cx="62" cy="48" r="20" fill="#FFD166" stroke="#332F45" stroke-width="4"/>
+    <path d="M0 206 Q60 186 120 200 Q190 216 320 196 V220 H0Z" fill="#BEE3F5"/>
+    <path d="M74 176 c-12 0 -20 -7 -20 -16 c0 -9 8 -15 17 -16 c2 -10 11 -17 21 -17 c11 0 19 7 21 16 c4 -2 7 -3 11 -3 c12 0 20 7 20 17 c0 10 -8 19 -19 19 z" fill="#fff" stroke="#332F45" stroke-width="3.6" stroke-linejoin="round"/>
+    <ellipse cx="166" cy="112" rx="34" ry="24" fill="#63B8E8" stroke="#332F45" stroke-width="4"/>
+    <circle cx="198" cy="96" r="19" fill="#63B8E8" stroke="#332F45" stroke-width="4"/>
+    <path d="M216 94 l14 6 -14 8z" fill="#FFB03A" stroke="#332F45" stroke-width="3.4" stroke-linejoin="round"/>
+    <circle cx="202" cy="91" r="3.2" fill="#332F45"/>
+    <path d="M138 110 q-22 -40 -4 -58 q26 18 26 54z" fill="#8FD0F0" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M176 106 q30 -34 52 -22 q-8 30 -46 36z" fill="#8FD0F0" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M134 124 l-26 10 24 6z" fill="#63B8E8" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M148 128 q10 8 22 6" fill="none" stroke="#332F45" stroke-width="3" stroke-linecap="round"/>
+    <path d="M124 70 q6 -8 12 0 q6 -8 12 0" fill="none" stroke="#7A94A8" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="270" cy="150" r="5" fill="#FFC94A"/>
+  `, '小鳥飛得很高'),
+
+  'boy-write': wrap('#FFF6E8', `
+    <rect x="0" y="150" width="320" height="70" fill="#F6E3C6"/>
+    <rect x="46" y="150" width="228" height="14" rx="7" fill="#D9A06A" stroke="#332F45" stroke-width="4"/>
+    <rect x="62" y="164" width="12" height="50" rx="5" fill="#C98B5E" stroke="#332F45" stroke-width="4"/>
+    <rect x="246" y="164" width="12" height="50" rx="5" fill="#C98B5E" stroke="#332F45" stroke-width="4"/>
+    <rect x="100" y="116" width="72" height="34" rx="6" fill="#FFFDF7" stroke="#332F45" stroke-width="4" transform="rotate(-4 136 133)"/>
+    <path d="M110 128 h48M110 137 h40" stroke="#B9C4D6" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="212" cy="76" r="27" fill="#FFDCC2" stroke="#332F45" stroke-width="4"/>
+    <path d="M186 74 q0 -32 28 -30 q26 2 24 30 q-10 -12 -26 -12 q-16 0 -26 12z" fill="#4A4058" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+    <circle cx="204" cy="78" r="3.2" fill="#332F45"/>
+    <circle cx="220" cy="78" r="3.2" fill="#332F45"/>
+    <path d="M209 88 q5 4 10 0" fill="none" stroke="#332F45" stroke-width="2.8" stroke-linecap="round"/>
+    <path d="M186 108 h54 l8 42 h-70z" fill="#57B98A" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M238 118 l-14 24" stroke="#332F45" stroke-width="10" stroke-linecap="round"/>
+    <path d="M238 118 l-14 24" stroke="#FFDCC2" stroke-width="5" stroke-linecap="round"/>
+    <g transform="rotate(28 228 134)">
+      <rect x="224" y="118" width="9" height="30" rx="4" fill="#FFC94A" stroke="#332F45" stroke-width="3"/>
+      <path d="M224 148 h9 l-4.5 8z" fill="#332F45"/>
+    </g>
+    <path d="M150 100 q-8 -6 -16 -4" fill="none" stroke="#C98B5E" stroke-width="5" stroke-linecap="round"/>
+  `, '哥哥寫得很整齊'),
+
+  'flower-bloom': wrap('#EAF7E3', `
+    <circle cx="286" cy="40" r="17" fill="#FFD166" stroke="#332F45" stroke-width="4"/>
+    <path d="M0 200 Q90 182 180 194 T320 188 V220 H0Z" fill="#8FD6A2"/>
+    <path d="M112 204 Q108 168 112 128" fill="none" stroke="#4FA86A" stroke-width="6" stroke-linecap="round"/>
+    <path d="M150 204 Q154 166 150 112" fill="none" stroke="#4FA86A" stroke-width="6" stroke-linecap="round"/>
+    <ellipse cx="96" cy="170" rx="16" ry="8" transform="rotate(-26 96 170)" fill="#6FC28B" stroke="#332F45" stroke-width="3"/>
+    <ellipse cx="168" cy="158" rx="16" ry="8" transform="rotate(24 168 158)" fill="#6FC28B" stroke="#332F45" stroke-width="3"/>
+    <g>
+      <ellipse cx="112" cy="94" rx="14" ry="26" fill="#F2749A" stroke="#332F45" stroke-width="3.4"/>
+      <ellipse cx="112" cy="94" rx="26" ry="14" fill="#F2749A" stroke="#332F45" stroke-width="3.4"/>
+      <ellipse cx="112" cy="94" rx="20" ry="20" transform="rotate(45 112 94)" fill="#FF9DB4" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="112" cy="94" r="12" fill="#FFC94A" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="108" cy="91" r="2.4" fill="#332F45"/>
+      <circle cx="117" cy="91" r="2.4" fill="#332F45"/>
+      <path d="M107 98 q5 4 10 0" fill="none" stroke="#332F45" stroke-width="2.4" stroke-linecap="round"/>
+    </g>
+    <g>
+      <ellipse cx="150" cy="76" rx="13" ry="24" fill="#8B7BD8" stroke="#332F45" stroke-width="3.4"/>
+      <ellipse cx="150" cy="76" rx="24" ry="13" fill="#8B7BD8" stroke="#332F45" stroke-width="3.4"/>
+      <ellipse cx="150" cy="76" rx="18" ry="18" transform="rotate(45 150 76)" fill="#A897EC" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="150" cy="76" r="11" fill="#FFF0B8" stroke="#332F45" stroke-width="3.4"/>
+    </g>
+    <g transform="rotate(12 238 110)">
+      <ellipse cx="232" cy="106" rx="9" ry="14" fill="#FFB3A0" stroke="#332F45" stroke-width="3"/>
+      <ellipse cx="248" cy="106" rx="9" ry="14" fill="#FFB3A0" stroke="#332F45" stroke-width="3"/>
+      <path d="M240 96 v20" stroke="#332F45" stroke-width="3"/>
+    </g>
+    <path d="M246 62 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z" fill="#FFC94A" stroke="#332F45" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M196 140 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z" fill="#63B8E8" stroke="#332F45" stroke-width="2" stroke-linejoin="round"/>
+  `, '花兒開得很美'),
+
+  turtle: wrap('#EAF7E3', `
+    <path d="M0 198 Q80 184 160 192 T320 188 V220 H0Z" fill="#8FD6A2"/>
+    <g stroke="#7A94A8" stroke-width="3" stroke-linecap="round" opacity=".6">
+      <path d="M24 128 h20M18 144 h28M30 160 h18"/>
+    </g>
+    <!-- 更小的蝸牛（左，比烏龜還慢） -->
+    <g transform="translate(0 38)">
+      <circle cx="60" cy="124" r="15" fill="#C49A6A" stroke="#332F45" stroke-width="3"/>
+      <path d="M60 110 v28M46 124 h28" stroke="#8B6A3A" stroke-width="2" opacity=".6"/>
+      <ellipse cx="78" cy="132" rx="12" ry="7" fill="#E8C898" stroke="#332F45" stroke-width="2.8"/>
+      <path d="M88 126 l5 -6 v10z" fill="#E8C898" stroke="#332F45" stroke-width="2.2" stroke-linejoin="round"/>
+      <circle cx="91" cy="128" r="1.5" fill="#332F45"/>
+      <!-- 小觸角 -->
+      <path d="M86 120 l2 -6M90 120 l4 -6" stroke="#332F45" stroke-width="1.8" stroke-linecap="round"/>
+    </g>
+    <!-- 睡覺Z字 -->
+    <text x="88" cy="66" font-size="18" font-weight="900" fill="#948DA8" stroke="#fff" stroke-width="1">z</text>
+    <text x="74" cy="48" font-size="14" font-weight="900" fill="#948DA8" stroke="#fff" stroke-width="0.8">z</text>
+    <!-- 烏龜（中間，側身慢慢爬） -->
+    <g>
+      <path d="M112 176 q-18 6 -22 16 q14 6 26 -8z" fill="#8FD6A2" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M104 150 q0 -46 58 -46 q58 0 58 46z" fill="#7FCB8F" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M104 150 h116 v14 q0 6 -8 6 h-100 q-8 0 -8 -6z" fill="#5FAE83" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M124 134 l14 -16 18 11 -6 18 h-22zM162 116 l18 9 -6 20 h-20l-6 -18zM192 134 l12 -11 8 18 -10 10z" fill="none" stroke="#332F45" stroke-width="2.6" stroke-linejoin="round"/>
+      <circle cx="228" cy="148" r="22" fill="#8FD6A2" stroke="#332F45" stroke-width="4"/>
+      <circle cx="235" cy="143" r="3.2" fill="#332F45"/>
+      <!-- 眼睛眯眯慢慢爬 -->
+      <path d="M231 154 q7 5 12 -1" fill="none" stroke="#332F45" stroke-width="2.8" stroke-linecap="round"/>
+      <rect x="116" y="168" width="20" height="16" rx="7" fill="#8FD6A2" stroke="#332F45" stroke-width="4"/>
+      <rect x="184" y="168" width="20" height="16" rx="7" fill="#8FD6A2" stroke="#332F45" stroke-width="4"/>
+      <!-- 尾巴 -->
+      <path d="M248 176 q12 4 18 -2" fill="none" stroke="#332F45" stroke-width="4" stroke-linecap="round"/>
+    </g>
+    <!-- 小草 -->
+    <g fill="none" stroke="#4FA86A" stroke-width="3" stroke-linecap="round">
+      <path d="M270 188 q3 -8 7 0M282 190 q3 -6 7 0"/>
+      <path d="M42 186 q3 -6 7 0"/>
+    </g>
+  `, '烏龜爬得很慢'),
+
+  /* ---------- 更…… ---------- */
+  'tall-boy': wrap('#FFF0F5', `
+    <path d="M0 196 Q80 180 160 194 T320 186 V220 H0Z" fill="#9BD9A8"/>
+    <!-- 矮的弟弟（左） -->
+    <g transform="translate(70 0)">
+      <rect x="148" y="152" width="26" height="44" rx="6" fill="#3FA9DC" stroke="#332F45" stroke-width="4"/>
+      <rect x="148" y="196" width="11" height="20" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3"/>
+      <rect x="163" y="196" width="11" height="20" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3"/>
+      <rect x="138" y="160" width="9" height="26" rx="5" fill="#FFDCC2" stroke="#332F45" stroke-width="3"/>
+      <rect x="175" y="160" width="9" height="26" rx="5" fill="#FFDCC2" stroke="#332F45" stroke-width="3"/>
+      <circle cx="161" cy="124" r="24" fill="#FFDCC2" stroke="#332F45" stroke-width="4"/>
+      <path d="M137 120 q4 -28 24 -28 q22 0 24 28 q-12 -8 -24 -8 q-12 0 -24 8z" fill="#4A4058" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="154" cy="122" r="3" fill="#332F45"/>
+      <circle cx="168" cy="122" r="3" fill="#332F45"/>
+      <path d="M157 134 q4 3 8 0" fill="none" stroke="#332F45" stroke-width="2.8" stroke-linecap="round"/>
+    </g>
+    <!-- 高的哥哥（右） -->
+    <g transform="translate(30 -40)">
+      <rect x="148" y="130" width="28" height="60" rx="6" fill="#E85A5A" stroke="#332F45" stroke-width="4"/>
+      <rect x="148" y="190" width="12" height="24" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3"/>
+      <rect x="164" y="190" width="12" height="24" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3"/>
+      <rect x="140" y="140" width="10" height="34" rx="5" fill="#FFDCC2" stroke="#332F45" stroke-width="3"/>
+      <rect x="174" y="140" width="10" height="34" rx="5" fill="#FFDCC2" stroke="#332F45" stroke-width="3"/>
+      <circle cx="162" cy="98" r="28" fill="#FFDCC2" stroke="#332F45" stroke-width="4"/>
+      <path d="M134 94 q4 -32 28 -32 q26 0 28 32 q-14 -10 -28 -10 q-14 0 -28 10z" fill="#4A4058" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="154" cy="96" r="3.4" fill="#332F45"/>
+      <circle cx="172" cy="96" r="3.4" fill="#332F45"/>
+      <path d="M158 108 q4 4 8 0" fill="none" stroke="#332F45" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="144" cy="106" r="5" fill="#FFB3A0" opacity=".8"/>
+      <circle cx="182" cy="106" r="5" fill="#FFB3A0" opacity=".8"/>
+      <!-- 身高比較線 -->
+      <path d="M200 124 L200 216 M200 124 L194 124 M200 148 L194 148" stroke="#E85A5A" stroke-width="3" stroke-linecap="round"/>
+      <text x="206" y="140" font-size="16" font-weight="900" fill="#E85A5A">更高</text>
+    </g>
+  `, '哥哥比我更高'),
+
+  'bright-star': wrap('#2D2B4E', `
+    <!-- 夜空背景 -->
+    <rect width="320" height="220" fill="#2D2B4E"/>
+    <g fill="#fff" opacity=".6">
+      <circle cx="38" cy="52" r="1"/><circle cx="280" cy="38" r="1.2"/><circle cx="264" cy="90" r="1"/>
+      <circle cx="86" cy="84" r="1"/><circle cx="140" cy="32" r="1.2"/><circle cx="210" cy="48" r="1"/>
+      <circle cx="46" cy="140" r="1"/><circle cx="290" cy="154" r="1.2"/><circle cx="34" cy="176" r="1"/>
+      <circle cx="100" cy="170" r=".8"/><circle cx="270" cy="180" r=".8"/>
+    </g>
+    <!-- 月亮（左，比較暗） -->
+    <g transform="translate(0 10)">
+      <circle cx="80" cy="100" r="32" fill="#F0E6C8" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="90" cy="92" r="26" fill="#2D2B4E"/>
+      <circle cx="70" cy="108" r="3" fill="#D8CEB0" opacity=".6"/>
+      <circle cx="85" cy="115" r="4" fill="#D8CEB0" opacity=".6"/>
+      <text x="58" y="150" font-size="13" font-weight="800" fill="#B9C4D6">月亮</text>
+    </g>
+    <!-- 大星星（右，比較亮，有光芒） -->
+    <g transform="translate(120 0)">
+      <!-- 光芒 -->
+      <g stroke="#FFD166" stroke-width="3" stroke-linecap="round" opacity=".7">
+        <path d="M160 30 L160 12"/><path d="M160 152 L160 170"/>
+        <path d="M84 92 L66 92"/><path d="M236 92 L254 92"/>
+        <path d="M106 48 L92 34"/><path d="M214 48 L228 34"/>
+        <path d="M106 136 L92 150"/><path d="M214 136 L228 150"/>
+      </g>
+      <path d="M160 58 l10 26 l28 2 l-22 18 l8 28 l-24 -14 l-24 14 l8 -28 l-22 -18 l28 -2z" fill="#FFE48A" stroke="#332F45" stroke-width="3.4" stroke-linejoin="round"/>
+      <circle cx="160" cy="92" r="6" fill="#FFF3B0"/>
+      <circle cx="148" cy="82" r="2" fill="#fff" opacity=".8"/><circle cx="172" cy="100" r="2.4" fill="#fff" opacity=".8"/>
+      <text x="138" y="176" font-size="13" font-weight="800" fill="#FFD166">星星更亮</text>
+    </g>
+    <!-- 小星星 -->
+    <path d="M60 170 l2 6 l6 1 l-5 4 l1 7 l-4 -3 l-5 3 l1 -7 l-5 -4 l6 -1z" fill="#FFF3B0" stroke="#332F45" stroke-width="1.8" stroke-linejoin="round" opacity=".5"/>
+  `, '星星比月亮更亮'),
+
+  'sweet-candy': wrap('#FFF0F5', `
+    <ellipse cx="160" cy="196" rx="100" ry="10" fill="#F2D6B8"/>
+    <!-- 餅乾（左，顏色淡） -->
+    <g transform="translate(-70 20)">
+      <ellipse cx="160" cy="130" rx="30" ry="26" fill="#E8C898" stroke="#332F45" stroke-width="4"/>
+      <circle cx="148" cy="122" r="4" fill="#C4A070" stroke="#332F45" stroke-width="2"/>
+      <circle cx="172" cy="126" r="4" fill="#C4A070" stroke="#332F45" stroke-width="2"/>
+      <circle cx="154" cy="142" r="3.5" fill="#C4A070" stroke="#332F45" stroke-width="2"/>
+      <circle cx="170" cy="140" r="3" fill="#C4A070" stroke="#332F45" stroke-width="2"/>
+      <circle cx="160" cy="132" r="3" fill="#C4A070" stroke="#332F45" stroke-width="2"/>
+      <text x="134" y="174" font-size="12" font-weight="800" fill="#B9805A">餅乾</text>
+    </g>
+    <!-- 糖果（右，更大更鮮豔） -->
+    <g transform="translate(60 0)">
+      <ellipse cx="120" cy="120" rx="36" ry="28" fill="#F7A8BE" stroke="#332F45" stroke-width="4"/>
+      <ellipse cx="200" cy="120" rx="36" ry="28" fill="#E85A5A" stroke="#332F45" stroke-width="4"/>
+      <path d="M84 120 l-34 -16 v32z" fill="#F7A8BE" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M236 120 l34 -16 v32z" fill="#E85A5A" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M100 104 q18 8 40 0M100 136 q18 -8 40 0" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".7"/>
+      <path d="M180 104 q18 8 40 0M180 136 q18 -8 40 0" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".7"/>
+      <circle cx="120" cy="110" r="4" fill="#fff" opacity=".9"/>
+      <circle cx="126" cy="130" r="3" fill="#fff" opacity=".9"/>
+      <circle cx="200" cy="110" r="4" fill="#fff" opacity=".9"/>
+      <circle cx="206" cy="130" r="3" fill="#fff" opacity=".9"/>
+      <!-- 甜度光芒 -->
+      <path d="M80 70 l-6 -6M240 66 l6 -6M100 60 l0 -8M220 60 l0 -8" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/>
+      <text x="122" y="176" font-size="13" font-weight="800" fill="#E85A5A">糖果更甜</text>
+    </g>
+  `, '糖果比餅乾更甜'),
+
+  'fast-car': wrap('#EAF3FF', `
+    <path d="M0 180 Q80 172 160 178 T320 174 V220 H0Z" fill="#9BD9A8"/>
+    <rect x="20" y="160" width="280" height="6" rx="3" fill="#888" stroke="#332F45" stroke-width="2"/>
+    <!-- 單車（左，小） -->
+    <g transform="translate(-30 40) scale(0.7)">
+      <circle cx="110" cy="140" r="22" fill="none" stroke="#332F45" stroke-width="4"/>
+      <circle cx="190" cy="140" r="22" fill="none" stroke="#332F45" stroke-width="4"/>
+      <path d="M110 140 L150 100 L190 140 M150 100 L150 80 M140 80 L170 80" stroke="#332F45" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="150" cy="80" r="5" fill="#332F45"/>
+      <text x="112" y="186" font-size="14" font-weight="800" fill="#57B98A">單車</text>
+    </g>
+    <!-- 速度線 -->
+    <path d="M30 110 l14 0M24 122 l20 0M36 134 l12 0" stroke="#7A94A8" stroke-width="3" stroke-linecap="round"/>
+    <!-- 賽車（右，大，有速度線） -->
+    <g transform="translate(80 -10)">
+      <path d="M60 160 q8 -50 50 -50 h100 q30 0 46 30 l16 20z" fill="#E85A5A" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M100 110 q-6 -18 16 -28 h74 q22 10 16 28z" fill="#BEE3F5" stroke="#332F45" stroke-width="3.4" stroke-linejoin="round"/>
+      <circle cx="106" cy="164" r="20" fill="#4A4058" stroke="#332F45" stroke-width="4"/>
+      <circle cx="106" cy="164" r="10" fill="#B9C4D6" stroke="#332F45" stroke-width="3"/>
+      <circle cx="214" cy="164" r="20" fill="#4A4058" stroke="#332F45" stroke-width="4"/>
+      <circle cx="214" cy="164" r="10" fill="#B9C4D6" stroke="#332F45" stroke-width="3"/>
+      <rect x="248" y="132" width="16" height="10" rx="3" fill="#FFD166" stroke="#332F45" stroke-width="2.6"/>
+      <path d="M64 132 l-10 12 h10z" fill="#FFD166" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+      <!-- 速度線 -->
+      <path d="M28 108 l20 0M20 124 l26 0M32 140 l16 0" stroke="#7A94A8" stroke-width="4" stroke-linecap="round"/>
+      <text x="90" y="206" font-size="14" font-weight="800" fill="#E85A5A">賽車更快</text>
+    </g>
+  `, '賽車比單車更快'),
+
+  'happy-smile': wrap('#FFF6E5', `
+    <!-- 昨天的笑臉（左，小，嘴角平） -->
+    <g transform="translate(-40 30)">
+      <circle cx="120" cy="110" r="40" fill="#E8D8B0" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="106" cy="102" r="5" fill="#332F45"/>
+      <circle cx="134" cy="102" r="5" fill="#332F45"/>
+      <path d="M104 124 h32" fill="none" stroke="#332F45" stroke-width="4" stroke-linecap="round"/>
+      <text x="92" y="170" font-size="12" font-weight="800" fill="#948DA8">昨天</text>
+    </g>
+    <!-- 今天的大笑臉（右，大，嘴巴張開笑） -->
+    <g transform="translate(80 -10)">
+      <circle cx="120" cy="110" r="60" fill="#FFD166" stroke="#332F45" stroke-width="4"/>
+      <circle cx="98" cy="96" r="8" fill="#332F45"/>
+      <circle cx="142" cy="96" r="8" fill="#332F45"/>
+      <circle cx="95" cy="93" r="2.4" fill="#fff"/>
+      <circle cx="139" cy="93" r="2.4" fill="#fff"/>
+      <path d="M86 128 q34 38 68 0" fill="none" stroke="#332F45" stroke-width="5" stroke-linecap="round"/>
+      <path d="M96 130 q24 24 48 0" fill="#FF8A5C"/>
+      <circle cx="74" cy="118" r="8" fill="#FFB3A0" opacity=".8"/>
+      <circle cx="166" cy="118" r="8" fill="#FFB3A0" opacity=".8"/>
+      <g stroke="#332F45" stroke-width="3" stroke-linecap="round">
+        <path d="M80 70 l-12 -10M70 78 l-16 -2M160 70 l12 -10M170 78 l16 -2"/>
+      </g>
+      <!-- 開心光芒 -->
+      <path d="M120 28 l0 -10M60 60 l-8 -8M180 60 l8 -8M50 110 l-10 0M190 110 l10 0" stroke="#FF8A5C" stroke-width="3" stroke-linecap="round"/>
+      <text x="84" y="188" font-size="14" font-weight="800" fill="#E85A5A">今天更快樂</text>
+    </g>
+    <!-- 小星星裝飾 -->
+    <path d="M250 60 l2 5 l5 1 l-4 3 l1 6 l-4 -2 l-4 2 l1 -6 l-4 -3 l5 -1z" fill="#FFD166" stroke="#332F45" stroke-width="1.5" stroke-linejoin="round"/>
+  `, '今天比昨天更快樂'),
+
+  'cold-ice': wrap('#E8F4FF', `
+    <rect x="0" y="160" width="320" height="60" fill="#E0EEF8"/>
+    <!-- 水（左，常溫，只有幾滴小水珠） -->
+    <g transform="translate(-30 0)">
+      <ellipse cx="110" cy="160" rx="40" ry="14" fill="#8FD0F0" stroke="#332F45" stroke-width="3.4"/>
+      <path d="M70 160 q40 -8 80 0" fill="#BEE3F5"/>
+      <circle cx="90" cy="150" r="2" fill="#BEE3F5" opacity=".6"/>
+      <circle cx="120" cy="152" r="2.5" fill="#BEE3F5" opacity=".6"/>
+      <text x="82" y="194" font-size="13" font-weight="800" fill="#63B8E8">水</text>
+    </g>
+    <!-- 冰塊（右，大，結晶紋路，冒冷氣） -->
+    <g transform="translate(80 -20)">
+      <!-- 冷氣 -->
+      <g stroke="#8FD0F0" stroke-width="3" stroke-linecap="round" opacity=".7">
+        <path d="M110 60 l0 -16M98 66 l-10 -12M122 66 l10 -12"/>
+        <path d="M160 50 l0 -14M148 58 l-10 -10M172 58 l10 -10"/>
+      </g>
+      <!-- 冰塊本體 -->
+      <path d="M80 80 L80 150 Q80 164 94 164 L176 164 Q190 164 190 150 L190 80 Q190 66 176 66 L94 66 Q80 66 80 80Z" fill="#D4EEFA" stroke="#332F45" stroke-width="4"/>
+      <path d="M80 80 L190 80" stroke="#8FD0F0" stroke-width="3" opacity=".6"/>
+      <!-- 冰晶紋路 -->
+      <path d="M135 80 v80" stroke="#8FD0F0" stroke-width="2" opacity=".5"/>
+      <path d="M100 110 l20 -14 M100 110 l20 14" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".8"/>
+      <path d="M170 130 l-18 -12 M170 130 l-18 12" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".8"/>
+      <circle cx="106" cy="94" r="5" fill="#fff" opacity=".5"/>
+      <circle cx="160" cy="102" r="4" fill="#fff" opacity=".5"/>
+      <!-- 發抖線 -->
+      <path d="M68 110 l-6 -4 M68 124 l-6 0 M68 138 l-6 4" stroke="#2EB8A8" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M202 110 l6 -4 M202 124 l6 0 M202 138 l6 4" stroke="#2EB8A8" stroke-width="2.5" stroke-linecap="round"/>
+      <text x="98" y="198" font-size="14" font-weight="800" fill="#1B7BA8">冰塊更冷</text>
+    </g>
+    <!-- 小雪花 -->
+    <circle cx="50" cy="80" r="2" fill="#BEE3F5"/><circle cx="270" cy="90" r="2.5" fill="#BEE3F5"/>
+  `, '冰塊比水更冷'),
+
+  /* ---------- 一邊……一邊…… ---------- */
+  'sing-dance': wrap('#FFF0F5', `
+    <ellipse cx="160" cy="198" rx="70" ry="8" fill="#F2D6B8"/>
+    <!-- 音符 -->
+    <text x="46" y="70" font-size="22" font-weight="900" fill="#FFD166" stroke="#332F45" stroke-width="1.5">♪</text>
+    <text x="80" y="52" font-size="18" font-weight="900" fill="#F2749A" stroke="#332F45" stroke-width="1.2">♫</text>
+    <text x="240" y="68" font-size="20" font-weight="900" fill="#2EB8A8" stroke="#332F45" stroke-width="1.2">♪</text>
+    <text x="264" y="90" font-size="16" font-weight="900" fill="#FFC94A">♫</text>
+    <g transform="translate(36 0)">
+      <circle cx="70" cy="100" r="24" fill="#FFE0C8" stroke="#332F45" stroke-width="3.4"/>
+      <path d="M48 96 q2 -28 22 -28 q22 0 22 28 q-10 -8 -22 -8 q-12 0 -22 8z" fill="#8B4513" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="62" cy="98" r="2.8" fill="#332F45"/>
+      <circle cx="78" cy="98" r="2.8" fill="#332F45"/>
+      <!-- 張開嘴巴唱歌 -->
+      <ellipse cx="70" cy="112" rx="6" ry="4" fill="#F2605E" stroke="#332F45" stroke-width="2.6"/>
+      <rect x="52" y="124" width="36" height="42" rx="8" fill="#F2749A" stroke="#332F45" stroke-width="3.4"/>
+      <!-- 跳舞姿勢：一腳抬起 -->
+      <rect x="56" y="166" width="12" height="24" rx="5" fill="#8B4513" stroke="#332F45" stroke-width="3"/>
+      <rect x="72" y="166" width="12" height="24" rx="5" fill="#8B4513" stroke="#332F45" stroke-width="3" transform="rotate(-35 78 178)"/>
+      <!-- 手一上一下跳舞 -->
+      <path d="M48 134 l-22 -24" stroke="#332F45" stroke-width="10" stroke-linecap="round"/>
+      <path d="M48 134 l-22 -24" stroke="#FFE0C8" stroke-width="6" stroke-linecap="round"/>
+      <path d="M92 134 l24 -8" stroke="#332F45" stroke-width="10" stroke-linecap="round"/>
+      <path d="M92 134 l24 -8" stroke="#FFE0C8" stroke-width="6" stroke-linecap="round"/>
+      <path d="M26 104 l10 -16 v14z" fill="#FFD166" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+    </g>
+    <!-- 舞台燈光 -->
+    <circle cx="84" cy="54" r="4" fill="#FFC94A"/>
+    <circle cx="256" cy="58" r="3" fill="#FFC94A"/>
+  `, '妹妹一邊唱歌一邊跳舞'),
+
+  'eat-watch': wrap('#FFF6E8', `
+    <rect x="0" y="160" width="320" height="60" fill="#F6E3C6"/>
+    <!-- 電視（左，有畫面） -->
+    <g transform="translate(0 -10)">
+      <rect x="44" y="100" width="110" height="80" rx="8" fill="#4A4058" stroke="#332F45" stroke-width="4"/>
+      <rect x="52" y="108" width="94" height="58" rx="4" fill="#8FD0F0"/>
+      <!-- 電視畫面：卡通人物 -->
+      <circle cx="99" cy="130" r="12" fill="#FFD166" stroke="#332F45" stroke-width="2"/>
+      <circle cx="95" cy="128" r="2" fill="#332F45"/>
+      <circle cx="103" cy="128" r="2" fill="#332F45"/>
+      <path d="M94 136 q5 4 10 0" fill="none" stroke="#332F45" stroke-width="2" stroke-linecap="round"/>
+      <rect x="80" y="176" width="38" height="8" rx="3" fill="#4A4058" stroke="#332F45" stroke-width="2"/>
+    </g>
+    <!-- 弟弟（右） -->
+    <g>
+      <circle cx="228" cy="130" r="30" fill="#FFDCC2" stroke="#332F45" stroke-width="4"/>
+      <path d="M200 126 q2 -32 28 -32 q26 0 28 32 q-12 -10 -28 -10 q-16 0 -28 10z" fill="#4A4058" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="220" cy="128" r="3" fill="#332F45"/>
+      <circle cx="238" cy="128" r="3" fill="#332F45"/>
+      <path d="M222 142 q6 -3 12 0" fill="none" stroke="#332F45" stroke-width="2.6" stroke-linecap="round"/>
+      <rect x="204" y="160" width="48" height="30" rx="8" fill="#3FA9DC" stroke="#332F45" stroke-width="3.4"/>
+      <rect x="210" y="190" width="14" height="20" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3"/>
+      <rect x="232" y="190" width="14" height="20" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3"/>
+      <!-- 眼睛看電視 -->
+      <path d="M218 128 l-4 -2M236 128 l-4 -2" stroke="#332F45" stroke-width="2" stroke-linecap="round"/>
+      <!-- 手拿筷子吃飯 -->
+      <path d="M204 148 l-26 10" stroke="#FFDCC2" stroke-width="8" stroke-linecap="round"/>
+      <path d="M252 142 l8 -6" stroke="#FFDCC2" stroke-width="8" stroke-linecap="round"/>
+      <!-- 碗和飯 -->
+      <ellipse cx="180" cy="158" rx="16" ry="8" fill="#FFFDF7" stroke="#332F45" stroke-width="2.6"/>
+      <path d="M172 154 q8 -6 16 0" fill="#fff"/>
+      <!-- 筷子 -->
+      <path d="M176 162 l-22 8" stroke="#C98B5E" stroke-width="3" stroke-linecap="round"/>
+      <path d="M178 160 l-22 6" stroke="#C98B5E" stroke-width="3" stroke-linecap="round"/>
+    </g>
+  `, '弟弟一邊吃飯一邊看電視'),
+
+  'walk-talk': wrap('#EAF3FF', `
+    <path d="M0 196 Q80 184 160 192 T320 188 V220 H0Z" fill="#9BD9A8"/>
+    <!-- 腳印 -->
+    <path d="M54 200 q4 -3 8 0 M70 198 q4 -3 8 0" fill="none" stroke="#7FCB8F" stroke-width="2" stroke-linecap="round"/>
+    <path d="M220 198 q4 -3 8 0 M236 200 q4 -3 8 0" fill="none" stroke="#7FCB8F" stroke-width="2" stroke-linecap="round"/>
+    <!-- 男生（左） -->
+    <g transform="translate(40 0)">
+      <circle cx="70" cy="108" r="24" fill="#FFDCC2" stroke="#332F45" stroke-width="3.4"/>
+      <path d="M48 104 q2 -30 22 -30 q22 0 22 30 q-10 -8 -22 -8 q-12 0 -22 8z" fill="#4A4058" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="62" cy="106" r="2.8" fill="#332F45"/>
+      <circle cx="78" cy="106" r="2.8" fill="#332F45"/>
+      <!-- 張嘴說話 -->
+      <ellipse cx="70" cy="120" rx="4" ry="3" fill="#F2605E" stroke="#332F45" stroke-width="2.4"/>
+      <rect x="52" y="132" width="36" height="40" rx="8" fill="#57B98A" stroke="#332F45" stroke-width="3.4"/>
+      <!-- 走路姿勢 -->
+      <path d="M46 142 l-14 -8" stroke="#FFDCC2" stroke-width="8" stroke-linecap="round"/>
+      <path d="M94 142 l18 -16" stroke="#FFDCC2" stroke-width="8" stroke-linecap="round"/>
+      <rect x="52" y="172" width="12" height="28" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3" transform="rotate(18 58 186)"/>
+      <rect x="76" y="172" width="12" height="28" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3" transform="rotate(-18 82 186)"/>
+    </g>
+    <!-- 說話泡泡 -->
+    <g transform="translate(100 50)">
+      <ellipse cx="30" cy="30" rx="26" ry="18" fill="#fff" stroke="#332F45" stroke-width="2.6"/>
+      <path d="M20 46 l-8 12 l14 -6z" fill="#fff" stroke="#332F45" stroke-width="2.6" stroke-linejoin="round"/>
+      <text x="14" y="36" font-size="12" font-weight="800" fill="#332F45">你好！</text>
+    </g>
+    <!-- 女生（右） -->
+    <g transform="translate(160 0)">
+      <circle cx="70" cy="108" r="24" fill="#FFE0C8" stroke="#332F45" stroke-width="3.4"/>
+      <path d="M48 104 q4 -32 22 -30 q20 2 22 30 q-12 -10 -22 -10 q-12 0 -22 10z" fill="#8B4513" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="62" cy="106" r="2.8" fill="#332F45"/>
+      <circle cx="78" cy="106" r="2.8" fill="#332F45"/>
+      <!-- 笑着回應 -->
+      <path d="M64 119 q6 4 12 0" fill="none" stroke="#332F45" stroke-width="2.6" stroke-linecap="round"/>
+      <rect x="52" y="132" width="36" height="40" rx="8" fill="#F2749A" stroke="#332F45" stroke-width="3.4"/>
+      <!-- 走路姿勢 -->
+      <path d="M46 146 l-14 -2" stroke="#FFE0C8" stroke-width="8" stroke-linecap="round"/>
+      <path d="M94 140 l16 -12" stroke="#FFE0C8" stroke-width="8" stroke-linecap="round"/>
+      <rect x="52" y="172" width="12" height="28" rx="5" fill="#8B4513" stroke="#332F45" stroke-width="3" transform="rotate(-18 58 186)"/>
+      <rect x="76" y="172" width="12" height="28" rx="5" fill="#8B4513" stroke="#332F45" stroke-width="3" transform="rotate(18 82 186)"/>
+    </g>
+    <!-- 回應泡泡 -->
+    <g transform="translate(200 60)">
+      <ellipse cx="30" cy="26" rx="22" ry="15" fill="#fff" stroke="#332F45" stroke-width="2.4"/>
+      <path d="M36 40 l10 8 l-4 -12z" fill="#fff" stroke="#332F45" stroke-width="2.4" stroke-linejoin="round"/>
+      <text x="18" y="31" font-size="11" font-weight="800" fill="#332F45">嗨～</text>
+    </g>
+  `, '他們一邊走路一邊聊天'),
+
+  'read-listen': wrap('#FFF0E6', `
+    <rect x="0" y="160" width="320" height="60" fill="#F6E3C6"/>
+    <rect x="42" y="160" width="236" height="10" rx="4" fill="#D9A06A" stroke="#332F45" stroke-width="3"/>
+    <rect x="58" y="170" width="10" height="24" rx="4" fill="#C98B5E" stroke="#332F45" stroke-width="3"/>
+    <rect x="252" y="170" width="10" height="24" rx="4" fill="#C98B5E" stroke="#332F45" stroke-width="3"/>
+    <circle cx="160" cy="110" r="30" fill="#FFE0C8" stroke="#332F45" stroke-width="4"/>
+    <path d="M130 106 q2 -32 30 -32 q30 0 30 32 q-14 -10 -30 -10 q-16 0 -30 10z" fill="#5B4A6B" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+    <circle cx="148" cy="108" r="3.4" fill="#332F45"/>
+    <circle cx="172" cy="108" r="3.4" fill="#332F45"/>
+    <path d="M154 122 q6 4 12 0" fill="none" stroke="#332F45" stroke-width="2.8" stroke-linecap="round"/>
+    <!-- 耳機 -->
+    <rect x="106" y="88" width="18" height="28" rx="8" fill="#2EB8A8" stroke="#332F45" stroke-width="3"/>
+    <rect x="196" y="88" width="18" height="28" rx="8" fill="#2EB8A8" stroke="#332F45" stroke-width="3"/>
+    <!-- 耳機線 -->
+    <path d="M106 114 q54 50 108 0" fill="none" stroke="#332F45" stroke-width="2.6" stroke-linecap="round"/>
+    <!-- 音符 -->
+    <text x="70" y="80" font-size="18" font-weight="900" fill="#2EB8A8" stroke="#332F45" stroke-width="1.2">♪</text>
+    <text x="240" y="76" font-size="16" font-weight="900" fill="#FFD166" stroke="#332F45" stroke-width="1">♫</text>
+    <!-- 手拿書 -->
+    <path d="M132 130 q-16 -2 -22 10" stroke="#332F45" stroke-width="3" stroke-linecap="round"/>
+    <path d="M188 130 q16 -2 22 10" stroke="#332F45" stroke-width="3" stroke-linecap="round"/>
+    <!-- 打開的書本，有字 -->
+    <g transform="rotate(-6 160 164)">
+      <rect x="118" y="140" width="84" height="52" rx="4" fill="#FFFDF7" stroke="#332F45" stroke-width="3.4"/>
+      <path d="M160 140 v52" stroke="#332F45" stroke-width="2"/>
+      <path d="M126 152 h28M126 162 h24M126 172 h30" stroke="#B9C4D6" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M168 152 h26M168 162 h28M168 172 h22" stroke="#B9C4D6" stroke-width="2.4" stroke-linecap="round"/>
+    </g>
+  `, '姐姐一邊看書一邊聽音樂'),
+
+  'cook-sing': wrap('#FFF3E6', `
+    <rect x="0" y="180" width="320" height="40" fill="#E8D4BC"/>
+    <!-- 爐子 -->
+    <rect x="80" y="140" width="160" height="40" rx="8" fill="#B9C4D6" stroke="#332F45" stroke-width="4"/>
+    <circle cx="120" cy="132" r="12" fill="#E85A5A" stroke="#332F45" stroke-width="3"/>
+    <circle cx="200" cy="132" r="12" fill="#3FA9DC" stroke="#332F45" stroke-width="3"/>
+    <!-- 蒸氣/熱氣 -->
+    <g stroke="#B9C4D6" stroke-width="4" stroke-linecap="round" opacity=".7" fill="none">
+      <path d="M130 126 q-6 -14 -2 -24 q14 10 4 24"/>
+      <path d="M192 124 q-4 -16 2 -24 q12 8 0 24"/>
+      <path d="M160 120 q0 -18 6 -26"/>
+    </g>
+    <!-- 平底鍋，有菜 -->
+    <ellipse cx="160" cy="142" rx="48" ry="14" fill="#4A4058" stroke="#332F45" stroke-width="3"/>
+    <ellipse cx="160" cy="140" rx="42" ry="10" fill="#6FC28B"/>
+    <circle cx="146" cy="138" r="6" fill="#F2605E"/>
+    <circle cx="170" cy="142" r="5" fill="#FFC94A"/>
+    <ellipse cx="180" cy="138" rx="7" ry="4" fill="#FF8A5C"/>
+    <!-- 媽媽（只露出上半身） -->
+    <g transform="translate(0 -20)">
+      <rect x="146" y="110" width="28" height="44" rx="6" fill="#F7A8BE" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="160" cy="86" r="18" fill="#FFE0C8" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="155" cy="84" r="2.4" fill="#332F45"/>
+      <circle cx="165" cy="84" r="2.4" fill="#332F45"/>
+      <!-- 張嘴唱歌 -->
+      <ellipse cx="160" cy="94" rx="5" ry="3.5" fill="#F2605E" stroke="#332F45" stroke-width="2.2"/>
+      <!-- 手拿鍋鏟 -->
+      <path d="M142 116 l-16 -14" stroke="#FFE0C8" stroke-width="6" stroke-linecap="round"/>
+      <g transform="rotate(-30 126 102)">
+        <rect x="122" y="84" width="8" height="24" rx="3" fill="#8B6A3A" stroke="#332F45" stroke-width="2"/>
+        <rect x="116" y="104" width="20" height="10" rx="3" fill="#8B6A3A" stroke="#332F45" stroke-width="2"/>
+      </g>
+      <path d="M178 116 l14 -10" stroke="#FFE0C8" stroke-width="6" stroke-linecap="round"/>
+    </g>
+    <!-- 唱歌的音符 -->
+    <text x="220" y="70" font-size="20" font-weight="900" fill="#FFD166" stroke="#332F45" stroke-width="1.5">♪</text>
+    <text x="240" y="94" font-size="16" font-weight="900" fill="#F2749A" stroke="#332F45" stroke-width="1.2">♫</text>
+    <text x="60" y="80" font-size="16" font-weight="900" fill="#2EB8A8">♪</text>
+  `, '媽媽一邊煮飯一邊唱歌'),
+
+  'draw-think': wrap('#FFF0F5', `
+    <rect x="0" y="160" width="320" height="60" fill="#F6E3C6"/>
+    <!-- 畫架和圖畫 -->
+    <rect x="50" y="110" width="100" height="12" rx="5" fill="#D9A06A" stroke="#332F45" stroke-width="3"/>
+    <rect x="66" y="122" width="8" height="38" rx="3" fill="#C98B5E" stroke="#332F45" stroke-width="3"/>
+    <rect x="126" y="122" width="8" height="38" rx="3" fill="#C98B5E" stroke="#332F45" stroke-width="3"/>
+    <g transform="rotate(-3 130 90)">
+      <rect x="70" y="62" width="120" height="48" rx="4" fill="#FFFDF7" stroke="#332F45" stroke-width="3.4"/>
+      <!-- 正在畫的太陽 -->
+      <circle cx="130" cy="86" r="14" fill="#FFD166" stroke="#332F45" stroke-width="2.4"/>
+      <g stroke="#FF8A5C" stroke-width="2.4" stroke-linecap="round">
+        <path d="M130 66 l0 -6M130 112 l0 6M110 86 l-6 0M156 86 l6 0"/>
+        <path d="M116 72 l-4 -4M144 72 l4 -4M116 100 l-4 4M144 100 l4 4"/>
+      </g>
+      <!-- 只畫了一半的雲 -->
+      <path d="M90 80 c-6 0 -10 -4 -10 -9 c0 -5 4 -9 9 -9" fill="none" stroke="#7A94A8" stroke-width="2.4" stroke-linecap="round"/>
+    </g>
+    <!-- 哥哥 -->
+    <g>
+      <circle cx="220" cy="120" r="32" fill="#FFDCC2" stroke="#332F45" stroke-width="4"/>
+      <path d="M190 116 q2 -36 30 -36 q30 0 30 36 q-14 -10 -30 -10 q-16 0 -30 10z" fill="#4A4058" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="210" cy="118" r="3.4" fill="#332F45"/>
+      <circle cx="232" cy="118" r="3.4" fill="#332F45"/>
+      <!-- 眼睛看上方思考 -->
+      <path d="M210 116 l-2 -3M232 116 l2 -3" stroke="#332F45" stroke-width="2" stroke-linecap="round"/>
+      <path d="M214 132 q6 -2 12 0" fill="none" stroke="#332F45" stroke-width="2.8" stroke-linecap="round"/>
+      <rect x="196" y="152" width="48" height="38" rx="10" fill="#8B7BD8" stroke="#332F45" stroke-width="3.4"/>
+      <rect x="202" y="190" width="14" height="20" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3"/>
+      <rect x="224" y="190" width="14" height="20" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3"/>
+      <!-- 手拿畫筆 -->
+      <path d="M192 142 l-30 -8" stroke="#FFDCC2" stroke-width="8" stroke-linecap="round"/>
+      <g transform="rotate(-20 160 128)">
+        <rect x="152" y="116" width="8" height="30" rx="3" fill="#FFC94A" stroke="#332F45" stroke-width="2.6"/>
+        <path d="M152 146 h8 l-4 8z" fill="#332F45"/>
+      </g>
+    </g>
+    <!-- 思考泡泡 -->
+    <g transform="translate(230 20)">
+      <circle cx="50" cy="50" r="22" fill="#fff" stroke="#332F45" stroke-width="2.6"/>
+      <circle cx="24" cy="68" r="10" fill="#fff" stroke="#332F45" stroke-width="2.2"/>
+      <circle cx="10" cy="78" r="6" fill="#fff" stroke="#332F45" stroke-width="2"/>
+      <!-- 思考內容：問號 -->
+      <text x="40" y="58" font-size="24" font-weight="900" fill="#8B7BD8">?</text>
+    </g>
+  `, '哥哥一邊畫畫一邊思考')
+,
+
+  /* ---------- ……，還……。 ---------- */
+  'homework-read': wrap('#FFF6E8', `
+    <rect x="0" y="150" width="320" height="70" fill="#F6E3C6"/>
+    <rect x="46" y="150" width="228" height="14" rx="7" fill="#D9A06A" stroke="#332F45" stroke-width="4"/>
+    <rect x="62" y="164" width="12" height="50" rx="5" fill="#C98B5E" stroke="#332F45" stroke-width="4"/>
+    <rect x="246" y="164" width="12" height="50" rx="5" fill="#C98B5E" stroke="#332F45" stroke-width="4"/>
+    <g transform="rotate(-3 120 110)">
+      <rect x="70" y="88" width="100" height="62" rx="4" fill="#FFFDF7" stroke="#332F45" stroke-width="3.4"/>
+      <path d="M120 88 v62" stroke="#332F45" stroke-width="2"/>
+      <path d="M78 100 h34M78 110 h30M78 120 h36M78 130 h28" stroke="#B9C4D6" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M126 100 h36M126 110 h32M126 120 h34" stroke="#B9C4D6" stroke-width="2.4" stroke-linecap="round"/>
+      <text x="80" y="82" font-size="13" font-weight="900" fill="#FF8A5C">功課</text>
+    </g>
+    <g transform="translate(120 0)">
+      <circle cx="100" cy="110" r="28" fill="#FFDCC2" stroke="#332F45" stroke-width="4"/>
+      <path d="M72 106 q2 -34 28 -34 q26 0 28 34 q-14 -10 -28 -10 q-14 0 -28 10z" fill="#4A4058" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="92" cy="108" r="3.2" fill="#332F45"/>
+      <circle cx="108" cy="108" r="3.2" fill="#332F45"/>
+      <path d="M96 120 q4 3 8 0" fill="none" stroke="#332F45" stroke-width="2.8" stroke-linecap="round"/>
+      <rect x="76" y="138" width="48" height="34" rx="8" fill="#FF8A5C" stroke="#332F45" stroke-width="3.4"/>
+      <rect x="118" y="118" width="44" height="32" rx="3" fill="#57B98A" stroke="#332F45" stroke-width="3"/>
+      <path d="M140 118 v32" stroke="#332F45" stroke-width="2"/>
+      <text x="122" y="138" font-size="10" font-weight="800" fill="#fff">圖書</text>
+      <rect x="84" y="172" width="14" height="22" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3"/>
+      <rect x="104" y="172" width="14" height="22" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3"/>
+      <path d="M70 146 l-12 6" stroke="#FFDCC2" stroke-width="8" stroke-linecap="round"/>
+    </g>
+    <path d="M46 60 l2 5 l5 1 l-4 3 l1 6 l-4 -3 l-4 3 l1 -6 l-4 -3 l5 -1z" fill="#FFD166" stroke="#332F45" stroke-width="1.5" stroke-linejoin="round"/>
+  `, '我做完功課，還看了圖書'),
+
+  'cook-soup': wrap('#FFF0E6', `
+    <rect x="0" y="180" width="320" height="40" fill="#E8D4BC"/>
+    <rect x="70" y="130" width="180" height="50" rx="8" fill="#B9C4D6" stroke="#332F45" stroke-width="4"/>
+    <circle cx="100" cy="122" r="10" fill="#57B98A" stroke="#332F45" stroke-width="3"/>
+    <circle cx="220" cy="122" r="10" fill="#FF8A5C" stroke="#332F45" stroke-width="3"/>
+    <g transform="translate(-40 10)">
+      <path d="M60 148 q-4 0 -6 -8 l8 -32 q2 -8 10 -8 h36 q8 0 10 8 l8 32 q2 8 -6 8z" fill="#F2D6A8" stroke="#332F45" stroke-width="3.4" stroke-linejoin="round"/>
+      <path d="M74 108 q20 -14 44 0" fill="none" stroke="#332F45" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="86" cy="130" rx="10" ry="14" fill="#6FC28B" stroke="#332F45" stroke-width="2.6"/>
+      <circle cx="106" cy="128" r="10" fill="#F2605E" stroke="#332F45" stroke-width="2.6"/>
+      <ellipse cx="120" cy="134" rx="8" ry="12" fill="#FFC94A" stroke="#332F45" stroke-width="2.6"/>
+      <text x="76" y="166" font-size="12" font-weight="800" fill="#57B98A">買菜</text>
+    </g>
+    <g transform="translate(80 -10)">
+      <g stroke="#B9C4D6" stroke-width="4" stroke-linecap="round" opacity=".7" fill="none">
+        <path d="M120 100 q-6 -14 -2 -24 q14 10 4 24"/>
+        <path d="M150 98 q-4 -16 2 -24 q12 8 0 24"/>
+      </g>
+      <ellipse cx="140" cy="130" rx="44" ry="16" fill="#4A4058" stroke="#332F45" stroke-width="3.4"/>
+      <ellipse cx="140" cy="126" rx="38" ry="12" fill="#FFD166"/>
+      <circle cx="128" cy="124" r="4" fill="#F2605E"/>
+      <circle cx="152" cy="122" r="4" fill="#6FC28B"/>
+      <rect x="96" cy="132" width="12" height="6" rx="2" fill="#4A4058" stroke="#332F45" stroke-width="2"/>
+      <rect x="172" cy="132" width="12" height="6" rx="2" fill="#4A4058" stroke="#332F45" stroke-width="2"/>
+      <text x="108" y="168" font-size="12" font-weight="800" fill="#FF8A5C">煮湯</text>
+    </g>
+    <circle cx="270" cy="80" r="18" fill="#FFE0C8" stroke="#332F45" stroke-width="3"/>
+    <path d="M252 76 q2 -22 18 -22 q16 0 18 22 q-10 -6 -18 -6 q-8 0 -18 6z" fill="#8B4513" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="264" cy="78" r="2.4" fill="#332F45"/>
+    <circle cx="276" cy="78" r="2.4" fill="#332F45"/>
+    <path d="M266 88 q4 3 8 0" fill="none" stroke="#332F45" stroke-width="2.4" stroke-linecap="round"/>
+  `, '媽媽買了菜，還煮了湯'),
+
+  'sing-dance2': wrap('#FFF0F5', `
+    <ellipse cx="160" cy="198" rx="80" ry="8" fill="#F2D6B8"/>
+    <text x="40" y="70" font-size="24" font-weight="900" fill="#FFD166" stroke="#332F45" stroke-width="1.5">♪</text>
+    <text x="76" y="54" font-size="20" font-weight="900" fill="#FF8A5C" stroke="#332F45" stroke-width="1.2">♫</text>
+    <text x="246" y="64" font-size="22" font-weight="900" fill="#F2749A" stroke="#332F45" stroke-width="1.2">♪</text>
+    <text x="268" y="86" font-size="16" font-weight="900" fill="#57B98A">♫</text>
+    <g transform="translate(28 0)">
+      <circle cx="70" cy="100" r="26" fill="#FFE0C8" stroke="#332F45" stroke-width="3.4"/>
+      <path d="M48 96 q2 -30 22 -30 q22 0 22 30 q-10 -8 -22 -8 q-12 0 -22 8z" fill="#F2749A" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="62" cy="98" r="3" fill="#332F45"/>
+      <circle cx="78" cy="98" r="3" fill="#332F45"/>
+      <ellipse cx="70" cy="114" rx="7" ry="5" fill="#F2605E" stroke="#332F45" stroke-width="2.6"/>
+      <rect x="52" y="126" width="36" height="44" rx="8" fill="#FF8A5C" stroke="#332F45" stroke-width="3.4"/>
+      <rect x="56" y="170" width="12" height="26" rx="5" fill="#F2749A" stroke="#332F45" stroke-width="3"/>
+      <rect x="72" y="170" width="12" height="26" rx="5" fill="#F2749A" stroke="#332F45" stroke-width="3" transform="rotate(-30 78 183)"/>
+      <path d="M46 136 l-20 -20" stroke="#FFE0C8" stroke-width="9" stroke-linecap="round"/>
+      <g transform="translate(20 80)">
+        <rect x="0" y="12" width="10" height="22" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="2.4"/>
+        <circle cx="5" cy="10" r="8" fill="#4A4058" stroke="#332F45" stroke-width="2.4"/>
+        <circle cx="5" cy="10" r="5" fill="#B9C4D6"/>
+      </g>
+      <path d="M94 136 l20 -6" stroke="#FFE0C8" stroke-width="9" stroke-linecap="round"/>
+    </g>
+    <circle cx="78" cy="50" r="4" fill="#FFC94A"/>
+    <circle cx="250" cy="54" r="3" fill="#FF8A5C"/>
+    <circle cx="160" cy="46" r="3" fill="#F2749A"/>
+  `, '弟弟唱了歌，還跳了舞'),
+
+  'garden-flower2': wrap('#EAF7E3', `
+    <circle cx="54" cy="42" r="18" fill="#FFD166" stroke="#332F45" stroke-width="4"/>
+    <path d="M0 202 Q86 174 172 196 T320 184 V220 H0 Z" fill="#8FD6A2"/>
+    <path d="M92 202 Q88 170 92 128" fill="none" stroke="#4FA86A" stroke-width="5" stroke-linecap="round"/>
+    <g>
+      <circle cx="92" cy="118" r="12" fill="#F2605E" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="108" cy="130" r="12" fill="#F2605E" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="102" cy="146" r="12" fill="#F2605E" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="80" cy="146" r="12" fill="#F2605E" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="74" cy="130" r="12" fill="#F2605E" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="92" cy="132" r="8" fill="#FFD166" stroke="#332F45" stroke-width="3"/>
+    </g>
+    <path d="M228 204 Q225 172 228 134" fill="none" stroke="#4FA86A" stroke-width="5" stroke-linecap="round"/>
+    <g>
+      <circle cx="228" cy="122" r="11" fill="#FFC94A" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="244" cy="134" r="11" fill="#FFC94A" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="238" cy="150" r="11" fill="#FFC94A" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="216" cy="150" r="11" fill="#FFC94A" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="210" cy="134" r="11" fill="#FFC94A" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="228" cy="138" r="8" fill="#FF8A5C" stroke="#332F45" stroke-width="3"/>
+    </g>
+    <g transform="translate(130 40)">
+      <ellipse cx="28" cy="88" rx="8" ry="12" fill="#FF8A5C" stroke="#332F45" stroke-width="2.6"/>
+      <ellipse cx="14" cy="82" rx="10" ry="8" fill="#FFD166" stroke="#332F45" stroke-width="2.4"/>
+      <ellipse cx="42" cy="82" rx="10" ry="8" fill="#FFD166" stroke="#332F45" stroke-width="2.4"/>
+    </g>
+    <g fill="none" stroke="#4FA86A" stroke-width="3" stroke-linecap="round">
+      <path d="M160 198 q3 -8 7 0M180 196 q3 -6 7 0M140 200 q3 -7 7 0"/>
+    </g>
+  `, '花園裏有紅花，還開了黃花'),
+
+  'draw-write': wrap('#FFF6E8', `
+    <rect x="0" y="150" width="320" height="70" fill="#F6E3C6"/>
+    <rect x="46" y="150" width="228" height="14" rx="7" fill="#D9A06A" stroke="#332F45" stroke-width="4"/>
+    <rect x="62" y="164" width="12" height="50" rx="5" fill="#C98B5E" stroke="#332F45" stroke-width="4"/>
+    <rect x="246" y="164" width="12" height="50" rx="5" fill="#C98B5E" stroke="#332F45" stroke-width="4"/>
+    <g transform="rotate(-4 100 100)">
+      <rect x="54" y="66" width="96" height="68" rx="4" fill="#FFFDF7" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="102" cy="96" r="16" fill="#FFD166" stroke="#332F45" stroke-width="2.4"/>
+      <g stroke="#FF8A5C" stroke-width="2.6" stroke-linecap="round">
+        <path d="M102 72 v-6M102 126 v6M78 96 h-6M132 96 h6"/>
+      </g>
+      <text x="62" y="146" font-size="12" font-weight="800" fill="#8B7BD8">畫了畫</text>
+    </g>
+    <g transform="rotate(3 210 108)">
+      <rect x="170" y="76" width="100" height="68" rx="4" fill="#FFFDF7" stroke="#332F45" stroke-width="3.4"/>
+      <path d="M180 90 h80M180 100 h76M180 110 h72M180 120 h80M180 130 h68" stroke="#B9C4D6" stroke-width="2.4" stroke-linecap="round"/>
+      <text x="176" y="156" font-size="12" font-weight="800" fill="#FF8A5C">寫了字</text>
+    </g>
+    <circle cx="160" cy="56" r="22" fill="#FFDCC2" stroke="#332F45" stroke-width="3"/>
+    <path d="M138 52 q2 -26 22 -26 q20 0 22 26 q-12 -8 -22 -8 q-10 0 -22 8z" fill="#4A4058" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="152" cy="54" r="2.6" fill="#332F45"/>
+    <circle cx="168" cy="54" r="2.6" fill="#332F45"/>
+    <path d="M155 66 q5 3 10 0" fill="none" stroke="#332F45" stroke-width="2.4" stroke-linecap="round"/>
+    <g transform="rotate(-25 70 130)">
+      <rect x="64" y="118" width="8" height="26" rx="3" fill="#FFD166" stroke="#332F45" stroke-width="2.4"/>
+      <path d="M64 144 h8 l-4 7z" fill="#332F45"/>
+    </g>
+  `, '哥哥畫了畫，還寫了字'),
+
+  'walk-water': wrap('#EAF7E3', `
+    <circle cx="280" cy="44" r="17" fill="#FFD166" stroke="#332F45" stroke-width="4"/>
+    <path d="M0 198 Q80 180 160 192 T320 186 V220 H0 Z" fill="#8FD6A2"/>
+    <path d="M20 200 Q100 170 160 180 Q220 190 300 170" fill="none" stroke="#D9C8A8" stroke-width="10" stroke-linecap="round" opacity=".5"/>
+    <g transform="translate(30 0)">
+      <circle cx="70" cy="100" r="22" fill="#FFE0C8" stroke="#332F45" stroke-width="3.4"/>
+      <path d="M50 96 q1 -22 20 -22 q18 0 20 22 q-10 -6 -20 -6 q-10 0 -20 6z" fill="#B9C4D6" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="62" cy="98" r="4" fill="none" stroke="#332F45" stroke-width="2"/>
+      <circle cx="78" cy="98" r="4" fill="none" stroke="#332F45" stroke-width="2"/>
+      <path d="M66 98 h8" stroke="#332F45" stroke-width="2"/>
+      <path d="M62 110 q8 4 16 0" fill="none" stroke="#332F45" stroke-width="2.4" stroke-linecap="round"/>
+      <rect x="54" y="122" width="32" height="38" rx="6" fill="#57B98A" stroke="#332F45" stroke-width="3.4"/>
+      <path d="M42 118 l-6 56" stroke="#8B6A3A" stroke-width="5" stroke-linecap="round"/>
+      <rect x="54" y="160" width="12" height="26" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3" transform="rotate(12 60 173)"/>
+      <rect x="74" y="160" width="12" height="26" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3" transform="rotate(-12 80 173)"/>
+      <text x="46" y="196" font-size="11" font-weight="800" fill="#57B98A">散步</text>
+    </g>
+    <g transform="translate(150 0)">
+      <path d="M100 200 Q98 160 100 120" fill="none" stroke="#4FA86A" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="100" cy="104" r="12" fill="#F2749A" stroke="#332F45" stroke-width="3"/>
+      <circle cx="100" cy="104" r="7" fill="#FFD166" stroke="#332F45" stroke-width="2"/>
+      <g fill="#8FD0F0" stroke="#332F45" stroke-width="1.8">
+        <path d="M80 90 q-4 8 0 10 q4 -2 0 -10z"/>
+        <path d="M70 100 q-3 6 0 8 q3 -2 0 -8z"/>
+        <path d="M88 108 q-4 8 0 10 q4 -2 0 -10z"/>
+      </g>
+      <g transform="translate(20 20)">
+        <path d="M130 80 l-8 -14 l-22 4 l-2 14 q-8 2 -8 10 l2 8 h40 l2 -8 q0 -8 -8 -10z" fill="#3FA9DC" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M122 66 l18 -10" stroke="#332F45" stroke-width="3" stroke-linecap="round"/>
+      </g>
+      <text x="86" y="196" font-size="11" font-weight="800" fill="#3FA9DC">澆花</text>
+    </g>
+  `, '爺爺散了步，還澆了花'),
+
+  /* ---------- ……一面……，一面……。 ---------- */
+  'read-notes': wrap('#FFF6E8', `
+    <rect x="0" y="160" width="320" height="60" fill="#F6E3C6"/>
+    <rect x="42" y="160" width="236" height="10" rx="4" fill="#D9A06A" stroke="#332F45" stroke-width="3"/>
+    <circle cx="160" cy="110" r="30" fill="#FFE0C8" stroke="#332F45" stroke-width="4"/>
+    <path d="M130 106 q2 -32 30 -32 q30 0 30 32 q-14 -10 -30 -10 q-16 0 -30 10z" fill="#5B4A6B" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+    <circle cx="148" cy="108" r="3.4" fill="#332F45"/>
+    <circle cx="172" cy="108" r="3.4" fill="#332F45"/>
+    <path d="M154 122 q6 4 12 0" fill="none" stroke="#332F45" stroke-width="2.8" stroke-linecap="round"/>
+    <path d="M132 130 q-18 -2 -24 12" stroke="#FFE0C8" stroke-width="8" stroke-linecap="round"/>
+    <g transform="rotate(-6 110 150)">
+      <rect x="76" y="128" width="74" height="48" rx="3" fill="#FFFDF7" stroke="#332F45" stroke-width="3"/>
+      <path d="M113 128 v48" stroke="#332F45" stroke-width="2"/>
+      <path d="M84 140 h24M84 150 h20M84 160 h26" stroke="#B9C4D6" stroke-width="2" stroke-linecap="round"/>
+      <path d="M119 140 h24M119 150 h26M119 160 h20" stroke="#B9C4D6" stroke-width="2" stroke-linecap="round"/>
+    </g>
+    <path d="M188 130 q18 -4 26 10" stroke="#FFE0C8" stroke-width="8" stroke-linecap="round"/>
+    <g transform="rotate(8 210 148)">
+      <rect x="180" y="130" width="44" height="36" rx="3" fill="#FFF3D4" stroke="#332F45" stroke-width="2.6"/>
+      <path d="M186 142 h32M186 152 h28M186 160 h24" stroke="#FFC94A" stroke-width="2" stroke-linecap="round"/>
+    </g>
+    <g transform="rotate(-35 214 128)">
+      <rect x="208" y="116" width="7" height="28" rx="3" fill="#B9805A" stroke="#332F45" stroke-width="2"/>
+      <path d="M208 144 h7 l-3.5 6z" fill="#332F45"/>
+    </g>
+  `, '姐姐一面看書，一面做筆記'),
+
+  'breakfast-news': wrap('#FFF6E8', `
+    <rect x="0" y="160" width="320" height="60" fill="#F6E3C6"/>
+    <g transform="translate(0 -6)">
+      <rect x="36" y="90" width="96" height="70" rx="10" fill="#B9805A" stroke="#332F45" stroke-width="4"/>
+      <circle cx="64" cy="114" r="14" fill="#FFFDF7" stroke="#332F45" stroke-width="3"/>
+      <circle cx="64" cy="114" r="6" fill="#B9C4D6"/>
+      <rect x="88" y="104" width="34" height="6" rx="3" fill="#332F45"/>
+      <rect x="88" y="116" width="26" height="6" rx="3" fill="#FF8A5C"/>
+      <rect x="88" y="128" width="30" height="6" rx="3" fill="#57B98A"/>
+      <g stroke="#B9805A" stroke-width="2.4" stroke-linecap="round" opacity=".6">
+        <path d="M140 108 l8 -4M144 120 l10 0M140 132 l8 4"/>
+      </g>
+      <text x="48" y="176" font-size="11" font-weight="800" fill="#B9805A">聽新聞</text>
+    </g>
+    <g transform="translate(120 0)">
+      <circle cx="100" cy="110" r="28" fill="#FFDCC2" stroke="#332F45" stroke-width="4"/>
+      <path d="M72 106 q2 -34 28 -34 q26 0 28 34 q-14 -10 -28 -10 q-14 0 -28 10z" fill="#4A4058" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="92" cy="108" r="3.2" fill="#332F45"/>
+      <circle cx="108" cy="108" r="3.2" fill="#332F45"/>
+      <ellipse cx="100" cy="122" rx="6" ry="4" fill="#F2605E" stroke="#332F45" stroke-width="2.6"/>
+      <rect x="76" y="138" width="48" height="38" rx="8" fill="#3FA9DC" stroke="#332F45" stroke-width="3.4"/>
+      <ellipse cx="100" cy="164" rx="24" ry="10" fill="#FFFDF7" stroke="#332F45" stroke-width="3"/>
+      <ellipse cx="100" cy="162" rx="20" ry="7" fill="#FFF3D4"/>
+      <path d="M76 146 l-18 8" stroke="#FFDCC2" stroke-width="8" stroke-linecap="round"/>
+      <g transform="rotate(30 58 150)">
+        <rect x="54" y="138" width="6" height="20" rx="3" fill="#B9C4D6" stroke="#332F45" stroke-width="2"/>
+        <ellipse cx="57" cy="136" rx="5" ry="4" fill="#B9C4D6" stroke="#332F45" stroke-width="2"/>
+      </g>
+      <rect x="82" y="176" width="14" height="22" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3"/>
+      <rect x="104" y="176" width="14" height="22" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3"/>
+      <text x="76" y="208" font-size="11" font-weight="800" fill="#3FA9DC">吃早餐</text>
+    </g>
+  `, '弟弟一面吃早餐，一面聽新聞'),
+
+  'knit-tv': wrap('#F3F0FF', `
+    <rect x="0" y="160" width="320" height="60" fill="#E8D4BC"/>
+    <g transform="translate(140 -16)">
+      <rect x="36" y="80" width="120" height="90" rx="8" fill="#4A4058" stroke="#332F45" stroke-width="4"/>
+      <rect x="44" y="88" width="104" height="68" rx="4" fill="#D4F4F0"/>
+      <circle cx="130" cy="104" r="10" fill="#FFD166" stroke="#332F45" stroke-width="2"/>
+      <path d="M44 140 Q70 128 96 140 T148 136 V156 H44Z" fill="#8FD6A2"/>
+      <rect x="72" y="162" width="48" height="8" rx="3" fill="#4A4058" stroke="#332F45" stroke-width="2"/>
+    </g>
+    <g transform="translate(0 0)">
+      <circle cx="100" cy="100" r="28" fill="#FFE0C8" stroke="#332F45" stroke-width="4"/>
+      <path d="M72 96 q2 -32 28 -32 q26 0 28 32 q-14 -10 -28 -10 q-14 0 -28 10z" fill="#8B4513" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="92" cy="98" r="3.2" fill="#332F45"/>
+      <circle cx="108" cy="98" r="3.2" fill="#332F45"/>
+      <path d="M96 112 q4 3 8 0" fill="none" stroke="#332F45" stroke-width="2.6" stroke-linecap="round"/>
+      <rect x="76" y="128" width="48" height="42" rx="8" fill="#B9805A" stroke="#332F45" stroke-width="3.4"/>
+      <ellipse cx="100" cy="168" rx="20" ry="8" fill="#F7A8BE" stroke="#332F45" stroke-width="2.6"/>
+      <path d="M70 142 l-24 -10" stroke="#C98B5E" stroke-width="4" stroke-linecap="round"/>
+      <path d="M130 142 l26 -14" stroke="#C98B5E" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="46" cy="168" r="12" fill="#F2749A" stroke="#332F45" stroke-width="3"/>
+      <path d="M58 168 q20 -6 30 -8" fill="none" stroke="#F2749A" stroke-width="2.6" stroke-linecap="round"/>
+      <rect x="82" y="170" width="14" height="24" rx="5" fill="#8B4513" stroke="#332F45" stroke-width="3"/>
+      <rect x="104" y="170" width="14" height="24" rx="5" fill="#8B4513" stroke="#332F45" stroke-width="3"/>
+    </g>
+    <text x="30" y="204" font-size="11" font-weight="800" fill="#B9805A">織毛衣</text>
+  `, '媽媽一面織毛衣，一面看電視'),
+
+  'paper-tea': wrap('#FFF0E6', `
+    <rect x="0" y="160" width="320" height="60" fill="#F6E3C6"/>
+    <g transform="translate(20 -20)">
+      <rect x="20" y="130" width="200" height="50" rx="12" fill="#8B7BD8" stroke="#332F45" stroke-width="4"/>
+      <rect x="20" y="120" width="200" height="18" rx="8" fill="#A897EC" stroke="#332F45" stroke-width="4"/>
+      <circle cx="120" cy="90" r="26" fill="#FFDCC2" stroke="#332F45" stroke-width="4"/>
+      <path d="M96 86 q2 -30 24 -30 q22 0 24 30 q-12 -8 -24 -8 q-12 0 -24 8z" fill="#4A4058" stroke="#332F45" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="112" cy="88" r="3" fill="#332F45"/>
+      <circle cx="128" cy="88" r="3" fill="#332F45"/>
+      <path d="M116 100 q4 3 8 0" fill="none" stroke="#332F45" stroke-width="2.6" stroke-linecap="round"/>
+      <rect x="80" y="100" width="80" height="46" rx="3" fill="#FFFDF7" stroke="#332F45" stroke-width="3"/>
+      <path d="M120 100 v46" stroke="#332F45" stroke-width="2"/>
+      <path d="M88 112 h28M88 122 h24M88 132 h26M88 140 h20" stroke="#B9C4D6" stroke-width="2" stroke-linecap="round"/>
+      <path d="M128 112 h26M128 122 h28M128 132 h22M128 140 h24" stroke="#B9C4D6" stroke-width="2" stroke-linecap="round"/>
+      <path d="M160 118 l14 8" stroke="#FFDCC2" stroke-width="8" stroke-linecap="round"/>
+      <g transform="translate(150 8)">
+        <path d="M30 120 q0 -10 10 -10 h12 q10 0 10 10 q0 10 -10 10 h-12 q-10 0 -10 -10z" fill="#FFFDF7" stroke="#332F45" stroke-width="3"/>
+        <path d="M62 120 q8 0 8 8 q0 8 -8 8" fill="none" stroke="#332F45" stroke-width="3"/>
+        <path d="M38 104 q-4 -10 2 -16 q8 6 2 16" fill="none" stroke="#B9C4D6" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+        <path d="M48 102 q-2 -10 4 -14 q6 4 4 14" fill="none" stroke="#B9C4D6" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+      </g>
+      <rect x="70" y="180" width="14" height="20" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3"/>
+      <rect x="156" y="180" width="14" height="20" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3"/>
+    </g>
+  `, '爸爸一面看報紙，一面喝茶'),
+
+  'teach-board': wrap('#DCF1FB', `
+    <rect x="30" y="30" width="260" height="120" rx="8" fill="#2E8A61" stroke="#332F45" stroke-width="4"/>
+    <rect x="50" y="150" width="220" height="10" rx="3" fill="#8B6A3A" stroke="#332F45" stroke-width="3"/>
+    <text x="70" y="70" font-size="22" font-weight="900" fill="#FFFDF7">中文課</text>
+    <path d="M70 84 h80" stroke="#FFFDF7" stroke-width="2" opacity=".6"/>
+    <text x="70" y="110" font-size="14" font-weight="700" fill="#FFFDF7" opacity=".8">1. 生字</text>
+    <text x="70" y="130" font-size="14" font-weight="700" fill="#FFFDF7" opacity=".8">2. 造句</text>
+    <g transform="translate(120 20)">
+      <circle cx="40" cy="100" r="24" fill="#FFE0C8" stroke="#332F45" stroke-width="3.4"/>
+      <path d="M16 96 q2 -28 24 -28 q22 0 24 28 q-12 -8 -24 -8 q-12 0 -24 8z" fill="#5B4A6B" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="32" cy="98" r="2.8" fill="#332F45"/>
+      <circle cx="48" cy="98" r="2.8" fill="#332F45"/>
+      <path d="M36 110 q4 3 8 0" fill="none" stroke="#332F45" stroke-width="2.4" stroke-linecap="round"/>
+      <rect x="20" y="124" width="40" height="42" rx="6" fill="#B9805A" stroke="#332F45" stroke-width="3.4"/>
+      <path d="M18 132 l-16 12" stroke="#FFE0C8" stroke-width="7" stroke-linecap="round"/>
+      <rect x="0" y="138" width="14" height="20" rx="2" fill="#FFFDF7" stroke="#332F45" stroke-width="2"/>
+      <path d="M62 132 l16 -28" stroke="#FFE0C8" stroke-width="7" stroke-linecap="round"/>
+      <rect x="72" y="96" width="16" height="5" rx="2" fill="#FFFDF7" stroke="#332F45" stroke-width="1.6" transform="rotate(-50 80 98)"/>
+      <g transform="translate(-60 -30)">
+        <ellipse cx="70" cy="50" rx="30" ry="18" fill="#fff" stroke="#332F45" stroke-width="2.4"/>
+        <path d="M86 66 l10 10 l-4 -14z" fill="#fff" stroke="#332F45" stroke-width="2.4" stroke-linejoin="round"/>
+        <text x="50" y="56" font-size="12" font-weight="800" fill="#332F45">跟我讀！</text>
+      </g>
+    </g>
+    <rect x="40" y="148" width="20" height="6" rx="1" fill="#FFFDF7" stroke="#332F45" stroke-width="1.6"/>
+    <rect x="64" y="148" width="20" height="6" rx="1" fill="#FFD166" stroke="#332F45" stroke-width="1.6"/>
+  `, '老師一面講課，一面寫黑板'),
+
+  'swing-sing': wrap('#EAF7E3', `
+    <circle cx="276" cy="40" r="18" fill="#FFD166" stroke="#332F45" stroke-width="4"/>
+    <path d="M0 200 Q80 184 160 194 T320 186 V220 H0 Z" fill="#8FD6A2"/>
+    <g stroke="#8B6A3A" stroke-width="5" stroke-linecap="round">
+      <path d="M80 200 V60M240 200 V60M80 60 Q160 30 240 60"/>
+    </g>
+    <text x="40" y="80" font-size="20" font-weight="900" fill="#B8A9D9" stroke="#332F45" stroke-width="1.2">♪</text>
+    <text x="260" y="90" font-size="18" font-weight="900" fill="#FFD166" stroke="#332F45" stroke-width="1">♫</text>
+    <g transform="translate(0 10)">
+      <path d="M120 60 l12 60M200 60 l-12 60" stroke="#8B6A3A" stroke-width="4" stroke-linecap="round"/>
+      <rect x="120" y="118" width="80" height="10" rx="5" fill="#B9805A" stroke="#332F45" stroke-width="3"/>
+      <circle cx="160" cy="86" r="22" fill="#FFE0C8" stroke="#332F45" stroke-width="3.4"/>
+      <path d="M138 82 q2 -26 22 -26 q20 0 22 26 q-12 -8 -22 -8 q-10 0 -22 8z" fill="#F2749A" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="152" cy="84" r="2.8" fill="#332F45"/>
+      <circle cx="168" cy="84" r="2.8" fill="#332F45"/>
+      <ellipse cx="160" cy="96" rx="5" ry="3.5" fill="#F2605E" stroke="#332F45" stroke-width="2.4"/>
+      <rect x="144" y="108" width="32" height="24" rx="6" fill="#F2749A" stroke="#332F45" stroke-width="3"/>
+      <rect x="144" y="132" width="10" height="22" rx="4" fill="#F2749A" stroke="#332F45" stroke-width="2.6" transform="rotate(20 149 143)"/>
+      <rect x="166" y="132" width="10" height="22" rx="4" fill="#F2749A" stroke="#332F45" stroke-width="2.6" transform="rotate(-25 171 143)"/>
+      <path d="M140 114 l-8 -20" stroke="#FFE0C8" stroke-width="7" stroke-linecap="round"/>
+      <path d="M180 114 l8 -24" stroke="#FFE0C8" stroke-width="7" stroke-linecap="round"/>
+    </g>
+  `, '妹妹一面盪鞦韆，一面唱歌'),
+
+  /* ---------- ……有時……，有時……。 ---------- */
+  'moon-shape': wrap('#2D2B4E', `
+    <rect width="320" height="220" fill="#2D2B4E"/>
+    <g fill="#fff" opacity=".4">
+      <circle cx="40" cy="40" r="1"/><circle cx="280" cy="30" r="1.2"/><circle cx="260" cy="80" r=".8"/>
+      <circle cx="80" cy="70" r=".8"/><circle cx="140" cy="28" r="1"/><circle cx="210" cy="50" r="1"/>
+      <circle cx="50" cy="150" r=".8"/><circle cx="290" cy="160" r="1"/><circle cx="30" cy="180" r=".8"/>
+    </g>
+    <g transform="translate(-20 0)">
+      <circle cx="100" cy="110" r="36" fill="#FFE48A" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="86" cy="96" r="3" fill="#D9A06A" opacity=".5"/>
+      <circle cx="110" cy="104" r="4" fill="#D9A06A" opacity=".5"/>
+      <circle cx="96" cy="122" r="3.5" fill="#D9A06A" opacity=".5"/>
+      <text x="72" y="166" font-size="13" font-weight="800" fill="#FFE48A">圓圓的</text>
+    </g>
+    <path d="M148 110 h24" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".7"/>
+    <path d="M168 104 l8 6 l-8 6" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>
+    <g transform="translate(80 0)">
+      <circle cx="100" cy="110" r="36" fill="#FFE48A" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="116" cy="104" r="32" fill="#2D2B4E"/>
+      <text x="76" y="166" font-size="13" font-weight="800" fill="#FFE48A">彎彎的</text>
+    </g>
+    <path d="M160 40 l1.5 4 l4 0.8 l-3 2.5 l0.8 4 l-3.3 -2 l-3.3 2 l0.8 -4 l-3 -2.5 l4 -0.8z" fill="#FFF3B0" stroke="#332F45" stroke-width="1.2" stroke-linejoin="round" opacity=".8"/>
+  `, '月亮有時圓圓的，有時彎彎的'),
+
+  'weather-sun-rain': wrap('#E8F4FF', `
+    <g>
+      <circle cx="80" cy="80" r="28" fill="#FFD166" stroke="#332F45" stroke-width="4"/>
+      <g stroke="#FF8A5C" stroke-width="3.4" stroke-linecap="round">
+        <path d="M80 36 v-10M80 134 v-10M36 80 h-10M134 80 h-10M49 49 l-8 -8M111 49 l8 -8M49 111 l-8 8M111 111 l8 8"/>
+      </g>
+      <path d="M0 200 Q60 180 120 194 V220 H0Z" fill="#8FD6A2"/>
+      <text x="48" y="180" font-size="13" font-weight="800" fill="#FF8A5C">晴天</text>
+    </g>
+    <path d="M160 30 v160" stroke="#B9C4D6" stroke-width="2" stroke-dasharray="6,6" opacity=".6"/>
+    <g>
+      <path d="M190 90 c-12 0 -20 -8 -20 -18 c0 -10 8 -17 18 -18 c2 -12 12 -20 24 -20 c12 0 22 6 26 18 c4 -2 8 -3 12 -3 c14 0 24 10 24 22 c0 12 -10 21 -24 21 z" fill="#B9C4D6" stroke="#332F45" stroke-width="3.4" stroke-linejoin="round"/>
+      <g fill="#8FD0F0" stroke="#332F45" stroke-width="1.8">
+        <path d="M200 120 q-4 8 0 12 q4 -4 0 -12z"/>
+        <path d="M224 128 q-4 8 0 12 q4 -4 0 -12z"/>
+        <path d="M250 120 q-4 8 0 12 q4 -4 0 -12z"/>
+        <path d="M212 148 q-4 8 0 12 q4 -4 0 -12z"/>
+        <path d="M238 152 q-4 8 0 12 q4 -4 0 -12z"/>
+        <path d="M260 144 q-4 8 0 12 q4 -4 0 -12z"/>
+      </g>
+      <path d="M160 200 Q220 180 320 190 V220 H160Z" fill="#63B8E8"/>
+      <text x="218" y="180" font-size="13" font-weight="800" fill="#1B7BA8">下雨</text>
+    </g>
+  `, '天氣有時晴天，有時下雨'),
+
+  'boy-good-naughty': wrap('#FFF0F5', `
+    <path d="M0 196 Q80 180 160 192 T320 186 V220 H0 Z" fill="#9BD9A8"/>
+    <g transform="translate(-10 0)">
+      <rect x="54" y="148" width="60" height="38" rx="8" fill="#57B98A" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="84" cy="114" r="26" fill="#FFDCC2" stroke="#332F45" stroke-width="3.4"/>
+      <path d="M58 110 q2 -30 26 -30 q24 0 26 30 q-12 -8 -26 -8 q-14 0 -26 8z" fill="#4A4058" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="76" cy="112" r="2.8" fill="#332F45"/>
+      <circle cx="92" cy="112" r="2.8" fill="#332F45"/>
+      <path d="M80 124 q4 3 8 0" fill="none" stroke="#332F45" stroke-width="2.4" stroke-linecap="round"/>
+      <rect x="58" y="134" width="52" height="34" rx="3" fill="#FFFDF7" stroke="#332F45" stroke-width="2.6"/>
+      <path d="M84 134 v34" stroke="#332F45" stroke-width="1.6"/>
+      <rect x="62" y="186" width="12" height="22" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3"/>
+      <rect x="94" y="186" width="12" height="22" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3"/>
+      <path d="M40 80 l2 4 l4 0.5 l-3 2.5 l0.8 4 l-3.8 -2 l-3.8 2 l0.8 -4 l-3 -2.5 l4 -0.5z" fill="#FFD166" stroke="#332F45" stroke-width="1.2" stroke-linejoin="round"/>
+      <text x="46" y="176" font-size="12" font-weight="800" fill="#57B98A">很乖</text>
+    </g>
+    <g transform="translate(130 0)">
+      <g stroke="#F2749A" stroke-width="3" stroke-linecap="round" opacity=".6">
+        <path d="M30 120 h14M24 140 h18M36 160 h12"/>
+      </g>
+      <rect x="56" y="136" width="46" height="38" rx="8" fill="#F2749A" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="78" cy="104" r="26" fill="#FFDCC2" stroke="#332F45" stroke-width="3.4"/>
+      <path d="M52 100 q2 -30 26 -30 q24 0 26 30 q-12 -8 -26 -8 q-14 0 -26 8z" fill="#4A4058" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="70" cy="102" r="2.8" fill="#332F45"/>
+      <path d="M84 102 q4 -4 8 0" fill="none" stroke="#332F45" stroke-width="2.8" stroke-linecap="round"/>
+      <ellipse cx="80" cy="118" rx="5" ry="4" fill="#332F45"/>
+      <path d="M80 122 q0 6 4 6 q4 0 4 -6" fill="#F2605E" stroke="#332F45" stroke-width="1.6"/>
+      <path d="M52 144 l-14 12" stroke="#FFDCC2" stroke-width="8" stroke-linecap="round"/>
+      <path d="M106 140 l14 -10" stroke="#FFDCC2" stroke-width="8" stroke-linecap="round"/>
+      <rect x="60" y="174" width="12" height="22" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3" transform="rotate(-25 66 185)"/>
+      <rect x="90" y="174" width="12" height="22" rx="5" fill="#4A4058" stroke="#332F45" stroke-width="3" transform="rotate(25 96 185)"/>
+      <text x="54" y="206" font-size="12" font-weight="800" fill="#C74A72">頑皮</text>
+    </g>
+  `, '弟弟有時很乖，有時很頑皮'),
+
+  'cat-sleep-play': wrap('#FFF6E5', `
+    <ellipse cx="160" cy="198" rx="120" ry="10" fill="#EAD9BE"/>
+    <g transform="translate(-30 0)">
+      <text x="108" y="72" font-size="16" font-weight="900" fill="#948DA8" stroke="#fff" stroke-width="1">z</text>
+      <text x="122" y="58" font-size="13" font-weight="900" fill="#948DA8" stroke="#fff" stroke-width="0.8">z</text>
+      <ellipse cx="110" cy="130" rx="40" ry="26" fill="#FFB7A2" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="74" cy="124" r="14" fill="#FFB7A2" stroke="#332F45" stroke-width="3.4"/>
+      <path d="M120 118 q6 -4 10 0M136 118 q6 -4 10 0" fill="none" stroke="#332F45" stroke-width="2.8" stroke-linecap="round"/>
+      <path d="M128 128 q4 2 8 0" fill="none" stroke="#332F45" stroke-width="2" stroke-linecap="round"/>
+      <path d="M120 96 l-6 -12 l14 4z" fill="#FFB7A2" stroke="#332F45" stroke-width="2.6" stroke-linejoin="round"/>
+      <path d="M140 96 l6 -12 l-14 4z" fill="#FFB7A2" stroke="#332F45" stroke-width="2.6" stroke-linejoin="round"/>
+      <ellipse cx="110" cy="158" rx="46" ry="8" fill="#B8A9D9" stroke="#332F45" stroke-width="2.6"/>
+      <text x="82" y="184" font-size="12" font-weight="800" fill="#B8A9D9">睡覺</text>
+    </g>
+    <g transform="translate(120 0)">
+      <g stroke="#F2749A" stroke-width="2.6" stroke-linecap="round" opacity=".6">
+        <path d="M50 100 l-10 -4M46 120 l-12 2M52 140 l-10 6"/>
+      </g>
+      <ellipse cx="100" cy="130" rx="30" ry="22" fill="#FFB7A2" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="118" cy="118" r="20" fill="#FFB7A2" stroke="#332F45" stroke-width="3.4"/>
+      <circle cx="112" cy="114" r="3.4" fill="#332F45"/>
+      <circle cx="126" cy="114" r="3.4" fill="#332F45"/>
+      <circle cx="112" cy="112" r="1" fill="#fff"/>
+      <circle cx="126" cy="112" r="1" fill="#fff"/>
+      <path d="M116 126 q4 -2 8 0" fill="none" stroke="#332F45" stroke-width="2" stroke-linecap="round"/>
+      <path d="M104 100 l-4 -14 l12 6z" fill="#FFB7A2" stroke="#332F45" stroke-width="2.6" stroke-linejoin="round"/>
+      <path d="M132 100 l4 -14 l-12 6z" fill="#FFB7A2" stroke="#332F45" stroke-width="2.6" stroke-linejoin="round"/>
+      <path d="M86 126 l-14 -16" stroke="#FFB7A2" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="60" cy="104" r="14" fill="#F2749A" stroke="#332F45" stroke-width="3"/>
+      <path d="M50 98 q10 -4 20 0M48 108 q12 4 24 -2M54 114 q8 6 18 2" fill="none" stroke="#C74A72" stroke-width="1.6"/>
+      <path d="M74 108 q12 -2 20 10" fill="none" stroke="#F2749A" stroke-width="2.4" stroke-linecap="round"/>
+      <rect x="86" y="150" width="12" height="20" rx="5" fill="#FFB7A2" stroke="#332F45" stroke-width="3" transform="rotate(-20 92 160)"/>
+      <rect x="110" y="152" width="12" height="20" rx="5" fill="#FFB7A2" stroke="#332F45" stroke-width="3" transform="rotate(25 116 162)"/>
+      <text x="78" y="188" font-size="12" font-weight="800" fill="#F2749A">玩毛線</text>
+    </g>
+  `, '小貓有時睡覺，有時玩毛線'),
+
+  'afterschool-ball-book': wrap('#EAF3FF', `
+    <path d="M0 196 Q80 182 160 192 T320 188 V220 H0 Z" fill="#9BD9A8"/>
+    <g transform="translate(-20 0)">
+      <rect x="60" y="50" width="4" height="110" fill="#B9C4D6" stroke="#332F45" stroke-width="2"/>
+      <rect x="62" y="72" width="36" height="22" rx="3" fill="#E85A5A" stroke="#332F45" stroke-width="2.4"/>
+      <path d="M80 94 v8M80 94 l10 6M80 94 l-10 6" stroke="#fff" stroke-width="1.6"/>
+      <circle cx="110" cy="120" r="22" fill="#FFDCC2" stroke="#332F45" stroke-width="3"/>
+      <path d="M88 116 q2 -26 22 -26 q20 0 22 26 q-12 -8 -22 -8 q-10 0 -22 8z" fill="#4A4058" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="102" cy="118" r="2.6" fill="#332F45"/>
+      <circle cx="118" cy="118" r="2.6" fill="#332F45"/>
+      <path d="M106 130 q4 2 8 0" fill="none" stroke="#332F45" stroke-width="2.2" stroke-linecap="round"/>
+      <rect x="92" y="142" width="36" height="30" rx="6" fill="#3FA9DC" stroke="#332F45" stroke-width="3"/>
+      <path d="M130 148 l16 -24" stroke="#FFDCC2" stroke-width="7" stroke-linecap="round"/>
+      <circle cx="150" cy="114" r="10" fill="#FF8A5C" stroke="#332F45" stroke-width="2.6"/>
+      <path d="M142 114 h16M150 104 v20" stroke="#332F45" stroke-width="1.4"/>
+      <rect x="94" y="172" width="10" height="20" rx="4" fill="#4A4058" stroke="#332F45" stroke-width="2.6" transform="rotate(-20 99 182)"/>
+      <rect x="116" y="172" width="10" height="20" rx="4" fill="#4A4058" stroke="#332F45" stroke-width="2.6" transform="rotate(30 121 182)"/>
+      <text x="76" y="204" font-size="12" font-weight="800" fill="#3FA9DC">打球</text>
+    </g>
+    <g transform="translate(140 0)">
+      <rect x="30" y="118" width="58" height="8" rx="3" fill="#B9805A" stroke="#332F45" stroke-width="2.6"/>
+      <rect x="34" y="126" width="8" height="44" rx="3" fill="#B9805A" stroke="#332F45" stroke-width="2.6"/>
+      <rect x="76" y="126" width="8" height="44" rx="3" fill="#B9805A" stroke="#332F45" stroke-width="2.6"/>
+      <rect x="38" y="90" width="10" height="30" rx="3" fill="#B9805A" stroke="#332F45" stroke-width="2.6"/>
+      <circle cx="60" cy="80" r="20" fill="#FFDCC2" stroke="#332F45" stroke-width="3"/>
+      <path d="M40 76 q2 -22 20 -22 q18 0 20 22 q-10 -6 -20 -6 q-10 0 -20 6z" fill="#57B98A" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="54" cy="78" r="2.4" fill="#332F45"/>
+      <circle cx="66" cy="78" r="2.4" fill="#332F45"/>
+      <path d="M57 88 q3 2 6 0" fill="none" stroke="#332F45" stroke-width="2" stroke-linecap="round"/>
+      <rect x="44" y="100" width="32" height="24" rx="5" fill="#57B98A" stroke="#332F45" stroke-width="2.6"/>
+      <g transform="rotate(-4 60 112)">
+        <rect x="30" y="104" width="60" height="34" rx="2" fill="#FFFDF7" stroke="#332F45" stroke-width="2.4"/>
+        <path d="M60 104 v34" stroke="#332F45" stroke-width="1.6"/>
+        <path d="M36 114 h20M36 124 h18M36 132 h22" stroke="#B9C4D6" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M66 114 h20M66 124 h18M66 132 h16" stroke="#B9C4D6" stroke-width="1.6" stroke-linecap="round"/>
+      </g>
+      <rect x="44" y="170" width="10" height="16" rx="4" fill="#57B98A" stroke="#332F45" stroke-width="2.4"/>
+      <rect x="66" y="170" width="10" height="16" rx="4" fill="#57B98A" stroke="#332F45" stroke-width="2.4"/>
+      <text x="38" y="204" font-size="12" font-weight="800" fill="#2E8A61">看書</text>
+    </g>
+  `, '我放學有時打球，有時看書'),
+
+  'sea-calm-waves': wrap('#DDF2FC', `
+    <g>
+      <circle cx="60" cy="50" r="20" fill="#FFD166" stroke="#332F45" stroke-width="3"/>
+      <rect x="0" y="130" width="160" height="90" fill="#8FD0F0"/>
+      <path d="M0 130 Q40 124 80 130 T160 128" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M0 144 Q40 138 80 144 T160 142" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".6"/>
+      <path d="M50 120 l30 0 l-6 10 l-18 0z" fill="#C98B5E" stroke="#332F45" stroke-width="2.4" stroke-linejoin="round"/>
+      <rect x="63" y="96" width="3" height="24" fill="#332F45"/>
+      <path d="M66 98 l14 14 l-14 4z" fill="#FFFDF7" stroke="#332F45" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M20 70 q8 -8 14 0 q8 -8 14 0" fill="none" stroke="#332F45" stroke-width="2.4" stroke-linecap="round"/>
+      <text x="40" y="200" font-size="13" font-weight="800" fill="#1B7BA8">風平浪靜</text>
+    </g>
+    <path d="M160 30 v160" stroke="#B9C4D6" stroke-width="2" stroke-dasharray="6,6" opacity=".5"/>
+    <g>
+      <circle cx="260" cy="50" r="20" fill="#B9C4D6" stroke="#332F45" stroke-width="3"/>
+      <rect x="160" y="100" width="160" height="120" fill="#3FA9DC"/>
+      <path d="M160 130 Q200 90 240 120 Q260 140 280 110 Q300 90 320 120 L320 150 Q280 140 260 160 Q230 180 200 150 Q180 136 160 150 Z" fill="#63B8E8" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M210 108 q6 -10 16 -6" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+      <path d="M280 104 q6 -8 12 -4" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="220" cy="102" r="2" fill="#fff" opacity=".8"/>
+      <circle cx="230" cy="98" r="1.5" fill="#fff" opacity=".8"/>
+      <circle cx="290" cy="100" r="2" fill="#fff" opacity=".8"/>
+      <g stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".7">
+        <path d="M180 60 l16 0M176 74 l20 0M186 86 l14 0"/>
+      </g>
+      <text x="196" y="200" font-size="13" font-weight="800" fill="#fff">大浪翻騰</text>
+    </g>
+  `, '海邊有時風平浪靜，有時大浪翻騰')
+
+};
+
+/* ---------- 六隻小動物向導 ---------- */
+const MASCOTS = {
+  you: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <circle cx="18" cy="20" r="9" fill="#C98B5E" stroke="#332F45" stroke-width="3"/>
+    <circle cx="46" cy="20" r="9" fill="#C98B5E" stroke="#332F45" stroke-width="3"/>
+    <circle cx="32" cy="36" r="22" fill="#D9A06A" stroke="#332F45" stroke-width="3"/>
+    <ellipse cx="32" cy="44" rx="11" ry="8" fill="#FFE9D2" stroke="#332F45" stroke-width="2.6"/>
+    <circle cx="32" cy="42" r="3" fill="#332F45"/>
+    <circle cx="24" cy="33" r="2.4" fill="#332F45"/>
+    <circle cx="40" cy="33" r="2.4" fill="#332F45"/>
+    <path d="M27 48 q5 4 10 0" fill="none" stroke="#332F45" stroke-width="2.4" stroke-linecap="round"/>
+  </svg>`,
+  haiyou: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <ellipse cx="24" cy="16" rx="7" ry="15" fill="#FFFDF7" stroke="#332F45" stroke-width="3"/>
+    <ellipse cx="40" cy="16" rx="7" ry="15" fill="#FFFDF7" stroke="#332F45" stroke-width="3"/>
+    <ellipse cx="24" cy="16" rx="3" ry="10" fill="#FFC0D0"/>
+    <ellipse cx="40" cy="16" rx="3" ry="10" fill="#FFC0D0"/>
+    <circle cx="32" cy="38" r="20" fill="#FFFDF7" stroke="#332F45" stroke-width="3"/>
+    <circle cx="25" cy="36" r="2.4" fill="#332F45"/>
+    <circle cx="39" cy="36" r="2.4" fill="#332F45"/>
+    <path d="M32 42 l-4 4 h8z" fill="#F7A8BE"/>
+    <path d="M28 49 q4 3 8 0" fill="none" stroke="#332F45" stroke-width="2.2" stroke-linecap="round"/>
+    <circle cx="20" cy="44" r="4" fill="#FFB3A0" opacity=".8"/>
+    <circle cx="44" cy="44" r="4" fill="#FFB3A0" opacity=".8"/>
+  </svg>`,
+  youyou: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M12 26 l2 -16 l14 10z" fill="#F2749A" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M52 26 l-2 -16 l-14 10z" fill="#F2749A" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="32" cy="36" r="21" fill="#FFC94A" stroke="#332F45" stroke-width="3"/>
+    <path d="M32 15 v8M21 18 l4 6M43 18 l-4 6" stroke="#C98B5E" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="25" cy="34" r="2.4" fill="#332F45"/>
+    <circle cx="39" cy="34" r="2.4" fill="#332F45"/>
+    <path d="M32 40 l-4 4 h8z" fill="#F2749A"/>
+    <path d="M28 47 q4 3 8 0" fill="none" stroke="#332F45" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M12 38 h-7M12 44 h-6M52 38 h7M52 44 h6" stroke="#332F45" stroke-width="2.2" stroke-linecap="round"/>
+  </svg>`,
+  de: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <circle cx="32" cy="36" r="21" fill="#63B8E8" stroke="#332F45" stroke-width="3"/>
+    <path d="M48 34 l12 5 -12 6z" fill="#FFB03A" stroke="#332F45" stroke-width="2.8" stroke-linejoin="round"/>
+    <circle cx="38" cy="31" r="2.6" fill="#332F45"/>
+    <path d="M26 24 q8 -8 16 0" fill="none" stroke="#332F45" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M22 44 q10 8 20 0" fill="none" stroke="#332F45" stroke-width="2.6" stroke-linecap="round"/>
+    <circle cx="20" cy="40" r="4" fill="#8FD0F0" opacity=".9"/>
+  </svg>`,
+  geng: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M32 12 l4 10 l12 0 l-10 8 l4 12 l-10 -8 l-10 8 l4 -12 l-10 -8 l12 0z" fill="#FFD166" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="32" cy="42" r="16" fill="#E85A5A" stroke="#332F45" stroke-width="3"/>
+    <circle cx="26" cy="40" r="2.4" fill="#332F45"/>
+    <circle cx="38" cy="40" r="2.4" fill="#332F45"/>
+    <path d="M27 47 q5 4 10 0" fill="none" stroke="#332F45" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M18 28 l-6 -8M46 28 l6 -8M14 42 l-10 0M50 42 l10 0" stroke="#332F45" stroke-width="2.4" stroke-linecap="round"/>
+  </svg>`,
+  yibian: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <circle cx="22" cy="34" r="14" fill="#2EB8A8" stroke="#332F45" stroke-width="3"/>
+    <circle cx="42" cy="34" r="14" fill="#2EB8A8" stroke="#332F45" stroke-width="3"/>
+    <circle cx="18" cy="32" r="2.2" fill="#332F45"/>
+    <circle cx="26" cy="32" r="2.2" fill="#332F45"/>
+    <circle cx="38" cy="32" r="2.2" fill="#332F45"/>
+    <circle cx="46" cy="32" r="2.2" fill="#332F45"/>
+    <path d="M18 38 q4 3 8 0M38 38 q4 3 8 0" fill="none" stroke="#332F45" stroke-width="2" stroke-linecap="round"/>
+    <path d="M8 28 l-4 -6M56 28 l4 -6M8 40 l-4 6M56 40 l4 6" stroke="#332F45" stroke-width="2.2" stroke-linecap="round"/>
+    <rect x="28" y="14" width="8" height="6" rx="2" fill="#FFD166" stroke="#332F45" stroke-width="2"/>
+  </svg>`
+,
+  hai: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M16 20 l-8 -12 l16 4z" fill="#FF8A5C" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M48 20 l8 -12 l-16 4z" fill="#FF8A5C" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M18 14 l-4 -6 l8 2z" fill="#FFE0C8" stroke="#332F45" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M46 14 l4 -6 l-8 2z" fill="#FFE0C8" stroke="#332F45" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="32" cy="34" r="22" fill="#FF8A5C" stroke="#332F45" stroke-width="3.4"/>
+    <path d="M18 38 q14 -8 28 0 q-6 10 -14 10 q-8 0 -14 -10z" fill="#FFF3E8" stroke="#332F45" stroke-width="2.6" stroke-linejoin="round"/>
+    <circle cx="24" cy="30" r="3.4" fill="#332F45"/>
+    <circle cx="40" cy="30" r="3.4" fill="#332F45"/>
+    <circle cx="25" cy="29" r="1" fill="#fff"/>
+    <circle cx="41" cy="29" r="1" fill="#fff"/>
+    <ellipse cx="32" cy="40" rx="3.4" ry="2.6" fill="#332F45"/>
+    <path d="M32 43 q-3 3 -6 1" fill="none" stroke="#332F45" stroke-width="2" stroke-linecap="round"/>
+    <path d="M32 43 q3 3 6 1" fill="none" stroke="#332F45" stroke-width="2" stroke-linecap="round"/>
+    <path d="M52 48 q14 -8 6 -22 q-8 4 -10 14 q-2 8 4 8z" fill="#FF8A5C" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M54 34 q4 6 0 12" fill="#FFF3E8" stroke="#332F45" stroke-width="2"/>
+  </svg>`,
+  yimian: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <circle cx="16" cy="16" r="8" fill="#B9805A" stroke="#332F45" stroke-width="3"/>
+    <circle cx="48" cy="16" r="8" fill="#B9805A" stroke="#332F45" stroke-width="3"/>
+    <circle cx="16" cy="16" r="4" fill="#F2E6D8"/>
+    <circle cx="48" cy="16" r="4" fill="#F2E6D8"/>
+    <circle cx="32" cy="36" r="24" fill="#B9805A" stroke="#332F45" stroke-width="3.4"/>
+    <ellipse cx="32" cy="44" rx="12" ry="10" fill="#F2E6D8" stroke="#332F45" stroke-width="2.6"/>
+    <circle cx="24" cy="32" r="3.4" fill="#332F45"/>
+    <circle cx="40" cy="32" r="3.4" fill="#332F45"/>
+    <circle cx="25" cy="31" r="1" fill="#fff"/>
+    <circle cx="41" cy="31" r="1" fill="#fff"/>
+    <ellipse cx="32" cy="42" rx="3.6" ry="2.8" fill="#332F45"/>
+    <path d="M32 45 q-4 4 -8 2" fill="none" stroke="#332F45" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 45 q4 4 8 2" fill="none" stroke="#332F45" stroke-width="2.4" stroke-linecap="round"/>
+    <g transform="translate(42 18)">
+      <path d="M0 0 l-8 -6 l0 12z" fill="#F2749A" stroke="#332F45" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M0 0 l8 -6 l0 12z" fill="#F2749A" stroke="#332F45" stroke-width="2" stroke-linejoin="round"/>
+      <circle cx="0" cy="0" r="3" fill="#F2749A" stroke="#332F45" stroke-width="1.6"/>
+    </g>
+  </svg>`,
+  youshi: `<svg viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M14 22 l-6 -14 l18 8z" fill="#B8A9D9" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 22 l6 -14 l-18 8z" fill="#B8A9D9" stroke="#332F45" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M14 20 l-3 -8 l10 4z" fill="#F0EDF8" stroke="#332F45" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M50 20 l3 -8 l-10 4z" fill="#F0EDF8" stroke="#332F45" stroke-width="2" stroke-linejoin="round"/>
+    <ellipse cx="32" cy="38" rx="22" ry="24" fill="#B8A9D9" stroke="#332F45" stroke-width="3.4"/>
+    <ellipse cx="32" cy="42" rx="14" ry="16" fill="#F0EDF8"/>
+    <circle cx="24" cy="34" r="8" fill="#fff" stroke="#332F45" stroke-width="2.6"/>
+    <circle cx="40" cy="34" r="8" fill="#fff" stroke="#332F45" stroke-width="2.6"/>
+    <circle cx="24" cy="34" r="4.4" fill="#332F45"/>
+    <circle cx="40" cy="34" r="4.4" fill="#332F45"/>
+    <circle cx="26" cy="32" r="1.4" fill="#fff"/>
+    <circle cx="42" cy="32" r="1.4" fill="#fff"/>
+    <path d="M30 42 l2 6 l2 -6z" fill="#FFB03A" stroke="#332F45" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M18 46 q-2 6 0 10M46 46 q2 6 0 10" fill="none" stroke="#7A6BA8" stroke-width="2" stroke-linecap="round"/>
+    <path d="M24 54 l-2 6M32 56 l0 6M40 54 l2 6" fill="none" stroke="#7A6BA8" stroke-width="2" stroke-linecap="round"/>
+  </svg>`
+
+};
+
+/* ---------- 題庫 ---------- */
+const DATA = {
+  you: {
+    no: '01',
+    name: '有……',
+    short: '說出甚麼地方有甚麼',
+    formula: ['地方', '有', '事物'],
+    formulaNote: '把「有」放在中間，說出那個地方有甚麼東西。',
+    examples: ['樹上<b>有</b>小鳥。', '書包裏<b>有</b>課本。'],
+    tip: '先說「甚麼地方」，再說「有」，最後說「甚麼東西」。',
+    modeNames: { pick: '選一選', build: '拼一拼' },
+    modeLabels: { pick: '看圖選詞', build: '詞卡拼句' },
+    pick: [
+      { scene: 'tree-bird', before: '樹上', blank: '有', after: '小鳥。', options: ['有', '又', '得'], answer: '有', why: '「樹上」是地方，「小鳥」是事物，中間用「有」連接。', hint: '「樹上」是地方，哪個字能把小鳥和樹連起來？' },
+      { scene: 'fish-tank', before: '魚缸裏有', blank: '小魚', after: '。', options: ['小魚', '小鳥', '白雲'], answer: '小魚', why: '魚缸裏游着小魚，不是小鳥，也不是白雲。', hint: '看看圖中在水裏游的是誰？' },
+      { scene: 'garden-flower', before: '花園裏', blank: '有', after: '紅花。', options: ['有', '得', '又'], answer: '有', why: '花園是地方，紅花是那裏的東西，用「有」連接。', hint: '花園裏開着漂亮的花，用哪個字說出來？' },
+      { scene: 'backpack', before: '書包裏有', blank: '課本', after: '。', options: ['課本', '香蕉', '皮球'], answer: '課本', why: '上學的書包裏放課本，用「有」說出裏面的東西。', hint: '上學時，書包裏會放甚麼？' },
+      { scene: 'sky-cloud', before: '天上', blank: '有', after: '白雲。', options: ['有', '又', '得'], answer: '有', why: '天空是地方，白雲是那裏的東西。', hint: '抬頭看看，天空中有甚麼？' },
+      { scene: 'table-cake', before: '桌子上有', blank: '蛋糕', after: '。', options: ['蛋糕', '小魚', '書包'], answer: '蛋糕', why: '桌子上放着蛋糕，用「有」說出來。', hint: '桌上放着的是可以吃的東西。' }
+    ],
+    build: [
+      { scene: 'tree-bird', tiles: ['樹上', '有', '小鳥。'], why: '先說地方「樹上」，再說「有」，最後說「小鳥」。', hint: '先放「樹上」，再想哪個字表示「有」。' },
+      { scene: 'fish-tank', tiles: ['魚缸裏', '有', '小魚。'], why: '「魚缸裏」＋「有」＋「小魚」，句子就完整了。', hint: '先找出地方「魚缸裏」。' },
+      { scene: 'garden-flower', tiles: ['花園裏', '有', '紅花。'], why: '地方、有、事物，順序排好就對了。', hint: '「花園裏」要放在最前面。' },
+      { scene: 'backpack', tiles: ['書包裏', '有', '課本。'], why: '書包裏有課本，一句話說清楚。', hint: '「有」要放在中間。' },
+      { scene: 'sky-cloud', tiles: ['天上', '有', '白雲。'], why: '天上 → 有 → 白雲。', hint: '「天上」是地方，放最前面。' },
+      { scene: 'table-cake', tiles: ['桌子上', '有', '蛋糕。'], why: '桌子上 → 有 → 蛋糕。', hint: '先說「桌子上」。' }
+    ]
+  },
+
+  haiyou: {
+    no: '02',
+    name: '有……還有……',
+    short: '先說一樣，再說另一樣',
+    formula: ['有', '第一樣', '還有', '第二樣'],
+    formulaNote: '先說第一樣，再用「還有」補充第二樣。',
+    examples: ['桌上有蘋果，<b>還有</b>香蕉。', '書包裏有鉛筆，<b>還有</b>擦膠。'],
+    tip: '「還有」前面要停一下，用逗號分開兩樣東西。',
+    modeNames: { pick: '選一選', build: '拼一拼' },
+    modeLabels: { pick: '看圖選詞', build: '詞卡拼句' },
+    pick: [
+      { scene: 'table-fruit', before: '桌上有蘋果，', blank: '還有', after: '香蕉。', options: ['還有', '又', '得'], answer: '還有', why: '先說蘋果，再用「還有」補充香蕉。', hint: '已經說了蘋果，接着要說第二樣水果。' },
+      { scene: 'grass-bug', before: '草地上有', blank: '小花', after: '，還有小蟲。', options: ['小花', '大樹', '太陽'], answer: '小花', why: '草地上有兩個東西：小花和小蟲。', hint: '草地上除了小蟲，還有甚麼？' },
+      { scene: 'bag-pencil', before: '書包裏有鉛筆，還有', blank: '擦膠', after: '。', options: ['擦膠', '蘋果', '小鳥'], answer: '擦膠', why: '書包裏有鉛筆，還有擦膠，兩樣都是文具。', hint: '鉛筆的好朋友是誰？' },
+      { scene: 'zoo', before: '動物園裏有猴子，', blank: '還有', after: '大象。', options: ['還有', '又', '得'], answer: '還有', why: '動物園裏先看到猴子，還有大象。', hint: '猴子之後，再說另一種動物。' },
+      { scene: 'sky-sun-cloud', before: '天上有太陽，還有', blank: '白雲', after: '。', options: ['白雲', '小魚', '課本'], answer: '白雲', why: '天上有太陽，還有白雲，兩樣都看見了。', hint: '太陽旁邊，天空還有甚麼？' },
+      { scene: 'park', before: '公園裏有滑梯，', blank: '還有', after: '鞦韆。', options: ['還有', '得', '又'], answer: '還有', why: '公園裏有滑梯，還有鞦韆。', hint: '公園裏除了滑梯，還有甚麼可以玩？' }
+    ],
+    build: [
+      { scene: 'table-fruit', tiles: ['桌上有', '蘋果，', '還有', '香蕉。'], why: '先說蘋果，用逗號停一下，再用「還有」說香蕉。', hint: '「蘋果，」要放在「還有」前面。' },
+      { scene: 'grass-bug', tiles: ['草地上有', '小花，', '還有', '小蟲。'], why: '有……還有……，中間用逗號分開。', hint: '先說小花，再說小蟲。' },
+      { scene: 'bag-pencil', tiles: ['書包裏有', '鉛筆，', '還有', '擦膠。'], why: '書包裏有鉛筆，還有擦膠，句子很完整。', hint: '「還有」要放在第二樣東西前面。' },
+      { scene: 'zoo', tiles: ['動物園裏有', '猴子，', '還有', '大象。'], why: '先說猴子，再用「還有」補充大象。', hint: '兩種動物，先猴子後大象。' },
+      { scene: 'sky-sun-cloud', tiles: ['天上有', '太陽，', '還有', '白雲。'], why: '天上的太陽和白雲，用「還有」連起來。', hint: '「太陽，」後面才放「還有」。' },
+      { scene: 'park', tiles: ['公園裏有', '滑梯，', '還有', '鞦韆。'], why: '公園裏有滑梯，還有鞦韆。', hint: '先說滑梯，再說鞦韆。' }
+    ]
+  },
+
+  youyou: {
+    no: '03',
+    name: '又……又……',
+    short: '把兩個特點一起說',
+    formula: ['誰／甚麼', '又', '特點一', '又', '特點二'],
+    formulaNote: '兩個「又」把兩個特點連起來，中間不用逗號。',
+    examples: ['西瓜<b>又</b>大<b>又</b>圓。', '妹妹<b>又</b>聰明<b>又</b>可愛。'],
+    tip: '兩個特點要能同時存在，不能一個快一個慢。',
+    modeNames: { pick: '選一選', build: '拼一拼' },
+    modeLabels: { pick: '看圖選詞', build: '詞卡拼句' },
+    pick: [
+      { scene: 'watermelon', before: '西瓜又大', blank: '又', after: '圓。', options: ['又', '得', '有'], answer: '又', why: '西瓜同時有「大」和「圓」兩個特點。', hint: '西瓜看起來怎麼樣？又大又……' },
+      { scene: 'smart-girl', before: '妹妹又聰明又', blank: '可愛', after: '。', options: ['可愛', '很高', '慢慢'], answer: '可愛', why: '聰明和可愛，都是妹妹的特點。', hint: '妹妹的兩個優點是甚麼？' },
+      { scene: 'apple', before: '蘋果又紅', blank: '又', after: '甜。', options: ['又', '得', '有'], answer: '又', why: '蘋果又紅又甜，兩個特點一起說。', hint: '「又紅」後面還要再接一個「又」。' },
+      { scene: 'rabbit', before: '兔子又白又', blank: '軟', after: '。', options: ['軟', '遠', '大聲'], answer: '軟', why: '兔子的毛又白又軟。', hint: '摸摸兔子的毛，感覺怎麼樣？' },
+      { scene: 'cake', before: '蛋糕又香又', blank: '軟', after: '。', options: ['軟', '快', '高'], answer: '軟', why: '蛋糕又香又軟，聞起來香，吃起來軟。', hint: '蛋糕聞起來香，吃起來……' },
+      { scene: 'snowman', before: '雪人又白', blank: '又', after: '胖。', options: ['又', '得', '有'], answer: '又', why: '雪人有白和胖兩個特點。', hint: '雪人站在雪地裏，看起來又白又……' }
+    ],
+    build: [
+      { scene: 'watermelon', tiles: ['西瓜', '又大', '又圓。'], why: '「又大」和「又圓」連在一起，說出西瓜的兩個特點。', hint: '先說「西瓜」，再說兩個特點。' },
+      { scene: 'smart-girl', tiles: ['妹妹', '又聰明', '又可愛。'], why: '又聰明又可愛，兩個優點一起說。', hint: '「又聰明」要放在「又可愛」前面。' },
+      { scene: 'apple', tiles: ['蘋果', '又紅', '又甜。'], why: '蘋果又紅又甜，中間不用逗號。', hint: '先說「蘋果」，再說「又紅」。' },
+      { scene: 'rabbit', tiles: ['兔子', '又白', '又軟。'], why: '兔子的毛又白又軟。', hint: '先說「兔子」。' },
+      { scene: 'cake', tiles: ['蛋糕', '又香', '又軟。'], why: '蛋糕又香又軟，吃起來很幸福。', hint: '「又香」在「又軟」前面。' },
+      { scene: 'snowman', tiles: ['雪人', '又白', '又胖。'], why: '雪人又白又胖，樣子很可愛。', hint: '先說「雪人」。' }
+    ]
+  },
+
+  de: {
+    no: '04',
+    name: '……得……',
+    short: '說出動作做得怎麼樣',
+    formula: ['誰', '動作', '得', '怎麼樣'],
+    formulaNote: '「得」放在動作後面，說出動作的程度或樣子。',
+    examples: ['弟弟跑<b>得</b>很快。', '花兒開<b>得</b>很美。'],
+    tip: '「得」後面要接「很……」或「很＋樣子」，不能接名詞。',
+    modeNames: { pick: '選一選', build: '拼一拼' },
+    modeLabels: { pick: '看圖選詞', build: '詞卡拼句' },
+    pick: [
+      { scene: 'boy-run', before: '弟弟跑', blank: '得', after: '很快。', options: ['得', '又', '有'], answer: '得', why: '「跑」後面用「得」，說出跑得很快。', hint: '「跑」後面要接哪個字，才能說出跑得怎麼樣？' },
+      { scene: 'girl-laugh', before: '妹妹笑得很', blank: '大聲', after: '。', options: ['大聲', '整齊', '圓'], answer: '大聲', why: '笑聲很響，所以是「笑得多大聲」。', hint: '妹妹的笑聲聽起來怎麼樣？' },
+      { scene: 'bird-fly', before: '小鳥飛', blank: '得', after: '很高。', options: ['得', '又', '有'], answer: '得', why: '「飛」後面用「得」，說出飛得很高。', hint: '「飛」後面用哪個字，才能說出飛得多高？' },
+      { scene: 'boy-write', before: '哥哥寫得很', blank: '整齊', after: '。', options: ['整齊', '大聲', '甜'], answer: '整齊', why: '字寫得整整齊齊，用「得」說出寫的結果。', hint: '哥哥的字看起來怎麼樣？' },
+      { scene: 'flower-bloom', before: '花兒開得很', blank: '美', after: '。', options: ['美', '大聲', '甜'], answer: '美', why: '花兒開得很美，用「得」說出開的樣子。', hint: '花兒開得怎麼樣？' },
+      { scene: 'turtle', before: '烏龜爬', blank: '得', after: '很慢。', options: ['得', '有', '又'], answer: '得', why: '「爬」後面用「得」，說出爬得很慢。', hint: '烏龜爬得快還是慢？用「得」說出來。' }
+    ],
+    build: [
+      { scene: 'boy-run', tiles: ['弟弟', '跑得', '很快。'], why: '「跑得」連在一起，後面說「很快」。', hint: '先說「弟弟」，再說「跑得」。' },
+      { scene: 'girl-laugh', tiles: ['妹妹', '笑得', '很大聲。'], why: '「笑得」後面接「很大聲」，說出笑的樣子。', hint: '「笑得」要放在「很大聲」前面。' },
+      { scene: 'bird-fly', tiles: ['小鳥', '飛得', '很高。'], why: '「飛得」後面說「很高」。', hint: '先說「小鳥」。' },
+      { scene: 'boy-write', tiles: ['哥哥', '寫得', '很整齊。'], why: '「寫得」後面接「很整齊」，說出寫的結果。', hint: '「寫得」在「很整齊」前面。' },
+      { scene: 'flower-bloom', tiles: ['花兒', '開得', '很美。'], why: '「開得」後面接「很美」。', hint: '先說「花兒」。' },
+      { scene: 'turtle', tiles: ['烏龜', '爬得', '很慢。'], why: '「爬得」後面接「很慢」，說出爬的速度。', hint: '「爬得」和「很慢」要連在一起。' }
+    ]
+  },
+
+  geng: {
+    no: '05',
+    name: '更……',
+    short: '說出兩樣東西的比較',
+    formula: ['甲', '比', '乙', '更', '特點'],
+    formulaNote: '用「比」和「更」，說出甲在某個特點上超過乙。',
+    examples: ['哥哥<b>比</b>我<b>更</b>高。', '今天<b>比</b>昨天<b>更</b>快樂。'],
+    tip: '「比」前面是要說的東西，「更」後面是形容詞（高、快、甜、美）。',
+    modeNames: { pick: '選一選', build: '拼一拼' },
+    modeLabels: { pick: '看圖選詞', build: '詞卡拼句' },
+    pick: [
+      { scene: 'tall-boy', before: '哥哥比我', blank: '更', after: '高。', options: ['更', '又', '得'], answer: '更', why: '哥哥和我比較身高，哥哥更高，用「更」表示超過。', hint: '哥哥和我比身高，哪個字表示「超過一點」？' },
+      { scene: 'bright-star', before: '星星比月亮更', blank: '亮', after: '。', options: ['亮', '慢', '軟'], answer: '亮', why: '星星在晚上發出很強的光，比月亮更亮。', hint: '抬頭看星星和月亮，哪個發出的光比較強？' },
+      { scene: 'sweet-candy', before: '糖果比餅乾', blank: '更', after: '甜。', options: ['更', '有', '一邊'], answer: '更', why: '糖果和餅乾比較味道，糖果更甜，用「更」。', hint: '糖果甜甜的，和餅乾比起來……' },
+      { scene: 'fast-car', before: '賽車比單車更', blank: '快', after: '。', options: ['快', '慢', '大聲'], answer: '快', why: '賽車開得飛快，比單車快很多。', hint: '賽車和單車比速度，哪個比較快？' },
+      { scene: 'happy-smile', before: '今天比昨天更', blank: '快樂', after: '。', options: ['快樂', '難過', '生氣'], answer: '快樂', why: '今天開心笑哈哈，比昨天更快樂。', hint: '圖中的小朋友笑得很開心，心情怎麼樣？' },
+      { scene: 'cold-ice', before: '冰塊比水', blank: '更', after: '冷。', options: ['更', '又', '得'], answer: '更', why: '冰塊和水比較溫度，冰塊更冷。', hint: '冰塊摸起來冰冰涼涼的，和水比……' }
+    ],
+    build: [
+      { scene: 'tall-boy', tiles: ['哥哥', '比我', '更高。'], why: '哥哥比我更高，「比」＋「更」說出比較的結果。', hint: '先說「哥哥」，再說「比我」。' },
+      { scene: 'bright-star', tiles: ['星星', '比月亮', '更亮。'], why: '星星比月亮更亮，兩樣東西比較誰更亮。', hint: '「比月亮」要放在「更亮」前面。' },
+      { scene: 'sweet-candy', tiles: ['糖果', '比餅乾', '更甜。'], why: '糖果比餅乾更甜，味道的比較。', hint: '先說「糖果」。' },
+      { scene: 'fast-car', tiles: ['賽車', '比單車', '更快。'], why: '賽車比單車更快，速度的比較。', hint: '「比單車」在「更快」前面。' },
+      { scene: 'happy-smile', tiles: ['今天', '比昨天', '更快樂。'], why: '今天比昨天更快樂，心情的比較。', hint: '先說「今天」。' },
+      { scene: 'cold-ice', tiles: ['冰塊', '比水', '更冷。'], why: '冰塊比水更冷，溫度的比較。', hint: '「比水」和「更冷」要連在一起。' }
+    ]
+  },
+
+  yibian: {
+    no: '06',
+    name: '一邊……一邊……',
+    short: '兩件事同時一起做',
+    formula: ['誰', '一邊', '動作一', '一邊', '動作二'],
+    formulaNote: '兩個「一邊」，說出同一個人同時在做兩件事。',
+    examples: ['妹妹<b>一邊</b>唱歌<b>一邊</b>跳舞。', '媽媽<b>一邊</b>煮飯<b>一邊</b>唱歌。'],
+    tip: '兩個動作要能同時發生，不能一邊睡覺一邊跑步。',
+    modeNames: { pick: '選一選', build: '拼一拼' },
+    modeLabels: { pick: '看圖選詞', build: '詞卡拼句' },
+    pick: [
+      { scene: 'sing-dance', before: '妹妹一邊唱歌', blank: '一邊', after: '跳舞。', options: ['一邊', '更', '得'], answer: '一邊', why: '妹妹同時做兩件事：唱歌和跳舞，用兩個「一邊」。', hint: '已經說了「一邊唱歌」，接着要說第二件事。' },
+      { scene: 'eat-watch', before: '弟弟一邊吃飯一邊', blank: '看電視', after: '。', options: ['看電視', '睡覺', '跑步'], answer: '看電視', why: '弟弟坐在電視前面，嘴巴吃飯、眼睛看電視，兩件事同時做。', hint: '弟弟坐在桌子前面，眼睛在看甚麼？' },
+      { scene: 'walk-talk', before: '他們', blank: '一邊', after: '走路一邊聊天。', options: ['一邊', '又', '更'], answer: '一邊', why: '他們同時在走路和聊天，用「一邊……一邊……」。', hint: '走路的同時還在說話，開頭要放哪個詞？' },
+      { scene: 'read-listen', before: '姐姐一邊看書一邊', blank: '聽音樂', after: '。', options: ['聽音樂', '游泳', '睡覺'], answer: '聽音樂', why: '姐姐戴着耳機看書，同時在聽音樂。', hint: '姐姐耳朵上戴着甚麼？' },
+      { scene: 'cook-sing', before: '媽媽一邊', blank: '煮飯', after: '一邊唱歌。', options: ['煮飯', '睡覺', '畫畫'], answer: '煮飯', why: '媽媽站在爐子前面煮飯，嘴裏還在唱歌。', hint: '爐子上冒着熱氣，媽媽在做甚麼？' },
+      { scene: 'draw-think', before: '哥哥一邊畫畫', blank: '一邊', after: '思考。', options: ['一邊', '有', '更'], answer: '一邊', why: '哥哥手拿畫筆畫畫，腦子同時在思考，兩件事一起做。', hint: '已經「一邊畫畫」了，畫畫的同時在想事情。' }
+    ],
+    build: [
+      { scene: 'sing-dance', tiles: ['妹妹', '一邊唱歌', '一邊跳舞。'], why: '妹妹一邊唱歌一邊跳舞，兩個動作同時做。', hint: '先說「妹妹」，再說第一個動作。' },
+      { scene: 'eat-watch', tiles: ['弟弟', '一邊吃飯', '一邊看電視。'], why: '一邊吃飯一邊看電視，兩件事同時進行。', hint: '「一邊吃飯」放在「一邊看電視」前面。' },
+      { scene: 'walk-talk', tiles: ['他們', '一邊走路', '一邊聊天。'], why: '兩個人一邊走路一邊聊天，走着走着說說話。', hint: '先說「他們」。' },
+      { scene: 'read-listen', tiles: ['姐姐', '一邊看書', '一邊聽音樂。'], why: '姐姐戴着耳機，一邊看書一邊聽音樂。', hint: '「一邊看書」在「一邊聽音樂」前面。' },
+      { scene: 'cook-sing', tiles: ['媽媽', '一邊煮飯', '一邊唱歌。'], why: '媽媽在廚房一邊煮飯一邊唱歌，心情很好。', hint: '先說「媽媽」。' },
+      { scene: 'draw-think', tiles: ['哥哥', '一邊畫畫', '一邊思考。'], why: '哥哥手拿畫筆，一邊畫畫一邊思考要畫甚麼。', hint: '「一邊畫畫」和「一邊思考」要配對。' }
+    ]
+  }
+,
+    /* ==================== 7. ……，還……。 ==================== */
+    hai:{
+      no:'07', name:'……，還……。', short:'做完一件，再補充另一件',
+      formula: ['事情', '，', '還', '另一件事', '。'],
+      formulaNote:'做完一件事之後，還有做別的事；或者一樣東西之外，還有別的。',
+      examples:[
+        '我做完功課，<b>還</b>看了圖書。',
+        '媽媽買了菜，<b>還</b>煮了湯。',
+        '弟弟唱了歌，<b>還</b>跳了舞。',
+        '花園裏有紅花，<b>還</b>開了黃花。'
+      ],
+      tip:'「還」表示補充——不只有前面那件事，後面還有一件事。說話時輕輕加重「還」字，意思就清楚了。',
+      modeNames: { pick: '選一選', build: '拼一拼' },
+      modeLabels: { pick: '看圖選詞', build: '詞卡拼句' },
+      pick:[
+        { scene:'homework-read', before:'我做完', blank:'功課', after:'，還看了圖書。',
+          options:['功課','遊戲','睡覺'], answer:'功課',
+          why:'先做功課，做完之後還看了圖書，所以這裏要填「功課」。',
+          hint:'看圖：功課本和圖書都在桌上。想一想，甚麼做完了還看書？' },
+        { scene:'cook-soup', before:'媽媽買了菜，', blank:'還', after:'煮了湯。',
+          options:['還','一面','有時'], answer:'還',
+          why:'買菜之外，媽媽還煮了湯，補充說另一件事，用「還」。',
+          hint:'菜買回來了，湯也煮好了——這是買菜之外多做的事，該用哪個字？' },
+        { scene:'sing-dance2', before:'弟弟唱了歌，還', blank:'跳了舞', after:'。',
+          options:['跳了舞','睡着了','哭了'], answer:'跳了舞',
+          why:'弟弟除了唱歌，還跳舞，開心做兩件事。',
+          hint:'看圖：弟弟拿着咪唱歌，腳也在跳——他還做了甚麼？' },
+        { scene:'garden-flower2', before:'花園裏有', blank:'紅花', after:'，還開了黃花。',
+          options:['紅花','小草','石頭'], answer:'紅花',
+          why:'花園裏先有紅花，還有黃花也開了，所以說有紅花，還開了黃花。',
+          hint:'看圖：左邊是紅的花，右邊是黃的花。花園裏有甚麼，還開了黃花？' },
+        { scene:'draw-write', before:'哥哥', blank:'畫了畫', after:'，還寫了字。',
+          options:['畫了畫','睡着了','吃了飯'], answer:'畫了畫',
+          why:'哥哥先畫了畫，另外還寫了字，所以用「畫了畫」。',
+          hint:'看圖：桌子上有圖畫和寫了字的紙——哥哥做了甚麼還寫字？' },
+        { scene:'walk-water', before:'爺爺散了步，還', blank:'澆了花', after:'。',
+          options:['澆了花','上班了','游泳了'], answer:'澆了花',
+          why:'爺爺除了散步，還給花澆水，所以是「散了步，還澆了花」。',
+          hint:'看圖：爺爺拿着拐杖散步，旁邊放着澆花的水壺——他還做了甚麼？' }
+      ],
+      build:[
+        { tiles:['我','做完','功課','，','還','看了','圖書','。'], answer:'我做完功課，還看了圖書。',
+          why:'先做功課，再看書——做完功課，還看了圖書。',
+          hint:'先說「我做完」甚麼，再說「還」做了甚麼。' },
+        { tiles:['媽媽','買了','菜','，','還','煮了','湯','。'], answer:'媽媽買了菜，還煮了湯。',
+          why:'媽媽今天做了兩件事：買菜、煮湯，用「還」連起來。',
+          hint:'誰 + 買了菜， 還 + 做了甚麼。' },
+        { tiles:['弟弟','唱了','歌','，','還','跳了','舞','。'], answer:'弟弟唱了歌，還跳了舞。',
+          why:'弟弟高興得又唱又跳——唱了歌，還跳了舞。',
+          hint:'弟弟 + 唱了甚麼， 還 + 做了甚麼。' },
+        { tiles:['花園裏','有','紅花','，','還','開了','黃花','。'], answer:'花園裏有紅花，還開了黃花。',
+          why:'花園不只有紅花，還開着黃花。',
+          hint:'哪裏 + 有甚麼， 還 + 怎麼樣。' },
+        { tiles:['哥哥','畫了畫','，','還','寫了','字','。'], answer:'哥哥畫了畫，還寫了字。',
+          why:'哥哥做了兩件事：畫畫、寫字。',
+          hint:'誰 + 畫了畫， 還 + 做了甚麼。' },
+        { tiles:['爺爺','散了步','，','還','澆了','花','。'], answer:'爺爺散了步，還澆了花。',
+          why:'爺爺散步後，還給花澆了水。',
+          hint:'誰 + 散了步， 還 + 做了甚麼。' }
+      ]
+    },
+
+    /* ==================== 8. ……一面……，一面……。 ==================== */
+    yimian:{
+      no:'08', name:'……一面……，一面……。', short:'同時做兩件事（書面語）',
+      formula: ['誰', '一面', '動作一', '，', '一面', '動作二', '。'],
+      formulaNote:'同一個人，在同一時間一齊做兩件事。是「一邊……一邊……」的書面講法。',
+      examples:[
+        '姐姐<b>一面</b>看書，<b>一面</b>做筆記。',
+        '弟弟<b>一面</b>吃早餐，<b>一面</b>聽新聞。',
+        '媽媽<b>一面</b>織毛衣，<b>一面</b>看電視。',
+        '爸爸<b>一面</b>看報紙，<b>一面</b>喝茶。'
+      ],
+      tip:'「一面……一面……」和「一邊……一邊……」意思差不多，都是同一時間做兩件事。寫作時用「一面」會比較文雅。',
+      modeNames: { pick: '選一選', build: '拼一拼' },
+      modeLabels: { pick: '看圖選詞', build: '詞卡拼句' },
+      pick:[
+        { scene:'read-notes', before:'姐姐一面看書，', blank:'一面', after:'做筆記。',
+          options:['一面','有時','還'], answer:'一面',
+          why:'姐姐看書和做筆記是同時做的，要用「一面……一面……」。',
+          hint:'兩件事同一時間做，而且句式成對出現——前半句有「一面」，後半句也要有甚麼？' },
+        { scene:'breakfast-news', before:'弟弟一面', blank:'吃早餐', after:'，一面聽新聞。',
+          options:['吃早餐','跑步','睡覺'], answer:'吃早餐',
+          why:'弟弟吃早餐時，同時聽收音機新聞。',
+          hint:'看圖：桌上有牛奶麵包，旁邊收音機在播音——弟弟一面做甚麼？' },
+        { scene:'knit-tv', before:'媽媽一面織毛衣，一面', blank:'看電視', after:'。',
+          options:['看電視','煮飯','寫字'], answer:'看電視',
+          why:'媽媽手裏織毛衣，眼睛看電視，兩件事同時做。',
+          hint:'看圖：媽媽手上織着毛衣，前面電視開着——她一面織毛衣，一面做甚麼？' },
+        { scene:'paper-tea', before:'爸爸一面看報紙，', blank:'一面', after:'喝茶。',
+          options:['一面','還','有時'], answer:'一面',
+          why:'看報紙和喝茶是爸爸同時做的兩件事，用「一面……一面……」。',
+          hint:'前半句是「一面」開頭，後半句也要用同樣的字成對。' },
+        { scene:'teach-board', before:'老師', blank:'一面', after:'講課，一面寫黑板。',
+          options:['一面','有時','還'], answer:'一面',
+          why:'老師講課和寫黑板同時進行，用「一面……一面……」。',
+          hint:'講課和寫黑板是同一節課一起做的事，要用成對的詞。' },
+        { scene:'swing-sing', before:'妹妹一面盪鞦韆，一面', blank:'唱歌', after:'。',
+          options:['唱歌','睡覺','做功課'], answer:'唱歌',
+          why:'妹妹在鞦韆上邊盪邊唱，非常開心。',
+          hint:'看圖：妹妹在盪鞦韆，旁邊有音符——她一面盪鞦韆，一面做甚麼？' }
+      ],
+      build:[
+        { tiles:['姐姐','一面','看書','，','一面','做筆記','。'], answer:'姐姐一面看書，一面做筆記。',
+          why:'看書和做筆記同時做——一面看書，一面做筆記。',
+          hint:'誰 + 一面 + 動作一， 一面 + 動作二。' },
+        { tiles:['弟弟','一面','吃早餐','，','一面','聽新聞','。'], answer:'弟弟一面吃早餐，一面聽新聞。',
+          why:'弟弟吃早餐時聽新聞，兩件事同時進行。',
+          hint:'弟弟 + 一面 + 吃甚麼， 一面 + 聽甚麼。' },
+        { tiles:['媽媽','一面','織毛衣','，','一面','看電視','。'], answer:'媽媽一面織毛衣，一面看電視。',
+          why:'媽媽手織毛衣，眼看電視，同時做兩件事。',
+          hint:'媽媽 + 一面 + 織甚麼， 一面 + 看甚麼。' },
+        { tiles:['爸爸','一面','看報紙','，','一面','喝茶','。'], answer:'爸爸一面看報紙，一面喝茶。',
+          why:'爸爸坐在沙發看報紙喝茶，悠閒地做兩件事。',
+          hint:'爸爸 + 一面 + 看甚麼， 一面 + 喝甚麼。' },
+        { tiles:['老師','一面','講課','，','一面','寫黑板','。'], answer:'老師一面講課，一面寫黑板。',
+          why:'老師講課時在黑板寫字，邊講邊寫。',
+          hint:'誰 + 一面 + 講甚麼， 一面 + 寫在哪裏。' },
+        { tiles:['妹妹','一面','盪鞦韆','，','一面','唱歌','。'], answer:'妹妹一面盪鞦韆，一面唱歌。',
+          why:'妹妹在公園盪鞦韆，同時開心地唱歌。',
+          hint:'妹妹 + 一面 + 做甚麼， 一面 + 做甚麼。' }
+      ]
+    },
+
+    /* ==================== 9. ……有時……，有時……。 ==================== */
+    youshi:{
+      no:'09', name:'……有時……，有時……。', short:'不同時候，不同樣子',
+      formula: ['人／事物', '有時', '情況一', '，', '有時', '情況二', '。'],
+      formulaNote:'不同的時候，會有不同的樣子或做不同的事。兩種情況交替出現。',
+      examples:[
+        '月亮<b>有時</b>圓圓的，<b>有時</b>彎彎的。',
+        '天氣<b>有時</b>晴天，<b>有時</b>下雨。',
+        '弟弟<b>有時</b>很乖，<b>有時</b>很頑皮。',
+        '小貓<b>有時</b>睡覺，<b>有時</b>玩毛線。'
+      ],
+      tip:'「有時」就是「有的時候」。當一件事物會變化、有兩種不同的樣子時，就可以用「有時……有時……」來說。',
+      modeNames: { pick: '選一選', build: '拼一拼' },
+      modeLabels: { pick: '看圖選詞', build: '詞卡拼句' },
+      pick:[
+        { scene:'moon-shape', before:'月亮', blank:'有時', after:'圓圓的，有時彎彎的。',
+          options:['有時','一面','還'], answer:'有時',
+          why:'月亮有時候圓、有時候彎，會變化，用「有時……有時……」。',
+          hint:'月亮的形狀會變——有時候是這樣，有時候是那樣，要用哪個詞？' },
+        { scene:'weather-sun-rain', before:'天氣有時', blank:'晴天', after:'，有時下雨。',
+          options:['晴天','下雪','刮風'], answer:'晴天',
+          why:'天氣會變，有時出太陽是晴天，有時會下雨，看看圖片兩邊就明白了。',
+          hint:'看圖：左邊太陽高照是甚麼天氣？右邊在下雨。' },
+        { scene:'boy-good-naughty', before:'弟弟有時很乖，有時很', blank:'頑皮', after:'。',
+          options:['頑皮','聰明','高興'], answer:'頑皮',
+          why:'弟弟有時候乖乖看書，有時候會做鬼臉跑來跑去很頑皮。',
+          hint:'看圖：左邊弟弟認真看書很乖，右邊弟弟吐舌頭做鬼臉，是怎樣？' },
+        { scene:'cat-sleep-play', before:'小貓有時', blank:'睡覺', after:'，有時玩毛線。',
+          options:['睡覺','吃飯','叫喚'], answer:'睡覺',
+          why:'小貓一天到晚有時呼呼大睡，有時精神好追着毛線球跑。',
+          hint:'看圖：左邊小貓蜷成一團閉着眼還打Zzz——牠在做甚麼？' },
+        { scene:'afterschool-ball-book', before:'我放學', blank:'有時', after:'打球，有時看書。',
+          options:['有時','一面','還'], answer:'有時',
+          why:'放學後不同的日子會做不同的事，有時打球有時看書，用「有時」。',
+          hint:'放學後不是每天都做一樣的事——有時候打球，有時候看書。' },
+        { scene:'sea-calm-waves', before:'海邊有時風平浪靜，有時', blank:'大浪翻騰', after:'。',
+          options:['大浪翻騰','結冰了','乾涸了'], answer:'大浪翻騰',
+          why:'大海有時候平靜得像鏡子，有時候大浪翻騰，對比很明顯。',
+          hint:'看圖：右邊大海翻起高高的浪花，風很大，海怎麼樣了？' }
+      ],
+      build:[
+        { tiles:['月亮','有時','圓圓的','，','有時','彎彎的','。'], answer:'月亮有時圓圓的，有時彎彎的。',
+          why:'月亮形狀會變——滿月時圓圓，月牙時彎彎。',
+          hint:'甚麼 + 有時 + 甚麼樣子， 有時 + 甚麼樣子。' },
+        { tiles:['天氣','有時','晴天','，','有時','下雨','。'], answer:'天氣有時晴天，有時下雨。',
+          why:'天氣多變，一會晴一會雨。',
+          hint:'甚麼 + 有時 + 甚麼天氣， 有時 + 甚麼天氣。' },
+        { tiles:['弟弟','有時','很乖','，','有時','很頑皮','。'], answer:'弟弟有時很乖，有時很頑皮。',
+          why:'弟弟性格多變，有時聽話有時搗蛋。',
+          hint:'誰 + 有時 + 怎麼樣， 有時 + 怎麼樣。' },
+        { tiles:['小貓','有時','睡覺','，','有時','玩毛線','。'], answer:'小貓有時睡覺，有時玩毛線。',
+          why:'小貓愛睡懶覺，但精神時又追着毛線球跑。',
+          hint:'誰 + 有時 + 做甚麼， 有時 + 做甚麼。' },
+        { tiles:['我','放學','有時','打球','，','有時','看書','。'], answer:'我放學有時打球，有時看書。',
+          why:'放學後的活動，有的日子打球，有的日子看書。',
+          hint:'誰 + 甚麼時候 + 有時 + 做甚麼， 有時 + 做甚麼。' },
+        { tiles:['海邊','有時','風平浪靜','，','有時','大浪翻騰','。'], answer:'海邊有時風平浪靜，有時大浪翻騰。',
+          why:'大海有時安靜有時洶湧，變化很大。',
+          hint:'哪裏 + 有時 + 甚麼樣子， 有時 + 甚麼樣子。' }
+      ]
+    }
+
+};
+
+const ORDER = ['you', 'haiyou', 'youyou', 'de', 'geng', 'yibian', 'hai', 'yimian', 'youshi'];
+/* ============================================================
+   句子小鎮 · 互動邏輯
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var $ = function (sel, root) { return (root || document).querySelector(sel); };
+  var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
+
+  var STORE_KEY = 'juzi-town-v2';
+
+  function loadStore() {
+    try {
+      var raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return { stars: {}, muted: false };
+      var obj = JSON.parse(raw);
+      return { stars: obj.stars || {}, muted: !!obj.muted };
+    } catch (e) {
+      return { stars: {}, muted: false };
+    }
+  }
+  var store = loadStore();
+  function saveStore() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch (e) {}
+  }
+  function getStars(pid, mode) { return store.stars[pid + '-' + mode] || 0; }
+
+  /* ---------------- sound ---------------- */
+  var Sound = (function () {
+    var ctx = null;
+    function ac() {
+      if (store.muted) return null;
+      if (!ctx) {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return null;
+        try { ctx = new AC(); } catch (e) { return null; }
+      }
+      if (ctx.state === 'suspended') { try { ctx.resume(); } catch (e) {} }
+      return ctx;
+    }
+    function tone(freq, dur, type, vol, delay) {
+      var c = ac();
+      if (!c) return;
+      var t0 = c.currentTime + (delay || 0);
+      var osc = c.createOscillator();
+      var gain = c.createGain();
+      osc.type = type || 'sine';
+      osc.frequency.setValueAtTime(freq, t0);
+      gain.gain.setValueAtTime(0.0001, t0);
+      gain.gain.exponentialRampToValueAtTime(vol || 0.1, t0 + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+      osc.connect(gain);
+      gain.connect(c.destination);
+      osc.start(t0);
+      osc.stop(t0 + dur + 0.03);
+    }
+    return {
+      tap: function () { tone(620, 0.07, 'triangle', 0.06); },
+      place: function () { tone(520, 0.08, 'sine', 0.08); tone(760, 0.06, 'sine', 0.04, 0.05); },
+      correct: function () {
+        [523.25, 659.25, 783.99].forEach(function (f, i) { tone(f, 0.16, 'sine', 0.09, i * 0.07); });
+      },
+      wrong: function () { tone(300, 0.16, 'triangle', 0.07); tone(220, 0.2, 'triangle', 0.06, 0.11); },
+      win: function () {
+        [523.25, 659.25, 783.99, 1046.5].forEach(function (f, i) { tone(f, 0.22, 'sine', 0.085, i * 0.1); });
+      }
+    };
+  })();
+
+  function vibrate(pattern) {
+    try { if (navigator.vibrate) navigator.vibrate(pattern); } catch (e) {}
+  }
+
+  function speak(text) {
+    if (!('speechSynthesis' in window)) return;
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = 'zh-TW';
+      u.rate = 0.82;
+      u.pitch = 1.08;
+      window.speechSynthesis.speak(u);
+    } catch (e) {}
+  }
+
+  /* ---------------- helpers ---------------- */
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  var STAR_PATH = 'M12 3.2l2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.6l6.1-.9z';
+  function starRow(n) {
+    var out = '';
+    for (var i = 0; i < 3; i++) {
+      out += '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + STAR_PATH +
+        '" fill="' + (i < n ? '#FFC94A' : '#E8E2D4') + '" stroke="#332F45" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+    }
+    return out;
+  }
+
+  var SPEAKER_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="#332F45" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.2L12 5.2v13.6L7.2 14.5H4z"/><path d="M16 9.2a4 4 0 0 1 0 5.6"/><path d="M18.6 6.6a7.8 7.8 0 0 1 0 10.8"/></svg>';
+  var CHECK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="#2E8A61" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.2" fill="#FFFDF7"/><path d="M8 12.4l2.6 2.6L16.4 9"/></svg>';
+  var BULB_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="#A94E27" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5a5.6 5.6 0 0 0-3.2 10.2v2.2h6.4v-2.2A5.6 5.6 0 0 0 12 3.5z" fill="#FFFDF7"/><path d="M9.6 18.6h4.8M10.4 21h3.2"/></svg>';
+
+  /* ---------------- navigation ---------------- */
+  function go(id) {
+    $$('.screen').forEach(function (s) { s.classList.toggle('is-active', s.id === id); });
+    try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) { window.scrollTo(0, 0); }
+  }
+
+  /* ---------------- home ---------------- */
+  function renderHome() {
+    var html = ORDER.map(function (pid) {
+      var p = DATA[pid];
+      var s1 = getStars(pid, 'pick');
+      var s2 = getStars(pid, 'build');
+      return '<article class="station" data-p="' + pid + '">' +
+        '<div class="station-top">' +
+          '<span class="station-badge">' + p.no + '</span>' +
+          '<div class="station-info"><h3>' + p.name + '</h3><p>' + p.short + '</p></div>' +
+          '<span class="station-mascot">' + MASCOTS[pid] + '</span>' +
+        '</div>' +
+        '<div class="mode-row">' +
+          '<button class="mode-btn" type="button" data-p="' + pid + '" data-m="pick">' +
+            '<span class="mode-name">' + p.modeNames.pick + '</span>' +
+            '<span class="mode-stars">' + starRow(s1) + '</span>' +
+          '</button>' +
+          '<button class="mode-btn" type="button" data-p="' + pid + '" data-m="build">' +
+            '<span class="mode-name">' + p.modeNames.build + '</span>' +
+            '<span class="mode-stars">' + starRow(s2) + '</span>' +
+          '</button>' +
+        '</div>' +
+      '</article>';
+    }).join('');
+    $('#trail').innerHTML = html;
+
+    var total = ORDER.reduce(function (acc, pid) {
+      return acc + getStars(pid, 'pick') + getStars(pid, 'build');
+    }, 0);
+    $('#totalStars').textContent = total;
+  }
+
+  /* ---------------- game state ---------------- */
+  var state = {
+    pid: 'you', mode: 'pick', qs: [], i: 0,
+    score: 0, first: true, locked: false,
+    placed: [], pool: [], checking: false
+  };
+
+  function startGame(pid, mode) {
+    state.pid = pid;
+    state.mode = mode;
+    state.qs = DATA[pid][mode];
+    state.i = 0;
+    state.score = 0;
+    state.locked = false;
+    state.checking = false;
+
+    var g = $('#screen-game');
+    g.setAttribute('data-p', pid);
+    $('#gamePattern').textContent = DATA[pid].name;
+    $('#gameMode').textContent = DATA[pid].modeLabels[mode];
+    $('#qTotal').textContent = state.qs.length;
+
+    go('screen-game');
+    renderQ();
+  }
+
+  function renderQ() {
+    var q = state.qs[state.i];
+    state.first = true;
+    state.locked = false;
+    state.checking = false;
+    state.placed = [];
+    state.pool = [];
+
+    $('#qNow').textContent = state.i + 1;
+    renderDots();
+    $('#picBox').innerHTML = ART[q.scene];
+    $('#feedback').hidden = true;
+    $('#feedback').innerHTML = '';
+    $('#nextBtn').hidden = true;
+    $('#nextBtn').textContent = state.i === state.qs.length - 1 ? '看成績' : '下一題';
+    $('#buildArea').hidden = true;
+    $('#options').hidden = true;
+    $('#sentence').hidden = false;
+    $('#sentence').innerHTML = '';
+    $('#options').innerHTML = '';
+    $('#options').classList.remove('solved');
+    $('#slots').className = 'slots';
+    $('#slots').innerHTML = '';
+    $('#tray').innerHTML = '';
+    $('#tray').style.minHeight = '';
+    $('#resetBtn').hidden = false;
+
+    if (state.mode === 'pick') renderPick(q);
+    else renderBuild(q);
+  }
+
+  function renderDots() {
+    var html = '';
+    for (var i = 0; i < state.qs.length; i++) {
+      var cls = 'dot';
+      if (i < state.i) cls += ' done';
+      else if (i === state.i) cls += ' now';
+      html += '<span class="' + cls + '"></span>';
+    }
+    $('#dots').innerHTML = html;
+  }
+
+  /* ---------------- pick mode ---------------- */
+  function renderPick(q) {
+    $('#qLabel').textContent = '看圖，選出正確的詞';
+    $('#sentence').innerHTML =
+      '<span class="txt">' + q.before + '</span>' +
+      '<span class="blank" id="blankSlot">＿</span>' +
+      '<span class="txt">' + q.after + '</span>' +
+      '<button class="speak-btn" id="speakBtn" type="button" aria-label="聆聽完整句子">' + SPEAKER_ICON + '</button>';
+
+    var opts = shuffle(q.options);
+    $('#options').innerHTML = opts.map(function (w) {
+      return '<button class="opt" type="button" data-w="' + w + '">' + w + '</button>';
+    }).join('');
+    $('#options').hidden = false;
+
+    var btn = $('#speakBtn');
+    if (btn) {
+      btn.addEventListener('click', function () {
+        Sound.tap();
+        speak(q.before.replace(/＿/g, '') + q.answer + q.after);
+      });
+    }
+  }
+
+  function onOptionClick(e) {
+    var btn = e.target.closest ? e.target.closest('.opt') : null;
+    if (!btn || state.mode !== 'pick' || state.locked) return;
+
+    var q = state.qs[state.i];
+    var word = btn.getAttribute('data-w');
+
+    if (word === q.answer) {
+      state.locked = true;
+      btn.classList.add('correct');
+      $('#options').classList.add('solved');
+      var slot = $('#blankSlot');
+      if (slot) {
+        slot.textContent = q.answer;
+        slot.classList.add('filled');
+      }
+      if (state.first) state.score += 1;
+      Sound.correct();
+      vibrate(14);
+      showFeedback(true, q.why);
+      showNext();
+    } else {
+      state.first = false;
+      btn.classList.add('wrong');
+      btn.disabled = true;
+      Sound.wrong();
+      vibrate([18, 40, 18]);
+      showFeedback(false, q.hint);
+    }
+  }
+
+  /* ---------------- build mode ---------------- */
+  function renderBuild(q) {
+    $('#qLabel').textContent = '把詞卡排成一句話';
+    $('#sentence').hidden = true;
+    $('#buildArea').hidden = false;
+    state.pool = shuffle(q.tiles.map(function (t, i) { return { text: t, id: i }; }));
+    state.placed = [];
+    renderBuildState();
+  }
+
+  function renderBuildState() {
+    var q = state.qs[state.i];
+    var slots = $('#slots');
+    if (state.placed.length === 0) {
+      slots.className = 'slots';
+      slots.innerHTML = '<span class="ghost">點下面的詞卡，按順序放進來</span>';
+    } else {
+      slots.className = 'slots has-item';
+      slots.innerHTML = state.placed.map(function (t) {
+        return '<button class="tile placed" type="button" data-id="' + t.id + '">' + t.text + '</button>';
+      }).join('');
+    }
+    $('#tray').innerHTML = state.pool.map(function (t) {
+      return '<button class="tile" type="button" data-id="' + t.id + '">' + t.text + '</button>';
+    }).join('');
+    $('#tray').style.minHeight = state.pool.length ? '' : '0px';
+    if (state.placed.length === q.tiles.length) slots.classList.add('has-item');
+  }
+
+  function onTrayClick(e) {
+    var btn = e.target.closest ? e.target.closest('.tile') : null;
+    if (!btn || state.mode !== 'build' || state.locked) return;
+    var id = Number(btn.getAttribute('data-id'));
+    var idx = -1;
+    for (var i = 0; i < state.pool.length; i++) {
+      if (state.pool[i].id === id) { idx = i; break; }
+    }
+    if (idx < 0) return;
+    var tile = state.pool.splice(idx, 1)[0];
+    state.placed.push(tile);
+    $('#feedback').hidden = true;
+    Sound.place();
+    renderBuildState();
+    maybeCheckBuild();
+  }
+
+  function onSlotClick(e) {
+    var btn = e.target.closest ? e.target.closest('.tile') : null;
+    if (!btn || state.mode !== 'build' || state.locked) return;
+    var id = Number(btn.getAttribute('data-id'));
+    var idx = -1;
+    for (var i = 0; i < state.placed.length; i++) {
+      if (state.placed[i].id === id) { idx = i; break; }
+    }
+    if (idx < 0) return;
+    var tile = state.placed.splice(idx, 1)[0];
+    state.pool.push(tile);
+    $('#feedback').hidden = true;
+    Sound.tap();
+    renderBuildState();
+  }
+
+  function maybeCheckBuild() {
+    var q = state.qs[state.i];
+    if (state.placed.length !== q.tiles.length || state.checking || state.locked) return;
+    state.checking = true;
+    window.setTimeout(function () {
+      state.checking = false;
+      if (state.locked) return;
+      if (state.placed.length !== q.tiles.length) return;
+      var joined = state.placed.map(function (t) { return t.text; }).join('');
+      if (joined === q.tiles.join('')) {
+        state.locked = true;
+        state.score += state.first ? 1 : 0;
+        $('#slots').classList.add('ok');
+        $('#resetBtn').hidden = true;
+        Sound.correct();
+        vibrate(14);
+        showFeedback(true, q.why);
+        showNext();
+      } else {
+        state.first = false;
+        Sound.wrong();
+        vibrate([18, 40, 18]);
+        var slots = $('#slots');
+        slots.classList.remove('shake');
+        void slots.offsetWidth;
+        slots.classList.add('shake');
+        showFeedback(false, q.hint + ' 點格子上的詞卡，可以把它拿回來重排。');
+      }
+    }, 170);
+  }
+
+  /* ---------------- shared ---------------- */
+  function showFeedback(ok, text) {
+    var el = $('#feedback');
+    el.className = 'feedback' + (ok ? '' : ' bad');
+    el.innerHTML = '<span class="fb-ico">' + (ok ? CHECK_ICON : BULB_ICON) + '</span>' +
+      '<div class="fb-body"><strong>' + (ok ? '答對了！' : '再想一想') + '</strong>' +
+      '<p>' + text + '</p></div>';
+    el.hidden = false;
+  }
+
+  function showNext() {
+    var btn = $('#nextBtn');
+    btn.hidden = false;
+    btn.textContent = state.i === state.qs.length - 1 ? '看成績' : '下一題';
+  }
+
+  function nextQuestion() {
+    Sound.tap();
+    if (state.i < state.qs.length - 1) {
+      state.i += 1;
+      renderQ();
+    } else {
+      finish();
+    }
+  }
+
+  function finish() {
+    var total = state.qs.length;
+    var stars = state.score >= total ? 3 : (state.score >= total - 2 ? 2 : 1);
+    var key = state.pid + '-' + state.mode;
+    var prev = store.stars[key] || 0;
+    var isNew = stars > prev;
+    if (isNew) {
+      store.stars[key] = stars;
+      saveStore();
+    }
+
+    $('#screen-result').setAttribute('data-p', state.pid);
+    $('#resultMascot').innerHTML = MASCOTS[state.pid];
+    $('#resultKicker').textContent = '第 ' + DATA[state.pid].no + ' 站 · ' + DATA[state.pid].modeNames[state.mode];
+    $('#resultTitle').textContent = stars === 3 ? '太厲害了！' : (stars === 2 ? '過關了！' : '完成挑戰！');
+    $('#resultSub').textContent = stars === 3
+      ? '每一題都答對，句式小達人就是你。'
+      : (stars === 2 ? '只差一點點就滿分，再挑戰一次吧。' : '多讀幾次句子，下一次一定會更順。');
+    $('#bigStars').innerHTML = starRow(stars);
+    $('#resultScore').textContent = state.score;
+    $('#resultTotal').textContent = total;
+
+    var tag = '';
+    if (isNew && stars > 0) tag = '<span class="new-best">新紀錄</span>';
+    else if (prev > stars) tag = '<p class="result-sub" style="margin-top:8px">之前最佳：' + prev + ' 顆星</p>';
+    $('#bestTag').innerHTML = tag;
+
+    go('screen-result');
+    Sound.win();
+    confetti();
+  }
+
+  function confetti() {
+    var box = document.createElement('div');
+    box.className = 'confetti';
+    var colors = ['#FFC94A', '#F2749A', '#3FA9DC', '#57B98A', '#8B7BD8', '#FF8A5C'];
+    for (var i = 0; i < 26; i++) {
+      var piece = document.createElement('i');
+      piece.style.left = (Math.random() * 100) + '%';
+      piece.style.background = colors[i % colors.length];
+      piece.style.animationDuration = (1.5 + Math.random() * 1.2) + 's';
+      piece.style.animationDelay = (Math.random() * 0.5) + 's';
+      box.appendChild(piece);
+    }
+    document.body.appendChild(box);
+    window.setTimeout(function () { if (box.parentNode) box.parentNode.removeChild(box); }, 3400);
+  }
+
+  /* ---------------- sound toggle ---------------- */
+  function updateSoundBtn() {
+    $('#soundOnIcon').hidden = store.muted;
+    $('#soundOffIcon').hidden = !store.muted;
+    var b = $('#soundBtn');
+    b.setAttribute('aria-pressed', String(!store.muted));
+    b.setAttribute('aria-label', store.muted ? '開啟音效' : '關閉音效');
+  }
+
+  /* ---------------- dictionary ---------------- */
+  function renderDict() {
+    $('#dictGrid').innerHTML = ORDER.map(function (pid) {
+      var p = DATA[pid];
+      var formula = p.formula.map(function (part, i) {
+        return (i ? '<em>＋</em>' : '') + '<span>' + part + '</span>';
+      }).join('');
+      return '<article class="dict-card" data-p="' + pid + '">' +
+        '<div class="dict-card-top"><span class="dict-num">' + p.no + '</span><h3>' + p.name + '</h3></div>' +
+        '<div class="formula">' + formula + '</div>' +
+        '<p class="dict-ex">' + p.examples.join('<br>') + '</p>' +
+        '<p class="dict-tip">' + p.formulaNote + '</p>' +
+      '</article>';
+    }).join('');
+  }
+
+  /* ---------------- events ---------------- */
+  function bind() {
+    renderHome();
+    renderDict();
+    updateSoundBtn();
+
+    $('#trail').addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('.mode-btn') : null;
+      if (!btn) return;
+      Sound.tap();
+      startGame(btn.getAttribute('data-p'), btn.getAttribute('data-m'));
+    });
+
+    $('#options').addEventListener('click', onOptionClick);
+    $('#tray').addEventListener('click', onTrayClick);
+    $('#slots').addEventListener('click', onSlotClick);
+
+    $('#nextBtn').addEventListener('click', nextQuestion);
+
+    $('#resetBtn').addEventListener('click', function () {
+      if (state.mode !== 'build' || state.locked) return;
+      var q = state.qs[state.i];
+      state.pool = shuffle(q.tiles.map(function (t, i) { return { text: t, id: i }; }));
+      state.placed = [];
+      $('#feedback').hidden = true;
+      Sound.tap();
+      renderBuildState();
+    });
+
+    $('#backHome').addEventListener('click', function () { Sound.tap(); go('screen-home'); });
+    $('#resultHome').addEventListener('click', function () { Sound.tap(); renderHome(); go('screen-home'); });
+    $('#againBtn').addEventListener('click', function () {
+      Sound.tap();
+      startGame(state.pid, state.mode);
+    });
+
+    $('#openDict').addEventListener('click', function () { Sound.tap(); go('screen-dict'); });
+    $('#dictBack').addEventListener('click', function () { Sound.tap(); go('screen-home'); });
+
+    $('#soundBtn').addEventListener('click', function () {
+      store.muted = !store.muted;
+      saveStore();
+      updateSoundBtn();
+      if (!store.muted) Sound.tap();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        var active = $('.screen.is-active');
+        if (active && (active.id === 'screen-dict' || active.id === 'screen-game')) {
+          go('screen-home');
+        }
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bind);
+  } else {
+    bind();
+  }
+})();
+
+</script>
+</body>
+</html>

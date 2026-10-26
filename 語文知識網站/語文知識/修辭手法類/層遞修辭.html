@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>層層向上 · 小學層遞修辭互動小學堂</title>
+<meta name="description" content="小學層遞修辭互動學習遊戲：圖卡教學＋兩種互動模式（階梯排序、修辭小偵探／句子急診室），初階與高階各 12 題，即時解說與音效回饋。">
+<style>
+  :root{
+    --cream:#FFF6E6;
+    --paper:#FFFDF7;
+    --ink:#322C4A;
+    --ink2:#6B6490;
+    --edge:#322C4A;
+    --coral:#FF7A59;
+    --coral-d:#F0603E;
+    --sun:#FFC94B;
+    --sun-l:#FFE9B8;
+    --mint:#2FBF97;
+    --mint-l:#E4F9F1;
+    --sky:#5AA9E6;
+    --sky-l:#E4F1FB;
+    --grape:#8C7BE0;
+    --pink:#FF9AB5;
+    --shadow:0.2rem 0.2rem 0 rgba(50,44,74,0.16);
+    --shadow-lg:0.34rem 0.34rem 0 rgba(50,44,74,0.18);
+    --bd:0.16rem solid var(--edge);
+    --r:1.5rem;
+  }
+  *{box-sizing:border-box;}
+  html{font-size:16px;-webkit-text-size-adjust:100%;}
+  @media (min-width:48em){html{font-size:17.5px;}}
+  @media (min-width:75em){html{font-size:21px;}}
+  @media (min-width:75em){
+    .home{padding-top:1.4rem;}
+    .hero-ill{width:24rem;}
+    .level-grid{max-width:52rem;}
+    .teach-card{padding:2.1rem;}
+    .ill-wrap{min-height:15rem;}
+  }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    min-height:100dvh;
+    color:var(--ink);
+    background-color:var(--cream);
+    background-image:
+      radial-gradient(circle at 8% 4%, #FFE1AC 0 14%, transparent 46%),
+      radial-gradient(circle at 93% 8%, #CFF0E5 0 12%, transparent 44%),
+      radial-gradient(circle at 50% 104%, #FFDCE4 0 16%, transparent 52%);
+    background-attachment:fixed;
+    font-family:"PingFang TC","PingFang SC","Microsoft JhengHei","Noto Sans TC","Noto Sans CJK TC","Heiti TC","Hiragino Sans GB",sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  svg text{font-family:inherit;}
+  button{font-family:inherit;}
+
+  #app{width:100%;max-width:72rem;margin:0 auto;padding:0.7rem clamp(0.8rem,3.2vw,2rem) 3rem;}
+
+  /* ---------- top bar ---------- */
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:0.8rem;padding:0.15rem 0 0.9rem;}
+  .brand{display:flex;align-items:center;gap:0.55rem;font-weight:900;font-size:0.95rem;letter-spacing:0.02em;color:var(--ink);}
+  .brand svg{width:2rem;height:2rem;flex:none;}
+  .sound-btn{
+    width:2.9rem;height:2.9rem;flex:none;display:grid;place-items:center;
+    background:var(--paper);border:var(--bd);border-radius:50%;
+    box-shadow:var(--shadow);cursor:pointer;color:var(--ink);
+    -webkit-tap-highlight-color:transparent;
+  }
+  .sound-btn svg{width:1.45rem;height:1.45rem;}
+  .sound-btn:active{transform:translate(0.1rem,0.1rem);box-shadow:none;}
+
+  /* ---------- generic ---------- */
+  .view-in{animation:pop 0.32s cubic-bezier(.22,1.2,.36,1) both;}
+  @keyframes pop{from{opacity:0;transform:translateY(0.8rem) scale(.985);}to{opacity:1;transform:none;}}
+  @media (prefers-reduced-motion:reduce){
+    .view-in{animation:none;}
+    *{animation-duration:0.001s !important;transition-duration:0.001s !important;}
+  }
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:0.45rem;
+    font:inherit;font-weight:800;font-size:1rem;line-height:1.35;
+    min-height:3.1rem;padding:0.6rem 1.2rem;
+    color:var(--ink);background:var(--paper);
+    border:var(--bd);border-radius:1.1rem;
+    box-shadow:var(--shadow);cursor:pointer;text-align:center;
+    -webkit-tap-highlight-color:transparent;
+    transition:transform .08s ease,box-shadow .08s ease,background .15s ease;
+  }
+  .btn:hover{background:#fff;}
+  .btn:active{transform:translate(0.14rem,0.14rem);box-shadow:0.04rem 0.04rem 0 rgba(50,44,74,0.16);}
+  .btn:focus-visible,.chip:focus-visible,.opt:focus-visible,.slot:focus-visible,.hub-card:focus-visible,.level-card:focus-visible,.sound-btn:focus-visible{
+    outline:0.18rem solid var(--sky);outline-offset:0.16rem;
+  }
+  .btn[disabled]{opacity:0.45;cursor:not-allowed;box-shadow:none;transform:none;}
+  .btn.primary{background:var(--coral);color:#fff;}
+  .btn.primary:hover{background:var(--coral-d);}
+  .btn.mint{background:var(--mint);color:#fff;}
+  .btn.wide{width:100%;}
+  .btn.sm{min-height:2.6rem;font-size:0.9rem;padding:0.4rem 0.85rem;border-radius:0.9rem;}
+  .btn.ghost{background:transparent;box-shadow:none;border-color:rgba(50,44,74,0.25);}
+  .btn.ghost:hover{background:rgba(255,255,255,0.6);}
+  .btn.icon{width:3.1rem;height:3.1rem;padding:0;min-height:0;}
+  .btn.icon svg{width:1.5rem;height:1.5rem;}
+
+  .pill{
+    display:inline-flex;align-items:center;gap:0.4rem;
+    background:var(--sun-l);border:0.12rem solid var(--edge);border-radius:999px;
+    padding:0.25rem 0.9rem;font-weight:800;font-size:0.85rem;
+  }
+  .page-head{display:flex;align-items:center;justify-content:space-between;gap:0.8rem;margin-bottom:1rem;flex-wrap:wrap;}
+
+  /* ---------- home ---------- */
+  .home{text-align:center;padding-top:0.4rem;}
+  .hero-ill{width:min(21rem,76vw);margin:0 auto -0.2rem;}
+  .hero-ill svg{width:100%;height:auto;display:block;filter:drop-shadow(0 0.4rem 0 rgba(50,44,74,0.08));}
+  .eyebrow{display:inline-block;margin:0 0 0.3rem;font-size:0.82rem;font-weight:800;letter-spacing:0.22em;color:var(--ink2);}
+  .hero-title{
+    margin:0;font-size:clamp(2.5rem,9vw,4.2rem);line-height:1.05;letter-spacing:0.04em;font-weight:900;
+  }
+  .hero-title em{font-style:normal;color:var(--ink);position:relative;display:inline-block;isolation:isolate;}
+  .hero-title em::after{
+    content:"";position:absolute;left:-1.5%;right:-1.5%;bottom:0.02em;height:0.32em;
+    background:var(--sun);border-radius:0.22em;z-index:-1;
+  }
+  .hero-sub{margin:0.5rem 0 0;font-size:1.25rem;font-weight:800;color:var(--ink);}
+  .hero-desc{margin:0.6rem auto 1.4rem;max-width:30rem;color:var(--ink2);font-size:1rem;font-weight:600;}
+
+  .level-grid{display:grid;gap:1rem;grid-template-columns:1fr;text-align:left;max-width:46rem;margin:0 auto;}
+  @media (min-width:46em){.level-grid{grid-template-columns:1fr 1fr;}}
+  .level-card{
+    position:relative;display:flex;flex-direction:column;gap:0.35rem;
+    padding:1.15rem 1.25rem 1.1rem;background:var(--paper);
+    border:var(--bd);border-radius:var(--r);box-shadow:var(--shadow-lg);
+    cursor:pointer;text-align:left;color:var(--ink);
+    -webkit-tap-highlight-color:transparent;transition:transform .1s ease,box-shadow .1s ease;
+  }
+  .level-card:hover{transform:translate(-0.1rem,-0.1rem);box-shadow:0.44rem 0.44rem 0 rgba(50,44,74,0.18);}
+  .level-card:active{transform:translate(0.14rem,0.14rem);box-shadow:0.08rem 0.08rem 0 rgba(50,44,74,0.16);}
+  .level-card .big-ic{position:absolute;right:0.9rem;top:0.9rem;width:3.2rem;height:3.2rem;opacity:0.95;}
+  .level-card .big-ic svg{width:100%;height:100%;}
+  .level-badge{display:inline-block;width:fit-content;font-size:0.75rem;font-weight:900;letter-spacing:0.12em;
+    padding:0.15rem 0.65rem;border-radius:999px;background:var(--mint-l);border:0.12rem solid var(--edge);}
+  .level-card.hard .level-badge{background:var(--sky-l);}
+  .level-name{font-size:1.7rem;font-weight:900;letter-spacing:0.03em;margin-top:0.15rem;}
+  .level-meta{font-size:0.92rem;color:var(--ink2);font-weight:700;}
+  .level-go{margin-top:0.55rem;font-size:0.95rem;font-weight:900;color:var(--coral);display:inline-flex;align-items:center;gap:0.3rem;}
+  .level-go svg{width:1rem;height:1rem;}
+  .hint-line{margin:1.5rem auto 0;font-size:0.85rem;color:var(--ink2);font-weight:600;max-width:34rem;}
+
+  /* ---------- hub ---------- */
+  .page-title{margin:0;font-size:clamp(1.8rem,5vw,2.5rem);font-weight:900;letter-spacing:0.03em;}
+  .page-sub{margin:0.15rem 0 1.3rem;color:var(--ink2);font-weight:700;}
+  .hub-grid{display:grid;gap:1rem;grid-template-columns:1fr;}
+  @media (min-width:48em){.hub-grid{grid-template-columns:repeat(3,1fr);}}
+  .hub-card{
+    display:flex;flex-direction:column;gap:0.4rem;text-align:left;
+    padding:1.15rem;background:var(--paper);border:var(--bd);border-radius:var(--r);
+    box-shadow:var(--shadow);cursor:pointer;color:var(--ink);
+    -webkit-tap-highlight-color:transparent;transition:transform .1s ease,box-shadow .1s ease;
+  }
+  .hub-card:hover{transform:translate(-0.08rem,-0.08rem);box-shadow:0.34rem 0.34rem 0 rgba(50,44,74,0.18);}
+  .hub-card:active{transform:translate(0.12rem,0.12rem);box-shadow:0.06rem 0.06rem 0 rgba(50,44,74,0.16);}
+  .hub-card.teach{background:var(--sun-l);}
+  .hub-ic{width:3.4rem;height:3.4rem;border-radius:1rem;background:#fff;border:var(--bd);display:grid;place-items:center;margin-bottom:0.35rem;}
+  .hub-ic svg{width:2rem;height:2rem;}
+  .hub-t{font-size:1.22rem;font-weight:900;}
+  .hub-d{font-size:0.9rem;color:var(--ink2);font-weight:600;line-height:1.5;}
+  .hub-tag{margin-top:auto;padding-top:0.5rem;font-size:0.78rem;font-weight:900;letter-spacing:0.06em;color:var(--coral);}
+
+  /* ---------- teach ---------- */
+  .teach-card{
+    display:grid;gap:1.1rem;grid-template-columns:1fr;align-items:center;
+    background:var(--paper);border:var(--bd);border-radius:1.8rem;box-shadow:var(--shadow-lg);
+    padding:clamp(0.9rem,3vw,1.8rem);
+  }
+  @media (min-width:52em){.teach-card{grid-template-columns:minmax(0,0.85fr) minmax(0,1.15fr);gap:1.8rem;}}
+  .ill-wrap{
+    background:linear-gradient(160deg,#FFF3D6,#FFE7E9 60%,#E7F7F0 100%);
+    border:0.12rem dashed rgba(50,44,74,0.35);border-radius:1.4rem;
+    padding:clamp(0.6rem,2vw,1.1rem);display:grid;place-items:center;min-height:11rem;
+  }
+  .ill-wrap svg{width:100%;height:auto;max-width:24rem;display:block;}
+  .teach-kicker{margin:0;font-size:0.8rem;font-weight:900;letter-spacing:0.16em;color:var(--coral);}
+  .teach-title{margin:0.2rem 0 0.10rem;font-size:clamp(1.45rem,4.4vw,2.05rem);font-weight:900;line-height:1.3;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;}
+  .teach-lead{margin:0.3rem 0 0.7rem;font-size:1.08rem;font-weight:800;color:var(--ink);}
+  .teach-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:0.45rem;}
+  .teach-list li{display:flex;gap:0.6rem;align-items:flex-start;font-size:1rem;font-weight:600;color:var(--ink);}
+  .teach-list li .num{
+    flex:none;width:1.6rem;height:1.6rem;border-radius:50%;background:var(--sun);
+    border:0.12rem solid var(--edge);display:grid;place-items:center;font-size:0.85rem;font-weight:900;
+    margin-top:0.15rem;
+  }
+  .example{
+    margin-top:0.9rem;padding:0.8rem 0.95rem;background:var(--sky-l);
+    border:0.12rem solid rgba(50,44,74,0.25);border-radius:1rem;
+  }
+  .ex-label{display:inline-block;font-size:0.75rem;font-weight:900;letter-spacing:0.12em;color:#2C6FA8;background:#fff;
+    border-radius:999px;padding:0.05rem 0.5rem;border:0.1rem solid rgba(50,44,74,0.25);}
+  .example p{margin:0.4rem 0 0;font-size:1.05rem;font-weight:800;line-height:1.6;}
+  .tip{margin-top:0.8rem;display:flex;gap:0.55rem;align-items:flex-start;padding:0.7rem 0.9rem;background:var(--mint-l);
+    border-left:0.35rem solid var(--mint);border-radius:0.6rem 1rem 1rem 0.6rem;}
+  .tip svg{width:1.4rem;height:1.4rem;flex:none;margin-top:0.1rem;}
+  .tip p{margin:0;font-size:0.98rem;font-weight:700;}
+
+  .teach-foot{display:flex;align-items:center;justify-content:space-between;gap:0.8rem;margin-top:1.1rem;}
+  .dots{display:flex;gap:0.4rem;align-items:center;flex-wrap:wrap;justify-content:center;}
+  .dot{width:0.62rem;height:0.62rem;border-radius:999px;background:rgba(50,44,74,0.18);}
+  .dot.on{background:var(--coral);width:1.5rem;}
+
+  /* ---------- game ---------- */
+  .game-wrap{max-width:52rem;margin:0 auto;}
+  .game-head{display:flex;align-items:center;gap:0.7rem;margin-bottom:0.7rem;}
+  .game-title{flex:1;min-width:0;}
+  .mode-name{font-size:1.1rem;font-weight:900;line-height:1.3;}
+  .mode-sub{font-size:0.82rem;font-weight:700;color:var(--ink2);}
+  .score-chip{
+    flex:none;display:inline-flex;align-items:center;gap:0.3rem;background:#fff;border:var(--bd);
+    border-radius:999px;padding:0.3rem 0.8rem;font-weight:900;font-size:0.95rem;box-shadow:0.12rem 0.12rem 0 rgba(50,44,74,0.12);
+  }
+  .score-chip svg{width:1rem;height:1rem;}
+
+  .progress{height:0.85rem;background:#fff;border:0.12rem solid var(--edge);border-radius:999px;overflow:hidden;margin-bottom:1rem;}
+  .progress span{display:block;height:100%;background:linear-gradient(90deg,var(--sun),var(--coral));border-radius:999px;transition:width .35s ease;}
+
+  .q-card{background:var(--paper);border:var(--bd);border-radius:1.6rem;box-shadow:var(--shadow-lg);padding:clamp(0.9rem,3vw,1.6rem);}
+  .q-kicker{margin:0 0 0.2rem;font-size:0.78rem;font-weight:900;letter-spacing:0.16em;color:var(--coral);}
+  .q-text{margin:0 0 1rem;font-size:clamp(1.15rem,3.6vw,1.45rem);font-weight:900;line-height:1.55;}
+  .q-hint{margin:-0.6rem 0 0.9rem;font-size:0.9rem;color:var(--ink2);font-weight:700;}
+
+  /* order mode */
+  .slots{display:flex;flex-direction:column;gap:0.55rem;margin-bottom:0.9rem;}
+  .slot{
+    display:flex;align-items:center;gap:0.7rem;width:auto;text-align:left;
+    background:#fff;border:0.14rem dashed rgba(50,44,74,0.45);border-radius:1rem;
+    padding:0.65rem 0.8rem;min-height:3.3rem;color:var(--ink);font:inherit;
+    font-size:1rem;font-weight:700;cursor:default;
+    transition:margin .25s ease,background .2s ease,border-color .2s ease;
+  }
+  .slot:nth-child(1){margin-left:0;}
+  .slot:nth-child(2){margin-left:clamp(0.7rem,3vw,2rem);}
+  .slot:nth-child(3){margin-left:clamp(1.4rem,6vw,4rem);}
+  .slot:nth-child(4){margin-left:clamp(2.1rem,9vw,6rem);}
+  .slot.filled{background:var(--sun-l);border-style:solid;cursor:pointer;}
+  .slot .slot-no{
+    flex:none;width:2rem;height:2rem;border-radius:50%;background:var(--sun);border:0.12rem solid var(--edge);
+    display:grid;place-items:center;font-weight:900;font-size:0.95rem;
+  }
+  .slot .slot-text{flex:1;min-width:0;line-height:1.45;}
+  .slot .slot-text.empty{color:rgba(50,44,74,0.42);font-weight:600;font-size:0.92rem;}
+  .slot .slot-x{flex:none;font-size:1.3rem;font-weight:900;color:rgba(50,44,74,0.4);line-height:1;}
+  .slot .slot-mark{flex:none;width:1.6rem;height:1.6rem;display:grid;place-items:center;}
+  .slot .slot-mark svg{width:1.4rem;height:1.4rem;}
+  .slot.ok{background:var(--mint-l);border-color:var(--mint);border-style:solid;}
+  .slot.ok .slot-no{background:var(--mint);color:#fff;}
+  .slot.bad{background:#FFEDE8;border-color:var(--coral);border-style:solid;}
+  .slot.bad .slot-no{background:var(--coral);color:#fff;}
+
+  .chips-label{font-size:0.8rem;font-weight:900;letter-spacing:0.1em;color:var(--ink2);margin:0 0 0.45rem;}
+  .chips{display:grid;gap:0.55rem;margin-bottom:1rem;}
+  .chip{
+    display:flex;align-items:center;gap:0.65rem;width:100%;text-align:left;
+    background:#fff;border:var(--bd);border-radius:1rem;padding:0.7rem 0.85rem;
+    font:inherit;font-size:1rem;font-weight:700;color:var(--ink);cursor:pointer;
+    box-shadow:0.12rem 0.12rem 0 rgba(50,44,74,0.12);
+    -webkit-tap-highlight-color:transparent;
+    transition:transform .08s ease,background .15s ease;
+  }
+  .chip:hover{background:var(--sky-l);}
+  .chip:active{transform:translate(0.1rem,0.1rem);box-shadow:none;}
+  .chip .chip-dot{flex:none;width:0.55rem;height:0.55rem;border-radius:50%;background:var(--grape);}
+
+  /* pick mode */
+  .options{display:grid;gap:0.65rem;grid-template-columns:1fr;margin-bottom:0.4rem;}
+  @media (min-width:56em){.options{grid-template-columns:1fr 1fr;}}
+  .opt{
+    display:flex;align-items:flex-start;gap:0.7rem;text-align:left;width:100%;
+    background:#fff;border:var(--bd);border-radius:1rem;padding:0.75rem 0.85rem;
+    font:inherit;font-size:1rem;font-weight:700;color:var(--ink);line-height:1.5;
+    cursor:pointer;box-shadow:0.12rem 0.12rem 0 rgba(50,44,74,0.12);
+    -webkit-tap-highlight-color:transparent;transition:transform .08s ease,background .15s ease;
+  }
+  .opt:hover{background:var(--sky-l);}
+  .opt:active{transform:translate(0.1rem,0.1rem);box-shadow:none;}
+  .opt:disabled{cursor:default;transform:none;}
+  .opt .opt-no{
+    flex:none;width:1.8rem;height:1.8rem;border-radius:0.6rem;background:var(--sun-l);
+    border:0.12rem solid var(--edge);display:grid;place-items:center;font-weight:900;font-size:0.9rem;margin-top:0.05rem;
+  }
+  .opt .opt-t{flex:1;min-width:0;}
+  .opt .opt-mark{flex:none;width:1.5rem;height:1.5rem;display:grid;place-items:center;opacity:0;}
+  .opt .opt-mark svg{width:1.4rem;height:1.4rem;}
+  .opt.correct{background:var(--mint-l);border-color:var(--mint);}
+  .opt.correct .opt-no{background:var(--mint);color:#fff;}
+  .opt.correct .opt-mark{opacity:1;}
+  .opt.wrong{background:#FFEDE8;border-color:var(--coral);}
+  .opt.wrong .opt-no{background:var(--coral);color:#fff;}
+  .opt.wrong .opt-mark{opacity:1;}
+  .opt.dim{opacity:0.5;}
+
+  /* reveal */
+  .reveal{
+    margin-top:1rem;background:#FFFCF0;border:0.16rem solid var(--edge);border-radius:1.4rem;
+    padding:clamp(0.85rem,2.6vw,1.2rem);box-shadow:var(--shadow);
+    animation:rise .35s cubic-bezier(.22,1.1,.36,1) both;
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(0.7rem);}to{opacity:1;transform:none;}}
+  .reveal.ok{background:var(--mint-l);}
+  .reveal.no{background:#FFF1EC;}
+  .reveal-head{display:flex;align-items:center;gap:0.7rem;}
+  .reveal-ic{flex:none;width:2.6rem;height:2.6rem;border-radius:50%;background:#fff;border:var(--bd);display:grid;place-items:center;}
+  .reveal-ic svg{width:1.5rem;height:1.5rem;}
+  .reveal-title{margin:0;font-size:1.15rem;font-weight:900;line-height:1.3;}
+  .reveal-sub{margin:0.1rem 0 0;font-size:0.9rem;font-weight:700;color:var(--ink2);line-height:1.45;}
+  .reveal-note{margin:0.7rem 0 0.9rem;font-size:0.98rem;font-weight:600;line-height:1.7;}
+  .reveal-note b{color:var(--coral-d);}
+
+  /* result */
+  .result{
+    text-align:center;max-width:38rem;margin:0.6rem auto 0;
+    padding:clamp(1.4rem,4vw,2.4rem) clamp(1rem,3.4vw,2rem);
+    background:var(--paper);border:var(--bd);border-radius:2rem;box-shadow:var(--shadow-lg);
+  }
+  .stars{display:flex;justify-content:center;gap:0.5rem;margin-bottom:0.6rem;}
+  .star{width:clamp(3rem,11vw,4.4rem);height:auto;}
+  .result-score{font-size:clamp(2.6rem,9vw,3.6rem);font-weight:900;line-height:1.1;margin:0;letter-spacing:0.02em;}
+  .result-score small{font-size:1.1rem;color:var(--ink2);font-weight:800;}
+  .result-title{margin:0.3rem 0 0.6rem;font-size:clamp(1.3rem,4.2vw,1.7rem);font-weight:900;}
+  .result-desc{margin:0 auto 1.4rem;color:var(--ink2);font-weight:700;max-width:26rem;}
+  .result-actions{display:flex;flex-direction:column;gap:0.7rem;}
+  @media (min-width:34em){.result-actions{flex-direction:row;justify-content:center;}}
+
+  /* toast */
+  .toast{
+    position:fixed;left:50%;bottom:2rem;transform:translate(-50%,2rem);
+    background:var(--ink);color:#fff;font-weight:700;font-size:0.92rem;
+    padding:0.6rem 1.2rem;border-radius:999px;opacity:0;pointer-events:none;
+    transition:opacity .2s ease,transform .2s ease;z-index:50;max-width:88vw;text-align:center;
+  }
+  .toast.show{opacity:1;transform:translate(-50%,0);}
+</style>
+</head>
+<body>
+<main id="app" data-generated-by="aurora-frontend-design">
+  <div class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <rect x="3" y="21" width="8" height="8" rx="2" fill="#FFE3B8" stroke="#322C4A" stroke-width="2.2"/>
+        <rect x="12" y="14" width="8" height="15" rx="2" fill="#FFC97A" stroke="#322C4A" stroke-width="2.2"/>
+        <rect x="21" y="7" width="8" height="22" rx="2" fill="#FFB03F" stroke="#322C4A" stroke-width="2.2"/>
+      </svg>
+      <span>層層向上 · 修辭小學堂</span>
+    </div>
+    <button id="soundBtn" class="sound-btn" data-act="sound" aria-label="開啟或關閉音效" title="音效開關"></button>
+  </div>
+  <div id="stage"></div>
+</main>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* =========================================================
+   0. 圖示與插圖（全部內嵌 SVG，離線可用）
+   ========================================================= */
+const ICON = {
+  book:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 7.5C9.5 6 12.8 6 16 8v17c-3.2-2-6.5-2-10-.5V7.5Z" fill="#fff" stroke="#322C4A" stroke-width="2.4" stroke-linejoin="round"/><path d="M26 7.5C22.5 6 19.2 6 16 8v17c3.2-2 6.5-2 10-.5V7.5Z" fill="#FFF3D6" stroke="#322C4A" stroke-width="2.4" stroke-linejoin="round"/><path d="M10 12h3M10 16h3M19 12h3M19 16h3" stroke="#322C4A" stroke-width="2" stroke-linecap="round"/></svg>',
+  stairs:'<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="21" width="8" height="8" rx="2" fill="#FFE3B8" stroke="#322C4A" stroke-width="2.2"/><rect x="12" y="14" width="8" height="15" rx="2" fill="#FFC97A" stroke="#322C4A" stroke-width="2.2"/><rect x="21" y="7" width="8" height="22" rx="2" fill="#FFB03F" stroke="#322C4A" stroke-width="2.2"/></svg>',
+  search:'<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="14" cy="14" r="8" fill="#fff" stroke="#322C4A" stroke-width="2.6"/><path d="M20 20l7 7" stroke="#322C4A" stroke-width="3" stroke-linecap="round"/><path d="M10.5 14.5l2.4 2.4 4.4-4.8" fill="none" stroke="#2FBF97" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  bulb:'<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4a8.5 8.5 0 0 0-5 15.4V23h10v-3.6A8.5 8.5 0 0 0 16 4Z" fill="#FFE9B8" stroke="#322C4A" stroke-width="2.4" stroke-linejoin="round"/><path d="M13 26h6M14 29h4" stroke="#322C4A" stroke-width="2.4" stroke-linecap="round"/><path d="M16 9v6" stroke="#FFB03F" stroke-width="2.4" stroke-linecap="round"/></svg>',
+  check:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5.2 5.2L20 6.8" fill="none" stroke="#2FBF97" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  cross:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="#F0603E" stroke-width="3.4" stroke-linecap="round"/></svg>',
+  star:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.66l-5.9 3.11 1.13-6.57L2.45 9.54l6.6-.96L12 2.6Z" fill="#FFC94B" stroke="#322C4A" stroke-width="1.6" stroke-linejoin="round"/></svg>',
+  soundOn:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.2L12 5.5v13L7.2 14.5H4z" fill="#FFC94B" stroke="#322C4A" stroke-width="1.8" stroke-linejoin="round"/><path d="M15.5 9a4.4 4.4 0 0 1 0 6M18.4 6.4a8.2 8.2 0 0 1 0 11.2" fill="none" stroke="#322C4A" stroke-width="1.9" stroke-linecap="round"/></svg>',
+  soundOff:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.2L12 5.5v13L7.2 14.5H4z" fill="#EDEAF3" stroke="#322C4A" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 9.5l5 5M21 9.5l-5 5" stroke="#322C4A" stroke-width="1.9" stroke-linecap="round"/></svg>',
+  arrow:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6.5L19.5 12 13 17.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  lock:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.6" fill="#FFF3D6" stroke="#322C4A" stroke-width="2"/><path d="M8.4 10.5V8a3.6 3.6 0 0 1 7.2 0v2.5" fill="none" stroke="#322C4A" stroke-width="2"/></svg>',
+  swap:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h13M14 4.5L17.5 8 14 11.5M20 16H7M10 12.5L6.5 16 10 19.5" fill="none" stroke="#322C4A" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+};
+
+const ART = {
+  hero:`<svg viewBox="0 0 300 250" role="img" aria-label="卡通青蛙站在三級階梯上">
+    <ellipse cx="150" cy="232" rx="118" ry="14" fill="#322C4A" opacity="0.08"/>
+    <rect x="26" y="182" width="78" height="46" rx="12" fill="#FFE3B8" stroke="#322C4A" stroke-width="5"/>
+    <rect x="98" y="146" width="80" height="82" rx="12" fill="#FFC97A" stroke="#322C4A" stroke-width="5"/>
+    <rect x="172" y="110" width="94" height="118" rx="12" fill="#FFB03F" stroke="#322C4A" stroke-width="5"/>
+    <circle cx="236" cy="78" r="10" fill="#FF9AB5" opacity="0.65"/>
+    <circle cx="262" cy="96" r="6" fill="#5AA9E6" opacity="0.5"/>
+    <circle cx="60" cy="150" r="7" fill="#2FBF97" opacity="0.45"/>
+    <g transform="translate(216,86)">
+      <ellipse cx="0" cy="30" rx="40" ry="30" fill="#7CDB9B" stroke="#322C4A" stroke-width="5"/>
+      <ellipse cx="0" cy="28" rx="26" ry="17" fill="#A8ECC0"/>
+      <circle cx="-19" cy="-4" r="15" fill="#7CDB9B" stroke="#322C4A" stroke-width="5"/>
+      <circle cx="19" cy="-4" r="15" fill="#7CDB9B" stroke="#322C4A" stroke-width="5"/>
+      <circle cx="-19" cy="-3" r="6.6" fill="#322C4A"/>
+      <circle cx="19" cy="-3" r="6.6" fill="#322C4A"/>
+      <circle cx="-21.4" cy="-5.4" r="2.2" fill="#fff"/>
+      <circle cx="16.6" cy="-5.4" r="2.2" fill="#fff"/>
+      <path d="M-13 30c4 8 22 8 26 0" fill="none" stroke="#322C4A" stroke-width="4.2" stroke-linecap="round"/>
+      <circle cx="-29" cy="26" r="5.4" fill="#FF9AB5" opacity="0.8"/>
+      <circle cx="29" cy="26" r="5.4" fill="#FF9AB5" opacity="0.8"/>
+      <g transform="translate(0,-32) scale(0.92) rotate(-8)">
+        <path d="M-30 -6 L0 -18 L30 -6 L0 6 Z" fill="#5A4E9E" stroke="#322C4A" stroke-width="4" stroke-linejoin="round"/>
+        <rect x="-13" y="-24" width="26" height="8" rx="3" fill="#5A4E9E" stroke="#322C4A" stroke-width="4"/>
+        <path d="M30 -6v14" stroke="#FFC94B" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="30" cy="10" r="4" fill="#FFC94B" stroke="#322C4A" stroke-width="2.6"/>
+      </g>
+    </g>
+    <g fill="none" stroke="#322C4A" stroke-width="4" stroke-linecap="round" opacity="0.55">
+      <path d="M74 118c-6-8-6-16 0-22"/>
+      <path d="M92 108c-6-8-6-16 0-22"/>
+    </g>
+  </svg>`,
+
+  stairs:`<svg viewBox="0 0 260 180" role="img" aria-label="三級階梯：小、中、大">
+    <rect x="14" y="124" width="72" height="40" rx="10" fill="#FFE3B8" stroke="#322C4A" stroke-width="5"/>
+    <rect x="86" y="90" width="72" height="74" rx="10" fill="#FFC97A" stroke="#322C4A" stroke-width="5"/>
+    <rect x="158" y="54" width="72" height="110" rx="10" fill="#FFB03F" stroke="#322C4A" stroke-width="5"/>
+    <text x="50" y="151" font-size="22" font-weight="800" text-anchor="middle" fill="#322C4A">小</text>
+    <text x="122" y="133" font-size="22" font-weight="800" text-anchor="middle" fill="#322C4A">中</text>
+    <text x="194" y="117" font-size="22" font-weight="800" text-anchor="middle" fill="#322C4A">大</text>
+    <path d="M28 110C74 96 118 74 172 40" fill="none" stroke="#FF7A59" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 13"/>
+    <path d="M160 30l25 7-13 20" fill="none" stroke="#FF7A59" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`,
+
+  up:`<svg viewBox="0 0 260 180" role="img" aria-label="遞升：一層比一層大">
+    <rect x="28" y="122" width="48" height="42" rx="9" fill="#D8F5E9" stroke="#322C4A" stroke-width="5"/>
+    <rect x="94" y="88" width="48" height="76" rx="9" fill="#8FE0C2" stroke="#322C4A" stroke-width="5"/>
+    <rect x="160" y="54" width="48" height="110" rx="9" fill="#2FBF97" stroke="#322C4A" stroke-width="5"/>
+    <circle cx="52" cy="108" r="7" fill="#FFC94B" stroke="#322C4A" stroke-width="3.6"/>
+    <circle cx="118" cy="74" r="7" fill="#FFC94B" stroke="#322C4A" stroke-width="3.6"/>
+    <circle cx="184" cy="40" r="7" fill="#FFC94B" stroke="#322C4A" stroke-width="3.6"/>
+    <path d="M226 148C226 96 226 62 226 30" fill="none" stroke="#FF7A59" stroke-width="6" stroke-linecap="round"/>
+    <path d="M214 44l12-16 12 16" fill="none" stroke="#FF7A59" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="130" y="172" font-size="17" font-weight="800" text-anchor="middle" fill="#6B6490">愈來愈大 · 愈來愈深</text>
+  </svg>`,
+
+  down:`<svg viewBox="0 0 260 180" role="img" aria-label="遞降：一層比一層小">
+    <rect x="28" y="48" width="48" height="116" rx="9" fill="#FFC1AE" stroke="#322C4A" stroke-width="5"/>
+    <rect x="94" y="82" width="48" height="82" rx="9" fill="#FFA184" stroke="#322C4A" stroke-width="5"/>
+    <rect x="160" y="118" width="48" height="46" rx="9" fill="#FF7A59" stroke="#322C4A" stroke-width="5"/>
+    <circle cx="52" cy="34" r="7" fill="#FFC94B" stroke="#322C4A" stroke-width="3.6"/>
+    <circle cx="118" cy="68" r="7" fill="#FFC94B" stroke="#322C4A" stroke-width="3.6"/>
+    <circle cx="184" cy="104" r="7" fill="#FFC94B" stroke="#322C4A" stroke-width="3.6"/>
+    <path d="M226 30C226 82 226 116 226 148" fill="none" stroke="#5AA9E6" stroke-width="6" stroke-linecap="round"/>
+    <path d="M214 134l12 16 12-16" fill="none" stroke="#5AA9E6" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="130" y="176" font-size="17" font-weight="800" text-anchor="middle" fill="#6B6490">愈來愈小 · 愈來愈輕</text>
+  </svg>`,
+
+  three:`<svg viewBox="0 0 280 180" role="img" aria-label="三個檢查關卡">
+    <g>
+      <rect x="10" y="46" width="80" height="88" rx="16" fill="#FFF3D6" stroke="#322C4A" stroke-width="5"/>
+      <circle cx="50" cy="80" r="18" fill="#FFC94B" stroke="#322C4A" stroke-width="4"/>
+      <text x="50" y="87" font-size="19" font-weight="900" text-anchor="middle" fill="#322C4A">3</text>
+      <text x="50" y="118" font-size="16" font-weight="800" text-anchor="middle" fill="#322C4A">三層</text>
+    </g>
+    <g>
+      <rect x="100" y="46" width="80" height="88" rx="16" fill="#E4F9F1" stroke="#322C4A" stroke-width="5"/>
+      <path d="M120 100h20v-16h18v-16" fill="none" stroke="#2FBF97" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M152 62l8-6 6 9" fill="none" stroke="#2FBF97" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="140" y="118" font-size="16" font-weight="800" text-anchor="middle" fill="#322C4A">同方向</text>
+    </g>
+    <g>
+      <rect x="190" y="46" width="80" height="88" rx="16" fill="#E4F1FB" stroke="#322C4A" stroke-width="5"/>
+      <rect x="214" y="78" width="32" height="24" rx="6" fill="#FFF3D6" stroke="#322C4A" stroke-width="4"/>
+      <path d="M221 78v-8a9 9 0 0 1 18 0v8" fill="none" stroke="#322C4A" stroke-width="4"/>
+      <text x="230" y="118" font-size="16" font-weight="800" text-anchor="middle" fill="#322C4A">不可換</text>
+    </g>
+    <path d="M92 90h6M182 90h6" stroke="#322C4A" stroke-width="4" stroke-linecap="round"/>
+    <text x="140" y="166" font-size="16" font-weight="800" text-anchor="middle" fill="#6B6490">做齊三樣，才是層遞</text>
+  </svg>`,
+
+  compare:`<svg viewBox="0 0 280 190" role="img" aria-label="排比與層遞的比較">
+    <rect x="8" y="18" width="126" height="150" rx="16" fill="#FFF6E6" stroke="#322C4A" stroke-width="5"/>
+    <rect x="146" y="18" width="126" height="150" rx="16" fill="#E4F9F1" stroke="#322C4A" stroke-width="5"/>
+    <text x="71" y="44" font-size="17" font-weight="900" text-anchor="middle" fill="#322C4A">排比</text>
+    <text x="209" y="44" font-size="17" font-weight="900" text-anchor="middle" fill="#322C4A">層遞</text>
+    <rect x="28" y="60" width="86" height="22" rx="6" fill="#FFF" stroke="#322C4A" stroke-width="4"/>
+    <rect x="28" y="90" width="86" height="22" rx="6" fill="#FFF" stroke="#322C4A" stroke-width="4"/>
+    <rect x="28" y="120" width="86" height="22" rx="6" fill="#FFF" stroke="#322C4A" stroke-width="4"/>
+    <path d="M71 152v-6M40 152h62" stroke="#322C4A" stroke-width="4" stroke-linecap="round"/>
+    <path d="M52 150l-8-7M52 150l-8 7M90 150l8-7M90 150l8 7" fill="none" stroke="#F0603E" stroke-width="3.6" stroke-linecap="round"/>
+    <rect x="166" y="112" width="86" height="26" rx="6" fill="#D8F5E9" stroke="#322C4A" stroke-width="4"/>
+    <rect x="166" y="82" width="86" height="26" rx="6" fill="#8FE0C2" stroke="#322C4A" stroke-width="4"/>
+    <rect x="166" y="52" width="86" height="26" rx="6" fill="#2FBF97" stroke="#322C4A" stroke-width="4"/>
+    <path d="M262 150v-8" stroke="#2FBF97" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="209" cy="160" r="9" fill="#FFC94B" stroke="#322C4A" stroke-width="3.6"/>
+    <path d="M205 160l3 3 5-6" fill="none" stroke="#322C4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`,
+
+  axis:`<svg viewBox="0 0 280 190" role="img" aria-label="層遞的四條軸線">
+    <circle cx="140" cy="95" r="34" fill="#FFF3D6" stroke="#322C4A" stroke-width="5"/>
+    <text x="140" y="103" font-size="19" font-weight="900" text-anchor="middle" fill="#322C4A">層遞</text>
+    <g stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M140 54V18" stroke="#FF7A59"/><path d="M128 30l12-16 12 16" stroke="#FF7A59"/>
+      <path d="M140 136v36" stroke="#5AA9E6"/><path d="M128 160l12 16 12-16" stroke="#5AA9E6"/>
+      <path d="M100 95H48" stroke="#2FBF97"/><path d="M62 83L46 95l16 12" stroke="#2FBF97"/>
+      <path d="M180 95h52" stroke="#8C7BE0"/><path d="M218 83l16 12-16 12" stroke="#8C7BE0"/>
+    </g>
+    <text x="140" y="12" font-size="14" font-weight="800" text-anchor="middle" fill="#6B6490">範圍</text>
+    <text x="140" y="188" font-size="14" font-weight="800" text-anchor="middle" fill="#6B6490">時間</text>
+    <text x="30" y="100" font-size="14" font-weight="800" text-anchor="middle" fill="#6B6490">輕重</text>
+    <text x="252" y="100" font-size="14" font-weight="800" text-anchor="middle" fill="#6B6490">深淺</text>
+  </svg>`,
+
+  signals:`<svg viewBox="0 0 280 190" role="img" aria-label="層遞的標記詞">
+    <rect x="18" y="26" width="200" height="120" rx="18" fill="#FFFDF7" stroke="#322C4A" stroke-width="5"/>
+    <path d="M50 146l-6 20 26-20" fill="#FFFDF7" stroke="#322C4A" stroke-width="5" stroke-linejoin="round"/>
+    <rect x="34" y="46" width="92" height="20" rx="6" fill="#FFE9B8"/>
+    <text x="42" y="61" font-size="14" font-weight="800" fill="#322C4A">先…再…最後…</text>
+    <rect x="34" y="80" width="102" height="20" rx="6" fill="#D8F5E9"/>
+    <text x="42" y="95" font-size="14" font-weight="800" fill="#322C4A">不只…還…更…</text>
+    <rect x="34" y="112" width="80" height="20" rx="6" fill="#E4F1FB"/>
+    <text x="42" y="127" font-size="14" font-weight="800" fill="#322C4A">愈…愈…</text>
+    <circle cx="232" cy="66" r="26" fill="rgba(90,169,230,0.18)" stroke="#322C4A" stroke-width="5"/>
+    <circle cx="228" cy="62" r="12" fill="#fff" stroke="#322C4A" stroke-width="4"/>
+    <path d="M237 71l14 14" stroke="#322C4A" stroke-width="6" stroke-linecap="round"/>
+    <path d="M246 120l10 6-10 6" fill="none" stroke="#FF7A59" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`,
+
+  pencil:`<svg viewBox="0 0 280 190" role="img" aria-label="把平淡的句子寫成層遞">
+    <rect x="24" y="24" width="180" height="140" rx="14" fill="#FFFDF7" stroke="#322C4A" stroke-width="5"/>
+    <path d="M46 128c26-14 40-38 52-56 10-15 22-24 36-30" fill="none" stroke="#2FBF97" stroke-width="6" stroke-linecap="round"/>
+    <path d="M134 42c8-4 16-6 24-4" fill="none" stroke="#2FBF97" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="60" cy="122" r="8" fill="#FFC94B" stroke="#322C4A" stroke-width="4"/>
+    <rect x="56" y="64" width="96" height="9" rx="4" fill="#EDEAF3"/>
+    <rect x="56" y="84" width="120" height="9" rx="4" fill="#EDEAF3"/>
+    <rect x="56" y="104" width="70" height="9" rx="4" fill="#EDEAF3"/>
+    <g transform="rotate(28 226 96)">
+      <rect x="214" y="34" width="24" height="92" rx="6" fill="#FFC94B" stroke="#322C4A" stroke-width="4.5"/>
+      <path d="M214 126h24l-12 22z" fill="#FFE3B8" stroke="#322C4A" stroke-width="4.5" stroke-linejoin="round"/>
+      <path d="M222 140l4 8 4-8z" fill="#322C4A"/>
+      <rect x="214" y="34" width="24" height="14" rx="6" fill="#FF9AB5" stroke="#322C4A" stroke-width="4.5"/>
+    </g>
+  </svg>`,
+
+  warn:`<svg viewBox="0 0 280 190" role="img" aria-label="層遞的三個常見毛病">
+    <path d="M140 20l66 116a10 10 0 0 1-9 15H83a10 10 0 0 1-9-15z" fill="#FFF1EC" stroke="#322C4A" stroke-width="5" stroke-linejoin="round"/>
+    <rect x="134" y="62" width="12" height="40" rx="6" fill="#F0603E"/>
+    <circle cx="140" cy="116" r="7.6" fill="#F0603E"/>
+    <g fill="#fff" stroke="#322C4A" stroke-width="4">
+      <rect x="196" y="52" width="66" height="30" rx="9"/>
+      <rect x="196" y="92" width="66" height="30" rx="9"/>
+      <rect x="196" y="132" width="66" height="30" rx="9"/>
+    </g>
+    <g font-size="13" font-weight="800" fill="#322C4A">
+      <text x="229" y="72" text-anchor="middle">硬湊三層</text>
+      <text x="229" y="112" text-anchor="middle">方向混亂</text>
+      <text x="229" y="152" text-anchor="middle">層次重複</text>
+    </g>
+    <g stroke="#F0603E" stroke-width="4" stroke-linecap="round">
+      <path d="M18 60l10 10M28 60l-10 10"/>
+      <path d="M18 100l10 10M28 100l-10 10"/>
+      <path d="M18 140l10 10M28 140l-10 10"/>
+    </g>
+  </svg>`
+};
+
+/* =========================================================
+   1. 題庫與教學內容（初階 / 高階，各 2 模式 × 6 題，全部不重複）
+   ========================================================= */
+const LEVELS = {
+  easy:{
+    key:'easy',
+    name:'初階版',
+    meta:'小一至小三 · 認一認、排一排',
+    intro:'先看圖認識層遞，再用兩種小遊戲練習。',
+    teach:[
+      {
+        title:'層遞是什麼？',
+        lead:'把三層意思，一層一層排好，像走樓梯。',
+        list:[
+          '最少要有三層，兩層不算。',
+          '三層要向同一個方向走：由小到大，或由大到小。',
+          '次序不可以隨便調換。'
+        ],
+        example:'一滴水 → 一條小河 → 一片大海',
+        tip:'口訣：三層、同方向、不可換。',
+        art:'stairs'
+      },
+      {
+        title:'遞升：一層比一層大',
+        lead:'由小到大、由少到多、由輕到重，都是遞升。',
+        list:[
+          '每一層都比上一層「更厲害」。',
+          '常見寫法：先…再…最後…、愈…愈…',
+          '讀起來像上樓梯，一級比一級高。'
+        ],
+        example:'他先學會走路，再學會跑步，最後學會騎單車。',
+        tip:'找一找句子裡有沒有「先、再、最後」。',
+        art:'up'
+      },
+      {
+        title:'遞降：一層比一層小',
+        lead:'反過來，由大到小、由重到輕，就是遞降。',
+        list:[
+          '遞降也是層遞，只是方向相反。',
+          '常見寫法：整個…然後…最後連…也…',
+          '讀起來像下樓梯，一級比一級低。'
+        ],
+        example:'整座城市靜下來了，街道靜下來了，連屋裡的時鐘也靜下來了。',
+        tip:'先問一問：這三層是「變大」還是「變小」？',
+        art:'down'
+      },
+      {
+        title:'三個通關檢查',
+        lead:'判斷是不是層遞，只要做三個檢查。',
+        list:[
+          '有沒有三層？（兩層要小心）',
+          '方向一致嗎？（不可以忽然變大又變小）',
+          '次序可以換嗎？（可以換就不是層遞）'
+        ],
+        example:'小草綠了 → 樹林綠了 → 整座山都綠了',
+        tip:'三個檢查都通過，才是真正的層遞。',
+        art:'three'
+      },
+      {
+        title:'小心：層遞 ≠ 排比',
+        lead:'三句排在一起，不一定就是層遞。',
+        list:[
+          '排比：把幾件事並列，次序可以調換。',
+          '層遞：一層比一層深，次序不能調換。',
+          '測試方法：把句子倒過來讀，先後和意思有沒有變？'
+        ],
+        example:'排比：花兒紅了，草兒綠了，鳥兒叫了。／層遞：小草綠了，樹林綠了，整座山都綠了。',
+        tip:'倒過來讀，先後和意思都變了，就是層遞；倒過來讀也無所謂，就是排比。',
+        art:'compare'
+      }
+    ],
+    modes:[
+      {
+        key:'easy-order',
+        type:'order',
+        name:'層層階梯',
+        icon:'stairs',
+        desc:'把打亂的三層意思，排成正確的階梯。',
+        tag:'玩法一 · 排序',
+        questions:[
+          {
+            ask:'把下面的詞語由小到大排好',
+            hint:'提示：先想「哪一個裝的水最少？」',
+            steps:['一滴水','一條小河','一片大海'],
+            note:'「一滴水」最少，「一條小河」比較多，「一片大海」最多。三層都在講水，範圍一層比一層大，這就是<b>遞升</b>。'
+          },
+          {
+            ask:'把下面的地方由小範圍排到大範圍',
+            hint:'提示：由自己身邊開始想。',
+            steps:['我的房間','整棟大廈','整個社區'],
+            note:'房間最小，大廈比較大，社區最大。三層都講「地方」，方向一致地由小到大，是<b>遞升</b>。'
+          },
+          {
+            ask:'把下面的位置由低到高排好',
+            hint:'提示：想想爬山時會先經過哪裡。',
+            steps:['山腳','半山','山頂'],
+            note:'山腳最低，半山在中間，山頂最高。位置一層比一層高，就像走樓梯，是<b>遞升</b>。'
+          },
+          {
+            ask:'把下面的時間由短到長排好',
+            hint:'提示：一分鐘可以做多少事？一整天呢？',
+            steps:['一分鐘','一小時','一整天'],
+            note:'一分鐘最短，一小時比較長，一整天最長。三層都是時間，由短到長，是<b>遞升</b>。'
+          },
+          {
+            ask:'把下面的心情由輕到重排好',
+            hint:'提示：哪一種心情最緊張？',
+            steps:['有點緊張','很緊張','緊張得說不出話'],
+            note:'「有點緊張」最輕，「很緊張」加重，「緊張得說不出話」最重。程度一層比一層深，是<b>遞升</b>。'
+          },
+          {
+            ask:'把下面的人數由少到多排好',
+            hint:'提示：先想人數最少的。',
+            steps:['三個人','一個班','全校同學'],
+            note:'三個人最少，一個班較多，全校同學最多。人數一層比一層多，範圍也一層比一層大，是<b>遞升</b>。'
+          }
+        ]
+      },
+      {
+        key:'easy-pick',
+        type:'pick',
+        name:'修辭小偵探',
+        icon:'search',
+        desc:'四句中找出用了層遞的那一句。',
+        tag:'玩法二 · 選擇',
+        questions:[
+          {
+            ask:'哪一句用了層遞？',
+            options:[
+              {t:'春天來了，花兒都笑起來了。'},
+              {t:'他不但自己努力，還幫助同學，更帶領全班一起進步。',ok:true},
+              {t:'月亮像一隻彎彎的小船。'},
+              {t:'同學們在操場上跑步、跳繩、打球。'}
+            ],
+            note:'答案是 B。它由「自己努力」→「幫助同學」→「帶領全班」，一層比一層做得多，方向一致，是<b>遞升</b>。A 是擬人，C 是比喻；D 只是把三件事並列，次序可以調換，不算層遞。'
+          },
+          {
+            ask:'哪一句用了層遞？',
+            options:[
+              {t:'我喜歡看書，更喜歡看童話書，最喜歡看《西遊記》。',ok:true},
+              {t:'小貓在窗台上曬太陽。'},
+              {t:'時間過得像箭一樣快。'},
+              {t:'教室裡安靜得連針掉在地上都聽得見。'}
+            ],
+            note:'答案是 A。「喜歡」→「更喜歡」→「最喜歡」，用「更」「最」把程度一層層推高。B 只是陳述；C 是比喻；D 是誇張，三句都沒有三層遞進。'
+          },
+          {
+            ask:'哪一句用了層遞？',
+            options:[
+              {t:'弟弟哭得很傷心。'},
+              {t:'風兒輕輕吹過田野。'},
+              {t:'風一吹，樹葉黃了；再一吹，樹葉落了；最後一吹，連樹枝也光禿禿了。',ok:true},
+              {t:'我們一邊唱歌，一邊跳舞。'}
+            ],
+            note:'答案是 C。它由「風一吹」→「再一吹」→「最後一吹」，樹葉由黃到落，最後連樹枝也光禿禿，一層比一層蕭瑟，是<b>遞升</b>。A 是陳述，B 是擬人，D 是並列，都沒有三層遞進。'
+          },
+          {
+            ask:'哪一句用了層遞？',
+            options:[
+              {t:'他不但會畫畫，而且畫得比老師還好。'},
+              {t:'整座城市靜下來了，街道靜下來了，連屋裡的時鐘也靜下來了。',ok:true},
+              {t:'星星一閃一閃，像在跟我眨眼。'},
+              {t:'我們要愛護花草樹木。'}
+            ],
+            note:'答案是 B。它由「整座城市」→「街道」→「屋裡的時鐘」，範圍一層比一層小，是<b>遞降</b>。A 只有兩層，未夠三層；C 是擬人加比喻；D 是陳述。'
+          },
+          {
+            ask:'哪一句用了層遞？',
+            options:[
+              {t:'太陽一出來，霧就散了。'},
+              {t:'這朵花紅得像火，香得像蜜，美得像畫。'},
+              {t:'他先是生氣，然後更生氣，最後氣得說不出話來。',ok:true},
+              {t:'小鳥在枝頭唱歌，蝴蝶在花間跳舞。'}
+            ],
+            note:'答案是 C。用「先是→然後→最後」，怒氣一層比一層大。B 三句結構相同，但講的是「顏色、香味、樣子」三方面，可以調換，是排比不是層遞。'
+          },
+          {
+            ask:'哪一句用了層遞？',
+            options:[
+              {t:'我愛我的家，更愛我的學校，最愛我的祖國。',ok:true},
+              {t:'他跑得像風一樣快。'},
+              {t:'圖書館裡有很多書。'},
+              {t:'媽媽一邊做飯，一邊聽音樂。'}
+            ],
+            note:'答案是 A。由「家」→「學校」→「祖國」，範圍一層比一層大，還用「更」「最」標明層次。B 是比喻，C 是陳述，D 是並列。'
+          }
+        ]
+      }
+    ]
+  },
+
+  hard:{
+    key:'hard',
+    name:'高階版',
+    meta:'小四至小六 · 判斷、補句、寫作',
+    intro:'不只要認得出層遞，還要判斷方向、分辨排比、補寫句子。',
+    teach:[
+      {
+        title:'層遞的四條軸線',
+        lead:'層遞可以沿著四種方向一層層推進。',
+        list:[
+          '範圍：一棵樹 → 一片樹林 → 整座山',
+          '程度：有點擔心 → 很擔心 → 擔心極了',
+          '時間：一秒 → 一分鐘 → 一整天',
+          '深淺：認識 → 理解 → 運用'
+        ],
+        example:'一棵樹 → 一片樹林 → 整座山，是「範圍」的遞升。',
+        tip:'做題時先問：這三層沿著哪一條軸線走？',
+        art:'axis'
+      },
+      {
+        title:'認出方向：遞升還是遞降',
+        lead:'句子裡的標記詞，會告訴你往哪邊走。',
+        list:[
+          '遞升：先…再…最後…／不只…還…更…／愈…愈…',
+          '遞降：整個…然後…最後連…也…／由大範圍收到小範圍',
+          '沒有標記詞時，就比較三層的「大小、多少、深淺」。'
+        ],
+        example:'他愈跑愈快，快得追過了同學，最後快得連教練也追不上。',
+        tip:'先找標記詞，再核對三層是不是同一方向。',
+        art:'signals'
+      },
+      {
+        title:'可換序測試',
+        lead:'分辨排比和層遞，最可靠的方法是把次序倒過來。',
+        list:[
+          '排比：各項地位平等，倒過來讀仍然通順。',
+          '層遞：各層有先後深淺，倒過來讀，先後和意思都倒轉了。',
+          '有「更」「最」「甚至」的句子，多數是層遞。'
+        ],
+        example:'他愛山，愛海，愛天空。（排比）／他愛小山，愛大山，更愛整片山林。（層遞）',
+        tip:'倒過來讀一次，答案就出來了。',
+        art:'compare'
+      },
+      {
+        title:'把平淡句升級',
+        lead:'寫作時，把一個意思拆成三層，句子立刻有力量。',
+        list:[
+          '第一步：找出想強調的意思。',
+          '第二步：想出三個大小、深淺不同的層次。',
+          '第三步：用「先…再…最後…」或「不只…更…」串起來。'
+        ],
+        example:'平淡：他很緊張。／升級：他有點緊張，後來愈來愈緊張，最後緊張得手心全是汗。',
+        tip:'三層要真的不同，不要同一個意思講三次。',
+        art:'pencil'
+      },
+      {
+        title:'三個常見毛病',
+        lead:'寫層遞時，最容易犯這三個錯。',
+        list:[
+          '硬湊三層：為了湊數，把不相關的東西排在一起。',
+          '方向混亂：一時變大、一時變小，讀起來卡住。',
+          '層次重複：三層其實是同一個程度，沒有推進。'
+        ],
+        example:'錯誤：他有點緊張，有些緊張，頗緊張。（三層意思太接近）',
+        tip:'檢查每一層是否真的「再深一級」。',
+        art:'warn'
+      }
+    ],
+    modes:[
+      {
+        key:'hard-order',
+        type:'order',
+        name:'層層階梯',
+        icon:'stairs',
+        desc:'按指定方向排出三層或四層的次序。',
+        tag:'玩法一 · 排序',
+        questions:[
+          {
+            ask:'把下面的範圍由小到大排好',
+            hint:'提示：先想最小的地方。',
+            steps:['香港','中國','世界'],
+            note:'由一個城市，到一個國家，再到整個世界，範圍層層擴大，是<b>遞升</b>。這條軸線是「範圍」。'
+          },
+          {
+            ask:'把下面的失望程度由輕到重排好',
+            hint:'提示：「極了」是最重的說法。',
+            steps:['有點失望','很失望','失望極了'],
+            note:'「有點」→「很」→「極了」，程度一層比一層重，是<b>遞升</b>。這條軸線是「程度」。'
+          },
+          {
+            ask:'把下面的範圍由大到小排好（遞降）',
+            hint:'提示：這次是由大收到小。',
+            steps:['整座城市','一條街道','一間小屋'],
+            note:'城市最大，街道較小，小屋最小。範圍由大至小，是<b>遞降</b>。遞降仍然是層遞，只是方向相反。'
+          },
+          {
+            ask:'把下面的學習層次由淺入深排好',
+            hint:'提示：先「知道」，還是先「做得到」？',
+            steps:['認識','理解','運用'],
+            note:'先「認識」是什麼，再「理解」為什麼，最後能夠「運用」。由淺入深，是<b>遞升</b>。這條軸線是「深淺」。'
+          },
+          {
+            ask:'把下面的數學內容由易到難排好',
+            hint:'提示：想想課程的先後次序。',
+            steps:['加減法','乘除法','分數'],
+            note:'加減法最基礎，乘除法較難，分數最抽象。難度層層提高，是<b>遞升</b>。'
+          },
+          {
+            ask:'把下面的時間由短到長排好（四層）',
+            hint:'提示：一秒之後是一分鐘，再之後呢？',
+            steps:['一秒','一分鐘','一小時','一整天'],
+            note:'一秒 → 一分鐘 → 一小時 → 一整天，四層都是時間單位，一層比一層長。層遞不一定要三層，<b>三層以上</b>都可以。'
+          }
+        ]
+      },
+      {
+        key:'hard-pick',
+        type:'pick',
+        name:'句子急診室',
+        icon:'search',
+        desc:'判斷方向、補寫句子、找出用得不對的地方。',
+        tag:'玩法二 · 選擇',
+        questions:[
+          {
+            ask:'哪一句用了「遞降」？',
+            options:[
+              {t:'從一棵小草，到一片草原，再到整個大地，都披上了綠衣裳。'},
+              {t:'山上滿是紅葉，山谷裡滿是紅葉，最後連腳下的小石頭旁，也躺著幾片紅葉。',ok:true},
+              {t:'楓葉紅得像一團火。'},
+              {t:'秋風吹過，樹葉沙沙作響。'}
+            ],
+            note:'答案是 B。由「山上」→「山谷」→「腳下的小石頭旁」，範圍一層比一層小，所以是<b>遞降</b>。A 是由小到大，屬於遞升；C 是比喻；D 只是描寫聲音。'
+          },
+          {
+            ask:'補上最後一層：「他一開始只是有點緊張，後來愈來愈緊張，______」',
+            options:[
+              {t:'最後緊張得手心全是汗。',ok:true},
+              {t:'然後就回家了。'},
+              {t:'因為他忘了帶功課。'},
+              {t:'同學都看著他。'}
+            ],
+            note:'答案是 A。前兩層是「有點緊張」→「愈來愈緊張」，程度不斷加深，最後一層要再深一級。A 的「緊張得手心全是汗」把程度推到最高，句子才完整。B 是離開，C 是原因，D 是旁觀，都接不上這個遞進。'
+          },
+          {
+            ask:'哪一句「不是」層遞？',
+            options:[
+              {t:'春風吹綠了小草，吹綠了樹林，吹綠了整片大地。'},
+              {t:'他哭了，哭得很大聲，哭得全層樓都聽見。'},
+              {t:'圖書館裡有故事書、漫畫書和科學書。',ok:true},
+              {t:'一天比一天熱，熱得風扇不管用，熱得大家都躲進商場。'}
+            ],
+            note:'答案是 C。它只是把三類書並列，次序可以調換，沒有層層加深，所以<b>不是</b>層遞。A 的範圍由小草擴到整片大地；B 的哭聲由小到大；D 的熱度一層比一層難受，三者都是層遞。'
+          },
+          {
+            ask:'「村子裡的燈先滅了一半，接著只剩下幾盞，最後連山坡上那一點點燈光也熄了。」這句是甚麼寫法？',
+            options:[
+              {t:'遞升'},
+              {t:'遞降',ok:true},
+              {t:'比喻'},
+              {t:'擬人'}
+            ],
+            note:'答案是 B。燈光由「滅了一半」→「只剩下幾盞」→「連山坡上那一點點也熄了」，數量和範圍一層比一層少，是<b>遞降</b>。句子沒有把燈比作別的東西，也沒有把燈當成人，所以不是比喻或擬人。'
+          },
+          {
+            ask:'補上最後一層：「這本書不只內容有趣，還讓我明白一個道理，______」',
+            options:[
+              {t:'更讓我學會怎樣待人。',ok:true},
+              {t:'而且有很多字。'},
+              {t:'作者是一位老師。'},
+              {t:'所以我看了很久。'}
+            ],
+            note:'答案是 A。前兩層用「不只…還…」推進：有趣 → 明白道理；最後一層要用「更」再推深一級，由知識走到做人，層次最高。B 只是補充資料，C 是背景，D 是結果，都不是遞進。'
+          },
+          {
+            ask:'哪一句是層遞，而不是排比？',
+            options:[
+              {t:'他愛山，愛海，愛天空。'},
+              {t:'他愛家鄉的小山，愛家鄉的大山，更愛家鄉整片山林。',ok:true},
+              {t:'山是青的，海是藍的，天是白的。'},
+              {t:'他愛山，也愛海。'}
+            ],
+            note:'答案是 B。分辨關鍵是「次序能不能換」：A、C 各項可以隨便調換，是排比；B 由「小山」→「大山」→「整片山林」，範圍一層比一層大，又有「更」字推進，次序不能換，所以是<b>層遞</b>。D 只有兩項。'
+          }
+        ]
+      }
+    ]
+  }
+};
+
+/* =========================================================
+   2. 狀態
+   ========================================================= */
+const app = {
+  view:'home',
+  levelKey:null,
+  modeIndex:0,
+  qIndex:0,
+  score:0,
+  teachIndex:0,
+  order:[],
+  chips:[],
+  reveal:null,
+  sound:true
+};
+
+const stage = document.getElementById('stage');
+const toastEl = document.getElementById('toast');
+const soundBtn = document.getElementById('soundBtn');
+
+function level(){ return LEVELS[app.levelKey]; }
+function mode(){ return level().modes[app.modeIndex]; }
+function question(){ return mode().questions[app.qIndex]; }
+
+/* =========================================================
+   3. 音效（Web Audio 即時合成，無外部檔案）
+   ========================================================= */
+let actx = null;
+function audio(){
+  if(!actx){
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if(!Ctx) return null;
+    try{ actx = new Ctx(); }catch(e){ return null; }
+  }
+  if(actx.state === 'suspended'){ actx.resume().catch(function(){}); }
+  return actx;
+}
+function tone(freq, delay, dur, type, vol){
+  if(!app.sound) return;
+  const ctx = audio();
+  if(!ctx) return;
+  const t0 = ctx.currentTime + delay;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type || 'sine';
+  osc.frequency.setValueAtTime(freq, t0);
+  gain.gain.setValueAtTime(0.0001, t0);
+  gain.gain.exponentialRampToValueAtTime(vol || 0.12, t0 + 0.02);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(t0);
+  osc.stop(t0 + dur + 0.03);
+}
+const sfx = {
+  tap:function(){ tone(680,0,0.07,'triangle',0.07); },
+  page:function(){ tone(520,0,0.08,'sine',0.07); tone(700,0.06,0.09,'sine',0.05); },
+  place:function(){ tone(880,0,0.07,'triangle',0.07); },
+  correct:function(){ tone(523,0,0.14,'triangle',0.13); tone(659,0.1,0.14,'triangle',0.13); tone(784,0.2,0.26,'triangle',0.14); },
+  wrong:function(){ tone(233,0,0.16,'sawtooth',0.07); tone(185,0.13,0.24,'sawtooth',0.07); },
+  win:function(){
+    [523,659,784,1047].forEach(function(f,i){ tone(f, i*0.12, 0.3, 'triangle', 0.12); });
+    tone(1319,0.55,0.5,'triangle',0.12);
+  }
+};
+
+/* =========================================================
+   4. 小工具
+   ========================================================= */
+let toastTimer = null;
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 2000);
+}
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    const t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+function starsFor(score, total){
+  const r = score/total;
+  if(r >= 0.99) return 3;
+  if(r >= 0.66) return 2;
+  if(r >= 0.34) return 1;
+  return 0;
+}
+function starMarkup(n){
+  let out = '';
+  for(let i=0;i<3;i++){
+    const on = i < n;
+    out += '<svg class="star" viewBox="0 0 24 24" aria-hidden="true">' +
+      '<path d="M12 2.6l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.66l-5.9 3.11 1.13-6.57L2.45 9.54l6.6-.96L12 2.6Z" ' +
+      'fill="' + (on ? '#FFC94B' : '#FFFFFF') + '" stroke="#322C4A" stroke-width="1.7" stroke-linejoin="round" ' +
+      'opacity="' + (on ? '1' : '0.35') + '"/></svg>';
+  }
+  return out;
+}
+function speak(text){
+  if(!('speechSynthesis' in window)){
+    toast('這個瀏覽器不支援語音朗讀');
+    return;
+  }
+  try{
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'zh-TW';
+    u.rate = 0.92;
+    u.pitch = 1.05;
+    window.speechSynthesis.speak(u);
+  }catch(e){
+    toast('語音朗讀暫時不可用');
+  }
+}
+
+/* =========================================================
+   5. 畫面
+   ========================================================= */
+function viewHome(){
+  return '<section class="view view-in home">' +
+    '<div class="hero-ill">' + ART.hero + '</div>' +
+    '<p class="eyebrow">小學語文 · 修辭篇</p>' +
+    '<h1 class="hero-title">層層<em>向上</em></h1>' +
+    '<p class="hero-sub">層遞修辭互動小學堂</p>' +
+    '<p class="hero-desc">先看圖學一學，再玩遊戲練一練。<br>兩種玩法，每個難度共 12 題。</p>' +
+    '<div class="level-grid">' +
+      '<button class="level-card" data-act="pick-level" data-level="easy">' +
+        '<span class="big-ic">' + ART_STAIR_ICON() + '</span>' +
+        '<span class="level-badge">初階</span>' +
+        '<span class="level-name">初階版</span>' +
+        '<span class="level-meta">' + LEVELS.easy.meta + '</span>' +
+        '<span class="level-go">開始學習 ' + ICON.arrow + '</span>' +
+      '</button>' +
+      '<button class="level-card hard" data-act="pick-level" data-level="hard">' +
+        '<span class="big-ic">' + ART_STAIR_ICON(true) + '</span>' +
+        '<span class="level-badge">高階</span>' +
+        '<span class="level-name">高階版</span>' +
+        '<span class="level-meta">' + LEVELS.hard.meta + '</span>' +
+        '<span class="level-go">開始學習 ' + ICON.arrow + '</span>' +
+      '</button>' +
+    '</div>' +
+    '<p class="hint-line">建議用平板或電腦觀看；手機可直向使用，字體與按鈕已加大。</p>' +
+  '</section>';
+}
+function ART_STAIR_ICON(hard){
+  return '<svg viewBox="0 0 64 64" aria-hidden="true">' +
+    '<rect x="4" y="42" width="16" height="18" rx="4" fill="' + (hard ? '#DCEBFA' : '#FFF3D6') + '" stroke="#322C4A" stroke-width="4"/>' +
+    '<rect x="22" y="28" width="16" height="32" rx="4" fill="' + (hard ? '#A9D0F0' : '#FFC97A') + '" stroke="#322C4A" stroke-width="4"/>' +
+    '<rect x="40" y="12" width="18" height="48" rx="4" fill="' + (hard ? '#5AA9E6' : '#FFB03F') + '" stroke="#322C4A" stroke-width="4"/>' +
+    '</svg>';
+}
+
+function viewHub(){
+  const lv = level();
+  let cards = '';
+  cards += '<button class="hub-card teach" data-act="open-teach">' +
+    '<span class="hub-ic">' + ICON.book + '</span>' +
+    '<span class="hub-t">教學教室</span>' +
+    '<span class="hub-d">' + lv.teach.length + ' 張圖卡，用圖和簡短文字看懂層遞。</span>' +
+    '<span class="hub-tag">先來這裡 →</span>' +
+  '</button>';
+  lv.modes.forEach(function(m, i){
+    cards += '<button class="hub-card" data-act="open-game" data-mode="' + i + '">' +
+      '<span class="hub-ic">' + ICON[m.icon] + '</span>' +
+      '<span class="hub-t">' + m.name + '</span>' +
+      '<span class="hub-d">' + m.desc + '</span>' +
+      '<span class="hub-tag">' + m.tag + ' · 6 題</span>' +
+    '</button>';
+  });
+
+  return '<section class="view view-in">' +
+    '<div class="page-head">' +
+      '<button class="btn ghost sm" data-act="home">← 返回首頁</button>' +
+      '<span class="pill">' + lv.name + '</span>' +
+    '</div>' +
+    '<h2 class="page-title">' + lv.name + '</h2>' +
+    '<p class="page-sub">' + lv.meta + '</p>' +
+    '<div class="hub-grid">' + cards + '</div>' +
+  '</section>';
+}
+
+function viewTeach(){
+  const lv = level();
+  const pages = lv.teach;
+  const i = app.teachIndex;
+  const p = pages[i];
+  const dots = pages.map(function(_, k){
+    return '<span class="dot' + (k === i ? ' on' : '') + '"></span>';
+  }).join('');
+
+  const list = p.list.map(function(t, k){
+    return '<li><span class="num">' + (k+1) + '</span><span>' + t + '</span></li>';
+  }).join('');
+
+  const last = i === pages.length - 1;
+
+  return '<section class="view view-in">' +
+    '<div class="page-head">' +
+      '<button class="btn ghost sm" data-act="hub">← 選單</button>' +
+      '<span class="pill">教學 · ' + (i+1) + ' / ' + pages.length + '</span>' +
+    '</div>' +
+    '<article class="teach-card">' +
+      '<div class="ill-wrap">' + ART[p.art] + '</div>' +
+      '<div class="teach-body">' +
+        '<p class="teach-kicker">第 ' + (i+1) + ' 站</p>' +
+        '<h2 class="teach-title">' + p.title +
+          '<button class="btn icon" data-act="speak" aria-label="朗讀這一頁" title="朗讀">' +
+            '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.2L12 5.5v13L7.2 14.5H4z" fill="#FFC94B" stroke="#322C4A" stroke-width="1.8" stroke-linejoin="round"/><path d="M15.5 9a4.4 4.4 0 0 1 0 6M18.4 6.4a8.2 8.2 0 0 1 0 11.2" fill="none" stroke="#322C4A" stroke-width="1.9" stroke-linecap="round"/></svg>' +
+          '</button>' +
+        '</h2>' +
+        '<p class="teach-lead">' + p.lead + '</p>' +
+        '<ul class="teach-list">' + list + '</ul>' +
+        '<div class="example"><span class="ex-label">例子</span><p>' + p.example + '</p></div>' +
+        '<div class="tip">' + ICON.bulb + '<p>' + p.tip + '</p></div>' +
+      '</div>' +
+    '</article>' +
+    '<div class="teach-foot">' +
+      '<button class="btn sm" data-act="teach-prev"' + (i === 0 ? ' disabled' : '') + '>← 上一頁</button>' +
+      '<div class="dots">' + dots + '</div>' +
+      '<button class="btn primary sm" data-act="' + (last ? 'teach-end' : 'teach-next') + '">' +
+        (last ? '選遊戲 →' : '下一頁 →') +
+      '</button>' +
+    '</div>' +
+  '</section>';
+}
+
+function slotMarkup(pos){
+  const q = question();
+  const chip = app.order[pos];
+  let cls = 'slot';
+  let text = '<span class="slot-text empty">點下面的句子，放進第 ' + (pos+1) + ' 層</span>';
+  let tail = '';
+  if(chip !== undefined && chip !== null){
+    cls += ' filled';
+    text = '<span class="slot-text">' + q.steps[chip] + '</span>';
+    if(!app.reveal){
+      tail = '<span class="slot-x" aria-hidden="true">×</span>';
+    }
+  }
+  if(app.reveal){
+    const ok = app.order[pos] === pos;
+    cls += ok ? ' ok' : ' bad';
+    tail = '<span class="slot-mark">' + (ok ? ICON.check : ICON.cross) + '</span>';
+  }
+  return '<button class="' + cls + '" data-act="remove" data-pos="' + pos + '"' +
+    (app.reveal || chip === undefined || chip === null ? ' disabled' : '') +
+    ' aria-label="第 ' + (pos+1) + ' 層">' +
+    '<span class="slot-no">' + (pos+1) + '</span>' + text + tail +
+  '</button>';
+}
+
+function orderBody(){
+  const q = question();
+  const used = app.order;
+  const remain = app.chips.filter(function(i){ return used.indexOf(i) === -1; });
+
+  let slots = '';
+  for(let p=0;p<q.steps.length;p++){ slots += slotMarkup(p); }
+
+  let chips = '';
+  if(remain.length){
+    chips = remain.map(function(i){
+      return '<button class="chip" data-act="chip" data-i="' + i + '">' +
+        '<span class="chip-dot"></span><span>' + q.steps[i] + '</span></button>';
+    }).join('');
+  }
+
+  return '<div class="slots">' + slots + '</div>' +
+    (remain.length ? '<p class="chips-label">可以選的句子</p><div class="chips">' + chips + '</div>' : '') +
+    (!app.reveal && !remain.length ? '<p class="q-hint">都放好了，按下面的按鈕確認吧。</p>' : '') +
+    (app.reveal ? '' : '<button class="btn primary wide" data-act="confirm-order"' +
+      (app.order.length < q.steps.length ? ' disabled' : '') + '>確認答案</button>');
+}
+
+function pickBody(){
+  const q = question();
+  const opts = q.options.map(function(o, i){
+    let cls = 'opt';
+    let mark = '';
+    if(app.reveal){
+      if(o.ok){ cls += ' correct'; mark = ICON.check; }
+      else if(app.reveal.chosen === i){ cls += ' wrong'; mark = ICON.cross; }
+      else { cls += ' dim'; }
+    }
+    return '<button class="' + cls + '" data-act="answer" data-i="' + i + '"' + (app.reveal ? ' disabled' : '') + '>' +
+      '<span class="opt-no">' + 'ABCD'[i] + '</span>' +
+      '<span class="opt-t">' + o.t + '</span>' +
+      '<span class="opt-mark">' + mark + '</span>' +
+    '</button>';
+  }).join('');
+  return '<div class="options">' + opts + '</div>';
+}
+
+function revealMarkup(){
+  const q = question();
+  const r = app.reveal;
+  if(!r) return '';
+  const isOrder = mode().type === 'order';
+  let sub = '';
+  if(isOrder){
+    sub = '正確次序：' + q.steps.join(' → ');
+  }else{
+    let ci = 0;
+    q.options.forEach(function(o, i){ if(o.ok) ci = i; });
+    sub = '正確答案：' + 'ABCD'[ci];
+  }
+  return '<section class="reveal ' + (r.ok ? 'ok' : 'no') + '" aria-live="polite">' +
+    '<div class="reveal-head">' +
+      '<span class="reveal-ic">' + (r.ok ? ICON.check : ICON.cross) + '</span>' +
+      '<div><p class="reveal-title">' + (r.ok ? '答對了！' : '差一點，一起看看') + '</p>' +
+      '<p class="reveal-sub">' + sub + '</p></div>' +
+    '</div>' +
+    '<p class="reveal-note">' + q.note + '</p>' +
+    '<button class="btn primary wide" data-act="next-q">' +
+      (app.qIndex + 1 >= mode().questions.length ? '看成績 →' : '下一題 →') +
+    '</button>' +
+  '</section>';
+}
+
+function viewGame(){
+  const m = mode();
+  const q = question();
+  const total = m.questions.length;
+  const answered = app.reveal ? 1 : 0;
+  const pct = Math.round(((app.qIndex + answered) / total) * 100);
+
+  return '<section class="view view-in"><div class="game-wrap">' +
+    '<div class="game-head">' +
+      '<button class="btn ghost sm" data-act="hub">←</button>' +
+      '<div class="game-title">' +
+        '<div class="mode-name">' + m.name + '</div>' +
+        '<div class="mode-sub">' + level().name + ' · 第 ' + (app.qIndex + 1) + ' / ' + total + ' 題</div>' +
+      '</div>' +
+      '<span class="score-chip">' + ICON.star + ' ' + app.score + '</span>' +
+    '</div>' +
+    '<div class="progress" aria-hidden="true"><span style="width:' + pct + '%"></span></div>' +
+    '<div class="q-card">' +
+      '<p class="q-kicker">' + (m.type === 'order' ? '排一排' : '選一選') + '</p>' +
+      '<h2 class="q-text">' + q.ask + '</h2>' +
+      (q.hint ? '<p class="q-hint">' + q.hint + '</p>' : '') +
+      (m.type === 'order' ? orderBody() : pickBody()) +
+    '</div>' +
+    revealMarkup() +
+  '</div></section>';
+}
+
+function viewResult(){
+  const total = mode().questions.length;
+  const n = starsFor(app.score, total);
+  const name = level().name;
+  let title = '';
+  let desc = '';
+  if(app.score === total){
+    title = '滿分！層遞小達人';
+    desc = '每一題都答對，你已經完全掌握這個難度了。試試另一個模式，看看能不能再拿三顆星。';
+  }else if(app.score >= total * 0.66){
+    title = '表現很好！';
+    desc = '大部分題目都答對了。再挑戰一次，留意解說裡的關鍵字，就滿分了。';
+  }else if(app.score >= total * 0.34){
+    title = '不錯，繼續加油';
+    desc = '你已經抓到重點了。建議先回教學教室再看一次圖卡，然後重新挑戰。';
+  }else{
+    title = '先去教學教室走一圈';
+    desc = '層遞要記住「三層、同方向、不可換」。看完圖卡再回來，一定會進步。';
+  }
+
+  return '<section class="view view-in"><div class="result">' +
+    '<div class="stars">' + starMarkup(n) + '</div>' +
+    '<p class="result-score">' + app.score + '<small> / ' + total + ' 題</small></p>' +
+    '<h2 class="result-title">' + title + '</h2>' +
+    '<p class="result-desc">' + desc + '</p>' +
+    '<div class="result-actions">' +
+      '<button class="btn primary" data-act="restart">再玩一次</button>' +
+      '<button class="btn mint" data-act="other-mode">挑戰另一個模式</button>' +
+      '<button class="btn ghost" data-act="hub">回到選單</button>' +
+    '</div>' +
+    '<p class="hint-line">本次：' + name + ' · ' + mode().name + '</p>' +
+  '</div></section>';
+}
+
+function render(){
+  if(app.view === 'home'){ stage.innerHTML = viewHome(); }
+  else if(app.view === 'hub'){ stage.innerHTML = viewHub(); }
+  else if(app.view === 'teach'){ stage.innerHTML = viewTeach(); }
+  else if(app.view === 'game'){ stage.innerHTML = viewGame(); }
+  else if(app.view === 'result'){ stage.innerHTML = viewResult(); }
+  soundBtn.innerHTML = app.sound ? ICON.soundOn : ICON.soundOff;
+  window.scrollTo(0, 0);
+}
+
+/* =========================================================
+   6. 流程控制
+   ========================================================= */
+function setView(v){
+  app.view = v;
+  render();
+}
+function startGame(modeIndex){
+  app.modeIndex = modeIndex;
+  app.qIndex = 0;
+  app.score = 0;
+  resetQuestion();
+  setView('game');
+}
+function resetQuestion(){
+  app.reveal = null;
+  app.order = [];
+  const q = question();
+  if(mode().type === 'order'){
+    app.chips = shuffle(q.steps.map(function(_, i){ return i; }));
+  }else{
+    app.chips = [];
+  }
+}
+function scrollToReveal(){
+  requestAnimationFrame(function(){
+    const el = document.querySelector('.reveal');
+    if(el && el.getBoundingClientRect().bottom > window.innerHeight){
+      el.scrollIntoView({ behavior:'smooth', block:'center' });
+    }
+  });
+}
+
+/* =========================================================
+   7. 事件（統一委派）
+   ========================================================= */
+document.getElementById('app').addEventListener('click', function(e){
+  const btn = e.target.closest('[data-act]');
+  if(!btn || btn.disabled) return;
+  const act = btn.getAttribute('data-act');
+
+  if(act === 'sound'){
+    app.sound = !app.sound;
+    soundBtn.innerHTML = app.sound ? ICON.soundOn : ICON.soundOff;
+    if(app.sound){ sfx.page(); }
+    toast(app.sound ? '音效已開啟' : '音效已關閉');
+    return;
+  }
+
+  if(act !== 'chip' && act !== 'answer' && act !== 'remove' && act !== 'confirm-order'){ sfx.tap(); }
+
+  if(act === 'home'){
+    app.levelKey = null;
+    setView('home');
+  }
+  else if(act === 'hub'){
+    setView('hub');
+  }
+  else if(act === 'pick-level'){
+    app.levelKey = btn.getAttribute('data-level');
+    app.teachIndex = 0;
+    sfx.page();
+    setView('hub');
+  }
+  else if(act === 'open-teach'){
+    app.teachIndex = 0;
+    setView('teach');
+  }
+  else if(act === 'open-game'){
+    const mi = parseInt(btn.getAttribute('data-mode'), 10);
+    startGame(mi);
+  }
+  else if(act === 'teach-prev'){
+    if(app.teachIndex > 0){ app.teachIndex--; sfx.page(); render(); }
+  }
+  else if(act === 'teach-next'){
+    if(app.teachIndex < level().teach.length - 1){ app.teachIndex++; sfx.page(); render(); }
+  }
+  else if(act === 'teach-end'){
+    setView('hub');
+  }
+  else if(act === 'speak'){
+    const p = level().teach[app.teachIndex];
+    speak(p.title + '。' + p.lead + '。' + p.list.join('。') + '。例子：' + p.example);
+  }
+  else if(act === 'chip'){
+    if(app.reveal) return;
+    const i = parseInt(btn.getAttribute('data-i'), 10);
+    if(app.order.indexOf(i) === -1){
+      app.order.push(i);
+      sfx.place();
+      render();
+    }
+  }
+  else if(act === 'remove'){
+    if(app.reveal) return;
+    const pos = parseInt(btn.getAttribute('data-pos'), 10);
+    if(app.order[pos] !== undefined){
+      app.order.splice(pos, 1);
+      sfx.tap();
+      render();
+    }
+  }
+  else if(act === 'confirm-order'){
+    const q = question();
+    if(app.order.length < q.steps.length || app.reveal) return;
+    let ok = true;
+    for(let i=0;i<q.steps.length;i++){ if(app.order[i] !== i){ ok = false; break; } }
+    app.reveal = { ok:ok, chosen:null };
+    if(ok) app.score++;
+    if(ok){ sfx.correct(); } else { sfx.wrong(); }
+    render();
+    scrollToReveal();
+  }
+  else if(act === 'answer'){
+    if(app.reveal) return;
+    const i = parseInt(btn.getAttribute('data-i'), 10);
+    const ok = !!question().options[i].ok;
+    app.reveal = { ok:ok, chosen:i };
+    if(ok) app.score++;
+    if(ok){ sfx.correct(); } else { sfx.wrong(); }
+    render();
+    scrollToReveal();
+  }
+  else if(act === 'next-q'){
+    if(app.qIndex + 1 >= mode().questions.length){
+      sfx.win();
+      setView('result');
+    }else{
+      app.qIndex++;
+      resetQuestion();
+      sfx.page();
+      render();
+    }
+  }
+  else if(act === 'restart'){
+    startGame(app.modeIndex);
+  }
+  else if(act === 'other-mode'){
+    startGame(app.modeIndex === 0 ? 1 : 0);
+  }
+});
+
+/* 鍵盤：1-4 選答案、Enter 下一題、左右鍵換教學頁 */
+document.addEventListener('keydown', function(e){
+  if(app.view === 'game'){
+    const m = mode();
+    if(m.type === 'pick' && !app.reveal && /^[1-4]$/.test(e.key)){
+      const i = parseInt(e.key, 10) - 1;
+      if(i < question().options.length){
+        const el = document.querySelector('.opt[data-i="' + i + '"]');
+        if(el) el.click();
+      }
+      return;
+    }
+    if(e.key === 'Enter'){
+      if(app.reveal){
+        const nb = document.querySelector('[data-act="next-q"]');
+        if(nb) nb.click();
+      }else if(m.type === 'order'){
+        const cb = document.querySelector('[data-act="confirm-order"]');
+        if(cb && !cb.disabled) cb.click();
+      }
+    }
+  }else if(app.view === 'teach'){
+    if(e.key === 'ArrowRight'){
+      const nb = document.querySelector('[data-act="teach-next"]');
+      if(nb) nb.click();
+    }else if(e.key === 'ArrowLeft'){
+      const pb = document.querySelector('[data-act="teach-prev"]');
+      if(pb && !pb.disabled) pb.click();
+    }
+  }
+});
+
+/* 首次互動時解鎖音訊 */
+document.addEventListener('pointerdown', function(){ audio(); }, { once:true });
+
+/* 啟動 */
+render();
+</script>
+</body>
+</html>

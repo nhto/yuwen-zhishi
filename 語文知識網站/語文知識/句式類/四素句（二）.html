@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>四素句大冒險｜兒童繪本</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap">
+<style>
+  :root{
+    --paper:#FBF1DE; --ink:#6B4F3A; --soft:#8A6E55;
+    --time:#5AA9E6; --person:#F27EA3; --place:#F6A35C; --action:#7CB342;
+    --ok:#6BBF59; --bad:#E8746E;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+    color:var(--ink); min-height:100vh; display:flex; justify-content:center; position:relative; overflow-x:hidden;
+    background:
+      radial-gradient(circle at 12% 8%, rgba(255,214,165,.55), transparent 42%),
+      radial-gradient(circle at 92% 18%, rgba(165,216,255,.5), transparent 45%),
+      radial-gradient(circle at 85% 92%, rgba(200,230,180,.5), transparent 45%),
+      radial-gradient(circle at 8% 88%, rgba(255,190,210,.45), transparent 42%),
+      var(--paper);
+  }
+  .deco{position:fixed; opacity:.55; pointer-events:none; z-index:0;}
+  #app{width:100%; max-width:520px; padding:16px 16px 48px; position:relative; z-index:1;}
+
+  .screen{display:none; animation:fade .4s ease;}
+  .screen.active{display:block;}
+  @keyframes fade{from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:none;}}
+  .center{text-align:center;}
+
+  .book{
+    background:#FFFDF7; border:3px solid #EAD9B8; border-radius:28px;
+    padding:26px 20px; box-shadow:0 12px 30px rgba(150,110,60,.18);
+  }
+  .mascot{font-size:80px; line-height:1; animation:bob 2.6s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg);}50%{transform:translateY(-10px) rotate(2deg);}}
+  .title{font-size:32px; margin:10px 0 6px; color:#B5651D; font-weight:900; letter-spacing:2px;}
+  .subtitle{font-size:15px; color:var(--soft); margin:0 0 16px; line-height:1.6;}
+  .pill-row{display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-bottom:18px;}
+  .pill{padding:6px 13px; border-radius:999px; font-size:14px; font-weight:700; color:#fff; box-shadow:0 3px 0 rgba(0,0,0,.08);}
+  .pill.t{background:var(--time);} .pill.p{background:var(--person);}
+  .pill.pl{background:var(--place);} .pill.a{background:var(--action);}
+
+  .btn{
+    display:block; width:100%; border:none; cursor:pointer; font-family:inherit;
+    font-size:21px; font-weight:900; color:#fff; padding:16px; border-radius:999px;
+    background:linear-gradient(180deg,#F6A35C,#EE8A3C);
+    box-shadow:0 6px 0 #C9702A, 0 10px 16px rgba(150,90,40,.2);
+    transition:transform .08s, box-shadow .08s; margin-top:12px;
+  }
+  .btn:active{transform:translateY(4px); box-shadow:0 2px 0 #C9702A;}
+  .btn.secondary{background:linear-gradient(180deg,#7FB8E8,#5AA9E6); box-shadow:0 6px 0 #3E7FB8,0 10px 16px rgba(60,110,170,.2);}
+  .btn.secondary:active{box-shadow:0 2px 0 #3E7FB8;}
+
+  .screen-title{font-size:24px; font-weight:900; text-align:center; margin:6px 0 16px; color:#B5651D;}
+  .mode-card{
+    background:#FFFDF7; border:3px solid #EAD9B8; border-radius:24px; padding:16px;
+    margin-bottom:14px; display:flex; align-items:center; gap:14px; cursor:pointer;
+    box-shadow:0 6px 14px rgba(150,110,60,.12); transition:transform .1s;
+  }
+  .mode-card:active{transform:scale(.98);}
+  .mode-emoji{font-size:40px; width:66px; height:66px; display:flex; align-items:center; justify-content:center; border-radius:50%; flex:none; box-shadow:inset 0 -4px 0 rgba(0,0,0,.06);}
+  .mode-card h3{margin:0 0 4px; font-size:19px; color:var(--ink);}
+  .mode-card p{margin:0; font-size:13.5px; color:var(--soft); line-height:1.45;}
+
+  .topbar{display:flex; justify-content:space-between; gap:8px; align-items:center; margin-bottom:10px;}
+  .stat{background:#FFFDF7; border:2px solid #EAD9B8; border-radius:14px; padding:6px 10px; font-weight:900; font-size:14px; box-shadow:0 3px 6px rgba(150,110,60,.1); white-space:nowrap;}
+  .prog{height:14px; background:#FFFDF7; border:2px solid #EAD9B8; border-radius:999px; overflow:hidden; margin-bottom:16px;}
+  .prog > i{display:block; height:100%; background:linear-gradient(90deg,#F6A35C,#F27EA3); width:0; transition:width .35s;}
+
+  .prompt{font-size:18px; font-weight:900; text-align:center; margin:4px 0 14px; color:#B5651D; line-height:1.5;}
+
+  .slots{display:flex; flex-direction:column; gap:10px; margin-bottom:16px;}
+  .slot{
+    background:#FFFDF7; border:2.5px dashed #D9C79E; border-radius:18px; padding:10px 12px;
+    display:flex; align-items:center; gap:10px; min-height:60px;
+  }
+  .slot .tag{font-size:12.5px; font-weight:900; color:#fff; border-radius:10px; padding:4px 9px; flex:none;}
+  .slot .w{font-size:21px; font-weight:900; color:#B9A888;}
+  .slot.filled{border-style:solid; border-color:transparent; box-shadow:0 4px 10px rgba(150,110,60,.12);}
+  .slot.filled .w{color:var(--ink);}
+  .slot .wemoji{font-size:24px;}
+  .slot.t .tag{background:var(--time);} .slot.p .tag{background:var(--person);}
+  .slot.pl .tag{background:var(--place);} .slot.a .tag{background:var(--action);}
+
+  .choices{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  .choice{
+    background:#FFFDF7; border:2.5px solid #EAD9B8; border-radius:18px; padding:12px 8px; cursor:pointer;
+    font-family:inherit; font-size:19px; font-weight:900; color:var(--ink);
+    box-shadow:0 5px 0 #EAD9B8; transition:transform .08s; line-height:1.2;
+  }
+  .choice:active{transform:translateY(3px); box-shadow:0 2px 0 #EAD9B8;}
+  .choice .ce{display:block; font-size:30px; margin-bottom:2px;}
+  .choice.correct{background:#E4F4D6; border-color:var(--ok); box-shadow:0 5px 0 #9CCB7E;}
+  .choice.wrong{background:#FBDDD9; border-color:var(--bad); box-shadow:0 5px 0 #E8A7A2; animation:shake .3s;}
+  @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+
+  .question-card{
+    background:#FFFDF7; border:3px solid #EAD9B8; border-radius:24px; padding:22px 16px;
+    text-align:center; box-shadow:0 8px 18px rgba(150,110,60,.14);
+  }
+  .question-card .q-emoji{font-size:64px; line-height:1;}
+  .question-card .q-word{font-size:32px; font-weight:900; margin-top:6px;}
+  .sentence-box{font-size:23px; font-weight:900; line-height:2.1;}
+  .sentence-box .blank{color:var(--bad); border-bottom:3px dashed var(--bad); padding:0 8px;}
+
+  .baskets{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px;}
+  .basket{border-radius:20px; padding:14px 8px; text-align:center; cursor:pointer; color:#fff; font-weight:900; font-size:16px; box-shadow:0 5px 0 rgba(0,0,0,.14); transition:transform .08s;}
+  .basket .be{font-size:30px; display:block;}
+  .basket.t{background:var(--time);} .basket.p{background:var(--person);}
+  .basket.pl{background:var(--place);} .basket.a{background:var(--action);}
+
+  .scene{
+    background:#EAF6FF; border-radius:20px; padding:14px; text-align:center; margin-top:12px;
+    border:2.5px dashed #BBDFF5;
+  }
+  .scene .scene-row{font-size:30px; letter-spacing:6px;}
+
+  .toast{
+    position:fixed; left:50%; top:38%; transform:translate(-50%,-50%) scale(.8);
+    background:rgba(107,79,58,.95); color:#FFF6E6; padding:16px 26px; border-radius:20px;
+    font-size:21px; font-weight:900; opacity:0; pointer-events:none; transition:all .2s; z-index:50;
+    box-shadow:0 8px 20px rgba(0,0,0,.25);
+  }
+  .toast.show{opacity:1; transform:translate(-50%,-50%) scale(1);}
+
+  .result-emoji{font-size:86px;}
+  .stars{font-size:38px; letter-spacing:4px; margin:8px 0;}
+  .big-score{font-size:46px; font-weight:900; color:#EE8A3C;}
+</style>
+</head>
+<body>
+  <svg class="deco" style="top:6%; left:4%; width:70px;" viewBox="0 0 64 40"><ellipse cx="20" cy="26" rx="16" ry="10" fill="#fff"/><ellipse cx="38" cy="20" rx="14" ry="11" fill="#fff"/><ellipse cx="48" cy="28" rx="12" ry="8" fill="#fff"/></svg>
+  <svg class="deco" style="bottom:8%; right:5%; width:56px;" viewBox="0 0 64 40"><ellipse cx="20" cy="26" rx="16" ry="10" fill="#fff"/><ellipse cx="38" cy="20" rx="14" ry="11" fill="#fff"/></svg>
+
+<div id="app">
+
+  <!-- ===== 首頁 ===== -->
+  <section class="screen active" id="screen-home">
+    <div class="book center">
+      <div class="mascot">🐼</div>
+      <h1 class="title">四素句大冒險</h1>
+      <p class="subtitle">小朋友，你知道一句完整的話，要包含哪四樣東西嗎？<br>一起來拼出好看的句子吧！</p>
+      <div class="pill-row">
+        <span class="pill t">⏰ 時間</span>
+        <span class="pill p">🧑 人物</span>
+        <span class="pill pl">📍 地點</span>
+        <span class="pill a">🎯 事情</span>
+      </div>
+      <button class="btn" onclick="goModeSelect()">開始冒險</button>
+      <button class="btn secondary" onclick="toggleSound(this)">🔊 音效：開</button>
+    </div>
+  </section>
+
+  <!-- ===== 模式選擇 ===== -->
+  <section class="screen" id="screen-modes">
+    <h2 class="screen-title">選一個冒險遊戲！</h2>
+    <div class="mode-card" onclick="startGame('build')">
+      <div class="mode-emoji" style="background:#E7F2FF">🧩</div>
+      <div><h3>四素拼拼樂</h3><p>把時間、人物、地點、事情，排成一句完整的話</p></div>
+    </div>
+    <div class="mode-card" onclick="startGame('fill')">
+      <div class="mode-emoji" style="background:#FFEAF1">🔍</div>
+      <div><h3>找出遺漏</h3><p>句子裡少了一個詞，把正確的詞找出來補上</p></div>
+    </div>
+    <div class="mode-card" onclick="startGame('classify')">
+      <div class="mode-emoji" style="background:#FFF3E0">🗂️</div>
+      <div><h3>四素大分類</h3><p>看看這個詞，屬於時間、人物、地點還是事情？</p></div>
+    </div>
+    <button class="btn secondary" onclick="showScreen('screen-home')">回首頁</button>
+  </section>
+
+  <!-- ===== 遊戲進行 ===== -->
+  <section class="screen" id="screen-play">
+    <div class="topbar">
+      <div class="stat" id="stat-score">⭐ 0</div>
+      <div class="stat" id="stat-lives">❤️❤️❤️</div>
+      <div class="stat" id="stat-combo">🔥 0</div>
+    </div>
+    <div class="prog"><i id="progbar"></i></div>
+    <div id="play-area"></div>
+  </section>
+
+  <!-- ===== 結果 ===== -->
+  <section class="screen" id="screen-result">
+    <div class="book center">
+      <div class="result-emoji" id="result-emoji">🎉</div>
+      <h2 class="screen-title" id="result-title">完成！</h2>
+      <div class="stars" id="result-stars">⭐⭐⭐</div>
+      <div class="big-score" id="result-score">0 分</div>
+      <p class="subtitle" id="result-msg"></p>
+      <button class="btn" onclick="startGame(G.mode)">再玩一次</button>
+      <button class="btn secondary" onclick="showScreen('screen-modes')">選別的遊戲</button>
+    </div>
+  </section>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+/* ============ 詞庫（按香港小學生常用詞） ============ */
+const CAT = {time:'時間', person:'人物', place:'地點', action:'事情'};
+const CAT_EMOJI = {time:'⏰', person:'🧑', place:'📍', action:'🎯'};
+const WORD_EMOJI = {
+  '早上':'🌅','晚上':'🌙','今天':'📅','下午':'☀️','週末':'🎉','放學後':'🏫','中午':'🌞','春天':'🌸','夏天':'🏖️','下雨天':'🌧️',
+  '小明':'👦','媽媽':'👩','小美':'👧','爸爸':'👨','小貓':'🐱','爺爺':'👴','弟弟':'👦','姐姐':'👧','奶奶':'👵','小狗':'🐶','兔子':'🐰','小朋友':'🧒',
+  '學校':'🏫','家裡':'🏠','公園':'🌳','餐廳':'🍽️','床上':'🛏️','動物園':'🦁','圖書館':'📚','教室':'✏️','花園':'🌷','操場':'🏟️','海邊':'🏖️','街市':'🥬','游泳池':'🏊',
+  '讀書':'📖','吃飯':'🍚','打球':'⚽','睡覺':'😴','看動物':'🦁','看故事書':'📚','賞花':'🌼','跑步':'🏃','堆沙堡':'🏰','踩單車':'🚲','買菜':'🥕','游泳':'🏊','畫畫':'🎨','盪鞦韆':'🎠'
+};
+const EMOJI = w => WORD_EMOJI[w] || '✨';
+
+/* 模式一：拼拼樂 [時間, 人物, 地點, 事情] */
+const BUILD = [
+  ['早上','小明','學校','讀書'],
+  ['晚上','媽媽','家裡','吃飯'],
+  ['今天','小美','公園','打球'],
+  ['下午','爸爸','餐廳','吃飯'],
+  ['晚上','小貓','床上','睡覺'],
+  ['週末','爺爺','動物園','看動物'],
+  ['放學後','弟弟','圖書館','看故事書'],
+  ['中午','姐姐','教室','讀書'],
+  ['春天','奶奶','花園','賞花'],
+  ['下午','小明','操場','跑步'],
+  ['週末','小美','海邊','堆沙堡'],
+  ['晚上','小狗','家裡','睡覺'],
+  ['早上','爸爸','公園','踩單車'],
+  ['今天','媽媽','街市','買菜'],
+  ['夏天','小明','游泳池','游泳'],
+];
+/* 模式二：找出遺漏 */
+const FILL = [
+  {blank:'time',   words:['今天','小美','家裡','吃飯']},
+  {blank:'person', words:['早上','小明','公園','打球']},
+  {blank:'place',  words:['下午','媽媽','街市','買菜']},
+  {blank:'action', words:['晚上','小貓','床上','睡覺']},
+  {blank:'time',   words:['放學後','弟弟','圖書館','看故事書']},
+  {blank:'person', words:['週末','爺爺','動物園','看動物']},
+  {blank:'place',  words:['春天','奶奶','花園','賞花']},
+  {blank:'action', words:['中午','姐姐','教室','讀書']},
+  {blank:'time',   words:['夏天','小明','游泳池','游泳']},
+  {blank:'person', words:['下午','小明','操場','跑步']},
+  {blank:'place',  words:['週末','小美','海邊','堆沙堡']},
+  {blank:'action', words:['晚上','小狗','家裡','睡覺']},
+  {blank:'time',   words:['早上','爸爸','公園','踩單車']},
+  {blank:'person', words:['下雨天','兔子','家裡','睡覺']},
+  {blank:'time',   words:['週末','小朋友','公園','盪鞦韆']},
+];
+/* 模式三：大分類 */
+const CLASSIFY = [
+  ['打球','action'],['早上','time'],['媽媽','person'],['學校','place'],['吃飯','action'],
+  ['週末','time'],['小貓','person'],['公園','place'],['畫畫','action'],['夏天','time'],
+  ['爺爺','person'],['動物園','place'],['踩單車','action'],['放學後','time'],['小狗','person'],
+];
+const CAT_POOL = {
+  time:['早上','晚上','今天','下午','週末','放學後','中午','春天','夏天','下雨天'],
+  person:['小明','媽媽','小美','爸爸','小貓','爺爺','弟弟','姐姐','奶奶','小狗','兔子','小朋友'],
+  place:['學校','家裡','公園','餐廳','床上','動物園','圖書館','教室','花園','操場','海邊','街市','游泳池'],
+  action:['讀書','吃飯','打球','睡覺','看動物','看故事書','賞花','跑步','堆沙堡','踩單車','買菜','游泳','畫畫','盪鞦韆']
+};
+const CAT_ORDER = ['time','person','place','action'];
+
+/* ============ 狀態 ============ */
+const G = {mode:null, q:0, score:0, lives:3, combo:0, sound:true, order:[], picked:0};
+
+/* ============ 音效 ============ */
+let actx=null;
+function ac(){ if(!actx) actx = new (window.AudioContext||window.webkitAudioContext)(); if(actx.state==='suspended') actx.resume(); return actx; }
+function beep(freq, dur, type='sine', vol=0.15, when=0){
+  if(!G.sound) return;
+  try{
+    const c=ac(), o=c.createOscillator(), g=c.createGain();
+    o.type=type; o.frequency.value=freq;
+    g.gain.setValueAtTime(vol, c.currentTime+when);
+    g.gain.exponentialRampToValueAtTime(0.001, c.currentTime+when+dur);
+    o.connect(g); g.connect(c.destination);
+    o.start(c.currentTime+when); o.stop(c.currentTime+when+dur);
+  }catch(e){}
+}
+const sClick = ()=>beep(620,.08,'triangle',.1);
+const sRight = ()=>{beep(523,.12,'sine',.18); beep(659,.12,'sine',.18,.1); beep(784,.2,'sine',.18,.2);};
+const sWrong = ()=>{beep(300,.2,'sine',.12); beep(220,.25,'sine',.1,.15);};
+const sStar  = ()=>beep(1047,.2,'triangle',.15);
+const sWin   = ()=>{[523,659,784,1047].forEach((f,i)=>beep(f,.18,'sine',.18,i*.13));};
+function toggleSound(btn){ G.sound=!G.sound; btn.textContent=G.sound?'🔊 音效：開':'🔇 音效：關'; if(G.sound) sClick(); }
+
+/* ============ 畫面切換 ============ */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function goModeSelect(){ sClick(); showScreen('screen-modes'); }
+
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
+function currentTotal(){ return G.mode==='build'?BUILD.length : G.mode==='fill'?FILL.length : CLASSIFY.length; }
+
+function startGame(mode){
+  G.mode=mode; G.q=0; G.score=0; G.lives=3; G.combo=0;
+  sClick(); showScreen('screen-play'); renderQuestion();
+}
+function updateHud(){
+  document.getElementById('stat-score').textContent='⭐ '+G.score;
+  document.getElementById('stat-lives').textContent='❤️'.repeat(G.lives)+'🤍'.repeat(3-G.lives);
+  document.getElementById('stat-combo').textContent='🔥 '+G.combo;
+  document.getElementById('progbar').style.width = (G.q/currentTotal()*100)+'%';
+}
+function renderQuestion(){
+  updateHud();
+  const area=document.getElementById('play-area');
+  if(G.q >= currentTotal()){ return finish(); }
+  if(G.mode==='build') renderBuild(area);
+  else if(G.mode==='fill') renderFill(area);
+  else renderClassify(area);
+}
+
+/* ----- 模式一 ----- */
+function renderBuild(area){
+  const words=BUILD[G.q];
+  G.order=shuffle([0,1,2,3]); G.picked=0;
+  area.innerHTML=`
+    <div class="prompt">按順序把詞排好，拼成一句話！</div>
+    <div class="slots">
+      ${CAT_ORDER.map((c,i)=>`
+        <div class="slot ${c==='time'?'t':c==='person'?'p':c==='place'?'pl':'a'}" data-slot="${i}">
+          <span class="tag">${CAT_EMOJI[c]} ${CAT[c]}</span>
+          <span class="w" data-word="${i}">？</span>
+        </div>`).join('')}
+    </div>
+    <div class="choices" id="choices"></div>
+    <div class="scene" id="scene" style="display:none"><div class="scene-row" id="scene-row"></div></div>`;
+  const ch=document.getElementById('choices');
+  G.order.forEach(idx=>{
+    const b=document.createElement('button');
+    b.className='choice';
+    b.innerHTML=`<span class="ce">${EMOJI(words[idx])}</span>${words[idx]}`;
+    b.onclick=()=>pickBuild(b,idx,words);
+    ch.appendChild(b);
+  });
+}
+function pickBuild(btn,idx,words){
+  if(btn.disabled) return;
+  if(idx===G.picked){
+    btn.disabled=true; btn.classList.add('correct');
+    const slot=document.querySelector(`.slot[data-slot="${G.picked}"] .w`);
+    slot.innerHTML=`<span class="wemoji">${EMOJI(words[idx])}</span> ${words[idx]}`;
+    G.picked++;
+    if(G.picked===4){
+      document.getElementById('choices').style.display='none';
+      document.getElementById('scene').style.display='block';
+      document.getElementById('scene-row').textContent=words.map(w=>EMOJI(w)).join('');
+      right(()=>{ showToast('🥳 好漂亮的句子！'); G.q++; setTimeout(renderQuestion,1100); });
+    } else { sClick(); }
+  } else {
+    btn.classList.add('wrong'); setTimeout(()=>btn.classList.remove('wrong'),400);
+    wrong(()=>{ G.q++; setTimeout(renderQuestion,900); });
+  }
+}
+
+/* ----- 模式二 ----- */
+function renderFill(area){
+  const item=FILL[G.q];
+  const [t,p,pl,a]=item.words;
+  const blankIdx=CAT_ORDER.indexOf(item.blank);
+  const parts=[t,p,pl,a].map((w,i)=> i===blankIdx ? '<span class="blank">＿＿</span>' : `${EMOJI(w)}${w}`);
+  const correct=item.words[blankIdx];
+  const distractors=[];
+  for(const c of CAT_ORDER){
+    if(c===item.blank) continue;
+    const pool=CAT_POOL[c].filter(w=>w!==correct && !item.words.includes(w));
+    distractors.push(pool[Math.floor(Math.random()*pool.length)]);
+  }
+  const options=shuffle([correct,...distractors]);
+  area.innerHTML=`
+    <div class="prompt">句子裡缺了一個詞，選哪個才對？</div>
+    <div class="question-card">
+      <div class="sentence-box">${parts[0]}，${parts[1]}在${parts[2]}${parts[3]}。</div>
+    </div>
+    <div class="choices" style="margin-top:14px;" id="choices"></div>`;
+  const ch=document.getElementById('choices');
+  options.forEach(opt=>{
+    const b=document.createElement('button');
+    b.className='choice'; b.dataset.val=opt;
+    b.innerHTML=`<span class="ce">${EMOJI(opt)}</span>${opt}`;
+    b.onclick=()=>{
+      if(b.disabled) return;
+      if(opt===correct){
+        b.classList.add('correct');
+        right(()=>{ showToast('👍 補對了！'); G.q++; setTimeout(renderQuestion,950); });
+      } else {
+        b.classList.add('wrong'); b.disabled=true;
+        [...ch.children].forEach(cb=>{ if(cb.dataset.val===correct) cb.classList.add('correct'); });
+        wrong(()=>{ G.q++; setTimeout(renderQuestion,1200); });
+      }
+    };
+    ch.appendChild(b);
+  });
+}
+
+/* ----- 模式三 ----- */
+function renderClassify(area){
+  const [word,cat]=CLASSIFY[G.q];
+  area.innerHTML=`
+    <div class="prompt">這個詞屬於哪一類？</div>
+    <div class="question-card">
+      <div class="q-emoji">${EMOJI(word)}</div>
+      <div class="q-word">${word}</div>
+    </div>
+    <div class="baskets">
+      ${CAT_ORDER.map(c=>`<div class="basket ${c==='time'?'t':c==='person'?'p':c==='place'?'pl':'a'}" data-cat="${c}">
+        <span class="be">${CAT_EMOJI[c]}</span>${CAT[c]}</div>`).join('')}
+    </div>`;
+  document.querySelectorAll('.basket').forEach(b=>{
+    b.onclick=()=>{
+      if(b.dataset.cat===cat){
+        b.style.transform='scale(1.08)';
+        right(()=>{ showToast('✅ 答對了！'); G.q++; setTimeout(renderQuestion,850); });
+      } else {
+        sWrong(); b.style.background='#ccc';
+        document.querySelector(`.basket[data-cat="${cat}"]`).style.transform='scale(1.08)';
+        wrong(()=>{ G.q++; setTimeout(renderQuestion,1150); });
+      }
+    };
+  });
+}
+
+/* ----- 計分 / 生命 ----- */
+function right(done){
+  G.combo++;
+  let pts=10; if(G.combo>=5) pts+=10; else if(G.combo>=3) pts+=5;
+  G.score+=pts; sRight(); if(G.combo>=3) sStar();
+  updateHud(); done();
+}
+function wrong(done){
+  G.combo=0; G.lives--; sWrong(); updateHud();
+  if(G.lives<=0){ setTimeout(finish,900); } else done();
+}
+
+/* ----- 結果 ----- */
+function finish(){
+  const total=currentTotal();
+  let stars,emoji,msg;
+  if(G.lives>0 && G.score>=total*10+30){ stars=3; emoji='🏆'; msg='太厲害了！你是四素句小達人！'; sWin(); }
+  else if(G.lives>0 && G.score>=total*10){ stars=2; emoji='🎉'; msg='表現很棒！再練習會更厲害！'; sWin(); }
+  else if(G.lives>0){ stars=1; emoji='😊'; msg='不錯喔！繼續加油！'; sWin(); }
+  else { stars=0; emoji='😢'; msg='別灰心，再試一次一定更好！'; }
+  document.getElementById('result-emoji').textContent=emoji;
+  document.getElementById('result-stars').textContent='⭐'.repeat(stars)+'☆'.repeat(3-stars);
+  document.getElementById('result-score').textContent=G.score+' 分';
+  document.getElementById('result-msg').textContent=msg;
+  showScreen('screen-result');
+}
+
+/* ----- 提示 ----- */
+let toastTimer;
+function showToast(t){
+  const el=document.getElementById('toast');
+  el.textContent=t; el.classList.add('show');
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>el.classList.remove('show'),900);
+}
+</script>
+</body>
+</html>

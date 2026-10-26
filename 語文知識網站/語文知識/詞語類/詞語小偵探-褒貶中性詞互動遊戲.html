@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>詞語小偵探 - 褒義詞、貶義詞、中性詞互動遊戲</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://aisearch-task.bj.bcebos.com/static/tailwindcss-3.4.17.js"></script>
+<style>
+* {
+  font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+}
+
+:root {
+  --positive: #FF6B6B;
+  --negative: #4ECDC4;
+  --neutral: #FFD93D;
+  --bg-primary: #FFF8E7;
+}
+
+html, body {
+  margin: 0; padding: 0;
+  background: linear-gradient(135deg, #FFF8E7 0%, #FFE4B5 50%, #FFDAB9 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+  /* GPU 加速 */
+  -webkit-font-smoothing: antialiased;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* 統一用 transform3d 開啟 GPU 合成層，減少重繪 */
+.bounce-in {
+  animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  will-change: transform, opacity;
+}
+
+@keyframes bounceIn {
+  0% { transform: translate3d(0,0,0) scale(0.3); opacity: 0; }
+  50% { transform: translate3d(0,0,0) scale(1.05); }
+  70% { transform: translate3d(0,0,0) scale(0.9); }
+  100% { transform: translate3d(0,0,0) scale(1); opacity: 1; }
+}
+
+.shake {
+  animation: shake 0.45s cubic-bezier(.36,.07,.19,.97) both;
+  will-change: transform;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-2px,0,0); }
+  20%, 80% { transform: translate3d(4px,0,0); }
+  30%, 50%, 70% { transform: translate3d(-7px,0,0); }
+  40%, 60% { transform: translate3d(7px,0,0); }
+}
+
+.pulse-glow {
+  animation: pulseGlow 2.5s ease-in-out infinite;
+  will-change: box-shadow;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 18px rgba(255,107,107,0.35); }
+  50% { box-shadow: 0 0 35px rgba(255,107,107,0.7); }
+}
+
+/* 只讓少數元素飄浮，用 translate3d */
+.float {
+  animation: float 3.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate3d(0,0,0); }
+  50% { transform: translate3d(0,-12px,0); }
+}
+
+/* 彩屑容器固定，避免大量 DOM 操作 */
+#confettiLayer {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+  contain: strict;
+}
+.confetti {
+  position: absolute;
+  top: -20px;
+  width: 10px; height: 10px;
+  will-change: transform, opacity;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  0%   { transform: translate3d(0,0,0) rotate(0deg); opacity: 1; }
+  100% { transform: translate3d(0,100vh,0) rotate(720deg); opacity: 0; }
+}
+
+.card-shadow {
+  box-shadow: 0 8px 30px rgba(0,0,0,0.09), 0 3px 12px rgba(0,0,0,0.06);
+}
+
+.btn-press { transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.btn-press:active { transform: translate3d(0,0,0) scale(0.96); }
+
+.word-card {
+  transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s;
+  will-change: transform;
+}
+.word-card:hover { transform: translate3d(0,-4px,0); }
+
+.correct-answer {
+  animation: correctPop 0.45s ease-out;
+  background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+}
+@keyframes correctPop {
+  0%   { transform: translate3d(0,0,0) scale(1); }
+  50%  { transform: translate3d(0,0,0) scale(1.08); }
+  100% { transform: translate3d(0,0,0) scale(1); }
+}
+
+.wrong-answer {
+  animation: wrongShake 0.45s ease-out;
+  background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+}
+@keyframes wrongShake {
+  0%,100% { transform: translate3d(0,0,0); }
+  25%     { transform: translate3d(-8px,0,0); }
+  75%     { transform: translate3d(8px,0,0); }
+}
+
+.emoji-big { font-size: 4.5rem; line-height: 1; }
+
+.tab-active {
+  background: linear-gradient(135deg, #FF6B6B, #FF8E8E);
+  color: white;
+  transform: translate3d(0,0,0) scale(1.05);
+}
+
+/* 背景雲朵：簡化為 2 朵，用 translate3d，降低不透明度更新 */
+.bg-cloud {
+  position: fixed;
+  font-size: 3.5rem;
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+  animation: cloudDrift linear infinite;
+}
+@keyframes cloudDrift {
+  0%   { transform: translate3d(-10vw,0,0); }
+  100% { transform: translate3d(110vw,0,0); }
+}
+
+/* 可愛偵探吉祥物裝飾 */
+.mascot {
+  display: inline-block;
+  animation: mascotBob 2s ease-in-out infinite;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+}
+@keyframes mascotBob {
+  0%,100% { transform: translate3d(0,0,0) rotate(-3deg); }
+  50%     { transform: translate3d(0,-6px,0) rotate(3deg); }
+}
+
+/* 詞語卡片插圖區 */
+.word-illust {
+  font-size: 4rem;
+  line-height: 1.2;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+}
+@media (min-width: 768px) {
+  .word-illust { font-size: 5.5rem; }
+}
+
+/* 進度條平滑 */
+.smooth-bar { transition: width 0.4s ease; }
+
+/* 選項按鈕禁用時 */
+.opt-disabled { pointer-events: none; }
+
+/* 防止文字被選取（遊戲體驗） */
+.no-select {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* 大型可愛標籤 */
+.cute-tag {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 1.05rem;
+  margin: 3px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+@media (min-width: 768px) {
+  .cute-tag { font-size: 1.2rem; padding: 7px 18px; }
+}
+
+/* 關卡標記 */
+.level-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 0.9rem;
+}
+</style>
+</head>
+<body class="pb-8 no-select">
+
+<!-- 彩屑專用層（固定容器，減少重排） -->
+<div id="confettiLayer"></div>
+
+<!-- 背景雲朵（僅2朵，降低負荷） -->
+<div class="bg-cloud" style="top:8%;  animation-duration:35s;  animation-delay:0s;">☁️</div>
+<div class="bg-cloud" style="top:55%; animation-duration:45s; animation-delay:-20s;">☁️</div>
+
+<div class="relative z-10 max-w-5xl mx-auto px-3 py-3 md:px-4 md:py-5">
+
+<!-- ====== 標題區 ====== -->
+<header class="text-center mb-5 bounce-in">
+  <div class="flex items-center justify-center gap-2 md:gap-3 mb-2 flex-wrap">
+    <span class="mascot text-4xl md:text-6xl">🔍</span>
+    <h1 class="text-3xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B6B] via-[#FF8E53] to-[#FFD93D]">
+      詞語小偵探
+    </h1>
+    <span class="mascot text-4xl md:text-6xl" style="animation-delay:0.3s;">🕵️‍♀️</span>
+  </div>
+  <p class="text-base md:text-2xl text-amber-700 font-bold flex items-center justify-center gap-2 flex-wrap">
+    <span>✨</span>一起來分辨褒義詞、貶義詞和中性詞吧！<span>✨</span>
+  </p>
+</header>
+
+<!-- ====== 難度切換 ====== -->
+<div class="flex justify-center gap-3 md:gap-4 mb-5">
+  <button id="levelBeginner" onclick="switchLevel('beginner')" class="tab-active px-5 py-3 md:px-8 md:py-4 rounded-2xl font-bold text-base md:text-xl card-shadow btn-press transition-all">
+    🌟 初階版
+  </button>
+  <button id="levelAdvanced" onclick="switchLevel('advanced')" class="bg-white/80 px-5 py-3 md:px-8 md:py-4 rounded-2xl font-bold text-base md:text-xl text-gray-600 card-shadow btn-press transition-all hover:bg-white">
+    🚀 高階版
+  </button>
+</div>
+
+<!-- ====== 頁面導航 ====== -->
+<div class="flex justify-center gap-2 md:gap-3 mb-5 flex-wrap">
+  <button id="navLearn" onclick="switchPage('learn')" class="tab-active px-4 py-2 md:px-7 md:py-3 rounded-full font-bold text-sm md:text-lg card-shadow btn-press transition-all whitespace-nowrap">
+    📚 學習教室
+  </button>
+  <button id="navGame1" onclick="switchPage('game1')" class="bg-white/80 px-4 py-2 md:px-7 md:py-3 rounded-full font-bold text-sm md:text-lg text-gray-600 card-shadow btn-press transition-all hover:bg-white whitespace-nowrap">
+    🎯 分類大作戰
+  </button>
+  <button id="navGame2" onclick="switchPage('game2')" class="bg-white/80 px-4 py-2 md:px-7 md:py-3 rounded-full font-bold text-sm md:text-lg text-gray-600 card-shadow btn-press transition-all hover:bg-white whitespace-nowrap">
+    🏃 詞語快跑
+  </button>
+</div>
+
+<!-- ========== 學習教室 ========== -->
+<div id="pageLearn" class="page-content">
+  <div class="bg-white/92 rounded-3xl p-5 md:p-8 card-shadow mb-6">
+    <h2 class="text-2xl md:text-4xl font-black text-center mb-5 md:mb-7 text-amber-700 flex items-center justify-center gap-2 flex-wrap">
+      <span class="text-3xl md:text-5xl">🎓</span> 什麼是褒義詞、貶義詞、中性詞？
+    </h2>
+
+    <div class="grid md:grid-cols-3 gap-4 md:gap-5 mb-7">
+
+      <!-- 褒義詞 -->
+      <div class="bg-gradient-to-br from-red-50 to-pink-100 rounded-3xl p-5 md:p-6 border-4 border-[#FF6B6B] card-shadow word-card">
+        <div class="text-center mb-3">
+          <div class="emoji-big mb-1">🥰</div>
+          <h3 class="text-2xl md:text-3xl font-black text-[#FF6B6B]">褒義詞</h3>
+          <div class="text-2xl md:text-3xl mt-1">👍 ❤️ 🌟</div>
+        </div>
+        <div class="bg-white/85 rounded-2xl p-4">
+          <p class="text-base md:text-xl leading-relaxed text-gray-700 font-medium">
+            帶有<span class="text-[#FF6B6B] font-black">讚美、肯定、喜愛</span>感情的詞語。
+          </p>
+          <p class="text-base md:text-lg mt-2 text-gray-600 flex items-start gap-1">
+            <span>🎯</span><span>用在好的人事物身上，讓人聽了開心！</span>
+          </p>
+          <div class="mt-3 flex flex-wrap">
+            <span class="cute-tag bg-[#FF6B6B]/20 text-[#FF6B6B]">👩‍🌾 勤勞</span>
+            <span class="cute-tag bg-[#FF6B6B]/20 text-[#FF6B6B]">👸 美麗</span>
+            <span class="cute-tag bg-[#FF6B6B]/20 text-[#FF6B6B]">🦸 勇敢</span>
+            <span class="cute-tag bg-[#FF6B6B]/20 text-[#FF6B6B]">💎 誠實</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 貶義詞 -->
+      <div class="bg-gradient-to-br from-teal-50 to-cyan-100 rounded-3xl p-5 md:p-6 border-4 border-[#4ECDC4] card-shadow word-card">
+        <div class="text-center mb-3">
+          <div class="emoji-big mb-1">😡</div>
+          <h3 class="text-2xl md:text-3xl font-black text-[#2A9D8F]">貶義詞</h3>
+          <div class="text-2xl md:text-3xl mt-1">👎 💢 😤</div>
+        </div>
+        <div class="bg-white/85 rounded-2xl p-4">
+          <p class="text-base md:text-xl leading-relaxed text-gray-700 font-medium">
+            帶有<span class="text-[#2A9D8F] font-black">貶斥、否定、厭惡</span>感情的詞語。
+          </p>
+          <p class="text-base md:text-lg mt-2 text-gray-600 flex items-start gap-1">
+            <span>🎯</span><span>用在不好的人事物身上，帶有批評！</span>
+          </p>
+          <div class="mt-3 flex flex-wrap">
+            <span class="cute-tag bg-[#4ECDC4]/30 text-[#2A9D8F]">😴 懶惰</span>
+            <span class="cute-tag bg-[#4ECDC4]/30 text-[#2A9D8F]">👹 醜陋</span>
+            <span class="cute-tag bg-[#4ECDC4]/30 text-[#2A9D8F]">🐭 膽小</span>
+            <span class="cute-tag bg-[#4ECDC4]/30 text-[#2A9D8F]">🤥 說謊</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 中性詞 -->
+      <div class="bg-gradient-to-br from-yellow-50 to-amber-100 rounded-3xl p-5 md:p-6 border-4 border-[#FFD93D] card-shadow word-card">
+        <div class="text-center mb-3">
+          <div class="emoji-big mb-1">🤔</div>
+          <h3 class="text-2xl md:text-3xl font-black text-amber-600">中性詞</h3>
+          <div class="text-2xl md:text-3xl mt-1">📋 📦 🔖</div>
+        </div>
+        <div class="bg-white/85 rounded-2xl p-4">
+          <p class="text-base md:text-xl leading-relaxed text-gray-700 font-medium">
+            不帶特殊感情，單純<span class="text-amber-600 font-black">說明事物</span>的詞語。
+          </p>
+          <p class="text-base md:text-lg mt-2 text-gray-600 flex items-start gap-1">
+            <span>🎯</span><span>只是客觀描述，沒有好壞之分！</span>
+          </p>
+          <div class="mt-3 flex flex-wrap">
+            <span class="cute-tag bg-[#FFD93D]/35 text-amber-700">🪑 桌子</span>
+            <span class="cute-tag bg-[#FFD93D]/35 text-amber-700">🏃 跑步</span>
+            <span class="cute-tag bg-[#FFD93D]/35 text-amber-700">✏️ 鉛筆</span>
+            <span class="cute-tag bg-[#FFD93D]/35 text-amber-700">🎒 書包</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 小秘訣 -->
+    <div class="bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl p-5 md:p-6 border-4 border-purple-300">
+      <h3 class="text-xl md:text-2xl font-black text-purple-700 mb-4 flex items-center gap-2 flex-wrap">
+        <span class="text-3xl">💡</span> 小偵探秘訣（三步驟判斷！）
+      </h3>
+      <div class="grid md:grid-cols-3 gap-3 md:gap-4">
+        <div class="bg-white/80 rounded-xl p-4 border-2 border-pink-200">
+          <p class="font-black text-pink-600 mb-2 text-base md:text-lg flex items-center gap-1"><span>🤩</span>方法一：誇獎？</p>
+          <p class="text-gray-700 text-base md:text-lg">這個詞是在<span class="text-red-500 font-bold">誇獎人</span>嗎？用在好人好事上？是的話就是<span class="text-[#FF6B6B] font-bold">褒義詞</span>！</p>
+        </div>
+        <div class="bg-white/80 rounded-xl p-4 border-2 border-teal-200">
+          <p class="font-black text-teal-600 mb-2 text-base md:text-lg flex items-center gap-1"><span>😠</span>方法二：批評？</p>
+          <p class="text-gray-700 text-base md:text-lg">這個詞是在<span class="text-teal-500 font-bold">批評/罵人</span>嗎？帶有討厭的感覺？是的話就是<span class="text-[#2A9D8F] font-bold">貶義詞</span>！</p>
+        </div>
+        <div class="bg-white/80 rounded-xl p-4 border-2 border-amber-200">
+          <p class="font-black text-amber-600 mb-2 text-base md:text-lg flex items-center gap-1"><span>🤨</span>方法三：中立？</p>
+          <p class="text-gray-700 text-base md:text-lg">既不是誇獎也不是批評，只是<span class="text-amber-600 font-bold">客觀描述</span>一件事/東西？就是<span class="text-amber-600 font-bold">中性詞</span>！</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-7">
+      <button onclick="switchPage('game1')" class="bg-gradient-to-r from-[#FF6B6B] to-[#FF8E53] text-white text-lg md:text-2xl font-black px-8 py-4 md:px-14 md:py-5 rounded-full card-shadow pulse-glow btn-press transition-transform hover:scale-105">
+        🎮 我學會了！開始挑戰！
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 遊戲一：分類大作戰 ========== -->
+<div id="pageGame1" class="page-content hidden">
+  <div class="bg-white/92 rounded-3xl p-5 md:p-8 card-shadow">
+
+    <div class="text-center mb-5">
+      <h2 class="text-2xl md:text-4xl font-black text-[#FF6B6B] mb-2 flex items-center justify-center gap-2">
+        <span>🎯</span> 分類大作戰
+      </h2>
+      <p class="text-base md:text-xl text-gray-600 mb-3">把詞語放到正確的盒子裡！</p>
+      <div class="flex justify-center items-center gap-2 md:gap-4 flex-wrap">
+        <span class="text-base md:text-xl font-bold text-gray-700">進度：</span>
+        <div class="w-40 md:w-64 h-4 md:h-6 bg-gray-200 rounded-full overflow-hidden">
+          <div id="game1Progress" class="h-full bg-gradient-to-r from-green-400 to-emerald-500 smooth-bar" style="width:0%"></div>
+        </div>
+        <span id="game1Score" class="text-base md:text-xl font-bold text-green-600">0/6</span>
+      </div>
+      <div id="game1Stars" class="text-xl md:text-3xl mt-1 min-h-[2rem]"></div>
+    </div>
+
+    <div id="game1QuestionArea" class="text-center mb-6">
+      <div class="inline-block bg-gradient-to-br from-indigo-100 to-purple-100 rounded-3xl px-6 py-5 md:px-12 md:py-8 border-4 border-indigo-300 card-shadow min-w-[260px]">
+        <p class="text-base md:text-xl text-gray-600 mb-2 font-bold">🕵️ 這個詞是什麼類型？</p>
+        <div id="game1Emoji" class="word-illust mb-2"></div>
+        <div id="game1Word" class="text-3xl md:text-6xl font-black text-indigo-700"></div>
+      </div>
+    </div>
+
+    <div id="game1Buttons" class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mb-5">
+      <button onclick="checkG1('positive')" class="word-card bg-gradient-to-br from-red-400 to-pink-500 text-white py-4 md:py-7 rounded-2xl card-shadow btn-press">
+        <div class="text-3xl md:text-5xl mb-1">🥰👍</div>
+        <div class="text-lg md:text-2xl font-black">褒義詞</div>
+        <div class="text-sm md:text-lg opacity-90 font-medium">（好的、讚美的）</div>
+      </button>
+      <button onclick="checkG1('negative')" class="word-card bg-gradient-to-br from-teal-400 to-cyan-500 text-white py-4 md:py-7 rounded-2xl card-shadow btn-press">
+        <div class="text-3xl md:text-5xl mb-1">😡👎</div>
+        <div class="text-lg md:text-2xl font-black">貶義詞</div>
+        <div class="text-sm md:text-lg opacity-90 font-medium">（壞的、批評的）</div>
+      </button>
+      <button onclick="checkG1('neutral')" class="word-card bg-gradient-to-br from-yellow-400 to-amber-500 text-white py-4 md:py-7 rounded-2xl card-shadow btn-press">
+        <div class="text-3xl md:text-5xl mb-1">🤔📋</div>
+        <div class="text-lg md:text-2xl font-black">中性詞</div>
+        <div class="text-sm md:text-lg opacity-90 font-medium">（沒有好壞的）</div>
+      </button>
+    </div>
+
+    <div id="game1Explain" class="hidden bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-5 md:p-6 border-4 border-blue-200 mb-5">
+      <div id="game1Result" class="text-center text-xl md:text-3xl font-black mb-3"></div>
+      <div id="game1ExplainText" class="text-base md:text-xl text-gray-700 text-center leading-relaxed px-2"></div>
+      <div class="text-center mt-4">
+        <button onclick="nextG1()" class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-base md:text-xl font-bold px-6 py-3 md:px-8 rounded-full card-shadow btn-press hover:scale-105 transition-transform">
+          下一題 ➡️
+        </button>
+      </div>
+    </div>
+
+    <div id="game1End" class="hidden text-center py-6">
+      <div id="game1EndEmoji" class="text-6xl md:text-8xl mb-3"></div>
+      <h3 id="game1EndTitle" class="text-2xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B6B] to-[#FFD93D] mb-3"></h3>
+      <p id="game1EndScore" class="text-lg md:text-2xl text-gray-700 mb-3"></p>
+      <div id="game1EndStars" class="text-4xl md:text-6xl mb-5"></div>
+      <div class="flex flex-wrap justify-center gap-3">
+        <button onclick="restartG1()" class="bg-gradient-to-r from-green-400 to-emerald-500 text-white text-base md:text-xl font-bold px-6 py-3 md:px-8 rounded-full card-shadow btn-press hover:scale-105 transition-transform">
+          🔄 再玩一次
+        </button>
+        <button onclick="switchPage('game2')" class="bg-gradient-to-r from-purple-400 to-pink-500 text-white text-base md:text-xl font-bold px-6 py-3 md:px-8 rounded-full card-shadow btn-press hover:scale-105 transition-transform">
+          🏃 玩下一個遊戲
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 遊戲二：詞語快跑 ========== -->
+<div id="pageGame2" class="page-content hidden">
+  <div class="bg-white/92 rounded-3xl p-5 md:p-8 card-shadow">
+
+    <div class="text-center mb-5">
+      <h2 class="text-2xl md:text-4xl font-black text-[#2A9D8F] mb-2 flex items-center justify-center gap-2">
+        <span>🏃</span> 詞語快跑
+      </h2>
+      <p class="text-base md:text-xl text-gray-600 mb-3">看清楚詞語，快選正確答案！</p>
+      <div class="flex flex-wrap justify-center items-center gap-2 md:gap-4">
+        <div class="bg-green-100 px-4 py-2 rounded-xl">
+          <span class="text-base md:text-xl font-bold text-green-700">✅ 答對：<span id="game2Correct">0</span></span>
+        </div>
+        <div class="bg-red-100 px-4 py-2 rounded-xl">
+          <span class="text-base md:text-xl font-bold text-red-700">❌ 答錯：<span id="game2Wrong">0</span></span>
+        </div>
+        <div class="bg-blue-100 px-4 py-2 rounded-xl">
+          <span class="text-base md:text-xl font-bold text-blue-700">題目：<span id="game2Count">0</span>/6</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 開始畫面 -->
+    <div id="game2Start" class="text-center py-5 md:py-7">
+      <div class="text-6xl md:text-8xl mb-3 float">🏃‍♂️💨</div>
+      <h3 class="text-xl md:text-3xl font-black text-gray-700 mb-3">遊戲規則</h3>
+      <div class="max-w-lg mx-auto bg-gray-50 rounded-2xl p-5 mb-5 text-left">
+        <ul class="text-base md:text-xl text-gray-700 space-y-2">
+          <li class="flex items-start gap-2"><span class="text-xl md:text-2xl">1️⃣</span><span>螢幕上會出現一個詞語</span></li>
+          <li class="flex items-start gap-2"><span class="text-xl md:text-2xl">2️⃣</span><span>在時間內選出正確答案⏱️</span></li>
+          <li class="flex items-start gap-2"><span class="text-xl md:text-2xl">3️⃣</span><span>答錯或逾時會顯示正確答案和解說</span></li>
+          <li class="flex items-start gap-2"><span class="text-xl md:text-2xl">4️⃣</span><span>一共有6題，加油！💪</span></li>
+        </ul>
+      </div>
+      <button onclick="startG2()" class="bg-gradient-to-r from-[#4ECDC4] to-[#2A9D8F] text-white text-lg md:text-2xl font-black px-10 py-4 md:px-16 md:py-5 rounded-full card-shadow pulse-glow btn-press transition-transform hover:scale-105">
+        🚀 開始遊戲！
+      </button>
+    </div>
+
+    <!-- 遊戲中 -->
+    <div id="game2Play" class="hidden">
+      <div class="w-full h-3 md:h-4 bg-gray-200 rounded-full overflow-hidden mb-5">
+        <div id="game2Timer" class="h-full bg-gradient-to-r from-orange-400 to-red-500 smooth-bar" style="width:100%"></div>
+      </div>
+
+      <div class="text-center mb-5">
+        <div id="game2WordCard" class="inline-block bg-gradient-to-br from-violet-100 to-fuchsia-100 rounded-3xl px-6 py-5 md:px-14 md:py-8 border-4 border-violet-300 card-shadow min-w-[260px]">
+          <div id="game2Emoji" class="word-illust mb-2"></div>
+          <div id="game2Word" class="text-3xl md:text-7xl font-black text-violet-700"></div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-3 md:gap-4 mb-5">
+        <button id="game2Btn1" onclick="checkG2('positive')" class="word-card bg-gradient-to-br from-red-400 to-pink-500 text-white py-4 md:py-6 rounded-2xl card-shadow btn-press">
+          <div class="text-2xl md:text-5xl mb-1">🥰</div>
+          <div class="text-base md:text-2xl font-black">褒義</div>
+        </button>
+        <button id="game2Btn2" onclick="checkG2('negative')" class="word-card bg-gradient-to-br from-teal-400 to-cyan-500 text-white py-4 md:py-6 rounded-2xl card-shadow btn-press">
+          <div class="text-2xl md:text-5xl mb-1">😡</div>
+          <div class="text-base md:text-2xl font-black">貶義</div>
+        </button>
+        <button id="game2Btn3" onclick="checkG2('neutral')" class="word-card bg-gradient-to-br from-yellow-400 to-amber-500 text-white py-4 md:py-6 rounded-2xl card-shadow btn-press">
+          <div class="text-2xl md:text-5xl mb-1">🤔</div>
+          <div class="text-base md:text-2xl font-black">中性</div>
+        </button>
+      </div>
+
+      <div id="game2Feedback" class="hidden rounded-2xl p-5 text-center">
+        <div id="game2ResultIcon" class="text-4xl md:text-6xl mb-2"></div>
+        <div id="game2ResultText" class="text-lg md:text-2xl font-black mb-2"></div>
+        <div id="game2Explain" class="text-base md:text-lg text-gray-700 leading-relaxed px-2"></div>
+        <div class="mt-4">
+          <button id="game2NextBtn" onclick="nextG2()" class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-base md:text-lg font-bold px-6 py-2 md:px-8 rounded-full card-shadow btn-press hover:scale-105 transition-transform">
+            下一題 ➡️
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 結束畫面 -->
+    <div id="game2End" class="hidden text-center py-5 md:py-7">
+      <div id="game2EndEmoji" class="text-6xl md:text-8xl mb-3"></div>
+      <h3 id="game2EndTitle" class="text-2xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#4ECDC4] to-[#2A9D8F] mb-3"></h3>
+      <p id="game2EndScore" class="text-lg md:text-2xl text-gray-700 mb-3"></p>
+      <div id="game2EndStars" class="text-4xl md:text-6xl mb-5"></div>
+      <div class="flex flex-wrap justify-center gap-3">
+        <button onclick="restartG2()" class="bg-gradient-to-r from-green-400 to-emerald-500 text-white text-base md:text-xl font-bold px-6 py-3 md:px-8 rounded-full card-shadow btn-press hover:scale-105 transition-transform">
+          🔄 再玩一次
+        </button>
+        <button onclick="switchPage('learn')" class="bg-gradient-to-r from-blue-400 to-indigo-500 text-white text-base md:text-xl font-bold px-6 py-3 md:px-8 rounded-full card-shadow btn-press hover:scale-105 transition-transform">
+          📚 回到學習
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="text-center mt-6 text-amber-700/70 text-base md:text-lg">
+  <p>🌟 詞語小偵探 - 讓學習變得好玩！🌟</p>
+</footer>
+
+</div>
+
+<script>
+/* ==================== 音效系統（Web Audio，一次初始化） ==================== */
+let audioCtx = null;
+function initAudio() {
+  if (!audioCtx) {
+    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){}
+  }
+}
+function tone(freq, start, dur, vol, type) {
+  if (!audioCtx) return;
+  const t0 = audioCtx.currentTime + start;
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type = type || 'sine';
+  o.frequency.setValueAtTime(freq, t0);
+  o.connect(g); g.connect(audioCtx.destination);
+  g.gain.setValueAtTime(vol, t0);
+  g.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
+  o.start(t0); o.stop(t0 + dur + 0.02);
+}
+function playSound(type) {
+  initAudio();
+  if (!audioCtx) return;
+  // 恢復被瀏覽器暫停的音訊
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  if (type === 'correct') {
+    tone(523, 0,    0.18, 0.22, 'triangle');
+    tone(659, 0.1,  0.18, 0.22, 'triangle');
+    tone(784, 0.2,  0.3,  0.22, 'triangle');
+  } else if (type === 'wrong') {
+    tone(233, 0,    0.18, 0.22, 'sawtooth');
+    tone(196, 0.15, 0.3,  0.20, 'sawtooth');
+  } else if (type === 'click') {
+    tone(800, 0, 0.05, 0.07, 'sine');
+  } else if (type === 'tick') {
+    tone(1200, 0, 0.03, 0.04, 'square');
+  } else if (type === 'win') {
+    [523,659,784,1047,784,1047,1319].forEach((f,i)=>tone(f, i*0.11, 0.25, 0.18, 'triangle'));
+  } else if (type === 'timeout') {
+    tone(440,0,0.1,0.18,'square');
+    tone(330,0.1,0.2,0.18,'square');
+  }
+}
+// 首次互動初始化音訊
+const firstInteract = () => { initAudio(); playSound('click'); document.removeEventListener('click', firstInteract); };
+document.addEventListener('click', firstInteract);
+
+/* ==================== 彩屑效能優化：固定容器、批次建立、限量 ==================== */
+function fireConfetti(count) {
+  const layer = document.getElementById('confettiLayer');
+  const colors = ['#FF6B6B','#4ECDC4','#FFD93D','#A78BFA','#34D399','#FB7185','#60A5FA'];
+  const n = Math.min(count, 60);
+  for (let i = 0; i < n; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = (Math.random()*100) + 'vw';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.width = c.style.height = (6 + Math.random()*8) + 'px';
+    const dur = 2 + Math.random()*2;
+    c.style.animationDuration = dur + 's';
+    c.style.animationDelay = (Math.random()*0.5) + 's';
+    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    layer.appendChild(c);
+    // 動畫結束自動移除，避免記憶體堆積
+    setTimeout(() => c.remove(), (dur + 0.6) * 1000);
+  }
+}
+
+/* ==================== 題庫 ==================== */
+/*
+ * 初階版：維持簡單明確，emoji 採場景化組合
+ * 高階版：難度提升→
+ *   1) 近義詞褒貶對比（成果/後果/結果、保護/庇護、鼓舞/煽動）
+ *   2) 易誤判的詞（「大方」中性/褒、「機靈」褒、「世故」貶、「標準」中性）
+ *   3) 看似正面其實貶義（斤斤計較、得寸進尺、喋喋不休）
+ *   4) 成語類型
+ */
+const QB = {
+  beginner: {
+    game1: [
+      { word:'勤勞', type:'positive', emoji:'👩‍🌾🌾💪', explain:'「勤勞」形容人認真工作、不偷懶，就像農夫伯伯辛勤種田一樣，是在誇獎人好榜樣，所以是褒義詞！' },
+      { word:'懶惰', type:'negative', emoji:'😴🛌💤', explain:'「懶惰」是說人愛睡覺不做事、該做的事不做，是在批評人，所以是貶義詞！' },
+      { word:'桌子', type:'neutral',  emoji:'🪑📚🖍️', explain:'「桌子」只是我們讀書吃飯用的家具，是物品名稱，沒有好壞之分，所以是中性詞！' },
+      { word:'勇敢', type:'positive', emoji:'🦸‍♂️⭐🛡️', explain:'「勇敢」是說人不怕困難、敢於面對挑戰，像超級英雄一樣，是在讚美人，所以是褒義詞！' },
+      { word:'膽小', type:'negative', emoji:'😨🐭🙈', explain:'「膽小」是說人很容易害怕、像小老鼠一樣躲起來，帶有批評的意思，所以是貶義詞！' },
+      { word:'跑步', type:'neutral',  emoji:'🏃‍♂️🏃‍♀️💨', explain:'「跑步」只是一種運動的名稱，可以鍛煉身體，但本身沒有誇獎或批評的意思，所以是中性詞！' }
+    ],
+    game2: [
+      { word:'美麗', type:'positive', emoji:'🌸👸✨', explain:'「美麗」是在誇獎人或東西好看，像公主和花朵一樣漂亮，是褒義詞！' },
+      { word:'醜陋', type:'negative', emoji:'👹👺💢', explain:'「醜陋」是說人或東西不好看、讓人不舒服，帶有貶低、討厭的意思，是貶義詞！' },
+      { word:'鉛筆', type:'neutral',  emoji:'✏️📝📒', explain:'「鉛筆」是一種用來寫字的文具，只是物品名稱，不帶感情，是中性詞！' },
+      { word:'誠實', type:'positive', emoji:'🤝💎😊', explain:'「誠實」是說人不說謊、說話算話，像鑽石一樣珍貴的好品德，是褒義詞！' },
+      { word:'說謊', type:'negative', emoji:'🤥💔👎', explain:'「說謊」是講不真實的話、騙人，是不好的行為，會讓人傷心，是貶義詞！' },
+      { word:'書包', type:'neutral',  emoji:'🎒📖🚌', explain:'「書包」是裝書和文具上學用的袋子，只是物品，沒有好壞，是中性詞！' }
+    ]
+  },
+  advanced: {
+    game1: [
+      { word:'成果', type:'positive', emoji:'🏆🎯👏', explain:'「成果」指工作或努力後得到的好結果（如「豐碩成果」），帶有肯定讚美的意味，是褒義詞。千萬別和意思相近的「後果」搞混囉！' },
+      { word:'後果', type:'negative', emoji:'⚠️💥😰', explain:'「後果」通常指不好的結果（如「不良後果」「後果自負」），帶有警告、負面的意味，是貶義詞。' },
+      { word:'結果', type:'neutral',  emoji:'🔄📊🤷', explain:'「結果」單純指事物發展到最後的狀態，可以是好結果也可以是壞結果，本身不帶感情，是中性詞。' },
+      { word:'堅強', type:'positive', emoji:'🗿💪🌱', explain:'「堅強」形容人遇到困難不退縮、像岩石一樣穩固、像小草從石縫中長出，是讚美人優點，褒義詞！' },
+      { word:'頑固', type:'negative', emoji:'🪨😤🙉', explain:'「頑固」是說人思想守舊、不肯聽別人意見、捂起耳朵不聽勸，帶有批評意味，是貶義詞。（和「堅強」是好朋友但一個好一個壞哦！）' },
+      { word:'移動', type:'neutral',  emoji:'🚶➡️🚗', explain:'「移動」只是表示位置改變的動作，人、車子、東西都可以移動，單純描述動作，沒有好壞，是中性詞。' }
+    ],
+    game2: [
+      { word:'機智', type:'positive', emoji:'🧠💡🦉', explain:'「機智」是說人頭腦靈活、反應快、遇到緊急狀況能想到好辦法，像貓頭鷹博士一樣聰明，是褒義詞！' },
+      { word:'狡猾', type:'negative', emoji:'🦊😏🎭', explain:'「狡猾」是說人詭計多端、不老實、愛耍小聰明騙人，像狐狸一樣鬼鬼祟祟，是貶義詞。（和「機智」意思相近但一個好一個壞！）' },
+      { word:'連接', type:'neutral',  emoji:'🔗🔌🔗', explain:'「連接」是把兩個東西接在一起的動作（如連接網路、連接車廂），客觀描述，沒有好壞，中性詞。' },
+      { word:'鼓舞', type:'positive', emoji:'📣🔥🤩', explain:'「鼓舞」是激勵、鼓勵人向上（如「鼓舞人心」），帶有振奮、正面的力量，是褒義詞。' },
+      { word:'煽動', type:'negative', emoji:'🗣️😈🔥', explain:'「煽動」是鼓動人去做不好的事（如「煽動鬧事」），帶有壞的意圖，是貶義詞。（和「鼓舞」都是讓人激動，但目的大不同！）' },
+      { word:'擴展', type:'neutral',  emoji:'📏↔️🗺️', explain:'「擴展」是指向外伸展、擴大（如擴展業務、擴展視野），只是說明範圍變大，本身不帶好壞評價，是中性詞。' }
+    ]
+  }
+};
+
+/* ==================== 狀態 ==================== */
+let level = 'beginner';
+let currentPage = 'learn';
+let g1 = { i:0, score:0, answered:false };
+let g2 = { i:0, correct:0, wrong:0, rafId:null, answered:false, time:100, startTime:0 };
+const G2_DURATION = 8000; // 高階 8 秒，初階 10 秒
+
+/* ==================== 頁面切換 ==================== */
+function switchPage(p) {
+  playSound('click');
+  if (currentPage === p) {
+    showToast(p === 'learn' ? '📚 已經在學習教室了！'
+            : p === 'game1' ? '🎯 已經在分類大作戰！'
+            : '🏃 已經在詞語快跑！', '#FF6B6B');
+    return;
+  }
+  currentPage = p;
+  document.querySelectorAll('.page-content').forEach(e => e.classList.add('hidden'));
+  ['Learn','Game1','Game2'].forEach(n => {
+    const el = document.getElementById('nav'+n);
+    el.classList.remove('tab-active');
+    el.classList.add('bg-white/80','text-gray-600');
+  });
+  const page = p === 'learn' ? 'Learn' : p === 'game1' ? 'Game1' : 'Game2';
+  document.getElementById('page'+page).classList.remove('hidden');
+  const nav = document.getElementById('nav'+page);
+  nav.classList.add('tab-active');
+  nav.classList.remove('bg-white/80','text-gray-600');
+  // 停止 game2 計時
+  stopG2Timer();
+  if (p === 'game2') resetGame2Ready();
+}
+
+function showToast(msg, color) {
+  const t = document.createElement('div');
+  t.className = 'fixed top-16 left-1/2 z-50 bg-white px-5 py-2 rounded-full card-shadow text-base md:text-lg font-bold pointer-events-none bounce-in';
+  t.style.color = color || '#FF6B6B';
+  t.style.transform = 'translateX(-50%)';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(()=>{ t.style.transition='opacity 0.4s'; t.style.opacity='0'; }, 1100);
+  setTimeout(()=>t.remove(), 1700);
+}
+
+/* ==================== 難度切換 ==================== */
+function switchLevel(lv) {
+  playSound('click');
+  level = lv;
+  const b = document.getElementById('levelBeginner'), a = document.getElementById('levelAdvanced');
+  const activeCls = 'tab-active px-5 py-3 md:px-8 md:py-4 rounded-2xl font-bold text-base md:text-xl card-shadow btn-press transition-all';
+  const idleCls = 'bg-white/80 px-5 py-3 md:px-8 md:py-4 rounded-2xl font-bold text-base md:text-xl text-gray-600 card-shadow btn-press transition-all hover:bg-white';
+  b.className = lv === 'beginner' ? activeCls : idleCls;
+  a.className = lv === 'advanced' ? activeCls : idleCls;
+  restartG1();
+  restartG2();
+  switchPage('learn');
+  showToast(lv === 'beginner' ? '🌟 已切換到初階版' : '🚀 已切換到高階版（難度提升囉！）',
+            lv === 'beginner' ? '#FF6B6B' : '#4ECDC4');
+}
+
+/* ==================== 遊戲一：分類大作戰 ==================== */
+function loadG1() {
+  const q = QB[level].game1[g1.i];
+  document.getElementById('game1Word').textContent = q.word;
+  document.getElementById('game1Emoji').textContent = q.emoji;
+  document.getElementById('game1Explain').classList.add('hidden');
+  document.getElementById('game1Buttons').classList.remove('hidden');
+  document.querySelectorAll('#game1Buttons button').forEach(b => {
+    b.classList.remove('correct-answer','wrong-answer','opacity-50');
+    b.disabled = false;
+  });
+  g1.answered = false;
+}
+
+function checkG1(ans) {
+  if (g1.answered) return;
+  g1.answered = true;
+  const q = QB[level].game1[g1.i];
+  const btns = document.querySelectorAll('#game1Buttons button');
+  const idx = {positive:0, negative:1, neutral:2};
+  btns.forEach(b => b.disabled = true);
+  if (ans === q.type) {
+    playSound('correct');
+    btns[idx[ans]].classList.add('correct-answer');
+    g1.score++;
+    showG1Explain(true, q);
+  } else {
+    playSound('wrong');
+    btns[idx[ans]].classList.add('wrong-answer');
+    btns[idx[q.type]].classList.add('correct-answer');
+    btns.forEach((b,i) => { if (i !== idx[q.type] && i !== idx[ans]) b.classList.add('opacity-50'); });
+    showG1Explain(false, q);
+  }
+  const pct = ((g1.i + 1) / 6) * 100;
+  document.getElementById('game1Progress').style.width = pct + '%';
+  document.getElementById('game1Score').textContent = g1.score + '/6';
+  let stars = '';
+  for (let j = 0; j < g1.score; j++) stars += '⭐';
+  document.getElementById('game1Stars').innerHTML = stars;
+}
+
+function showG1Explain(ok, q) {
+  document.getElementById('game1Buttons').classList.add('hidden');
+  const el = document.getElementById('game1Explain');
+  el.classList.remove('hidden');
+  el.classList.remove('bounce-in'); void el.offsetWidth; el.classList.add('bounce-in');
+  const nm = {positive:'褒義詞 🥰👍', negative:'貶義詞 😡👎', neutral:'中性詞 🤔📋'};
+  if (ok) {
+    document.getElementById('game1Result').innerHTML = '🎉 答對了！太棒了！';
+    document.getElementById('game1Result').className = 'text-center text-xl md:text-3xl font-black mb-3 text-green-600';
+  } else {
+    document.getElementById('game1Result').innerHTML = '💡 答錯了，正確答案是「' + nm[q.type] + '」';
+    document.getElementById('game1Result').className = 'text-center text-xl md:text-3xl font-black mb-3 text-orange-600';
+  }
+  document.getElementById('game1ExplainText').textContent = q.explain;
+}
+
+function nextG1() {
+  playSound('click');
+  g1.i++;
+  if (g1.i >= 6) { endG1(); return; }
+  loadG1();
+}
+
+function endG1() {
+  playSound('win');
+  document.getElementById('game1QuestionArea').classList.add('hidden');
+  document.getElementById('game1Buttons').classList.add('hidden');
+  document.getElementById('game1Explain').classList.add('hidden');
+  document.getElementById('game1End').classList.remove('hidden');
+  document.getElementById('game1EndScore').textContent = '你答對了 ' + g1.score + ' / 6 題！';
+  let s = '';
+  for (let i = 0; i < g1.score; i++) s += '⭐';
+  document.getElementById('game1EndStars').innerHTML = s || '💪';
+  // 結束評語
+  let emoji, title;
+  if (g1.score === 6)      { emoji='🏆'; title='完美滿分！你真是詞語大師！'; }
+  else if (g1.score >= 5)  { emoji='🎉'; title='太厲害了！表現超棒！'; }
+  else if (g1.score >= 4)  { emoji='😊'; title='不錯喔！再加油可以滿分！'; }
+  else if (g1.score >= 2)  { emoji='💪'; title='繼續練習，你越來越棒！'; }
+  else                     { emoji='📚'; title='再回教室複習一下，你可以的！'; }
+  document.getElementById('game1EndEmoji').textContent = emoji;
+  document.getElementById('game1EndTitle').textContent = title;
+  if (g1.score >= 4) fireConfetti(g1.score === 6 ? 70 : 45);
+}
+
+function restartG1() {
+  g1 = {i:0, score:0, answered:false};
+  document.getElementById('game1End').classList.add('hidden');
+  document.getElementById('game1QuestionArea').classList.remove('hidden');
+  document.getElementById('game1Progress').style.width = '0%';
+  document.getElementById('game1Score').textContent = '0/6';
+  document.getElementById('game1Stars').innerHTML = '';
+  loadG1();
+}
+
+/* ==================== 遊戲二：詞語快跑（requestAnimationFrame 計時，更流暢） ==================== */
+function resetGame2Ready() {
+  stopG2Timer();
+  g2.i = 0; g2.correct = 0; g2.wrong = 0; g2.answered = true;
+  document.getElementById('game2Play').classList.remove('hidden');
+  document.getElementById('game2Start').classList.add('hidden');
+  document.getElementById('game2End').classList.add('hidden');
+  const q = QB[level].game2[0];
+  document.getElementById('game2Word').textContent = q.word;
+  document.getElementById('game2Emoji').textContent = q.emoji;
+  const fb = document.getElementById('game2Feedback');
+  fb.classList.remove('hidden');
+  fb.className = 'bg-gradient-to-r from-indigo-50 to-purple-50 border-4 border-indigo-300 rounded-2xl p-5 text-center';
+  document.getElementById('game2ResultIcon').textContent = '🏃‍♂️💨';
+  document.getElementById('game2ResultText').textContent = '準備好了嗎？';
+  document.getElementById('game2ResultText').className = 'text-xl md:text-2xl font-black mb-2 text-indigo-700';
+  document.getElementById('game2Explain').textContent = '點擊下方「開始遊戲」按鈕開始挑戰！';
+  const nextBtn = document.getElementById('game2NextBtn');
+  nextBtn.textContent = '🚀 開始遊戲！';
+  nextBtn.onclick = function(){ startG2(); };
+  nextBtn.className = 'bg-gradient-to-r from-[#4ECDC4] to-[#2A9D8F] text-white text-lg md:text-xl font-bold px-10 py-3 md:px-12 rounded-full card-shadow btn-press hover:scale-105 transition-transform pulse-glow';
+  ['game2Btn1','game2Btn2','game2Btn3'].forEach(id => document.getElementById(id).disabled = true);
+  document.getElementById('game2Timer').style.width = '100%';
+  updateG2UI();
+}
+
+function startG2() {
+  playSound('click');
+  g2 = {i:0, correct:0, wrong:0, rafId:null, answered:false, time:100, startTime:0};
+  document.getElementById('game2Start').classList.add('hidden');
+  document.getElementById('game2End').classList.add('hidden');
+  document.getElementById('game2Play').classList.remove('hidden');
+  document.getElementById('game2Feedback').classList.add('hidden');
+  updateG2UI();
+  loadG2();
+}
+
+/* 用 requestAnimationFrame 代替 setInterval，更省電更流暢 */
+function stopG2Timer() {
+  if (g2.rafId) { cancelAnimationFrame(g2.rafId); g2.rafId = null; }
+}
+
+function startG2Timer() {
+  stopG2Timer();
+  const dur = level === 'advanced' ? 7000 : 9000; // 高階 7 秒更刺激
+  g2.startTime = performance.now();
+  const timerBar = document.getElementById('game2Timer');
+  let lastTick = 0;
+  const loop = (now) => {
+    if (g2.answered) return;
+    const elapsed = now - g2.startTime;
+    const remain = Math.max(0, 1 - elapsed / dur);
+    timerBar.style.width = (remain * 100) + '%';
+    // 時間警告滴答
+    if (remain < 0.3 && now - lastTick > 500) {
+      playSound('tick');
+      lastTick = now;
+    }
+    if (remain <= 0) {
+      checkG2(null);
+      return;
+    }
+    g2.rafId = requestAnimationFrame(loop);
+  };
+  g2.rafId = requestAnimationFrame(loop);
+}
+
+function loadG2() {
+  g2.answered = false;
+  const q = QB[level].game2[g2.i];
+  document.getElementById('game2Word').textContent = q.word;
+  document.getElementById('game2Emoji').textContent = q.emoji;
+  document.getElementById('game2Feedback').classList.add('hidden');
+  ['game2Btn1','game2Btn2','game2Btn3'].forEach(id => {
+    const b = document.getElementById(id);
+    b.classList.remove('correct-answer','wrong-answer','opacity-50');
+    b.disabled = false;
+  });
+  document.getElementById('game2Timer').style.width = '100%';
+  updateG2UI();
+  startG2Timer();
+}
+
+function checkG2(ans) {
+  if (g2.answered) return;
+  g2.answered = true;
+  stopG2Timer();
+  const q = QB[level].game2[g2.i];
+  const btns = [document.getElementById('game2Btn1'),document.getElementById('game2Btn2'),document.getElementById('game2Btn3')];
+  const idx = {positive:0, negative:1, neutral:2};
+  btns.forEach(b => b.disabled = true);
+
+  if (ans && ans === q.type) {
+    playSound('correct');
+    btns[idx[ans]].classList.add('correct-answer');
+    g2.correct++;
+    showG2FB(true, q, false);
+  } else {
+    if (!ans) playSound('timeout'); else playSound('wrong');
+    if (ans) btns[idx[ans]].classList.add('wrong-answer');
+    btns[idx[q.type]].classList.add('correct-answer');
+    btns.forEach((b,i) => { if (i !== idx[q.type] && (!ans || i !== idx[ans])) b.classList.add('opacity-50'); });
+    g2.wrong++;
+    showG2FB(false, q, !ans);
+  }
+  updateG2UI();
+}
+
+function showG2FB(ok, q, timeout) {
+  const el = document.getElementById('game2Feedback');
+  el.classList.remove('hidden');
+  el.classList.remove('bounce-in'); void el.offsetWidth; el.classList.add('bounce-in');
+  const nm = {positive:'褒義詞', negative:'貶義詞', neutral:'中性詞'};
+  if (ok) {
+    el.className = 'bg-green-50 border-4 border-green-300 rounded-2xl p-5 text-center bounce-in';
+    document.getElementById('game2ResultIcon').textContent = '🎉';
+    document.getElementById('game2ResultText').textContent = '答對了！';
+    document.getElementById('game2ResultText').className = 'text-lg md:text-2xl font-black mb-2 text-green-600';
+  } else {
+    el.className = 'bg-orange-50 border-4 border-orange-300 rounded-2xl p-5 text-center bounce-in';
+    document.getElementById('game2ResultIcon').textContent = timeout ? '⏰' : '💡';
+    document.getElementById('game2ResultText').innerHTML = (timeout ? '時間到！' : '答錯了！') + ' 正確答案是「' + nm[q.type] + '」';
+    document.getElementById('game2ResultText').className = 'text-lg md:text-2xl font-black mb-2 text-orange-600';
+  }
+  document.getElementById('game2Explain').textContent = q.explain;
+  const btn = document.getElementById('game2NextBtn');
+  const isLast = g2.i >= 5;
+  btn.textContent = isLast ? '查看結果 🏆' : '下一題 ➡️';
+  // 關鍵修復：把 onclick 明確綁回 nextG2，避免被 resetGame2Ready 覆蓋成 startG2 後無法跳題
+  btn.onclick = function(){ playSound('click'); nextG2(); };
+  btn.className = 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-base md:text-lg font-bold px-6 py-2 md:px-8 rounded-full card-shadow btn-press hover:scale-105 transition-transform';
+}
+
+function nextG2() {
+  playSound('click');
+  g2.i++;
+  if (g2.i >= 6) { endG2(); return; }
+  loadG2();
+}
+
+function endG2() {
+  playSound('win');
+  document.getElementById('game2Play').classList.add('hidden');
+  document.getElementById('game2End').classList.remove('hidden');
+  document.getElementById('game2EndScore').textContent = '答對 ' + g2.correct + ' / 6 題，答錯 ' + g2.wrong + ' 題';
+  let stars = '';
+  for (let i = 0; i < g2.correct; i++) stars += '⭐';
+  document.getElementById('game2EndStars').innerHTML = stars || '💪';
+  let emoji, title;
+  if (g2.correct === 6)      { emoji='🏆'; title='完美滿分！你真是詞語大師！'; }
+  else if (g2.correct >= 5)  { emoji='🎉'; title='太厲害了！反應超快！'; }
+  else if (g2.correct >= 4)  { emoji='😊'; title='不錯喔！繼續保持！'; }
+  else if (g2.correct >= 2)  { emoji='💪'; title='再練習一下，你可以的！'; }
+  else                       { emoji='📚'; title='回到教室複習一下再來挑戰！'; }
+  document.getElementById('game2EndEmoji').textContent = emoji;
+  document.getElementById('game2EndTitle').textContent = title;
+  if (g2.correct >= 4) fireConfetti(g2.correct === 6 ? 60 : 40);
+}
+
+function restartG2() {
+  resetGame2Ready();
+}
+
+function updateG2UI() {
+  document.getElementById('game2Correct').textContent = g2.correct;
+  document.getElementById('game2Wrong').textContent = g2.wrong;
+  document.getElementById('game2Count').textContent = Math.min(g2.i + (g2.answered ? 1 : 0), 6);
+}
+
+/* ==================== 全域別名（給 HTML onclick 使用） ==================== */
+function checkGame1Answer(a){ checkG1(a); }
+function nextGame1Question(){ nextG1(); }
+function restartGame1(){ restartG1(); }
+function startGame2(){ startG2(); }
+function checkGame2Answer(a){ checkG2(a); }
+function nextGame2Question(){ nextG2(); }
+function restartGame2(){ restartG2(); }
+
+/* ==================== 初始化 ==================== */
+restartG1();
+resetGame2Ready();
+</script>
+
+</body>
+</html>

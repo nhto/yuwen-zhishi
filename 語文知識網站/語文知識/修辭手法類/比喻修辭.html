@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>比喻小偵探｜初小・高小分級比喻互動遊戲</title>
+<meta name="description" content="初小版以短句打基礎，高小版加入明喻、暗喻、借喻；各有五站圖文教學與三種互動遊戲。">
+<script src="https://yiyanstatic.cdn.bcebos.com/advisory/tailwindcss.js"></script>
+<style>
+:root{
+  --ink:#2B2A4A;
+  --paper:#FFFCF3;
+  --sun:#FFC94D;
+  --sun-soft:#FFF1C9;
+  --coral:#FF7A6B;
+  --coral-soft:#FFE3DE;
+  --mint:#3FBF93;
+  --mint-soft:#DDF6EC;
+  --sky:#54B6E8;
+  --sky-soft:#DFF2FF;
+  --violet:#9C86F5;
+  --violet-soft:#ECE6FF;
+  --pink:#FFB3C7;
+  --muted:#6E6884;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  font-family:'Yuanti TC','YuanTi TC','PingFang TC','Hiragino Sans TC','Microsoft JhengHei','Noto Sans TC',sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 8% 3%, rgba(255,201,77,.38), transparent 36%),
+    radial-gradient(circle at 96% 0%, rgba(84,182,232,.30), transparent 34%),
+    radial-gradient(circle at 50% 102%, rgba(63,191,147,.20), transparent 44%),
+    #FFF9EC;
+  min-height:100dvh;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(rgba(43,42,74,.10) 1.3px, transparent 1.3px);
+  background-size:18px 18px;opacity:.42;
+}
+#stage{position:relative;z-index:1;min-height:100dvh}
+.app{max-width:520px;margin:0 auto;padding:16px 18px calc(40px + env(safe-area-inset-bottom));min-height:100dvh}
+button{font-family:inherit;color:inherit;cursor:pointer}
+h1,h2,h3,p{margin:0}
+.screen{animation:rise .36s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:.92;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{opacity:.6;transform:scale(.96)}100%{opacity:1;transform:scale(1)}}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-5px) rotate(-1deg)}}
+@keyframes twinkle{0%,100%{opacity:.35;transform:scale(.85)}50%{opacity:1;transform:scale(1.08)}}
+
+/* ---------- 共用元件 ---------- */
+.topbar{display:flex;align-items:center;gap:10px;margin-bottom:13px}
+.tb-title{flex:1;min-width:0}
+.tb-title b{display:block;font-size:16px;font-weight:900;letter-spacing:.4px;line-height:1.25}
+.tb-title span{display:block;font-size:11.5px;font-weight:800;color:var(--muted);letter-spacing:.8px;margin-top:2px}
+.icon-btn{width:44px;height:44px;flex:0 0 44px;border:2.6px solid var(--ink);border-radius:14px;background:#fff;display:grid;place-items:center;box-shadow:0 3px 0 var(--ink);transition:transform .1s,box-shadow .1s}
+.icon-btn:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.icon-btn svg{width:22px;height:22px}
+.star-row{display:inline-flex;align-items:center;gap:2px}
+.star-row svg{width:15px;height:15px;display:block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:50px;padding:11px 18px;border:2.8px solid var(--ink);border-radius:16px;background:var(--sun);font-size:16px;font-weight:900;letter-spacing:.6px;box-shadow:0 4px 0 var(--ink);transition:transform .1s,box-shadow .1s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.btn.wide{width:100%;margin-top:13px}
+.btn.ghost{background:#fff}
+.btn:disabled{opacity:.45;box-shadow:0 4px 0 var(--ink);cursor:default}
+.btn:disabled:active{transform:none;box-shadow:0 4px 0 var(--ink)}
+.btn svg{width:18px;height:18px;flex:0 0 18px}
+
+/* ---------- 首頁 ---------- */
+.brand-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.brand{display:flex;align-items:center;gap:9px;flex:1;min-width:0}
+.brand-mark{width:42px;height:42px;flex:0 0 42px;border:2.6px solid var(--ink);border-radius:13px;background:var(--sun);display:grid;place-items:center;box-shadow:0 3px 0 var(--ink);transform:rotate(-4deg);padding:3px;overflow:hidden}
+.brand-mark svg{width:100%;height:100%}
+.brand-mark-inner,.entry-art-inner,.result-art-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.brand-mark-inner svg,.entry-art-inner svg,.result-art-inner svg{width:100%;height:100%}
+.brand-name b{display:block;font-size:15px;font-weight:900;letter-spacing:1px;line-height:1.2}
+.brand-name span{display:block;font-size:9.5px;font-weight:800;letter-spacing:2px;color:var(--muted);margin-top:2px}
+.hero{position:relative;border:3px solid var(--ink);border-radius:26px;background:var(--paper);box-shadow:0 7px 0 var(--ink);padding:16px 15px 0;overflow:hidden}
+.hero::after{content:'';position:absolute;right:-34px;top:-34px;width:110px;height:110px;border:2.6px dashed rgba(43,42,74,.16);border-radius:50%;pointer-events:none}
+.kicker{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:900;letter-spacing:2px;color:var(--muted);background:#fff;border:2px solid var(--ink);border-radius:999px;padding:4px 10px;transform:rotate(-1deg)}
+.kicker i{width:7px;height:7px;border-radius:50%;background:var(--coral);display:block}
+.hero h1{font-size:clamp(38px,11.5vw,46px);line-height:1.12;font-weight:900;letter-spacing:2px;margin:12px 0 0;position:relative;z-index:2}
+.h1-tag{display:inline-block;background:var(--sun);border:3px solid var(--ink);border-radius:14px;padding:0 9px 2px;box-shadow:0 4px 0 var(--ink);transform:rotate(-2deg);margin-right:2px}
+.hero-sub{margin-top:11px;font-size:15px;line-height:1.6;font-weight:800;color:var(--muted);letter-spacing:.4px}
+.hero-sub b{color:var(--ink);background:linear-gradient(transparent 55%,var(--sun-soft) 55%);padding:0 2px}
+.hero-scene{position:relative;margin:13px -15px 0;border-top:3px solid var(--ink);background:#E4F3FF;overflow:hidden}
+.scene-art{height:168px;display:flex;align-items:center;justify-content:center}
+.scene-art svg{width:100%;height:100%}
+.bubble{position:absolute;right:12px;top:12px;background:#fff;border:2.4px solid var(--ink);border-radius:14px 14px 14px 4px;padding:6px 10px;font-size:14px;font-weight:900;letter-spacing:.6px;box-shadow:0 3px 0 var(--ink);transform:rotate(1.5deg)}
+.bubble b{color:var(--coral)}
+.hero-foot{position:relative;margin:0 -15px;padding:9px 14px;border-top:2.4px dashed rgba(43,42,74,.25);background:var(--paper);font-size:11.5px;font-weight:800;color:var(--muted);letter-spacing:.4px;display:flex;align-items:center;gap:6px}
+.hero-foot svg{width:15px;height:15px;flex:0 0 15px}
+.entry{display:flex;align-items:center;gap:9px;width:100%;text-align:left;padding:11px 12px;border:3px solid var(--ink);border-radius:22px;background:#fff;box-shadow:0 6px 0 var(--ink);margin-top:14px;transition:transform .1s,box-shadow .1s;position:relative;overflow:hidden}
+.entry:active{transform:translateY(4px);box-shadow:0 2px 0 var(--ink)}
+.entry-no{width:32px;height:32px;flex:0 0 32px;font-size:11.5px;border:2.4px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-size:12.5px;font-weight:900;letter-spacing:0}
+.entry-info{flex:1;min-width:0}
+.entry-info b{display:block;font-size:19px;font-weight:900;letter-spacing:1px}
+.entry-info small{display:block;font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.3px;margin-top:3px;line-height:1.45}
+.entry-art{width:50px;height:50px;flex:0 0 50px;border:2.4px solid var(--ink);border-radius:16px;overflow:hidden;display:grid;place-items:center}
+.entry-art svg{width:100%;height:100%}
+.entry-go{width:27px;height:27px;flex:0 0 27px;border:2.4px solid var(--ink);border-radius:50%;display:grid;place-items:center;background:#fff}
+.entry-go svg{width:15px;height:15px}
+.entry.learn .entry-no{background:var(--sun)}
+.entry.learn .entry-art{background:var(--sky-soft)}
+.entry.play .entry-no{background:var(--mint-soft)}
+.entry.play .entry-art{background:var(--violet-soft)}
+.entry-stars svg{width:13px;height:13px;flex:0 0 13px;color:var(--sun)}
+.entry-stars{display:flex;align-items:center;gap:4px;margin-top:5px;font-size:10.5px;font-weight:900;color:var(--muted);letter-spacing:.5px}
+.home-note{display:flex;gap:8px;align-items:flex-start;margin-top:16px;padding:10px 12px;border:2.4px dashed rgba(43,42,74,.3);border-radius:15px;background:rgba(255,255,255,.55);font-size:12px;line-height:1.6;font-weight:800;color:var(--muted)}
+.home-note svg{width:17px;height:17px;flex:0 0 17px;margin-top:1px}
+.foot{margin-top:18px;text-align:center;font-size:10.5px;font-weight:800;color:var(--muted);letter-spacing:1.4px}
+
+/* ---------- 教學 ---------- */
+.learn-dots{display:flex;align-items:center;gap:6px;margin-bottom:12px}
+.learn-dots button{flex:1;height:9px;border:2px solid var(--ink);border-radius:99px;background:#fff;padding:0;transition:background .2s}
+.learn-dots button.on{background:var(--sun)}
+.learn-dots button.done{background:var(--mint)}
+.learn-count{margin-left:6px;font-size:11px;font-weight:900;letter-spacing:.8px;color:var(--muted);white-space:nowrap}
+.learn-card{border:3px solid var(--ink);border-radius:26px;background:#fff;box-shadow:0 7px 0 var(--ink);padding:14px;animation:rise .3s cubic-bezier(.2,.8,.2,1) both}
+.learn-art{height:186px;border:2.6px solid var(--ink);border-radius:19px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center}
+.learn-art svg{width:100%;height:100%}
+.station-tag{display:inline-flex;align-items:center;gap:6px;margin:13px 0 0;font-size:10.5px;font-weight:900;letter-spacing:1.6px;color:var(--muted)}
+.station-tag i{display:block;width:18px;height:18px;border:2px solid var(--ink);border-radius:6px;background:var(--sun);font-style:normal;font-size:9.5px;display:grid;place-items:center;letter-spacing:0}
+.learn-card h2{font-size:24px;line-height:1.3;font-weight:900;letter-spacing:1px;margin:7px 0 8px}
+.learn-text{font-size:15.5px;line-height:1.75;font-weight:700;color:#4A4560;letter-spacing:.2px}
+.learn-text b{color:var(--ink);background:linear-gradient(transparent 58%,var(--sun-soft) 58%);padding:0 1px}
+.callout{margin-top:11px;padding:10px 12px;border:2.4px solid var(--ink);border-radius:14px;background:var(--sun-soft);font-size:14px;line-height:1.65;font-weight:800}
+.callout .quote{display:block;font-size:19px;letter-spacing:1px;margin-bottom:4px}
+.callout small{display:block;font-size:12.5px;font-weight:800;color:var(--muted);line-height:1.55;margin-top:3px}
+.learn-nav{display:grid;grid-template-columns:1fr 1.35fr;gap:10px;margin-top:14px}
+.learn-nav .btn{width:100%;min-height:52px;font-size:15.5px}
+
+.part-sentence{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px;padding:14px 8px;border:2.6px solid var(--ink);border-radius:16px;background:var(--paper);font-size:25px;font-weight:900;letter-spacing:1.5px;margin:12px 0 4px}
+.part-word{padding:2px 5px;border-radius:8px;transition:background .2s,transform .2s;cursor:pointer}
+.part-word.b{background:var(--sky-soft)}
+.part-word.c{background:var(--sun-soft)}
+.part-word.y{background:var(--coral-soft)}
+.part-word.lit{transform:translateY(-2px);box-shadow:0 3px 0 var(--ink);border:2px solid var(--ink);padding:0 3px}
+.part-list{margin-top:9px}
+.part-row{display:flex;align-items:flex-start;gap:9px;padding:9px 10px;border:2.3px solid var(--ink);border-radius:13px;margin-top:7px;background:#fff;transition:transform .15s}
+.part-row.on{transform:translateX(3px)}
+.part-row:nth-child(1){background:var(--sky-soft)}
+.part-row:nth-child(2){background:var(--sun-soft)}
+.part-row:nth-child(3){background:var(--coral-soft)}
+.part-dot{width:24px;height:24px;flex:0 0 24px;border:2px solid var(--ink);border-radius:7px;background:#fff;display:grid;place-items:center;font-size:11px;font-weight:900}
+.part-row b{font-size:14.5px;font-weight:900;letter-spacing:.5px}
+.part-row p{font-size:13.5px;line-height:1.5;font-weight:700;color:#4A4560;margin-top:1px}
+.tip-line{display:flex;gap:7px;align-items:flex-start;margin-top:11px;font-size:12px;line-height:1.6;font-weight:800;color:var(--muted)}
+.tip-line svg{width:16px;height:16px;flex:0 0 16px;margin-top:1px}
+
+.word-box{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.word-chip{padding:8px 13px;border:2.6px solid var(--ink);border-radius:999px;background:#fff;font-size:16px;font-weight:900;letter-spacing:1px;box-shadow:0 3px 0 var(--ink);transition:transform .1s,box-shadow .1s,background .15s}
+.word-chip:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.word-chip.on{background:var(--sun);transform:translateY(-2px);box-shadow:0 5px 0 var(--ink)}
+.example-bubble{position:relative;margin-top:13px;padding:12px 14px;border:2.6px solid var(--ink);border-radius:16px;background:var(--sky-soft);font-size:16px;line-height:1.65;font-weight:800;min-height:64px}
+.example-bubble::before{content:'';position:absolute;top:-11px;left:22px;width:16px;height:16px;background:var(--sky-soft);border-left:2.6px solid var(--ink);border-top:2.6px solid var(--ink);transform:rotate(45deg)}
+.example-bubble b{color:var(--coral);border-bottom:3px solid var(--ink)}
+.example-bubble small{display:block;font-size:11px;font-weight:800;color:var(--muted);margin-top:5px;letter-spacing:.4px}
+
+.cond{display:flex;gap:10px;align-items:flex-start;padding:11px;border:2.6px solid var(--ink);border-radius:16px;margin-top:9px;background:#fff}
+.cond-no{width:27px;height:27px;flex:0 0 27px;border:2.2px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:900;background:var(--sun)}
+.cond b{font-size:15px;font-weight:900;letter-spacing:.5px}
+.cond p{font-size:13.5px;line-height:1.6;font-weight:700;color:#4A4560;margin-top:2px}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:11px}
+.cmp{border:2.4px solid var(--ink);border-radius:15px;padding:8px;background:#fff;text-align:center}
+.cmp-art{height:80px;border-radius:11px;overflow:hidden;margin-bottom:6px;background:var(--paper)}
+.cmp-art svg{width:100%;height:100%}
+.cmp b{display:block;font-size:12px;font-weight:900;line-height:1.3}
+.cmp small{display:block;font-size:10.5px;font-weight:800;color:var(--muted);margin-top:2px;line-height:1.4}
+.cmp.good{background:var(--mint-soft)}
+.cmp.bad{background:var(--coral-soft)}
+.cmp .mark{display:inline-grid;place-items:center;width:19px;height:19px;border:2px solid var(--ink);border-radius:50%;background:#fff;font-size:10px;font-weight:900;margin-bottom:2px}
+
+.trap{display:flex;gap:9px;align-items:center;padding:9px;border:2.4px solid var(--ink);border-radius:15px;background:var(--coral-soft);margin-top:8px}
+.trap:nth-of-type(2){background:var(--sun-soft)}
+.trap:nth-of-type(3){background:var(--violet-soft)}
+.trap-x{width:24px;height:24px;flex:0 0 24px;border:2px solid var(--ink);border-radius:50%;background:#fff;display:grid;place-items:center;font-size:12px;font-weight:900;color:var(--coral)}
+.trap-main{flex:1;min-width:0}
+.trap-art{width:48px;height:48px;flex:0 0 48px;border:2.2px solid var(--ink);border-radius:12px;overflow:hidden}
+.trap-art svg{width:100%;height:100%}
+.trap b{font-size:14.5px;font-weight:900;letter-spacing:.3px;line-height:1.35}
+.trap p{font-size:13px;font-weight:700;line-height:1.55;margin-top:3px;color:#4A4560}
+.trap p em{font-style:normal;display:inline-block;background:#fff;border:1.8px solid var(--ink);border-radius:6px;padding:1px 5px;font-size:12px;font-weight:900;margin:2px 2px 0 0}
+.mnemonic{margin-top:12px;padding:12px;border:2.8px solid var(--ink);border-radius:16px;background:var(--ink);color:#fff;text-align:center;box-shadow:0 4px 0 rgba(43,42,74,.25)}
+.mnemonic b{font-size:16.5px;letter-spacing:2px}
+.mnemonic span{display:block;font-size:11px;font-weight:800;letter-spacing:1px;margin-top:3px;color:#D9D5EA}
+
+/* ---------- 玩法選單 ---------- */
+.star-board{display:flex;align-items:center;gap:10px;padding:11px 13px;border:2.8px solid var(--ink);border-radius:17px;background:var(--sun-soft);box-shadow:0 4px 0 var(--ink);margin-bottom:14px}
+.star-board .big{width:40px;height:40px;flex:0 0 40px;border:2.4px solid var(--ink);border-radius:12px;background:#fff;display:grid;place-items:center}
+.star-board .big svg{width:24px;height:24px;color:var(--sun)}
+.star-board b{display:block;font-size:13px;font-weight:900;letter-spacing:.5px}
+.star-board small{display:block;font-size:10.5px;font-weight:800;color:var(--muted);margin-top:2px;letter-spacing:.4px}
+.star-board .total{margin-left:auto;font-size:17px;font-weight:900;letter-spacing:1px}
+.mode-card{display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:12px;border:3px solid var(--ink);border-radius:21px;background:#fff;box-shadow:0 6px 0 var(--ink);margin-top:12px;transition:transform .1s,box-shadow .1s;position:relative;overflow:hidden}
+.mode-card:active{transform:translateY(4px);box-shadow:0 2px 0 var(--ink)}
+.mode-no{position:absolute;right:10px;top:8px;font-size:11px;font-weight:900;letter-spacing:1px;color:var(--muted);opacity:.65}
+.mode-ico{width:56px;height:56px;flex:0 0 56px;border:2.4px solid var(--ink);border-radius:17px;display:grid;place-items:center}
+.mode-ico svg{width:30px;height:30px}
+.mode-info{flex:1;min-width:0}
+.mode-info b{display:block;font-size:17.5px;font-weight:900;letter-spacing:.8px}
+.mode-info small{display:block;font-size:11.5px;font-weight:800;color:var(--muted);line-height:1.45;margin-top:3px;padding-right:14px}
+.mode-info .star-row{margin-top:6px}
+.mode-go{width:28px;height:28px;flex:0 0 28px;border:2.2px solid var(--ink);border-radius:50%;background:#fff;display:grid;place-items:center}
+.mode-go svg{width:14px;height:14px}
+.mode-card.a .mode-ico{background:var(--sun-soft)}
+.mode-card.b .mode-ico{background:var(--sky-soft)}
+.mode-card.c .mode-ico{background:var(--mint-soft)}
+.relearn{display:flex;align-items:center;gap:8px;justify-content:center;width:100%;margin-top:16px;padding:11px;border:2.4px dashed var(--ink);border-radius:15px;background:rgba(255,255,255,.55);font-size:13px;font-weight:900;letter-spacing:.6px;color:var(--muted)}
+.relearn svg{width:17px;height:17px}
+
+/* ---------- 遊戲 ---------- */
+.progress{height:10px;border:2.4px solid var(--ink);border-radius:99px;background:#fff;overflow:hidden;box-shadow:0 2px 0 rgba(43,42,74,.14);margin-bottom:12px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--sun),var(--coral));border-radius:99px;transition:width .35s cubic-bezier(.2,.8,.2,1)}
+.q-card{border:3px solid var(--ink);border-radius:24px;background:var(--paper);box-shadow:0 6px 0 var(--ink);padding:13px;position:relative}
+.q-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px}
+.q-no{font-size:10.5px;font-weight:900;letter-spacing:1.4px;color:var(--muted)}
+.q-type{font-size:10px;font-weight:900;letter-spacing:.8px;border:2px solid var(--ink);border-radius:999px;padding:2px 8px;background:var(--sky-soft)}
+.q-art{height:164px;border:2.4px solid var(--ink);border-radius:17px;overflow:hidden;display:flex;align-items:center;justify-content:center;margin-bottom:11px}
+.q-art svg{width:100%;height:100%}
+.q-sentence{font-size:23px;line-height:1.55;font-weight:900;letter-spacing:1.2px;text-align:center;padding:2px 4px 5px;text-wrap:balance}
+.q-sentence .qmark{color:var(--coral)}
+.q-hint{margin-top:7px;text-align:center;font-size:11.5px;font-weight:800;color:var(--muted);letter-spacing:.3px;line-height:1.5}
+.answer-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.ans-btn{min-height:62px;border:3px solid var(--ink);border-radius:17px;font-size:18px;font-weight:900;letter-spacing:1px;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 5px 0 var(--ink);transition:transform .1s,box-shadow .1s,background .2s}
+.ans-btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink)}
+.ans-btn svg{width:20px;height:20px;flex:0 0 20px}
+.ans-btn.yes{background:var(--mint-soft)}
+.ans-btn.no{background:var(--coral-soft)}
+.ans-btn.picked{background:var(--sun-soft);box-shadow:0 5px 0 var(--ink),inset 0 0 0 3px #fff}
+.ans-btn.right{background:var(--mint);border-color:var(--ink)}
+.ans-btn.wrong{background:var(--coral);border-color:var(--ink)}
+.ans-btn.right svg,.ans-btn.wrong svg{filter:brightness(0) invert(1)}
+.ans-btn:disabled{cursor:default}
+.ans-btn:disabled:active{transform:none;box-shadow:0 5px 0 var(--ink)}
+
+.opts{margin-top:11px}
+.opt{display:flex;align-items:flex-start;gap:9px;width:100%;text-align:left;padding:11px;border:2.8px solid var(--ink);border-radius:16px;background:#fff;box-shadow:0 4px 0 var(--ink);margin-top:8px;transition:transform .1s,box-shadow .1s,background .2s}
+.opt:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.opt-letter{width:28px;height:28px;flex:0 0 28px;border:2.2px solid var(--ink);border-radius:9px;background:var(--sky-soft);display:grid;place-items:center;font-size:12.5px;font-weight:900;letter-spacing:0;margin-top:1px}
+.opt-main{flex:1;min-width:0}
+.opt-text{display:block;font-size:16.5px;line-height:1.55;font-weight:800;letter-spacing:.5px}
+.opt-why{display:block;margin-top:7px;padding-top:6px;border-top:2px dashed rgba(43,42,74,.25);font-size:12.5px;line-height:1.55;font-weight:800;color:#4A4560}
+.opt-mark{width:22px;height:22px;flex:0 0 22px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:900;margin-top:2px}
+.opt.ok{background:var(--mint-soft)}
+.opt.ok .opt-mark{background:var(--mint);color:#fff;border:2px solid var(--ink)}
+.opt.bad{background:var(--coral-soft)}
+.opt.bad .opt-mark{background:var(--coral);color:#fff;border:2px solid var(--ink)}
+.opt:disabled{cursor:default}
+.opt:disabled:active{transform:none;box-shadow:0 4px 0 var(--ink)}
+
+.sort-note{display:flex;align-items:center;gap:6px;margin:10px 0 0;font-size:11.5px;font-weight:800;color:var(--muted);line-height:1.5}
+.sort-note svg{width:15px;height:15px;flex:0 0 15px}
+.sort-card{display:block;width:100%;text-align:left;padding:11px 12px;border:2.8px solid var(--ink);border-radius:15px;background:#fff;box-shadow:0 4px 0 var(--ink);margin-top:8px;position:relative;transition:transform .1s,box-shadow .1s,background .15s}
+.sort-card:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.sort-card .sc-text{display:block;font-size:16.5px;line-height:1.5;font-weight:800;letter-spacing:.4px;padding-right:4px}
+.sort-card.sel{background:var(--sun-soft);transform:translateY(-2px);box-shadow:0 6px 0 var(--ink)}
+.sort-card.ok{background:var(--mint-soft)}
+.sort-card.bad{background:var(--coral-soft)}
+.sc-tag{display:inline-flex;align-items:center;gap:4px;margin-top:7px;font-size:10.5px;font-weight:900;letter-spacing:.4px;border:2px solid var(--ink);border-radius:999px;padding:1px 7px;background:#fff}
+.sc-why{margin:6px 0 0;font-size:12.5px;line-height:1.55;font-weight:800;color:#4A4560;padding:0 3px}
+.bins{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:11px}
+.bin{min-height:86px;border:2.8px dashed var(--ink);border-radius:17px;padding:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:transform .1s,background .15s;background:rgba(255,255,255,.65)}
+.bin:active{transform:scale(.98)}
+.bin b{font-size:14.5px;font-weight:900;letter-spacing:.8px}
+.bin small{font-size:9.5px;font-weight:800;color:var(--muted);line-height:1.35;text-align:center}
+.bin .bin-ico{width:26px;height:26px;margin-bottom:2px}
+.bin .bin-ico svg{width:26px;height:26px}
+.bin.yes{background:var(--mint-soft)}
+.bin.no{background:var(--coral-soft)}
+.bin.hint{animation:hintPulse .7s ease 2}
+@keyframes hintPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+.bin:disabled{opacity:.75;cursor:default}
+.bin:disabled:active{transform:none}
+
+.fb{margin-top:13px;border:3px solid var(--ink);border-radius:20px;box-shadow:0 5px 0 var(--ink);padding:12px 13px;animation:pop .28s cubic-bezier(.2,.8,.2,1)}
+.fb.ok{background:var(--mint-soft)}
+.fb.no{background:var(--coral-soft)}
+.fb-head{display:flex;align-items:center;gap:8px}
+.fb-ico{width:27px;height:27px;flex:0 0 27px;border:2.2px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:900;background:#fff}
+.fb.ok .fb-ico{background:var(--mint);color:#fff}
+.fb.no .fb-ico{background:var(--coral);color:#fff}
+.fb-head b{font-size:17px;font-weight:900;letter-spacing:.6px;line-height:1.3}
+.fb-verdict{margin-left:auto;font-size:10px;font-weight:900;border:2px solid var(--ink);border-radius:999px;padding:2px 7px;background:#fff;white-space:nowrap}
+.fb-text{margin-top:8px;font-size:14px;line-height:1.7;font-weight:700;color:#3D3852}
+.fb-text b{font-weight:900}
+.parts{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.part-chip{font-size:11px;font-weight:900;padding:4px 8px;border:2px solid var(--ink);border-radius:8px;background:#fff;letter-spacing:.4px}
+.part-chip.b{background:var(--sky-soft)}
+.part-chip.c{background:var(--sun-soft)}
+.part-chip.y{background:var(--coral-soft)}
+
+/* ---------- 成績 ---------- */
+.result-wrap{padding-top:8px}
+.result-card{position:relative;border:3px solid var(--ink);border-radius:27px;background:var(--paper);box-shadow:0 8px 0 var(--ink);padding:20px 16px 16px;text-align:center;overflow:hidden}
+.result-card::before{content:'';position:absolute;left:-30px;top:-30px;width:110px;height:110px;border-radius:50%;background:rgba(255,201,77,.35)}
+.result-card::after{content:'';position:absolute;right:-24px;bottom:-30px;width:100px;height:100px;border-radius:50%;background:rgba(84,182,232,.22)}
+.result-inner{position:relative;z-index:2}
+.result-tag{display:inline-block;font-size:10px;font-weight:900;letter-spacing:2.6px;border:2px solid var(--ink);border-radius:999px;padding:3px 10px;background:var(--sun)}
+.result-art{width:124px;height:124px;margin:8px auto 4px}
+.result-art-inner{border:2.6px solid var(--ink);border-radius:24px;box-shadow:0 4px 0 var(--ink);overflow:hidden}
+.result-art svg{width:100%;height:100%}
+.result-stars{display:flex;align-items:center;justify-content:center;gap:7px;margin:2px 0 8px}
+.result-stars svg{width:42px;height:42px;animation:starPop .45s cubic-bezier(.2,.8,.2,1) both}
+@keyframes starPop{0%{transform:scale(.4) rotate(-18deg);opacity:.3}70%{transform:scale(1.15) rotate(4deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+.result-card h2{font-size:26px;font-weight:900;letter-spacing:1.5px;line-height:1.3}
+.result-score{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:5px 12px;border:2.4px solid var(--ink);border-radius:999px;background:#fff;font-size:13px;font-weight:900;letter-spacing:.6px;white-space:nowrap}
+.result-score svg{width:17px;height:17px;flex:0 0 17px;color:var(--sun)}
+.result-sub{margin-top:9px;font-size:13px;line-height:1.65;font-weight:700;color:var(--muted)}
+.result-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}
+.result-actions .btn{width:100%;font-size:14.5px;padding:10px 6px}
+.result-note{margin-top:14px;display:flex;gap:8px;align-items:flex-start;padding:11px 12px;border:2.4px dashed rgba(43,42,74,.3);border-radius:15px;background:rgba(255,255,255,.6);font-size:12px;line-height:1.65;font-weight:800;color:var(--muted)}
+.result-note svg{width:17px;height:17px;flex:0 0 17px;margin-top:1px}
+
+/* ---------- 提示 ---------- */
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(16px);background:var(--ink);color:#fff;font-size:12.5px;font-weight:900;letter-spacing:.6px;padding:9px 15px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:120;box-shadow:0 4px 0 rgba(43,42,74,.25);white-space:nowrap;max-width:90vw}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.confetti{position:fixed;top:-16px;width:9px;height:13px;border-radius:2px;z-index:99;pointer-events:none;animation:fall 2.5s linear forwards}
+@keyframes fall{to{transform:translateY(108vh) rotate(560deg);opacity:.85}}
+
+/* ---------- 版本選擇 ---------- */
+.ver-card{display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:12px;border:3px solid var(--ink);border-radius:23px;background:#fff;box-shadow:0 6px 0 var(--ink);margin-top:14px;position:relative;overflow:hidden;transition:transform .1s,box-shadow .1s}
+.ver-card:active{transform:translateY(4px);box-shadow:0 2px 0 var(--ink)}
+.ver-card.junior{background:linear-gradient(115deg,#FFF6DD 0%,#fff 65%)}
+.ver-card.senior{background:linear-gradient(115deg,#EEE9FF 0%,#fff 65%)}
+.vc-art{width:84px;height:104px;flex:0 0 84px;border:2.6px solid var(--ink);border-radius:17px;overflow:hidden;background:var(--sky-soft)}
+.vc-art-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.vc-art-inner svg{width:100%;height:100%}
+.vc-main{flex:1;min-width:0}
+.vc-top{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.vc-top b{font-size:21px;font-weight:900;letter-spacing:1.4px;line-height:1.2}
+.vc-range{font-size:9.5px;font-weight:900;letter-spacing:.8px;border:2px solid var(--ink);border-radius:999px;padding:1px 7px;background:#fff;white-space:nowrap}
+.vc-tag{display:block;font-size:10.5px;font-weight:900;color:var(--muted);letter-spacing:.4px;margin-top:4px}
+.vc-desc{display:block;font-size:11.5px;line-height:1.5;font-weight:800;color:#4A4560;margin-top:4px}
+.vc-star{display:flex;align-items:center;gap:4px;margin-top:6px;font-size:10.5px;font-weight:900;color:var(--muted);letter-spacing:.4px}
+.vc-star svg{width:13px;height:13px;flex:0 0 13px;color:var(--sun)}
+.vc-go{width:28px;height:28px;flex:0 0 28px;border:2.4px solid var(--ink);border-radius:50%;background:#fff;display:grid;place-items:center}
+.vc-go svg{width:14px;height:14px}
+
+/* ---------- 版本主頁 ---------- */
+.ver-hero{position:relative;border:3px solid var(--ink);border-radius:24px;background:#fff;box-shadow:0 6px 0 var(--ink);padding:14px 14px 13px;overflow:hidden}
+.ver-hero.junior{background:linear-gradient(130deg,#FFF6DD,#fff 70%)}
+.ver-hero.senior{background:linear-gradient(130deg,#EEE9FF,#fff 70%)}
+.ver-hero::after{content:'';position:absolute;right:-30px;top:-30px;width:96px;height:96px;border:2.4px dashed rgba(43,42,74,.16);border-radius:50%;pointer-events:none}
+.vh-top{display:flex;align-items:center;gap:7px;flex-wrap:wrap;position:relative;z-index:2}
+.vh-name{font-size:29px;font-weight:900;letter-spacing:2px;line-height:1.1}
+.vh-range{font-size:10px;font-weight:900;letter-spacing:1px;border:2px solid var(--ink);border-radius:999px;padding:2px 8px;background:#fff}
+.vh-badge{font-size:9.5px;font-weight:900;letter-spacing:1.4px;border:2px solid var(--ink);border-radius:999px;padding:2px 7px;background:var(--sun);color:var(--ink)}
+.vh-desc{margin-top:7px;font-size:13.5px;line-height:1.6;font-weight:800;color:#4A4560;position:relative;z-index:2}
+.vh-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px;position:relative;z-index:2}
+.vh-chip{font-size:10px;font-weight:900;letter-spacing:.4px;border:2px solid var(--ink);border-radius:8px;padding:2px 7px;background:#fff}
+.switch-line{display:flex;justify-content:center;margin-top:15px}
+.switch-btn{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:900;letter-spacing:.5px;padding:9px 15px;border:2.4px dashed var(--ink);border-radius:999px;background:rgba(255,255,255,.62);color:var(--muted)}
+.switch-btn svg{width:15px;height:15px;flex:0 0 15px}
+
+/* ---------- 高小題型 ---------- */
+.kind-chip{display:inline-flex;align-items:center;font-size:9.5px;font-weight:900;letter-spacing:.6px;border:2px solid var(--ink);border-radius:999px;padding:1px 6px;background:var(--violet-soft);white-space:nowrap}
+.q-head .q-type{margin-left:auto}
+.kind-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}
+.kind-tab{min-height:44px;border:2.6px solid var(--ink);border-radius:12px;background:#fff;font-size:14px;font-weight:900;letter-spacing:.6px;box-shadow:0 3px 0 var(--ink);transition:transform .1s,box-shadow .1s,background .15s}
+.kind-tab:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.kind-tab.on{background:var(--violet);color:#fff;transform:translateY(-2px);box-shadow:0 5px 0 var(--ink)}
+.kind-panel{margin-top:10px;border:2.6px solid var(--ink);border-radius:16px;background:var(--violet-soft);padding:11px 12px}
+.kind-ex{font-size:18.5px;font-weight:900;line-height:1.6;letter-spacing:.7px;text-align:center}
+.kind-ex b{background:#fff;border-bottom:3px solid var(--ink);padding:0 2px}
+.kind-why{font-size:12.5px;line-height:1.65;font-weight:800;color:#4A4560;margin-top:7px}
+.kind-why em{font-style:normal;background:#fff;border:1.8px solid var(--ink);border-radius:6px;padding:0 4px;font-weight:900}
+.kind-art{height:142px;border:2.4px solid var(--ink);border-radius:15px;overflow:hidden;margin-top:9px;background:var(--paper)}
+.kind-art svg{width:100%;height:100%}
+.steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}
+.step3{border:2.4px solid var(--ink);border-radius:14px;background:#fff;padding:8px 5px;text-align:center}
+.step3 i{display:inline-grid;place-items:center;width:22px;height:22px;border:2px solid var(--ink);border-radius:50%;background:var(--sun);font-style:normal;font-size:10px;font-weight:900;margin-bottom:3px}
+.step3 b{display:block;font-size:12.5px;font-weight:900;line-height:1.3}
+.step3 small{display:block;font-size:9.5px;font-weight:800;color:var(--muted);margin-top:2px;line-height:1.4}
+.reveal-card{border:2.6px solid var(--ink);border-radius:16px;background:#fff;padding:10px 12px;margin-top:9px}
+.rv-s{font-size:17px;line-height:1.6;font-weight:900;letter-spacing:.6px}
+.rv-ans{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.rv-pill{font-size:11px;font-weight:900;border:2px solid var(--ink);border-radius:999px;padding:3px 8px;background:var(--sun-soft)}
+.rv-pill.hidden{background:#F3EFE6;color:var(--muted);border-style:dashed}
+.q-sentence.long{font-size:18.5px;line-height:1.75;letter-spacing:.5px}
+.opt-text.long{font-size:15.5px}
+.sort-card .sc-text.long{font-size:15.5px}
+.junior-hint{display:flex;gap:7px;align-items:flex-start;margin-top:10px;font-size:12px;line-height:1.6;font-weight:800;color:var(--muted)}
+.junior-hint svg{width:16px;height:16px;flex:0 0 16px;margin-top:1px}
+
+@media (max-width:350px){
+  .app{padding-left:14px;padding-right:14px}
+  .ver-card{gap:9px;padding:10px}
+  .vc-art{width:72px;height:96px;flex:0 0 72px}
+  .vc-top b{font-size:19px}
+  .vc-desc{font-size:11px}
+  .vh-name{font-size:26px}
+  .kind-ex{font-size:17px}
+  .hero h1{font-size:37px}
+  .learn-card h2{font-size:22px}
+  .q-sentence{font-size:21px}
+  .opt-text,.sort-card .sc-text{font-size:15.5px}
+  .entry-info b{font-size:18px}
+  .scene-art{height:150px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001s!important;transition-duration:.001s!important}
+}
+</style>
+</head>
+<body>
+<div id="stage" data-generated-by="aurora-frontend-design">
+  <div id="app" class="app"></div>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* =========================================================
+   比喻小偵探 — 初小・高小分級比喻互動遊戲
+   ========================================================= */
+var INK = '#2B2A4A';
+
+var ART = {
+  mascot: `
+    <g stroke="#2B2A4A" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M37 27c1-9 9-14 18-13 9 1 15 7 16 14" fill="#9A7A57"/>
+      <path d="M33 28h45" fill="none"/>
+      <circle cx="55" cy="58" r="24" fill="#DCF1FF"/>
+      <circle cx="46" cy="56" r="2.7" fill="#2B2A4A" stroke="none"/>
+      <circle cx="64" cy="56" r="2.7" fill="#2B2A4A" stroke="none"/>
+      <path d="M48 66q7 6 14 0" fill="none"/>
+      <path d="M73 76l15 15" stroke-width="12"/>
+      <path d="M73 76l15 15" stroke="#FFC94D" stroke-width="6"/>
+      <path d="M28 44l-6-4M82 44l6-4" fill="none"/>
+      <circle cx="88" cy="30" r="2.4" fill="#FFC94D" stroke="none"/>
+    </g>`,
+  moonBoat: `
+    <g stroke="#2B2A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="42" cy="44" r="24" fill="#FFD86B"/>
+      <circle cx="34" cy="37" r="4.5" fill="#FFE9A8" stroke="none"/>
+      <circle cx="50" cy="52" r="3" fill="#FFE9A8" stroke="none"/>
+      <circle cx="36" cy="47" r="2.1" fill="#2B2A4A" stroke="none"/>
+      <circle cx="49" cy="47" r="2.1" fill="#2B2A4A" stroke="none"/>
+      <path d="M38 55q4 4 8 0" fill="none"/>
+      <path d="M62 78h40l-7 11H69z" fill="#FF7A6B"/>
+      <path d="M82 80V52" fill="none"/>
+      <path d="M84 53l17 22H84z" fill="#7FD3F2"/>
+      <path d="M80 53L65 75h15z" fill="#FFF1C9"/>
+      <path d="M20 96q6-5 12 0t12 0 12 0 12 0 12 0 12 0 12 0" fill="none" stroke="#54B6E8"/>
+      <path d="M20 105q6-5 12 0t12 0 12 0 12 0 12 0 12 0 12 0" fill="none" stroke="#54B6E8" opacity=".45"/>
+      <path d="M58 64q10-14 24-10" stroke-dasharray="3 5" fill="none"/>
+      <circle cx="94" cy="22" r="2" fill="#FFD86B" stroke="none"/>
+      <circle cx="88" cy="34" r="1.5" fill="#FFD86B" stroke="none"/>
+    </g>`,
+  sickBoy: `
+    <g stroke="#2B2A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="54" cy="62" r="28" fill="#FFE3CC"/>
+      <path d="M26 58c0-18 13-30 28-30s28 12 28 30c-6-8-12-11-18-12-6 6-24 7-38 2z" fill="#6B4F3A"/>
+      <circle cx="45" cy="62" r="2.6" fill="#2B2A4A" stroke="none"/>
+      <circle cx="63" cy="62" r="2.6" fill="#2B2A4A" stroke="none"/>
+      <path d="M48 75q6-5 12 0" fill="none"/>
+      <path d="M78 70h8" stroke="#FF7A6B" stroke-width="5"/>
+      <circle cx="88" cy="70" r="4.5" fill="#FF7A6B"/>
+      <path d="M86 40c3 4 3 7 0 9-3-2-3-5 0-9z" fill="#7FD3F2"/>
+      <text x="88" y="36" font-size="19" font-weight="700" fill="#2B2A4A" font-family="sans-serif" stroke="none">?</text>
+    </g>`,
+  appleFace: `
+    <g stroke="#2B2A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="44" cy="62" r="26" fill="#FFE3CC"/>
+      <path d="M18 58c0-17 12-28 26-28s26 11 26 28c-6-8-11-11-17-12-6 6-21 7-35 2z" fill="#5B4636"/>
+      <circle cx="36" cy="62" r="2.4" fill="#2B2A4A" stroke="none"/>
+      <circle cx="52" cy="62" r="2.4" fill="#2B2A4A" stroke="none"/>
+      <path d="M38 72q6 5 12 0" fill="none"/>
+      <circle cx="28" cy="70" r="6" fill="#FFA8A8" stroke="none" opacity=".8"/>
+      <circle cx="60" cy="70" r="6" fill="#FFA8A8" stroke="none" opacity=".8"/>
+      <path d="M90 70c-9 0-15 7-15 15s6 13 15 13 15-5 15-13-6-15-15-15z" fill="#FF6B6B"/>
+      <path d="M90 70c0-5 3-8 6-9" fill="none"/>
+      <path d="M96 61c5-3 9-1 10 3-4 2-8 1-10-3z" fill="#6FD6B0"/>
+      <path d="M68 74q8-5 12-2" stroke-dasharray="3 5" fill="none"/>
+    </g>`,
+  cloudCandy: `
+    <g stroke="#2B2A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 68c-8 0-14-6-14-13s6-13 14-13c1-11 10-19 21-19 9 0 17 6 20 14 2-1 4-1 6-1 9 0 16 7 16 16s-7 16-16 16H20z" fill="#FFFFFF"/>
+      <circle cx="88" cy="40" r="15" fill="#FFB3C7"/>
+      <circle cx="75" cy="48" r="11" fill="#FFC9D8"/>
+      <circle cx="101" cy="48" r="11" fill="#FFC9D8"/>
+      <path d="M88 56v34" stroke-width="4"/>
+      <path d="M81 92h14"/>
+      <path d="M58 62q12-8 20-12" stroke-dasharray="3 5" fill="none"/>
+      <circle cx="24" cy="26" r="2" fill="#FFC94D" stroke="none"/>
+      <circle cx="108" cy="98" r="2" fill="#FFC94D" stroke="none"/>
+    </g>`,
+  starEyes: `
+    <g stroke="#2B2A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M60 24l7.6 17.4 18.9 1.9-14.2 12.7 4 18.6L60 65.6 43.7 74.6l4-18.6-14.2-12.7 18.9-1.9z" fill="#FFD86B"/>
+      <circle cx="54" cy="52" r="2.6" fill="#2F2E55" stroke="none"/>
+      <circle cx="66" cy="52" r="2.6" fill="#2F2E55" stroke="none"/>
+      <path d="M55 60q5 4 10 0" stroke="#2F2E55" stroke-width="2.4" fill="none"/>
+      <path d="M28 34l-5-5M92 30l5-4M26 84l-6 4M94 84l6 4" stroke="#FFD86B" stroke-width="2.6"/>
+      <circle cx="24" cy="58" r="2.2" fill="#FFD86B" stroke="none"/>
+      <circle cx="98" cy="64" r="2.2" fill="#FFD86B" stroke="none"/>
+      <circle cx="86" cy="16" r="1.6" fill="#FFD86B" stroke="none"/>
+    </g>`,
+  sunFire: `
+    <g stroke="#2B2A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M42 14v-6M42 84v-6M12 46H6M78 46h-6M21 25l-4-4M67 25l4-4M21 67l-4 4M67 67l4 4" stroke="#FFC94D" stroke-width="4"/>
+      <circle cx="42" cy="46" r="22" fill="#FFD86B"/>
+      <circle cx="35" cy="44" r="2.4" fill="#2B2A4A" stroke="none"/>
+      <circle cx="49" cy="44" r="2.4" fill="#2B2A4A" stroke="none"/>
+      <path d="M36 54q6 5 12 0" fill="none"/>
+      <path d="M94 102c-10 0-17-7-17-16 0-7 4-11 7-15 1 5 3 7 6 9 0-5 2-8 4-11 2 6 5 8 8 11 4 3 8 5 8 10 0 7-6 12-16 12z" fill="#FF7A6B"/>
+      <path d="M94 100c-5 0-9-4-9-8 0-4 2-6 4-9 1 3 2 4 4 5 0-2 1-4 2-6 2 4 6 5 6 10 0 4-3 8-7 8z" fill="#FFC94D"/>
+      <path d="M64 66q10-6 17-2" stroke-dasharray="3 5" fill="none"/>
+    </g>`,
+  leafButterfly: `
+    <g stroke="#2B2A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M26 82C14 60 28 32 56 26c8 26-2 48-30 56z" fill="#FFB347"/>
+      <path d="M34 74C30 58 38 42 52 34" fill="none"/>
+      <ellipse cx="84" cy="64" rx="4" ry="14" fill="#9C86F5"/>
+      <circle cx="77" cy="52" r="10" fill="#FFB3C7"/>
+      <circle cx="91" cy="52" r="10" fill="#FFB3C7"/>
+      <circle cx="78" cy="74" r="8" fill="#FFC9D8"/>
+      <circle cx="90" cy="74" r="8" fill="#FFC9D8"/>
+      <path d="M82 50l-4-8M86 50l4-8" fill="none"/>
+      <path d="M58 58q8 6 14 2" stroke-dasharray="3 5" fill="none"/>
+      <circle cx="24" cy="28" r="2" fill="#FFC94D" stroke="none"/>
+      <circle cx="104" cy="90" r="2" fill="#FFC94D" stroke="none"/>
+    </g>`,
+  rainbowBridge: `
+    <g stroke="#2B2A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10 86a50 50 0 0 1 100 0" stroke="#FF7A6B" stroke-width="9" fill="none"/>
+      <path d="M20 86a40 40 0 0 1 80 0" stroke="#FFC94D" stroke-width="8" fill="none"/>
+      <path d="M30 86a30 30 0 0 1 60 0" stroke="#54B6E8" stroke-width="8" fill="none"/>
+      <rect x="4" y="86" width="112" height="9" rx="4.5" fill="#D8C7A8"/>
+      <path d="M28 95v10M60 95v10M92 95v10" fill="none"/>
+      <circle cx="16" cy="76" r="7" fill="#FFFFFF"/>
+      <circle cx="104" cy="76" r="7" fill="#FFFFFF"/>
+      <path d="M10 82h12M98 82h12" fill="none"/>
+    </g>`,
+  elephantFan: `
+    <g stroke="#2B2A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <ellipse cx="25" cy="62" rx="13" ry="19" fill="#C9D3E6"/>
+      <ellipse cx="95" cy="62" rx="13" ry="19" fill="#C9D3E6"/>
+      <circle cx="60" cy="60" r="28" fill="#DCE4F2"/>
+      <path d="M60 84c0 13-7 19-15 19" stroke-width="13" fill="none"/>
+      <path d="M60 84c0 13-7 19-15 19" stroke="#DCE4F2" stroke-width="8" fill="none"/>
+      <circle cx="50" cy="56" r="2.6" fill="#2B2A4A" stroke="none"/>
+      <circle cx="70" cy="56" r="2.6" fill="#2B2A4A" stroke="none"/>
+      <path d="M54 68q6 4 12 0" fill="none"/>
+      <path d="M94 104c0-12 7-20 16-20v20z" fill="#FFC94D"/>
+      <path d="M102 104V88M102 96l-5-4M102 96l5-4" fill="none" stroke-width="2.2"/>
+    </g>`,
+  rainNeedle: `
+    <g stroke="#2B2A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M24 54c-8 0-14-6-14-13s6-13 14-13c2-10 10-17 20-17 9 0 16 5 19 13 2-1 4-1 6-1 8 0 14 7 14 15s-6 16-14 16H24z" fill="#E9F0F8"/>
+      <path d="M32 66l-5 16M50 66l-5 22M68 66l-5 16M84 66l-4 12" stroke="#54B6E8" stroke-width="4"/>
+      <g transform="rotate(32 96 96)">
+        <path d="M82 96h26" stroke="#B9C3D6" stroke-width="4"/>
+        <circle cx="106" cy="96" r="3" fill="none" stroke-width="2"/>
+      </g>
+      <circle cx="104" cy="26" r="2" fill="#FFC94D" stroke="none"/>
+    </g>`,
+  puppySnow: `
+    <g stroke="#2B2A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <ellipse cx="33" cy="52" rx="10" ry="16" fill="#B98A5E" transform="rotate(-20 33 52)"/>
+      <ellipse cx="83" cy="52" rx="10" ry="16" fill="#B98A5E" transform="rotate(20 83 52)"/>
+      <circle cx="58" cy="64" r="26" fill="#FFF6E8"/>
+      <circle cx="49" cy="62" r="2.6" fill="#2B2A4A" stroke="none"/>
+      <circle cx="67" cy="62" r="2.6" fill="#2B2A4A" stroke="none"/>
+      <ellipse cx="58" cy="70" rx="4.5" ry="3.4" fill="#2B2A4A"/>
+      <path d="M58 74v4M54 79q4 4 8 0" fill="none"/>
+      <path d="M57 84c0 5-5 6-6 2" fill="#FF9AA2"/>
+      <g stroke="#54B6E8" stroke-width="2.2">
+        <path d="M20 24v12M14 30h12M16 26l8 8M24 26l-8 8"/>
+        <path d="M100 28v10M95 33h10M97 30l6 6M103 30l-6 6"/>
+        <path d="M94 92v10M89 97h10M91 94l6 6M97 94l-6 6"/>
+      </g>
+    </g>`,
+  lotusUmbrella: `
+    <g stroke="#2B2A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <ellipse cx="50" cy="84" rx="32" ry="16" fill="#7FD3A8"/>
+      <path d="M50 68v16M50 84L28 93M50 84l22 9M50 84l-8-15M50 84l10-14" fill="none" stroke="#3FBF93" stroke-width="2.4"/>
+      <path d="M70 40a18 18 0 0 1 36 0z" fill="#FF7A6B"/>
+      <path d="M70 40h36" fill="none"/>
+      <path d="M88 40v18q0 6 6 6" fill="none"/>
+      <path d="M80 40c2-9 4-13 8-13s6 4 8 13" fill="#FFF1C9"/>
+      <path d="M14 106q8-4 16 0t16 0 16 0 16 0 16 0 16 0" fill="none" stroke="#54B6E8" stroke-width="2.6" opacity=".7"/>
+      <circle cx="24" cy="34" r="2" fill="#FFC94D" stroke="none"/>
+    </g>`,
+  brother: `
+    <g stroke="#2B2A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="40" cy="58" r="22" fill="#FFE3CC"/>
+      <path d="M18 54c0-14 10-24 22-24s22 10 22 24c-5-6-9-9-14-10-5 5-17 6-30 2z" fill="#4A3A2E"/>
+      <circle cx="33" cy="58" r="2.2" fill="#2B2A4A" stroke="none"/>
+      <circle cx="47" cy="58" r="2.2" fill="#2B2A4A" stroke="none"/>
+      <path d="M35 67q5 4 10 0" fill="none"/>
+      <circle cx="84" cy="70" r="17" fill="#FFE3CC"/>
+      <path d="M67 66c0-10 8-18 17-18s17 8 17 18c-4-5-7-7-11-8-4 4-13 5-23 2z" fill="#4A3A2E"/>
+      <circle cx="79" cy="70" r="2" fill="#2B2A4A" stroke="none"/>
+      <circle cx="89" cy="70" r="2" fill="#2B2A4A" stroke="none"/>
+      <path d="M80 77q4 3 8 0" fill="none"/>
+      <path d="M58 38h8M58 44h8" stroke="#9C86F5" stroke-width="3"/>
+      <circle cx="104" cy="30" r="2" fill="#FFC94D" stroke="none"/>
+    </g>`,
+  homeworkMountain: `
+    <g stroke="#2B2A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="28" y="88" width="64" height="12" rx="5" fill="#FF7A6B"/>
+      <rect x="34" y="76" width="52" height="12" rx="5" fill="#54B6E8"/>
+      <rect x="40" y="64" width="40" height="12" rx="5" fill="#FFC94D"/>
+      <rect x="46" y="52" width="28" height="12" rx="5" fill="#9C86F5"/>
+      <path d="M82 92l14-30" stroke-width="6"/>
+      <path d="M92 70l5-11" stroke="#FFB3C7" stroke-width="6"/>
+      <path d="M30 40l-6-6M24 48h-8M36 28l-2-8" stroke="#FFC94D" stroke-width="2.6"/>
+      <circle cx="102" cy="94" r="2" fill="#FFC94D" stroke="none"/>
+    </g>`,
+  streamRibbon: `
+    <g stroke="#2B2A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M-8 86c16-14 30 6 46-4s26-16 44-6 26 8 42 2" stroke="#54B6E8" stroke-width="16" fill="none"/>
+      <path d="M-8 86c16-14 30 6 46-4s26-16 44-6 26 8 42 2" stroke="#9BDCF7" stroke-width="5" fill="none"/>
+      <circle cx="22" cy="34" r="3" fill="#FFB3C7" stroke="none"/>
+      <circle cx="30" cy="30" r="3" fill="#FFC94D" stroke="none"/>
+      <circle cx="98" cy="38" r="3" fill="#FFB3C7" stroke="none"/>
+      <path d="M22 100q6-8 12 0M84 22q6-8 12 0" fill="none" stroke="#3FBF93" stroke-width="2.6"/>
+    </g>`,
+  sister: `
+    <g stroke="#2B2A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="54" cy="64" r="26" fill="#FFE3CC"/>
+      <path d="M28 62c0-18 11-30 26-30s26 12 26 30c-6-8-11-11-17-12-6 6-21 7-35 2z" fill="#6B4F3A"/>
+      <path d="M28 62v14M80 62v14" stroke-width="7"/>
+      <circle cx="46" cy="64" r="2.4" fill="#2B2A4A" stroke="none"/>
+      <circle cx="62" cy="64" r="2.4" fill="#2B2A4A" stroke="none"/>
+      <path d="M48 74q6 5 12 0" fill="none"/>
+      <circle cx="38" cy="72" r="5" fill="#FFA8A8" stroke="none" opacity=".8"/>
+      <circle cx="70" cy="72" r="5" fill="#FFA8A8" stroke="none" opacity=".8"/>
+      <g stroke-width="2.2">
+        <circle cx="90" cy="28" r="6" fill="#FFB3C7"/>
+        <circle cx="99" cy="34" r="6" fill="#FFB3C7"/>
+        <circle cx="96" cy="44" r="6" fill="#FFB3C7"/>
+        <circle cx="84" cy="44" r="6" fill="#FFB3C7"/>
+        <circle cx="81" cy="34" r="6" fill="#FFB3C7"/>
+        <circle cx="90" cy="36" r="4.5" fill="#FFC94D"/>
+      </g>
+    </g>`,
+  birdSing: `
+    <g stroke="#2B2A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 98h104" stroke="#B98A5E" stroke-width="8"/>
+      <ellipse cx="58" cy="66" rx="20" ry="17" fill="#7FD3F2"/>
+      <circle cx="76" cy="53" r="13" fill="#7FD3F2"/>
+      <path d="M86 51l9 4-9 4z" fill="#FFC94D"/>
+      <circle cx="79" cy="51" r="2.2" fill="#2B2A4A" stroke="none"/>
+      <path d="M48 62q9-8 17 0-8 8-17 0z" fill="#BEE9FA"/>
+      <path d="M40 78l-14 8M42 84l-10 10" fill="none"/>
+      <path d="M46 88v8M52 88v8" fill="none"/>
+      <g stroke="#9C86F5" stroke-width="3" fill="none">
+        <path d="M96 30v14M96 30q8 0 8 6t-8 4"/>
+        <path d="M28 38v12M28 38q7 0 7 5t-7 4"/>
+      </g>
+    </g>`,
+  thinkingBoy: `
+    <g stroke="#2B2A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M16 104h88" stroke="#9C86F5" stroke-width="5" opacity=".3"/>
+      <circle cx="62" cy="64" r="25" fill="#FFD9B8"/>
+      <path d="M38 62c0-16 11-27 25-27 13 0 24 10 24 24-7-2-11-7-14-13-7 7-20 10-35 7z" fill="#6B4E3D"/>
+      <circle cx="53" cy="65" r="2.6" fill="#2B2A4A" stroke="none"/>
+      <circle cx="71" cy="65" r="2.6" fill="#2B2A4A" stroke="none"/>
+      <path d="M55 75q6 4 12 0" fill="none"/>
+      <path d="M50 91v10M74 91v10" fill="none"/>
+      <path d="M40 101h44" stroke="#54B6E8" stroke-width="7"/>
+      <circle cx="95" cy="27" r="4.5" fill="#fff"/>
+      <circle cx="84" cy="18" r="6.5" fill="#fff"/>
+      <circle cx="96" cy="10" r="8.5" fill="#fff"/>
+      <path d="M93 5v7M93 15v.6" fill="none" stroke-width="2.6"/>
+    </g>`,
+  riceField: `
+    <g stroke="#2B2A4A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="97" cy="24" r="10" fill="#FFD86B"/>
+      <path d="M0 58q24-12 48-4t36-2 36 4v64H0z" fill="#F6E7B4" stroke="none"/>
+      <path d="M0 74q30-10 60-2t60-4v52H0z" fill="#FFD966"/>
+      <path d="M0 91q30-8 60 0t60-2v31H0z" fill="#F0B94E"/>
+      <g stroke="#B77B22" stroke-width="1.8" opacity=".7" fill="none">
+        <path d="M6 84q16-5 32-6M46 82q16-4 32-5M86 80q12-2 24-2"/>
+        <path d="M2 100q18-5 36-5M46 98q18-4 36-4M90 96q12-2 24-2"/>
+      </g>
+      <g stroke="#8AAE3C" stroke-width="2.2" fill="none">
+        <path d="M20 79v-8M20 73l-4-4M20 73l4-4"/>
+        <path d="M56 77v-8M56 71l-4-4M56 71l4-4"/>
+        <path d="M92 76v-8M92 70l-4-4M92 70l4-4"/>
+      </g>
+      <path d="M22 34q5-6 10 0M34 27q5-6 10 0" fill="none" stroke-width="2.4"/>
+    </g>`,
+  moonPlate: `
+    <g stroke="#2B2A4A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+      <g fill="#FFE9A8" stroke="none">
+        <circle cx="20" cy="18" r="2"/><circle cx="44" cy="12" r="1.6"/><circle cx="104" cy="22" r="2"/>
+        <circle cx="28" cy="42" r="1.5"/><circle cx="98" cy="52" r="1.4"/><circle cx="12" cy="64" r="1.8"/>
+      </g>
+      <circle cx="62" cy="50" r="27" fill="#FFE9A8"/>
+      <circle cx="52" cy="42" r="5" fill="#F5D27A" stroke="none"/>
+      <circle cx="72" cy="58" r="7" fill="#F5D27A" stroke="none"/>
+      <circle cx="58" cy="64" r="3" fill="#F5D27A" stroke="none"/>
+      <path d="M62 80v20" stroke="#8A5A3B" stroke-width="7"/>
+      <path d="M62 88l-13-9M62 84l14-10M62 78l-9-12" fill="none" stroke="#8A5A3B" stroke-width="4"/>
+      <path d="M0 108q22-12 62-6t58-4v22H0z" fill="#3E5A63" stroke="none"/>
+    </g>`,
+  grassDew: `
+    <g stroke="#2B2A4A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M0 100q30-10 60 0t60-4v24H0z" fill="#BFE9CF" stroke="none"/>
+      <g stroke="#3FBF93" stroke-width="5" fill="none">
+        <path d="M20 100q-3-18 2-32"/><path d="M30 101q6-16 12-26"/>
+        <path d="M54 100q-4-22 1-38"/><path d="M64 101q5-16 11-24"/>
+        <path d="M88 100q-2-18 3-30"/><path d="M98 101q5-12 10-20"/>
+      </g>
+      <circle cx="22" cy="66" r="4" fill="#7FD3F2"/>
+      <circle cx="55" cy="60" r="4.6" fill="#7FD3F2"/>
+      <circle cx="91" cy="68" r="3.6" fill="#7FD3F2"/>
+      <path d="M8 46q14 8 30 0t28 0 26-4" fill="none" stroke="#9C86F5" stroke-width="2.6" stroke-dasharray="5 5"/>
+      <circle cx="40" cy="88" r="5" fill="#FFB3C7"/>
+      <circle cx="40" cy="88" r="2" fill="#FFC94D" stroke="none"/>
+      <circle cx="78" cy="90" r="4.4" fill="#FFB3C7"/>
+      <circle cx="78" cy="90" r="1.8" fill="#FFC94D" stroke="none"/>
+    </g>`,
+  books: `
+    <g stroke="#2B2A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="22" y="88" width="76" height="14" rx="4" fill="#FFC94D"/>
+      <rect x="27" y="74" width="66" height="14" rx="4" fill="#FF7A6B"/>
+      <rect x="31" y="60" width="58" height="14" rx="4" fill="#3FBF93"/>
+      <path d="M60 54c-8-6-20-8-30-6v24c10-2 22 0 30 6z" fill="#FFF1C9"/>
+      <path d="M60 54c8-6 20-8 30-6v24c-10-2-22 0-30 6z" fill="#FFFDF5"/>
+      <path d="M60 54v24" fill="none"/>
+      <path d="M38 56c6-1 12 0 16 2M38 62c6-1 12 0 16 2M66 58c6-2 12-3 16-2M66 64c6-2 12-3 16-2" fill="none" stroke-width="2" opacity=".5"/>
+      <g stroke="#FFC94D" stroke-width="2.6" fill="none">
+        <path d="M22 36l7 4M22 44l7-4M98 34l-7 4M98 42l-7-4M84 24v8M80 28h8"/>
+      </g>
+    </g>`,
+  waterfall: `
+    <g stroke="#2B2A4A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M0 20q24-10 38 8t6 42 4 50H0z" fill="#8FBF9F"/>
+      <path d="M120 20q-24-10-38 8t-6 42-4 50h48z" fill="#7FAF92"/>
+      <path d="M44 22h32v66q-16 10-32 0z" fill="#EAF8FF"/>
+      <path d="M47 26v60M55 26v64M63 26v64M71 26v62M79 26v58" stroke="#7FD3F2" stroke-width="2.4" opacity=".8" fill="none"/>
+      <path d="M44 86q16 10 32 0" fill="#BFE9FA"/>
+      <path d="M30 92q7-6 14 0M76 94q7-6 14 0" fill="none" stroke="#fff" stroke-width="3"/>
+      <circle cx="34" cy="100" r="5" fill="#fff"/>
+      <circle cx="88" cy="100" r="4" fill="#fff"/>
+      <circle cx="60" cy="102" r="6" fill="#DFF2FF"/>
+      <circle cx="102" cy="18" r="9" fill="#FFD86B"/>
+      <path d="M0 112q30-8 60 0t60-4v12H0z" fill="#7FD3F2"/>
+    </g>`,
+  dandelion: `
+    <g stroke="#2B2A4A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M0 104q30-8 60 0t60-6v22H0z" fill="#BFE9CF"/>
+      <path d="M34 104V64" fill="none" stroke="#3FBF93" stroke-width="4"/>
+      <circle cx="34" cy="52" r="13" fill="#fff"/>
+      <g stroke="#9C86F5" stroke-width="2" fill="none">
+        <path d="M34 39v-8M34 65v8M21 52h-8M47 52h8M25 43l-6-6M43 61l6 6M43 43l6-6M25 61l-6 6"/>
+      </g>
+      <g fill="#fff" stroke="#2B2A4A" stroke-width="2">
+        <circle cx="54" cy="38" r="4"/>
+        <circle cx="66" cy="28" r="3.4"/>
+        <circle cx="80" cy="36" r="3"/>
+      </g>
+      <g stroke="#9C86F5" stroke-width="2" fill="none">
+        <path d="M54 42v6M66 32v6M80 39v6M50 34l4 4M62 25l4 4M76 33l4 4"/>
+      </g>
+      <path d="M34 104q-8-7-14-6M34 98q-9-3-14 2" fill="none" stroke="#3FBF93" stroke-width="3"/>
+    </g>`,
+  lakeMirror: `
+    <g stroke="#2B2A4A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="94" cy="24" r="10" fill="#FFD86B"/>
+      <path d="M12 62l20-24 16 20 12-12 20 22z" fill="#A8D8C0"/>
+      <path d="M0 62h120v14H0z" fill="#7FD3F2"/>
+      <path d="M0 76h120v44H0z" fill="#BFE9FA"/>
+      <path d="M18 88q10-4 20 0M46 96q12-5 24 0M78 86q10-3 20 0" stroke="#54B6E8" stroke-width="2.4" fill="none"/>
+      <path d="M30 40q6-6 12 0M46 34q6-6 12 0" fill="none" stroke-width="2.4"/>
+      <path d="M34 76l8-14h18l8 14z" fill="#A8D8C0" opacity=".55" stroke="none"/>
+    </g>`,
+  firefly: `
+    <g stroke="#2B2A4A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M0 98q30-10 60-2t60-4v28H0z" fill="#2F6B52"/>
+      <g stroke="#4E9B78" stroke-width="3" fill="none">
+        <path d="M14 100q-2-18 4-28M30 102q4-14 10-22M92 100q-4-16 2-26M108 102q4-12 8-18"/>
+      </g>
+      <circle cx="46" cy="48" r="10" fill="#FFE9A8" opacity=".26" stroke="none"/>
+      <circle cx="46" cy="48" r="5" fill="#FFE9A8"/>
+      <ellipse cx="42" cy="41" rx="6" ry="3" fill="#fff" opacity=".7"/>
+      <ellipse cx="50" cy="41" rx="6" ry="3" fill="#fff" opacity=".7"/>
+      <circle cx="78" cy="66" r="9" fill="#FFE9A8" opacity=".24" stroke="none"/>
+      <circle cx="78" cy="66" r="4.4" fill="#FFE9A8"/>
+      <ellipse cx="74" cy="60" rx="5" ry="2.6" fill="#fff" opacity=".7"/>
+      <ellipse cx="82" cy="60" rx="5" ry="2.6" fill="#fff" opacity=".7"/>
+      <circle cx="98" cy="40" r="3" fill="#FFE9A8" stroke="none"/>
+      <circle cx="28" cy="66" r="3" fill="#FFE9A8" stroke="none"/>
+      <circle cx="64" cy="30" r="2.6" fill="#FFE9A8" stroke="none"/>
+    </g>`,
+  snowman: `
+    <g stroke="#2B2A4A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M0 100q30-8 60 0t60-6v26H0z" fill="#fff"/>
+      <path d="M18 104q42-8 84 0" stroke="#BFE9FA" stroke-width="5" fill="none"/>
+      <circle cx="60" cy="76" r="24" fill="#fff"/>
+      <circle cx="60" cy="45" r="19" fill="#fff"/>
+      <path d="M42 33h36l-4-9H46z" fill="#2B2A4A"/>
+      <path d="M44 29h32" stroke="#FF7A6B" stroke-width="4"/>
+      <path d="M43 52q17 8 34 0" stroke="#FF7A6B" stroke-width="5" fill="none"/>
+      <path d="M54 48l-8-4M66 48l8-4" fill="none" stroke="#F28C28" stroke-width="3"/>
+      <circle cx="53" cy="42" r="2.2" fill="#2B2A4A" stroke="none"/>
+      <circle cx="67" cy="42" r="2.2" fill="#2B2A4A" stroke="none"/>
+      <path d="M60 45l10 4-10 3z" fill="#F28C28"/>
+      <circle cx="60" cy="70" r="2.4" fill="#2B2A4A" stroke="none"/>
+      <circle cx="60" cy="82" r="2.4" fill="#2B2A4A" stroke="none"/>
+      <path d="M38 66l-14-8M82 66l14-8" fill="none" stroke="#8A5A3B" stroke-width="3"/>
+      <g stroke="#7FD3F2" stroke-width="2.4" fill="none">
+        <path d="M20 22v8M16 26h8M96 14v6M93 17h6M100 60v6M97 63h6"/>
+      </g>
+    </g>`,
+  kite: `
+    <g stroke="#2B2A4A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="96" cy="24" r="9" fill="#FFD86B"/>
+      <path d="M12 34q8-8 16 0M26 28q8-8 16 0" fill="none" stroke-width="2.4"/>
+      <path d="M66 18v46M46 40h40" fill="none" stroke-width="2"/>
+      <path d="M46 40l20-22v22z" fill="#FFC94D" stroke="none"/>
+      <path d="M86 40L66 18v22z" fill="#54B6E8" stroke="none"/>
+      <path d="M46 40l20 24v-24z" fill="#3FBF93" stroke="none"/>
+      <path d="M86 40L66 64v-24z" fill="#FF7A6B" stroke="none"/>
+      <path d="M66 18l20 22-20 24-20-24z" fill="none"/>
+      <path d="M66 64q-8 10-14 8t-10 6-8 4" fill="none" stroke-width="2.4"/>
+      <path d="M40 74l-5 8M35 76l8-5" stroke="#FFC94D" stroke-width="3.6"/>
+      <path d="M20 86l-6 8M14 88l8-6" stroke="#FF7A6B" stroke-width="4"/>
+      <path d="M0 108q30-6 60 0t60-4v16H0z" fill="#BFE9CF"/>
+      <path d="M14 108l66-44" stroke="#9C86F5" stroke-width="1.8" stroke-dasharray="4 5" fill="none"/>
+    </g>`,
+  girlBraids: `
+    <g stroke="#2B2A4A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="60" cy="58" r="24" fill="#FFD9B8"/>
+      <path d="M36 54c0-16 11-27 24-27s24 11 24 27c-8-6-13-14-15-20-7 8-19 12-33 10z" fill="#5B4034"/>
+      <circle cx="51" cy="59" r="2.5" fill="#2B2A4A" stroke="none"/>
+      <circle cx="69" cy="59" r="2.5" fill="#2B2A4A" stroke="none"/>
+      <path d="M54 69q6 5 12 0" fill="none"/>
+      <path d="M38 60q-8 12-4 26t12 14" fill="none" stroke="#5B4034" stroke-width="8"/>
+      <path d="M82 60q8 12 4 26T74 100" fill="none" stroke="#5B4034" stroke-width="8"/>
+      <circle cx="36" cy="66" r="5" fill="#FFB3C7"/>
+      <circle cx="84" cy="66" r="5" fill="#FFB3C7"/>
+      <path d="M30 104h60l-6-14H36z" fill="#9C86F5"/>
+    </g>`
+};
+
+var ART_BG = {
+  mascot:'#FFF1C9', moonBoat:'#E4F3FF', sickBoy:'#FFF1E8', appleFace:'#FFF0F2',
+  cloudCandy:'#E8F5FF', starEyes:'#2F2E55', sunFire:'#FFF4D9', leafButterfly:'#FFF6E8',
+  rainbowBridge:'#EAF6FF', elephantFan:'#EFF4FB', rainNeedle:'#EEF7FF', puppySnow:'#E8F6FF',
+  lotusUmbrella:'#EAF8EE', brother:'#FFF6E4', homeworkMountain:'#FFF3F0', streamRibbon:'#EAF8E8',
+  sister:'#FFF1F4', birdSing:'#EAF8F1',
+  thinkingBoy:'#EDF3FF', riceField:'#FFF6D9', moonPlate:'#262A4D', grassDew:'#EAF8EE',
+  books:'#FFF1E8', waterfall:'#E8F7FF', dandelion:'#F2FBEA', lakeMirror:'#E4F3FF',
+  firefly:'#232A4D', snowman:'#EAF6FF', kite:'#E8F5FF', girlBraids:'#FFF1F4'
+};
+
+function art(name, cls){
+  var bg = ART_BG[name] || '#F4FAFF';
+  return '<div class="' + (cls || 'art-box') + '" style="background:' + bg + '">' +
+    '<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+    '<rect width="120" height="120" fill="' + bg + '"/>' + (ART[name] || '') + '</svg></div>';
+}
+
+/* ---------------- 資料 ---------------- */
+var VERSIONS = {
+  junior:{
+    key:'junior', name:'初小版', range:'P1–P3', years:'小一至小三', caseNo:'CASE 01',
+    desc:'用最短的句子，認識本體、比喻詞和喻體。',
+    chips:['短句','生活事物','三個小陷阱'],
+    note:'小提示：句子裏有「好像」，不一定就是比喻。要看它有沒有把一樣東西，比作另一樣不同的東西。',
+    art:'moonBoat', learnArt:'moonBoat'
+  },
+  senior:{
+    key:'senior', name:'高小版', range:'P4–P6', years:'小四至小六', caseNo:'CASE 02',
+    desc:'讀長句，分辨明喻、暗喻、借喻，還要看穿猜測、同類比較和擬人。',
+    chips:['長句','明喻・暗喻・借喻','更細緻的辨析'],
+    note:'小提示：暗喻用「是」，借喻本體不出現。兩種都沒有「像」，但仍然是比喻。',
+    art:'starEyes', learnArt:'books'
+  }
+};
+
+var DATA = {
+  junior:{
+    a:[
+      { art:'moonBoat', s:'月亮像小船。', ok:true,
+        why:'本體是「月亮」，喻體是「小船」，兩樣東西不同類，都是彎彎的。',
+        parts:['月亮','像','小船'] },
+      { art:'sickBoy', s:'弟弟好像病了。', ok:false,
+        why:'「好像」只是猜想，不是把弟弟比作別的東西。' },
+      { art:'appleFace', s:'妹妹的臉像蘋果。', ok:true,
+        why:'本體是「妹妹的臉」，喻體是「蘋果」，都是紅紅圓圓的。',
+        parts:['妹妹的臉','像','蘋果'] },
+      { art:'birdSing', s:'小鳥在唱歌。', ok:false,
+        why:'這是擬人，把小鳥當作人。句中沒有喻體，所以不是比喻。' },
+      { art:'cloudCandy', s:'白雲像棉花糖。', ok:true,
+        why:'本體是「白雲」，喻體是「棉花糖」，都是白白軟軟的。',
+        parts:['白雲','像','棉花糖'] },
+      { art:'brother', s:'哥哥長得像爸爸。', ok:false,
+        why:'哥哥和爸爸都是人，是同類比較，不是比喻。' }
+    ],
+    b:[
+      { art:'sunFire', options:[
+        { s:'太陽像大火球。', ok:true, why:'本體「太陽」＋「像」＋喻體「大火球」，都是又熱又亮。' },
+        { s:'太陽升起來了。', ok:false, why:'只是描寫太陽升起，沒有把太陽比作別的東西。' },
+        { s:'他好像知道。', ok:false, why:'「好像」表示猜想，不是比喻。' }
+      ]},
+      { art:'leafButterfly', options:[
+        { s:'蝴蝶在飛。', ok:false, why:'只是描寫蝴蝶，沒有比喻。' },
+        { s:'妹妹長得像媽媽。', ok:false, why:'妹妹和媽媽都是人，是同類比較。' },
+        { s:'落葉像蝴蝶。', ok:true, why:'本體「落葉」＋「像」＋喻體「蝴蝶」，都是飄飄的。' }
+      ]},
+      { art:'starEyes', options:[
+        { s:'星星在閃。', ok:false, why:'只是描寫星星，沒有把星星比作別的東西。' },
+        { s:'星星像眼睛。', ok:true, why:'本體「星星」＋「像」＋喻體「眼睛」，都會一閃一閃。' },
+        { s:'我好像見過他。', ok:false, why:'「好像」表示不太確定，是猜想。' }
+      ]},
+      { art:'rainNeedle', options:[
+        { s:'下雨了。', ok:false, why:'只是說明下雨，沒有比喻。' },
+        { s:'小草睡醒了。', ok:false, why:'這是擬人，把小草當作人，不是比喻。' },
+        { s:'春雨像細針。', ok:true, why:'本體「春雨」＋「像」＋喻體「針」，都是細細長長的。' }
+      ]},
+      { art:'rainbowBridge', options:[
+        { s:'天上有彩虹。', ok:false, why:'只是描寫彩虹出現，沒有比喻。' },
+        { s:'彩虹像一座橋。', ok:true, why:'本體「彩虹」＋「像」＋喻體「橋」，都是彎彎的、橫跨兩邊。' },
+        { s:'花好像很香。', ok:false, why:'「好像」表示感覺和估計，不是比喻。' }
+      ]},
+      { art:'elephantFan', options:[
+        { s:'大象的耳朵像扇子。', ok:true, why:'本體「大象的耳朵」＋「像」＋喻體「扇子」，都是又大又扁。' },
+        { s:'大象的鼻子很長。', ok:false, why:'只是描寫鼻子很長，沒有把鼻子比作別的東西。' },
+        { s:'小貓的叫聲很好聽。', ok:false, why:'只是說出對聲音的感覺，沒有比喻。' }
+      ]}
+    ],
+    c:[
+      { art:'sister', items:[
+        { s:'妹妹的笑容像花。', ok:true, why:'本體「笑容」＋「像」＋喻體「花」，都是甜甜美美的。' },
+        { s:'妹妹很開心。', ok:false, why:'只是說出妹妹的心情，沒有把東西比作另一樣。' }
+      ]},
+      { art:'streamRibbon', items:[
+        { s:'小溪唱著歌。', ok:false, why:'這是擬人，把小溪當作人，句中沒有喻體。' },
+        { s:'小溪像藍絲帶。', ok:true, why:'本體「小溪」＋「像」＋喻體「藍絲帶」，都是長長彎彎的。' }
+      ]},
+      { art:'homeworkMountain', items:[
+        { s:'他好像忘了帶功課。', ok:false, why:'「好像」表示猜想，不是比喻。' },
+        { s:'功課像小山。', ok:true, why:'本體「功課」＋「像」＋喻體「小山」，都是堆得高高的。' }
+      ]},
+      { art:'puppySnow', items:[
+        { s:'小狗的毛像雪。', ok:true, why:'本體「小狗的毛」＋「像」＋喻體「雪」，都是白白的。' },
+        { s:'小狗跑得快。', ok:false, why:'只是描寫小狗的速度，沒有比喻。' }
+      ]},
+      { art:'brother', items:[
+        { s:'哥哥長得像叔叔。', ok:false, why:'哥哥和叔叔都是人，是同類比較，不是比喻。' },
+        { s:'哥哥生氣時像大熊。', ok:true, why:'本體「哥哥生氣時」＋「像」＋喻體「大熊」，都是很兇、很嚇人。' }
+      ]},
+      { art:'lotusUmbrella', items:[
+        { s:'荷葉像大傘。', ok:true, why:'本體「荷葉」＋「像」＋喻體「大傘」，都是圓圓的、可以遮雨。' },
+        { s:'荷葉上有青蛙。', ok:false, why:'只是描寫荷葉上的景物，沒有比喻。' }
+      ]}
+    ]
+  },
+  senior:{
+    a:[
+      { art:'moonBoat', s:'夜空中的月亮，像一隻金色的小船，靜靜地划過雲海。', ok:true, kind:'明喻',
+        why:'本體是「月亮」，喻體是「小船」，用「像」連接。兩者不同類，都彎彎的、在夜空中移動。',
+        parts:['月亮','像','小船'] },
+      { art:'thinkingBoy', s:'他望着天空，好像在想心事。', ok:false,
+        why:'「好像」只是在猜想，句中沒有喻體，所以不是比喻。' },
+      { art:'riceField', s:'那一片金黃的稻田，是一塊鋪在大地上的地毯。', ok:true, kind:'暗喻',
+        why:'用「是」把本體「稻田」和喻體「地毯」連起來。沒有「像」，但仍然是比喻。',
+        parts:['稻田','是','地毯'] },
+      { art:'moonPlate', s:'銀盤慢慢爬上樹梢，把大地照得發亮。', ok:true, kind:'借喻',
+        why:'本體「月亮」沒有出現，直接用喻體「銀盤」代替。銀盤圓圓亮亮，和月亮相似。' },
+      { art:'brother', s:'弟弟的個子越長越高，快要像爸爸一樣高了。', ok:false,
+        why:'弟弟和爸爸都是人，這是同類比較；「像……一樣高」比的是高度，不是比喻。' },
+      { art:'books', s:'書本是一扇扇門，帶我們走進不同的世界。', ok:true, kind:'暗喻',
+        why:'用「是」把本體「書本」和喻體「門」連起來。兩者不同類，都能通向新的世界。',
+        parts:['書本','是','門'] }
+    ],
+    b:[
+      { art:'waterfall', options:[
+        { s:'瀑布從山上直衝下來，水聲震耳。', ok:false, why:'只是描寫瀑布的水聲和氣勢，沒有把瀑布比作另一樣東西。' },
+        { s:'瀑布像一塊巨大的白布，掛在山前。', ok:true, kind:'明喻', why:'本體「瀑布」＋比喻詞「像」＋喻體「白布」，都是白白長長、由上而下。' },
+        { s:'他好像已經知道答案了。', ok:false, why:'「好像」表示猜測，不是比喻。' }
+      ]},
+      { art:'dandelion', options:[
+        { s:'蒲公英的種子像一群小傘兵，隨風出發。', ok:true, kind:'明喻', why:'本體「蒲公英的種子」＋「像」＋喻體「小傘兵」，都會隨風飄走。' },
+        { s:'蒲公英長在草地上。', ok:false, why:'只是說明蒲公英生長的地方，沒有比喻。' },
+        { s:'妹妹長得像姐姐。', ok:false, why:'妹妹和姐姐都是人，是同類比較。' }
+      ]},
+      { art:'lakeMirror', options:[
+        { s:'湖面十分平靜。', ok:false, why:'只是描寫湖面平靜，沒有把湖面比作別的東西。' },
+        { s:'湖面像一面鏡子，映着藍天白雲。', ok:true, kind:'明喻', why:'本體「湖面」＋「像」＋喻體「鏡子」，都能映出景物。' },
+        { s:'我好像在哪裏見過這面鏡子。', ok:false, why:'「好像」表示不太確定，是猜想。' }
+      ]},
+      { art:'firefly', options:[
+        { s:'螢火蟲像一盞盞小燈籠，在草叢裏飛。', ok:true, kind:'明喻', why:'本體「螢火蟲」＋「像」＋喻體「小燈籠」，都會在黑夜發光。' },
+        { s:'螢火蟲在草叢裏飛。', ok:false, why:'只是描寫螢火蟲飛來飛去，沒有比喻。' },
+        { s:'小草在風中點頭。', ok:false, why:'把小草當作人來寫，是擬人，不是比喻。' }
+      ]},
+      { art:'snowman', options:[
+        { s:'雪人站在院子裏。', ok:false, why:'只是描寫雪人的位置，沒有比喻。' },
+        { s:'雪花像鵝毛一樣飄下來。', ok:true, kind:'明喻', why:'本體「雪花」＋「像……一樣」＋喻體「鵝毛」，都是白白輕輕、慢慢飄落。' },
+        { s:'妹妹好像很冷。', ok:false, why:'「好像」表示猜想，不是比喻。' }
+      ]},
+      { art:'kite', options:[
+        { s:'風箏在天上飛。', ok:false, why:'只是描寫風箏在飛，沒有比喻。' },
+        { s:'風箏像一隻彩色的小鳥，在天空中飛翔。', ok:true, kind:'明喻', why:'本體「風箏」＋「像」＋喻體「小鳥」，都在天空中飛。' },
+        { s:'哥哥的風箏和弟弟的一樣。', ok:false, why:'兩隻風箏都是風箏，是同類比較，不是比喻。' }
+      ]}
+    ],
+    c:[
+      { art:'riceField', items:[
+        { s:'秋天的稻田翻起金浪，像一塊鋪到天邊的地毯。', ok:true, kind:'明喻', why:'本體「稻田」＋「像」＋喻體「地毯」，都是金黃色、一大片。' },
+        { s:'秋天的稻田一片金黃，農夫忙着收割。', ok:false, why:'只是描寫稻田的顏色和農夫的工作，沒有比喻。' }
+      ]},
+      { art:'moonPlate', items:[
+        { s:'一輪銀盤掛在夜空，柔和的光灑滿大地。', ok:true, kind:'借喻', why:'本體「月亮」不出現，用喻體「銀盤」代替，是借喻。' },
+        { s:'今晚的月亮又圓又亮。', ok:false, why:'只是直接描寫月亮，沒有把月亮比作別的東西。' }
+      ]},
+      { art:'waterfall', items:[
+        { s:'瀑布嘩啦啦地衝下來，像千萬條白練掛在山前。', ok:true, kind:'明喻', why:'本體「瀑布」＋「像」＋喻體「白練」，都是白色、長長垂下的。' },
+        { s:'瀑布的水聲很大，站在山下也聽得見。', ok:false, why:'只是描寫水聲，沒有比喻。' }
+      ]},
+      { art:'grassDew', items:[
+        { s:'春風輕輕撫摸小草，小草笑彎了腰。', ok:false, why:'把春風和小草當作人來寫，是擬人；句中沒有喻體。' },
+        { s:'小草從泥土裏鑽出來，像一根根綠色的針。', ok:true, kind:'明喻', why:'本體「小草」＋「像」＋喻體「針」，都是細細尖尖的。' }
+      ]},
+      { art:'girlBraids', items:[
+        { s:'妹妹的辮子比姐姐的長。', ok:false, why:'妹妹和姐姐都是人，辮子也是同類事物，這是同類比較。' },
+        { s:'妹妹的辮子像兩條烏黑的小繩子，走起路來一甩一甩。', ok:true, kind:'明喻', why:'本體「辮子」＋「像」＋喻體「小繩子」，都是細長、會擺動的。' }
+      ]},
+      { art:'lakeMirror', items:[
+        { s:'他低著頭不說話，好像自己做錯了事。', ok:false, why:'「好像」表示猜想，不是比喻。' },
+        { s:'月光灑在湖面上，好像鋪了一層碎銀。', ok:true, kind:'明喻', why:'本體「月光」＋「好像」＋喻體「碎銀」，都是亮晶晶、散落一片的。' }
+      ]}
+    ]
+  }
+};
+
+var WORDS = {
+  junior:[
+    { w:'像', ex:'荷葉像大傘。', mark:'像' },
+    { w:'好像', ex:'月亮好像小船。', mark:'好像' },
+    { w:'好似', ex:'妹妹好似小鳥。', mark:'好似' },
+    { w:'像……一樣', ex:'小狗的毛像雪一樣。', mark:'像雪一樣' }
+  ]
+};
+
+var KINDS = [
+  { k:'明喻', art:'moonBoat',
+    ex:'月亮<b>像</b>一隻小船。',
+    why:'本體<em>月亮</em>＋比喻詞<em>像</em>＋喻體<em>小船</em>。常用比喻詞：像、好像、彷彿、猶如。' },
+  { k:'暗喻', art:'riceField',
+    ex:'稻田<b>是</b>一塊金色的地毯。',
+    why:'本體<em>稻田</em>＋<em>是</em>＋喻體<em>地毯</em>。常用連接詞：是、成了、變成。' },
+  { k:'借喻', art:'moonPlate',
+    ex:'<b>銀盤</b>慢慢爬上樹梢。',
+    why:'本體<em>月亮</em>沒有出現，直接用喻體<em>銀盤</em>代替。要從上下文推想本體。' }
+];
+
+var MODES = {
+  a:{ name:'是比喻嗎？', no:'A' },
+  b:{ name:'三句選一', no:'B' },
+  c:{ name:'分類小偵探', no:'C' }
+};
+
+var MODE_DESC = {
+  junior:{ a:'一句一句，選「是」或「不是」', b:'三句中，找出比喻句', c:'把兩句放進正確的籃子' },
+  senior:{ a:'長句辨析，選「是」或「不是」', b:'三句之中，找出唯一的比喻句', c:'兩句分類，考驗更細緻的判斷' }
+};
+
+/* ---------------- 音效 ---------------- */
+var Sfx = {
+  ctx:null, on:true, _nb:null,
+  init:function(){
+    if(!this.ctx){
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if(AC){ try{ this.ctx = new AC(); }catch(e){ this.ctx = null; } }
+    }
+    if(this.ctx && this.ctx.state === 'suspended'){ this.ctx.resume(); }
+    return this.ctx;
+  },
+  tone:function(freq, dur, type, vol, delay, slideTo){
+    if(!this.on) return;
+    var ctx = this.init(); if(!ctx) return;
+    var t0 = ctx.currentTime + (delay||0);
+    var osc = ctx.createOscillator(), g = ctx.createGain();
+    osc.type = type || 'sine';
+    osc.frequency.setValueAtTime(freq, t0);
+    if(slideTo) osc.frequency.exponentialRampToValueAtTime(Math.max(30,slideTo), t0+dur);
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(vol||0.05, t0+0.014);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+    osc.connect(g); g.connect(ctx.destination);
+    osc.start(t0); osc.stop(t0+dur+0.03);
+  },
+  noiseBuf:function(){
+    var ctx=this.ctx; if(this._nb) return this._nb;
+    var len=Math.floor(ctx.sampleRate*2);
+    var b=ctx.createBuffer(1,len,ctx.sampleRate), d=b.getChannelData(0);
+    for(var i=0;i<len;i++) d[i]=Math.random()*2-1;
+    this._nb=b; return b;
+  },
+  noise:function(dur, vol, filter, freq, delay){
+    if(!this.on) return;
+    var ctx=this.init(); if(!ctx) return;
+    var t0=ctx.currentTime+(delay||0);
+    var src=ctx.createBufferSource(); src.buffer=this.noiseBuf(); src.loop=true;
+    var bp=ctx.createBiquadFilter(); bp.type=filter||'lowpass'; bp.frequency.setValueAtTime(freq||1200,t0);
+    var g=ctx.createGain();
+    g.gain.setValueAtTime(0.0001,t0);
+    g.gain.exponentialRampToValueAtTime(vol||0.05,t0+0.03);
+    g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+    src.connect(bp); bp.connect(g); g.connect(ctx.destination);
+    src.start(t0); src.stop(t0+dur+0.03);
+  },
+  click:function(){ this.tone(540,0.05,'triangle',0.028); },
+  flip:function(){ this.tone(430,0.07,'sine',0.03); this.tone(620,0.09,'sine',0.035,0.05); },
+  pop:function(){ this.tone(780,0.08,'sine',0.05); },
+  drop:function(){ this.tone(300,0.08,'triangle',0.04); this.tone(620,0.09,'sine',0.04,0.05); },
+  correct:function(){ var s=this; [523,659,784].forEach(function(f,i){ s.tone(f,0.16,'sine',0.055,i*0.075); }); },
+  wrong:function(){ this.tone(310,0.12,'sine',0.045); this.tone(225,0.2,'sine',0.038,0.11); },
+  win:function(){ var s=this; [523,659,784,1047].forEach(function(f,i){ s.tone(f,0.22,'triangle',0.05,i*0.095); }); this.noise(0.5,0.02,'highpass',3000,0.1); },
+  star:function(i){ this.tone(680+i*150,0.16,'sine',0.045,i*0.06); }
+};
+
+/* ---------------- 狀態 ---------------- */
+var LS_KEY = 'biyu-detective-v2';
+var store = { junior:{a:0,b:0,c:0}, senior:{a:0,b:0,c:0}, mute:false };
+try{
+  var raw = localStorage.getItem(LS_KEY);
+  if(raw){
+    var o = JSON.parse(raw);
+    ['junior','senior'].forEach(function(v){
+      if(o && o[v]){ ['a','b','c'].forEach(function(k){
+        if(typeof o[v][k]==='number' && o[v][k]>=0 && o[v][k]<=3) store[v][k]=o[v][k];
+      }); }
+    });
+    store.mute = !!o.mute;
+  }else{
+    var old = localStorage.getItem('biyu-detective-v1');
+    if(old){
+      var o2 = JSON.parse(old);
+      ['a','b','c'].forEach(function(k){
+        if(typeof o2[k]==='number' && o2[k]>=0 && o2[k]<=3) store.junior[k]=o2[k];
+      });
+      store.mute = !!o2.mute;
+    }
+  }
+}catch(e){}
+Sfx.on = !store.mute;
+
+var S = {
+  screen:'home', ver:null, page:0, mode:null, qi:0,
+  chosen:null, answered:false, correct:0,
+  placed:[null,null], sel:null, checked:false,
+  word:0, part:0, kind:0, reveal:false
+};
+
+function save(){
+  try{ localStorage.setItem(LS_KEY, JSON.stringify(store)); }catch(e){}
+}
+function esc(str){
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function V(){ return VERSIONS[S.ver] || VERSIONS.junior; }
+function QD(){ return DATA[S.ver] || DATA.junior; }
+function starTotal(ver){
+  var s = store[ver] || store.junior;
+  return (s.a||0)+(s.b||0)+(s.c||0);
+}
+function artSVG(name){
+  var bg = ART_BG[name] || '#F4FAFF';
+  return '<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+    '<rect width="120" height="120" fill="' + bg + '"/>' + (ART[name] || '') + '</svg>';
+}
+
+/* ---------------- 圖示 ---------------- */
+var ICON = {
+  arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
+  arrowR: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>',
+  sound: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.4L13 19V5L7.4 9.5H4z"/><path d="M16.5 9a4.5 4.5 0 010 6"/><path d="M19 6.5a8 8 0 010 11"/></svg>',
+  mute: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.4L13 19V5L7.4 9.5H4z"/><path d="M17 10l4 4M21 10l-4 4"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>',
+  cross: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  bulb: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 00-3.5 10.8c.6.5 1 1.2 1 2h5c0-.8.4-1.5 1-2A6 6 0 0012 3z"/></svg>',
+  book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 016.5 3H20v16H7a3 3 0 00-3 3z"/><path d="M4 5.5V22"/><path d="M8 7h8M8 11h6"/></svg>',
+  play: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5l12 7.5-12 7.5z"/></svg>',
+  star: '<svg viewBox="0 0 24 24"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4 6.2 20.4l1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="#2B2A4A" stroke-width="1.7" stroke-linejoin="round"/></svg>',
+  retry: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10a8 8 0 111.5 6.5"/><path d="M4 4v6h6"/></svg>',
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5L12 4l8 6.5V20a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1z"/></svg>',
+  basket: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16l-1.6 9a2 2 0 01-2 1.6H7.6a2 2 0 01-2-1.6z"/><path d="M8 9l2-5M16 9l-2-5"/></svg>',
+  cards: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="4" width="12" height="15" rx="2"/><path d="M5 7v11a2 2 0 002 2h9"/><path d="M10 8h6M10 11h6"/></svg>',
+  search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>',
+  swap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg>'
+};
+
+function stars(n){
+  var out='';
+  for(var i=0;i<3;i++){
+    out += '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4 6.2 20.4l1.1-6.4L2.6 9.4l6.5-.9z" fill="' + (i<n?'#FFC94D':'#E9DFCE') + '" stroke="#2B2A4A" stroke-width="1.7" stroke-linejoin="round"/></svg>';
+  }
+  return out;
+}
+
+/* ---------------- 共用版面 ---------------- */
+function backAct(){
+  if(S.screen==='game' || S.screen==='result') return 'games';
+  if(S.screen==='learn' || S.screen==='games') return 'vhome';
+  return 'home';
+}
+function topbar(title, sub){
+  return '<div class="topbar">' +
+    '<button class="icon-btn" data-act="' + backAct() + '" aria-label="返回">' + ICON.arrow + '</button>' +
+    '<div class="tb-title"><b>' + esc(title) + '</b><span>' + esc(sub) + '</span></div>' +
+    '<button class="icon-btn" data-act="sound" aria-label="' + (store.mute?'開啟音效':'關閉音效') + '">' + (store.mute?ICON.mute:ICON.sound) + '</button>' +
+  '</div>';
+}
+
+/* ---------------- 首頁：選版本 ---------------- */
+function versionCard(key){
+  var v = VERSIONS[key];
+  var total = starTotal(key);
+  return '<button class="ver-card ' + key + '" data-act="ver" data-ver="' + key + '">' +
+    '<span class="vc-art">' + art(v.art,'vc-art-inner') + '</span>' +
+    '<span class="vc-main">' +
+      '<span class="vc-top"><b>' + v.name + '</b><span class="vc-range">' + v.range + '</span></span>' +
+      '<span class="vc-tag">' + v.years + ' · ' + v.caseNo + '</span>' +
+      '<span class="vc-desc">' + v.chips.join(' · ') + '</span>' +
+      '<span class="vc-star">' + ICON.star + '已集 ' + total + ' / 9 顆星</span>' +
+    '</span>' +
+    '<span class="vc-go">' + ICON.arrowR + '</span>' +
+  '</button>';
+}
+function homeHTML(){
+  return '<div class="screen home">' +
+    '<div class="brand-row">' +
+      '<div class="brand"><span class="brand-mark">' + art('mascot','brand-mark-inner') + '</span>' +
+        '<span class="brand-name"><b>比喻小偵探</b><span>初小 · 高小 分級版</span></span></div>' +
+      '<button class="icon-btn" data-act="sound" aria-label="' + (store.mute?'開啟音效':'關閉音效') + '">' + (store.mute?ICON.mute:ICON.sound) + '</button>' +
+    '</div>' +
+    '<section class="hero">' +
+      '<span class="kicker"><i></i>語文偵探社 · 分級案件</span>' +
+      '<h1><span class="h1-tag">比喻</span>小偵探</h1>' +
+      '<p class="hero-sub">先選<b>程度</b>，再開始查案！</p>' +
+      '<div class="hero-scene"><div class="scene-art">' +
+        '<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><rect width="120" height="120" fill="#E4F3FF"/>' + ART.moonBoat + '</svg>' +
+      '</div><div class="bubble">月亮<b>好像</b>小船！</div></div>' +
+      '<div class="hero-foot">' + ICON.bulb + '兩個版本，各有 5 站教學與 3 種玩法。</div>' +
+    '</section>' +
+    versionCard('junior') +
+    versionCard('senior') +
+    '<div class="home-note">' + ICON.bulb + '<span>初小版用短句打好基礎；高小版加入明喻、暗喻、借喻和更細緻的干擾項。星星分開儲存，可隨時切換。</span></div>' +
+    '<p class="foot">比喻小偵探 · 初小與高小分級版</p>' +
+  '</div>';
+}
+
+/* ---------------- 版本主頁 ---------------- */
+function vhomeHTML(){
+  var v = V(), total = starTotal(S.ver);
+  var chips = v.chips.map(function(c){ return '<span class="vh-chip">' + c + '</span>'; }).join('');
+  return '<div class="screen vhome">' +
+    topbar(v.name, v.range + ' · ' + v.years) +
+    '<section class="ver-hero ' + v.key + '">' +
+      '<div class="vh-top"><span class="vh-badge">' + v.caseNo + '</span><span class="vh-name">' + v.name + '</span><span class="vh-range">' + v.range + '</span></div>' +
+      '<p class="vh-desc">' + v.desc + '</p>' +
+      '<div class="vh-chips">' + chips + '</div>' +
+    '</section>' +
+    '<button class="entry learn" data-act="learn">' +
+      '<span class="entry-no">01</span>' +
+      '<span class="entry-info"><b>先學一學</b><small>5 個小站 · 約 5 分鐘</small></span>' +
+      '<span class="entry-art">' + art(v.learnArt || v.art,'entry-art-inner') + '</span>' +
+      '<span class="entry-go">' + ICON.arrowR + '</span>' +
+    '</button>' +
+    '<button class="entry play" data-act="games">' +
+      '<span class="entry-no">02</span>' +
+      '<span class="entry-info"><b>去玩遊戲</b><small>3 種玩法 · 各 6 題</small>' +
+        '<span class="entry-stars">' + ICON.star + '已集 ' + total + ' / 9 顆星</span>' +
+      '</span>' +
+      '<span class="entry-art">' + art('starEyes','entry-art-inner') + '</span>' +
+      '<span class="entry-go">' + ICON.arrowR + '</span>' +
+    '</button>' +
+    '<div class="switch-line"><button class="switch-btn" data-act="home">' + ICON.swap + '切換初小／高小版</button></div>' +
+    '<div class="home-note">' + ICON.bulb + '<span>' + v.note + '</span></div>' +
+    '<p class="foot">' + v.name + ' · ' + v.range + ' · 5 站教學 + 3 種玩法</p>' +
+  '</div>';
+}
+
+/* ---------------- 教學 ---------------- */
+function learnDots(){
+  var out = '<div class="learn-dots">';
+  for(var i=0;i<5;i++){
+    out += '<button data-act="page" data-i="' + i + '" class="' + (i===S.page?'on':(i<S.page?'done':'')) + '" aria-label="第 ' + (i+1) + ' 站"></button>';
+  }
+  return out + '<span class="learn-count">' + (S.page+1) + ' / 5</span></div>';
+}
+function learnBody(){
+  return S.ver==='senior' ? seniorLearnBody() : juniorLearnBody();
+}
+
+function juniorLearnBody(){
+  if(S.page===0){
+    return '<div class="learn-art">' + artSVG('moonBoat') + '</div>' +
+      '<span class="station-tag"><i>1</i>第 1 站 · 甚麼是比喻？</span>' +
+      '<h2>把一樣東西，<br>說成另一樣很像的東西</h2>' +
+      '<p class="learn-text">看到彎彎的<b>月亮</b>，你會想到甚麼？想到<b>小船</b>，就可以說：</p>' +
+      '<div class="callout"><span class="quote">「月亮像小船。」</span>用「小船」來想像月亮，句子立刻有了畫面。<small>不是真的變成小船，而是借用小船來形容月亮。</small></div>';
+  }
+  if(S.page===1){
+    var parts = [
+      { k:'本體', d:'要說的東西', v:'月亮', cls:'b' },
+      { k:'比喻詞', d:'把兩樣東西連起來', v:'像', cls:'c' },
+      { k:'喻體', d:'拿來比的東西', v:'小船', cls:'y' }
+    ];
+    var rows = parts.map(function(p,i){
+      return '<div class="part-row' + (S.part===i?' on':'') + '" data-act="part" data-i="' + i + '">' +
+        '<span class="part-dot">' + (i+1) + '</span>' +
+        '<div><b>' + p.k + '</b><p>' + p.d + '（' + p.v + '）</p></div>' +
+      '</div>';
+    }).join('');
+    return '<span class="station-tag"><i>2</i>第 2 站 · 比喻三兄弟</span>' +
+      '<h2>一句比喻，<br>通常有三部分</h2>' +
+      '<div class="part-sentence">' +
+        '<span class="part-word b' + (S.part===0?' lit':'') + '" data-act="part" data-i="0">月亮</span>' +
+        '<span class="part-word c' + (S.part===1?' lit':'') + '" data-act="part" data-i="1">像</span>' +
+        '<span class="part-word y' + (S.part===2?' lit':'') + '" data-act="part" data-i="2">小船</span>' +
+      '</div>' +
+      '<p class="q-hint" style="margin-top:2px">點一點顏色字，看看它是哪一部分。</p>' +
+      '<div class="part-list">' + rows + '</div>' +
+      '<div class="tip-line">' + ICON.bulb + '<span>口訣：本體 + 比喻詞 + 喻體。三個齊全，就是完整的比喻。</span></div>';
+  }
+  if(S.page===2){
+    var list = WORDS.junior;
+    var chips = list.map(function(o,i){
+      return '<button class="word-chip' + (S.word===i?' on':'') + '" data-act="word" data-i="' + i + '">' + o.w + '</button>';
+    }).join('');
+    var cur = list[S.word] || list[0];
+    var ex = cur.ex.replace(cur.mark, '<b>' + cur.mark + '</b>');
+    return '<span class="station-tag"><i>3</i>第 3 站 · 比喻詞寶盒</span>' +
+      '<h2>除了「像」，<br>還有這些好幫手</h2>' +
+      '<p class="learn-text">它們都能把<b>本體</b>和<b>喻體</b>連起來。點一點，看看例句。</p>' +
+      '<div class="word-box">' + chips + '</div>' +
+      '<div class="example-bubble">' + ex + '<small>「' + cur.w + '」是比喻詞。</small></div>' +
+      '<div class="tip-line">' + ICON.bulb + '<span>「像……一樣」要把兩樣東西夾在中間，例如「小狗的毛像雪一樣」。</span></div>';
+  }
+  if(S.page===3){
+    return '<span class="station-tag"><i>4</i>第 4 站 · 兩個必要條件</span>' +
+      '<h2>不同類，還要有相似</h2>' +
+      '<div class="cond"><span class="cond-no">1</span><div><b>本體和喻體要「不同類」</b><p>月亮在天上，小船在水上，是兩類不同的東西，才可以相比。</p></div></div>' +
+      '<div class="cond"><span class="cond-no">2</span><div><b>兩樣東西要有「相似的地方」</b><p>月亮彎彎的，小船也彎彎的；這個相似點，令比喻說得通。</p></div></div>' +
+      '<div class="compare">' +
+        '<div class="cmp good"><div class="cmp-art">' + artSVG('moonBoat') + '</div><span class="mark">✓</span><b>月亮 ↔ 小船</b><small>不同類 · 都彎彎的</small></div>' +
+        '<div class="cmp bad"><div class="cmp-art">' + artSVG('brother') + '</div><span class="mark">✗</span><b>弟弟 ↔ 哥哥</b><small>同類 · 只是比較</small></div>' +
+      '</div>' +
+      '<div class="tip-line">' + ICON.bulb + '<span>「哥哥長得像爸爸」只是同類比較，不是比喻。</span></div>';
+  }
+  return '<span class="station-tag"><i>5</i>第 5 站 · 三個陷阱</span>' +
+    '<h2>有「好像」，<br>不一定是比喻</h2>' +
+    '<div class="trap"><span class="trap-x">✗</span><div class="trap-main"><b>陷阱一：猜想</b><p><em>弟弟好像病了。</em>這裏的「好像」只是估計，不是把東西比作另一樣。</p></div>' + art('sickBoy','trap-art') + '</div>' +
+    '<div class="trap"><span class="trap-x">✗</span><div class="trap-main"><b>陷阱二：同類比較</b><p><em>妹妹長得像媽媽。</em>兩個人都是人，是同類比較，沒有喻體。</p></div>' + art('brother','trap-art') + '</div>' +
+    '<div class="trap"><span class="trap-x">✗</span><div class="trap-main"><b>陷阱三：擬人</b><p><em>小鳥在唱歌。</em>把小鳥當作人來寫，是擬人，不是比喻。</p></div>' + art('birdSing','trap-art') + '</div>' +
+    '<div class="mnemonic"><b>不同類 · 有相似 · 有比喻詞</b><span>三樣齊，才是好比喻。</span></div>' +
+    '<button class="btn wide" data-act="games">' + ICON.play + '我學會了，去玩遊戲</button>';
+}
+
+function seniorLearnBody(){
+  if(S.page===0){
+    var k = KINDS[S.kind] || KINDS[0];
+    var tabs = KINDS.map(function(o,i){
+      return '<button class="kind-tab' + (S.kind===i?' on':'') + '" data-act="kind" data-i="' + i + '">' + o.k + '</button>';
+    }).join('');
+    return '<div class="learn-art">' + artSVG(k.art) + '</div>' +
+      '<span class="station-tag"><i>1</i>第 1 站 · 比喻的三種樣子</span>' +
+      '<h2>同一個比喻，<br>可以有三種說法</h2>' +
+      '<p class="learn-text"><b>本體</b>是要說的東西，<b>喻體</b>是拿來比的東西。三種比喻的分別，在於<b>怎樣連接</b>。</p>' +
+      '<div class="kind-tabs">' + tabs + '</div>' +
+      '<div class="kind-panel"><p class="kind-ex">「' + k.ex + '」</p><p class="kind-why">' + k.why + '</p></div>' +
+      '<div class="tip-line">' + ICON.bulb + '<span>三種都是比喻，只是本體和喻體的連接方式不同。</span></div>';
+  }
+  if(S.page===1){
+    return '<span class="station-tag"><i>2</i>第 2 站 · 明喻</span>' +
+      '<h2>明喻：用「像」<br>把兩樣東西連起來</h2>' +
+      '<div class="kind-art">' + artSVG('waterfall') + '</div>' +
+      '<div class="part-sentence"><span class="part-word b">瀑布</span><span class="part-word c">像</span><span class="part-word y">白布</span></div>' +
+      '<div class="cond"><span class="cond-no">1</span><div><b>本體：瀑布</b><p>句子要說的事物。</p></div></div>' +
+      '<div class="cond"><span class="cond-no">2</span><div><b>比喻詞：像</b><p>還有好像、彷彿、猶如、如同。</p></div></div>' +
+      '<div class="cond"><span class="cond-no">3</span><div><b>喻體：白布</b><p>拿來比的事物；瀑布和白布都是白色、長長垂下。</p></div></div>' +
+      '<div class="tip-line">' + ICON.bulb + '<span>有「好像」也可能只是猜想：「他好像知道答案」不是比喻。</span></div>';
+  }
+  if(S.page===2){
+    return '<span class="station-tag"><i>3</i>第 3 站 · 暗喻</span>' +
+      '<h2>暗喻：不用「像」，<br>直接說「是」</h2>' +
+      '<div class="kind-art">' + artSVG('books') + '</div>' +
+      '<div class="part-sentence"><span class="part-word b">書本</span><span class="part-word c">是</span><span class="part-word y">一扇扇門</span></div>' +
+      '<p class="learn-text">暗喻用<b>是、成了、變成</b>，把本體直接說成喻體。句中沒有「像」，但仍然是比喻。</p>' +
+      '<div class="callout"><span class="quote">「老師是園丁。」</span>把老師說成園丁，兩者都用心培育下一代。<small>「弟弟變成了一隻小花貓」也是暗喻：玩得滿身泥，像小花貓一樣。</small></div>' +
+      '<div class="tip-line">' + ICON.bulb + '<span>「他是學生」只是說明身份，本體和喻體沒有不同類，不是比喻。</span></div>';
+  }
+  if(S.page===3){
+    var hide = S.reveal ? '' : ' hidden';
+    var revealLabel = S.reveal ? '收起答案' : '揭曉本體';
+    return '<span class="station-tag"><i>4</i>第 4 站 · 借喻</span>' +
+      '<h2>借喻：本體躲起來，<br>只留下喻體</h2>' +
+      '<p class="learn-text">句子裏<b>不出現本體</b>，直接用喻體來代替。讀者要從上下文找出本體。</p>' +
+      '<div class="reveal-card"><p class="rv-s">「銀盤慢慢爬上樹梢。」</p>' +
+        '<div class="rv-ans"><span class="rv-pill">喻體：銀盤</span><span class="rv-pill' + hide + '">本體：' + (S.reveal?'月亮':'？') + '</span></div></div>' +
+      '<div class="reveal-card"><p class="rv-s">「一群小傘兵隨風出發。」</p>' +
+        '<div class="rv-ans"><span class="rv-pill">喻體：小傘兵</span><span class="rv-pill' + hide + '">本體：' + (S.reveal?'蒲公英的種子':'？') + '</span></div></div>' +
+      '<button class="btn wide" data-act="reveal">' + ICON.search + revealLabel + '</button>' +
+      '<div class="tip-line">' + ICON.bulb + '<span>借喻要看得懂上下文，不然會不明白句子在說甚麼。</span></div>';
+  }
+  return '<span class="station-tag"><i>5</i>第 5 站 · 易錯點與三步判斷</span>' +
+    '<h2>三個易錯點，<br>三步看清楚</h2>' +
+    '<div class="trap"><span class="trap-x">✗</span><div class="trap-main"><b>易錯一：猜想</b><p><em>他望着窗外，好像在想心事。</em>「好像」只是估計，沒有喻體。</p></div>' + art('thinkingBoy','trap-art') + '</div>' +
+    '<div class="trap"><span class="trap-x">✗</span><div class="trap-main"><b>易錯二：同類比較</b><p><em>妹妹的辮子像姐姐的一樣長。</em>辮子和辮子同類，只是比較長短。</p></div>' + art('girlBraids','trap-art') + '</div>' +
+    '<div class="trap"><span class="trap-x">✗</span><div class="trap-main"><b>易錯三：擬人</b><p><em>春風輕輕撫摸小草。</em>把春風和小草當作人，是擬人，不是比喻。</p></div>' + art('grassDew','trap-art') + '</div>' +
+    '<div class="steps3">' +
+      '<div class="step3"><i>1</i><b>找本體</b><small>句子在說甚麼？</small></div>' +
+      '<div class="step3"><i>2</i><b>找喻體</b><small>拿甚麼來比？</small></div>' +
+      '<div class="step3"><i>3</i><b>看關係</b><small>不同類、有相似？</small></div>' +
+    '</div>' +
+    '<div class="mnemonic"><b>本體喻體不同類 · 相似之處說得通</b><span>明喻有「像」，暗喻用「是」，借喻只剩喻體。</span></div>' +
+    '<button class="btn wide" data-act="games">' + ICON.play + '我學會了，去玩遊戲</button>';
+}
+
+function learnHTML(){
+  var v = V();
+  var prevDis = S.page===0 ? ' disabled' : '';
+  var nextLabel = S.page===4 ? '回版本主頁' : '下一站';
+  var nextAct = S.page===4 ? 'vhome' : 'nextpage';
+  return '<div class="screen learn">' +
+    topbar(v.name + '・先學一學','5 個小站 · 圖文教學') +
+    learnDots() +
+    '<div class="learn-card">' + learnBody() + '</div>' +
+    '<div class="learn-nav">' +
+      '<button class="btn ghost" data-act="prevpage"' + prevDis + '>' + ICON.arrow + '上一站</button>' +
+      '<button class="btn" data-act="' + nextAct + '">' + nextLabel + (S.page===4?ICON.home:ICON.arrowR) + '</button>' +
+    '</div>' +
+  '</div>';
+}
+
+/* ---------------- 玩法選單 ---------------- */
+function gamesHTML(){
+  var v = V(), total = starTotal(S.ver);
+  var cards = '';
+  var list = [
+    { k:'a', icon:ICON.search },
+    { k:'b', icon:ICON.cards },
+    { k:'c', icon:ICON.basket }
+  ];
+  list.forEach(function(o){
+    cards += '<button class="mode-card ' + o.k + '" data-act="mode" data-mode="' + o.k + '">' +
+      '<span class="mode-no">CASE ' + MODES[o.k].no + '</span>' +
+      '<span class="mode-ico">' + o.icon + '</span>' +
+      '<span class="mode-info"><b>' + MODES[o.k].name + '</b><small>' + MODE_DESC[S.ver][o.k] + '</small>' +
+        '<span class="star-row">' + stars(store[S.ver][o.k]) + '</span></span>' +
+      '<span class="mode-go">' + ICON.arrowR + '</span>' +
+    '</button>';
+  });
+  return '<div class="screen games">' +
+    topbar(v.name + '・選一個玩法','3 種玩法 · 每種 6 題') +
+    '<div class="star-board"><span class="big">' + ICON.star + '</span>' +
+      '<div><b>' + v.name + '星星簿</b><small>每個玩法最多 3 顆星</small></div>' +
+      '<span class="total">' + total + ' / 9</span></div>' +
+    cards +
+    '<button class="relearn" data-act="learn">' + ICON.book + '重溫 5 站圖文教學</button>' +
+    '<p class="foot">每種玩法 6 題 · 答對越多，星星越多</p>' +
+  '</div>';
+}
+
+/* ---------------- 遊戲 ---------------- */
+function progressHTML(){
+  var w = ((S.qi+1)/6)*100;
+  return '<div class="progress"><div class="progress-fill" style="width:' + w + '%"></div></div>';
+}
+function partsHTML(parts){
+  if(!parts) return '';
+  var cls = ['b','c','y'];
+  return '<div class="parts">' + parts.map(function(p,i){
+    return '<span class="part-chip ' + cls[i] + '">' + esc(p) + '</span>';
+  }).join('') + '</div>';
+}
+function nextLabel(){
+  return S.qi>=5 ? '看成績' + ICON.check : '下一題' + ICON.arrowR;
+}
+function feedbackHTML(ok, title, text, parts){
+  return '<div class="fb ' + (ok?'ok':'no') + '" id="feedback">' +
+    '<div class="fb-head"><span class="fb-ico">' + (ok?'✓':'!') + '</span><b>' + esc(title) + '</b>' +
+      '<span class="fb-verdict">' + (ok?'判斷正確':'再想一想') + '</span></div>' +
+    '<p class="fb-text">' + text + '</p>' + (parts || '') +
+    '<button class="btn wide" data-act="next">' + nextLabel() + '</button>' +
+  '</div>';
+}
+
+function gameA(){
+  var q = QD().a[S.qi];
+  var answered = S.answered;
+  var clsYes = 'ans-btn yes', clsNo = 'ans-btn no';
+  if(answered){
+    if(q.ok){ clsYes += ' right'; } else { clsNo += ' right'; }
+    if(S.chosen===true && !q.ok) clsYes += ' wrong';
+    if(S.chosen===false && q.ok) clsNo += ' wrong';
+  }
+  var fb = '';
+  if(answered){
+    var ok = (S.chosen === q.ok);
+    var text;
+    if(q.ok){
+      text = (ok?'答得好！':'差一點！') + '這句話<b>是比喻</b>' + (q.kind?'，屬於<b>' + q.kind + '</b>':'') + '。' + esc(q.why);
+    }else{
+      text = (ok?'答得好！':'差一點！') + '這句話<b>不是比喻</b>。' + esc(q.why);
+    }
+    fb = feedbackHTML(ok, ok?'答對了！':'差一點！', text, q.ok?partsHTML(q.parts):'');
+  }
+  var long = q.s.length > 16 ? ' long' : '';
+  var kc = (answered && q.kind) ? '<span class="kind-chip">' + q.kind + '</span>' : '';
+  return '<div class="q-card">' +
+    '<div class="q-head"><span class="q-no">第 ' + (S.qi+1) + ' 題</span>' + kc + '<span class="q-type">是比喻嗎？</span></div>' +
+    '<div class="q-art" style="background:' + (ART_BG[q.art]||'#F4FAFF') + '">' + artSVG(q.art) + '</div>' +
+    '<p class="q-sentence' + long + '">「' + esc(q.s) + '」</p>' +
+    '<p class="q-hint">' + (S.ver==='senior' ? '先找本體和喻體，再看兩者是否不同類、有相似。' : '想一想：有沒有把一樣東西，比作另一樣不同的東西？') + '</p>' +
+    '<div class="answer-row">' +
+      '<button class="' + clsYes + '" data-act="ansA" data-val="1"' + (answered?' disabled':'') + '>' + ICON.check + '是比喻</button>' +
+      '<button class="' + clsNo + '" data-act="ansA" data-val="0"' + (answered?' disabled':'') + '>' + ICON.cross + '不是比喻</button>' +
+    '</div>' +
+  '</div>' + fb;
+}
+
+function gameB(){
+  var d = QD().b[S.qi];
+  var opts = d.options.map(function(o,i){
+    var cls = 'opt';
+    var mark = '';
+    var why = '';
+    if(S.answered){
+      if(o.ok){ cls += ' ok'; mark = '<span class="opt-mark">✓</span>'; }
+      else if(i===S.chosen){ cls += ' bad'; mark = '<span class="opt-mark">✗</span>'; }
+      why = '<span class="opt-why">' + (o.ok?'✓ ':'✗ ') + esc(o.why) + '</span>';
+    }
+    var long = o.s.length > 18 ? ' long' : '';
+    return '<button class="' + cls + '" data-act="ansB" data-i="' + i + '"' + (S.answered?' disabled':'') + '>' +
+      '<span class="opt-letter">' + 'ABC'[i] + '</span>' +
+      '<span class="opt-main"><span class="opt-text' + long + '">' + esc(o.s) + '</span>' + why + '</span>' +
+      mark +
+    '</button>';
+  }).join('');
+  var fb = '';
+  if(S.answered){
+    var picked = d.options[S.chosen];
+    var ok = picked && picked.ok;
+    var right = '';
+    d.options.forEach(function(o,i){ if(o.ok) right = 'ABC'[i]; });
+    var text = ok
+      ? '你找到比喻句了！<b>' + right + ' 句</b>把兩種不同類的東西連起來，而且有相似的地方。'
+      : '正確答案是 <b>' + right + ' 句</b>。你選的這句不是比喻，看看上面的解釋，再分辨一次。';
+    fb = feedbackHTML(ok, ok?'找到了！':'再看看', text, '');
+  }
+  return '<div class="q-card">' +
+    '<div class="q-head"><span class="q-no">第 ' + (S.qi+1) + ' 題</span><span class="q-type">三句選一</span></div>' +
+    '<div class="q-art" style="height:118px;background:' + (ART_BG[d.art]||'#F4FAFF') + '">' + artSVG(d.art) + '</div>' +
+    '<p class="q-sentence" style="font-size:19px">哪一句是比喻句？</p>' +
+    '<div class="opts">' + opts + '</div>' +
+  '</div>' + fb;
+}
+
+function gameC(){
+  var d = QD().c[S.qi];
+  var cards = d.items.map(function(it,i){
+    var cls = 'sort-card';
+    if(S.placed[i]!==null && S.placed[i]!==undefined) cls += ' placed';
+    if(S.sel===i) cls += ' sel';
+    if(S.checked){ cls += (S.placed[i]===1)===it.ok ? ' ok' : ' bad'; }
+    var tag = '';
+    if(S.placed[i]!==null && S.placed[i]!==undefined){
+      tag = '<span class="sc-tag">' + (S.placed[i]===1?'→ 比喻句':'→ 不是比喻') + '</span>';
+    }
+    var why = S.checked ? '<p class="sc-why">' + ((S.placed[i]===1)===it.ok?'✓ ':'✗ ') + esc(it.why) + '</p>' : '';
+    var long = it.s.length > 18 ? ' long' : '';
+    return '<button class="' + cls + '" data-act="pickCard" data-i="' + i + '"' + (S.checked?' disabled':'') + '>' +
+      '<span class="sc-text' + long + '">「' + esc(it.s) + '」</span>' + tag +
+    '</button>' + why;
+  }).join('');
+  var fb = '';
+  if(S.checked){
+    var all = true;
+    d.items.forEach(function(it,i){ if((S.placed[i]===1)!==it.ok) all=false; });
+    fb = feedbackHTML(all, all?'兩句都放對了！':'有一句放錯了', all
+      ? '你能分清楚真的比喻，和只是描寫、猜想、同類比較或擬人的句子。繼續保持！'
+      : '看看每句後面的解釋：<b>比喻</b>要有本體、喻體，而且兩樣東西不同類。', '');
+  }
+  return '<div class="q-card">' +
+    '<div class="q-head"><span class="q-no">第 ' + (S.qi+1) + ' 題</span><span class="q-type">分類小偵探</span></div>' +
+    '<div class="q-art" style="height:112px;background:' + (ART_BG[d.art]||'#F4FAFF') + '">' + artSVG(d.art) + '</div>' +
+    '<p class="q-sentence" style="font-size:19px">把兩句放進正確的籃子</p>' +
+    '<p class="sort-note">' + ICON.bulb + '先點一句句子，再點下面的籃子。放錯了可以再點句子拿出來。</p>' +
+    cards +
+    '<div class="bins">' +
+      '<button class="bin yes" data-act="bin" data-val="1"' + (S.checked?' disabled':'') + '>' +
+        '<span class="bin-ico">' + ICON.check + '</span><b>比喻句</b><small>有本體、喻體<br>兩樣不同類</small></button>' +
+      '<button class="bin no" data-act="bin" data-val="0"' + (S.checked?' disabled':'') + '>' +
+        '<span class="bin-ico">' + ICON.cross + '</span><b>不是比喻</b><small>描寫 · 猜想<br>同類比較 · 擬人</small></button>' +
+    '</div>' +
+    '<button class="btn wide" data-act="checkSort"' + (S.checked || S.placed[0]===null || S.placed[1]===null ? ' disabled':'') + '>' + (S.checked?'已檢查':'檢查答案') + '</button>' +
+  '</div>' + fb;
+}
+
+function gameHTML(){
+  var body = '';
+  if(S.mode==='a') body = gameA();
+  else if(S.mode==='b') body = gameB();
+  else body = gameC();
+  return '<div class="screen game">' +
+    topbar(MODES[S.mode].name, V().name + ' · 第 ' + (S.qi+1) + ' / 6 題') +
+    progressHTML() + body +
+  '</div>';
+}
+
+/* ---------------- 成績 ---------------- */
+function resultHTML(){
+  var v = V();
+  var n = S.correct >= 6 ? 3 : (S.correct >= 4 ? 2 : (S.correct >= 1 ? 1 : 0));
+  var msg = n===3
+      ? (S.ver==='senior' ? '神探級！明喻、暗喻、借喻都逃不過你的眼睛。' : '神探級！比喻逃不過你的眼睛。')
+    : n===2 ? '很接近！再玩一次就滿星了。'
+    : n===1 ? '有進步！記住三個陷阱再挑戰。'
+    : '別灰心，先回去「先學一學」再來。';
+  var note = S.ver==='senior'
+    ? '高小口訣：<b>本體喻體不同類，相似之處說得通</b>。明喻有「像」，暗喻用「是」，借喻只剩喻體。'
+    : '初小口訣：<b>不同類、有相似、有比喻詞</b>。有「好像」但只是猜想或同類比較，就不是比喻。';
+  return '<div class="screen result-wrap">' +
+    topbar('偵探報告', v.name + ' · 玩法：' + MODES[S.mode].name) +
+    '<div class="result-card"><div class="result-inner">' +
+      '<span class="result-tag">CASE REPORT · ' + v.name + '</span>' +
+      '<div class="result-art">' + art('mascot','result-art-inner') + '</div>' +
+      '<div class="result-stars">' + stars(n) + '</div>' +
+      '<h2>' + (n>=2?'破案成功！':'繼續加油！') + '</h2>' +
+      '<div class="result-score">' + ICON.star + '答對 ' + S.correct + ' / 6 題</div>' +
+      '<p class="result-sub">' + msg + '</p>' +
+      '<div class="result-actions">' +
+        '<button class="btn" data-act="retry">' + ICON.retry + '再玩一次</button>' +
+        '<button class="btn ghost" data-act="games">' + ICON.play + '換個玩法</button>' +
+      '</div>' +
+    '</div></div>' +
+    '<div class="result-note">' + ICON.bulb + '<span>' + note + '</span></div>' +
+  '</div>';
+}
+
+/* ---------------- 渲染 ---------------- */
+var app = document.getElementById('app');
+var toastEl = document.getElementById('toast');
+var toastTimer = null;
+
+function render(){
+  var html = '';
+  if(S.screen==='home') html = homeHTML();
+  else if(S.screen==='vhome') html = vhomeHTML();
+  else if(S.screen==='learn') html = learnHTML();
+  else if(S.screen==='games') html = gamesHTML();
+  else if(S.screen==='game') html = gameHTML();
+  else if(S.screen==='result') html = resultHTML();
+  app.innerHTML = html;
+  var brandInner = app.querySelector('.brand-mark svg');
+  if(brandInner){ brandInner.setAttribute('width','100%'); brandInner.setAttribute('height','100%'); }
+}
+function scrollTop(){
+  try{ window.scrollTo({top:0,behavior:'instant'}); }catch(e){ window.scrollTo(0,0); }
+}
+function go(screen){
+  S.screen = screen;
+  render();
+  scrollTop();
+}
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 1700);
+}
+function scrollFeedback(){
+  setTimeout(function(){
+    var f = document.getElementById('feedback');
+    if(f && f.scrollIntoView){ f.scrollIntoView({behavior:'smooth',block:'center'}); }
+  }, 70);
+}
+function confetti(){
+  var colors = ['#FFC94D','#FF7A6B','#3FBF93','#54B6E8','#9C86F5','#FFB3C7'];
+  for(var i=0;i<28;i++){
+    var d = document.createElement('i');
+    d.className = 'confetti';
+    d.style.left = (Math.random()*100) + '%';
+    d.style.background = colors[i % colors.length];
+    d.style.animationDelay = (Math.random()*0.55) + 's';
+    d.style.width = (6 + Math.random()*6) + 'px';
+    d.style.height = (9 + Math.random()*7) + 'px';
+    document.body.appendChild(d);
+    (function(el){ setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); }, 3400); })(d);
+  }
+}
+
+/* ---------------- 流程 ---------------- */
+function startMode(m){
+  S.mode = m; S.qi = 0; S.correct = 0;
+  S.chosen = null; S.answered = false;
+  S.placed = [null,null]; S.sel = null; S.checked = false;
+  go('game');
+}
+function resetQuestion(){
+  S.chosen = null; S.answered = false;
+  S.placed = [null,null]; S.sel = null; S.checked = false;
+}
+function nextQuestion(){
+  if(S.qi >= 5){
+    var n = S.correct >= 6 ? 3 : (S.correct >= 4 ? 2 : (S.correct >= 1 ? 1 : 0));
+    if(!store[S.ver]) store[S.ver] = {a:0,b:0,c:0};
+    if(n > (store[S.ver][S.mode] || 0)){ store[S.ver][S.mode] = n; save(); }
+    S.screen = 'result';
+    render();
+    scrollTop();
+    Sfx.win();
+    setTimeout(function(){ Sfx.star(0); }, 260);
+    setTimeout(function(){ Sfx.star(1); }, 400);
+    setTimeout(function(){ Sfx.star(2); }, 540);
+    if(n >= 2) setTimeout(confetti, 220);
+    return;
+  }
+  S.qi++;
+  resetQuestion();
+  render();
+  scrollTop();
+}
+
+function answerA(val){
+  if(S.answered) return;
+  S.answered = true;
+  S.chosen = (val === '1');
+  var q = QD().a[S.qi];
+  if(S.chosen === q.ok){ S.correct++; Sfx.correct(); }
+  else { Sfx.wrong(); }
+  render();
+  scrollFeedback();
+}
+function answerB(i){
+  if(S.answered) return;
+  S.answered = true;
+  S.chosen = i;
+  var d = QD().b[S.qi];
+  if(d.options[i].ok){ S.correct++; Sfx.correct(); }
+  else { Sfx.wrong(); }
+  render();
+  scrollFeedback();
+}
+function pickCard(i){
+  if(S.checked) return;
+  if(S.placed[i] !== null && S.placed[i] !== undefined){
+    S.placed[i] = null;
+    S.sel = i;
+  } else {
+    S.sel = (S.sel === i) ? null : i;
+  }
+  Sfx.click();
+  render();
+}
+function placeBin(val){
+  if(S.checked) return;
+  if(S.sel === null){ toast('先點一句句子，再選籃子'); return; }
+  S.placed[S.sel] = val;
+  S.sel = null;
+  Sfx.drop();
+  render();
+}
+function checkSort(){
+  if(S.checked) return;
+  if(S.placed[0] === null || S.placed[1] === null){ toast('兩句都要放入籃子哦'); return; }
+  S.checked = true;
+  var d = QD().c[S.qi];
+  var all = true;
+  d.items.forEach(function(it,i){ if((S.placed[i] === 1) !== it.ok) all = false; });
+  if(all){ S.correct++; Sfx.correct(); } else { Sfx.wrong(); }
+  render();
+  scrollFeedback();
+}
+
+/* ---------------- 事件 ---------------- */
+app.addEventListener('click', function(e){
+  var t = e.target.closest ? e.target.closest('[data-act]') : null;
+  if(!t) return;
+  var act = t.getAttribute('data-act');
+  Sfx.init();
+  if(act !== 'sound') Sfx.click();
+
+  if(act==='sound'){
+    store.mute = !store.mute;
+    Sfx.on = !store.mute;
+    save();
+    render();
+    if(!store.mute) Sfx.pop();
+    toast(store.mute ? '已關閉音效' : '已開啟音效');
+    return;
+  }
+  if(act==='home'){ S.screen='home'; render(); scrollTop(); return; }
+  if(act==='vhome'){ S.screen='vhome'; render(); scrollTop(); return; }
+  if(act==='ver'){
+    S.ver = t.getAttribute('data-ver');
+    S.screen = 'vhome';
+    Sfx.flip();
+    render(); scrollTop(); return;
+  }
+  if(act==='learn'){ S.screen='learn'; S.page=0; S.part=0; S.word=0; S.kind=0; S.reveal=false; Sfx.flip(); render(); scrollTop(); return; }
+  if(act==='games'){ S.screen='games'; render(); scrollTop(); return; }
+  if(act==='page'){ S.page = parseInt(t.getAttribute('data-i'),10); Sfx.flip(); render(); scrollTop(); return; }
+  if(act==='nextpage'){ if(S.page<4){ S.page++; Sfx.flip(); render(); scrollTop(); } return; }
+  if(act==='prevpage'){ if(S.page>0){ S.page--; Sfx.flip(); render(); scrollTop(); } return; }
+  if(act==='word'){ S.word = parseInt(t.getAttribute('data-i'),10); Sfx.pop(); render(); return; }
+  if(act==='part'){ S.part = parseInt(t.getAttribute('data-i'),10); Sfx.pop(); render(); return; }
+  if(act==='kind'){ S.kind = parseInt(t.getAttribute('data-i'),10); Sfx.pop(); render(); return; }
+  if(act==='reveal'){ S.reveal = !S.reveal; Sfx.flip(); render(); return; }
+  if(act==='mode'){ startMode(t.getAttribute('data-mode')); return; }
+  if(act==='ansA'){ answerA(t.getAttribute('data-val')); return; }
+  if(act==='ansB'){ answerB(parseInt(t.getAttribute('data-i'),10)); return; }
+  if(act==='pickCard'){ pickCard(parseInt(t.getAttribute('data-i'),10)); return; }
+  if(act==='bin'){ placeBin(parseInt(t.getAttribute('data-val'),10)); return; }
+  if(act==='checkSort'){ checkSort(); return; }
+  if(act==='next'){ nextQuestion(); return; }
+  if(act==='retry'){ startMode(S.mode); return; }
+});
+
+render();
+</script>
+</body>
+</html>

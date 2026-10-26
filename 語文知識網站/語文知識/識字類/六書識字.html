@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>六書小學堂 · 卡通Q版識字遊戲</title>
+<meta name="description" content="用六個卡通小遊戲認識象形、指事、會意、形聲、轉注、假借，小學低年級也能輕鬆玩。">
+<meta name="theme-color" content="#FFF8E9">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23FFD35C'/%3E%3Ctext x='32' y='46' font-size='38' font-weight='bold' text-anchor='middle' fill='%233F3140'%3E%E5%85%AD%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --cream:#FFF8E9;
+    --paper:#FFFFFF;
+    --ink:#3F3140;
+    --ink-soft:#7C6B7B;
+    --sun:#FFD35C;
+    --coral:#FF8B7B;
+    --mint:#7FD8BE;
+    --sky:#84C9F7;
+    --lilac:#B9A7EF;
+    --pink:#FFC2D1;
+    --green:#2E8A6B;
+    --red:#C74B3A;
+    --shadow:0 5px 0 rgba(63,49,64,.18);
+    --shadow-lg:0 7px 0 rgba(63,49,64,.18);
+    --font:"Yuanti TC","YuanTi TC","PingFang TC","Hiragino Sans TC","Microsoft JhengHei","Noto Sans TC","Noto Sans CJK TC",system-ui,-apple-system,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{
+    margin:0;
+    min-height:100vh;
+    color:var(--ink);
+    font-family:var(--font);
+    background-color:var(--cream);
+    background-image:
+      radial-gradient(circle at 6% 2%, rgba(255,211,92,.55) 0 90px, rgba(255,211,92,0) 92px),
+      radial-gradient(circle at 96% 8%, rgba(132,201,247,.42) 0 76px, rgba(132,201,247,0) 78px),
+      radial-gradient(circle at 50% 108%, rgba(127,216,190,.45) 0 140px, rgba(127,216,190,0) 142px),
+      radial-gradient(rgba(63,49,64,.055) 1.2px, transparent 1.3px);
+    background-size:auto, auto, auto, 22px 22px;
+    background-attachment:fixed;
+    -webkit-tap-highlight-color:transparent;
+    overflow-x:hidden;
+  }
+  [hidden]{display:none !important}
+  button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  button:focus-visible,a:focus-visible{outline:3px solid #84C9F7;outline-offset:3px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+  /* ---------- 頂欄 ---------- */
+  .appbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,248,233,.93);
+    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
+    border-bottom:2px solid rgba(63,49,64,.12);
+  }
+  .topbar{
+    max-width:1040px;margin:0 auto;padding:8px 14px 4px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .brand{display:flex;align-items:center;background:none;border:0;padding:2px;text-align:left}
+  .brand-mark{
+    width:38px;height:38px;margin-right:8px;flex:0 0 38px;
+    border:2.5px solid var(--ink);border-radius:12px;
+    background:var(--sun);box-shadow:0 3px 0 rgba(63,49,64,.2);
+    display:grid;place-items:center;
+    font-size:21px;font-weight:900;line-height:1;transform:rotate(-4deg);
+  }
+  .brand-text strong{display:block;font-size:15.5px;line-height:1.2;letter-spacing:.5px}
+  .brand-text small{display:block;font-size:10px;color:var(--ink-soft);letter-spacing:1px}
+  .tabs{
+    max-width:1040px;margin:0 auto;padding:2px 10px 8px;
+    display:flex;overflow-x:auto;scrollbar-width:none;
+  }
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{
+    flex:0 0 auto;border:2px solid transparent;background:transparent;
+    border-radius:999px;padding:7px 13px;margin-right:6px;
+    font-size:13.5px;font-weight:800;color:var(--ink-soft);
+    transition:background .15s,color .15s,transform .15s;
+  }
+  .tab.is-active{
+    background:var(--ink);color:var(--cream);border-color:var(--ink);
+    box-shadow:0 3px 0 rgba(63,49,64,.25);
+  }
+
+  /* ---------- 版面 ---------- */
+  .wrap{max-width:1040px;margin:0 auto;padding:14px 14px 44px}
+  .screen{animation:screenIn .28s ease both}
+  @keyframes screenIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .js-error{
+    margin:0 0 12px;padding:12px 14px;border:2.5px solid var(--red);border-radius:14px;
+    background:#FFF0ED;font-size:13px;line-height:1.6;font-weight:700;color:var(--red);
+  }
+
+  /* ---------- 首頁 ---------- */
+  .hero{
+    position:relative;overflow:hidden;
+    background:var(--paper);border:3px solid var(--ink);border-radius:26px;
+    padding:18px 16px 10px;box-shadow:var(--shadow-lg);
+  }
+  .hero:before{
+    content:"";position:absolute;right:-46px;top:-46px;width:170px;height:170px;
+    background:rgba(255,211,92,.55);border-radius:50%;
+  }
+  .hero:after{
+    content:"";position:absolute;left:-40px;bottom:-50px;width:140px;height:140px;
+    background:rgba(127,216,190,.35);border-radius:50%;
+  }
+  .hero-copy{position:relative;z-index:2}
+  .pill{
+    display:inline-flex;align-items:center;
+    background:#FFF1C9;border:2px solid var(--ink);border-radius:999px;
+    padding:4px 11px;font-size:11.5px;font-weight:900;letter-spacing:.5px;
+  }
+  .hero h1{
+    margin:10px 0 8px;font-size:clamp(34px,9.6vw,58px);line-height:1.06;
+    letter-spacing:1px;font-weight:900;
+  }
+  .hero h1 .pop{
+    display:inline-block;background:var(--sun);border:3px solid var(--ink);
+    border-radius:14px;padding:0 8px;margin-left:2px;
+    transform:rotate(-2.5deg);box-shadow:0 4px 0 rgba(63,49,64,.2);
+  }
+  .lede{margin:0 0 14px;font-size:14.5px;line-height:1.75;color:#6B5A6A;font-weight:600}
+  .hero-actions{display:flex;flex-wrap:wrap;margin:-5px}
+  .hero-actions .btn{margin:5px}
+  .hero-art{position:relative;height:216px;margin-top:6px;z-index:2}
+  .mascot-wrap{
+    position:absolute;left:50%;top:8px;width:168px;margin-left:-84px;
+    animation:bob 3.4s ease-in-out infinite;
+  }
+  .mascot-svg{display:block;width:100%;height:auto}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-9px) rotate(1.5deg)}}
+  .speech{
+    position:absolute;right:0;top:4px;z-index:3;
+    background:#fff;border:2.5px solid var(--ink);border-radius:14px;
+    padding:6px 10px;font-size:12px;font-weight:900;line-height:1.4;
+    transform:rotate(3deg);box-shadow:0 4px 0 rgba(63,49,64,.18);
+  }
+  .speech:after{
+    content:"";position:absolute;left:16px;bottom:-9px;width:13px;height:13px;
+    background:#fff;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);
+    transform:rotate(45deg);
+  }
+  .float-card{
+    position:absolute;width:52px;height:52px;z-index:1;
+    display:grid;place-items:center;
+    border:3px solid var(--ink);border-radius:15px;
+    font-size:25px;font-weight:900;
+    box-shadow:0 4px 0 rgba(63,49,64,.18);
+    animation:floaty 4.4s ease-in-out infinite;
+  }
+  .fc1{left:1%;top:26px;background:#FFE9A8;transform:rotate(-9deg);animation-delay:.1s}
+  .fc2{left:9%;bottom:8px;background:#D9F3E8;transform:rotate(7deg);animation-delay:.8s}
+  .fc3{right:1%;bottom:20px;background:#DDEEFF;transform:rotate(8deg);animation-delay:.4s}
+  .fc4{right:11%;top:62px;background:#EFE4FF;transform:rotate(-6deg);animation-delay:1.1s}
+  @keyframes floaty{0%,100%{margin-top:0}50%{margin-top:-8px}}
+
+  .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0 2px}
+  .stat{
+    background:#fff;border:2.5px solid var(--ink);border-radius:16px;
+    padding:8px 3px;text-align:center;box-shadow:0 4px 0 rgba(63,49,64,.16);
+  }
+  .stat b{display:block;font-size:21px;line-height:1.15}
+  .stat span{display:block;font-size:10px;color:var(--ink-soft);font-weight:700;margin-top:1px}
+
+  .section-head{display:flex;align-items:flex-end;justify-content:space-between;margin:22px 2px 10px}
+  .section-head h2{margin:0;font-size:20px;letter-spacing:.5px}
+  .section-head p{margin:0;font-size:11.5px;color:var(--ink-soft);font-weight:700}
+  .glyph-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .glyph{
+    display:flex;align-items:center;text-align:left;
+    background:#fff;border:2.5px solid var(--ink);border-radius:18px;
+    padding:9px;box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s;
+  }
+  .glyph:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(63,49,64,.18)}
+  .glyph .blob{
+    width:50px;height:50px;flex:0 0 50px;margin-right:9px;
+    border:2.5px solid var(--ink);border-radius:15px;
+    display:grid;place-items:center;font-size:27px;font-weight:900;
+    background:var(--c,#FFE9A8);
+  }
+  .glyph .g-txt{min-width:0}
+  .glyph strong{display:block;font-size:15px;line-height:1.25}
+  .glyph small{display:block;font-size:10.5px;color:var(--ink-soft);line-height:1.35;margin-top:2px;font-weight:600}
+  .note{
+    margin-top:16px;padding:12px 14px;border:2px dashed rgba(63,49,64,.3);
+    border-radius:16px;background:rgba(255,255,255,.65);
+    font-size:12.5px;line-height:1.75;color:#5F4F5E;font-weight:600;
+  }
+  .foot{margin:14px 0 0;text-align:center;font-size:10.5px;color:#A796A6;font-weight:600}
+
+  /* ---------- 通用按鈕 ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-height:48px;padding:10px 20px;
+    border:3px solid var(--ink);border-radius:16px;
+    font-size:15px;font-weight:900;line-height:1.2;
+    background:#fff;color:var(--ink);
+    box-shadow:0 5px 0 rgba(63,49,64,.2);
+    transition:transform .12s,box-shadow .12s,background .15s;
+  }
+  .btn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(63,49,64,.2)}
+  .btn-primary{background:var(--coral)}
+  .btn-sun{background:var(--sun)}
+  .btn-mint{background:var(--mint)}
+  .btn-ghost{background:#fff}
+  .btn-quiet{background:#F1EAE2;border-color:rgba(63,49,64,.35);color:#5F4F5E;box-shadow:0 4px 0 rgba(63,49,64,.12)}
+  .btn-wide{display:flex;width:100%}
+
+  /* ---------- 教學 ---------- */
+  .page-head{margin:2px 2px 14px}
+  .page-head h2{margin:8px 0 6px;font-size:26px;letter-spacing:.5px}
+  .page-head p{margin:0;font-size:13.5px;line-height:1.7;color:var(--ink-soft);font-weight:600}
+  .lesson{
+    background:#fff;border:3px solid var(--ink);border-radius:22px;
+    margin-bottom:12px;box-shadow:var(--shadow);overflow:hidden;
+  }
+  .lesson-head{
+    display:flex;align-items:center;width:100%;padding:11px 12px;
+    background:none;border:0;text-align:left;
+  }
+  .lesson-num{
+    width:40px;height:40px;flex:0 0 40px;margin-right:10px;
+    border:2.5px solid var(--ink);border-radius:12px;
+    display:grid;place-items:center;background:var(--c,#FFE9A8);
+    font-size:18px;font-weight:900;transform:rotate(-3deg);
+  }
+  .lesson-title{flex:1;min-width:0}
+  .lesson-title strong{display:block;font-size:17px;letter-spacing:.5px}
+  .lesson-title small{display:block;font-size:11.5px;color:var(--ink-soft);font-weight:700;margin-top:1px}
+  .chev{width:26px;height:26px;flex:0 0 26px;transition:transform .2s;color:#8D7B8C}
+  .lesson.is-open .chev{transform:rotate(180deg)}
+  .lesson-body{padding:0 12px 14px}
+  .lesson-kid{
+    background:#FFF6DA;border:2px dashed rgba(63,49,64,.28);
+    border-radius:14px;padding:10px 12px;
+    font-size:13.5px;line-height:1.7;font-weight:700;
+  }
+  .word-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px 0 2px}
+  .word-tile{
+    width:auto;min-width:0;padding:7px 3px 6px;
+    background:#FFFDF7;border:2px solid rgba(63,49,64,.22);border-radius:14px;
+    text-align:center;
+  }
+  .word-tile small{overflow-wrap:anywhere}
+  .word-tile .tile-art{height:46px;display:grid;place-items:center}
+  .word-tile .tile-art svg{height:42px;width:auto;display:block}
+  .word-tile b{display:block;font-size:27px;line-height:1.15}
+  .word-tile small{display:block;font-size:9px;line-height:1.35;color:var(--ink-soft);font-weight:700;margin-top:2px;padding:0 2px}
+  @media (min-width:720px){.word-row{grid-template-columns:repeat(6,1fr)}}
+  .word-row{justify-items:stretch}
+  .demo-row{display:flex;flex-wrap:wrap;padding-top:10px}
+  .demo{
+    display:flex;align-items:center;margin:0 8px 8px 0;padding:7px 10px;
+    background:#F4FBF8;border:2px solid rgba(63,49,64,.18);border-radius:14px;
+  }
+  .demo b{font-size:28px;line-height:1}
+  .demo .mini{font-size:10.5px;color:var(--ink-soft);font-weight:800;margin:0 5px;max-width:76px;line-height:1.3}
+  .demo .hl{color:var(--red)}
+  .demo .plus{font-size:14px;margin:0 3px;color:#9C8B9B}
+  .lesson-tip{margin:10px 2px 0;font-size:11.5px;line-height:1.6;color:var(--ink-soft);font-weight:700}
+  .lesson-play{margin-top:8px}
+  .lesson-play .btn{min-height:42px;padding:8px 16px;font-size:13.5px;border-width:2.5px}
+
+  /* ---------- 玩法 ---------- */
+  .mode-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .mode-card{
+    background:#fff;border:3px solid var(--ink);border-radius:20px;
+    padding:13px 8px 12px;text-align:center;box-shadow:var(--shadow);
+    transition:transform .15s,box-shadow .15s;
+  }
+  .mode-card:active{transform:translateY(3px) rotate(-1deg);box-shadow:0 2px 0 rgba(63,49,64,.18)}
+  .mode-art{
+    width:62px;height:62px;margin:0 auto 7px;
+    border:2.5px solid var(--ink);border-radius:50%;
+    display:grid;place-items:center;background:var(--c,#FFE9A8);
+  }
+  .mode-art svg{width:42px;height:42px;display:block}
+  .mode-card b{display:block;font-size:18px;letter-spacing:1px}
+  .mode-card span{display:block;font-size:11.5px;color:var(--ink-soft);font-weight:700;margin-top:2px}
+  .challenge-card{
+    display:flex;align-items:center;width:100%;margin-top:12px;padding:12px;
+    background:linear-gradient(135deg,#FFE3A3,#FFC2B9);
+    border:3px solid var(--ink);border-radius:22px;
+    text-align:left;box-shadow:var(--shadow);
+  }
+  .challenge-mark{
+    width:46px;height:46px;flex:0 0 46px;margin-right:10px;
+    border:2.5px solid var(--ink);border-radius:14px;background:#fff;
+    display:grid;place-items:center;font-size:21px;font-weight:900;transform:rotate(-4deg);
+  }
+  .cc-text{flex:1;min-width:0}
+  .cc-text strong{display:block;font-size:16px}
+  .cc-text small{display:block;font-size:11.5px;color:#6B5A6A;font-weight:700;margin-top:2px}
+  .cc-arrow{font-size:22px;font-weight:900;margin-left:6px}
+
+  /* ---------- 挑戰說明 ---------- */
+  .challenge-panel{
+    background:#fff;border:3px solid var(--ink);border-radius:24px;
+    padding:18px 16px;box-shadow:var(--shadow-lg);
+  }
+  .challenge-panel h2{margin:8px 0 6px;font-size:25px}
+  .cp-lede{margin:0 0 12px;font-size:13.5px;line-height:1.7;color:var(--ink-soft);font-weight:600}
+  .rule-list{margin:0 0 14px;padding:0;list-style:none}
+  .rule-list li{
+    position:relative;padding:8px 10px 8px 34px;margin-bottom:8px;
+    background:#FFFDF7;border:2px solid rgba(63,49,64,.14);border-radius:12px;
+    font-size:13px;line-height:1.6;font-weight:700;
+  }
+  .rule-list li:before{
+    content:"";position:absolute;left:12px;top:14px;width:10px;height:10px;
+    background:var(--sun);border:2px solid var(--ink);border-radius:50%;
+  }
+  .best-row{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:10px 12px;margin-bottom:14px;
+    background:#F1FBF7;border:2px dashed rgba(46,138,107,.4);border-radius:14px;
+    font-size:13px;font-weight:800;
+  }
+  .best-row strong{font-size:18px;color:var(--green)}
+
+  /* ---------- 答題 ---------- */
+  .play-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+  .chip-btn{
+    border:2.5px solid var(--ink);border-radius:999px;background:#fff;
+    padding:7px 12px;font-size:12.5px;font-weight:900;box-shadow:0 3px 0 rgba(63,49,64,.16);
+  }
+  .chip-btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(63,49,64,.16)}
+  .progress-text{font-size:12.5px;font-weight:900}
+  .score-chip{
+    background:var(--sun);border:2.5px solid var(--ink);border-radius:999px;
+    padding:6px 12px;font-size:12.5px;font-weight:900;box-shadow:0 3px 0 rgba(63,49,64,.16);
+  }
+  .progress-track{
+    height:13px;background:#fff;border:2.5px solid var(--ink);border-radius:999px;
+    overflow:hidden;margin-bottom:12px;
+  }
+  #progressFill{
+    display:block;height:100%;width:0;border-radius:999px;
+    background:linear-gradient(90deg,#FFD35C,#FF8B7B);
+    transition:width .3s ease;
+  }
+  .q-card{
+    background:#fff;border:3px solid var(--ink);border-radius:24px;
+    padding:14px 14px 16px;box-shadow:var(--shadow-lg);position:relative;
+  }
+  .q-meta{display:flex;align-items:center;justify-content:space-between;min-height:30px}
+  .mode-chip{
+    display:inline-block;background:#EFE4FF;border:2px solid var(--ink);
+    border-radius:999px;padding:4px 10px;font-size:11.5px;font-weight:900;
+  }
+  .timer{
+    display:inline-flex;align-items:center;
+    background:#FFF1C9;border:2px solid var(--ink);border-radius:999px;
+    padding:4px 10px;font-size:11.5px;font-weight:900;
+  }
+  .timer b{font-size:14px;margin:0 2px}
+  .q-art{min-height:128px;display:grid;place-items:center;margin:2px 0 4px}
+  .q-art>svg{height:128px;width:auto;display:block}
+  .qa-row{display:flex;align-items:center;justify-content:center;gap:6px;width:100%}
+  .qa-row .qa-mini svg{height:108px;width:auto;display:block}
+  .qa-row .word-big{font-size:54px;letter-spacing:2px}
+  .qa-stack{display:flex;flex-direction:column;align-items:center;gap:2px;width:100%}
+  .qa-stack .qa-mini svg{height:80px;width:auto;display:block}
+  .word-big{font-size:66px;font-weight:900;line-height:1;letter-spacing:4px}
+  .part-eq{display:flex;align-items:center;justify-content:center}
+  .part-eq .part{
+    display:grid;place-items:center;min-width:60px;height:60px;padding:0 6px;
+    border:3px solid var(--ink);border-radius:16px;background:#FFF1C9;
+    font-size:40px;font-weight:900;line-height:1;
+  }
+  .part-eq .part.qmark{background:#F1EAE2;color:#A796A6;border-style:dashed}
+  .part-eq .op{font-size:22px;font-weight:900;color:#9C8B9B;margin:0 6px}
+  .question{
+    margin:6px 2px 14px;text-align:center;
+    font-size:16.5px;line-height:1.65;letter-spacing:.3px;
+  }
+  .options{display:grid;grid-template-columns:1fr;gap:9px}
+  .options.is-chars{grid-template-columns:repeat(3,1fr)}
+  .option{
+    position:relative;display:flex;align-items:center;justify-content:center;
+    min-height:58px;padding:10px 10px;
+    background:#FFFDF7;border:3px solid var(--ink);border-radius:16px;
+    font-weight:900;box-shadow:0 4px 0 rgba(63,49,64,.16);
+    transition:transform .12s,box-shadow .12s,background .15s,opacity .15s;
+  }
+  .option:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(63,49,64,.16)}
+  .option .key{
+    position:absolute;left:7px;top:5px;
+    font-size:10px;font-weight:900;color:#A796A6;letter-spacing:.5px;
+  }
+  .option .txt{font-size:16.5px;line-height:1.3;padding:0 8px}
+  .options.is-chars .option{min-height:82px}
+  .options.is-chars .option .txt{font-size:38px;padding:0}
+  .option.is-right{background:#CFF3E4;border-color:var(--green);box-shadow:0 4px 0 var(--green)}
+  .option.is-wrong{background:#FFDAD4;border-color:var(--red);box-shadow:0 4px 0 var(--red)}
+  .option.is-dim{opacity:.5}
+  .option:disabled{color:var(--ink);cursor:default}
+  .option.is-right .key,.option.is-wrong .key{color:currentColor}
+  .option .mark{
+    position:absolute;right:7px;top:6px;font-size:15px;font-weight:900;line-height:1;
+  }
+  .option.is-right .mark:after{content:"✓"}
+  .option.is-wrong .mark:after{content:"✕"}
+  .options.is-locked .option{cursor:default}
+
+  .feedback{
+    margin-top:12px;padding:12px 14px;
+    border:3px solid var(--green);border-radius:18px;background:#EAFBF4;
+    animation:popIn .26s ease both;
+  }
+  .feedback.is-wrong{border-color:var(--red);background:#FFF0ED}
+  .feedback-head{display:flex;align-items:center;margin-bottom:4px}
+  .fb-icon{
+    width:30px;height:30px;flex:0 0 30px;margin-right:8px;
+    border:2.5px solid var(--ink);border-radius:50%;
+    display:grid;place-items:center;background:var(--mint);
+    font-size:15px;font-weight:900;
+  }
+  .feedback.is-wrong .fb-icon{background:var(--coral)}
+  .feedback-head strong{font-size:16px}
+  .feedback p{margin:2px 0;font-size:13.5px;line-height:1.65;font-weight:600}
+  .feedback .answer-line{font-size:12.5px;color:#6B5A6A;font-weight:800}
+  @keyframes popIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+  #nextBtn{margin-top:12px}
+
+  /* ---------- 結果 ---------- */
+  .result-card{
+    background:#fff;border:3px solid var(--ink);border-radius:26px;
+    padding:18px 16px;text-align:center;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;
+  }
+  .result-card:before{
+    content:"";position:absolute;left:-40px;top:-40px;width:120px;height:120px;
+    background:rgba(255,211,92,.5);border-radius:50%;
+  }
+  .stars{display:flex;justify-content:center;margin-bottom:2px;position:relative;z-index:2}
+  .star{width:46px;height:46px;margin:0 3px;display:block}
+  .star svg{width:100%;height:100%;display:block}
+  .star.is-off svg path{fill:#EFE7DC;stroke:#C9BCCB}
+  .result-mascot{width:130px;margin:0 auto;position:relative;z-index:2;animation:bob 3s ease-in-out infinite}
+  .result-mascot svg{width:100%;height:auto;display:block}
+  .result-card h2{margin:4px 0 4px;font-size:26px;position:relative;z-index:2}
+  .result-sub{margin:0 0 12px;font-size:13.5px;line-height:1.65;color:var(--ink-soft);font-weight:700;position:relative;z-index:2}
+  .result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;position:relative;z-index:2}
+  .result-stats div{
+    background:#FFFDF7;border:2.5px solid rgba(63,49,64,.2);border-radius:14px;padding:8px 4px;
+  }
+  .result-stats strong{display:block;font-size:20px;line-height:1.2}
+  .result-stats span{display:block;font-size:10.5px;color:var(--ink-soft);font-weight:700;margin-top:1px}
+  .review-block{margin-top:16px}
+  .review-block h3{margin:0 0 8px;font-size:17px}
+  .review-item{
+    display:flex;align-items:flex-start;
+    background:#fff;border:2px solid rgba(63,49,64,.16);border-radius:14px;
+    padding:9px 11px;margin-bottom:8px;
+  }
+  .review-badge{
+    width:24px;height:24px;flex:0 0 24px;margin-right:8px;
+    border:2px solid var(--ink);border-radius:50%;
+    display:grid;place-items:center;background:var(--mint);
+    font-size:12px;font-weight:900;line-height:1;
+  }
+  .review-item.is-bad .review-badge{background:var(--coral)}
+  .review-text{flex:1;min-width:0}
+  .review-text p{margin:0;font-size:12px;line-height:1.5;font-weight:700}
+  .review-text small{display:block;font-size:10.5px;line-height:1.45;color:var(--ink-soft);margin-top:2px;font-weight:600}
+  .review-text small b{color:var(--ink)}
+  .result-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}
+  .result-actions .btn{min-height:46px;padding:8px 10px;font-size:14px;border-width:2.5px}
+  .result-actions .btn-wide{grid-column:1 / -1}
+
+  /* ---------- 彩帶 ---------- */
+  #confetti{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:90;overflow:hidden}
+  .confetti-bit{position:absolute;width:9px;height:14px;border-radius:2px;opacity:.95;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(110vh) rotate(560deg)}}
+
+  @media (min-width:760px){
+    .wrap{padding:18px 18px 54px}
+    #screen-play,#screen-result{max-width:760px;margin:0 auto;min-height:calc(100vh - 160px);display:flex;flex-direction:column;justify-content:center}
+    .options.is-chars{max-width:600px;width:100%;margin:0 auto}
+    .q-art{min-height:166px}
+    .q-art>svg{height:160px}
+    .qa-row .qa-mini svg{height:136px}
+    .qa-row .word-big{font-size:66px}
+    .qa-stack .qa-mini svg{height:92px}
+    .hero{grid-template-columns:1.08fr .92fr;display:grid;padding:22px 22px 18px;align-items:center}
+    .hero-art{height:296px;margin-top:0}
+    .mascot-wrap{width:222px;margin-left:-111px;top:12px}
+    .float-card{width:58px;height:58px;font-size:28px}
+    .glyph-grid{grid-template-columns:repeat(3,1fr)}
+    .mode-grid{grid-template-columns:repeat(3,1fr)}
+    .q-card{padding:18px 22px 20px}
+    .q-art{min-height:150px}
+    .q-art>svg{height:144px}
+    .qa-row .qa-mini svg{height:120px}
+    .qa-stack .qa-mini svg{height:84px}
+    .question{font-size:18px}
+    .lesson-body{padding:0 16px 16px}
+    .result-actions{grid-template-columns:repeat(4,1fr)}
+    .result-actions .btn-wide{grid-column:auto}
+  }
+  @media (max-width:359px){
+    .part-eq .part{min-width:48px;height:48px;font-size:31px}
+    .part-eq .op{font-size:17px;margin:0 3px}
+    .stat b{font-size:18px}
+    .stat span{font-size:9px}
+    .float-card{width:46px;height:46px;font-size:22px}
+    .hero-art{height:200px}
+    .mascot-wrap{width:150px;margin-left:-75px}
+    .glyph .blob{width:44px;height:44px;flex-basis:44px;font-size:24px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*:before,*:after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+<header class="appbar">
+  <div class="topbar">
+    <button class="brand" type="button" data-go="home" aria-label="回到首頁">
+      <span class="brand-mark" aria-hidden="true">六</span>
+      <span class="brand-text">
+        <strong>六書小學堂</strong>
+        <small>卡通識字樂園</small>
+      </span>
+    </button>
+    <span class="pill" aria-hidden="true">小學低年級</span>
+  </div>
+  <nav class="tabs" aria-label="主要導覽">
+    <button class="tab is-active" type="button" data-go="home">首頁</button>
+    <button class="tab" type="button" data-go="learn">認一認</button>
+    <button class="tab" type="button" data-go="modes">玩遊戲</button>
+    <button class="tab" type="button" data-go="challenge">小挑戰</button>
+  </nav>
+</header>
+
+<main class="wrap" data-generated-by="vibe-coding-frontend-design">
+  <div class="js-error" id="jsErrorBar" hidden role="alert"></div>
+
+  <!-- ========== 首頁 ========== -->
+  <section class="screen" id="screen-home" aria-labelledby="home-title">
+    <div class="hero">
+      <div class="hero-copy">
+        <span class="pill">語文 · 六書 · 繁體字</span>
+        <h1 id="home-title">六書<span class="pop">小學堂</span></h1>
+        <p class="lede">六種造字法，六個小遊戲。<br>看圖、拼字、找聲音，一邊玩一邊認字！</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" type="button" id="startLearnBtn">開始學習</button>
+          <button class="btn btn-sun" type="button" id="randomBtn">隨機玩一關</button>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="speech">一起來玩吧！</div>
+        <div class="float-card fc1">日</div>
+        <div class="float-card fc2">月</div>
+        <div class="float-card fc3">山</div>
+        <div class="float-card fc4">魚</div>
+        <div class="mascot-wrap" id="heroMascot"></div>
+      </div>
+    </div>
+
+    <div class="stat-row" aria-label="內容統計">
+      <div class="stat"><b>6</b><span>種造字法</span></div>
+      <div class="stat"><b>6</b><span>個小遊戲</span></div>
+      <div class="stat"><b>36</b><span>題練習</span></div>
+      <div class="stat"><b>12</b><span>題挑戰</span></div>
+    </div>
+
+    <div class="section-head">
+      <h2>六書小圖鑑</h2>
+      <p>點一下看解釋</p>
+    </div>
+    <div class="glyph-grid" id="glyphGrid"></div>
+
+    <div class="note">
+      <strong>小提示：</strong>六書不是六種字體，而是古人造字和用字的六種方法。先看懂圖，再玩遊戲，很快就會記住啦！
+    </div>
+    <p class="foot">內容依許慎《說文解字》的六書說簡化整理 · 適合小學低年級</p>
+  </section>
+
+  <!-- ========== 教學 ========== -->
+  <section class="screen" id="screen-learn" aria-labelledby="learn-title" hidden>
+    <div class="page-head">
+      <span class="pill">認一認</span>
+      <h2 id="learn-title">六種造字法</h2>
+      <p>點開每一張卡片，看看它怎麼造字。看完就可以直接玩這一關。</p>
+    </div>
+    <div id="lessonList"></div>
+  </section>
+
+  <!-- ========== 選玩法 ========== -->
+  <section class="screen" id="screen-modes" aria-labelledby="modes-title" hidden>
+    <div class="page-head">
+      <span class="pill">玩遊戲</span>
+      <h2 id="modes-title">今天玩哪一關？</h2>
+      <p>每一關 6 題，答完馬上告訴你為什麼這樣造字。答錯也沒關係，再試一次就好。</p>
+    </div>
+    <div class="mode-grid" id="modeGrid"></div>
+    <button class="challenge-card" id="challengeCard" type="button">
+      <span class="challenge-mark" aria-hidden="true">挑</span>
+      <span class="cc-text">
+        <strong>12 題小挑戰</strong>
+        <small>六種造字法各 2 題，每題 20 秒</small>
+      </span>
+      <span class="cc-arrow" aria-hidden="true">→</span>
+    </button>
+  </section>
+
+  <!-- ========== 挑戰說明 ========== -->
+  <section class="screen" id="screen-challenge" aria-labelledby="challenge-title" hidden>
+    <div class="challenge-panel">
+      <span class="pill">小挑戰</span>
+      <h2 id="challenge-title">12 題大冒險</h2>
+      <p class="cp-lede">六種造字法各抽 2 題。慢慢想，時間到也會公布答案，不用緊張。</p>
+      <ul class="rule-list">
+        <li>一共 12 題，每題 20 秒。</li>
+        <li>答對一題得 10 分，答得快再加最多 5 分。</li>
+        <li>連答對會累積連擊，答錯就重新計算。</li>
+      </ul>
+      <div class="best-row">
+        <span>我的最佳紀錄</span>
+        <strong id="bestScore">還沒有紀錄</strong>
+      </div>
+      <button class="btn btn-primary btn-wide" id="startChallengeBtn" type="button">開始挑戰</button>
+    </div>
+  </section>
+
+  <!-- ========== 答題 ========== -->
+  <section class="screen" id="screen-play" aria-labelledby="questionText" hidden>
+    <div class="play-top">
+      <button class="chip-btn" id="quitBtn" type="button">← 離開</button>
+      <span class="progress-text" id="progressText">第 1 / 6 題</span>
+      <span class="score-chip" id="scoreChip">答對 0</span>
+    </div>
+    <div class="progress-track" aria-hidden="true"><span id="progressFill"></span></div>
+
+    <div class="q-card">
+      <div class="q-meta">
+        <span class="mode-chip" id="modeChip">象形</span>
+        <span class="timer" id="timerWrap" hidden><svg class="ico-clock" width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="#3F3140" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></g></svg><b id="timerNum">20</b>秒</span>
+      </div>
+      <div class="q-art" id="questionArt"></div>
+      <h2 class="question" id="questionText"></h2>
+      <div class="options" id="options" role="group" aria-label="選項"></div>
+    </div>
+
+    <div class="feedback" id="feedback" role="status" aria-live="polite" hidden>
+      <div class="feedback-head">
+        <span class="fb-icon" id="feedbackIcon" aria-hidden="true">✓</span>
+        <strong id="feedbackTitle">答對了！</strong>
+      </div>
+      <p id="feedbackWhy"></p>
+      <p class="answer-line" id="feedbackAnswer"></p>
+    </div>
+    <button class="btn btn-primary btn-wide" id="nextBtn" type="button" hidden>下一題 →</button>
+  </section>
+
+  <!-- ========== 結果 ========== -->
+  <section class="screen" id="screen-result" aria-labelledby="resultTitle" hidden>
+    <div class="result-card">
+      <div class="stars" id="resultStars" aria-label="星等"></div>
+      <div class="result-mascot" id="resultMascot" aria-hidden="true"></div>
+      <h2 id="resultTitle">太棒了！</h2>
+      <p class="result-sub" id="resultSub"></p>
+      <div class="result-stats">
+        <div><strong id="resultCorrect">0/6</strong><span>答對題數</span></div>
+        <div><strong id="resultScore">0</strong><span>得分</span></div>
+        <div><strong id="resultStreak">0</strong><span>最佳連擊</span></div>
+      </div>
+    </div>
+
+    <div class="review-block">
+      <h3>看看你答了什麼</h3>
+      <div id="reviewList"></div>
+    </div>
+
+    <div class="result-actions">
+      <button class="btn btn-primary" id="replayBtn" type="button">再玩一次</button>
+      <button class="btn btn-ghost" id="anotherBtn" type="button">換一關</button>
+      <button class="btn btn-quiet" id="homeBtn" type="button">回首頁</button>
+      <button class="btn btn-quiet" id="shareResultBtn" type="button">分享成績</button>
+    </div>
+  </section>
+</main>
+<div id="confetti" aria-hidden="true"></div>
+<script>
+(function () {
+  'use strict';
+
+  /* =========================================================
+     端能力橋接（newapp-schema-bridge）：只使用分享 / Toast
+     env=newapp 走 postMessage，其餘直接走瀏覽器 fallback。
+     ========================================================= */
+  var REQUEST_TYPE = 'newapp-native-request';
+  var RESPONSE_TYPE = 'newapp-native-response';
+  var env = '';
+  try {
+    env = new URLSearchParams(location.search).get('env') || '';
+  } catch (e) {
+    env = '';
+  }
+  var shouldUsePostMessage = env === 'newapp';
+  var pendingRequests = {};
+  var requestSeq = 0;
+
+  function createRequestId() {
+    requestSeq += 1;
+    return 'native_' + Date.now() + '_' + requestSeq;
+  }
+
+  function invokeHostNative(capability, params) {
+    return new Promise(function (resolve, reject) {
+      var requestId = createRequestId();
+      pendingRequests[requestId] = { resolve: resolve, reject: reject };
+      window.parent.postMessage({
+        type: REQUEST_TYPE,
+        requestId: requestId,
+        capability: capability,
+        params: params || {}
+      }, '*');
+    });
+  }
+
+  function invokeOrFallback(capability, params, fallback) {
+    if (!shouldUsePostMessage || window.parent === window) {
+      return Promise.resolve().then(fallback);
+    }
+    return invokeHostNative(capability, params).catch(function () {
+      return Promise.resolve().then(fallback);
+    });
+  }
+
+  window.addEventListener('message', function (event) {
+    if (event.source !== window.parent || !event.data || event.data.type !== RESPONSE_TYPE) {
+      return;
+    }
+    var response = event.data;
+    var request = pendingRequests[response.requestId];
+    if (!request) {
+      return;
+    }
+    delete pendingRequests[response.requestId];
+    if (response.ok) {
+      request.resolve(response.data);
+    } else {
+      request.reject(new Error(response.error || 'native invoke failed'));
+    }
+  });
+
+  function h5Toast(message) {
+    var box = document.createElement('div');
+    box.textContent = message;
+    box.style.cssText = 'position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:99999;'
+      + 'max-width:80%;padding:12px 18px;border-radius:14px;background:rgba(63,49,64,.94);'
+      + 'color:#FFF8E9;font-size:14px;font-weight:700;line-height:1.5;text-align:center;'
+      + 'transition:opacity .25s;';
+    document.body.appendChild(box);
+    setTimeout(function () {
+      box.style.opacity = '0';
+      setTimeout(function () {
+        if (box.parentNode) {
+          box.parentNode.removeChild(box);
+        }
+      }, 260);
+    }, 2200);
+  }
+
+  function h5WriteClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).catch(function () {
+        h5Toast('瀏覽器不能自動複製，請手動複製網址');
+        throw new Error('clipboard unavailable');
+      });
+    }
+    h5Toast('瀏覽器不能自動複製，請手動複製網址');
+    return Promise.reject(new Error('clipboard unavailable'));
+  }
+
+  function h5Share(data) {
+    var url = data.url || location.href;
+    if (navigator.share) {
+      return navigator.share({
+        title: data.title || document.title,
+        text: data.content || '',
+        url: url
+      }).then(function () {
+        return 'shared';
+      }).catch(function (error) {
+        if (error && error.name === 'AbortError') {
+          throw error;
+        }
+        return h5WriteClipboard(url).then(function () {
+          return 'copied';
+        });
+      });
+    }
+    return h5WriteClipboard(url).then(function () {
+      return 'copied';
+    });
+  }
+
+  function h5HideLoading() {
+    return undefined;
+  }
+
+  function getBrowserFallback(capability, params) {
+    var handlers = {
+      showToast: function () {
+        h5Toast((params && params.message) || '');
+      },
+      share: function () {
+        return h5Share(params || {});
+      },
+      hideLoading: h5HideLoading
+    };
+    return handlers[capability] || function () {
+      throw new Error('unsupported capability: ' + capability);
+    };
+  }
+
+  /* =========================================================
+     內容資料
+     ========================================================= */
+  var MODES = [
+    { id: 'xiangxing', glyph: '象', name: '象形', tag: '看圖猜字', color: '#FFD35C', art: 'sun' },
+    { id: 'zhishi', glyph: '指', name: '指事', tag: '找出小記號', color: '#FFC2D1', art: 'pointer' },
+    { id: 'huiyi', glyph: '會', name: '會意', tag: '拼字變魔法', color: '#7FD8BE', art: 'puzzle' },
+    { id: 'xingsheng', glyph: '形', name: '形聲', tag: '找聲音幫手', color: '#84C9F7', art: 'sound' },
+    { id: 'zhuanzhu', glyph: '轉', name: '轉注', tag: '意思一樣', color: '#B9A7EF', art: 'twins' },
+    { id: 'jiajie', glyph: '假', name: '假借', tag: '借個音來用', color: '#FFB07C', art: 'swap' }
+  ];
+  var MODE_BY_ID = {};
+  MODES.forEach(function (mode) {
+    MODE_BY_ID[mode.id] = mode;
+  });
+
+  var LESSONS = {
+    xiangxing: {
+      kid: '把東西的樣子畫下來，就像畫畫一樣。看到字，先想想它像什麼。',
+      tip: '象形字大多畫的是看得到的東西：太陽、月亮、山、水、魚、樹。'
+    },
+    zhishi: {
+      kid: '在畫好的字上，加一個小記號，指出位置或數量。',
+      tip: '看到多出來的一橫或一點，就想想它指在哪裡。'
+    },
+    huiyi: {
+      kid: '把兩個字拼在一起，變成一個新意思。像玩拼圖一樣。',
+      tip: '把字拆開，念一念每個部分的意思，再合起來。'
+    },
+    xingsheng: {
+      kid: '一邊表示意思，一邊提示讀音。這種字最多。',
+      tip: '先找哪個部分和意思有關，再找哪個部分和讀音有關。'
+    },
+    zhuanzhu: {
+      kid: '兩個字意思一樣，可以互相解釋。',
+      tip: '「老」就是「考」，「考」就是「老」，這就是轉注。'
+    },
+    jiajie: {
+      kid: '本來沒有這個字，就借一個讀音相同的字來用。',
+      tip: '假借只借讀音，不借原來的意思。'
+    }
+  };
+
+  var BANK_RAW = {
+    xiangxing: [
+      { q: '圓圓的太陽，中間有一點光。這是哪個字？', art: 'sun', options: ['日', '月', '目'], answer: '日', why: '「日」就像一個圓圓的太陽，中間一點表示光。' },
+      { q: '晚上的天空，掛著一個彎彎的、會發亮的形狀。這是哪個字？', art: 'moon', options: ['月', '日', '山'], answer: '月', why: '「月」就像一彎細細的月亮。' },
+      { q: '三座尖尖的高地連在一起，中間那座最高。這是哪個字？', art: 'mountain', options: ['山', '水', '木'], answer: '山', why: '「山」像三座連在一起的山峰。' },
+      { q: '彎彎曲曲、會流動的東西，口渴的時候要喝它。這是哪個字？', art: 'water', options: ['水', '火', '木'], answer: '水', why: '「水」像彎彎曲曲的水流。' },
+      { q: '一棵完整的樹，有樹枝、樹幹，也有樹根。這是哪個字？', art: 'tree', options: ['木', '林', '山'], answer: '木', why: '「木」畫的就是一棵完整的樹：上面是樹枝，中間是樹幹，下面是樹根。' },
+      { q: '住在河裡，有頭、身體、尾巴和鰭。這是哪個字？', art: 'fish', options: ['魚', '鳥', '龜'], answer: '魚', why: '「魚」的上面是魚頭，中間是魚身，下面是魚尾，像一條在水裡游的魚。' }
+    ],
+    zhishi: [
+      { q: '在「木」的下面加一橫，指出樹根。這是哪個字？', art: 'zhiRoot', options: ['本', '末', '木'], answer: '本', why: '下面加一橫，指樹根，就是「本」。' },
+      { q: '在「木」的上面加一橫，指出樹梢。這是哪個字？', art: 'zhiTop', options: ['末', '本', '木'], answer: '末', why: '上面加一橫，指樹梢，就是「末」。' },
+      { q: '在「刀」上加一點，指出刀鋒。這是哪個字？', art: 'zhiBlade', options: ['刃', '刀', '力'], answer: '刃', why: '刀上加一點，指刀鋒，就是「刃」。' },
+      { q: '短短的橫線畫在長橫的高處，表示位置比較高。這是哪個字？', art: 'zhiUp', options: ['上', '下', '三'], answer: '上', why: '短橫在上面，就是「上」。' },
+      { q: '短短的橫線畫在長橫的低處，表示位置比較低。這是哪個字？', art: 'zhiDown', options: ['下', '上', '二'], answer: '下', why: '短橫在下面，就是「下」。' },
+      { q: '哪一個字是用「加小記號」的方法造出來的？', art: 'zhiMark', options: ['本', '日', '休'], answer: '本', why: '「本」是在「木」的下面加一橫，指出樹根。' }
+    ],
+    huiyi: [
+      { q: '「日」＋「月」合起來，會變成哪個字？', art: 'hySunMoon', parts: ['日', '月'], options: ['明', '朋', '晶'], answer: '明', why: '太陽和月亮都很亮，合起來就是「明」。' },
+      { q: '「人」＋「木」合起來，會變成哪個字？', art: 'hyRest', parts: ['人', '木'], options: ['休', '林', '體'], answer: '休', why: '人靠在樹旁休息，就是「休」。' },
+      { q: '「口」＋「鳥」合起來，會變成哪個字？', art: 'hyBird', parts: ['口', '鳥'], options: ['鳴', '鳥', '唱'], answer: '鳴', why: '鳥張開嘴巴叫，就是「鳴」。' },
+      { q: '「人」＋「言」合起來，會變成哪個字？', art: 'hyTrust', parts: ['人', '言'], options: ['信', '言', '仁'], answer: '信', why: '人說話要守信用，就是「信」。' },
+      { q: '「木」＋「木」合起來，會變成哪個字？', art: 'hyWoods', parts: ['木', '木'], options: ['林', '森', '本'], answer: '林', why: '兩棵樹在一起，就是「林」。' },
+      { q: '三個「木」合起來，會變成哪個字？', art: 'hyForest', parts: ['木', '木', '木'], options: ['森', '林', '樹'], answer: '森', why: '三棵樹在一起，樹很多，就是「森」。' }
+    ],
+    xingsheng: [
+      { q: '「河」裡面，哪個部分告訴我們讀音？', art: 'xsRiver', word: '河', options: ['可', '氵', '木'], answer: '可', why: '「可」提示讀音；「氵」表示和水有關。' },
+      { q: '「媽」裡面，哪個部分和「媽媽」的意思有關？', art: 'xsMom', word: '媽', options: ['女', '馬', '口'], answer: '女', why: '「女」表示和女生有關；「馬」提示讀音。' },
+      { q: '「晴」裡面，哪個部分告訴我們讀音？', art: 'xsSunny', word: '晴', options: ['青', '日', '請'], answer: '青', why: '「青」提示讀音；「日」表示和太陽有關。' },
+      { q: '「江」裡面，哪個部分表示「水」？', art: 'xsJiang', word: '江', options: ['氵', '工', '木'], answer: '氵', why: '「氵」表示和水有關；「工」提示讀音。' },
+      { q: '「銅」做的東西，摸起來硬硬的、亮亮的。哪個部分表示它是一種材料？', art: 'xsCopper', word: '銅', options: ['金', '同', '洞'], answer: '金', why: '「金」表示金屬；「同」提示讀音。' },
+      { q: '哪一個字是「一部分表意思、一部分表讀音」？', art: 'xsPuzzle', hideMode: true, options: ['蚊', '森', '本'], answer: '蚊', why: '「蚊」的「虫」表示意思，「文」提示讀音。' }
+    ],
+    zhuanzhu: [
+      { q: '「老」和哪一個字的意思一樣？', art: 'zzOld', options: ['考', '少', '小'], answer: '考', why: '「老」和「考」都指年紀大，意思一樣。' },
+      { q: '「頂」和「顛」都指身體的哪個地方？', art: 'zzHead', options: ['頭的最上面', '腳的最下面', '手的中間'], answer: '頭的最上面', why: '「頂」和「顛」都指頭的最上面，所以可以互相解釋。' },
+      { q: '意思相同、可以互相解釋的兩個字，是哪一種造字法？', art: 'zzEqual', hideMode: true, options: ['轉注', '假借', '象形'], answer: '轉注', why: '意思相通、可以互相解釋，就是「轉注」。' },
+      { q: '哪一組字的意思最接近？', art: 'zzWalk', options: ['走／趨', '日／月', '山／水'], answer: '走／趨', why: '「走」和「趨」都有快步走的意思。' },
+      { q: '「走」和「趨」意思相通，這是哪一種造字法？', art: 'zzWalk', hideMode: true, options: ['轉注', '會意', '形聲'], answer: '轉注', why: '兩個字意思一樣、可以互相解釋，是「轉注」。' },
+      { q: '哪一組「不是」意思相同的轉注字？', art: 'zzDiff', options: ['日／月', '老／考', '頂／顛'], answer: '日／月', why: '太陽和月亮是不一樣的東西，意思不相通。' }
+    ],
+    jiajie: [
+      { q: '「我」本來畫的是一種兵器，後來被人拿來表示「自己」。這是哪一種造字法？', art: 'jjWeapon', hideMode: true, options: ['假借', '會意', '象形'], answer: '假借', why: '借一個同音字來用，就是「假借」。' },
+      { q: '「來」本來畫的是麥子，後來被人拿來表示「來去」。這是哪一種造字法？', art: 'jjWheat', hideMode: true, options: ['假借', '指事', '形聲'], answer: '假借', why: '「來」借用了原本表示麥子的字，是「假借」。' },
+      { q: '「西」本來畫的是鳥在巢上休息，後來被人拿來表示方向。這是哪一種造字法？', art: 'jjNest', hideMode: true, options: ['假借', '轉注', '會意'], answer: '假借', why: '借同音的字來表示新意思，是「假借」。' },
+      { q: '假借字借的是什麼？', art: 'jjSound', options: ['讀音', '意思', '字形'], answer: '讀音', why: '假借只借讀音，不借原來的意思。' },
+      { q: '「其」本來是簸箕，後來被人拿來表示「他的」。這是哪一種造字法？', art: 'jjBasket', hideMode: true, options: ['假借', '形聲', '會意'], answer: '假借', why: '借同音的「其」來用，是「假借」。' },
+      { q: '哪一個字是假借字？', art: 'jjBorrow', options: ['萬', '明', '河'], answer: '萬', why: '「萬」本來是蠍子，後來借來表示數目。' }
+    ]
+  };
+
+  var BANK = {};
+  (function buildBank() {
+    Object.keys(BANK_RAW).forEach(function (modeId) {
+      BANK[modeId] = BANK_RAW[modeId].map(function (item, qIndex) {
+        var qid = modeId + '-' + qIndex;
+        var options = item.options.map(function (text, optionIndex) {
+          return { key: qid + '-o' + optionIndex, text: text };
+        });
+        var answerKey = null;
+        options.forEach(function (option) {
+          if (option.text === item.answer) {
+            answerKey = option.key;
+          }
+        });
+        if (!answerKey) {
+          throw new Error('題目缺少正確答案：' + qid);
+        }
+        return {
+          id: qid,
+          mode: modeId,
+          q: item.q,
+          art: item.art || null,
+          word: item.word || null,
+          parts: item.parts || null,
+          hideMode: !!item.hideMode,
+          options: options,
+          answerKey: answerKey,
+          why: item.why
+        };
+      });
+    });
+  }());
+
+  var TIMER_SECONDS = 20;
+  var LETTERS = ['A', 'B', 'C'];
+  var BEST_KEY = 'liushu_xuetang_best_v2';
+
+  /* =========================================================
+     手繪 SVG 插圖
+     ========================================================= */
+  var ART = {
+    sun: '<svg class="art" viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M60 8v12M60 100v12M8 60h12M100 60h12M23 23l9 9M88 88l9 9M97 23l-9 9M32 88l-9 9" fill="none"/><circle cx="60" cy="60" r="30" fill="#FFD35C"/><circle cx="50" cy="56" r="3.4" fill="#3F3140" stroke="none"/><circle cx="70" cy="56" r="3.4" fill="#3F3140" stroke="none"/><path d="M51 68q9 8 18 0" fill="none"/><circle cx="42" cy="67" r="5" fill="#FFB3A7" stroke="none"/><circle cx="78" cy="67" r="5" fill="#FFB3A7" stroke="none"/></g></svg>',
+    moon: '<svg class="art" viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M78 16C46 20 24 37 24 60s22 40 54 44c-14-12-22-26-22-44s8-32 22-44z" fill="#FFE9A8"/><circle cx="38" cy="52" r="3" fill="#3F3140" stroke="none"/><circle cx="48" cy="52" r="3" fill="#3F3140" stroke="none"/><path d="M36 64q7 6 14 0" fill="none"/><circle cx="32" cy="62" r="4" fill="#FFB3A7" stroke="none"/><path d="M96 26l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" fill="#FFD35C"/><path d="M104 64l1.6 5 5 1.6-5 1.6-1.6 5-1.6-5-5-1.6 5-1.6z" fill="#FFD35C"/></g></svg>',
+    mountain: '<svg class="art" viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="26" r="10" fill="#FFD35C"/><path d="M8 100L40 42l20 34 16-28 32 52z" fill="#9BE3CD"/><path d="M32 56l8-14 8 14-8-4z" fill="#FFFFFF"/><path d="M68 62l8-14 8 14-8-4z" fill="#FFFFFF"/></g></svg>',
+    water: '<svg class="art" viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 76c12-14 24-14 36 0s24 14 36 0 20-12 32-4v22H8z" fill="#84C9F7"/><path d="M8 66c12-14 24-14 36 0" fill="none"/><circle cx="34" cy="36" r="7" fill="#84C9F7"/><circle cx="52" cy="28" r="4.5" fill="#84C9F7"/><circle cx="54" cy="86" r="3.2" fill="#3F3140" stroke="none"/><circle cx="66" cy="86" r="3.2" fill="#3F3140" stroke="none"/><path d="M55 94q5 4 10 0" fill="none"/></g></svg>',
+    tree: '<svg class="art" viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M54 102V64h12v38" fill="#C98B5E"/><path d="M54 102l-14 6M66 102l14 6" fill="none"/><circle cx="60" cy="42" r="24" fill="#7FD8BE"/><circle cx="40" cy="56" r="16" fill="#7FD8BE"/><circle cx="80" cy="56" r="16" fill="#7FD8BE"/><circle cx="52" cy="40" r="3" fill="#3F3140" stroke="none"/><circle cx="68" cy="40" r="3" fill="#3F3140" stroke="none"/><path d="M54 50q6 5 12 0" fill="none"/><circle cx="38" cy="48" r="4" fill="#FF8B7B" stroke="none"/><circle cx="82" cy="50" r="4" fill="#FF8B7B" stroke="none"/></g></svg>',
+    fish: '<svg class="art" viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M86 62l22-16v32z" fill="#FFD35C"/><ellipse cx="56" cy="62" rx="32" ry="22" fill="#84C9F7"/><path d="M50 42l10-12 6 12" fill="#FFD35C"/><circle cx="42" cy="56" r="3.6" fill="#3F3140" stroke="none"/><path d="M35 68q8 6 16 2" fill="none"/><circle cx="24" cy="40" r="5.5" fill="#84C9F7" opacity=".75"/><circle cx="13" cy="54" r="3.5" fill="#84C9F7" opacity=".65"/></g></svg>',
+    pointer: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M60 12c-15 0-27 11-27 25 0 19 27 46 27 46s27-27 27-46c0-14-12-25-27-25z" fill="#FF8B7B"/><circle cx="60" cy="37" r="9" fill="#FFF8E9"/></g></svg>',
+    puzzle: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M24 28h22v9a8 8 0 0 0 16 0v-9h22v22h-9a8 8 0 0 0 0 16h9v22H62v-9a8 8 0 0 0-16 0v9H24V66h9a8 8 0 0 0 0-16h-9z" fill="#7FD8BE"/></g></svg>',
+    sound: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 48h14l18-14v52L34 72H20z" fill="#84C9F7"/><path d="M64 46c8 6 8 22 0 28" fill="none"/><path d="M78 36c16 14 16 34 0 48" fill="none"/></g></svg>',
+    twins: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 28h38a8 8 0 0 1 8 8v18a8 8 0 0 1-8 8H34l-11 9v-9h-11a8 8 0 0 1-8-8V36a8 8 0 0 1 8-8z" fill="#B9A7EF"/><path d="M62 58h38a8 8 0 0 1 8 8v18a8 8 0 0 1-8 8H84l-11 9v-9H62a8 8 0 0 1-8-8V66a8 8 0 0 1 8-8z" fill="#FFD35C"/><path d="M26 42h14M26 50h14M84 72h14M84 80h14" fill="none"/></g></svg>',
+    swap: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 40h72l-12-12" fill="none"/><path d="M100 80H28l12 12" fill="none"/><circle cx="26" cy="40" r="8" fill="#FFB07C"/><circle cx="94" cy="80" r="8" fill="#FFD35C"/></g></svg>',
+    zhiRoot: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 92h104" fill="none"/><path d="M60 92V56" stroke="#C98B5E" stroke-width="10" fill="none"/><circle cx="43" cy="42" r="15" fill="#7FD8BE"/><circle cx="77" cy="42" r="15" fill="#7FD8BE"/><circle cx="60" cy="30" r="14" fill="#7FD8BE"/><path d="M60 96l-12 14M60 96l12 14M60 96v16" stroke="#C98B5E" stroke-width="5" fill="none"/><circle cx="60" cy="86" r="6" fill="#FF6B5A" stroke="none"/><path d="M100 64L74 84" stroke="#FF6B5A" stroke-width="5" fill="none"/><path d="M70 86l10-3-4 10z" fill="#FF6B5A" stroke="none"/></g></svg>',
+    zhiTop: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 100h104" fill="none"/><path d="M60 100V62" stroke="#C98B5E" stroke-width="10" fill="none"/><circle cx="43" cy="48" r="15" fill="#7FD8BE"/><circle cx="77" cy="48" r="15" fill="#7FD8BE"/><circle cx="60" cy="36" r="14" fill="#7FD8BE"/><circle cx="60" cy="18" r="6" fill="#FF6B5A" stroke="none"/><path d="M100 30L74 20" stroke="#FF6B5A" stroke-width="5" fill="none"/><path d="M70 18l10 1-7 8z" fill="#FF6B5A" stroke="none"/></g></svg>',
+    zhiBlade: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 38h52c14 0 22 12 22 24v14H12z" fill="#CFE6F7"/><path d="M86 50h20a9 9 0 0 1 0 18H86z" fill="#C98B5E"/><path d="M92 54v10M100 54v10" stroke-width="3" fill="none"/><circle cx="34" cy="70" r="5.5" fill="#FF6B5A" stroke="none"/><circle cx="34" cy="70" r="14" fill="none" stroke="#FF6B5A" stroke-width="3" stroke-dasharray="5 5"/></g></svg>',
+    zhiUp: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 82h80" stroke-width="9" fill="none"/><path d="M36 44h48" stroke-width="9" fill="none"/><circle cx="60" cy="44" r="6" fill="#FF8B7B" stroke-width="3"/><circle cx="60" cy="44" r="17" fill="none" stroke="#FF8B7B" stroke-width="3" stroke-dasharray="5 5"/><path d="M104 74V30" stroke="#84C9F7" stroke-width="6" fill="none"/><path d="M104 20l-10 15h20z" fill="#84C9F7"/></g></svg>',
+    zhiDown: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 38h80" stroke-width="9" fill="none"/><path d="M36 76h48" stroke-width="9" fill="none"/><circle cx="60" cy="76" r="6" fill="#FF8B7B" stroke-width="3"/><circle cx="60" cy="76" r="17" fill="none" stroke="#FF8B7B" stroke-width="3" stroke-dasharray="5 5"/><path d="M104 46v44" stroke="#84C9F7" stroke-width="6" fill="none"/><path d="M104 100l-10-15h20z" fill="#84C9F7"/></g></svg>',
+    zhiMark: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="22" width="54" height="76" rx="12" fill="#FFF8E9"/><path d="M26 42h26M39 42v34M27 58l12-8M51 58l-12-8" stroke-width="4" fill="none"/><path d="M80 26l14 14-30 30-17 4 4-17z" fill="#FFD35C"/><path d="M47 74l11 11-15 3z" fill="#3F3140"/><circle cx="39" cy="90" r="5" fill="#FF8B7B" stroke-width="3"/><path d="M100 54l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" fill="#7FD8BE"/></g></svg>',
+    hySunMoon: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><circle cx="34" cy="54" r="18" fill="#FFD35C"/><path d="M34 26v-8M34 90v-8M6 54h8M54 54h8M14 34l-6-6M60 74l6 6M54 34l6-6M14 74l-6 6" fill="none"/><circle cx="28" cy="50" r="2.6" fill="#3F3140" stroke="none"/><circle cx="40" cy="50" r="2.6" fill="#3F3140" stroke="none"/><path d="M29 60q5 4 10 0" fill="none" stroke-width="3.5"/><path d="M96 26c-18 4-30 16-30 30s12 26 30 30c-8-8-12-18-12-30s4-22 12-30z" fill="#FFE9A8"/><circle cx="74" cy="54" r="2.4" fill="#3F3140" stroke="none"/><path d="M104 20l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#FFD35C"/><path d="M18 96l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#B9A7EF"/></g></svg>',
+    hyRest: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 100h104" fill="none"/><path d="M70 100V62" stroke="#C98B5E" stroke-width="10" fill="none"/><circle cx="70" cy="38" r="20" fill="#7FD8BE"/><circle cx="58" cy="30" r="3" fill="#3F3140" stroke="none"/><circle cx="82" cy="30" r="3" fill="#3F3140" stroke="none"/><path d="M62 44q8 6 16 0" fill="none"/><circle cx="36" cy="66" r="10" fill="#FFF8E9"/><circle cx="33" cy="64" r="2.2" fill="#3F3140" stroke="none"/><path d="M36 76v14M36 90l-9 10M36 90l9 9M36 80l14-4" fill="none"/><circle cx="22" cy="54" r="4" fill="#FFC2D1" stroke="none"/></g></svg>',
+    hyBird: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="48" cy="70" rx="26" ry="19" fill="#84C9F7"/><circle cx="74" cy="48" r="14" fill="#84C9F7"/><path d="M86 46l18-7-15 14z" fill="#FFB07C"/><circle cx="76" cy="44" r="3" fill="#3F3140" stroke="none"/><path d="M24 64l-14-8 3 18z" fill="#FFD35C"/><path d="M40 74q10 6 20 0" fill="none" stroke-width="3.5"/><path d="M26 22v14M40 18v14" stroke-width="4" fill="none"/><circle cx="22" cy="40" r="5" fill="#FF8B7B" stroke-width="3"/><circle cx="36" cy="36" r="5" fill="#FF8B7B" stroke-width="3"/></g></svg>',
+    hyTrust: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><circle cx="30" cy="52" r="12" fill="#FFF8E9"/><circle cx="27" cy="50" r="2.4" fill="#3F3140" stroke="none"/><path d="M30 64v26M30 90l-10 10M30 90l10 10M30 70l14 6M30 70l-12 6" fill="none"/><rect x="58" y="22" width="52" height="38" rx="12" fill="#FFF8E9"/><path d="M68 60l-2 12 14-12z" fill="#FFF8E9"/><path d="M72 40l6 8 12-14" stroke="#2E8A6B" stroke-width="5" fill="none"/><path d="M20 96h84" fill="none"/></g></svg>',
+    hyWoods: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 100h104" fill="none"/><path d="M40 100V64" stroke="#C98B5E" stroke-width="9" fill="none"/><circle cx="40" cy="50" r="20" fill="#7FD8BE"/><path d="M80 100V64" stroke="#C98B5E" stroke-width="9" fill="none"/><circle cx="80" cy="50" r="20" fill="#7FD8BE"/><circle cx="34" cy="46" r="2.6" fill="#3F3140" stroke="none"/><circle cx="86" cy="46" r="2.6" fill="#3F3140" stroke="none"/><path d="M34 56q6 4 12 0M74 56q6 4 12 0" fill="none" stroke-width="3.2"/></g></svg>',
+    hyForest: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 104h112" fill="none"/><path d="M30 104V76" stroke="#C98B5E" stroke-width="8" fill="none"/><circle cx="30" cy="66" r="16" fill="#7FD8BE"/><path d="M60 104V70" stroke="#C98B5E" stroke-width="8" fill="none"/><circle cx="60" cy="58" r="18" fill="#9BE3CD"/><path d="M90 104V76" stroke="#C98B5E" stroke-width="8" fill="none"/><circle cx="90" cy="66" r="16" fill="#7FD8BE"/><circle cx="55" cy="54" r="2.4" fill="#3F3140" stroke="none"/><circle cx="65" cy="54" r="2.4" fill="#3F3140" stroke="none"/><path d="M55 62q5 4 10 0" fill="none" stroke-width="3"/></g></svg>',
+    xsRiver: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 58l26-26 24 26z" fill="#9BE3CD"/><path d="M48 58l22-22 24 22z" fill="#7FD8BE"/><path d="M4 62h112v54H4z" fill="#84C9F7"/><path d="M4 70q14-8 26 0t26 0 26 0 26 0" fill="none" stroke-width="4"/><path d="M34 92c8-7 18-7 26 0-8 7-18 7-26 0z" fill="#FFD35C"/><circle cx="41" cy="92" r="2.2" fill="#3F3140" stroke="none"/><path d="M78 102q10-6 20 0" fill="none" stroke-width="4"/></g></svg>',
+    xsMom: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 108h112" fill="none"/><circle cx="44" cy="40" r="13" fill="#FFF8E9"/><circle cx="44" cy="24" r="6" fill="#C98B5E"/><circle cx="40" cy="38" r="2.4" fill="#3F3140" stroke="none"/><circle cx="48" cy="38" r="2.4" fill="#3F3140" stroke="none"/><path d="M41 46q4 3 8 0" fill="none" stroke-width="3"/><path d="M44 53l-16 48h32z" fill="#FFC2D1"/><path d="M36 66l-10 16M52 66l14 10" fill="none"/><circle cx="82" cy="62" r="9" fill="#FFF8E9"/><path d="M82 71l-8 28h16z" fill="#84C9F7"/><path d="M82 78l-10 8M82 78l10 6" fill="none"/><path d="M62 34c-5-4-8-7-8-10a4 4 0 0 1 8-2 4 4 0 0 1 8 2c0 3-3 6-8 10z" fill="#FF8B7B" stroke="none"/></g></svg>',
+    xsSunny: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><circle cx="54" cy="46" r="22" fill="#FFD35C"/><path d="M54 12v-6M54 86v-6M20 46h-8M96 46h-8M30 22l-6-6M78 70l6 6M78 22l6-6M30 70l-6 6" fill="none"/><circle cx="47" cy="42" r="3" fill="#3F3140" stroke="none"/><circle cx="61" cy="42" r="3" fill="#3F3140" stroke="none"/><path d="M48 54q6 5 12 0" fill="none" stroke-width="3.5"/><path d="M26 104a12 12 0 0 1 2-24 15 15 0 0 1 28-4 11 11 0 0 1 4 28z" fill="#FFFFFF"/><path d="M64 108h40" fill="none" stroke-width="4"/></g></svg>',
+    xsJiang: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 56l26-26 26 26z" fill="#9BE3CD"/><path d="M44 58l24-30 28 30z" fill="#7FD8BE"/><path d="M2 60h116v58H2z" fill="#84C9F7"/><path d="M2 74q14-8 28 0t28 0 28 0 28 0" fill="none" stroke-width="4"/><path d="M48 96h34l-7 12H55z" fill="#C98B5E"/><path d="M66 96V72l18 24z" fill="#FFF8E9"/><path d="M20 104q12-6 24 0" fill="none" stroke-width="4"/></g></svg>',
+    xsCopper: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><circle cx="56" cy="64" r="32" fill="#E8A15C"/><rect x="47" y="55" width="18" height="18" rx="3" fill="#FFF8E9"/><path d="M34 44a26 26 0 0 1 16-8" fill="none" stroke="#FFF0D6" stroke-width="6"/><path d="M96 28l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" fill="#FFD35C"/><path d="M16 26l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#B9A7EF"/><path d="M22 104q10-6 20 0" fill="none" stroke-width="4"/></g></svg>',
+    xsPuzzle: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="40" width="44" height="44" rx="11" fill="#FFD35C"/><path d="M32 72c-10-7-14-12-14-17a7 7 0 0 1 14-3 7 7 0 0 1 14 3c0 5-4 10-14 17z" fill="#FF8B7B" stroke="none"/><rect x="66" y="40" width="44" height="44" rx="11" fill="#84C9F7"/><path d="M92 50v18" stroke-width="5" fill="none"/><circle cx="86" cy="72" r="7" fill="#3F3140" stroke="none"/><path d="M92 50l10-4v8" fill="none" stroke-width="4"/><path d="M60 34v-8M60 98v-8" fill="none" stroke-width="4"/></g></svg>',
+    zzOld: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="64" r="21" fill="#FFE0C2"/><path d="M8 56a20 20 0 0 1 38-6" fill="#FFFFFF"/><circle cx="21" cy="62" r="2.6" fill="#3F3140" stroke="none"/><circle cx="35" cy="62" r="2.6" fill="#3F3140" stroke="none"/><path d="M21 72q7 5 14 0" fill="none" stroke-width="3.5"/><circle cx="92" cy="64" r="21" fill="#FFE0C2"/><path d="M72 56a20 20 0 0 1 38-6" fill="#FFFFFF"/><circle cx="85" cy="62" r="2.6" fill="#3F3140" stroke="none"/><circle cx="99" cy="62" r="2.6" fill="#3F3140" stroke="none"/><path d="M85 72q7 5 14 0" fill="none" stroke-width="3.5"/><path d="M54 56h12M54 70h12" stroke-width="6" fill="none"/></g></svg>',
+    zzHead: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><circle cx="56" cy="70" r="32" fill="#FFF8E9"/><path d="M40 62a8 8 0 0 1 12-4M68 58a8 8 0 0 1 12 4" fill="none" stroke-width="4"/><circle cx="48" cy="66" r="3" fill="#3F3140" stroke="none"/><circle cx="70" cy="66" r="3" fill="#3F3140" stroke="none"/><path d="M48 82q8 6 16 0" fill="none" stroke-width="3.5"/><path d="M56 26l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" fill="#FF8B7B" stroke-width="3"/><path d="M100 34l-14 10" stroke="#FF8B7B" stroke-width="4" fill="none"/><path d="M84 46l9-2 1 9z" fill="#FF8B7B"/></g></svg>',
+    zzEqual: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="34" width="42" height="48" rx="12" fill="#B9A7EF"/><path d="M29 70c-9-6-13-11-13-16a6.5 6.5 0 0 1 13-3 6.5 6.5 0 0 1 13 3c0 5-4 10-13 16z" fill="#FFF8E9" stroke="none"/><rect x="70" y="34" width="42" height="48" rx="12" fill="#FFD35C"/><path d="M91 70c-9-6-13-11-13-16a6.5 6.5 0 0 1 13-3 6.5 6.5 0 0 1 13 3c0 5-4 10-13 16z" fill="#FFF8E9" stroke="none"/><path d="M54 52h12M54 64h12" stroke-width="6" fill="none"/></g></svg>',
+    zzWalk: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 104h112" fill="none"/><circle cx="36" cy="38" r="9" fill="#FFF8E9"/><path d="M38 47l-3 18M35 65l-10 16M35 65l12 12M37 52l12 6M37 52l-11 3" fill="none"/><circle cx="84" cy="38" r="9" fill="#FFF8E9"/><path d="M82 47l3 18M85 65l10 16M85 65l-12 12M83 52l-12 6M83 52l11 3" fill="none"/><path d="M14 30h14M94 30h12" stroke="#84C9F7" stroke-width="4" fill="none"/><path d="M56 30h8M60 24l8 8" stroke="#FF8B7B" stroke-width="4" fill="none"/></g></svg>',
+    zzDiff: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><circle cx="30" cy="36" r="16" fill="#FFD35C"/><path d="M30 12v-6M30 66v-6M6 36h-6M60 36h-6M14 20l-5-5M46 52l5 5M46 20l5-5M14 52l-5 5" fill="none"/><path d="M94 14c-14 3-24 13-24 24s10 21 24 24c-7-7-10-15-10-24s3-17 10-24z" fill="#FFE9A8"/><path d="M22 84h76M22 98h76" stroke-width="7" fill="none"/><path d="M88 74L32 106" stroke="#FF8B7B" stroke-width="7" fill="none"/></g></svg>',
+    jjWeapon: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M48 22v86" stroke="#C98B5E" stroke-width="8" fill="none"/><path d="M48 18l12 16-12 12-12-12z" fill="#84C9F7"/><path d="M36 44c-12 6-16 14-10 22l22-10z" fill="#CFE6F7"/><path d="M48 104l-8 12M48 104l8 12" fill="none"/><rect x="76" y="44" width="38" height="30" rx="10" fill="#FFF8E9"/><path d="M84 74l-2 10 12-10z" fill="#FFF8E9"/><circle cx="86" cy="59" r="2.6" fill="#3F3140" stroke="none"/><circle cx="95" cy="59" r="2.6" fill="#3F3140" stroke="none"/><circle cx="104" cy="59" r="2.6" fill="#3F3140" stroke="none"/></g></svg>',
+    jjWheat: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M60 108V26" stroke="#C98B5E" stroke-width="6" fill="none"/><ellipse cx="49" cy="38" rx="9" ry="6" fill="#FFD35C" transform="rotate(-32 49 38)"/><ellipse cx="71" cy="38" rx="9" ry="6" fill="#FFD35C" transform="rotate(32 71 38)"/><ellipse cx="49" cy="52" rx="9" ry="6" fill="#FFD35C" transform="rotate(-32 49 52)"/><ellipse cx="71" cy="52" rx="9" ry="6" fill="#FFD35C" transform="rotate(32 71 52)"/><ellipse cx="49" cy="66" rx="9" ry="6" fill="#FFD35C" transform="rotate(-32 49 66)"/><ellipse cx="71" cy="66" rx="9" ry="6" fill="#FFD35C" transform="rotate(32 71 66)"/><ellipse cx="60" cy="24" rx="7" ry="10" fill="#FFD35C"/><path d="M60 84c-14-2-20-10-20-20 12 2 18 8 20 20z" fill="#7FD8BE"/><path d="M18 108h84" fill="none"/></g></svg>',
+    jjNest: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 68h62l-8 30H30z" fill="#C98B5E"/><path d="M28 78h50M26 88h54M38 70l-4 26M54 70l-2 28M70 70l2 26" stroke-width="3" fill="none"/><ellipse cx="42" cy="70" rx="10" ry="7" fill="#FFF8E9"/><ellipse cx="60" cy="68" rx="10" ry="7" fill="#FFF8E9"/><ellipse cx="76" cy="71" rx="9" ry="6" fill="#FFF8E9"/><path d="M98 26l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#84C9F7"/><path d="M88 56l6-6M94 50l-2 8" stroke="#FF8B7B" stroke-width="4" fill="none"/><path d="M14 108h92" fill="none"/></g></svg>',
+    jjSound: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M38 28c-14 0-22 10-22 22 0 10 7 14 7 24 0 8 6 14 14 14 6 0 10-4 10-9 0-6-6-8-6-14" fill="#FFC2D1"/><path d="M38 28c8 0 12 6 12 12" fill="none"/><path d="M30 54c2-4 6-6 10-5" fill="none" stroke-width="3.5"/><path d="M56 56h10M56 68h10" stroke-width="6" fill="none"/><path d="M88 40v34" stroke-width="5" fill="none"/><ellipse cx="82" cy="76" rx="9" ry="7" fill="#84C9F7"/><path d="M88 40l14-6v10" fill="none" stroke-width="4"/><path d="M104 24l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#FFD35C"/></g></svg>',
+    jjBasket: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M30 52h60l-9 50H39z" fill="#FFD35C"/><path d="M38 52c0-16 10-26 22-26s22 10 22 26" fill="none"/><path d="M33 70h54M35 86h50M48 54l4 46M72 54l-4 46" stroke-width="3" fill="none"/><path d="M86 34l4 8 8 2-8 2-4 8-4-8-8-2 8-2z" fill="#7FD8BE"/><path d="M14 108h92" fill="none"/></g></svg>',
+    jjBorrow: '<svg viewBox="0 0 120 120" aria-hidden="true"><g stroke="#3F3140" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="20" width="42" height="38" rx="10" fill="#FFD35C"/><path d="M30 30v16" stroke-width="4" fill="none"/><circle cx="24" cy="48" r="6" fill="#3F3140" stroke="none"/><path d="M30 30l10-3v7" fill="none" stroke-width="3.5"/><rect x="68" y="62" width="42" height="38" rx="10" fill="#84C9F7"/><path d="M88 72v16" stroke-width="4" fill="none"/><circle cx="82" cy="90" r="6" fill="#3F3140" stroke="none"/><path d="M88 72l10-3v7" fill="none" stroke-width="3.5"/><path d="M64 30c14 2 22 10 22 22" fill="none" stroke="#FF8B7B" stroke-width="4"/><path d="M86 50l-8 4 1-9z" fill="#FF8B7B"/><path d="M56 90c-14-2-22-10-22-22" fill="none" stroke="#7FD8BE" stroke-width="4"/><path d="M34 70l8-4-1 9z" fill="#7FD8BE"/></g></svg>',
+    clock: '<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="#3F3140" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></g></svg>'
+  };
+
+  function artSVG(key, className) {
+    var markup = ART[key];
+    if (!markup) {
+      return '';
+    }
+    if (className) {
+      return markup.replace('<svg ', '<svg class="' + className + '" ');
+    }
+    return markup;
+  }
+
+  function mascotSVG(mood) {
+    var mouth = 'M78 102q14 11 28 0';
+    if (mood === 'cheer') {
+      mouth = 'M78 98q14 22 28 0';
+    } else if (mood === 'think') {
+      mouth = 'M84 104q8 6 16 0';
+    }
+    return '<svg class="mascot-svg" viewBox="0 0 160 160" aria-hidden="true">'
+      + '<ellipse cx="80" cy="148" rx="42" ry="8" fill="rgba(63,49,64,.12)"/>'
+      + '<g stroke="#3F3140" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round">'
+      + '<path d="M38 70L20 56" fill="none"/><circle cx="18" cy="54" r="7" fill="#FFD35C"/>'
+      + '<path d="M124 70l18-14" fill="none"/><circle cx="142" cy="54" r="7" fill="#FFD35C"/>'
+      + '<rect x="36" y="34" width="88" height="100" rx="14" fill="#FF8B7B"/>'
+      + '<rect x="36" y="34" width="19" height="100" rx="9" fill="#F2725F"/>'
+      + '<path d="M55 38v92" fill="none" stroke-width="4"/>'
+      + '<rect x="122" y="44" width="15" height="80" rx="5" fill="#FFF8E9"/>'
+      + '<path d="M126 60h7M126 72h7M126 84h7" fill="none" stroke-width="2.6"/>'
+      + '<circle cx="73" cy="84" r="4.5" fill="#3F3140" stroke="none"/>'
+      + '<circle cx="105" cy="84" r="4.5" fill="#3F3140" stroke="none"/>'
+      + '<path d="' + mouth + '" fill="none"/>'
+      + '<circle cx="61" cy="96" r="6" fill="#FFC2D1" stroke="none"/>'
+      + '<circle cx="117" cy="96" r="6" fill="#FFC2D1" stroke="none"/>'
+      + '<path d="M60 134v8M100 134v8" fill="none"/>'
+      + '<path d="M50 142h20M90 142h20" fill="none"/>'
+      + '<path d="M80 36c0-11 9-16 16-16 0 11-7 16-16 16z" fill="#7FD8BE"/>'
+      + '</g></svg>';
+  }
+
+  /* =========================================================
+     狀態與 DOM
+     ========================================================= */
+  var state = {
+    screen: 'home',
+    modeId: null,
+    challenge: false,
+    queue: [],
+    index: 0,
+    correct: 0,
+    score: 0,
+    streak: 0,
+    bestStreak: 0,
+    answered: false,
+    selectedKey: null,
+    review: [],
+    timerId: null,
+    deadline: 0,
+    timeLeft: 0,
+    config: null
+  };
+
+  var dom = {};
+  var booted = false;
+
+  function cacheDom() {
+    [
+      'jsErrorBar', 'heroMascot', 'glyphGrid', 'lessonList', 'modeGrid',
+      'challengeCard', 'bestScore', 'startChallengeBtn', 'startLearnBtn',
+      'randomBtn', 'progressText', 'progressFill', 'scoreChip', 'modeChip',
+      'timerWrap', 'timerNum', 'questionArt', 'questionText', 'options',
+      'feedback', 'feedbackIcon', 'feedbackTitle', 'feedbackWhy',
+      'feedbackAnswer', 'nextBtn', 'quitBtn', 'resultStars', 'resultMascot',
+      'resultTitle', 'resultSub', 'resultCorrect', 'resultScore',
+      'resultStreak', 'reviewList', 'replayBtn', 'anotherBtn', 'homeBtn',
+      'shareResultBtn', 'confetti'
+    ].forEach(function (id) {
+      dom[id] = document.getElementById(id);
+    });
+    dom.screens = Array.prototype.slice.call(document.querySelectorAll('.screen'));
+    dom.tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  }
+
+  function el(tag, className, text) {
+    var node = document.createElement(tag);
+    if (className) {
+      node.className = className;
+    }
+    if (typeof text === 'string') {
+      node.textContent = text;
+    }
+    return node;
+  }
+
+  function shuffle(list) {
+    var arr = list.slice();
+    for (var i = arr.length - 1; i > 0; i -= 1) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = arr[i];
+      arr[i] = arr[j];
+      arr[j] = tmp;
+    }
+    return arr;
+  }
+
+  function setStyleVar(node, name, value) {
+    if (node && node.style && node.style.setProperty) {
+      node.style.setProperty(name, value);
+    }
+  }
+
+  function fatal(message) {
+    var bar = dom.jsErrorBar || document.getElementById('jsErrorBar');
+    if (!bar) {
+      return;
+    }
+    bar.hidden = false;
+    bar.textContent = '頁面腳本沒有完整啟動：' + message + '。請重新整理頁面再試一次；若還是不行，請把這個畫面回報給我。';
+  }
+
+  function toast(message) {
+    var params = { message: message, type: 'info' };
+    invokeOrFallback('showToast', params, getBrowserFallback('showToast', params)).catch(function () {});
+  }
+
+  /* =========================================================
+     渲染：首頁 / 教學 / 玩法
+     ========================================================= */
+  function renderHero() {
+    dom.heroMascot.innerHTML = mascotSVG('cheer');
+  }
+
+  function renderGlyphGrid() {
+    dom.glyphGrid.innerHTML = '';
+    MODES.forEach(function (mode) {
+      var button = el('button', 'glyph');
+      button.type = 'button';
+      button.setAttribute('aria-label', '看' + mode.name + '的解釋');
+      setStyleVar(button, '--c', mode.color);
+
+      var blob = el('span', 'blob', mode.glyph);
+      blob.setAttribute('aria-hidden', 'true');
+      var text = el('span', 'g-txt');
+      text.appendChild(el('strong', null, mode.name));
+      text.appendChild(el('small', null, mode.tag));
+      button.appendChild(blob);
+      button.appendChild(text);
+      button.addEventListener('click', function () {
+        goLearn(mode.id);
+      });
+      dom.glyphGrid.appendChild(button);
+    });
+  }
+
+  function wordTile(ch, note, artKey) {
+    var html = '<div class="word-tile">';
+    if (artKey && ART[artKey]) {
+      html += '<div class="tile-art">' + ART[artKey] + '</div>';
+    }
+    html += '<b>' + ch + '</b><small>' + note + '</small></div>';
+    return html;
+  }
+
+  function demoHTML(left, mid, right, note) {
+    return '<div class="demo"><b>' + left + '</b><span class="plus">' + mid + '</span><b class="hl">' + right + '</b>'
+      + (note ? '<span class="mini">' + note + '</span>' : '') + '</div>';
+  }
+
+  function lessonVisual(modeId) {
+    var html = '';
+    if (modeId === 'xiangxing') {
+      html += '<div class="word-row">'
+        + wordTile('日', '太陽', 'sun')
+        + wordTile('月', '月亮', 'moon')
+        + wordTile('山', '山峰', 'mountain')
+        + wordTile('水', '水流', 'water')
+        + wordTile('木', '一棵樹', 'tree')
+        + wordTile('魚', '一條魚', 'fish')
+        + '</div>';
+    } else if (modeId === 'zhishi') {
+      html += '<div class="demo-row">'
+        + '<div class="demo"><b>木</b><span class="mini">下面加一橫，指樹根</span><span class="plus">→</span><b class="hl">本</b></div>'
+        + '<div class="demo"><b>木</b><span class="mini">上面加一橫，指樹梢</span><span class="plus">→</span><b class="hl">末</b></div>'
+        + '<div class="demo"><b>刀</b><span class="mini">加一點，指刀鋒</span><span class="plus">→</span><b class="hl">刃</b></div>'
+        + '<div class="demo"><b>長橫</b><span class="mini">短橫在上＝上面</span><span class="plus">→</span><b class="hl">上</b></div>'
+        + '</div>';
+    } else if (modeId === 'huiyi') {
+      html += '<div class="demo-row">'
+        + demoHTML('日', '＋', '月', '合起來是「明」')
+        + demoHTML('人', '＋', '木', '人在樹旁休息＝休')
+        + demoHTML('口', '＋', '鳥', '鳥張口叫＝鳴')
+        + demoHTML('木', '＋', '木', '兩棵樹＝林')
+        + '</div>';
+    } else if (modeId === 'xingsheng') {
+      html += '<div class="demo-row">'
+        + '<div class="demo"><b>氵</b><span class="mini">表示水</span><span class="plus">＋</span><b>可</b><span class="mini">提示讀音</span><span class="plus">＝</span><b class="hl">河</b></div>'
+        + '<div class="demo"><b>女</b><span class="mini">表示女生</span><span class="plus">＋</span><b>馬</b><span class="mini">提示讀音</span><span class="plus">＝</span><b class="hl">媽</b></div>'
+        + '<div class="demo"><b>日</b><span class="mini">表示太陽</span><span class="plus">＋</span><b>青</b><span class="mini">提示讀音</span><span class="plus">＝</span><b class="hl">晴</b></div>'
+        + '</div>';
+    } else if (modeId === 'zhuanzhu') {
+      html += '<div class="demo-row">'
+        + demoHTML('老', '＝', '考', '都指年紀大')
+        + demoHTML('頂', '＝', '顛', '都指頭頂')
+        + demoHTML('走', '＝', '趨', '都指快步走')
+        + '</div>';
+    } else if (modeId === 'jiajie') {
+      html += '<div class="demo-row">'
+        + demoHTML('我', '→', '我', '本來是兵器，借讀音來表示「我」')
+        + demoHTML('來', '→', '來', '本來是麥子，借來表示「來去」')
+        + demoHTML('西', '→', '西', '本來是鳥巢，借來表示方向')
+        + '</div>';
+    }
+    return html;
+  }
+
+  function renderLessons() {
+    dom.lessonList.innerHTML = '';
+    MODES.forEach(function (mode, index) {
+      var lesson = LESSONS[mode.id];
+      var card = el('article', 'lesson');
+      card.setAttribute('data-lesson', mode.id);
+
+      var head = el('button', 'lesson-head');
+      head.type = 'button';
+      head.setAttribute('aria-expanded', 'false');
+      head.setAttribute('aria-controls', 'lesson-body-' + mode.id);
+
+      var num = el('span', 'lesson-num', mode.glyph);
+      num.setAttribute('aria-hidden', 'true');
+      setStyleVar(num, '--c', mode.color);
+
+      var title = el('span', 'lesson-title');
+      title.appendChild(el('strong', null, mode.name));
+      title.appendChild(el('small', null, mode.tag));
+
+      var chev = el('span', 'chev');
+      chev.setAttribute('aria-hidden', 'true');
+      chev.innerHTML = '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+
+      head.appendChild(num);
+      head.appendChild(title);
+      head.appendChild(chev);
+
+      var body = el('div', 'lesson-body');
+      body.id = 'lesson-body-' + mode.id;
+      body.hidden = true;
+      body.innerHTML = '<div class="lesson-kid">' + lesson.kid + '</div>'
+        + lessonVisual(mode.id)
+        + '<p class="lesson-tip">小訣竅：' + lesson.tip + '</p>'
+        + '<div class="lesson-play"><button class="btn btn-sun" type="button" data-play="' + mode.id + '">玩這一關 →</button></div>';
+
+      head.addEventListener('click', function () {
+        var isOpen = card.className.indexOf('is-open') !== -1;
+        setLessonOpen(card, !isOpen);
+      });
+
+      card.appendChild(head);
+      card.appendChild(body);
+      dom.lessonList.appendChild(card);
+
+      if (index === 0) {
+        setLessonOpen(card, true);
+      }
+    });
+  }
+
+  function setLessonOpen(card, open) {
+    var body = card.querySelector('.lesson-body');
+    var head = card.querySelector('.lesson-head');
+    if (open) {
+      card.className = 'lesson is-open';
+      body.hidden = false;
+      head.setAttribute('aria-expanded', 'true');
+    } else {
+      card.className = 'lesson';
+      body.hidden = true;
+      head.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  function renderModes() {
+    dom.modeGrid.innerHTML = '';
+    MODES.forEach(function (mode) {
+      var button = el('button', 'mode-card');
+      button.type = 'button';
+      button.setAttribute('aria-label', '玩' + mode.name + '遊戲');
+      setStyleVar(button, '--c', mode.color);
+
+      var art = el('span', 'mode-art');
+      art.setAttribute('aria-hidden', 'true');
+      art.innerHTML = artSVG(mode.art);
+      button.appendChild(art);
+      button.appendChild(el('b', null, mode.name));
+      button.appendChild(el('span', null, mode.tag));
+      button.addEventListener('click', function () {
+        startGame(mode.id, false);
+      });
+      dom.modeGrid.appendChild(button);
+    });
+  }
+
+  /* =========================================================
+     畫面切換
+     ========================================================= */
+  function activeTabFor(name) {
+    if (name === 'play' || name === 'result') {
+      return state.challenge ? 'challenge' : 'modes';
+    }
+    return name;
+  }
+
+  function showScreen(name) {
+    state.screen = name;
+    dom.screens.forEach(function (screen) {
+      screen.hidden = screen.id !== 'screen-' + name;
+    });
+    var active = activeTabFor(name);
+    dom.tabs.forEach(function (tab) {
+      if (tab.getAttribute('data-go') === active) {
+        tab.className = 'tab is-active';
+      } else {
+        tab.className = 'tab';
+      }
+    });
+    try {
+      window.scrollTo(0, 0);
+    } catch (e) {
+      /* 舊版 WebView 可能不支援，忽略即可。 */
+    }
+  }
+
+  function goHome() {
+    stopTimer();
+    showScreen('home');
+  }
+
+  function goLearn(targetId) {
+    stopTimer();
+    showScreen('learn');
+    if (targetId) {
+      var card = dom.lessonList.querySelector('[data-lesson="' + targetId + '"]');
+      if (card) {
+        setLessonOpen(card, true);
+        if (card.scrollIntoView) {
+          setTimeout(function () {
+            try {
+              card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } catch (e) {
+              card.scrollIntoView();
+            }
+          }, 60);
+        }
+      }
+    }
+  }
+
+  function goModes() {
+    stopTimer();
+    showScreen('modes');
+  }
+
+  function goChallenge() {
+    stopTimer();
+    updateBest();
+    showScreen('challenge');
+  }
+
+  function updateBest() {
+    var best = readBest();
+    if (dom.bestScore) {
+      dom.bestScore.textContent = best > 0 ? best + ' 分' : '還沒有紀錄';
+    }
+  }
+
+  function readBest() {
+    try {
+      var value = parseInt(localStorage.getItem(BEST_KEY), 10);
+      return isNaN(value) ? 0 : value;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  function writeBest(value) {
+    try {
+      if (value > readBest()) {
+        localStorage.setItem(BEST_KEY, String(value));
+      }
+    } catch (e) {
+      /* 無痕模式或空間不足時不影響遊戲。 */
+    }
+  }
+
+  /* =========================================================
+     遊戲流程
+     ========================================================= */
+  function buildChallenge() {
+    var queue = [];
+    MODES.forEach(function (mode) {
+      var picked = shuffle(BANK[mode.id]).slice(0, 2);
+      queue = queue.concat(picked);
+    });
+    return shuffle(queue);
+  }
+
+  function startGame(modeId, challenge) {
+    state.modeId = modeId;
+    state.challenge = !!challenge;
+    state.queue = challenge ? buildChallenge() : shuffle(BANK[modeId]);
+    state.index = 0;
+    state.correct = 0;
+    state.score = 0;
+    state.streak = 0;
+    state.bestStreak = 0;
+    state.answered = false;
+    state.selectedKey = null;
+    state.review = [];
+    state.timeLeft = TIMER_SECONDS;
+    state.config = { modeId: modeId, challenge: !!challenge };
+
+    dom.feedback.hidden = true;
+    dom.nextBtn.hidden = true;
+    showScreen('play');
+    renderQuestion();
+  }
+
+  function stopTimer() {
+    if (state.timerId) {
+      clearInterval(state.timerId);
+      state.timerId = null;
+    }
+  }
+
+  function startTimer() {
+    stopTimer();
+    if (!state.challenge) {
+      dom.timerWrap.hidden = true;
+      return;
+    }
+    dom.timerWrap.hidden = false;
+    state.deadline = Date.now() + TIMER_SECONDS * 1000;
+    state.timeLeft = TIMER_SECONDS;
+    dom.timerNum.textContent = String(TIMER_SECONDS);
+    tickTimer();
+    state.timerId = setInterval(tickTimer, 200);
+  }
+
+  function tickTimer() {
+    var leftMs = Math.max(0, state.deadline - Date.now());
+    state.timeLeft = leftMs / 1000;
+    dom.timerNum.textContent = String(Math.ceil(leftMs / 1000));
+    if (leftMs <= 0) {
+      stopTimer();
+      timeUp();
+    }
+  }
+
+  function currentQuestion() {
+    return state.queue[state.index];
+  }
+
+  function optionText(question, key) {
+    for (var i = 0; i < question.options.length; i += 1) {
+      if (question.options[i].key === key) {
+        return question.options[i].text;
+      }
+    }
+    return '';
+  }
+
+  function renderQuestion() {
+    var question = currentQuestion();
+    var mode = MODE_BY_ID[question.mode];
+
+    stopTimer();
+    state.answered = false;
+    state.selectedKey = null;
+    state.timeLeft = TIMER_SECONDS;
+
+    dom.modeChip.textContent = question.hideMode
+      ? '六書小偵探 · 想想看'
+      : (mode.name + ' · ' + mode.tag);
+    dom.questionText.textContent = question.q;
+    dom.progressText.textContent = '第 ' + (state.index + 1) + ' / ' + state.queue.length + ' 題';
+    dom.progressFill.style.width = ((state.index / state.queue.length) * 100) + '%';
+    dom.scoreChip.textContent = state.challenge ? ('得分 ' + state.score) : ('答對 ' + state.correct);
+
+    dom.feedback.hidden = true;
+    dom.feedback.className = 'feedback';
+    dom.nextBtn.hidden = true;
+    dom.options.className = 'options';
+    dom.options.innerHTML = '';
+
+    renderQuestionArt(question);
+
+    var charsOnly = question.options.every(function (option) {
+      return option.text.length === 1;
+    });
+    if (charsOnly) {
+      dom.options.className = 'options is-chars';
+    }
+
+    var display = shuffle(question.options);
+    display.forEach(function (option, index) {
+      var button = el('button', 'option');
+      button.type = 'button';
+      button.setAttribute('data-key', option.key);
+      button.setAttribute('aria-label', LETTERS[index] + '，' + option.text);
+      button.innerHTML = '<span class="key">' + LETTERS[index] + '</span>'
+        + '<span class="txt">' + option.text + '</span>'
+        + '<span class="mark" aria-hidden="true"></span>';
+      button.addEventListener('click', function () {
+        chooseOption(option.key);
+      });
+      dom.options.appendChild(button);
+    });
+
+    startTimer();
+  }
+
+  function renderQuestionArt(question) {
+    var box = dom.questionArt;
+    var art = (question.art && ART[question.art]) ? artSVG(question.art) : '';
+    box.innerHTML = '';
+    box.hidden = false;
+
+    if (question.parts) {
+      var html = '<div class="qa-stack">';
+      if (art) {
+        html += '<div class="qa-mini" aria-hidden="true">' + art + '</div>';
+      }
+      html += '<div class="part-eq">';
+      question.parts.forEach(function (part, index) {
+        if (index > 0) {
+          html += '<span class="op" aria-hidden="true">＋</span>';
+        }
+        html += '<span class="part">' + part + '</span>';
+      });
+      html += '<span class="op" aria-hidden="true">＝</span><span class="part qmark" aria-hidden="true">?</span></div></div>';
+      box.innerHTML = html;
+      return;
+    }
+    if (question.word) {
+      box.innerHTML = '<div class="qa-row">'
+        + (art ? '<div class="qa-mini" aria-hidden="true">' + art + '</div>' : '')
+        + '<div class="word-big">' + question.word + '</div></div>';
+      return;
+    }
+    if (art) {
+      box.innerHTML = art;
+      return;
+    }
+    box.hidden = true;
+  }
+
+  function chooseOption(key) {
+    if (state.answered) {
+      return;
+    }
+    var question = currentQuestion();
+    var isRight = key === question.answerKey;
+    state.answered = true;
+    state.selectedKey = key;
+    stopTimer();
+
+    var gain = 0;
+    if (isRight) {
+      state.correct += 1;
+      state.streak += 1;
+      if (state.streak > state.bestStreak) {
+        state.bestStreak = state.streak;
+      }
+      gain = 10;
+      if (state.challenge) {
+        gain += Math.min(5, Math.ceil(state.timeLeft / 4));
+      }
+      state.score += gain;
+    } else {
+      state.streak = 0;
+    }
+
+    lockOptions(question, key);
+    state.review.push({
+      q: question.q,
+      picked: optionText(question, key),
+      answer: optionText(question, question.answerKey),
+      right: isRight
+    });
+    showFeedback(isRight, false, gain);
+    updateScoreChip();
+  }
+
+  function timeUp() {
+    if (state.answered) {
+      return;
+    }
+    var question = currentQuestion();
+    state.answered = true;
+    state.selectedKey = null;
+    state.streak = 0;
+    lockOptions(question, null);
+    state.review.push({
+      q: question.q,
+      picked: '沒有作答',
+      answer: optionText(question, question.answerKey),
+      right: false
+    });
+    showFeedback(false, true, 0);
+    updateScoreChip();
+  }
+
+  function lockOptions(question, pickedKey) {
+    dom.options.className += ' is-locked';
+    Array.prototype.forEach.call(dom.options.children, function (button) {
+      var key = button.getAttribute('data-key');
+      button.disabled = true;
+      if (key === question.answerKey) {
+        button.className += ' is-right';
+      } else if (key === pickedKey) {
+        button.className += ' is-wrong';
+      } else {
+        button.className += ' is-dim';
+      }
+    });
+  }
+
+  function updateScoreChip() {
+    dom.scoreChip.textContent = state.challenge
+      ? ('得分 ' + state.score)
+      : ('答對 ' + state.correct);
+  }
+
+  function showFeedback(isRight, isTimeout, gain) {
+    var question = currentQuestion();
+    dom.feedback.hidden = false;
+    dom.feedback.className = 'feedback' + (isRight ? '' : ' is-wrong');
+    dom.feedbackIcon.textContent = isRight ? '✓' : (isTimeout ? '!' : '✕');
+    if (isRight) {
+      dom.feedbackTitle.textContent = state.challenge && gain > 10
+        ? ('答對了！+' + gain + ' 分')
+        : '答對了！';
+    } else {
+      dom.feedbackTitle.textContent = isTimeout ? '時間到，看看答案：' : '再想一想～';
+    }
+    dom.feedbackWhy.textContent = question.why;
+    dom.feedbackAnswer.textContent = '正確答案：' + optionText(question, question.answerKey);
+
+    dom.nextBtn.hidden = false;
+    dom.nextBtn.textContent = state.index === state.queue.length - 1 ? '看結果 →' : '下一題 →';
+
+    var answered = state.review.length;
+    dom.progressFill.style.width = ((answered / state.queue.length) * 100) + '%';
+  }
+
+  function nextQuestion() {
+    if (!state.answered) {
+      return;
+    }
+    state.index += 1;
+    if (state.index >= state.queue.length) {
+      finishGame();
+      return;
+    }
+    renderQuestion();
+  }
+
+  /* =========================================================
+     結果
+     ========================================================= */
+  function finishGame() {
+    stopTimer();
+    var total = state.queue.length;
+    var ratio = total ? state.correct / total : 0;
+    var stars = ratio >= 0.9 ? 3 : (ratio >= 0.6 ? 2 : 1);
+    if (!state.challenge) {
+      state.score = state.correct * 10;
+    }
+
+    dom.resultStars.innerHTML = '';
+    for (var i = 0; i < 3; i += 1) {
+      var star = el('span', 'star' + (i < stars ? '' : ' is-off'));
+      star.innerHTML = '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4l6 12 13 2-9.5 9 2.5 13-12-6.5L12 40l2.5-13L5 18l13-2z" fill="#FFD35C" stroke="#3F3140" stroke-width="3" stroke-linejoin="round"/></svg>';
+      dom.resultStars.appendChild(star);
+    }
+    dom.resultStars.setAttribute('aria-label', '獲得 ' + stars + ' 顆星');
+
+    dom.resultMascot.innerHTML = mascotSVG(stars === 3 ? 'cheer' : (stars === 2 ? 'happy' : 'think'));
+
+    if (stars === 3) {
+      dom.resultTitle.textContent = '六書小狀元！';
+    } else if (stars === 2) {
+      dom.resultTitle.textContent = '好厲害！';
+    } else {
+      dom.resultTitle.textContent = '再試一次一定行！';
+    }
+
+    dom.resultSub.textContent = '你答對了 ' + state.correct + ' 題，' + (stars === 3
+      ? '每一題都難不倒你！'
+      : (stars === 2 ? '已經很棒了，再玩一次，挑戰滿分！' : '看看下面的解釋，再玩一次就會更熟喔。'));
+
+    dom.resultCorrect.textContent = state.correct + '/' + total;
+    dom.resultScore.textContent = String(state.score);
+    dom.resultStreak.textContent = String(state.bestStreak);
+
+    renderReview();
+
+    if (state.challenge) {
+      writeBest(state.score);
+      updateBest();
+    }
+
+    showScreen('result');
+
+    if (stars >= 2) {
+      launchConfetti();
+    }
+  }
+
+  function renderReview() {
+    dom.reviewList.innerHTML = '';
+    state.review.forEach(function (item) {
+      var row = el('div', 'review-item' + (item.right ? '' : ' is-bad'));
+      var badge = el('span', 'review-badge', item.right ? '✓' : '✕');
+      badge.setAttribute('aria-hidden', 'true');
+      var text = el('div', 'review-text');
+      text.appendChild(el('p', null, item.q));
+      var detail = el('small');
+      detail.innerHTML = '你的答案：<b>' + item.picked + '</b> · 正確答案：<b>' + item.answer + '</b>';
+      text.appendChild(detail);
+      row.appendChild(badge);
+      row.appendChild(text);
+      dom.reviewList.appendChild(row);
+    });
+  }
+
+  function launchConfetti() {
+    var colors = ['#FFD35C', '#FF8B7B', '#7FD8BE', '#84C9F7', '#B9A7EF', '#FFC2D1'];
+    dom.confetti.innerHTML = '';
+    for (var i = 0; i < 26; i += 1) {
+      var bit = el('span', 'confetti-bit');
+      bit.style.left = (Math.random() * 100) + '%';
+      bit.style.top = '-20px';
+      bit.style.background = colors[i % colors.length];
+      bit.style.animationDelay = (Math.random() * 0.8) + 's';
+      bit.style.animationDuration = (2.2 + Math.random() * 1.4) + 's';
+      bit.style.transform = 'rotate(' + Math.floor(Math.random() * 360) + 'deg)';
+      dom.confetti.appendChild(bit);
+    }
+    setTimeout(function () {
+      dom.confetti.innerHTML = '';
+    }, 4200);
+  }
+
+  /* =========================================================
+     分享
+     ========================================================= */
+  function shareResult() {
+    var total = state.queue.length || 12;
+    var text = '我在《六書小學堂》答對 ' + state.correct + '／' + total + ' 題，拿到 '
+      + state.score + ' 分！一起來玩六書小遊戲吧～';
+    var payload = {
+      title: '六書小學堂',
+      content: text,
+      url: location.href,
+      source: 'liushu-xuetang'
+    };
+    invokeOrFallback('share', payload, getBrowserFallback('share', payload)).then(function (method) {
+      if (!shouldUsePostMessage && method === 'copied') {
+        toast('已複製連結，可以貼給同學啦！');
+      }
+    }).catch(function (error) {
+      if (error && error.name === 'AbortError') {
+        return;
+      }
+      toast('分享沒有成功，可以再試一次');
+    });
+  }
+
+  /* =========================================================
+     綁定與啟動
+     ========================================================= */
+  function bindEvents() {
+    dom.tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        var target = tab.getAttribute('data-go');
+        if (target === 'home') {
+          goHome();
+        } else if (target === 'learn') {
+          goLearn(null);
+        } else if (target === 'modes') {
+          goModes();
+        } else if (target === 'challenge') {
+          goChallenge();
+        }
+      });
+    });
+
+    var brand = document.querySelector('.brand');
+    if (brand) {
+      brand.addEventListener('click', goHome);
+    }
+
+    dom.startLearnBtn.addEventListener('click', function () {
+      goLearn(null);
+    });
+
+    dom.randomBtn.addEventListener('click', function () {
+      var mode = MODES[Math.floor(Math.random() * MODES.length)];
+      startGame(mode.id, false);
+    });
+
+    dom.challengeCard.addEventListener('click', goChallenge);
+    dom.startChallengeBtn.addEventListener('click', function () {
+      startGame(null, true);
+    });
+
+    dom.quitBtn.addEventListener('click', function () {
+      stopTimer();
+      if (state.challenge) {
+        goChallenge();
+      } else {
+        goModes();
+      }
+    });
+
+    dom.nextBtn.addEventListener('click', nextQuestion);
+    dom.replayBtn.addEventListener('click', function () {
+      if (!state.config) {
+        goModes();
+        return;
+      }
+      startGame(state.config.modeId, state.config.challenge);
+    });
+    dom.anotherBtn.addEventListener('click', goModes);
+    dom.homeBtn.addEventListener('click', goHome);
+    dom.shareResultBtn.addEventListener('click', shareResult);
+
+    dom.lessonList.addEventListener('click', function (event) {
+      var target = event.target;
+      while (target && target !== dom.lessonList) {
+        if (target.getAttribute && target.getAttribute('data-play')) {
+          startGame(target.getAttribute('data-play'), false);
+          return;
+        }
+        target = target.parentNode;
+      }
+    });
+  }
+
+  function init() {
+    cacheDom();
+    renderHero();
+    renderGlyphGrid();
+    renderLessons();
+    renderModes();
+    updateBest();
+    bindEvents();
+    showScreen('home');
+    booted = true;
+
+    invokeOrFallback('hideLoading', {}, getBrowserFallback('hideLoading')).catch(function () {});
+  }
+
+  window.addEventListener('error', function (event) {
+    if (!booted) {
+      fatal(event.message || '未知錯誤');
+    }
+  });
+
+  try {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  } catch (error) {
+    fatal(error.message || '初始化失敗');
+  }
+
+  setTimeout(function () {
+    if (!booted) {
+      fatal('啟動逾時');
+    }
+  }, 3000);
+}());
+</script>
+</body>
+</html>

@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>連詞探險隊｜小學連詞互動學習遊戲</title>
+<meta name="description" content="小學中文連詞互動學習遊戲：初小與高小版、圖文教學、句子填空與連詞偵探兩種模式各八題，即時解說與音效，適合手機、平板及電腦。">
+<style>
+  :root{
+    --cream:#FFF6E7; --paper:#FFFDF8; --ink:#3B2E28; --muted:#7C6A60;
+    --orange:#FF8A3D; --orange-d:#E96A17;
+    --teal:#39BFA3; --teal-d:#1F9880;
+    --yellow:#FFD34E; --yellow-d:#E8B21E;
+    --pink:#FF9FB2; --blue:#6FB8FF; --purple:#B39BFF;
+    --line:rgba(59,46,40,.14);
+    --shadow:0 8px 0 rgba(59,46,40,.16);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  [hidden]{display:none !important}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; color:var(--ink); font-size:18px;
+    font-family:"PingFang HK","PingFang TC","Microsoft JhengHei","Noto Sans TC","Heiti TC",system-ui,-apple-system,"Segoe UI",sans-serif;
+    background:
+      radial-gradient(circle at 12% 6%, rgba(255,211,78,.35), transparent 32%),
+      radial-gradient(circle at 88% 12%, rgba(111,184,255,.28), transparent 30%),
+      radial-gradient(circle at 50% 100%, rgba(57,191,163,.20), transparent 45%),
+      var(--cream);
+    min-height:100vh;
+    line-height:1.6;
+  }
+  .sprite{position:absolute;width:0;height:0;overflow:hidden}
+  .app{max-width:1140px;margin:0 auto;padding:0 clamp(12px,2.5vw,28px) 56px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+  /* ---------- header ---------- */
+  .bar{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:10px 2px;background:rgba(255,246,231,.88);backdrop-filter:blur(8px);border-bottom:2px solid rgba(59,46,40,.08)}
+  .brand{display:flex;align-items:center;gap:10px;background:none;border:0;padding:4px;cursor:pointer;color:var(--ink);
+    font-family:inherit;font-size:clamp(18px,2.2vw,23px);font-weight:800;letter-spacing:.02em;min-width:0}
+  .brand span{white-space:nowrap}
+  .brand svg{width:44px;height:44px;flex:none}
+  .bar-actions{display:flex;align-items:center;gap:8px}
+  .chip{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 14px;border-radius:999px;
+    border:2px solid var(--ink);background:var(--paper);color:var(--ink);font-family:inherit;font-size:16px;font-weight:700;
+    cursor:pointer;box-shadow:0 3px 0 rgba(59,46,40,.18);white-space:nowrap}
+  .chip:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(59,46,40,.18)}
+  .chip svg{width:22px;height:22px}
+  .chip[aria-pressed="false"]{opacity:.55}
+
+  /* ---------- generic ---------- */
+  .screen[hidden]{display:none}
+  .sec-title{font-size:clamp(20px,2.6vw,26px);margin:34px 0 14px;display:flex;align-items:center;gap:10px}
+  .sec-title::before{content:"";width:10px;height:26px;border-radius:6px;background:var(--orange);display:inline-block}
+  .lead{font-size:clamp(17px,2vw,21px);color:var(--muted);margin:12px 0 0}
+  .foot-note{color:var(--muted);font-size:15px;text-align:center;margin-top:36px}
+
+  /* ---------- home ---------- */
+  .hero{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;align-items:center;padding:clamp(20px,3.4vw,42px);
+    background:var(--paper);border:3px solid var(--ink);border-radius:32px;box-shadow:var(--shadow);margin-top:18px;position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;inset:auto -40px -70px auto;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,211,78,.55),transparent 70%)}
+  .eyebrow{margin:0;font-size:15px;font-weight:800;letter-spacing:.14em;color:var(--teal-d);text-transform:uppercase}
+  h1{font-size:clamp(38px,6.4vw,72px);line-height:1.05;margin:8px 0 6px;letter-spacing:.02em;
+    text-shadow:3px 3px 0 rgba(255,138,61,.45)}
+  .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .hero-badges span{background:rgba(57,191,163,.14);border:2px solid rgba(31,152,128,.35);color:var(--teal-d);
+    border-radius:999px;padding:5px 13px;font-size:15px;font-weight:700}
+  .hero-art{position:relative;display:flex;justify-content:center;align-items:center;min-height:180px}
+  .hero-art svg{width:clamp(150px,20vw,230px);height:auto;filter:drop-shadow(0 8px 0 rgba(59,46,40,.12))}
+  .bubble{position:absolute;top:0;right:0;background:#fff;border:3px solid var(--ink);border-radius:18px;
+    padding:8px 14px;font-weight:800;font-size:clamp(14px,1.6vw,17px);transform:rotate(4deg);box-shadow:0 4px 0 rgba(59,46,40,.15)}
+  .bubble::after{content:"";position:absolute;left:20px;bottom:-12px;width:0;height:0;border:8px solid transparent;border-top-color:var(--ink)}
+
+  .level-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .level-card{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;cursor:pointer;
+    padding:20px;border-radius:24px;border:3px solid var(--ink);background:var(--paper);font-family:inherit;color:var(--ink);
+    box-shadow:0 6px 0 rgba(59,46,40,.15);transition:transform .12s ease, background .12s ease}
+  .level-card svg{width:54px;height:54px;margin-bottom:6px}
+  .level-name{font-size:clamp(22px,2.6vw,28px);font-weight:900}
+  .level-sub{font-size:16px;font-weight:700;color:var(--teal-d)}
+  .level-desc{font-size:16px;color:var(--muted);line-height:1.5}
+  .level-card[aria-pressed="true"]{background:#FFF0D2;border-color:var(--orange);transform:translateY(-2px)}
+  .level-card{position:relative}
+  .level-card[aria-pressed="true"] .level-sub{color:var(--orange-d)}
+
+  .entry-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  .entry-card{display:flex;align-items:center;gap:16px;text-align:left;cursor:pointer;font-family:inherit;color:var(--ink);
+    padding:22px;border-radius:26px;border:3px solid var(--ink);box-shadow:0 7px 0 rgba(59,46,40,.18);
+    transition:transform .12s ease}
+  .entry-card:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(59,46,40,.18)}
+  .entry-teach{background:linear-gradient(160deg,#E9FBF4,#CFF3E7)}
+  .entry-play{background:linear-gradient(160deg,#FFF3D8,#FFE3B0)}
+  .entry-card svg{width:56px;height:56px;flex:none}
+  .entry-card b{display:block;font-size:clamp(20px,2.4vw,26px);line-height:1.25}
+  .entry-card small{display:block;font-size:15.5px;color:var(--muted);margin-top:4px;line-height:1.45}
+
+  /* ---------- page head / tabs ---------- */
+  .page-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px;margin:26px 0 18px}
+  .page-head h2{font-size:clamp(26px,3.4vw,36px);margin:0;line-height:1.2}
+  .page-head p{margin:4px 0 0;color:var(--muted);font-size:16px}
+  .level-tabs{display:flex;gap:8px;background:rgba(59,46,40,.07);padding:5px;border-radius:999px}
+  .level-tabs button{min-height:44px;padding:6px 18px;border-radius:999px;border:2px solid transparent;background:transparent;
+    font-family:inherit;font-size:17px;font-weight:800;color:var(--muted);cursor:pointer}
+  .level-tabs button[aria-pressed="true"]{background:var(--paper);border-color:var(--ink);color:var(--ink);box-shadow:0 2px 0 rgba(59,46,40,.15)}
+  .back{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 16px;border-radius:999px;border:2px solid var(--ink);
+    background:var(--paper);font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;color:var(--ink)}
+
+  /* ---------- teach ---------- */
+  .teach-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+  .tcard{background:var(--paper);border:3px solid var(--ink);border-radius:26px;padding:20px;box-shadow:0 6px 0 rgba(59,46,40,.13);
+    display:flex;flex-direction:column;gap:12px}
+  .tcard-top{display:flex;align-items:center;gap:12px}
+  .tcard .icon-wrap{width:66px;height:66px;flex:none;border-radius:20px;background:rgba(255,211,78,.25);
+    display:flex;align-items:center;justify-content:center;border:2px solid rgba(59,46,40,.12)}
+  .tcard .icon-wrap svg{width:48px;height:48px}
+  .tcard h3{margin:0;font-size:clamp(21px,2.3vw,26px);line-height:1.3}
+  .rel{display:inline-block;margin-top:4px;font-size:14px;font-weight:800;padding:2px 10px;border-radius:999px;
+    background:rgba(57,191,163,.16);color:var(--teal-d);border:1.5px solid rgba(31,152,128,.35)}
+  .formula{font-size:clamp(18px,2vw,21px);font-weight:800;background:#FFF2D8;border:2px dashed rgba(233,106,23,.5);
+    border-radius:14px;padding:8px 12px;text-align:center;letter-spacing:.03em;color:var(--orange-d)}
+  .tcard p.desc{margin:0;color:#5C4B42;font-size:17px}
+  .examples{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+  .examples li{background:rgba(59,46,40,.05);border-radius:14px;padding:9px 12px;font-size:17.5px;line-height:1.6;
+    display:flex;align-items:flex-start;gap:8px}
+  .examples li em{font-style:normal;color:var(--orange-d);font-weight:900;background:rgba(255,211,78,.55);
+    border-radius:6px;padding:0 3px}
+  .examples li .speak{margin-left:auto;flex:none}
+  .speak{width:40px;height:40px;border-radius:50%;border:2px solid var(--ink);background:#fff;cursor:pointer;
+    display:inline-flex;align-items:center;justify-content:center;padding:0}
+  .speak svg{width:22px;height:22px}
+  .speak:active{transform:translateY(2px)}
+  .tip{background:#FFF7DC;border-left:6px solid var(--yellow);border-radius:12px;padding:10px 14px;font-size:16px;color:#6B5326}
+  .tip b{color:#8A5A00}
+  .teach-cta{display:flex;justify-content:center;margin-top:26px}
+
+  /* ---------- modes ---------- */
+  .mode-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+  .mode-card{text-align:left;font-family:inherit;color:var(--ink);cursor:pointer;background:var(--paper);
+    border:3px solid var(--ink);border-radius:28px;padding:22px;box-shadow:0 7px 0 rgba(59,46,40,.14);
+    display:flex;flex-direction:column;gap:10px;transition:transform .12s ease}
+  .mode-card:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(59,46,40,.14)}
+  .mode-card .icon-wrap{width:70px;height:70px;border-radius:22px;display:flex;align-items:center;justify-content:center;
+    background:rgba(111,184,255,.2);border:2px solid rgba(59,46,40,.12)}
+  .mode-card:nth-child(2) .icon-wrap{background:rgba(255,159,178,.22)}
+  .mode-card svg{width:50px;height:50px}
+  .mode-card h3{margin:0;font-size:clamp(22px,2.5vw,27px)}
+  .mode-card p{margin:0;color:var(--muted);font-size:16.5px}
+  .mode-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  .mode-meta span{font-size:14.5px;font-weight:800;padding:3px 11px;border-radius:999px;background:rgba(59,46,40,.07)}
+  .mode-meta .best{background:rgba(255,211,78,.4);color:#7A5300}
+
+  /* ---------- game ---------- */
+  .game-head{display:flex;align-items:center;gap:10px;margin:18px 0 10px;flex-wrap:wrap}
+  .game-title{font-weight:900;font-size:clamp(17px,2vw,21px);flex:1;min-width:0}
+  .game-score{font-weight:900;font-size:18px;white-space:nowrap;background:#FFF0C9;border:2px solid rgba(59,46,40,.2);border-radius:999px;padding:5px 14px}
+  .dots{display:flex;gap:7px;margin:6px 0 16px}
+  .dots i{flex:1;height:10px;border-radius:999px;background:rgba(59,46,40,.13)}
+  .dots i.done-ok{background:var(--teal)}
+  .dots i.done-bad{background:var(--pink)}
+  .dots i.now{background:var(--orange);box-shadow:0 0 0 3px rgba(255,138,61,.25)}
+
+  .q-card{background:var(--paper);border:3px solid var(--ink);border-radius:30px;padding:clamp(18px,3vw,34px);
+    box-shadow:var(--shadow);position:relative}
+  .q-top{display:flex;align-items:center;gap:14px;margin-bottom:10px}
+  .q-icon{width:86px;height:86px;flex:none;border-radius:24px;background:rgba(255,211,78,.28);
+    display:flex;align-items:center;justify-content:center;border:2px solid rgba(59,46,40,.1)}
+  .q-icon svg{width:64px;height:64px}
+  .q-hint{font-size:16px;color:var(--muted);font-weight:700;min-width:0;flex:1;line-height:1.45}
+  .q-text{font-size:clamp(25px,3.3vw,36px);line-height:1.85;font-weight:800;margin:14px 0 6px;letter-spacing:.02em}
+  .blank{display:inline-block;min-width:4.2em;border-bottom:5px dashed var(--orange);margin:0 6px;vertical-align:baseline}
+  .blank.filled{border-bottom-style:solid;border-bottom-color:var(--teal);color:var(--teal-d);text-align:center}
+
+  .opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:22px}
+  .opt{min-height:68px;padding:12px 16px;border-radius:20px;border:3px solid var(--ink);background:#fff;
+    font-family:inherit;font-size:clamp(21px,2.5vw,26px);font-weight:800;color:var(--ink);cursor:pointer;
+    box-shadow:0 5px 0 rgba(59,46,40,.18);transition:transform .1s ease}
+  .opt:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(59,46,40,.18)}
+  .opt:disabled{cursor:default;opacity:1}
+  .opt.sel{background:#FFEFD1;border-color:var(--orange)}
+  .opt.ok{background:#D9F7EC;border-color:var(--teal-d);color:#126B59}
+  .opt.bad{background:#FFE1E6;border-color:#D9506B;color:#8B2237}
+  .opt .mark{font-size:.8em;margin-left:8px}
+
+  .sentence{display:flex;flex-wrap:wrap;align-items:center;gap:6px 3px;font-size:clamp(23px,3vw,33px);
+    font-weight:800;line-height:2.1;margin:16px 0 0}
+  .tok{font:inherit;color:inherit;background:rgba(255,211,78,.22);border:2px solid transparent;border-radius:10px;
+    padding:2px 6px;cursor:pointer;line-height:1.35;min-height:44px;transition:background .12s ease}
+  .tok.punc{background:transparent;padding:2px 1px;min-width:22px;cursor:pointer}
+  .tok:active{transform:translateY(1px)}
+  .tok.sel{background:#FFE0B8;border-color:var(--orange);box-shadow:0 2px 0 rgba(233,106,23,.3)}
+  .tok.ok{background:#CFF3E7;border-color:var(--teal-d);color:#126B59}
+  .tok.bad{background:#FFDDE3;border-color:#D9506B;color:#8B2237}
+  .tok.miss{background:#FFF6E0;border:2px dashed var(--orange);color:#8A5A17}
+  .tok:disabled{cursor:default}
+  .submit-row{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;margin-top:20px}
+  .pick-count{font-size:16px;font-weight:900;color:#7C6A60;background:#FFF6E4;border:2px solid rgba(233,106,23,.3);
+    border-radius:999px;padding:7px 14px;white-space:nowrap}
+  .pick-count.done{background:#D9F7EC;border-color:var(--teal-d);color:#126B59}
+  .pair-tip{display:inline-flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:15px;font-weight:800;color:#8A5A17;
+    background:#FFF6E4;border:2px solid rgba(233,106,23,.3);border-radius:18px;padding:6px 12px;margin-top:10px;
+    max-width:100%;line-height:1.45}
+
+  .btn{min-height:60px;padding:12px 26px;border-radius:999px;border:3px solid var(--ink);font-family:inherit;
+    font-size:19px;font-weight:900;cursor:pointer;background:#fff;color:var(--ink);box-shadow:0 5px 0 rgba(59,46,40,.2)}
+  .btn:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(59,46,40,.2)}
+  .btn.primary{background:linear-gradient(180deg,#FFA45E,#FF8A3D);color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.15)}
+  .btn.teal{background:linear-gradient(180deg,#5BD3B9,#39BFA3);color:#0A4A3F}
+  .btn[disabled]{opacity:.5;cursor:not-allowed;transform:none;box-shadow:0 5px 0 rgba(59,46,40,.2)}
+
+  .feedback{margin-top:18px;border-radius:24px;padding:18px 20px;border:3px solid var(--ink);background:#F1FBF7;
+    animation:pop .22s ease-out}
+  .feedback.bad{background:#FFF3F5}
+  @keyframes pop{from{transform:scale(.97);opacity:.4}to{transform:scale(1);opacity:1}}
+  .fb-head{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+  .fb-head strong{font-size:clamp(20px,2.3vw,24px)}
+  .fb-dot{width:34px;height:34px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
+    background:var(--teal);color:#fff;font-weight:900;font-size:19px}
+  .feedback.bad .fb-dot{background:#E2566F}
+  .fb-main{margin:0 0 6px;font-size:17.5px;line-height:1.7}
+  .fb-note{margin:0 0 6px;font-size:16px;color:#8B3547;background:#FFE7EC;border-radius:12px;padding:8px 12px}
+  .fb-answer{margin:6px 0 0;font-size:17px;display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+  .fb-answer b{background:rgba(255,211,78,.5);border-radius:8px;padding:2px 6px}
+  .fb-actions{display:flex;justify-content:center;margin-top:14px}
+
+  /* ---------- result ---------- */
+  .result{text-align:center;background:var(--paper);border:3px solid var(--ink);border-radius:32px;
+    padding:clamp(24px,4vw,44px);box-shadow:var(--shadow);margin-top:20px}
+  .stars{display:flex;justify-content:center;gap:10px;margin:6px 0 2px}
+  .stars svg{width:clamp(56px,9vw,84px);height:auto;transform:rotate(-6deg)}
+  .stars svg:nth-child(2){transform:translateY(-10px) rotate(0)}
+  .stars svg:nth-child(3){transform:rotate(6deg)}
+  .stars svg.off{opacity:.18;filter:grayscale(1)}
+  .result p.score-big{font-size:clamp(46px,7vw,68px);font-weight:900;line-height:1.15;margin:10px 0 0;color:var(--ink)}
+  .score-big small{font-size:.36em;color:var(--muted);font-weight:800}
+  .result h2{font-size:clamp(24px,3.2vw,34px);margin:10px 0 6px}
+  .result p{margin:0 auto;max-width:640px;color:var(--muted);font-size:17px}
+  .review{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:18px 0 6px}
+  .review span{background:rgba(255,138,61,.14);border:2px solid rgba(233,106,23,.35);color:#A8500F;
+    border-radius:999px;padding:4px 12px;font-size:15px;font-weight:800}
+  .result-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:24px}
+  .result-actions .btn{width:auto;min-width:150px}
+  @media (max-width:520px){.result-actions{gap:10px}.result-actions .btn{flex:1 1 45%;min-width:0;font-size:17px;padding:10px 12px}}
+
+  /* ---------- toast ---------- */
+  #toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);background:var(--ink);color:#fff;
+    padding:12px 22px;border-radius:999px;font-size:16px;font-weight:700;opacity:0;pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease;z-index:99;max-width:88vw;text-align:center}
+  #toast.show{opacity:1;transform:translate(-50%,0)}
+
+  @media (max-width:820px){
+    body{font-size:17px}
+    .hero{grid-template-columns:1fr;padding:22px}
+    .hero-art{order:-1;min-height:130px}
+    .hero-art svg{width:150px}
+    .bubble{right:auto;left:52%;top:0;transform:rotate(5deg)}
+    h1{font-size:clamp(36px,9vw,52px)}
+    .entry-grid{grid-template-columns:1fr}
+    .teach-grid{grid-template-columns:1fr}
+    .q-icon{width:70px;height:70px;border-radius:20px}
+    .q-icon svg{width:52px;height:52px}
+    .opts{grid-template-columns:1fr}
+    .opt{min-height:64px}
+    .level-grid{grid-template-columns:1fr}
+    .stars svg{width:56px}
+  }
+  @media (max-width:520px){
+    #btn-home{display:none}
+  }
+  @media (max-width:420px){
+    .app{padding:0 12px 44px}
+    .brand span{font-size:17px}
+    .brand svg{width:38px;height:38px}
+    .chip{padding:7px 11px;font-size:15px}
+    .tcard{padding:16px}
+    .q-text{font-size:24px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.001ms !important;transition-duration:.001ms !important}
+  }
+  :focus-visible{outline:4px solid rgba(255,138,61,.75);outline-offset:3px}
+</style>
+</head>
+<body>
+<svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="i-owl" viewBox="0 0 64 64">
+    <ellipse cx="32" cy="37" rx="20" ry="21" fill="#F7C779"/>
+    <path d="M13 22 L17 7 L27 17 Z" fill="#E7AA55"/>
+    <path d="M51 22 L47 7 L37 17 Z" fill="#E7AA55"/>
+    <ellipse cx="32" cy="45" rx="13" ry="12" fill="#FFE3B8"/>
+    <circle cx="24" cy="31" r="8" fill="#FFF"/><circle cx="40" cy="31" r="8" fill="#FFF"/>
+    <circle cx="24.5" cy="32" r="4.4" fill="#3B2E28"/><circle cx="39.5" cy="32" r="4.4" fill="#3B2E28"/>
+    <circle cx="26" cy="30.4" r="1.5" fill="#FFF"/><circle cx="41" cy="30.4" r="1.5" fill="#FFF"/>
+    <path d="M32 37 L36.5 42 L32 45 L27.5 42 Z" fill="#FF9F43"/>
+    <path d="M12 34 q-4 8 2 14" stroke="#E7AA55" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M52 34 q4 8 -2 14" stroke="#E7AA55" stroke-width="4" fill="none" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-apple" viewBox="0 0 64 64">
+    <path d="M32 18 q10 -6 16 2 q6 9 -2 24 q-5 9 -12 6 h-4 q-7 3 -12 -6 q-8 -15 -2 -24 q6 -8 16 -2z" fill="#FF7A7A"/>
+    <path d="M32 20 q2 -8 8 -10" stroke="#7A4B2A" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M34 14 q8 -8 14 -2 q-6 8 -14 2z" fill="#5FC98D"/>
+  </symbol>
+  <symbol id="i-tree" viewBox="0 0 64 64">
+    <rect x="28" y="38" width="8" height="18" rx="3" fill="#A97142"/>
+    <circle cx="32" cy="26" r="15" fill="#6FD3A3"/>
+    <circle cx="21" cy="32" r="10" fill="#57C08F"/>
+    <circle cx="43" cy="32" r="10" fill="#57C08F"/>
+    <circle cx="27" cy="22" r="4" fill="#9BE7C2"/>
+  </symbol>
+  <symbol id="i-music" viewBox="0 0 64 64">
+    <path d="M26 16 L50 11 V40" stroke="#7C6A60" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M26 16 V46" stroke="#7C6A60" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="20" cy="47" rx="8" ry="6.5" fill="#FF8A3D"/>
+    <ellipse cx="44" cy="41" rx="8" ry="6.5" fill="#FFB25E"/>
+    <path d="M26 22 L50 17" stroke="#3B2E28" stroke-width="3" opacity=".35"/>
+  </symbol>
+  <symbol id="i-rain" viewBox="0 0 64 64">
+    <path d="M18 34 a10 10 0 0 1 1 -20 a13 13 0 0 1 25 -1 a9 9 0 0 1 2 21z" fill="#B9D9F7"/>
+    <path d="M20 44 l-3 8M31 44 l-3 9M42 44 l-3 8" stroke="#5FA8E8" stroke-width="5" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="13" fill="#FFC93C"/>
+    <g stroke="#FFB020" stroke-width="5" stroke-linecap="round">
+      <path d="M32 8v6M32 50v6M8 32h6M50 32h6M15 15l4 4M45 45l4 4M49 15l-4 4M19 45l-4 4"/>
+    </g>
+    <circle cx="27" cy="30" r="2" fill="#8A5A00"/><circle cx="37" cy="30" r="2" fill="#8A5A00"/>
+    <path d="M27 36 q5 5 10 0" stroke="#8A5A00" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-bus" viewBox="0 0 64 64">
+    <rect x="9" y="14" width="46" height="32" rx="8" fill="#6FB8FF"/>
+    <rect x="14" y="20" width="14" height="11" rx="3" fill="#E8F4FF"/>
+    <rect x="33" y="20" width="14" height="11" rx="3" fill="#E8F4FF"/>
+    <circle cx="20" cy="49" r="6" fill="#3B2E28"/><circle cx="44" cy="49" r="6" fill="#3B2E28"/>
+    <circle cx="20" cy="49" r="2.4" fill="#fff"/><circle cx="44" cy="49" r="2.4" fill="#fff"/>
+    <rect x="9" y="36" width="46" height="4" fill="#4E9FE0"/>
+  </symbol>
+  <symbol id="i-clock" viewBox="0 0 64 64">
+    <circle cx="32" cy="33" r="21" fill="#FFF3D0" stroke="#E9A94F" stroke-width="5"/>
+    <path d="M32 33 V21" stroke="#3B2E28" stroke-width="5" stroke-linecap="round"/>
+    <path d="M32 33 L42 39" stroke="#3B2E28" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="32" cy="33" r="3.5" fill="#FF8A3D"/>
+  </symbol>
+  <symbol id="i-gift" viewBox="0 0 64 64">
+    <rect x="10" y="26" width="44" height="28" rx="5" fill="#FF9FB2"/>
+    <rect x="7" y="18" width="50" height="12" rx="5" fill="#FFB6C5"/>
+    <rect x="28" y="18" width="8" height="36" fill="#FFD34E"/>
+    <path d="M32 18 q-16 2 -14 -8 q8 -3 14 8 q6 -11 14 -8 q2 10 -14 8z" fill="#FFD34E"/>
+  </symbol>
+  <symbol id="i-cloud" viewBox="0 0 64 64">
+    <path d="M18 46 a12 12 0 0 1 0 -24 a15 15 0 0 1 28 -2 a10 10 0 0 1 3 26z" fill="#CFE0F2"/>
+    <circle cx="26" cy="34" r="2.4" fill="#5E7A96"/><circle cx="40" cy="34" r="2.4" fill="#5E7A96"/>
+    <path d="M29 40 q4 3 8 0" stroke="#5E7A96" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-mountain" viewBox="0 0 64 64">
+    <path d="M4 52 L24 20 L36 38 L44 26 L60 52 Z" fill="#9AD9C3"/>
+    <path d="M24 20 L32 32 L27 31 L24 36 L20 31 L16 33 Z" fill="#F4FFFB"/>
+    <path d="M44 26 L50 35 L46 34 L43 38 L40 34 L37 35 Z" fill="#F4FFFB"/>
+    <circle cx="50" cy="14" r="6" fill="#FFD34E"/>
+  </symbol>
+  <symbol id="i-key" viewBox="0 0 64 64">
+    <circle cx="23" cy="25" r="12" fill="#FFD34E" stroke="#D9A21B" stroke-width="4"/>
+    <circle cx="23" cy="25" r="4" fill="#FFF6E7"/>
+    <path d="M31 32 L52 53" stroke="#D9A21B" stroke-width="7" stroke-linecap="round"/>
+    <path d="M41 45 l6 -6M47 51 l6 -6" stroke="#D9A21B" stroke-width="6" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-seed" viewBox="0 0 64 64">
+    <path d="M16 46 h32 l-4 12 H20z" fill="#E08A5B"/>
+    <path d="M32 46 V26" stroke="#5FA860" stroke-width="4" stroke-linecap="round"/>
+    <path d="M32 32 q-14 -2 -12 -14 q10 -2 12 14z" fill="#7FD0A8"/>
+    <path d="M32 26 q14 -4 12 -16 q-10 0 -12 16z" fill="#5FC98D"/>
+  </symbol>
+  <symbol id="i-compass" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="22" fill="#CFE9FF" stroke="#3B2E28" stroke-width="4"/>
+    <path d="M32 32 L44 18 L36 34 Z" fill="#FF8A3D"/>
+    <path d="M32 32 L20 46 L28 30 Z" fill="#7C6A60"/>
+    <circle cx="32" cy="32" r="4" fill="#3B2E28"/>
+  </symbol>
+  <symbol id="i-bulb" viewBox="0 0 64 64">
+    <path d="M32 8 a17 17 0 0 1 10 30 q-3 3 -3 7 h-14 q0 -4 -3 -7 A17 17 0 0 1 32 8z" fill="#FFE27A"/>
+    <rect x="25" y="46" width="14" height="5" rx="2.5" fill="#B9A98F"/>
+    <rect x="27" y="53" width="10" height="4" rx="2" fill="#B9A98F"/>
+    <path d="M25 27 q7 -10 14 0" stroke="#E0A800" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-balance" viewBox="0 0 64 64">
+    <path d="M32 12 V50" stroke="#8A6A4F" stroke-width="5" stroke-linecap="round"/>
+    <path d="M10 20 H54" stroke="#8A6A4F" stroke-width="5" stroke-linecap="round"/>
+    <path d="M24 54 H40" stroke="#8A6A4F" stroke-width="5" stroke-linecap="round"/>
+    <path d="M10 22 l-6 12 h12z" fill="#FFB25E"/>
+    <path d="M54 22 l-6 12 h12z" fill="#9AD9C3"/>
+  </symbol>
+  <symbol id="i-medal" viewBox="0 0 64 64">
+    <path d="M22 8 l10 20 M42 8 L32 28" stroke="#6FB8FF" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="32" cy="40" r="16" fill="#FFD34E" stroke="#E0A800" stroke-width="4"/>
+    <path d="M32 30 l3 6 6 1 -5 4 1 6 -5 -3 -5 3 1 -6 -5 -4 6 -1z" fill="#FFF6E7"/>
+  </symbol>
+  <symbol id="i-star" viewBox="0 0 64 64">
+    <path d="M32 6 l8 16 17 3 -12 12 3 17 -16 -8 -16 8 3 -17 -12 -12 17 -3z" fill="#FFD34E" stroke="#E0A800" stroke-width="3"/>
+  </symbol>
+  <symbol id="i-book" viewBox="0 0 64 64">
+    <path d="M8 12 h18 q6 0 6 6 v34 q-4 -4 -10 -4 H8z" fill="#9AD9C3"/>
+    <path d="M56 12 H38 q-6 0 -6 6 v34 q4 -4 10 -4 h14z" fill="#7FD0B5"/>
+    <path d="M32 18 v34" stroke="#3B2E28" stroke-width="3"/>
+  </symbol>
+  <symbol id="i-ball" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="24" fill="#FF9FB2"/>
+    <path d="M8 32 h48 M32 8 v48" stroke="#FFF" stroke-width="3" opacity=".8"/>
+    <path d="M13 17 q19 15 38 0 M13 47 q19 -15 38 0" stroke="#FFF" stroke-width="3" fill="none" opacity=".8"/>
+  </symbol>
+  <symbol id="i-cake" viewBox="0 0 64 64">
+    <rect x="10" y="34" width="44" height="20" rx="5" fill="#FFB6C5"/>
+    <rect x="10" y="26" width="44" height="10" rx="5" fill="#FFE3B8"/>
+    <rect x="30" y="10" width="4" height="12" rx="2" fill="#6FB8FF"/>
+    <circle cx="32" cy="9" r="4" fill="#FFD34E"/>
+    <circle cx="20" cy="43" r="2.6" fill="#E2566F"/><circle cx="32" cy="45" r="2.6" fill="#E2566F"/><circle cx="44" cy="43" r="2.6" fill="#E2566F"/>
+  </symbol>
+  <symbol id="i-sound" viewBox="0 0 64 64">
+    <path d="M12 26 h10 l12 -10 v32 l-12 -10 H12z" fill="#3B2E28"/>
+    <path d="M42 24 q6 8 0 16 M49 18 q11 14 0 28" stroke="#3B2E28" stroke-width="4" fill="none" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-mute" viewBox="0 0 64 64">
+    <path d="M12 26 h10 l12 -10 v32 l-12 -10 H12z" fill="#7C6A60"/>
+    <path d="M42 26 l14 12 M56 26 l-14 12" stroke="#7C6A60" stroke-width="4" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-speaker" viewBox="0 0 64 64">
+    <path d="M10 26 h10 l13 -11 v34 l-13 -11 H10z" fill="#3B2E28"/>
+    <path d="M42 24 q7 8 0 16" stroke="#3B2E28" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M49 18 q11 14 0 28" stroke="#3B2E28" stroke-width="4" fill="none" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-home" viewBox="0 0 64 64">
+    <path d="M8 30 L32 10 L56 30 V54 H38 V40 H26 V54 H8z" fill="#FFB25E"/>
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 64 64">
+    <path d="M12 52 l4 -14 30 -30 10 10 -30 30z" fill="#FFD34E"/>
+    <path d="M12 52 l4 -14 10 10z" fill="#3B2E28"/>
+    <path d="M42 12 l10 10" stroke="#E0A800" stroke-width="4"/>
+  </symbol>
+  <symbol id="i-detective" viewBox="0 0 64 64">
+    <circle cx="28" cy="27" r="15" fill="#CFE9FF" stroke="#3B2E28" stroke-width="4"/>
+    <path d="M39 38 l14 14" stroke="#8A6A4F" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="23" cy="24" r="3" fill="#3B2E28"/><circle cx="33" cy="24" r="3" fill="#3B2E28"/>
+  </symbol>
+</svg>
+
+<div class="app">
+  <header class="bar">
+    <button class="brand" data-go="home" aria-label="返回首頁">
+      <svg aria-hidden="true"><use href="#i-owl"/></svg><span>連詞探險隊</span>
+    </button>
+    <div class="bar-actions">
+      <button class="chip" id="btn-home" data-go="home" hidden>
+        <svg aria-hidden="true"><use href="#i-home"/></svg><span>首頁</span>
+      </button>
+      <button class="chip" id="btn-sound" aria-pressed="true" aria-label="音效開關">
+        <svg aria-hidden="true"><use id="sound-icon" href="#i-sound"/></svg><span id="sound-label">音效開</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= HOME ================= -->
+    <section class="screen" id="screen-home">
+      <div class="hero">
+        <div class="hero-text">
+          <p class="eyebrow">小學中文 · 連詞學習</p>
+          <h1>連詞探險隊</h1>
+          <p class="lead">跟小語老師一起，看圖學連詞，<br>把句子說得又清楚又生動！</p>
+          <div class="hero-badges">
+            <span>8 組連詞</span><span>2 種玩法</span><span>32 道題目</span>
+          </div>
+        </div>
+        <div class="hero-art">
+          <div class="bubble">準備好了嗎？</div>
+          <svg viewBox="0 0 64 64" aria-hidden="true"><use href="#i-owl"/></svg>
+        </div>
+      </div>
+
+      <h2 class="sec-title">第一步：選擇程度</h2>
+      <div class="level-grid" role="group" aria-label="選擇學習程度">
+        <button class="level-card" data-level="junior" aria-pressed="true">
+          <svg aria-hidden="true"><use href="#i-book"/></svg>
+          <span class="level-name">初小版</span>
+          <span class="level-sub">小一至小三 · P1–P3</span>
+          <span class="level-desc">由「和」、「又……又……」開始，打好連詞基礎。</span>
+        </button>
+        <button class="level-card" data-level="senior" aria-pressed="false">
+          <svg aria-hidden="true"><use href="#i-medal"/></svg>
+          <span class="level-name">高小版</span>
+          <span class="level-sub">小四至小六 · P4–P6</span>
+          <span class="level-desc">挑戰「不但……而且」、「與其……不如」等進階連詞。</span>
+        </button>
+      </div>
+
+      <h2 class="sec-title">第二步：開始學習</h2>
+      <div class="entry-grid">
+        <button class="entry-card entry-teach" data-go="teach">
+          <svg aria-hidden="true"><use href="#i-bulb"/></svg>
+          <span>
+            <b>教學課堂</b>
+            <small>8 張圖文卡，一看就懂的用法與例句。</small>
+          </span>
+        </button>
+        <button class="entry-card entry-play" data-go="modes">
+          <svg aria-hidden="true"><use href="#i-pencil"/></svg>
+          <span>
+            <b>遊戲挑戰</b>
+            <small>句子填空、連詞偵探，每種模式 8 題。</small>
+          </span>
+        </button>
+      </div>
+      <p class="foot-note">適合手機、平板及電腦；課堂投影建議用平板橫放或電腦全螢幕。</p>
+    </section>
+
+    <!-- ================= TEACH ================= -->
+    <section class="screen" id="screen-teach" hidden>
+      <div class="page-head">
+        <div>
+          <h2>教學課堂</h2>
+          <p id="teach-sub">初小版：8 組常用連詞，圖文對照，簡單易明。</p>
+        </div>
+        <div class="level-tabs" role="group" aria-label="切換程度">
+          <button data-level="junior" aria-pressed="true">初小</button>
+          <button data-level="senior" aria-pressed="false">高小</button>
+        </div>
+      </div>
+      <div class="teach-grid" id="teach-grid"></div>
+      <div class="teach-cta">
+        <button class="btn primary" data-go="modes">學完了，去挑戰 →</button>
+      </div>
+    </section>
+
+    <!-- ================= MODES ================= -->
+    <section class="screen" id="screen-modes" hidden>
+      <div class="page-head">
+        <div>
+          <h2>選擇遊戲模式</h2>
+          <p id="modes-sub">每種模式 8 組題目，題目不會重複。</p>
+        </div>
+        <div class="level-tabs" role="group" aria-label="切換程度">
+          <button data-level="junior" aria-pressed="true">初小</button>
+          <button data-level="senior" aria-pressed="false">高小</button>
+        </div>
+      </div>
+      <div class="mode-grid" id="mode-grid"></div>
+    </section>
+
+    <!-- ================= GAME ================= -->
+    <section class="screen" id="screen-game" hidden>
+      <div class="game-head">
+        <button class="back" data-go="modes">‹ 模式</button>
+        <div class="game-title" id="game-title">模式一 · 句子填空</div>
+        <div class="game-score">⭐ <span id="score">0</span></div>
+      </div>
+      <div class="dots" id="dots" aria-hidden="true"></div>
+      <div id="question-area"></div>
+    </section>
+
+    <!-- ================= RESULT ================= -->
+    <section class="screen" id="screen-result" hidden>
+      <div id="result-area"></div>
+    </section>
+  </main>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<p id="live" class="sr-only" aria-live="polite"></p>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ============ 資料：教學 ============ */
+  var TEACH = {
+    junior: [
+      { icon:'i-apple', title:'和', tag:'並列', formula:'A 和 B', desc:'把兩樣同類的人或事物連起來；口語也會說「同」、「跟」。',
+        examples:[{t:'我喜歡吃蘋果<em>和</em>香蕉。'},{t:'媽媽<em>和</em>我一起去買菜。'}],
+        tip:'「和」前後必須是同類詞語，例如兩種水果、兩個人。' },
+      { icon:'i-tree', title:'又……又……', tag:'並列', formula:'又 A 又 B', desc:'同時說出兩個特點。',
+        examples:[{t:'哥哥<em>又</em>高<em>又</em>壯。'},{t:'這碗湯<em>又</em>香<em>又</em>甜。'}],
+        tip:'兩個「又」要一起用，不能只用一個。' },
+      { icon:'i-music', title:'一邊……一邊……', tag:'並列', formula:'一邊 A 一邊 B', desc:'兩個動作同時進行。',
+        examples:[{t:'妹妹<em>一邊</em>唱歌，<em>一邊</em>跳舞。'},{t:'爸爸<em>一邊</em>煮飯，<em>一邊</em>聽音樂。'}],
+        tip:'兩件事要可以同時做，例如唱歌和跳舞。' },
+      { icon:'i-rain', title:'因為……所以……', tag:'因果', formula:'因為 A 所以 B', desc:'先說原因，再說結果。',
+        examples:[{t:'<em>因為</em>下雨，<em>所以</em>我們帶了雨傘。'},{t:'<em>因為</em>小明病了，<em>所以</em>他今天沒有上學。'}],
+        tip:'原因放在前面，結果放在後面。' },
+      { icon:'i-sun', title:'但是 / 可是', tag:'轉折', formula:'A，但是 B', desc:'後面的意思和前面相反。',
+        examples:[{t:'天氣很冷，<em>但是</em>同學們仍然在操場跑步。'},{t:'這本書很厚，<em>可是</em>很好看。'}],
+        tip:'「但是」前面通常要加逗號。' },
+      { icon:'i-star', title:'如果……就……', tag:'假設', formula:'如果 A 就 B', desc:'假設一件事，再說會有甚麼結果。',
+        examples:[{t:'<em>如果</em>你早點做完功課，<em>就</em>可以去公園玩。'},{t:'<em>如果</em>明天下雨，比賽<em>就</em>會取消。'}],
+        tip:'「如果」在前，「就」在後，表示假設。' },
+      { icon:'i-bus', title:'或者', tag:'選擇', formula:'A 或者 B', desc:'在幾個選擇之中選一個。',
+        examples:[{t:'你可以坐巴士，<em>或者</em>乘港鐵到學校。'},{t:'週末我們去公園，<em>或者</em>去圖書館。'}],
+        tip:'陳述句用「或者」；問句用「還是」。' },
+      { icon:'i-clock', title:'先……然後……', tag:'先後', formula:'先 A 然後 B', desc:'按次序做兩件事。',
+        examples:[{t:'小明<em>先</em>做功課，<em>然後</em>看電視。'},{t:'媽媽<em>先</em>洗菜，<em>然後</em>煮飯。'}],
+        tip:'先發生的事情放在前面。' }
+    ],
+    senior: [
+      { icon:'i-gift', title:'不但……而且……', tag:'遞進', formula:'不但 A 而且 B', desc:'後面的意思比前面更進一步。',
+        examples:[{t:'他<em>不但</em>功課好，<em>而且</em>樂於助人。'},{t:'這間餐廳<em>不但</em>食物美味，<em>而且</em>價錢合理。'}],
+        tip:'「不但」後面常配「而且」或「還」。' },
+      { icon:'i-cloud', title:'雖然……但是……', tag:'轉折', formula:'雖然 A 但是 B', desc:'先承認一種情況，再說出相反結果。',
+        examples:[{t:'<em>雖然</em>這道題很難，<em>但是</em>我仍然努力嘗試。'},{t:'<em>雖然</em>下着大雨，<em>但是</em>運動會依然順利舉行。'}],
+        tip:'「雖然」和「但是」要成對使用。' },
+      { icon:'i-mountain', title:'即使……也……', tag:'讓步', formula:'即使 A 也 B', desc:'就算情況這樣，結果都不會改變。',
+        examples:[{t:'<em>即使</em>遇到困難，我們<em>也</em>不應該放棄。'},{t:'<em>即使</em>功課再多，他<em>也</em>會抽時間做運動。'}],
+        tip:'用「也」強調結果不變，語氣比「雖然」更強。' },
+      { icon:'i-seed', title:'只要……就……', tag:'條件', formula:'只要 A 就 B', desc:'有這個條件，就會有這個結果。',
+        examples:[{t:'<em>只要</em>你肯努力，<em>就</em>一定會進步。'},{t:'<em>只要</em>按時澆水，花朵<em>就</em>會開得燦爛。'}],
+        tip:'「只要」配「就」，表示有這個條件就足夠。' },
+      { icon:'i-key', title:'只有……才……', tag:'必要條件', formula:'只有 A 才 B', desc:'缺少這個條件就不行。',
+        examples:[{t:'<em>只有</em>每天練習，<em>才</em>能把鋼琴彈好。'},{t:'<em>只有</em>親身經歷，<em>才</em>明白其中的道理。'}],
+        tip:'「只有」配「才」，不要寫成「只有……就……」。' },
+      { icon:'i-compass', title:'無論……都……', tag:'任何情況', formula:'無論 A 都 B', desc:'任何情況之下，結果都一樣。',
+        examples:[{t:'<em>無論</em>天氣怎樣，我們<em>都</em>會如期出發。'},{t:'<em>無論</em>結果如何，我們<em>都</em>要保持樂觀。'}],
+        tip:'「無論」後面常接「怎樣、如何、甚麼」，配「都」。' },
+      { icon:'i-bulb', title:'既然……就……', tag:'推論', formula:'既然 A 就 B', desc:'事情已經這樣，就應該有相應的行動。',
+        examples:[{t:'<em>既然</em>你已經答應了，<em>就</em>應該盡力做到。'},{t:'<em>既然</em>你已經知道錯了，<em>就</em>應該向同學道歉。'}],
+        tip:'「既然」後面是已經確定的事實，不是假設。' },
+      { icon:'i-balance', title:'與其……不如……', tag:'取捨', formula:'與其 A 不如 B', desc:'比較之後，選擇較好的一個。',
+        examples:[{t:'<em>與其</em>在家裏發呆，<em>不如</em>到圖書館看書。'},{t:'<em>與其</em>抱怨，<em>不如</em>想辦法解決問題。'}],
+        tip:'「與其」後面是放棄的做法，「不如」後面是更好的選擇。' }
+    ]
+  };
+
+  /* ============ 資料：題庫（每級每模式 8 題，全部不重複） ============ */
+  var QUIZ = {
+    junior: {
+      fill: [
+        { icon:'i-book', prompt:'放學後，我＿＿＿同學一起到圖書館借書。', full:'放學後，我和同學一起到圖書館借書。', answer:'和',
+          options:['和','但是','因為'], rel:'並列',
+          explain:'「和」用來連接兩樣同類的事物。我和同學都是人，所以用「和」。',
+          notes:{'但是':'「但是」表示轉折，前後意思要相反，這裏並沒有相反。','因為':'「因為」要說出原因，句子裏沒有結果，也沒有「所以」。'} },
+        { icon:'i-rain', prompt:'路面濕滑，＿＿＿我們取消了郊遊。', full:'路面濕滑，所以我們取消了郊遊。', answer:'所以',
+          options:['所以','但是','如果'], rel:'因果',
+          explain:'前一句「路面濕滑」是原因，後一句「取消郊遊」是結果，用「所以」帶出結果。',
+          notes:{'但是':'前後沒有相反的意思，不需要轉折。','如果':'「如果」表示假設，但路面濕滑是已經知道的事。'} },
+        { icon:'i-cloud', prompt:'＿＿＿忘了帶雨傘，他只好留在學校等媽媽。', full:'因為忘了帶雨傘，他只好留在學校等媽媽。', answer:'因為',
+          options:['因為','雖然','只要'], rel:'因果',
+          explain:'「因為」帶出原因：忘了帶雨傘；「只好留在學校」是結果。',
+          notes:{'雖然':'「雖然」要和「但是」配對，表示轉折。','只要':'「只要」要和「就」配對，表示條件。'} },
+        { icon:'i-gift', prompt:'這件外套很漂亮，＿＿＿尺寸不合適。', full:'這件外套很漂亮，可是尺寸不合適。', answer:'可是',
+          options:['可是','所以','而且'], rel:'轉折',
+          explain:'前後意思相反：外套漂亮，尺寸卻不合適，所以用「可是」表示轉折。',
+          notes:{'所以':'前後不是因果關係。','而且':'「而且」是補充同方向的意思，不能用來表示相反。'} },
+        { icon:'i-ball', prompt:'下課後，你可以到操場打球，＿＿＿留在課室看書。', full:'下課後，你可以到操場打球，或者留在課室看書。', answer:'或者',
+          options:['或者','因為','又'], rel:'選擇',
+          explain:'兩種安排之中選擇一種，用「或者」表示選擇。',
+          notes:{'因為':'句子沒有原因和結果。','又':'「又」要成對使用，例如「又……又……」。'} },
+        { icon:'i-music', prompt:'姐姐＿＿＿散步，一邊聊天。', full:'姐姐一邊散步，一邊聊天。', answer:'一邊',
+          options:['一邊','先','如果'], rel:'並列',
+          explain:'「一邊……一邊……」表示兩個動作同時進行：散步和聊天。',
+          notes:{'先':'「先」要和「然後」配對，表示先後次序。','如果':'「如果」表示假設，句子沒有假設的意思。'} },
+        { icon:'i-star', prompt:'＿＿＿你認真溫習，就會取得好成績。', full:'如果你認真溫習，就會取得好成績。', answer:'如果',
+          options:['如果','因為','雖然'], rel:'假設',
+          explain:'假設「認真溫習」這種情況，再說會有的結果，用「如果……就……」。',
+          notes:{'因為':'這是假設，不是已經發生的原因。','雖然':'前後沒有轉折的意思。'} },
+        { icon:'i-apple', prompt:'這間麵店＿＿＿便宜又好吃。', full:'這間麵店又便宜又好吃。', answer:'又',
+          options:['又','和','或者'], rel:'並列',
+          explain:'「又……又……」同時說明兩個特點：便宜和好吃。',
+          notes:{'和':'「和」用來連接兩樣東西，不能說「和便宜又好吃」。','或者':'「或者」表示選擇，不是同時具備。'} }
+      ],
+      detective: [
+        { icon:'i-tree', tokens:['爸爸','和','媽媽','帶','我','去','海邊','散步','。'], accept:[1], rel:'並列',
+          explain:'「和」把「爸爸」和「媽媽」連接起來，表示並列。' },
+        { icon:'i-bus', tokens:['因為','巴士','誤點','，','所以','我們','遲到','了','。'], accept:[0,4], rel:'因果',
+          explain:'「因為……所以……」表示因果：巴士誤點是原因，遲到是結果。' },
+        { icon:'i-music', tokens:['弟弟','一邊','做功課','，','一邊','聽','音樂','。'], accept:[1,4], rel:'並列',
+          explain:'「一邊……一邊……」表示兩個動作同時進行：做功課和聽音樂。' },
+        { icon:'i-ball', tokens:['弟弟','年紀','很小','，','可是','膽子','很大','。'], accept:[4], rel:'轉折',
+          explain:'「可是」表示轉折：年紀小，膽子卻很大。' },
+        { icon:'i-book', tokens:['如果','不小心','弄壞','了','圖書','，','就','要','主動','告訴','老師','。'], accept:[0,6], rel:'假設',
+          explain:'「如果……就……」表示假設：先假設弄壞圖書，再說要怎樣做。' },
+        { icon:'i-gift', tokens:['這','件','外套','又','輕','又','暖','。'], accept:[3,5], rel:'並列',
+          explain:'「又……又……」同時說明兩個特點：輕和暖。' },
+        { icon:'i-apple', tokens:['你','可以','吃','蘋果','，','或者','吃','橙','。'], accept:[5], rel:'選擇',
+          explain:'「或者」表示在兩種水果之中選擇一種。' },
+        { icon:'i-clock', tokens:['我們','先','到','售票處','買票','，','然後','入場','看','表演','。'], accept:[1,6], rel:'先後',
+          explain:'「先……然後……」表示事情發生的先後次序。' }
+      ]
+    },
+    senior: {
+      fill: [
+        { icon:'i-star', prompt:'這款手機＿＿＿功能多，而且操作簡單。', full:'這款手機不但功能多，而且操作簡單。', answer:'不但',
+          options:['不但','雖然','只要'], rel:'遞進',
+          explain:'「不但……而且……」表示遞進，後面的「操作簡單」更進一步。',
+          notes:{'雖然':'「雖然」要配「但是」，表示轉折。','只要':'「只要」要配「就」，表示條件。'} },
+        { icon:'i-medal', prompt:'＿＿＿他已經很疲倦，但是仍然堅持完成練習。', full:'雖然他已經很疲倦，但是仍然堅持完成練習。', answer:'雖然',
+          options:['雖然','因為','既然'], rel:'轉折',
+          explain:'先承認「很疲倦」，再說出相反的結果「仍然堅持」，用「雖然……但是……」。',
+          notes:{'因為':'「因為」要配「所以」，這裏不是因果。','既然':'「既然」要配「就」，說的是已經確定的事。'} },
+        { icon:'i-tree', prompt:'＿＿＿我們同心協力，就沒有解決不了的困難。', full:'只要我們同心協力，就沒有解決不了的困難。', answer:'只要',
+          options:['只要','只有','無論'], rel:'條件',
+          explain:'「只要……就……」表示條件：有這個條件，就會有這個結果。',
+          notes:{'只有':'「只有」要配「才」，強調不可缺少。','無論':'「無論」要配「都」，表示任何情況。'} },
+        { icon:'i-key', prompt:'＿＿＿經過老師批准，才可以借用實驗室。', full:'只有經過老師批准，才可以借用實驗室。', answer:'只有',
+          options:['只有','只要','即使'], rel:'必要條件',
+          explain:'「只有……才……」表示必要條件：未經批准就不可以借用。',
+          notes:{'只要':'「只要」配「就」，不配「才」。','即使':'「即使」要配「也」，表示讓步。'} },
+        { icon:'i-apple', prompt:'＿＿＿走到哪裏，他都不會忘記家鄉的味道。', full:'無論走到哪裏，他都不會忘記家鄉的味道。', answer:'無論',
+          options:['無論','雖然','因為'], rel:'任何情況',
+          explain:'「無論……都……」表示任何情況之下，結果都一樣。',
+          notes:{'雖然':'「雖然」要配「但是」。','因為':'「因為」要配「所以」。'} },
+        { icon:'i-mountain', prompt:'＿＿＿再辛苦，我們也要把這件事做好。', full:'即使再辛苦，我們也要把這件事做好。', answer:'即使',
+          options:['即使','因為','只要'], rel:'讓步',
+          explain:'「即使……也……」表示讓步：就算再辛苦，結果都不變。',
+          notes:{'因為':'句子不是說原因和結果。','只要':'「只要」要配「就」，語氣是條件。'} },
+        { icon:'i-balance', prompt:'＿＿＿大家已經決定了，就一起努力把事情做好。', full:'既然大家已經決定了，就一起努力把事情做好。', answer:'既然',
+          options:['既然','雖然','只有'], rel:'推論',
+          explain:'「既然……就……」表示根據已經確定的事實作出推論。',
+          notes:{'雖然':'「雖然」要配「但是」，表示轉折。','只有':'「只有」要配「才」，表示必要條件。'} },
+        { icon:'i-clock', prompt:'＿＿＿坐着等別人幫忙，不如自己先想辦法。', full:'與其坐着等別人幫忙，不如自己先想辦法。', answer:'與其',
+          options:['與其','因為','雖然'], rel:'取捨',
+          explain:'「與其……不如……」表示比較之後作出取捨：放棄前者，選擇後者。',
+          notes:{'因為':'句子沒有因果關係。','雖然':'句子沒有轉折關係。'} }
+      ],
+      detective: [
+        { icon:'i-book', tokens:['這本','書','不但','內容','有趣','，','而且','插圖','精美','。'], accept:[2,6], rel:'遞進',
+          explain:'「不但……而且……」表示遞進，後面的「插圖精美」更進一步。' },
+        { icon:'i-cloud', tokens:['雖然','這把','雨傘','很小','，','但是','擋雨','效果','很好','。'], accept:[0,5], rel:'轉折',
+          explain:'「雖然……但是……」表示轉折：雨傘小，擋雨效果卻很好。' },
+        { icon:'i-medal', tokens:['因為','他','平時','用心','練習','，','所以','在','比賽','中','取得','佳績','。'], accept:[0,6], rel:'因果',
+          explain:'「因為……所以……」表示因果：用心練習是原因，取得佳績是結果。' },
+        { icon:'i-tree', tokens:['如果','明天','天氣','晴朗','，','我們','就','去','郊野公園','遠足','。'], accept:[0,6], rel:'假設',
+          explain:'「如果……就……」表示假設：假設天氣晴朗，再說會做的事。' },
+        { icon:'i-compass', tokens:['無論','天氣','多麼','炎熱','，','他','每天','都','堅持','跑步','。'], accept:[0,7], rel:'任何情況',
+          explain:'「無論……都……」表示任何情況之下，做法都一樣：天氣再熱，他仍然每天跑步。' },
+        { icon:'i-mountain', tokens:['即使','跌倒','受傷','，','他','也','沒有','放棄','比賽','。'], accept:[0,5], rel:'讓步',
+          explain:'「即使……也……」表示讓步：跌倒受傷，他仍然沒有放棄比賽。' },
+        { icon:'i-balance', tokens:['與其','每天','擔心','，','不如','及早','做好','準備','。'], accept:[0,4], rel:'取捨',
+          explain:'「與其……不如……」表示取捨：放棄擔心，選擇及早做好準備。' },
+        { icon:'i-bulb', tokens:['既然','大家','都','同意','了','，','就','照','這個','計劃','去','做','。'], accept:[0,6], rel:'推論',
+          explain:'「既然……就……」表示根據已確定的事實作出推論。' }
+      ]
+    }
+  };
+
+  var MODE_INFO = {
+    fill: { name:'模式一 · 句子填空', icon:'i-pencil', desc:'讀句子，從三個連詞中選出最合適的一個填進空格。' },
+    detective: { name:'模式二 · 連詞偵探', icon:'i-detective', desc:'讀句子，點出句中的連詞；成對出現的（例如「因為……所以……」），兩個都要點。' }
+  };
+
+  /* ============ 狀態 ============ */
+  var state = {
+    level:'junior',
+    game:null
+  };
+  var soundOn = true;
+  var LS_KEY = 'lianci_adventure_v1';
+
+  /* ============ 工具 ============ */
+  function $(sel, root){ return (root || document).querySelector(sel); }
+  function $all(sel, root){ return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  function esc(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function shuffle(arr){
+    var a = arr.slice();
+    for(var i=a.length-1;i>0;i--){ var j = Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+    return a;
+  }
+  function levelName(lv){ return lv === 'junior' ? '初小版' : '高小版'; }
+
+  /* ============ 音效（Web Audio，無外部檔案） ============ */
+  var ac = null;
+  function audioCtx(){
+    if(!soundOn) return null;
+    try{
+      if(!ac){
+        var Ctx = window.AudioContext || window.webkitAudioContext;
+        if(!Ctx) return null;
+        ac = new Ctx();
+      }
+      if(ac.state === 'suspended'){ ac.resume(); }
+      return ac;
+    }catch(e){ return null; }
+  }
+  function beep(freq, dur, delay, type, vol){
+    var c = audioCtx(); if(!c) return;
+    try{
+      var t0 = c.currentTime + (delay || 0);
+      var o = c.createOscillator();
+      var g = c.createGain();
+      o.type = type || 'sine';
+      o.frequency.setValueAtTime(freq, t0);
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.linearRampToValueAtTime(vol || 0.10, t0 + 0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+      o.connect(g); g.connect(c.destination);
+      o.start(t0); o.stop(t0 + dur + 0.03);
+    }catch(e){}
+  }
+  function sfx(kind){
+    if(!soundOn) return;
+    if(kind === 'tap'){ beep(620, 0.07, 0, 'triangle', 0.06); }
+    else if(kind === 'page'){ beep(500, 0.08, 0, 'sine', 0.06); beep(720, 0.09, 0.06, 'sine', 0.05); }
+    else if(kind === 'correct'){ beep(660, 0.12, 0, 'sine', 0.1); beep(880, 0.12, 0.1, 'sine', 0.1); beep(1170, 0.2, 0.2, 'sine', 0.09); }
+    else if(kind === 'wrong'){ beep(240, 0.16, 0, 'triangle', 0.09); beep(180, 0.22, 0.14, 'triangle', 0.09); }
+    else if(kind === 'win'){ [523,659,784,1047].forEach(function(f,i){ beep(f, 0.22, i*0.11, 'sine', 0.09); }); }
+  }
+
+  /* ============ 朗讀（可選能力，失敗有提示） ============ */
+  var speechOK = ('speechSynthesis' in window) && ('SpeechSynthesisUtterance' in window);
+  function pickVoice(){
+    try{
+      var vs = window.speechSynthesis.getVoices() || [];
+      for(var i=0;i<vs.length;i++){ if(/zh[-_]HK/i.test(vs[i].lang)) return vs[i]; }
+      for(var j=0;j<vs.length;j++){ if(/zh[-_]TW/i.test(vs[j].lang)) return vs[j]; }
+      for(var k=0;k<vs.length;k++){ if(/^zh/i.test(vs[k].lang)) return vs[k]; }
+    }catch(e){}
+    return null;
+  }
+  function speak(text){
+    if(!speechOK){ toast('此裝置未能支援朗讀'); return; }
+    try{
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      var v = pickVoice();
+      if(v) u.voice = v;
+      u.lang = v ? v.lang : 'zh-HK';
+      u.rate = 0.82;
+      u.pitch = 1.05;
+      u.onerror = function(){ toast('朗讀未能播放，請檢查裝置聲音設定'); };
+      window.speechSynthesis.speak(u);
+    }catch(e){ toast('朗讀未能播放，請檢查裝置聲音設定'); }
+  }
+  function speakBtn(text){
+    if(!speechOK) return '';
+    return '<button class="speak" type="button" data-speak="' + esc(text) + '" aria-label="朗讀句子"><svg aria-hidden="true"><use href="#i-speaker"/></svg></button>';
+  }
+  if(speechOK && typeof window.speechSynthesis.onvoiceschanged !== 'undefined'){
+    window.speechSynthesis.onvoiceschanged = function(){ pickVoice(); };
+  }
+
+  /* ============ Toast ============ */
+  var toastTimer = null;
+  function toast(msg){
+    var el = $('#toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ el.classList.remove('show'); }, 2200);
+  }
+  function live(msg){ $('#live').textContent = msg; }
+
+  /* ============ 最佳成績 ============ */
+  function loadBest(){
+    try{
+      var raw = localStorage.getItem(LS_KEY);
+      return raw ? JSON.parse(raw) : {};
+    }catch(e){ return {}; }
+  }
+  function saveBest(level, mode, score){
+    try{
+      var data = loadBest();
+      var key = level + '_' + mode;
+      if(!data[key] || score > data[key]){ data[key] = score; localStorage.setItem(LS_KEY, JSON.stringify(data)); }
+    }catch(e){}
+  }
+  function getBest(level, mode){
+    var data = loadBest();
+    var v = data[level + '_' + mode];
+    return typeof v === 'number' ? v : null;
+  }
+
+  /* ============ 畫面切換 ============ */
+  function showScreen(name){
+    ['home','teach','modes','game','result'].forEach(function(n){
+      var el = $('#screen-' + n);
+      if(el) el.hidden = (n !== name);
+    });
+    $('#btn-home').hidden = (name === 'home');
+    window.scrollTo({ top:0, behavior:'smooth' });
+    syncLevelTabs();
+  }
+
+  function syncLevelTabs(){
+    $all('[data-level]').forEach(function(btn){
+      var lv = btn.getAttribute('data-level');
+      btn.setAttribute('aria-pressed', String(lv === state.level));
+    });
+  }
+
+  /* ============ 首頁 ============ */
+  function setLevel(lv){
+    if(lv !== 'junior' && lv !== 'senior') return;
+    state.level = lv;
+    syncLevelTabs();
+    renderModes();
+    if(!$('#screen-teach').hidden) renderTeach();
+    var sub = $('#teach-sub');
+    if(sub){
+      sub.textContent = lv === 'junior'
+        ? '初小版：8 組常用連詞，圖文對照，簡單易明。'
+        : '高小版：8 組進階連詞，學會更精確地表達意思。';
+    }
+  }
+
+  /* ============ 教學 ============ */
+  function renderTeach(){
+    var list = TEACH[state.level];
+    var html = list.map(function(item, idx){
+      var examples = item.examples.map(function(ex){
+        return '<li><span>' + ex.t + '</span>' + speakBtn(ex.t.replace(/<[^>]+>/g,'')) + '</li>';
+      }).join('');
+      return '' +
+        '<article class="tcard">' +
+          '<div class="tcard-top">' +
+            '<div class="icon-wrap"><svg aria-hidden="true"><use href="#' + item.icon + '"/></svg></div>' +
+            '<div><h3>' + item.title + '</h3><span class="rel">' + item.tag + '</span></div>' +
+          '</div>' +
+          '<div class="formula">' + item.formula + '</div>' +
+          '<p class="desc">' + item.desc + '</p>' +
+          '<ul class="examples">' + examples + '</ul>' +
+          '<div class="tip"><b>小貼士：</b>' + item.tip + '</div>' +
+        '</article>';
+    }).join('');
+    $('#teach-grid').innerHTML = html;
+  }
+
+  /* ============ 模式選擇 ============ */
+  function renderModes(){
+    var lv = state.level;
+    var items = [
+      { mode:'fill', extra:'選出最合適的連詞' },
+      { mode:'detective', extra:'成對連詞要點齊兩個' }
+    ];
+    var html = items.map(function(it){
+      var info = MODE_INFO[it.mode];
+      var best = getBest(lv, it.mode);
+      return '' +
+        '<button class="mode-card" data-start-mode="' + it.mode + '">' +
+          '<div class="icon-wrap"><svg aria-hidden="true"><use href="#' + info.icon + '"/></svg></div>' +
+          '<h3>' + info.name + '</h3>' +
+          '<p>' + info.desc + '</p>' +
+          '<div class="mode-meta">' +
+            '<span>8 組題目</span><span>' + it.extra + '</span>' +
+            (best !== null ? '<span class="best">最佳：' + best + ' / 8</span>' : '') +
+          '</div>' +
+        '</button>';
+    }).join('');
+    $('#mode-grid').innerHTML = html;
+    var sub = $('#modes-sub');
+    if(sub) sub.textContent = levelName(lv) + '：每種模式 8 組題目，題目不會重複。';
+  }
+
+  /* ============ 遊戲 ============ */
+  function startGame(mode){
+    var pool = QUIZ[state.level][mode];
+    var deck = pool.map(function(q){
+      if(mode !== 'fill') return q;
+      var copy = {};
+      for(var k in q){ if(Object.prototype.hasOwnProperty.call(q, k)) copy[k] = q[k]; }
+      copy.options = shuffle(q.options);
+      return copy;
+    });
+    state.game = {
+      mode: mode,
+      level: state.level,
+      deck: deck,
+      order: shuffle(deck.map(function(_, i){ return i; })),
+      i: 0,
+      score: 0,
+      answers: [],
+      wrongRels: [],
+      answered: false,
+      selected: []
+    };
+    $('#game-title').textContent = MODE_INFO[mode].name;
+    $('#score').textContent = '0';
+    showScreen('game');
+    renderQuestion();
+  }
+
+  function currentItem(){
+    var g = state.game;
+    return g.deck[g.order[g.i]];
+  }
+
+  function renderDots(){
+    var g = state.game;
+    var html = '';
+    for(var i=0;i<8;i++){
+      var cls = '';
+      if(i < g.answers.length){ cls = g.answers[i] ? 'done-ok' : 'done-bad'; }
+      else if(i === g.i){ cls = 'now'; }
+      html += '<i class="' + cls + '"></i>';
+    }
+    $('#dots').innerHTML = html;
+  }
+
+  function renderQuestion(){
+    var g = state.game;
+    var item = currentItem();
+    g.answered = false;
+    g.selected = [];
+    renderDots();
+    $('#score').textContent = String(g.score);
+
+    var body = '';
+    var need = 0;
+    if(g.mode === 'detective'){ need = item.accept.length; }
+    var hint = g.mode === 'fill' ? '請選出最合適的連詞'
+      : (need > 1 ? '點出句子中的 ' + need + ' 個連詞，然後按「確認答案」' : '點出句子中的連詞，然後按「確認答案」');
+
+    if(g.mode === 'fill'){
+      var parts = item.prompt.split('＿＿＿');
+      var sentence = parts[0] + '<span class="blank" id="blank-slot"></span>' + (parts[1] || '');
+      var opts = item.options.map(function(o, i){
+        return '<button class="opt" type="button" data-opt="' + i + '">' + esc(o) + '</button>';
+      }).join('');
+      body =
+        '<div class="q-top">' +
+          '<div class="q-icon"><svg aria-hidden="true"><use href="#' + item.icon + '"/></svg></div>' +
+          '<div class="q-hint">' + hint + '</div>' +
+        '</div>' +
+        '<p class="q-text">' + sentence + '</p>' +
+        '<div class="opts" id="opts">' + opts + '</div>';
+    } else {
+      var toks = item.tokens.map(function(t, i){
+        var punc = /^[，。、！？；：]$/.test(t) ? ' punc' : '';
+        return '<button class="tok' + punc + '" type="button" data-tok="' + i + '" aria-pressed="false">' + esc(t) + '</button>';
+      }).join('');
+      body =
+        '<div class="q-top">' +
+          '<div class="q-icon"><svg aria-hidden="true"><use href="#' + item.icon + '"/></svg></div>' +
+          '<div class="q-hint">' + hint + '</div>' +
+        '</div>' +
+        '<div class="sentence" id="sentence">' + toks + '</div>' +
+        (need > 1 ? '<div class="pair-tip">🔗 這句有 ' + need + ' 個連詞，要全部點齊才算答對</div>' : '') +
+        '<div class="submit-row">' +
+          '<span class="pick-count" id="pick-count">已選 0 / ' + need + '</span>' +
+          '<button class="btn teal" type="button" id="btn-check" disabled>確認答案</button>' +
+        '</div>';
+    }
+
+    $('#question-area').innerHTML =
+      '<div class="q-card">' +
+        '<div class="q-count" style="font-size:15px;font-weight:800;color:#7C6A60;letter-spacing:.08em">第 ' + (g.i + 1) + ' / 8 題</div>' +
+        body +
+      '</div>' +
+      '<div id="feedback-slot"></div>';
+  }
+
+  function submitFill(idx){
+    var g = state.game;
+    if(g.answered) return;
+    var item = currentItem();
+    var chosen = item.options[idx];
+    var ok = (chosen === item.answer);
+    g.answered = true;
+    g.selected = idx;
+
+    $all('#opts .opt').forEach(function(btn){
+      var i = Number(btn.getAttribute('data-opt'));
+      var text = item.options[i];
+      btn.disabled = true;
+      if(text === item.answer){ btn.classList.add('ok'); btn.insertAdjacentHTML('beforeend', '<span class="mark">✓</span>'); }
+      else if(i === idx){ btn.classList.add('bad'); btn.insertAdjacentHTML('beforeend', '<span class="mark">✕</span>'); }
+    });
+    var slot = $('#blank-slot');
+    if(slot){ slot.textContent = item.answer; slot.className = 'blank filled'; }
+
+    finishAnswer(ok, item, [chosen]);
+  }
+
+  function submitDetective(){
+    var g = state.game;
+    if(g.answered) return;
+    var item = currentItem();
+    var picked = g.selected.slice().sort(function(a,b){ return a-b; });
+    if(!picked.length){ toast('請先點出句中的連詞。'); return; }
+    if(picked.length < item.accept.length){
+      toast(item.accept.length > 1 ? '這句有 ' + item.accept.length + ' 個連詞，要全部點齊才算答對。' : '還未點出連詞呢！');
+      return;
+    }
+    var wanted = item.accept.slice().sort(function(a,b){ return a-b; });
+    var ok = picked.length === wanted.length && picked.every(function(v, i){ return v === wanted[i]; });
+    g.answered = true;
+
+    $all('#sentence .tok').forEach(function(btn){
+      var i = Number(btn.getAttribute('data-tok'));
+      btn.disabled = true;
+      btn.classList.remove('sel');
+      if(item.accept.indexOf(i) !== -1){
+        if(g.selected.indexOf(i) !== -1) btn.classList.add('ok');
+        else btn.classList.add('miss');
+      } else if(g.selected.indexOf(i) !== -1){
+        btn.classList.add('bad');
+      }
+    });
+    var check = $('#btn-check');
+    if(check){ check.disabled = true; check.style.display = 'none'; }
+    var count = $('#pick-count');
+    if(count){ count.textContent = ok ? '全部點對' : '答案已揭曉'; count.classList.toggle('done', ok); }
+
+    finishAnswer(ok, item, ok ? [] : g.selected.map(function(i){ return item.tokens[i]; }));
+  }
+
+  function finishAnswer(ok, item, chosenWords){
+    var g = state.game;
+    g.answers.push(ok);
+    if(ok) g.score += 1;
+    else if(g.wrongRels.indexOf(item.rel) === -1){ g.wrongRels.push(item.rel); }
+    $('#score').textContent = String(g.score);
+    renderDots();
+
+    sfx(ok ? 'correct' : 'wrong');
+
+    var full = g.mode === 'fill' ? item.full : item.tokens.join('');
+    var note = '';
+    if(!ok && g.mode === 'detective'){
+      var answerWords = item.accept.map(function(i){ return item.tokens[i]; });
+      var joiner = answerWords.length > 1 ? '……' : '';
+      var answerText = answerWords.join(joiner);
+      var pickedText = (chosenWords && chosenWords.length) ? chosenWords.join('、') : '';
+      var parts = [];
+      var missing = item.accept.filter(function(i){ return g.selected.indexOf(i) === -1; })
+        .map(function(i){ return item.tokens[i]; });
+      var extra = (chosenWords || []).filter(function(w){
+        return item.accept.map(function(i){ return item.tokens[i]; }).indexOf(w) === -1;
+      }).filter(function(w, i, arr){ return arr.indexOf(w) === i; });
+      var dupWord = null;
+      answerWords.forEach(function(w){
+        if(answerWords.filter(function(x){ return x === w; }).length > 1) dupWord = w;
+      });
+      if(dupWord){
+        parts.push('這句有兩個「' + dupWord + '」，兩個都要點齊才算正確。');
+      } else if(answerWords.length > 1){
+        parts.push('這句是成對連詞「' + answerText + '」，' + answerWords.length + ' 個要一起點才算正確。');
+      }
+      if(extra.length){
+        parts.push('你點的「' + extra.join('、') + '」不是這句的連詞。');
+      }
+      if(missing.length){
+        if(dupWord){
+          parts.push('你還有一個「' + dupWord + '」沒有點。');
+        } else {
+          parts.push((answerWords.length > 1 ? '還欠「' : '正確答案是「') + missing.join('、') + '」。');
+        }
+      }
+      if(!parts.length && pickedText){ parts.push('你點的是「' + pickedText + '」，再想想句子的關係。'); }
+      if(parts.length){ note = '<p class="fb-note">' + parts.join('') + '</p>'; }
+    } else if(!ok && chosenWords && chosenWords.length && item.notes && item.notes[chosenWords[0]]){
+      note = '<p class="fb-note">你選的「' + esc(chosenWords[0]) + '」：' + item.notes[chosenWords[0]] + '</p>';
+    }
+
+    var isLast = (g.i === 7);
+    var html =
+      '<div class="feedback ' + (ok ? 'ok' : 'bad') + '">' +
+        '<div class="fb-head">' +
+          '<span class="fb-dot" aria-hidden="true">' + (ok ? '✓' : '!') + '</span>' +
+          '<strong>' + (ok ? '答對了！＋1 分' : '差一點，一起看解說') + '</strong>' +
+          '<span class="rel">' + item.rel + '</span>' +
+        '</div>' +
+        '<p class="fb-main">' + item.explain + '</p>' +
+        note +
+        '<p class="fb-answer">完整句子：<b>' + esc(full) + '</b>' + speakBtn(full) + '</p>' +
+        '<div class="fb-actions"><button class="btn primary" type="button" id="btn-next" data-next="1">' + (isLast ? '看成績 →' : '下一題 →') + '</button></div>' +
+      '</div>';
+
+    $('#feedback-slot').innerHTML = html;
+    live((ok ? '答對了。' : '答錯了。') + item.explain);
+    var next = $('#btn-next');
+    if(next){ try{ next.focus({ preventScroll:true }); }catch(e){ next.focus(); } }
+    var fb = $('#feedback-slot .feedback');
+    if(fb){
+      var rect = fb.getBoundingClientRect();
+      if(rect.top < 70 || rect.bottom > window.innerHeight - 10){
+        try{ fb.scrollIntoView({ behavior:'smooth', block:'center' }); }catch(e){ fb.scrollIntoView(); }
+      }
+    }
+  }
+
+  function nextQuestion(){
+    var g = state.game;
+    if(g.i >= 7){ showResult(); return; }
+    g.i += 1;
+    renderQuestion();
+    window.scrollTo({ top:0, behavior:'smooth' });
+    sfx('page');
+  }
+
+  /* ============ 結果 ============ */
+  function showResult(){
+    var g = state.game;
+    var score = g.score;
+    var stars = score === 8 ? 3 : (score >= 6 ? 2 : (score >= 4 ? 1 : 0));
+    var title, msg;
+    if(score === 8){ title = '太厲害了！連詞小專家！'; msg = '全部答對，你已經完全掌握這 8 組連詞，可以去挑戰另一個模式。'; }
+    else if(score >= 6){ title = '做得好！已經很有把握！'; msg = '大部分題目都答對，重溫下面標示的連詞用法，下次一定更好。'; }
+    else if(score >= 4){ title = '繼續努力，你快要掌握了！'; msg = '先回到教學課堂看看圖文解說，再來挑戰一次吧。'; }
+    else { title = '不要緊，我們再學一次！'; msg = '連詞需要多練習，先看教學卡，再慢慢做，一定會進步。'; }
+
+    saveBest(g.level, g.mode, score);
+    var best = getBest(g.level, g.mode);
+    var starHTML = '';
+    for(var i=0;i<3;i++){
+      starHTML += '<svg class="' + (i < stars ? '' : 'off') + '" viewBox="0 0 64 64" aria-hidden="true"><use href="#i-star"/></svg>';
+    }
+    var review = '';
+    if(g.wrongRels.length){
+      review = '<div class="review">' + g.wrongRels.map(function(r){ return '<span>重溫：' + r + '</span>'; }).join('') + '</div>';
+    }
+    var otherMode = g.mode === 'fill' ? 'detective' : 'fill';
+
+    $('#result-area').innerHTML =
+      '<div class="result">' +
+        '<div class="stars" aria-label="獲得 ' + stars + ' 粒星">' + starHTML + '</div>' +
+        '<p class="score-big">' + score + '<small> / 8 題</small></p>' +
+        '<h2>' + title + '</h2>' +
+        '<p>' + msg + (best !== null ? '（個人最佳：' + best + ' / 8）' : '') + '</p>' +
+        review +
+        '<div class="result-actions">' +
+          '<button class="btn primary" type="button" data-retry="' + g.mode + '">再玩一次</button>' +
+          '<button class="btn teal" type="button" data-start-mode="' + otherMode + '">挑戰' + (otherMode === 'fill' ? '句子填空' : '連詞偵探') + '</button>' +
+          '<button class="btn" type="button" data-go="modes">返回模式</button>' +
+        '</div>' +
+      '</div>';
+
+    showScreen('result');
+    sfx(score >= 6 ? 'win' : 'page');
+    live('本次得分 ' + score + ' 分，共 8 題。');
+  }
+
+  /* ============ 事件 ============ */
+  document.addEventListener('click', function(ev){
+    var target = ev.target.closest ? ev.target.closest('button, [data-go], [data-level], [data-opt], [data-tok], [data-next], [data-start-mode], [data-retry], [data-speak]') : null;
+    if(!target) return;
+
+    /* 朗讀 */
+    if(target.hasAttribute('data-speak')){
+      ev.preventDefault();
+      speak(target.getAttribute('data-speak'));
+      return;
+    }
+
+    /* 音效開關 */
+    if(target.id === 'btn-sound'){
+      soundOn = !soundOn;
+      $('#btn-sound').setAttribute('aria-pressed', String(soundOn));
+      $('#sound-icon').setAttribute('href', soundOn ? '#i-sound' : '#i-mute');
+      $('#sound-label').textContent = soundOn ? '音效開' : '音效關';
+      try{ localStorage.setItem(LS_KEY + '_sound', soundOn ? '1' : '0'); }catch(e){}
+      if(soundOn){ sfx('tap'); toast('音效已開啟'); } else { toast('音效已關閉'); }
+      return;
+    }
+
+    /* 程度 */
+    if(target.hasAttribute('data-level')){
+      sfx('tap');
+      setLevel(target.getAttribute('data-level'));
+      return;
+    }
+
+    /* 模式開始 / 重試 */
+    if(target.hasAttribute('data-start-mode')){
+      sfx('page');
+      startGame(target.getAttribute('data-start-mode'));
+      return;
+    }
+    if(target.hasAttribute('data-retry')){
+      sfx('page');
+      startGame(target.getAttribute('data-retry'));
+      return;
+    }
+
+    /* 下一題 */
+    if(target.hasAttribute('data-next')){
+      nextQuestion();
+      return;
+    }
+
+    /* 填空選項 */
+    if(target.hasAttribute('data-opt')){
+      sfx('tap');
+      submitFill(Number(target.getAttribute('data-opt')));
+      return;
+    }
+
+    /* 偵探選字（可多選，成對連詞需點齊） */
+    if(target.hasAttribute('data-tok')){
+      var g = state.game;
+      if(!g || g.answered) return;
+      var item = currentItem();
+      var idx = Number(target.getAttribute('data-tok'));
+      var pos = g.selected.indexOf(idx);
+      if(pos !== -1){
+        g.selected.splice(pos, 1);
+        target.classList.remove('sel');
+        sfx('tap');
+      } else if(g.selected.length >= item.accept.length){
+        toast('這句只需點 ' + item.accept.length + ' 個連詞，請先取消一個再選。');
+        return;
+      } else {
+        g.selected.push(idx);
+        target.classList.add('sel');
+        sfx('tap');
+      }
+      target.setAttribute('aria-pressed', String(g.selected.indexOf(idx) !== -1));
+      var count = $('#pick-count');
+      if(count){
+        count.textContent = '已選 ' + g.selected.length + ' / ' + item.accept.length;
+        count.classList.toggle('done', g.selected.length === item.accept.length);
+      }
+      var check = $('#btn-check');
+      if(check) check.disabled = g.selected.length === 0;
+      return;
+    }
+
+    /* 確認答案（偵探） */
+    if(target.id === 'btn-check'){
+      submitDetective();
+      return;
+    }
+
+    /* 頁面切換 */
+    if(target.hasAttribute('data-go')){
+      var go = target.getAttribute('data-go');
+      sfx('page');
+      if(go === 'teach'){ renderTeach(); }
+      if(go === 'modes'){ renderModes(); }
+      showScreen(go);
+      return;
+    }
+  });
+
+  /* 初始化 */
+  function init(){
+    try{
+      var savedSound = localStorage.getItem(LS_KEY + '_sound');
+      if(savedSound === '0'){
+        soundOn = false;
+        $('#btn-sound').setAttribute('aria-pressed', 'false');
+        $('#sound-icon').setAttribute('href', '#i-mute');
+        $('#sound-label').textContent = '音效關';
+      }
+    }catch(e){}
+
+    setLevel('junior');
+    renderTeach();
+    renderModes();
+    showScreen('home');
+
+    /* 首次手勢解鎖音訊 */
+    var unlock = function(){
+      if(soundOn) audioCtx();
+      document.removeEventListener('pointerdown', unlock);
+      document.removeEventListener('keydown', unlock);
+    };
+    document.addEventListener('pointerdown', unlock, { passive:true });
+    document.addEventListener('keydown', unlock);
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

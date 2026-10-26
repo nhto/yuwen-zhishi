@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FFF7EA">
+<title>用具體事例寫人｜小學寫作互動學習</title>
+<meta name="description" content="小學中文寫作互動教材：六步教學示範如何用具體事例寫人，配合事例配對、細節放大鏡、事例排隊三種練習模式，每題附答案解說與音效。">
+<style>
+  :root{
+    --ink:#3B2A22;
+    --ink-60:rgba(59,42,34,.62);
+    --ink-20:rgba(59,42,34,.2);
+    --cream:#FFF7EA;
+    --paper:#fff;
+    --blue:#63C6F2;
+    --pink:#FFA3B8;
+    --yellow:#FFD35C;
+    --green:#6FD08C;
+    --purple:#B9A2FF;
+    --orange:#FFA65C;
+    --radius:1.4rem;
+    --shadow:0 .3rem 0 rgba(59,42,34,.22);
+    --font:"PingFang HK","PingFang TC","Noto Sans HK","Microsoft JhengHei","Noto Sans TC","Source Han Sans HK","Source Han Sans TC","Hiragino Sans CNS",system-ui,-apple-system,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box;}
+  [hidden]{display:none !important;}
+  button,a{-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+  :where(button,a,[role="button"]):focus-visible{outline:3px solid #1F6E8C;outline-offset:3px;}
+  html{font-size:clamp(18px,0.45vw + 15px,22px);-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;font-family:var(--font);color:var(--ink);
+    background-color:var(--cream);
+    background-image:radial-gradient(rgba(255,199,128,.55) 1.4px, transparent 1.5px);
+    background-size:26px 26px;
+    overflow-x:hidden;
+    min-height:100vh;
+    min-height:100dvh;
+  }
+  body::before{
+    content:"";position:fixed;inset:0 0 auto 0;height:14rem;z-index:0;pointer-events:none;
+    background:linear-gradient(180deg,rgba(99,198,242,.22),rgba(255,247,234,0));
+  }
+  svg text{font-family:var(--font);}
+  .sprite{position:absolute;width:0;height:0;overflow:hidden;}
+  .app{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;}
+  .topbar{
+    position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;
+    gap:.5rem;padding:.45rem clamp(.7rem,3vw,1.6rem);
+    padding-top:calc(.45rem + env(safe-area-inset-top));
+    padding-left:max(clamp(.7rem,3vw,1.6rem), env(safe-area-inset-left));
+    padding-right:max(clamp(.7rem,3vw,1.6rem), env(safe-area-inset-right));
+    background:rgba(255,247,234,.93);border-bottom:3px solid var(--ink-20);
+    backdrop-filter:blur(8px);
+  }
+  .brand{display:flex;align-items:center;gap:.45rem;font-weight:900;font-size:.95rem;letter-spacing:.02em;}
+  .brand svg{width:1.7rem;height:1.7rem;}
+  .top-actions{display:flex;align-items:center;gap:.45rem;}
+  .icon-btn{
+    display:grid;place-items:center;width:2.7rem;height:2.7rem;border-radius:50%;
+    border:3px solid var(--ink);background:#fff;box-shadow:0 .18rem 0 var(--ink);cursor:pointer;
+    color:var(--ink);padding:0;flex:0 0 auto;
+  }
+  .icon-btn:active{transform:translateY(.12rem);box-shadow:0 .06rem 0 var(--ink);}
+  .icon-btn svg{width:1.4rem;height:1.4rem;}
+  .icon-btn[aria-pressed="true"]{background:#FFE7B8;}
+  .stage{
+    flex:1;width:100%;max-width:1180px;margin:0 auto;
+    padding:clamp(.7rem,2.4vw,1.6rem);
+    padding-left:max(clamp(.7rem,2.4vw,1.6rem), env(safe-area-inset-left));
+    padding-right:max(clamp(.7rem,2.4vw,1.6rem), env(safe-area-inset-right));
+    padding-bottom:calc(clamp(.7rem,2.4vw,1.6rem) + env(safe-area-inset-bottom));
+  }
+  .screen{display:none;}
+  .screen.active{display:block;animation:fade .28s ease both;}
+  @keyframes fade{from{opacity:0;transform:translateY(.35rem);}to{opacity:1;transform:none;}}
+
+  .btn{
+    font:inherit;font-weight:800;font-size:1rem;line-height:1.2;
+    border:3px solid var(--ink);border-radius:999px;background:#fff;color:var(--ink);
+    padding:.62rem 1.15rem;cursor:pointer;box-shadow:0 .26rem 0 var(--ink);
+    transition:transform .1s ease, box-shadow .1s ease, background .15s ease;
+    min-height:2.9rem;display:inline-flex;align-items:center;justify-content:center;gap:.35rem;
+    text-decoration:none;text-align:center;
+  }
+  .btn:active{transform:translateY(.2rem);box-shadow:0 .06rem 0 var(--ink);}
+  .btn-primary{background:var(--yellow);}
+  .btn-primary:hover{background:#FFDF85;}
+  .btn-small{font-size:.9rem;padding:.4rem .85rem;min-height:2.4rem;}
+  .btn:disabled{opacity:.5;cursor:not-allowed;}
+
+  /* ---------- 主頁 ---------- */
+  .hero{
+    display:grid;gap:1rem;align-items:center;
+    background:linear-gradient(150deg,#FFFDF7,#FFF0D6);
+    border:4px solid var(--ink);border-radius:2rem;box-shadow:var(--shadow);
+    padding:clamp(1rem,3.5vw,2rem);
+    margin-bottom:1.2rem;
+  }
+  .kicker{
+    display:inline-block;margin:0 0 .5rem;font-size:.78rem;font-weight:800;letter-spacing:.08em;
+    color:#8A5A2B;background:#FFE7B8;border:2px solid var(--ink);border-radius:999px;padding:.2rem .7rem;
+  }
+  h1{font-size:clamp(2rem,6vw,3.1rem);line-height:1.15;margin:0 0 .6rem;letter-spacing:.02em;}
+  h1 .hl{
+    background:linear-gradient(180deg,transparent 58%,var(--yellow) 58%,var(--yellow) 92%,transparent 92%);
+    padding:0 .1em;
+  }
+  .lead{margin:0 0 1.1rem;font-size:1.05rem;line-height:1.7;color:#5A4033;max-width:30em;}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:.6rem;}
+  .hero-art{display:flex;justify-content:center;}
+  .hero-art svg{width:min(100%,17rem);height:auto;filter:drop-shadow(0 6px 0 rgba(59,42,34,.12));}
+  .stats{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem;margin:0 0 1.4rem;
+  }
+  .stat{
+    background:#fff;border:3px solid var(--ink);border-radius:1.1rem;padding:.6rem .4rem;text-align:center;
+    box-shadow:0 .2rem 0 rgba(59,42,34,.16);
+  }
+  .stat b{display:block;font-size:1.5rem;line-height:1.1;}
+  .stat span{font-size:.78rem;color:var(--ink-60);font-weight:700;}
+  #modeSection{scroll-margin-top:calc(5rem + env(safe-area-inset-top));}
+  .sec-title{font-size:1.35rem;margin:0 0 .8rem;display:flex;align-items:center;gap:.5rem;}
+  .sec-title::before{content:"";width:.55rem;height:1.3rem;border-radius:999px;background:var(--pink);border:2px solid var(--ink);}
+  .mode-grid{display:grid;gap:.85rem;}
+  .mode-card{
+    position:relative;background:#fff;border:4px solid var(--ink);border-radius:1.5rem;
+    padding:1rem;box-shadow:var(--shadow);cursor:pointer;
+    display:flex;flex-direction:column;gap:.35rem;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .mode-card:hover{transform:translateY(-3px);box-shadow:0 .45rem 0 rgba(59,42,34,.22);}
+  .mode-card:active{transform:translateY(.15rem);box-shadow:0 .1rem 0 rgba(59,42,34,.22);}
+  .mode-card:focus-visible{outline:4px solid var(--blue);outline-offset:4px;}
+  .mode-card .mode-icon{width:4rem;height:4rem;border-radius:1.1rem;display:grid;place-items:center;border:3px solid var(--ink);}
+  .mode-card .mode-icon svg{width:2.4rem;height:2.4rem;}
+  .mode-card h3{margin:.3rem 0 0;font-size:1.22rem;}
+  .mode-card p{margin:0;font-size:.92rem;line-height:1.6;color:#6B5145;min-height:3.1em;}
+  .mode-foot{display:flex;align-items:center;justify-content:space-between;margin-top:.5rem;font-size:.8rem;font-weight:800;}
+  .mode-best{background:#F1EADF;border-radius:999px;padding:.15rem .6rem;color:#7A5F4E;}
+  .mode-best.done{background:#DFF7E6;color:#2F7F55;}
+  .mode-go{color:#A8621F;}
+  .foot-note{font-size:.85rem;color:var(--ink-60);line-height:1.7;margin:1.1rem 0 0;text-align:center;}
+
+  /* ---------- 教學 ---------- */
+  .bars{display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin-bottom:.8rem;}
+  .step-count{font-weight:800;font-size:.95rem;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:.3rem .85rem;box-shadow:0 .14rem 0 rgba(59,42,34,.18);}
+  .slide{
+    display:none;background:#fff;border:4px solid var(--ink);border-radius:1.8rem;
+    box-shadow:var(--shadow);padding:clamp(.9rem,3vw,1.6rem);gap:1.1rem;
+  }
+  .slide.active{display:grid;animation:fade .25s ease both;}
+  .slide-art{display:flex;justify-content:center;align-items:center;background:#FFFBF2;border-radius:1.2rem;border:3px dashed rgba(59,42,34,.25);padding:.6rem;}
+  .slide-art svg{width:100%;max-width:24rem;height:auto;}
+  .step-tag{display:inline-block;font-size:.78rem;font-weight:900;background:var(--blue);color:#123A4D;border:2px solid var(--ink);border-radius:999px;padding:.15rem .65rem;margin-bottom:.45rem;}
+  .slide h2{margin:0 0 .5rem;font-size:clamp(1.35rem,4.2vw,1.85rem);line-height:1.35;}
+  .slide-text{font-size:1.05rem;line-height:1.85;margin:0 0 .8rem;color:#4A342A;}
+  .tip{
+    background:#FFF4D8;border-left:.45rem solid var(--yellow);border-radius:.6rem;
+    padding:.6rem .8rem;font-size:.95rem;line-height:1.7;margin:0 0 .8rem;
+  }
+  .tip b{color:#8A5A2B;}
+  .example-pair{display:grid;gap:.5rem;}
+  .ex{
+    display:flex;gap:.6rem;align-items:flex-start;border:3px solid var(--ink);border-radius:1rem;
+    padding:.6rem .75rem;font-size:.97rem;line-height:1.6;background:#fff;
+  }
+  .ex .mark{flex:0 0 auto;width:1.6rem;height:1.6rem;border-radius:50%;display:grid;place-items:center;font-weight:900;color:#fff;font-size:.95rem;border:2px solid var(--ink);}
+  .ex.bad{background:#FFF0F0;}
+  .ex.bad .mark{background:#E06B63;}
+  .ex.good{background:#EAFBF0;}
+  .ex.good .mark{background:#3FA76A;}
+  .learn-nav{display:flex;gap:.6rem;justify-content:space-between;margin-top:1rem;}
+  .learn-nav .btn{flex:1;}
+  .dots{display:flex;gap:.4rem;justify-content:center;margin:.9rem 0 0;}
+  .dots i{width:.6rem;height:.6rem;border-radius:50%;background:#E2D3C1;border:2px solid rgba(59,42,34,.35);}
+  .dots i.on{background:var(--pink);border-color:var(--ink);width:1.5rem;border-radius:999px;}
+
+  /* ---------- 遊戲 ---------- */
+  .game-top{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:.6rem;margin-bottom:.6rem;}
+  .mode-name{
+    width:100%;max-width:24rem;justify-self:center;text-align:center;font-weight:900;font-size:1rem;
+    background:#fff;border:3px solid var(--ink);border-radius:999px;padding:.32rem .8rem;
+    box-shadow:0 .16rem 0 rgba(59,42,34,.18);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .score-box{
+    justify-self:end;display:flex;align-items:center;gap:.3rem;font-weight:900;font-size:1rem;background:#fff;
+    border:3px solid var(--ink);border-radius:999px;padding:.28rem .7rem;box-shadow:0 .16rem 0 rgba(59,42,34,.18);
+  }
+  .score-box svg{width:1.2rem;height:1.2rem;}
+  .bar{height:.7rem;border-radius:999px;background:#EFE1CF;border:2px solid var(--ink);overflow:hidden;margin-bottom:.9rem;}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--yellow),var(--orange));transition:width .35s ease;}
+  .q-wrap{
+    background:#fff;border:4px solid var(--ink);border-radius:1.7rem;box-shadow:var(--shadow);
+    padding:clamp(.9rem,3vw,1.5rem);
+  }
+  .q-head{display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap;margin-bottom:.55rem;}
+  .q-count{font-size:.85rem;font-weight:800;color:var(--ink-60);}
+  .chips{display:flex;flex-wrap:wrap;gap:.35rem;}
+  .chip{font-size:.8rem;font-weight:800;background:#F3EADF;border:2px solid rgba(59,42,34,.35);border-radius:999px;padding:.12rem .6rem;}
+  .chip.trait{background:#FFE7B8;}
+  .q-title{font-size:clamp(1.18rem,3.8vw,1.55rem);line-height:1.6;margin:.2rem 0 1rem;}
+  .answer{display:grid;gap:.65rem;}
+  .answer.mc{}
+  .opt{
+    display:flex;align-items:flex-start;gap:.7rem;width:100%;text-align:left;
+    font:inherit;font-weight:700;font-size:1.02rem;line-height:1.65;color:var(--ink);
+    padding:.8rem .9rem;background:#fff;border:3px solid var(--ink);border-radius:1.1rem;
+    box-shadow:0 .2rem 0 rgba(59,42,34,.18);cursor:pointer;transition:background .15s,transform .1s;
+  }
+  .opt:hover{background:#FFFBEF;}
+  .opt:active{transform:translateY(.1rem);}
+  .opt .badge{
+    flex:0 0 auto;width:1.85rem;height:1.85rem;border-radius:50%;background:var(--yellow);
+    border:2.5px solid var(--ink);display:grid;place-items:center;font-weight:900;font-size:.95rem;
+  }
+  .opt .txt{flex:1;min-width:0;}
+  .opt:disabled{opacity:1;cursor:default;}
+  .opt.correct{background:#DFF7E6;border-color:#2E7D52;box-shadow:0 .2rem 0 #2E7D52;}
+  .opt.correct .badge{background:var(--green);}
+  .opt.wrong{background:#FFE4E1;border-color:#C1504A;box-shadow:0 .2rem 0 #C1504A;}
+  .opt.wrong .badge{background:#FF9A94;}
+  .opt.dim{opacity:.55;}
+  .opt .marker{margin-left:auto;font-weight:900;font-size:1.3rem;line-height:1.2;}
+
+  /* 排隊模式 */
+  .order-help{font-size:.95rem;color:var(--ink-60);margin:0 0 .6rem;line-height:1.6;}
+  .slots{display:grid;gap:.55rem;margin-bottom:.9rem;}
+  .slot{
+    display:flex;align-items:center;gap:.6rem;width:100%;text-align:left;font:inherit;
+    min-height:3.4rem;padding:.5rem .65rem;border:3px dashed rgba(59,42,34,.4);border-radius:1rem;
+    background:#FFFDF7;color:var(--ink-60);cursor:pointer;
+  }
+  .slot .num{
+    flex:0 0 auto;width:1.8rem;height:1.8rem;border-radius:50%;border:2.5px solid var(--ink);
+    background:#fff;display:grid;place-items:center;font-weight:900;font-size:.9rem;color:var(--ink);
+  }
+  .slot .slot-txt{flex:1;min-width:0;font-size:.98rem;line-height:1.55;color:var(--ink);font-weight:700;}
+  .slot.filled{border-style:solid;background:#fff;box-shadow:0 .16rem 0 rgba(59,42,34,.15);}
+  .slot.empty .slot-txt{color:#7A6558;font-weight:600;}
+  .slot:disabled{opacity:1;cursor:default;}
+  .slot .slot-mark{margin-left:auto;font-weight:900;font-size:1.25rem;line-height:1;}
+  .slot.correct{background:#DFF7E6;border-color:#2E7D52;}
+  .slot.wrong{background:#FFE4E1;border-color:#C1504A;}
+  .team-pool{display:grid;gap:.55rem;margin-bottom:.9rem;}
+  .pool-item{
+    font:inherit;font-size:.98rem;line-height:1.6;text-align:left;font-weight:700;
+    padding:.7rem .8rem;border:3px solid var(--ink);border-radius:1rem;background:#fff;
+    box-shadow:0 .2rem 0 rgba(59,42,34,.18);cursor:pointer;color:var(--ink);
+  }
+  .pool-item:hover{background:#FFF6E4;}
+  .pool-label{font-size:.82rem;font-weight:900;color:var(--ink-60);letter-spacing:.05em;margin:.2rem 0 .5rem;}
+  .answer.order > div:last-child{display:flex;}
+  .answer.order > div:last-child .btn{flex:1;min-height:3.2rem;font-size:1.05rem;}
+
+  /* 回饋 */
+  .feedback{margin-top:1rem;border-radius:1.1rem;padding:.85rem 1rem;border:3px solid var(--ink);background:#EFF9FF;animation:pop .3s ease both;}
+  .feedback.good{background:#EAFBF0;}
+  .feedback.bad{background:#FFF4EE;}
+  @keyframes pop{from{opacity:0;transform:scale(.97);}to{opacity:1;transform:none;}}
+  .fb-head{display:flex;align-items:center;gap:.5rem;font-size:1.12rem;font-weight:900;margin-bottom:.35rem;}
+  .fb-ico{width:1.9rem;height:1.9rem;border-radius:50%;display:grid;place-items:center;border:2.5px solid var(--ink);font-size:1rem;color:#fff;}
+  .fb-good .fb-ico{background:#3FA76A;}
+  .fb-bad .fb-ico{background:#E06B63;}
+  .fb-ans{font-size:.95rem;font-weight:800;margin:.1rem 0 .5rem;color:#8A4A2B;}
+  .fb-why{font-size:.97rem;line-height:1.8;margin:0;color:#3F2C24;}
+  .fb-why b{color:#1F6E8C;background:#D9F1FB;border-radius:.3rem;padding:0 .25rem;}
+  .fb-order{margin:.5rem 0 .2rem;padding:0;list-style:none;display:grid;gap:.35rem;}
+  .fb-order li{font-size:.95rem;line-height:1.6;background:rgba(255,255,255,.7);border-radius:.6rem;padding:.4rem .6rem;}
+  .fb-order .role{display:inline-block;font-size:.75rem;font-weight:900;background:var(--purple);color:#2C1B44;border-radius:.4rem;padding:0 .35rem;margin-right:.35rem;}
+  .q-actions{display:flex;justify-content:flex-end;margin-top:1rem;}
+
+  /* ---------- 結果 ---------- */
+  .result-card{
+    background:#fff;border:4px solid var(--ink);border-radius:2rem;box-shadow:var(--shadow);
+    padding:clamp(1.2rem,4vw,2.2rem);text-align:center;max-width:34rem;margin:1rem auto;
+  }
+  .stars{display:flex;justify-content:center;gap:.5rem;margin-bottom:.6rem;}
+  .stars svg{width:clamp(3rem,12vw,4.2rem);height:auto;}
+  .stars .star-on{animation:pop .4s ease both;}
+  .stars .star-on:nth-child(2){animation-delay:.12s;}
+  .stars .star-on:nth-child(3){animation-delay:.24s;}
+  .result-card h2{margin:.2rem 0 .3rem;font-size:clamp(1.5rem,5vw,2rem);}
+  .res-score{margin:.2rem 0 .8rem;font-size:1.1rem;color:var(--ink-60);font-weight:800;}
+  .res-score b{font-size:2.4rem;color:var(--ink);}
+  .res-dots{display:flex;justify-content:center;gap:.4rem;flex-wrap:wrap;margin-bottom:.9rem;}
+  .res-dots span{width:2rem;height:2rem;border-radius:50%;display:grid;place-items:center;border:3px solid var(--ink);font-weight:900;font-size:.9rem;background:#F3EADF;}
+  .res-dots span.ok{background:#C9F0D6;}
+  .res-dots span.no{background:#FFD5CF;}
+  .res-msg{font-size:1rem;line-height:1.8;margin:0 0 1.1rem;color:#4A342A;}
+  .res-actions{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;}
+  .res-actions .btn{flex:1 1 7rem;}
+
+  @media (max-width:24em){
+    h1{font-size:1.85rem;letter-spacing:0;}
+    h1 .hl{padding:0 .03em;}
+    .hero{padding:1rem .85rem;gap:.7rem;}
+    .hero-art svg{width:min(100%,13.5rem);}
+    .lead{font-size:1rem;}
+    .stage{padding-top:.6rem;}
+  }
+  @media (min-width:40em){
+    .hero{grid-template-columns:1.15fr .85fr;gap:1.6rem;}
+    .mode-grid{grid-template-columns:repeat(3,1fr);}
+    .slide.active{grid-template-columns:1fr 1.1fr;align-items:center;}
+    .slide-art{order:2;}
+    .slide-body{order:1;}
+    .answer.mc{grid-template-columns:1fr 1fr;}
+    .opt{font-size:1rem;}
+    .learn-nav{justify-content:flex-end;}
+    .learn-nav .btn{flex:0 0 auto;min-width:9rem;}
+    .q-wrap{padding:1.6rem 1.8rem;}
+  }
+  @media (min-width:62em){
+    .stage{padding:1.8rem 2rem;}
+    .q-title{font-size:1.6rem;}
+    .opt{font-size:1.06rem;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
+  }
+  .visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+</style>
+</head>
+<body>
+
+<!-- 卡通角色圖庫 -->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="ch-girl" viewBox="0 0 120 140">
+      <circle cx="20" cy="56" r="12" fill="#5A3A28" stroke="#3B2A22" stroke-width="3"/>
+      <circle cx="100" cy="56" r="12" fill="#5A3A28" stroke="#3B2A22" stroke-width="3"/>
+      <path d="M31 96q29-12 58 0v26q0 11-11 11H42q-11 0-11-11z" fill="#7EC8F2" stroke="#3B2A22" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="60" cy="48" r="33" fill="#FFE2C6" stroke="#3B2A22" stroke-width="3"/>
+      <path d="M27 47c0-19 15-33 33-33s33 14 33 33c0 3-3 4-6 2-7-5-16-8-27-8s-20 3-27 8c-3 2-6 1-6-2z" fill="#5A3A28" stroke="#3B2A22" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="48" cy="51" r="4" fill="#3B2A22"/>
+      <circle cx="72" cy="51" r="4" fill="#3B2A22"/>
+      <circle cx="49.4" cy="49.6" r="1.3" fill="#fff"/>
+      <circle cx="73.4" cy="49.6" r="1.3" fill="#fff"/>
+      <ellipse cx="39" cy="62" rx="6.5" ry="3.8" fill="#FFB0A8"/>
+      <ellipse cx="81" cy="62" rx="6.5" ry="3.8" fill="#FFB0A8"/>
+      <path d="M53 63q7 7 14 0" fill="none" stroke="#3B2A22" stroke-width="2.6" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="ch-boy" viewBox="0 0 120 140">
+      <path d="M31 96q29-12 58 0v26q0 11-11 11H42q-11 0-11-11z" fill="#8FD9A8" stroke="#3B2A22" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="60" cy="48" r="33" fill="#FFE0C0" stroke="#3B2A22" stroke-width="3"/>
+      <path d="M27 48c0-20 15-34 33-34s33 14 33 34c0 5-5 4-8 1-6-6-13-9-25-9s-19 3-25 9c-3 3-8 4-8-1z" fill="#3F2B22" stroke="#3B2A22" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="48" cy="52" r="4" fill="#3B2A22"/>
+      <circle cx="72" cy="52" r="4" fill="#3B2A22"/>
+      <circle cx="49.4" cy="50.6" r="1.3" fill="#fff"/>
+      <circle cx="73.4" cy="50.6" r="1.3" fill="#fff"/>
+      <ellipse cx="39" cy="63" rx="6" ry="3.5" fill="#FFB0A8"/>
+      <ellipse cx="81" cy="63" rx="6" ry="3.5" fill="#FFB0A8"/>
+      <path d="M54 64q6 6 12 0" fill="none" stroke="#3B2A22" stroke-width="2.6" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="ch-grandpa" viewBox="0 0 120 140">
+      <path d="M31 96q29-12 58 0v26q0 11-11 11H42q-11 0-11-11z" fill="#B9C6D6" stroke="#3B2A22" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="60" cy="48" r="33" fill="#FFE0C0" stroke="#3B2A22" stroke-width="3"/>
+      <path d="M28 46c0-18 14-31 32-31s32 13 32 31c0 4-4 5-7 2-4-4-9-6-13-6H48c-4 0-9 2-13 6-3 3-7 2-7-2z" fill="#F2EFEA" stroke="#3B2A22" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="47" cy="52" r="11" fill="#fff" stroke="#3B2A22" stroke-width="2.6"/>
+      <circle cx="73" cy="52" r="11" fill="#fff" stroke="#3B2A22" stroke-width="2.6"/>
+      <path d="M58 52h4" stroke="#3B2A22" stroke-width="2.6"/>
+      <circle cx="47" cy="52" r="3.4" fill="#3B2A22"/>
+      <circle cx="73" cy="52" r="3.4" fill="#3B2A22"/>
+      <path d="M50 68q10 6 20 0" fill="none" stroke="#3B2A22" stroke-width="2.6" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="ch-teacher" viewBox="0 0 120 140">
+      <circle cx="60" cy="14" r="11" fill="#4A3128" stroke="#3B2A22" stroke-width="3"/>
+      <path d="M31 96q29-12 58 0v26q0 11-11 11H42q-11 0-11-11z" fill="#B9A2FF" stroke="#3B2A22" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="60" cy="48" r="33" fill="#FFE2C6" stroke="#3B2A22" stroke-width="3"/>
+      <path d="M27 47c0-19 15-33 33-33s33 14 33 33c0 4-4 4-7 2-6-5-15-8-26-8s-20 3-26 8c-3 2-7 2-7-2z" fill="#4A3128" stroke="#3B2A22" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="47" cy="52" r="10" fill="#fff" fill-opacity=".85" stroke="#3B2A22" stroke-width="2.4"/>
+      <circle cx="73" cy="52" r="10" fill="#fff" fill-opacity=".85" stroke="#3B2A22" stroke-width="2.4"/>
+      <path d="M57 52h6" stroke="#3B2A22" stroke-width="2.4"/>
+      <circle cx="47" cy="52" r="3.2" fill="#3B2A22"/>
+      <circle cx="73" cy="52" r="3.2" fill="#3B2A22"/>
+      <path d="M54 66q6 6 12 0" fill="none" stroke="#3B2A22" stroke-width="2.6" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="ch-cleaner" viewBox="0 0 120 140">
+      <path d="M31 96q29-12 58 0v26q0 11-11 11H42q-11 0-11-11z" fill="#FFA65C" stroke="#3B2A22" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="60" cy="48" r="33" fill="#FFDDBB" stroke="#3B2A22" stroke-width="3"/>
+      <path d="M25 36c0-4 3-6 7-6h56c4 0 7 2 7 6v4H25z" fill="#63C6F2" stroke="#3B2A22" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M25 40h70c6 0 8 6 2 8H25c-6-2-4-8 0-8z" fill="#8ED9F7" stroke="#3B2A22" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="48" cy="56" r="3.8" fill="#3B2A22"/>
+      <circle cx="72" cy="56" r="3.8" fill="#3B2A22"/>
+      <path d="M53 68q7 6 14 0" fill="none" stroke="#3B2A22" stroke-width="2.6" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 40 40" aria-hidden="true">
+        <rect x="10" y="4" width="14" height="26" rx="5" fill="#FFD35C" stroke="#3B2A22" stroke-width="2.6"/>
+        <path d="M10 30h14l-7 8z" fill="#FFE9C9" stroke="#3B2A22" stroke-width="2.6" stroke-linejoin="round"/>
+        <path d="M14 34h6l-3 4z" fill="#3B2A22"/>
+        <circle cx="15" cy="13" r="1.6" fill="#3B2A22"/>
+        <circle cx="20" cy="13" r="1.6" fill="#3B2A22"/>
+        <path d="M15 17q2.5 2 5 0" fill="none" stroke="#3B2A22" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <span>寫作小教室</span>
+    </div>
+    <div class="top-actions">
+      <button class="icon-btn" id="btnSound" type="button" aria-pressed="false" aria-label="靜音" title="音效開關">
+        <svg id="icoSoundOn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M11 5 6.5 9H3v6h3.5L11 19z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/>
+        </svg>
+        <svg id="icoSoundOff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden>
+          <path d="M11 5 6.5 9H3v6h3.5L11 19z"/><path d="m16 9 5 6M21 9l-5 6"/>
+        </svg>
+      </button>
+      <button class="btn btn-small" id="btnHome" type="button" hidden>主頁</button>
+    </div>
+  </header>
+
+  <main class="stage" data-generated-by="vibe-coding-frontend-design">
+
+    <!-- ============ 主頁 ============ -->
+    <section id="screen-home" class="screen active" aria-labelledby="homeTitle">
+      <div class="hero">
+        <div class="hero-copy">
+          <p class="kicker">小學中文 · 寫作學習</p>
+          <h1 id="homeTitle">用具體事例<span class="hl">寫人</span></h1>
+          <p class="lead">把「他很好」變成一個看得見的故事。先看六步教學，再挑戰三個小遊戲，每題都會告訴你為甚麼。</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" id="btnStartLearn" type="button">開始教學</button>
+            <button class="btn" id="btnJumpModes" type="button">看看遊戲</button>
+          </div>
+        </div>
+        <div class="hero-art">
+          <svg viewBox="0 0 320 300" role="img" aria-label="卡通鉛筆小助手">
+            <ellipse cx="164" cy="266" rx="116" ry="20" fill="#FFE3B8"/>
+            <g transform="rotate(-7 160 150)">
+              <rect x="118" y="52" width="84" height="158" rx="18" fill="#FFD35C" stroke="#3B2A22" stroke-width="4"/>
+              <rect x="118" y="52" width="84" height="30" rx="14" fill="#FFA3B8" stroke="#3B2A22" stroke-width="4"/>
+              <path d="M118 210h84l-42 54z" fill="#FFF0DA" stroke="#3B2A22" stroke-width="4" stroke-linejoin="round"/>
+              <path d="M144 238h32l-16 26z" fill="#3B2A22"/>
+              <circle cx="145" cy="130" r="5" fill="#3B2A22"/>
+              <circle cx="175" cy="130" r="5" fill="#3B2A22"/>
+              <circle cx="146.6" cy="128" r="1.6" fill="#fff"/>
+              <circle cx="176.6" cy="128" r="1.6" fill="#fff"/>
+              <ellipse cx="132" cy="145" rx="8" ry="4.5" fill="#FF9EB5"/>
+              <ellipse cx="188" cy="145" rx="8" ry="4.5" fill="#FF9EB5"/>
+              <path d="M151 148q9 9 18 0" fill="none" stroke="#3B2A22" stroke-width="3" stroke-linecap="round"/>
+            </g>
+            <g stroke="#3B2A22" stroke-width="3.4" fill="none" stroke-linecap="round">
+              <path d="M92 190c-16 4-26 14-26 26"/>
+              <path d="M236 186c14-6 24-2 30 6"/>
+            </g>
+            <circle cx="66" cy="216" r="9" fill="#FFE2C6" stroke="#3B2A22" stroke-width="3"/>
+            <circle cx="266" cy="192" r="9" fill="#FFE2C6" stroke="#3B2A22" stroke-width="3"/>
+            <g fill="#63C6F2" opacity=".9">
+              <path d="M84 70l5 12 12 5-12 5-5 12-5-12-12-5 12-5z"/>
+            </g>
+            <g fill="#FFA3B8" opacity=".9">
+              <path d="M254 108l4 9 9 4-9 4-4 9-4-9-9-4 9-4z"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><b>6</b><span>步教學</span></div>
+        <div class="stat"><b>3</b><span>個模式</span></div>
+        <div class="stat"><b>18</b><span>道題目</span></div>
+      </div>
+
+      <h2 class="sec-title" id="modeSection">三個練習模式</h2>
+      <div class="mode-grid">
+        <article class="mode-card" data-mode="match" tabindex="0" role="button" aria-label="開始事例配對模式">
+          <div class="mode-icon" style="background:#FFE7B8;">
+            <svg viewBox="0 0 40 40" aria-hidden="true">
+              <rect x="4" y="8" width="15" height="24" rx="4" fill="#fff" stroke="#3B2A22" stroke-width="2.6"/>
+              <rect x="21" y="8" width="15" height="24" rx="4" fill="#FFD35C" stroke="#3B2A22" stroke-width="2.6"/>
+              <path d="M8 15h7M8 20h5" stroke="#3B2A22" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M24 20l3 3 6-7" stroke="#3B2A22" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>事例配對</h3>
+          <p>看人物的特點，選出最能證明它的一件事。</p>
+          <div class="mode-foot"><span class="mode-best" id="best-match">未挑戰</span><span class="mode-go">開始 →</span></div>
+        </article>
+
+        <article class="mode-card" data-mode="detail" tabindex="0" role="button" aria-label="開始細節放大鏡模式">
+          <div class="mode-icon" style="background:#D9F1FB;">
+            <svg viewBox="0 0 40 40" aria-hidden="true">
+              <circle cx="17" cy="17" r="11" fill="#fff" stroke="#3B2A22" stroke-width="2.8"/>
+              <path d="M25 25l9 9" stroke="#3B2A22" stroke-width="4" stroke-linecap="round"/>
+              <path d="M12 15a6 6 0 0 1 8-4" fill="none" stroke="#63C6F2" stroke-width="2.6" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>細節放大鏡</h3>
+          <p>把「很開心」這類空話，換成看得見的動作與說話。</p>
+          <div class="mode-foot"><span class="mode-best" id="best-detail">未挑戰</span><span class="mode-go">開始 →</span></div>
+        </article>
+
+        <article class="mode-card" data-mode="order" tabindex="0" role="button" aria-label="開始事例排隊模式">
+          <div class="mode-icon" style="background:#E7E0FF;">
+            <svg viewBox="0 0 40 40" aria-hidden="true">
+              <rect x="5" y="6" width="30" height="8" rx="4" fill="#fff" stroke="#3B2A22" stroke-width="2.6"/>
+              <rect x="5" y="17" width="30" height="8" rx="4" fill="#B9A2FF" stroke="#3B2A22" stroke-width="2.6"/>
+              <rect x="5" y="28" width="30" height="8" rx="4" fill="#fff" stroke="#3B2A22" stroke-width="2.6"/>
+              <path d="M10 10h2M10 21h2M10 32h2" stroke="#3B2A22" stroke-width="2.4" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>事例排隊</h3>
+          <p>把三句話排成「起因 → 經過 → 結果」的完整事例。</p>
+          <div class="mode-foot"><span class="mode-best" id="best-order">未挑戰</span><span class="mode-go">開始 →</span></div>
+        </article>
+      </div>
+      <p class="foot-note">三個模式的題目互不重複，適合小四至小六；每題揭曉答案時都會說明原因。</p>
+    </section>
+
+    <!-- ============ 教學 ============ -->
+    <section id="screen-learn" class="screen" aria-label="教學部分">
+      <div class="bars">
+        <button class="btn btn-small" id="btnLearnBack" type="button">← 返回主頁</button>
+        <span class="step-count">第 <b id="stepNow">1</b> / 6 步</span>
+      </div>
+
+      <div class="slides" id="slides">
+
+        <article class="slide active" data-step="1">
+          <div class="slide-art">
+            <svg viewBox="0 0 400 300" role="img" aria-label="一個女孩用放大鏡看一張寫着細心的人物卡">
+              <ellipse cx="200" cy="274" rx="150" ry="16" fill="#FFE6C2"/>
+              <use href="#ch-girl" x="16" y="112" width="126" height="147"/>
+              <rect x="142" y="58" width="168" height="116" rx="20" fill="#fff" stroke="#3B2A22" stroke-width="4"/>
+              <circle cx="168" cy="84" r="10" fill="#FFD35C" stroke="#3B2A22" stroke-width="3"/>
+              <text x="242" y="108" text-anchor="middle" font-size="34" font-weight="800" fill="#3B2A22">細心</text>
+              <path d="M176 126h96" stroke="#7EC8F2" stroke-width="8" stroke-linecap="round"/>
+              <path d="M176 144h58" stroke="#E7D6C2" stroke-width="8" stroke-linecap="round"/>
+              <circle cx="318" cy="156" r="38" fill="#CBEFFF" fill-opacity=".5" stroke="#3B2A22" stroke-width="4"/>
+              <path d="M346 184l24 28" stroke="#3B2A22" stroke-width="12" stroke-linecap="round"/>
+              <path d="M303 145a17 17 0 0 1 28-6" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+              <path d="M118 46l5 12 12 5-12 5-5 12-5-12-12-5 12-5z" fill="#FFD35C"/>
+            </svg>
+          </div>
+          <div class="slide-body">
+            <span class="step-tag">第 1 步</span>
+            <h2>先找出人物的特點</h2>
+            <p class="slide-text">寫人，第一步不是寫他做過甚麼，而是想清楚：他是一個怎樣的人？用一兩個詞語寫下來，例如「孝順」、「細心」、「勇敢」、「幽默」。</p>
+            <div class="tip"><b>小提示：</b>特點要具體，不要只寫「好人」、「不錯」，否則後面很難找到事例。</div>
+            <div class="example-pair">
+              <div class="ex bad"><span class="mark">✗</span><span>我的媽媽是一個好人。</span></div>
+              <div class="ex good"><span class="mark">✓</span><span>我的媽媽很節儉。</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-step="2">
+          <div class="slide-art">
+            <svg viewBox="0 0 400 300" role="img" aria-label="時間、地點、人物三個圖示">
+              <ellipse cx="200" cy="276" rx="150" ry="16" fill="#FFE6C2"/>
+              <g>
+                <rect x="16" y="74" width="112" height="158" rx="22" fill="#fff" stroke="#3B2A22" stroke-width="4"/>
+                <rect x="40" y="104" width="64" height="56" rx="10" fill="#FFE7B8" stroke="#3B2A22" stroke-width="3"/>
+                <path d="M40 122h64M56 98v10M88 98v10" stroke="#3B2A22" stroke-width="3"/>
+                <circle cx="56" cy="138" r="4" fill="#3B2A22"/><circle cx="72" cy="138" r="4" fill="#3B2A22"/><circle cx="88" cy="138" r="4" fill="#3B2A22"/>
+                <text x="72" y="206" text-anchor="middle" font-size="26" font-weight="800" fill="#3B2A22">時間</text>
+              </g>
+              <g>
+                <rect x="144" y="74" width="112" height="158" rx="22" fill="#fff" stroke="#3B2A22" stroke-width="4"/>
+                <path d="M200 98c-15 0-26 11-26 26 0 19 26 42 26 42s26-23 26-42c0-15-11-26-26-26z" fill="#FFA3B8" stroke="#3B2A22" stroke-width="3"/>
+                <circle cx="200" cy="124" r="9" fill="#fff" stroke="#3B2A22" stroke-width="3"/>
+                <text x="200" y="206" text-anchor="middle" font-size="26" font-weight="800" fill="#3B2A22">地點</text>
+              </g>
+              <g>
+                <rect x="272" y="74" width="112" height="158" rx="22" fill="#fff" stroke="#3B2A22" stroke-width="4"/>
+                <circle cx="312" cy="120" r="15" fill="#FFE2C6" stroke="#3B2A22" stroke-width="3"/>
+                <path d="M296 158c0-9 7-16 16-16s16 7 16 16z" fill="#7EC8F2" stroke="#3B2A22" stroke-width="3"/>
+                <circle cx="348" cy="126" r="12" fill="#FFE0C0" stroke="#3B2A22" stroke-width="3"/>
+                <path d="M336 158c0-7 5-13 12-13s12 6 12 13z" fill="#8FD9A8" stroke="#3B2A22" stroke-width="3"/>
+                <text x="328" y="206" text-anchor="middle" font-size="26" font-weight="800" fill="#3B2A22">人物</text>
+              </g>
+              <path d="M130 152h12M258 152h12" stroke="#3B2A22" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 8"/>
+            </svg>
+          </div>
+          <div class="slide-body">
+            <span class="step-tag">第 2 步</span>
+            <h2>一個事例＝時間＋地點＋人物＋事情</h2>
+            <p class="slide-text">特點只是一個標籤，要讓人相信，就要用一件事去證明。這件事不必驚天動地，一件生活小事就足夠。</p>
+            <div class="tip"><b>先問自己：</b>這件事在何時、何地發生？有誰在場？發生了甚麼事？</div>
+            <div class="example-pair">
+              <div class="ex bad"><span class="mark">✗</span><span>婆婆很疼我。</span></div>
+              <div class="ex good"><span class="mark">✓</span><span>每次探望婆婆，她總把鐵罐裏的糖果倒在我手心。</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-step="3">
+          <div class="slide-art">
+            <svg viewBox="0 0 400 300" role="img" aria-label="左邊只有結論，右邊有具體事例">
+              <ellipse cx="200" cy="276" rx="150" ry="16" fill="#FFE6C2"/>
+              <rect x="10" y="62" width="180" height="152" rx="22" fill="#FFF0F0" stroke="#3B2A22" stroke-width="4" stroke-dasharray="12 9"/>
+              <text x="100" y="118" text-anchor="middle" font-size="32" font-weight="800" fill="#B5564F">他很好</text>
+              <text x="100" y="156" text-anchor="middle" font-size="20" fill="#8A6A5E">只有結論</text>
+              <path d="M78 176h44" stroke="#E0A9A4" stroke-width="8" stroke-linecap="round"/>
+              <rect x="206" y="50" width="184" height="176" rx="22" fill="#EAFBF0" stroke="#3B2A22" stroke-width="4"/>
+              <text x="298" y="100" text-anchor="middle" font-size="22" font-weight="800" fill="#2F7F55">他把最後一塊</text>
+              <text x="298" y="132" text-anchor="middle" font-size="22" font-weight="800" fill="#2F7F55">蛋糕留給我</text>
+              <path d="M258 152h80" stroke="#6FD08C" stroke-width="8" stroke-linecap="round"/>
+              <text x="298" y="196" text-anchor="middle" font-size="20" fill="#3F7A5B">看得見的事例</text>
+              <path d="M192 138h13" stroke="#3B2A22" stroke-width="4" stroke-linecap="round"/>
+              <path d="M199 132l7 6-7 6" fill="none" stroke="#3B2A22" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M336 236l6 13 13 6-13 6-6 13-6-13-13-6 13-6z" fill="#6FD08C"/>
+            </svg>
+          </div>
+          <div class="slide-body">
+            <span class="step-tag">第 3 步</span>
+            <h2>事例要「小」而「具體」</h2>
+            <p class="slide-text">「他很好」是結論；「他把最後一塊蛋糕留給我」才是事例。把概括的說話換成看得見的畫面，讀者才會相信。</p>
+            <div class="tip"><b>改寫口訣：</b>刪去「很」、「非常」、「十分」，換成一個動作。</div>
+            <div class="example-pair">
+              <div class="ex bad"><span class="mark">✗</span><span>姐姐非常愛護我。</span></div>
+              <div class="ex good"><span class="mark">✓</span><span>姐姐把最後一塊蛋糕留給我，還說自己不愛吃甜。</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-step="4">
+          <div class="slide-art">
+            <svg viewBox="0 0 400 300" role="img" aria-label="人物加上動作、語言、神態、心理四種描寫">
+              <ellipse cx="200" cy="274" rx="150" ry="16" fill="#FFE6C2"/>
+              <use href="#ch-boy" x="140" y="96" width="120" height="140"/>
+              <g>
+                <rect x="12" y="26" width="112" height="52" rx="16" fill="#fff" stroke="#3B2A22" stroke-width="3.5"/>
+                <text x="68" y="60" text-anchor="middle" font-size="23" font-weight="800" fill="#3B2A22">動作</text>
+              </g>
+              <g>
+                <rect x="276" y="26" width="112" height="52" rx="16" fill="#fff" stroke="#3B2A22" stroke-width="3.5"/>
+                <text x="332" y="60" text-anchor="middle" font-size="23" font-weight="800" fill="#3B2A22">語言</text>
+                <path d="M300 40l8-8 8 8" fill="none" stroke="#63C6F2" stroke-width="3"/>
+              </g>
+              <g>
+                <rect x="12" y="210" width="112" height="52" rx="16" fill="#fff" stroke="#3B2A22" stroke-width="3.5"/>
+                <text x="68" y="244" text-anchor="middle" font-size="23" font-weight="800" fill="#3B2A22">神態</text>
+              </g>
+              <g>
+                <rect x="276" y="210" width="112" height="52" rx="16" fill="#fff" stroke="#3B2A22" stroke-width="3.5"/>
+                <text x="332" y="244" text-anchor="middle" font-size="23" font-weight="800" fill="#3B2A22">心理</text>
+                <path d="M320 226c3-6 12-3 12 2 0 5-12 10-12 10s-12-5-12-10c0-5 9-8 12-2z" fill="#FFA3B8" stroke="#3B2A22" stroke-width="2.2"/>
+              </g>
+              <g stroke="#3B2A22" stroke-width="3" stroke-dasharray="5 7" fill="none">
+                <path d="M124 54c16 10 24 24 26 40"/>
+                <path d="M276 54c-16 10-24 24-26 40"/>
+                <path d="M124 232c16-10 24-24 26-40"/>
+                <path d="M276 232c-16-10-24-24-26-40"/>
+              </g>
+            </svg>
+          </div>
+          <div class="slide-body">
+            <span class="step-tag">第 4 步</span>
+            <h2>加入動作、語言、神態、心理</h2>
+            <p class="slide-text">同一個動作，加一點細節就完全不同。寫他怎樣做（動作）、說甚麼（語言）、表情如何（神態）、心裏想甚麼（心理）。</p>
+            <div class="tip"><b>記住：</b>一句話、一個小動作，往往比十句「他很傷心」更動人。</div>
+            <div class="example-pair">
+              <div class="ex bad"><span class="mark">✗</span><span>弟弟很害怕。</span></div>
+              <div class="ex good"><span class="mark">✓</span><span>弟弟緊握拳頭，眼淚在眼眶裏打轉，卻說：「我不怕。」</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-step="5">
+          <div class="slide-art">
+            <svg viewBox="0 0 400 300" role="img" aria-label="清掃的事例指向盡責的特點">
+              <ellipse cx="200" cy="274" rx="150" ry="16" fill="#FFE6C2"/>
+              <rect x="14" y="72" width="196" height="152" rx="22" fill="#fff" stroke="#3B2A22" stroke-width="4"/>
+              <use href="#ch-cleaner" x="34" y="92" width="104" height="120"/>
+              <g stroke="#3B2A22" stroke-width="4" stroke-linecap="round">
+                <path d="M150 190l38-58"/>
+                <path d="M150 190h-22M150 190l14 16" stroke-width="5"/>
+              </g>
+              <text x="150" y="216" text-anchor="middle" font-size="18" fill="#6B5145">天未亮就清掃</text>
+              <path d="M222 148h34" stroke="#3B2A22" stroke-width="6" stroke-linecap="round"/>
+              <path d="M248 134l18 14-18 14" fill="none" stroke="#3B2A22" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="274" y="112" width="112" height="70" rx="20" fill="#FFE7B8" stroke="#3B2A22" stroke-width="4"/>
+              <text x="330" y="157" text-anchor="middle" font-size="30" font-weight="800" fill="#3B2A22">盡責</text>
+              <path d="M312 196l7 15 15 7-15 7-7 15-7-15-15-7 15-7z" fill="#6FD08C"/>
+            </svg>
+          </div>
+          <div class="slide-body">
+            <span class="step-tag">第 5 步</span>
+            <h2>事例要能證明那個特點</h2>
+            <p class="slide-text">寫完事例，要回頭檢查：這件事真的能說明他的特點嗎？如果只能說明他「有禮貌」，就不要用來寫「勇敢」。</p>
+            <div class="tip"><b>刪去無關資料：</b>「他今年十歲」、「他喜歡藍色」這些話，無法證明特點，只會令文章鬆散。</div>
+            <div class="example-pair">
+              <div class="ex bad"><span class="mark">✗</span><span>特點是「盡責」，卻寫「他穿藍色制服」。</span></div>
+              <div class="ex good"><span class="mark">✓</span><span>特點是「盡責」，寫「颱風後天未亮就來清掃」。</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-step="6">
+          <div class="slide-art">
+            <svg viewBox="0 0 400 300" role="img" aria-label="文章開頭和結尾互相呼應">
+              <ellipse cx="200" cy="276" rx="150" ry="16" fill="#FFE6C2"/>
+              <rect x="40" y="34" width="320" height="216" rx="20" fill="#fff" stroke="#3B2A22" stroke-width="4"/>
+              <rect x="60" y="52" width="280" height="46" rx="12" fill="#FFE7B8" stroke="#3B2A22" stroke-width="2.6"/>
+              <text x="200" y="82" text-anchor="middle" font-size="19" font-weight="800" fill="#3B2A22">開頭：點出特點</text>
+              <rect x="60" y="110" width="280" height="10" rx="5" fill="#EADFD1"/>
+              <rect x="60" y="130" width="240" height="10" rx="5" fill="#EADFD1"/>
+              <rect x="60" y="150" width="264" height="10" rx="5" fill="#EADFD1"/>
+              <text x="200" y="184" text-anchor="middle" font-size="17" fill="#8A7364">中間：一件具體事例</text>
+              <rect x="60" y="196" width="280" height="40" rx="12" fill="#DFF7E6" stroke="#3B2A22" stroke-width="2.6"/>
+              <text x="200" y="222" text-anchor="middle" font-size="19" font-weight="800" fill="#2F7F55">結尾：寫出感受</text>
+              <path d="M356 40c14 8 16 22 4 32" fill="none" stroke="#FFA3B8" stroke-width="4" stroke-linecap="round" stroke-dasharray="6 6"/>
+            </svg>
+          </div>
+          <div class="slide-body">
+            <span class="step-tag">第 6 步</span>
+            <h2>首尾加一句感受</h2>
+            <p class="slide-text">開頭點出特點，中間寫事例，結尾寫自己的感受或評價，文章就有頭有尾，也能回應開頭。</p>
+            <div class="tip"><b>不要只寫「我很感動」：</b>可以寫這件事讓你明白了甚麼。</div>
+            <div class="example-pair">
+              <div class="ex good"><span class="mark">✓</span><span>那把傘我一直記着。原來樂於助人，就是在別人有需要時，先想到對方。</span></div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="dots" id="learnDots" aria-hidden="true"></div>
+      <div class="learn-nav">
+        <button class="btn" id="btnPrevStep" type="button">上一步</button>
+        <button class="btn btn-primary" id="btnNextStep" type="button">下一步 →</button>
+      </div>
+    </section>
+
+    <!-- ============ 遊戲 ============ -->
+    <section id="screen-game" class="screen" aria-label="練習遊戲">
+      <div class="game-top">
+        <button class="icon-btn" id="btnQuit" type="button" aria-label="退出遊戲，返回主頁">←</button>
+        <div class="mode-name" id="gameModeName">事例配對</div>
+        <div class="score-box" aria-label="得分">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5-5.9-3.2-5.9 3.2 1.2-6.5L2.5 9.4l6.6-.9z" fill="#FFD35C" stroke="#3B2A22" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          <span id="scoreVal">0</span>
+        </div>
+      </div>
+      <div class="bar"><i id="barFill"></i></div>
+
+      <div class="q-wrap">
+        <div class="q-head">
+          <span class="q-count" id="qCount">第 1 / 6 題</span>
+          <div class="chips" id="chips"></div>
+        </div>
+        <h2 class="q-title" id="qTitle"></h2>
+        <div class="answer" id="answerArea"></div>
+        <div class="feedback" id="feedback" hidden aria-live="polite"></div>
+        <div class="q-actions">
+          <button class="btn btn-primary" id="btnNextQ" type="button" hidden>下一題 →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 結果 ============ -->
+    <section id="screen-result" class="screen" aria-label="成績">
+      <div class="result-card">
+        <div class="stars" id="stars" aria-hidden="true"></div>
+        <h2 id="resTitle">完成！</h2>
+        <p class="res-score"><b id="resScore">0</b> / 6</p>
+        <div class="res-dots" id="resDots"></div>
+        <p class="res-msg" id="resMsg"></p>
+        <div class="res-actions">
+          <button class="btn btn-primary" id="btnAgain" type="button">再玩一次</button>
+          <button class="btn" id="btnBackHome" type="button">返回主頁</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<noscript><p style="padding:1rem;text-align:center;">本教材需要開啟 JavaScript 才能使用。</p></noscript>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ================= 資料 ================= */
+
+  var DATA = {
+    match: {
+      name: '事例配對',
+      questions: [
+        {
+          chips: ['人物：樂怡', '特點：樂於助人'],
+          prompt: '哪一件事最能表現樂怡「樂於助人」的特點？',
+          options: [
+            '樂怡每天帶三塊擦膠回校。',
+            '下雨天，樂怡看見我沒帶傘，二話不說把傘塞給我，自己冒着雨跑去巴士站。',
+            '樂怡的媽媽是護士。',
+            '樂怡最喜歡藍色。'
+          ],
+          answer: 1,
+          why: '這個事例有清楚的時間（下雨天）、動作（把傘塞給我、冒着雨跑），寫出她寧可自己淋雨也要幫人，所以能證明「樂於助人」。其餘三句只是與特點無關的資料或習慣，無法證明她樂於助人。'
+        },
+        {
+          chips: ['人物：爺爺', '特點：節儉'],
+          prompt: '哪一件事最能表現爺爺「節儉」的特點？',
+          options: [
+            '爺爺今年七十歲。',
+            '爺爺每天到公園下棋。',
+            '爺爺的襪子破了洞，他拿出針線一針一針補好，說：「還能穿，不要浪費。」',
+            '爺爺有很多朋友。'
+          ],
+          answer: 2,
+          why: '「補襪子」這個小動作，加上一句說話，把「節儉」變成看得見的畫面。年齡、興趣、交友都無法證明節儉。'
+        },
+        {
+          chips: ['人物：陳老師', '特點：細心'],
+          prompt: '哪一件事最能表現陳老師「細心」的特點？',
+          options: [
+            '陳老師教我們中文。',
+            '陳老師說話聲音很大。',
+            '陳老師喜歡喝茶。',
+            '我功課上寫錯了一個標點，陳老師也用紅筆圈出來，在旁邊寫上正確的用法。'
+          ],
+          answer: 3,
+          why: '連一個標點都留意到，正是「細心」最好的證據。小事最能看出一個人的性格，比「她很細心」有力得多。'
+        },
+        {
+          chips: ['人物：媽媽', '特點：幽默'],
+          prompt: '哪一件事最能表現媽媽「幽默」的特點？',
+          options: [
+            '我考試不及格，媽媽沒有罵我，只把試卷摺成紙飛機，說：「下次讓成績飛高一點。」',
+            '媽媽每天煮飯。',
+            '媽媽在公司做會計。',
+            '媽媽喜歡旅行。'
+          ],
+          answer: 0,
+          why: '把試卷摺成紙飛機、說一句俏皮話，既寫出幽默，也寫出她安慰我的方式。這種想不到的反應，正是事例最有趣的地方。'
+        },
+        {
+          chips: ['人物：弟弟', '特點：勇敢'],
+          prompt: '哪一件事最能表現弟弟「勇敢」的特點？',
+          options: [
+            '弟弟今年四歲。',
+            '打針時，弟弟緊握着拳頭，眼淚在眼眶裏打轉，卻對護士說：「我不怕，你打吧。」',
+            '弟弟怕黑，睡覺要開小燈。',
+            '弟弟最喜歡吃雪糕。'
+          ],
+          answer: 1,
+          why: '「眼淚打轉」說明他其實害怕，「卻說我不怕」說明他仍然堅持。害怕而仍然面對，才是真正的勇敢；單說「他很勇敢」沒有說服力。'
+        },
+        {
+          chips: ['人物：陳伯伯', '特點：盡責'],
+          prompt: '哪一件事最能表現清潔工陳伯伯「盡責」的特點？',
+          options: [
+            '陳伯伯在我們屋邨工作。',
+            '陳伯伯穿藍色制服。',
+            '陳伯伯有一個女兒。',
+            '颱風過後，屋邨通道堆滿折斷的樹枝，陳伯伯天未亮就來清掃，掃到中午連飯也未吃。'
+          ],
+          answer: 3,
+          why: '「天未亮」和「連飯也未吃」是時間細節，寫出他寧可辛苦也要完成工作。工作地點、衣著、家庭資料都不能證明盡責。'
+        }
+      ]
+    },
+
+    detail: {
+      name: '細節放大鏡',
+      questions: [
+        {
+          chips: ['原句：姐姐很愛護我。'],
+          prompt: '哪一句把「姐姐很愛護我」寫得最具體？',
+          options: [
+            '姐姐真是個好姐姐，很愛護我。',
+            '姐姐今年讀中三。',
+            '姐姐把最後一塊蛋糕留給我，還說自己不愛吃甜。',
+            '姐姐很愛護我，我十分感動。'
+          ],
+          answer: 2,
+          why: '「留蛋糕」是行動，「說自己不愛吃甜」是語言，兩者合起來把「愛護」變成看得見的畫面。其餘選項只是重複結論或交代背景。'
+        },
+        {
+          chips: ['原句：爸爸很疲累。'],
+          prompt: '哪一句把「爸爸很疲累」寫得最具體？',
+          options: [
+            '爸爸工作很辛苦，非常疲累。',
+            '爸爸一回到家，鞋也未脫就靠在梳化上睡着了，手裏還握着電話。',
+            '爸爸每天上班要穿西裝。',
+            '爸爸疲累得不得了。'
+          ],
+          answer: 1,
+          why: '「鞋也未脫」、「手裏還握着電話」是動作細節，讓讀者自己感受到他有多累。直接寫「非常疲累」，讀者只能相信，不能看見。'
+        },
+        {
+          chips: ['原句：同學們很緊張。'],
+          prompt: '哪一句把「同學們很緊張」寫得最具體？',
+          options: [
+            '大家都非常緊張，課室氣氛很沉重。',
+            '今天派中文卷。',
+            '同學們都很緊張，我也是。',
+            '派卷前，美欣不停搓着手，眼睛盯着課室門口，連呼吸也放輕了。'
+          ],
+          answer: 3,
+          why: '搓手、盯着門口、放輕呼吸，一連串動作和神態，把「緊張」寫成一個鏡頭。這比「氣氛很沉重」更具體、更易想像。'
+        },
+        {
+          chips: ['原句：他很生氣。'],
+          prompt: '哪一句把「他很生氣」寫得最具體？',
+          options: [
+            '他生氣極了，誰也不敢惹他。',
+            '他一句話也沒說，把課本「啪」的一聲合上，轉身走出課室。',
+            '他非常非常生氣。',
+            '他是一個容易生氣的人。'
+          ],
+          answer: 1,
+          why: '「啪」的一聲是聽得到的聲音，「合上課本、轉身走出課室」是連續動作。有時不說話，比大吼大叫更令人印象深刻，也比「非常生氣」有力。'
+        },
+        {
+          chips: ['原句：婆婆很疼我。'],
+          prompt: '哪一句把「婆婆很疼我」寫得最具體？',
+          options: [
+            '婆婆常常說她很疼我。',
+            '婆婆住在元朗。',
+            '婆婆對我真的很好。',
+            '每次探望婆婆，她總把藏在鐵罐裏的糖果倒在我手心，自己只留下一顆。'
+          ],
+          answer: 3,
+          why: '「倒在我手心，自己只留一顆」是鮮明的對比細節，不用說「疼」，讀者已經感受到。說出來的疼愛，不如做出來的疼愛。'
+        },
+        {
+          chips: ['原句：妹妹很害怕。'],
+          prompt: '哪一句把「妹妹很害怕」寫得最具體？',
+          options: [
+            '妹妹害怕極了，躲在角落。',
+            '妹妹今年讀一年級。',
+            '妹妹很怕打雷。',
+            '一聽見雷聲，妹妹立刻鑽進梳化底，雙手掩着耳朵，縮成一團，怎麼叫也不出來。'
+          ],
+          answer: 3,
+          why: '鑽、捂、縮一連串動作，加上「怎麼叫也不出來」的結果，把害怕寫得立體。寫人時，動作和神態比「很害怕」更有說服力。'
+        }
+      ]
+    },
+
+    order: {
+      name: '事例排隊',
+      questions: [
+        {
+          chips: ['事例：家寶趕回學校'],
+          prompt: '把「家寶趕回學校」的三句話排成「起因 → 經過 → 結果」。',
+          items: [
+            { role: '起因', text: '學校旅行那天，家寶乘坐的巴士在半路壞了。' },
+            { role: '經過', text: '他看看手錶，決定下車，背着背包跑了二十分鐘，滿頭大汗趕到集合地點。' },
+            { role: '結果', text: '老師點名時，他剛剛趕到，喘着氣說：「總算沒有遲到。」' }
+          ],
+          why: '巴士壞了是起因；下車跑二十分鐘是經過；剛剛趕到和一句話是結果。寧可辛苦也要準時，寫出他的守時。'
+        },
+        {
+          chips: ['事例：根叔撿作業'],
+          prompt: '把「根叔撿作業」的三句話排成「起因 → 經過 → 結果」。',
+          items: [
+            { role: '起因', text: '早上校門擠滿人，我抱着一疊作業匆匆跑進校門，撞翻了根叔手上的垃圾鏟。' },
+            { role: '經過', text: '根叔沒有生氣，先幫我把散在地上的作業一張一張撿起來，還用衣袖擦掉上面的腳印。' },
+            { role: '結果', text: '他把作業交回我手上，笑着說：「慢慢走，別急。」' }
+          ],
+          why: '撞翻垃圾鏟是起因；幫我撿作業、擦腳印是經過；最後一句話是結果。他先想到別人，寫出他的有禮和寬容。'
+        },
+        {
+          chips: ['事例：外婆學視像通話'],
+          prompt: '把「外婆學視像通話」的三句話排成「起因 → 經過 → 結果」。',
+          items: [
+            { role: '起因', text: '外婆想跟遠在加拿大的姨媽視像通話，卻不懂得按哪個鍵。' },
+            { role: '經過', text: '她戴上老花眼鏡，把步驟寫在日曆紙上，一次又一次練習，按錯了就重新再來。' },
+            { role: '結果', text: '那天晚上，她終於自己接通了視像電話，開心得像個小孩。' }
+          ],
+          why: '起因寫出困難，經過寫她怎樣克服（寫筆記、重複練習），結果寫成功後的快樂。事例雖小，卻看出外婆的好學。'
+        },
+        {
+          chips: ['事例：詠恩要求重新點票'],
+          prompt: '把「詠恩要求重新點票」的三句話排成「起因 → 經過 → 結果」。',
+          items: [
+            { role: '起因', text: '班長選舉點票時，詠恩發現自己把一票多算給好朋友。' },
+            { role: '經過', text: '她猶豫了一下，還是舉手告訴老師，請老師重新點票。' },
+            { role: '結果', text: '重新點票後，好朋友以一票之差落選了，詠恩卻說：「對朋友也要公平。」' }
+          ],
+          why: '起因寫出兩難：說出來，好朋友可能落選；不說，對其他同學不公平。經過寫她怎樣選擇，結果用一句話點出「公正」。'
+        },
+        {
+          chips: ['事例：爸爸練游泳'],
+          prompt: '把「爸爸練游泳」的三句話排成「起因 → 經過 → 結果」。',
+          items: [
+            { role: '起因', text: '爸爸不會游泳，卻報名參加了下個月的渡海泳比賽。' },
+            { role: '經過', text: '他每天清晨到泳池練習，喝了幾口水也不肯停，手臂累了就在池邊拉一拉，再下水。' },
+            { role: '結果', text: '比賽那天，他游完全程，上岸時笑得比誰都開心。' }
+          ],
+          why: '不會游泳是起點；每天清晨練習、不肯停是經過；游完全程是結果。寫出他怎樣堅持，比直接說「很有毅力」更有力。'
+        },
+        {
+          chips: ['事例：張婆婆餵流浪貓'],
+          prompt: '把「張婆婆餵流浪貓」的三句話排成「起因 → 經過 → 結果」。',
+          items: [
+            { role: '起因', text: '屋邨後巷來了幾隻流浪貓，瘦得連肋骨也看得見。' },
+            { role: '經過', text: '張婆婆每天黃昏提着一個膠袋下來，把飯拌魚肉分在小碟上，等貓吃完才收拾。' },
+            { role: '結果', text: '幾個月後，小貓長胖了，見了她便跑過來蹭她的腳。' }
+          ],
+          why: '起因寫出小貓的可憐，經過寫張婆婆每天照顧的細節，結果寫小貓的變化。沒有說「有愛心」，但讀者已經感受到。'
+        }
+      ]
+    }
+  };
+
+  var LETTER = ['A', 'B', 'C', 'D'];
+  var TOTAL = 6;
+  var STORE_KEY = 'qbrw_best_v2';
+  var MUTE_KEY = 'qbrw_muted_v1';
+
+  /* ================= 狀態 ================= */
+  var state = {
+    learnStep: 1,
+    mode: null,
+    qi: 0,
+    score: 0,
+    answered: false,
+    results: [],
+    slots: [null, null, null],
+    pool: []
+  };
+
+  /* ================= 工具 ================= */
+  function $(id) { return document.getElementById(id); }
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function storeGet(k, fallback) {
+    try {
+      var raw = localStorage.getItem(k);
+      return raw === null ? fallback : raw;
+    } catch (e) { return fallback; }
+  }
+  function storeSet(k, v) {
+    try { localStorage.setItem(k, v); } catch (e) { /* 私隱模式或不支援時忽略 */ }
+  }
+  function readBest() {
+    var raw = storeGet(STORE_KEY, '');
+    if (!raw) return {};
+    try {
+      var obj = JSON.parse(raw);
+      return (obj && typeof obj === 'object') ? obj : {};
+    } catch (e) { return {}; }
+  }
+
+  /* ================= 音效 ================= */
+  var Sfx = (function () {
+    var ctx = null;
+    var muted = storeGet(MUTE_KEY, '0') === '1';
+    var broken = false;
+
+    function getCtx() {
+      if (broken) return null;
+      if (ctx) return ctx;
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) { broken = true; return null; }
+      try { ctx = new AC(); } catch (e) { broken = true; return null; }
+      return ctx;
+    }
+    function play(notes) {
+      if (muted) return;
+      var c = getCtx();
+      if (!c) return;
+      if (c.state === 'suspended' && c.resume) {
+        try { c.resume(); } catch (e) {}
+      }
+      var t0 = c.currentTime + 0.02;
+      notes.forEach(function (n) {
+        try {
+          var at = (typeof n.at === 'number' && isFinite(n.at)) ? n.at : 0;
+          var dur = (typeof n.d === 'number' && isFinite(n.d)) ? n.d : 0.12;
+          var o = c.createOscillator();
+          var g = c.createGain();
+          o.type = n.type || 'sine';
+          o.frequency.setValueAtTime(n.f, t0 + at);
+          if (n.f2) o.frequency.exponentialRampToValueAtTime(n.f2, t0 + at + dur);
+          g.gain.setValueAtTime(0.0001, t0 + at);
+          g.gain.exponentialRampToValueAtTime(n.v || 0.14, t0 + at + 0.02);
+          g.gain.exponentialRampToValueAtTime(0.0001, t0 + at + dur);
+          o.connect(g); g.connect(c.destination);
+          o.start(t0 + at); o.stop(t0 + at + dur + 0.03);
+        } catch (e) {}
+      });
+    }
+    return {
+      click: function () { play([{ f: 640, d: 0.08, v: 0.07, type: 'triangle' }]); },
+      correct: function () {
+        play([
+          { f: 784, at: 0, d: 0.12, type: 'sine' },
+          { f: 1046, at: 0.09, d: 0.14, type: 'sine' },
+          { f: 1318, at: 0.2, d: 0.22, v: 0.12, type: 'sine' }
+        ]);
+      },
+      wrong: function () {
+        play([
+          { f: 233, at: 0, d: 0.16, v: 0.09, type: 'sawtooth' },
+          { f: 174, at: 0.13, d: 0.24, v: 0.08, type: 'sawtooth' }
+        ]);
+      },
+      reveal: function () { play([{ f: 520, f2: 900, at: 0, d: 0.24, v: 0.08, type: 'triangle' }]); },
+      win: function () {
+        play([
+          { f: 659, at: 0, d: 0.14 },
+          { f: 784, at: 0.13, d: 0.14 },
+          { f: 988, at: 0.26, d: 0.14 },
+          { f: 1319, at: 0.39, d: 0.36, v: 0.13 }
+        ]);
+      },
+      isMuted: function () { return muted; },
+      hasAPI: function () { return !!(window.AudioContext || window.webkitAudioContext); },
+      isBroken: function () { return broken; },
+      setMuted: function (v) { muted = !!v; storeSet(MUTE_KEY, muted ? '1' : '0'); }
+    };
+  })();
+
+  /* ================= 畫面切換 ================= */
+  function show(name) {
+    var screens = document.querySelectorAll('.screen');
+    for (var i = 0; i < screens.length; i++) {
+      screens[i].classList.toggle('active', screens[i].id === 'screen-' + name);
+    }
+    $('btnHome').hidden = (name === 'home');
+    window.scrollTo(0, 0);
+  }
+
+  /* ================= 教學 ================= */
+  var slides = document.querySelectorAll('.slide');
+  var maxStep = slides.length;
+
+  function renderLearn() {
+    for (var i = 0; i < slides.length; i++) {
+      slides[i].classList.toggle('active', i === state.learnStep - 1);
+    }
+    $('stepNow').textContent = state.learnStep;
+    $('btnPrevStep').disabled = state.learnStep === 1;
+    var last = state.learnStep === maxStep;
+    $('btnNextStep').textContent = last ? '去玩遊戲 →' : '下一步 →';
+    var dots = '';
+    for (var j = 1; j <= maxStep; j++) {
+      dots += '<i class="' + (j === state.learnStep ? 'on' : '') + '"></i>';
+    }
+    $('learnDots').innerHTML = dots;
+  }
+  function goStep(n) {
+    state.learnStep = Math.max(1, Math.min(maxStep, n));
+    renderLearn();
+    Sfx.click();
+    scrollTop();
+  }
+
+  /* 換頁、換題時回到頂部，避免新內容被固定的頁首遮住 */
+  function scrollTop() {
+    try { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    catch (e) { window.scrollTo(0, 0); }
+  }
+
+  /* 答案解說若在畫面外，自動捲到看得見的位置 */
+  function revealFeedback(el) {
+    if (!el) return;
+    window.requestAnimationFrame(function () {
+      var r = el.getBoundingClientRect();
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      if (r.bottom > vh - 12) {
+        var delta = Math.min(r.bottom - vh + 16, Math.max(0, r.top - 96));
+        var y = (window.pageYOffset || 0) + delta;
+        try { window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' }); }
+        catch (e2) { window.scrollTo(0, Math.max(0, y)); }
+      }
+    });
+  }
+
+  /* ================= 遊戲 ================= */
+  function currentQ() { return DATA[state.mode].questions[state.qi]; }
+
+  function startMode(key) {
+    if (!DATA[key]) return;
+    state.mode = key;
+    state.qi = 0;
+    state.score = 0;
+    state.results = [];
+    $('gameModeName').textContent = DATA[key].name;
+    show('game');
+    loadQuestion();
+  }
+
+  function loadQuestion() {
+    var q = currentQ();
+    state.answered = false;
+    $('qCount').textContent = '第 ' + (state.qi + 1) + ' / ' + TOTAL + ' 題';
+    $('scoreVal').textContent = state.score;
+    $('barFill').style.width = (state.qi / TOTAL * 100) + '%';
+
+    var chipsHTML = '';
+    if (q.chips) {
+      for (var i = 0; i < q.chips.length; i++) {
+        var isTrait = q.chips[i].indexOf('特點') === 0;
+        chipsHTML += '<span class="chip' + (isTrait ? ' trait' : '') + '">' + esc(q.chips[i]) + '</span>';
+      }
+    }
+    $('chips').innerHTML = chipsHTML;
+    $('qTitle').textContent = q.prompt;
+
+    var fb = $('feedback');
+    fb.hidden = true;
+    fb.className = 'feedback';
+    fb.innerHTML = '';
+    $('btnNextQ').hidden = true;
+
+    if (state.mode === 'order') {
+      renderOrder(q);
+    } else {
+      renderMC(q);
+    }
+    scrollTop();
+  }
+
+  function renderMC(q) {
+    var area = $('answerArea');
+    area.className = 'answer mc';
+    var html = '';
+    for (var i = 0; i < q.options.length; i++) {
+      html += '<button class="opt" type="button" data-i="' + i + '">' +
+        '<span class="badge">' + LETTER[i] + '</span>' +
+        '<span class="txt">' + esc(q.options[i]) + '</span>' +
+        '<span class="marker" aria-hidden="true"></span>' +
+        '</button>';
+    }
+    area.innerHTML = html;
+  }
+
+  function pickOption(i) {
+    if (state.answered) return;
+    var q = currentQ();
+    state.answered = true;
+    var ok = (i === q.answer);
+    var opts = $('answerArea').querySelectorAll('.opt');
+
+    for (var k = 0; k < opts.length; k++) {
+      var btn = opts[k];
+      btn.disabled = true;
+      btn.setAttribute('aria-disabled', 'true');
+      var marker = btn.querySelector('.marker');
+      if (k === q.answer) {
+        btn.classList.add('correct');
+        marker.textContent = '✓';
+      } else if (k === i) {
+        btn.classList.add('wrong');
+        marker.textContent = '✗';
+      } else {
+        btn.classList.add('dim');
+      }
+    }
+
+    if (ok) { state.score += 1; Sfx.correct(); } else { Sfx.wrong(); }
+    $('scoreVal').textContent = state.score;
+    state.results.push(ok);
+
+    showFeedback(ok, q, ok ? '' : ('正確答案：' + LETTER[q.answer] + '．' + q.options[q.answer]));
+    finishQuestion();
+  }
+
+  function showFeedback(ok, q, answerLine) {
+    var fb = $('feedback');
+    fb.hidden = false;
+    fb.className = 'feedback ' + (ok ? 'good fb-good' : 'bad fb-bad');
+    var html = '<div class="fb-head"><span class="fb-ico">' + (ok ? '✓' : '✗') + '</span>' +
+      '<strong>' + (ok ? '答對了！' : '差一點！') + '</strong></div>';
+    if (answerLine) html += '<p class="fb-ans">' + esc(answerLine) + '</p>';
+    html += '<div class="fb-why"><b>為甚麼？</b> ' + esc(q.why) + '</div>';
+    fb.innerHTML = html;
+    revealFeedback(fb);
+  }
+
+  function finishQuestion() {
+    var btn = $('btnNextQ');
+    btn.hidden = false;
+    btn.textContent = (state.qi === TOTAL - 1) ? '看成績 →' : '下一題 →';
+    $('barFill').style.width = ((state.qi + 1) / TOTAL * 100) + '%';
+  }
+
+  /* ---- 排隊模式 ---- */
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function renderOrder(q) {
+    state.slots = [null, null, null];
+    var base = [0, 1, 2];
+    var shuffled = shuffle(base);
+    var guard = 0;
+    while (shuffled[0] === 0 && shuffled[1] === 1 && shuffled[2] === 2 && guard < 12) {
+      shuffled = shuffle(base);
+      guard++;
+    }
+    if (shuffled[0] === 0 && shuffled[1] === 1 && shuffled[2] === 2) {
+      var tmp = shuffled[0]; shuffled[0] = shuffled[1]; shuffled[1] = tmp;
+    }
+    state.pool = shuffled;
+
+    var area = $('answerArea');
+    area.className = 'answer order';
+    area.innerHTML =
+      '<p class="order-help">先點下面的句子，它會放進上面的空格；再點空格，可以把句子拿回來。</p>' +
+      '<div class="slots" id="slots"></div>' +
+      '<p class="pool-label">句子卡</p>' +
+      '<div class="team-pool" id="pool"></div>' +
+      '<div><button class="btn btn-primary" id="btnConfirmOrder" type="button" disabled>確認答案</button></div>';
+    drawOrder();
+  }
+
+  function drawOrder() {
+    var q = currentQ();
+    var slotsEl = $('slots');
+    var html = '';
+    for (var i = 0; i < 3; i++) {
+      var v = state.slots[i];
+      if (v === null) {
+        html += '<button class="slot empty" type="button" data-slot="' + i + '">' +
+          '<span class="num">' + (i + 1) + '</span>' +
+          '<span class="slot-txt">點句子放進來</span></button>';
+      } else {
+        html += '<button class="slot filled" type="button" data-slot="' + i + '">' +
+          '<span class="num">' + (i + 1) + '</span>' +
+          '<span class="slot-txt">' + esc(q.items[v].text) + '</span></button>';
+      }
+    }
+    slotsEl.innerHTML = html;
+
+    var poolEl = $('pool');
+    if (state.pool.length === 0) {
+      poolEl.innerHTML = '<p class="order-help" style="margin:0;">句子都放好了，按「確認答案」看看對不對。</p>';
+    } else {
+      var ph = '';
+      for (var j = 0; j < state.pool.length; j++) {
+        var idx = state.pool[j];
+        ph += '<button class="pool-item" type="button" data-pool="' + idx + '">' + esc(q.items[idx].text) + '</button>';
+      }
+      poolEl.innerHTML = ph;
+    }
+    $('btnConfirmOrder').disabled = state.slots.indexOf(null) !== -1;
+  }
+
+  function placeFromPool(idx) {
+    if (state.answered) return;
+    var slot = state.slots.indexOf(null);
+    if (slot === -1) return;
+    state.slots[slot] = idx;
+    var p = state.pool.indexOf(idx);
+    if (p !== -1) state.pool.splice(p, 1);
+    Sfx.click();
+    drawOrder();
+  }
+
+  function removeFromSlot(slot) {
+    if (state.answered) return;
+    var idx = state.slots[slot];
+    if (idx === null) return;
+    state.slots[slot] = null;
+    state.pool.push(idx);
+    Sfx.click();
+    drawOrder();
+  }
+
+  function checkOrder() {
+    if (state.answered) return;
+    if (state.slots.indexOf(null) !== -1) return;
+    var q = currentQ();
+    state.answered = true;
+    var allOK = true;
+    var slotEls = $('slots').querySelectorAll('.slot');
+    for (var i = 0; i < slotEls.length; i++) {
+      var posOK = state.slots[i] === i;
+      slotEls[i].classList.add(posOK ? 'correct' : 'wrong');
+      slotEls[i].disabled = true;
+      slotEls[i].setAttribute('aria-label', '第 ' + (i + 1) + ' 格：' + (posOK ? '正確' : '錯誤'));
+      slotEls[i].insertAdjacentHTML('beforeend',
+        '<span class="slot-mark" aria-hidden="true">' + (posOK ? '✓' : '✗') + '</span>');
+      if (!posOK) allOK = false;
+    }
+    if (allOK) { state.score += 1; Sfx.correct(); } else { Sfx.wrong(); }
+    $('scoreVal').textContent = state.score;
+    state.results.push(allOK);
+
+    var fb = $('feedback');
+    fb.hidden = false;
+    fb.className = 'feedback ' + (allOK ? 'good fb-good' : 'bad fb-bad');
+    var list = '<ul class="fb-order">';
+    for (var j = 0; j < q.items.length; j++) {
+      list += '<li><span class="role">' + esc(q.items[j].role) + '</span>' + esc(q.items[j].text) + '</li>';
+    }
+    list += '</ul>';
+    fb.innerHTML =
+      '<div class="fb-head"><span class="fb-ico">' + (allOK ? '✓' : '✗') + '</span>' +
+      '<strong>' + (allOK ? '排對了！' : '次序要調整') + '</strong></div>' +
+      '<p class="fb-ans">正確次序：</p>' + list +
+      '<div class="fb-why"><b>為甚麼？</b> ' + esc(q.why) + '</div>';
+
+    var confirmBtn = $('btnConfirmOrder');
+    if (confirmBtn) confirmBtn.disabled = true;
+    var poolItems = $('pool').querySelectorAll('button');
+    for (var m = 0; m < poolItems.length; m++) poolItems[m].disabled = true;
+    revealFeedback(fb);
+    finishQuestion();
+  }
+
+  /* ---- 下一題 / 成績 ---- */
+  function nextQuestion() {
+    if (!state.answered) return;
+    if (state.qi === TOTAL - 1) { showResult(); return; }
+    state.qi += 1;
+    loadQuestion();
+    Sfx.click();
+  }
+
+  function showResult() {
+    var score = state.score;
+    var stars = score >= 6 ? 3 : (score >= 4 ? 2 : (score >= 2 ? 1 : 0));
+    var starSVG = '';
+    for (var i = 0; i < 3; i++) {
+      var on = i < stars;
+      starSVG += '<svg viewBox="0 0 100 100" class="' + (on ? 'star-on' : '') + '" aria-hidden="true">' +
+        '<path d="M50 6l13 28 30 4-22 21 5 30-26-14-26 14 5-30L7 38l30-4z" ' +
+        'fill="' + (on ? '#FFD35C' : '#EFE1CF') + '" stroke="#3B2A22" stroke-width="5" stroke-linejoin="round"/></svg>';
+    }
+    $('stars').innerHTML = starSVG;
+    $('resScore').textContent = score;
+
+    var dots = '';
+    for (var k = 0; k < state.results.length; k++) {
+      dots += '<span class="' + (state.results[k] ? 'ok' : 'no') + '" title="第 ' + (k + 1) + ' 題：' +
+        (state.results[k] ? '答對' : '答錯') + '" aria-label="第 ' + (k + 1) + ' 題：' +
+        (state.results[k] ? '答對' : '答錯') + '">' + (state.results[k] ? '✓' : '✗') + '</span>';
+    }
+    $('resDots').innerHTML = dots;
+
+    var title, msg;
+    if (score === 6) {
+      title = '全對！好厲害';
+      msg = '你已經掌握用具體事例寫人的方法：先抓特點，再用一件小事、加上動作和說話去證明它。試試在自己的作文裏用一次。';
+    } else if (score >= 4) {
+      title = '做得不錯！';
+      msg = '大部分題目都答對了。再留意一下：事例要「小而具體」，還要加入動作、語言或神態，人物才會立體。';
+    } else if (score >= 2) {
+      title = '繼續努力';
+      msg = '先分辨「結論」和「事例」：結論是「他很好」，事例是「他做了甚麼」。重看教學第 2、3 步，再挑戰一次吧。';
+    } else {
+      title = '再試一次吧';
+      msg = '別灰心，寫人可以先從一件小事開始。建議先看教學第 3、4 步，那裏有最具體的示範。';
+    }
+    $('resTitle').textContent = title;
+    $('resMsg').textContent = msg;
+
+    var best = readBest();
+    var prev = typeof best[state.mode] === 'number' ? best[state.mode] : 0;
+    if (score > prev) { best[state.mode] = score; storeSet(STORE_KEY, JSON.stringify(best)); }
+    updateBestBadges();
+
+    show('result');
+    if (score >= 4) { Sfx.win(); } else { Sfx.reveal(); }
+  }
+
+  function updateBestBadges() {
+    var best = readBest();
+    var keys = ['match', 'detail', 'order'];
+    for (var i = 0; i < keys.length; i++) {
+      var el = $('best-' + keys[i]);
+      if (!el) continue;
+      var v = best[keys[i]];
+      if (typeof v === 'number' && v > 0 && v <= TOTAL) {
+        el.textContent = '最佳 ' + v + ' / 6';
+        el.classList.add('done');
+      } else {
+        el.textContent = '未挑戰';
+        el.classList.remove('done');
+      }
+    }
+  }
+
+  /* ================= 事件 ================= */
+  function bind() {
+    $('btnStartLearn').addEventListener('click', function () {
+      state.learnStep = 1;
+      renderLearn();
+      Sfx.click();
+      show('learn');
+    });
+    $('btnJumpModes').addEventListener('click', function () {
+      Sfx.click();
+      var sec = $('modeSection');
+      if (sec && sec.scrollIntoView) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    $('btnLearnBack').addEventListener('click', function () { Sfx.click(); show('home'); });
+    $('btnHome').addEventListener('click', function () { Sfx.click(); show('home'); });
+    $('btnPrevStep').addEventListener('click', function () { goStep(state.learnStep - 1); });
+    $('btnNextStep').addEventListener('click', function () {
+      if (state.learnStep === maxStep) {
+        Sfx.click();
+        var sec = $('modeSection');
+        show('home');
+        if (sec && sec.scrollIntoView) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        goStep(state.learnStep + 1);
+      }
+    });
+
+    var cards = document.querySelectorAll('.mode-card');
+    for (var i = 0; i < cards.length; i++) {
+      (function (card) {
+        var go = function () { startMode(card.getAttribute('data-mode')); Sfx.click(); };
+        card.addEventListener('click', go);
+        card.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+            e.preventDefault();
+            go();
+          }
+        });
+      })(cards[i]);
+    }
+
+    $('btnQuit').addEventListener('click', function () { Sfx.click(); show('home'); });
+    $('btnNextQ').addEventListener('click', nextQuestion);
+    $('btnAgain').addEventListener('click', function () { Sfx.click(); startMode(state.mode); });
+    $('btnBackHome').addEventListener('click', function () { Sfx.click(); show('home'); });
+
+    $('answerArea').addEventListener('click', function (e) {
+      var t = e.target;
+      var opt = t.closest ? t.closest('.opt') : null;
+      if (opt) { pickOption(parseInt(opt.getAttribute('data-i'), 10)); return; }
+      var poolItem = t.closest ? t.closest('.pool-item') : null;
+      if (poolItem) { placeFromPool(parseInt(poolItem.getAttribute('data-pool'), 10)); return; }
+      var slot = t.closest ? t.closest('.slot') : null;
+      if (slot) { removeFromSlot(parseInt(slot.getAttribute('data-slot'), 10)); return; }
+      var confirmBtn = t.closest ? t.closest('#btnConfirmOrder') : null;
+      if (confirmBtn) { checkOrder(); }
+    });
+
+    var soundBtn = $('btnSound');
+    function paintSound() {
+      var m = Sfx.isMuted();
+      soundBtn.setAttribute('aria-pressed', m ? 'true' : 'false');
+      soundBtn.setAttribute('aria-label', '靜音');
+      soundBtn.setAttribute('title', m ? '現時已靜音，按一下開啟音效' : '現時音效開啟，按一下靜音');
+      $('icoSoundOn').hidden = m;
+      $('icoSoundOff').hidden = !m;
+    }
+    soundBtn.addEventListener('click', function () {
+      Sfx.setMuted(!Sfx.isMuted());
+      paintSound();
+      if (!Sfx.isMuted()) Sfx.click();
+      if (Sfx.isBroken()) {
+        soundBtn.disabled = true;
+        soundBtn.setAttribute('aria-label', '此瀏覽器未能播放音效');
+        soundBtn.setAttribute('title', '此瀏覽器未能播放音效，其他功能不受影響');
+      }
+    });
+    paintSound();
+    if (!Sfx.hasAPI()) {
+      soundBtn.disabled = true;
+      soundBtn.setAttribute('aria-label', '此瀏覽器不支援音效');
+      soundBtn.setAttribute('title', '此瀏覽器不支援音效，其他功能不受影響');
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        var active = document.querySelector('.screen.active');
+        if (active && active.id !== 'screen-home') show('home');
+      }
+    });
+  }
+
+  /* ================= 啟動 ================= */
+  function init() {
+    renderLearn();
+    updateBestBadges();
+    bind();
+  }
+  init();
+})();
+</script>
+</body>
+</html>

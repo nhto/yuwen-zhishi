@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>複合詞探險隊｜小學中文互動教室</title>
+<meta name="description" content="小學中文複合詞互動學習遊戲：五大類、十一小類詞語結構圖解教學，先看大類再分小類；加上「詞語分類站」與「揪出異類」兩種挑戰模式，各十題附答案解析，支援手機、平板與電腦。">
+<style>
+  :root{
+    --cream:#FFF8EC;
+    --paper:#FFFFFF;
+    --ink:#3B2A20;
+    --ink-soft:#7A6555;
+    --line:#3B2A20;
+    --yellow:#FFD35C;
+    --orange:#FF9F43;
+    --pink:#FF8FA3;
+    --blue:#54C3F1;
+    --green:#4FC08D;
+    --purple:#A78BFA;
+    --correct:#DFF6E8;
+    --wrong:#FFE4E8;
+    --shadow:0 6px 0 rgba(59,42,32,.16);
+    --radius:24px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{font-size:clamp(17px, .48vw + 14px, 21px);}
+  body{
+    margin:0;
+    font-family:"PingFang TC","Hiragino Sans TC","Microsoft JhengHei","Noto Sans TC","Source Han Sans TC",system-ui,-apple-system,sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.6;
+    -webkit-text-size-adjust:100%;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:radial-gradient(rgba(255,159,67,.18) 2px, transparent 2px);
+    background-size:34px 34px;
+    pointer-events:none;
+    z-index:0;
+    opacity:.6;
+  }
+  [hidden]{display:none !important;}
+  button{font-family:inherit;}
+  .app{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 16px 56px;}
+
+  /* ---------- topbar ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:40;
+    display:flex;align-items:center;gap:12px;
+    padding:10px 2px;
+    background:rgba(255,248,236,.9);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-bottom:2px dashed rgba(59,42,32,.16);
+  }
+  .brand{display:flex;align-items:center;gap:9px;margin-right:auto;min-width:0;}
+  .brand-mark{
+    width:34px;height:34px;border-radius:12px;flex:none;
+    background:var(--yellow);border:3px solid var(--line);
+    display:grid;place-items:center;
+    font-weight:800;font-size:.95rem;line-height:1;
+    transform:rotate(-6deg);
+  }
+  .brand-name{font-weight:800;font-size:1.02rem;letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .icon-btn{
+    width:48px;height:48px;flex:none;
+    border:3px solid var(--line);border-radius:16px;
+    background:var(--paper);color:var(--ink);
+    display:grid;place-items:center;cursor:pointer;
+    box-shadow:0 4px 0 var(--line);
+    transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+  }
+  .icon-btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line);}
+  .icon-btn svg{width:24px;height:24px;}
+  .icon-btn[aria-pressed="false"]{background:#F0E6D8;color:#A08D7C;}
+
+  /* ---------- shared ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:.5em;
+    border:3px solid var(--line);border-radius:18px;
+    background:var(--paper);color:var(--ink);
+    padding:.72em 1.25em;font-size:1rem;font-weight:800;
+    box-shadow:0 5px 0 var(--line);
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+  }
+  .btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--line);}
+  .btn-primary{background:var(--orange);}
+  .btn-green{background:var(--green);}
+  .btn-ghost{background:#FFF3E0;}
+  .btn-sm{font-size:.9rem;padding:.55em 1em;border-radius:14px;box-shadow:0 4px 0 var(--line);}
+  .view{animation:fadeUp .32s ease both;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+  @media (prefers-reduced-motion: reduce){
+    .view{animation:none;}
+    *{transition-duration:.01ms !important;}
+  }
+  .section-head{margin:30px 0 14px;}
+  .section-head h2{
+    margin:0 0 6px;
+    font-size:clamp(1.45rem, 3.4vw, 2rem);
+    line-height:1.3;letter-spacing:.01em;
+  }
+  .section-head p{margin:0;color:var(--ink-soft);font-size:.98rem;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    display:grid;grid-template-columns:1fr;gap:10px;
+    align-items:center;
+    padding:22px 0 8px;
+  }
+  .eyebrow{
+    display:inline-block;margin:0 0 10px;
+    background:var(--yellow);border:3px solid var(--line);border-radius:999px;
+    padding:.2em .85em;font-size:.82rem;font-weight:800;letter-spacing:.06em;
+  }
+  .hero h1{
+    margin:0 0 10px;
+    font-size:clamp(2.1rem, 7vw, 3.5rem);
+    line-height:1.12;
+    letter-spacing:.02em;
+  }
+  .hero h1 em{font-style:normal;color:var(--orange);text-shadow:2px 2px 0 rgba(59,42,32,.14);}
+  .hero .lead{margin:0 0 18px;font-size:1.05rem;color:var(--ink-soft);max-width:34em;}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;}
+  .hero-actions .btn{font-size:1.05rem;}
+  .hero-mascot{display:flex;justify-content:center;}
+  .hero-mascot svg{width:min(66vw, 300px);height:auto;filter:drop-shadow(0 10px 0 rgba(59,42,32,.08));}
+
+  /* ---------- steps ---------- */
+  .steps{display:grid;grid-template-columns:1fr;gap:12px;margin-top:26px;}
+  .step{
+    display:flex;align-items:center;gap:14px;
+    background:var(--paper);border:3px solid var(--line);border-radius:20px;
+    padding:14px 16px;box-shadow:var(--shadow);
+  }
+  .step-num{
+    width:44px;height:44px;flex:none;border-radius:14px;border:3px solid var(--line);
+    display:grid;place-items:center;font-weight:800;font-size:1.15rem;
+  }
+  .step strong{display:block;font-size:1.02rem;}
+  .step span{color:var(--ink-soft);font-size:.9rem;}
+
+  /* ---------- quick strip ---------- */
+  .quick-wrap{margin-top:28px;}
+  .quick-title{margin:0 0 10px;font-weight:800;font-size:.98rem;color:var(--ink-soft);letter-spacing:.02em;}
+  .quick-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}
+  .quick-item{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+    padding:10px 4px 8px;border:3px solid var(--line);border-radius:18px;
+    background:var(--paper);box-shadow:0 4px 0 var(--line);
+    cursor:pointer;color:var(--ink);min-height:88px;width:calc((100% - 20px)/3);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .quick-item:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line);}
+  .quick-item svg{width:42px;height:42px;display:block;}
+  .quick-item b{font-size:.86rem;font-weight:800;line-height:1.2;}
+
+  /* ---------- tip box ---------- */
+  .tip-box{
+    margin-top:18px;padding:16px 18px;border:3px dashed var(--line);border-radius:20px;
+    background:#FFFBEF;
+  }
+  .tip-box strong{display:block;font-size:.98rem;margin-bottom:4px;}
+  .tip-box p{margin:0;font-size:.94rem;color:#5C4738;line-height:1.65;}
+
+  /* ---------- type grid ---------- */
+  .type-grid{display:grid;grid-template-columns:1fr;gap:14px;}
+  .type-card{
+    position:relative;
+    display:flex;align-items:center;gap:16px;text-align:left;
+    width:100%;
+    background:var(--paper);
+    border:3px solid var(--line);
+    border-radius:var(--radius);
+    padding:16px;
+    box-shadow:0 6px 0 var(--line);
+    cursor:pointer;
+    color:var(--ink);
+    transition:transform .14s ease, box-shadow .14s ease;
+  }
+  .type-card::after{
+    content:"";
+    position:absolute;right:16px;top:16px;width:14px;height:14px;border-radius:50%;
+    background:var(--c);border:2px solid var(--line);
+  }
+  .type-card:active{transform:translateY(4px);box-shadow:0 2px 0 var(--line);}
+  .type-icon{
+    width:82px;height:82px;flex:none;
+    border-radius:20px;border:3px solid var(--line);
+    background:#FFF4D9;
+    background:color-mix(in srgb, var(--c) 24%, #fff);
+    display:grid;place-items:center;overflow:hidden;
+  }
+  .type-icon svg{width:70px;height:70px;display:block;}
+  .type-body{display:block;flex:1;min-width:0;}
+  .type-name{display:block;font-size:1.32rem;font-weight:800;line-height:1.25;}
+  .fam-tag{display:inline-block;margin-left:7px;padding:.1em .45em;border:2px solid var(--line);border-radius:999px;background:#F3E9FF;font-size:.6rem;font-weight:800;line-height:1.5;vertical-align:.12em;white-space:nowrap;}
+  .type-tag{display:block;font-size:.92rem;color:var(--ink-soft);margin-top:3px;line-height:1.4;}
+  .type-ex{display:block;margin-top:8px;font-size:.86rem;font-weight:700;color:#8A6A4F;letter-spacing:.03em;line-height:1.4;}
+
+  /* ---------- detail ---------- */
+  #view-detail{max-width:920px;margin:0 auto;}
+  .detail-head{display:flex;align-items:center;gap:16px;margin:18px 0 14px;}
+  .detail-icon{
+    width:96px;height:96px;flex:none;border-radius:24px;border:3px solid var(--line);
+    background:#FFF4D9;
+    background:color-mix(in srgb, var(--c) 26%, #fff);
+    display:grid;place-items:center;
+  }
+  .detail-icon svg{width:82px;height:82px;}
+  .detail-head h2{margin:0;font-size:clamp(1.7rem, 4.6vw, 2.3rem);line-height:1.2;}
+  .detail-head p{margin:4px 0 0;color:var(--ink-soft);font-weight:700;font-size:.98rem;}
+  .fam-badge{display:inline-block;margin-left:6px;padding:.08em .5em;border:2px solid var(--line);border-radius:999px;background:#F3E9FF;color:var(--ink);font-size:.72rem;font-weight:800;vertical-align:.06em;white-space:nowrap;}
+  .formula{
+    display:flex;flex-wrap:wrap;align-items:center;gap:8px;
+    background:var(--paper);border:3px dashed var(--line);border-radius:20px;
+    padding:14px 16px;margin-bottom:14px;
+  }
+  .formula .chip{
+    display:inline-grid;place-items:center;
+    min-width:2.6em;padding:.24em .6em;
+    border:3px solid var(--line);border-radius:14px;
+    background:#FFF1D9;
+    background:color-mix(in srgb, var(--c) 34%, #fff);
+    font-size:1.3rem;font-weight:800;line-height:1.3;
+  }
+  .formula .chip.result{background:var(--yellow);}
+  .formula .op{font-size:1.2rem;font-weight:800;color:var(--ink-soft);}
+  .desc{
+    background:var(--paper);border:3px solid var(--line);border-radius:20px;
+    padding:16px 18px;margin:0 0 20px;font-size:1.02rem;box-shadow:var(--shadow);
+  }
+  .desc b{background:linear-gradient(transparent 62%, rgba(255,211,92,.85) 62%);}
+  .sub-title{font-size:1.1rem;margin:20px 0 10px;display:flex;align-items:center;gap:8px;}
+  .sub-title .dot{width:12px;height:12px;border-radius:50%;background:var(--c);border:3px solid var(--line);}
+  .subs{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:20px;}
+  .sub-card{background:#FFFBF2;border:3px solid var(--line);border-left:10px solid var(--c);border-radius:18px;padding:13px 16px;box-shadow:0 4px 0 rgba(59,42,32,.12);}
+  .sub-card b{display:block;font-size:1.02rem;line-height:1.4;}
+  .sub-card .sub-words{display:block;margin-top:2px;font-size:.95rem;font-weight:800;color:#8A6A4F;letter-spacing:.03em;line-height:1.5;}
+  .sub-card p{margin:6px 0 0;font-size:.92rem;color:#5C4738;line-height:1.6;}
+  .ex-item{margin-bottom:10px;}
+  .ex-card{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    width:100%;text-align:left;
+    background:var(--paper);border:3px solid var(--line);border-radius:18px;
+    padding:13px 16px;cursor:pointer;color:var(--ink);
+    box-shadow:0 4px 0 var(--line);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .ex-card:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line);}
+  .ex-card .w{font-size:1.28rem;font-weight:800;letter-spacing:.06em;}
+  .ex-card .hint{font-size:.82rem;color:var(--ink-soft);flex:none;}
+  .ex-detail{
+    margin:8px 0 4px;padding:14px 16px;
+    background:#FFFBF2;border:3px solid var(--line);border-radius:18px;
+    animation:fadeUp .22s ease both;
+  }
+  .ex-detail .split{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+  .ex-detail .part{
+    display:inline-grid;place-items:center;min-width:2.4em;padding:.18em .5em;
+    border:3px solid var(--line);border-radius:12px;background:var(--yellow);
+    font-size:1.15rem;font-weight:800;
+  }
+  .ex-detail .part.b{background:var(--blue);}
+  .ex-detail .rel{font-weight:800;color:var(--ink-soft);}
+  .ex-detail p{margin:0;font-size:.98rem;color:#5C4738;}
+  .mini{
+    margin-top:22px;padding:18px;
+    background:var(--paper);border:3px solid var(--line);border-radius:22px;
+    box-shadow:var(--shadow);
+  }
+  .mini h3{margin:0 0 4px;font-size:1.12rem;}
+  .mini .q{margin:0 0 12px;font-size:1rem;color:var(--ink-soft);}
+  .mini-opts{display:grid;grid-template-columns:1fr;gap:9px;}
+  .mini-opt{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:.7em 1em;border:3px solid var(--line);border-radius:16px;
+    background:#FFFDF8;font-size:1.05rem;font-weight:800;color:var(--ink);
+    cursor:pointer;box-shadow:0 4px 0 var(--line);
+    transition:transform .12s ease, box-shadow .12s ease, background .15s ease;
+  }
+  .mini-opt:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line);}
+  .mini-opt .mark{font-size:1.1rem;}
+  .mini-opt.ok{background:var(--correct);}
+  .mini-opt.no{background:var(--wrong);}
+  .mini-opt:disabled{cursor:default;opacity:.92;}
+  .mini-fb{margin:12px 0 0;font-size:.96rem;color:#5C4738;background:#FFF7E6;border-left:6px solid var(--yellow);padding:10px 12px;border-radius:10px;}
+  .detail-nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;}
+
+  /* ---------- challenge ---------- */
+  .mode-grid{display:grid;grid-template-columns:1fr;gap:16px;}
+  .mode-card{
+    display:block;width:100%;text-align:left;color:var(--ink);
+    background:var(--paper);border:3px solid var(--line);border-radius:26px;
+    padding:20px;cursor:pointer;box-shadow:0 7px 0 var(--line);
+    transition:transform .14s ease, box-shadow .14s ease;
+    position:relative;overflow:hidden;
+  }
+  .mode-card:active{transform:translateY(4px);box-shadow:0 2px 0 var(--line);}
+  .mode-card .m-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+  .mode-badge{
+    width:52px;height:52px;flex:none;border-radius:16px;border:3px solid var(--line);
+    display:grid;place-items:center;font-size:1.5rem;font-weight:800;
+  }
+  .mode-card h3{margin:0;font-size:1.35rem;line-height:1.25;}
+  .mode-card .m-sub{margin:0;font-size:.92rem;color:var(--ink-soft);font-weight:700;}
+  .mode-card p.desc2{margin:0 0 12px;font-size:.98rem;color:#5C4738;}
+  .mode-card .m-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .pill{
+    display:inline-block;padding:.22em .75em;border-radius:999px;
+    border:2px solid var(--line);font-size:.8rem;font-weight:800;background:#FFF3E0;
+  }
+  .go-arrow{font-size:1.35rem;font-weight:800;}
+
+  /* ---------- quiz ---------- */
+  #view-quiz{max-width:960px;margin:0 auto;}
+  .quiz-top{margin:18px 0 14px;}
+  .quiz-meta{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px;flex-wrap:wrap;}
+  .mode-tag{
+    font-size:.86rem;font-weight:800;padding:.28em .8em;border-radius:999px;
+    border:2px solid var(--line);background:var(--yellow);
+  }
+  .q-index{font-size:.9rem;font-weight:800;color:var(--ink-soft);}
+  .progress{
+    height:16px;border:3px solid var(--line);border-radius:999px;background:#FFF1DA;overflow:hidden;
+  }
+  .progress-fill{height:100%;width:0%;background:var(--green);border-radius:999px;transition:width .3s ease;}
+  .quiz-card{
+    background:var(--paper);border:3px solid var(--line);border-radius:26px;
+    padding:20px 18px;box-shadow:var(--shadow);
+  }
+  .q-prompt{
+    margin:0 0 16px;font-size:clamp(1.32rem, 4.4vw, 1.85rem);
+    font-weight:800;line-height:1.45;letter-spacing:.02em;
+  }
+  .q-prompt .hl{background:linear-gradient(transparent 60%, rgba(255,211,92,.9) 60%);padding:0 .1em;}
+  .opts{display:grid;grid-template-columns:1fr;gap:11px;}
+  .opt{
+    display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+    padding:.85em 1em;border:3px solid var(--line);border-radius:18px;
+    background:#FFFDF8;color:var(--ink);
+    font-size:clamp(1.02rem, 2.6vw, 1.18rem);font-weight:800;line-height:1.4;
+    cursor:pointer;box-shadow:0 4px 0 var(--line);
+    transition:transform .12s ease, box-shadow .12s ease, background .18s ease;
+  }
+  .opt:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line);}
+  .opt .bullet{
+    width:38px;height:38px;flex:none;border-radius:12px;border:3px solid var(--line);
+    display:grid;place-items:center;font-size:1rem;background:#FFF0D9;
+  }
+  .opt .label{min-width:0;}
+  .opt .mark{margin-left:auto;font-size:1.2rem;font-weight:800;flex:none;}
+  .opt.correct{background:var(--correct);}
+  .opt.wrong{background:var(--wrong);}
+  .opt:disabled{cursor:default;}
+  .opt.muted{opacity:.55;}
+  .explain{
+    margin-top:14px;background:var(--paper);
+    border:3px solid var(--line);border-left:10px solid var(--yellow);
+    border-radius:20px;padding:16px 18px;box-shadow:var(--shadow);
+    animation:fadeUp .26s ease both;
+  }
+  .explain.good{border-left-color:var(--green);}
+  .explain.bad{border-left-color:var(--pink);}
+  .exp-head{margin:0 0 6px;font-size:1.12rem;font-weight:800;}
+  .exp-body{margin:0 0 14px;font-size:1rem;color:#5C4738;line-height:1.7;}
+  .exp-body b{color:var(--ink);}
+  .explain .btn{width:100%;}
+
+  /* ---------- result ---------- */
+  .result{text-align:center;padding:12px 0 0;}
+  .stars{font-size:clamp(2.4rem, 9vw, 3.6rem);letter-spacing:.12em;line-height:1.2;color:var(--yellow);text-shadow:2px 3px 0 rgba(59,42,32,.25);}
+  .result h2{margin:6px 0 4px;font-size:clamp(1.7rem, 5vw, 2.3rem);}
+  .score-line{font-size:1.15rem;font-weight:800;margin:0 0 4px;}
+  .comment{margin:0 0 20px;color:var(--ink-soft);font-size:1rem;}
+  .review{
+    text-align:left;background:var(--paper);border:3px solid var(--line);
+    border-radius:22px;padding:16px;margin-bottom:18px;box-shadow:var(--shadow);
+  }
+  .review h3{margin:0 0 10px;font-size:1.08rem;}
+  .review-item{padding:10px 0;border-top:2px dashed rgba(59,42,32,.16);}
+  .review-item:first-of-type{border-top:none;}
+  .review-item .q{font-weight:800;font-size:.98rem;margin:0 0 3px;}
+  .review-item .a{font-size:.92rem;color:#5C4738;margin:0;}
+  .result-actions{display:grid;grid-template-columns:1fr;gap:10px;}
+  .perfect{
+    background:#FFF7E0;border:3px dashed var(--line);border-radius:18px;
+    padding:14px;margin-bottom:18px;font-weight:700;font-size:.98rem;color:#6B533F;
+  }
+
+  /* ---------- modal / toast ---------- */
+  .modal{position:fixed;inset:0;z-index:80;background:rgba(59,42,32,.42);display:grid;place-items:center;padding:20px;}
+  .modal-box{
+    width:100%;max-width:380px;background:var(--paper);
+    border:3px solid var(--line);border-radius:24px;padding:22px;
+    box-shadow:0 10px 0 rgba(59,42,32,.25);text-align:center;
+  }
+  .modal-box p{margin:0 0 18px;font-size:1.05rem;font-weight:700;}
+  .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .toast{
+    position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:#FFF8EC;font-weight:700;font-size:.92rem;
+    padding:.7em 1.2em;border-radius:14px;opacity:0;pointer-events:none;
+    transition:opacity .22s ease, transform .22s ease;z-index:90;max-width:88vw;text-align:center;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* ---------- focus & scroll ---------- */
+  .btn:focus-visible,.icon-btn:focus-visible,.opt:focus-visible,.mini-opt:focus-visible,
+  .ex-card:focus-visible,.type-card:focus-visible,.sub-row:focus-visible,.mode-card:focus-visible,
+  .quick-item:focus-visible,.crumb:focus-visible{
+    outline:3px solid #1E9BD7;outline-offset:3px;
+  }
+  .explain,.quiz-card,.ex-card,.mini{scroll-margin-top:84px;}
+
+  /* ---------- 兩層級：大類 → 小類 ---------- */
+  .crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin:14px 0 4px;font-size:.86rem;font-weight:800;color:var(--ink-soft);}
+  .crumbs .crumb{
+    border:none;background:none;padding:5px 9px;border-radius:10px;font:inherit;font-size:.86rem;
+    font-weight:800;color:var(--ink-soft);cursor:pointer;text-decoration:underline;text-underline-offset:3px;
+  }
+  .crumbs .crumb.now{color:var(--ink);text-decoration:none;background:rgba(59,42,32,.07);cursor:default;}
+  .crumbs .sep{opacity:.55;}
+  .count-chip{
+    display:inline-block;margin-left:7px;padding:.08em .5em;border:2px solid var(--line);border-radius:999px;
+    background:#FFF1D9;font-size:.62rem;font-weight:800;line-height:1.6;vertical-align:.14em;white-space:nowrap;
+  }
+  .type-sub-list{display:block;margin-top:8px;font-size:.84rem;font-weight:800;color:#8A6A4F;line-height:1.5;letter-spacing:.02em;}
+  .type-card::after{display:none;}
+  .type-go{flex:none;font-size:1.5rem;font-weight:800;color:var(--ink-soft);line-height:1;margin-left:2px;}
+  .q-count{display:block;font-style:normal;font-size:.66rem;font-weight:800;color:var(--ink-soft);line-height:1.3;margin-top:2px;}
+  .major-head{display:flex;align-items:center;gap:16px;margin:8px 0 14px;}
+  .major-head-text{min-width:0;}
+  .major-head-text h2{margin:0;font-size:clamp(1.7rem, 4.6vw, 2.3rem);line-height:1.2;}
+  .major-head-text p{margin:4px 0 0;color:var(--ink-soft);font-weight:700;font-size:.98rem;}
+  .sub-list{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:18px;}
+  .sub-row{
+    display:flex;align-items:center;gap:14px;width:100%;text-align:left;color:var(--ink);
+    background:var(--paper);border:3px solid var(--line);border-radius:20px;padding:12px 14px;
+    box-shadow:0 5px 0 var(--line);cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .sub-row:active{transform:translateY(3px);box-shadow:0 2px 0 var(--line);}
+  .sub-row-icon{
+    width:64px;height:64px;flex:none;border-radius:16px;border:3px solid var(--line);
+    background:#FFF4D9;background:color-mix(in srgb, var(--c) 22%, #fff);
+    display:grid;place-items:center;
+  }
+  .sub-row-icon svg{width:54px;height:54px;display:block;}
+  .sub-row-body{display:block;flex:1;min-width:0;}
+  .sub-row-name{display:block;font-size:1.12rem;font-weight:800;line-height:1.3;}
+  .sub-row-name em{font-style:normal;font-weight:700;font-size:.76rem;color:var(--ink-soft);margin-left:6px;}
+  .sub-row-tag{display:block;font-size:.88rem;color:var(--ink-soft);margin-top:2px;line-height:1.4;}
+  .sub-row-words{display:block;margin-top:5px;font-size:.84rem;font-weight:800;color:#8A6A4F;letter-spacing:.02em;line-height:1.4;}
+  #view-sub{max-width:920px;margin:0 auto;}
+  .tip-box.small{padding:12px 15px;margin-top:4px;}
+  .tip-box.small strong{font-size:.94rem;}
+  .tip-box.small p{font-size:.9rem;}
+
+  /* ---------- breakpoints ---------- */
+  @media (min-width:600px){
+    .type-grid{grid-template-columns:1fr 1fr;}
+    .steps{grid-template-columns:repeat(3,1fr);}
+    .opts{grid-template-columns:1fr 1fr;}
+    .mini-opts{grid-template-columns:repeat(3,1fr);}
+    .subs{grid-template-columns:1fr 1fr;}
+    .sub-list{grid-template-columns:1fr 1fr;}
+    .quick-item{width:calc((100% - 40px)/5);}
+    .result-actions{grid-template-columns:1fr 1fr;}
+    .steps .step{flex-direction:column;align-items:flex-start;gap:8px;}
+  }
+  @media (min-width:900px){
+    .app{padding:0 28px 64px;}
+    .hero{grid-template-columns:1.15fr .85fr;gap:24px;padding:38px 0 12px;}
+    .hero-mascot svg{width:min(30vw, 340px);}
+    .type-grid{grid-template-columns:repeat(3,1fr);}
+    .quick-item{width:calc((100% - 40px)/5);}
+    .mode-grid{grid-template-columns:1fr 1fr;}
+    .mode-card{min-height:240px;display:flex;flex-direction:column;justify-content:space-between;}
+    .quiz-card{padding:28px 26px;}
+    .q-prompt{font-size:2.15rem;}
+    .opts{gap:14px;}
+    .explain .btn{width:auto;min-width:200px;}
+    .explain{display:flex;flex-direction:column;align-items:flex-start;}
+    .detail-nav{justify-content:space-between;}
+  }
+  @media (min-width:1100px){
+    .hero h1{font-size:3.6rem;}
+    .type-grid{grid-template-columns:repeat(3,1fr);gap:12px;}
+    .type-card{padding:14px;gap:13px;}
+    .type-icon{width:76px;height:76px;}
+    .type-icon svg{width:66px;height:66px;}
+    .type-name{font-size:1.16rem;}
+    .type-tag{font-size:.86rem;}
+    .type-ex{font-size:.8rem;}
+  }
+  @media (max-height:520px) and (orientation:landscape){
+    .hero-mascot{display:none;}
+    .hero{padding-top:12px;}
+  }
+</style>
+</head>
+<body>
+<div class="app" data-generated-by="vibe-coding-frontend-design">
+
+  <header class="topbar">
+    <button class="icon-btn" id="backBtn" aria-label="返回上一頁" hidden>
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M15 4 L7 12 L15 20" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">詞</span>
+      <span class="brand-name">複合詞探險隊</span>
+    </div>
+    <button class="icon-btn" id="soundBtn" aria-label="音效開關" aria-pressed="true">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 10v4h4l5 4V6L8 10H4z" fill="currentColor"/>
+        <path id="soundWave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path id="soundCross" d="M16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="display:none"/>
+      </svg>
+    </button>
+  </header>
+
+  <main id="stage">
+
+    <!-- ================= HOME ================= -->
+    <section class="view" id="view-home">
+      <div class="hero">
+        <div>
+          <span class="eyebrow">小學中文 · 詞語結構</span>
+          <h1>複合詞<br><em>探險隊</em></h1>
+          <p class="lead">兩個字手牽手，就變成一個新意思。一起拆開詞語，找出它們藏起來的小秘密！</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" data-go="teach">先看圖學一學</button>
+            <button class="btn" data-go="challenge">直接去挑戰</button>
+          </div>
+        </div>
+        <div class="hero-mascot" aria-hidden="true">
+          <svg viewBox="0 0 240 240" role="img" aria-label="詞寶，一隻拿着詞語卡的鉛筆吉祥物">
+            <ellipse cx="118" cy="226" rx="62" ry="9" fill="#E7DAC8"/>
+            <rect x="76" y="46" width="82" height="146" rx="36" fill="#FFD35C" stroke="#3B2A20" stroke-width="6"/>
+            <path d="M86 188 L117 228 L148 188 Z" fill="#FFF1CC" stroke="#3B2A20" stroke-width="6" stroke-linejoin="round"/>
+            <path d="M108 212 L117 228 L126 212 Z" fill="#3B2A20"/>
+            <circle cx="100" cy="100" r="8.5" fill="#3B2A20"/>
+            <circle cx="134" cy="100" r="8.5" fill="#3B2A20"/>
+            <circle cx="103" cy="97" r="3.2" fill="#fff"/>
+            <circle cx="137" cy="97" r="3.2" fill="#fff"/>
+            <ellipse cx="90" cy="122" rx="9" ry="6" fill="#FF9F9F" opacity=".75"/>
+            <ellipse cx="144" cy="122" rx="9" ry="6" fill="#FF9F9F" opacity=".75"/>
+            <path d="M106 126 q11 11 22 0" stroke="#3B2A20" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <path d="M78 124 q-20 4 -22 -12" stroke="#3B2A20" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <path d="M158 122 q16 -2 20 -18" stroke="#3B2A20" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <g transform="rotate(7 182 60)">
+              <rect x="148" y="26" width="74" height="58" rx="14" fill="#FFFFFF" stroke="#3B2A20" stroke-width="5"/>
+              <text x="185" y="68" text-anchor="middle" font-size="34" font-weight="800" fill="#3B2A20" font-family="'PingFang TC','Microsoft JhengHei',sans-serif">詞</text>
+            </g>
+            <path d="M180 84 l0 14" stroke="#3B2A20" stroke-width="5" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <span class="step-num" style="background:#FFD35C">1</span>
+          <div><strong>看圖學結構</strong><span>五大類、11 小類，一層一層看</span></div>
+        </div>
+        <div class="step">
+          <span class="step-num" style="background:#54C3F1">2</span>
+          <div><strong>動手拆詞語</strong><span>點一點，看兩個字怎樣合作</span></div>
+        </div>
+        <div class="step">
+          <span class="step-num" style="background:#4FC08D">3</span>
+          <div><strong>挑戰兩種模式</strong><span>各十題，答完有詳細解說</span></div>
+        </div>
+      </div>
+
+      <div class="quick-wrap">
+        <p class="quick-title">五個大類，一眼認出（點一下入內看小類）</p>
+        <div class="quick-grid" id="quickGrid"></div>
+      </div>
+    </section>
+
+    <!-- ================= TEACH ================= -->
+    <section class="view" id="view-teach" hidden>
+      <div class="section-head">
+        <h2>五大類複合詞</h2>
+        <p>先認大類：五種「合作方式」。點一張卡進去看它的小類，再點小類看詞例。</p>
+      </div>
+      <div class="type-grid" id="typeGrid"></div>
+      <div class="tip-box">
+        <strong>怎樣快速分辨？</strong>
+        <p><b>第一步，先分大類。</b>兩個詞素平起平坐＝「並列式」；前面修飾後面＝「偏正式」；前面動作、後面是對象＝「動賓式」；前面是事物、後面說它怎樣＝「主謂式」；後面補充結果或方向＝「補充式」。<br><b>第二步，再分小類。</b>並列式分近義、反義、相關；偏正式分描寫、限定；動賓式分對象、內容；主謂式分動作、狀態；補充式分結果、方向。</p>
+      </div>
+    </section>
+
+    <!-- ================= SUB ================= -->
+    <section class="view" id="view-sub" hidden>
+      <div id="subBody"></div>
+    </section>
+
+    <!-- ================= DETAIL ================= -->
+    <section class="view" id="view-detail" hidden>
+      <div id="detailBody"></div>
+    </section>
+
+    <!-- ================= CHALLENGE ================= -->
+    <section class="view" id="view-challenge" hidden>
+      <div class="section-head">
+        <h2>挑戰區</h2>
+        <p>兩種模式，每種十組題目。每題揭曉答案時，都會告訴你「為甚麼」。</p>
+      </div>
+      <div class="mode-grid">
+        <button class="mode-card" data-mode="classify">
+          <div class="m-top">
+            <span class="mode-badge" style="background:#FFD35C">A</span>
+            <div>
+              <h3>詞語分類站</h3>
+              <p class="m-sub">看詞語，選結構</p>
+            </div>
+          </div>
+          <p class="desc2">給你一個詞語，先選出它屬於哪一個大類；並列式的題目，再往下選它屬於哪一個小類。</p>
+          <div class="m-foot">
+            <span class="pill">10 題 · 每題解說</span>
+            <span class="go-arrow" aria-hidden="true">→</span>
+          </div>
+        </button>
+        <button class="mode-card" data-mode="odd">
+          <div class="m-top">
+            <span class="mode-badge" style="background:#54C3F1">B</span>
+            <div>
+              <h3>揪出異類</h3>
+              <p class="m-sub">四個詞，找出不同的一個</p>
+            </div>
+          </div>
+          <p class="desc2">四個詞語之中，有三個結構相同，只有一個與眾不同。把它揪出來！</p>
+          <div class="m-foot">
+            <span class="pill">10 題 · 每題解說</span>
+            <span class="go-arrow" aria-hidden="true">→</span>
+          </div>
+        </button>
+      </div>
+      <div class="tip-box">
+        <strong>玩法提示</strong>
+        <p>模式 A：先讀詞語，想想兩個字是「平起平坐」、「前修飾後」、「動作＋對象」、「事物＋怎樣」還是「動作＋補充」；遇到並列式，再想一想是近義、反義還是相關。模式 B：先把三個同類的詞找出來，剩下那一個就是異類。</p>
+      </div>
+    </section>
+
+    <!-- ================= QUIZ ================= -->
+    <section class="view" id="view-quiz" hidden>
+      <div class="quiz-top">
+        <div class="quiz-meta">
+          <span class="mode-tag" id="quizModeTag">詞語分類站</span>
+          <span class="q-index" id="quizIndex">第 1 / 10 題</span>
+        </div>
+        <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+      <div class="quiz-card">
+        <p class="q-prompt" id="qPrompt"></p>
+        <div class="opts" id="opts"></div>
+      </div>
+      <div class="explain" id="explain" aria-live="polite" hidden>
+        <p class="exp-head" id="expHead"></p>
+        <p class="exp-body" id="expBody"></p>
+        <button class="btn btn-primary" id="nextBtn">下一題</button>
+      </div>
+    </section>
+
+    <!-- ================= RESULT ================= -->
+    <section class="view" id="view-result" hidden>
+      <div class="result" id="resultBody"></div>
+    </section>
+
+  </main>
+</div>
+
+<div class="modal" id="modal" hidden>
+  <div class="modal-box">
+    <p id="modalText">確定要離開這一輪挑戰嗎？</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="modalCancel">繼續作答</button>
+      <button class="btn btn-primary" id="modalOk">離開</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* =========================================================
+     1. 資料模型：5 個大類 + 11 個小類
+        大類（結構）→ 小類（詞素關係）→ 詞例
+     ========================================================= */
+  var ICONS = {
+    binglie:
+      '<svg viewBox="0 0 120 120" aria-hidden="true">' +
+        '<rect x="4" y="30" width="40" height="60" rx="14" fill="#FFD35C" stroke="#3B2A20" stroke-width="4"/>' +
+        '<rect x="76" y="30" width="40" height="60" rx="14" fill="#FFE9A8" stroke="#3B2A20" stroke-width="4"/>' +
+        '<circle cx="17" cy="52" r="4" fill="#3B2A20"/><circle cx="31" cy="52" r="4" fill="#3B2A20"/>' +
+        '<path d="M17 66 q7 7 14 0" stroke="#3B2A20" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+        '<circle cx="89" cy="52" r="4" fill="#3B2A20"/><circle cx="103" cy="52" r="4" fill="#3B2A20"/>' +
+        '<path d="M89 66 q7 7 14 0" stroke="#3B2A20" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+        '<path d="M50 46 h20 M50 62 h20" stroke="#3B2A20" stroke-width="4.5" stroke-linecap="round"/>' +
+      '</svg>',
+    pianzheng:
+      '<svg viewBox="0 0 120 120" aria-hidden="true">' +
+        '<g>' +
+          '<circle cx="45" cy="76" r="15" fill="#FF8FA3" stroke="#3B2A20" stroke-width="4"/>' +
+          '<circle cx="76" cy="76" r="15" fill="#FF8FA3" stroke="#3B2A20" stroke-width="4"/>' +
+          '<circle cx="60" cy="58" r="15" fill="#FF8FA3" stroke="#3B2A20" stroke-width="4"/>' +
+          '<circle cx="60" cy="76" r="14" fill="#FFB3C0" stroke="#3B2A20" stroke-width="4"/>' +
+          '<circle cx="60" cy="76" r="7" fill="#FFD35C" stroke="#3B2A20" stroke-width="3"/>' +
+        '</g>' +
+        '<circle cx="26" cy="34" r="8" fill="#FF4D6D" stroke="#3B2A20" stroke-width="3"/>' +
+        '<path d="M34 26 l10 -8" stroke="#3B2A20" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="2 5"/>' +
+      '</svg>',
+    dongbin:
+      '<svg viewBox="0 0 120 120" aria-hidden="true">' +
+        '<circle cx="72" cy="66" r="26" fill="#FF9F43" stroke="#3B2A20" stroke-width="4"/>' +
+        '<path d="M46 66 h52 M72 40 v52" stroke="#3B2A20" stroke-width="3" opacity=".55"/>' +
+        '<path d="M30 46 q-8 10 0 20 q6 9 14 6" fill="#FFF1DA" stroke="#3B2A20" stroke-width="4" stroke-linecap="round"/>' +
+        '<path d="M30 46 l-8 -6 M28 56 l-10 0 M30 66 l-8 6" stroke="#3B2A20" stroke-width="4" stroke-linecap="round"/>' +
+        '<circle cx="64" cy="58" r="3.4" fill="#3B2A20"/><circle cx="82" cy="58" r="3.4" fill="#3B2A20"/>' +
+        '<path d="M64 74 q8 7 16 0" stroke="#3B2A20" stroke-width="3.6" fill="none" stroke-linecap="round"/>' +
+      '</svg>',
+    zhuwei:
+      '<svg viewBox="0 0 120 120" aria-hidden="true">' +
+        '<circle cx="60" cy="62" r="24" fill="#FFD35C" stroke="#3B2A20" stroke-width="4"/>' +
+        '<g stroke="#FF9F43" stroke-width="4.6" stroke-linecap="round">' +
+          '<path d="M60 24 v-8"/><path d="M60 100 v8"/><path d="M22 62 h-8"/><path d="M98 62 h8"/>' +
+          '<path d="M33 35 l-6 -6"/><path d="M87 89 l6 6"/><path d="M87 35 l6 -6"/><path d="M33 89 l-6 6"/>' +
+        '</g>' +
+        '<circle cx="52" cy="58" r="3.6" fill="#3B2A20"/><circle cx="68" cy="58" r="3.6" fill="#3B2A20"/>' +
+        '<path d="M53 70 q7 6 14 0" stroke="#3B2A20" stroke-width="3.6" fill="none" stroke-linecap="round"/>' +
+      '</svg>',
+    buchong:
+      '<svg viewBox="0 0 120 120" aria-hidden="true">' +
+        '<path d="M20 58 h80 a40 40 0 0 1 -80 0 z" fill="#4FC08D" stroke="#3B2A20" stroke-width="4" stroke-linejoin="round"/>' +
+        '<path d="M14 58 h92" stroke="#3B2A20" stroke-width="5" stroke-linecap="round"/>' +
+        '<path d="M44 44 q16 -14 32 0" stroke="#FFD35C" stroke-width="5" fill="none" stroke-linecap="round"/>' +
+        '<path d="M50 88 l8 8 l16 -18" stroke="#FFFFFF" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
+        '<circle cx="40" cy="46" r="3.4" fill="#3B2A20"/><circle cx="80" cy="46" r="3.4" fill="#3B2A20"/>' +
+      '</svg>'
+  };
+
+  /* 小類圖示：兩個同樣大小的詞素卡 ＋ 一個圓形小徽章（近／反／關…） */
+  var SUB_CHAR = {
+    jinyi:'近', fanyi:'反', xiangguan:'關',
+    miaoxie:'描', xianding:'限',
+    duixiang:'對', neirong:'容',
+    dongzuo:'動', zhuangtai:'態',
+    jieguo:'果', fangxiang:'向'
+  };
+  var SUB_LIGHT = {
+    jinyi:'#FFE9A8', fanyi:'#FFC2CE', xiangguan:'#C9B8FF',
+    miaoxie:'#FFD9B0', xianding:'#FFE3C4',
+    duixiang:'#C4E9FA', neirong:'#D6F0FF',
+    dongzuo:'#C4EBD9', zhuangtai:'#D8F2E6',
+    jieguo:'#FFD2CA', fangxiang:'#FFDCCF'
+  };
+
+  function subIcon(s){
+    return '<svg viewBox="0 0 120 120" aria-hidden="true">' +
+      '<rect x="6" y="8" width="44" height="66" rx="16" fill="' + s.color + '" stroke="#3B2A20" stroke-width="4"/>' +
+      '<text x="28" y="51" text-anchor="middle" font-size="26" font-weight="800" fill="#3B2A20" font-family="PingFang TC, Microsoft JhengHei, sans-serif">' + s.formula[0] + '</text>' +
+      '<rect x="70" y="8" width="44" height="66" rx="16" fill="' + s.light + '" stroke="#3B2A20" stroke-width="4"/>' +
+      '<text x="92" y="51" text-anchor="middle" font-size="26" font-weight="800" fill="#3B2A20" font-family="PingFang TC, Microsoft JhengHei, sans-serif">' + s.formula[1] + '</text>' +
+      '<circle cx="60" cy="88" r="21" fill="#FFFFFF" stroke="#3B2A20" stroke-width="4"/>' +
+      '<text x="60" y="97" text-anchor="middle" font-size="25" font-weight="800" fill="#3B2A20" ' +
+        'font-family="PingFang TC, Microsoft JhengHei, sans-serif">' + SUB_CHAR[s.id] + '</text>' +
+    '</svg>';
+  }
+
+  var MAJORS = [
+    {
+      id:'binglie', name:'並列式', color:'#FFD35C',
+      tag:'兩個詞素平起平坐，沒有誰修飾誰',
+      desc:'並列式的兩個詞素地位<b>平等</b>，像兩個好朋友手牽手，誰也不修飾誰。看它們的意思關係，還可以再分三小類。',
+      subs:[
+        {
+          id:'jinyi', name:'近義類', full:'近義複合詞',
+          tag:'意思相近，像一對雙胞胎',
+          formula:['朋','友','朋友'],
+          desc:'兩個詞素的意思<b>相近</b>，說的幾乎是同一件事。合起來，意思更完整，讀起來也更順口。',
+          examples:[
+            {w:'朋友', a:'朋', b:'友', note:'「朋」和「友」都指同伴，意思相近，平等並列。'},
+            {w:'身體', a:'身', b:'體', note:'「身」和「體」都指身體，意思相近。'},
+            {w:'道路', a:'道', b:'路', note:'「道」和「路」都指供人行走的地方。'},
+            {w:'寒冷', a:'寒', b:'冷', note:'「寒」和「冷」都表示溫度低。'}
+          ],
+          mini:{ q:'下面哪一個是近義類？',
+                 options:[{w:'道路',ok:true},{w:'開關',ok:false},{w:'山水',ok:false}],
+                 explain:'「道路」的「道」和「路」意思相近，是並列式中的近義類；「開關」是反義類，「山水」是相關類。' }
+        },
+        {
+          id:'fanyi', name:'反義類', full:'反義複合詞',
+          tag:'意思相反，像蹺蹺板兩端',
+          formula:['開','關','開關'],
+          desc:'兩個詞素的意思<b>相反或相對</b>，像蹺蹺板的兩端。合起來，有時指一對概念（大小、左右），有時指包含兩端的事物或活動（開關、買賣）。',
+          examples:[
+            {w:'開關', a:'開', b:'關', note:'「開」和「關」意思相反，一開一關，平等並列。'},
+            {w:'大小', a:'大', b:'小', note:'「大」和「小」是相反的概念。'},
+            {w:'左右', a:'左', b:'右', note:'「左」和「右」是相反的方向。'},
+            {w:'買賣', a:'買', b:'賣', note:'「買」和「賣」是相反的動作。'}
+          ],
+          mini:{ q:'下面哪一個是反義類？',
+                 options:[{w:'開關',ok:true},{w:'朋友',ok:false},{w:'花草',ok:false}],
+                 explain:'「開關」的「開」和「關」意思相反，是並列式中的反義類；「朋友」是近義類，「花草」是相關類。' }
+        },
+        {
+          id:'xiangguan', name:'相關類', full:'相關複合詞',
+          tag:'同類相關，常常一起出現',
+          formula:['山','水','山水'],
+          desc:'兩個詞素既不是近義，也不是反義，而是<b>同類或彼此有關連</b>的事物。它們常常一起出現，合起來代表一組東西或一個場景。',
+          examples:[
+            {w:'山水', a:'山', b:'水', note:'「山」和「水」都是自然景物，常常一起出現。'},
+            {w:'手足', a:'手', b:'足', note:'「手」和「足」都是身體部位，關係密切；也用來比喻兄弟。'},
+            {w:'風雨', a:'風', b:'雨', note:'「風」和「雨」都是天氣現象，常常同時出現。'},
+            {w:'門窗', a:'門', b:'窗', note:'「門」和「窗」都是房屋的一部分。'}
+          ],
+          mini:{ q:'下面哪一個是相關類？',
+                 options:[{w:'山水',ok:true},{w:'大小',ok:false},{w:'書包',ok:false}],
+                 explain:'「山水」的「山」和「水」是同類景物，常常一起出現，是並列式中的相關類；「大小」是反義類，「書包」是偏正式。' }
+        }
+      ]
+    },
+    {
+      id:'pianzheng', name:'偏正式', color:'#FF9F43',
+      tag:'前面修飾，後面為主',
+      desc:'偏正式的前一個詞素<b>修飾、限定</b>後面的詞素，後一個詞素才是<b>主角</b>。重點永遠在後面。看前面從哪個角度修飾，可以再分兩小類。',
+      subs:[
+        {
+          id:'miaoxie', name:'描寫類', full:'描寫複合詞',
+          tag:'說一說它是怎樣的',
+          formula:['紅','花','紅花'],
+          desc:'前面的詞素<b>描寫</b>後面的詞素——顏色、形狀、大小、程度，像先給它畫一幅畫，再說出名字。',
+          examples:[
+            {w:'紅花', a:'紅', b:'花', note:'「紅」描寫顏色；「花」是主角。'},
+            {w:'白雲', a:'白', b:'雲', note:'「白」描寫顏色；「雲」是主角。'},
+            {w:'大雨', a:'大', b:'雨', note:'「大」描寫程度；「雨」是主角。'},
+            {w:'高山', a:'高', b:'山', note:'「高」描寫形狀、高度；「山」是主角。'}
+          ],
+          mini:{ q:'下面哪一個是描寫類？',
+                 options:[{w:'紅花',ok:true},{w:'書包',ok:false},{w:'唱歌',ok:false}],
+                 explain:'「紅花」的「紅」描寫顏色，「花」是主角，所以是偏正式中的描寫類；「書包」是限定類，「唱歌」是動賓式。' }
+        },
+        {
+          id:'xianding', name:'限定類', full:'限定複合詞',
+          tag:'說一說材料、用途、是誰的',
+          formula:['書','包','書包'],
+          desc:'前面的詞素<b>限定</b>後面的詞素——用甚麼材料做、用來做甚麼、屬於誰。它把範圍收窄，主角仍然是後面那個字。',
+          examples:[
+            {w:'書包', a:'書', b:'包', note:'「書」限定用途——裝書的包；「包」是主角。'},
+            {w:'鉛筆', a:'鉛', b:'筆', note:'「鉛」限定材料；「筆」是主角。'},
+            {w:'校服', a:'校', b:'服', note:'「校」限定所屬——學校的服裝。'},
+            {w:'皮鞋', a:'皮', b:'鞋', note:'「皮」限定材料；「鞋」是主角。'}
+          ],
+          mini:{ q:'下面哪一個是限定類？',
+                 options:[{w:'鉛筆',ok:true},{w:'大雨',ok:false},{w:'天亮',ok:false}],
+                 explain:'「鉛筆」的「鉛」限定材料，「筆」是主角，所以是偏正式中的限定類；「大雨」是描寫類，「天亮」是主謂式。' }
+        }
+      ]
+    },
+    {
+      id:'dongbin', name:'動賓式', color:'#54C3F1',
+      tag:'前面動作，後面對象',
+      desc:'動賓式的前一個詞素是<b>動作</b>，後一個詞素是動作所及的<b>對象</b>。問一問「做了甚麼動作？動作落在甚麼東西上？」就清楚。',
+      subs:[
+        {
+          id:'duixiang', name:'對象類', full:'對象複合詞',
+          tag:'動作＋受動作的東西',
+          formula:['打','球','打球'],
+          desc:'後面那個詞素是<b>看得見、摸得到</b>的東西，它承受前面的動作：打球、開門、洗手。',
+          examples:[
+            {w:'打球', a:'打', b:'球', note:'「打」是動作，「球」是受動作影響的東西。'},
+            {w:'開門', a:'開', b:'門', note:'「開」是動作，「門」是對象。'},
+            {w:'洗手', a:'洗', b:'手', note:'「洗」是動作，「手」是對象。'},
+            {w:'看書', a:'看', b:'書', note:'「看」是動作，「書」是所看的東西。'}
+          ],
+          mini:{ q:'下面哪一個是對象類？',
+                 options:[{w:'打球',ok:true},{w:'唱歌',ok:false},{w:'書包',ok:false}],
+                 explain:'「打球」的「球」是受「打」影響的東西，所以是動賓式中的對象類；「唱歌」是內容類，「書包」是偏正式。' }
+        },
+        {
+          id:'neirong', name:'內容類', full:'內容複合詞',
+          tag:'動作＋做出來的內容',
+          formula:['唱','歌','唱歌'],
+          desc:'後面那個詞素是動作<b>做出來的內容</b>——所唱的、所寫的、所畫的，不是本來就擺在那裏的東西。',
+          examples:[
+            {w:'唱歌', a:'唱', b:'歌', note:'「唱」是動作，「歌」是被唱出來的內容。'},
+            {w:'寫信', a:'寫', b:'信', note:'「寫」是動作，「信」是寫出來的內容。'},
+            {w:'寫字', a:'寫', b:'字', note:'「寫」是動作，「字」是寫出來的內容。'},
+            {w:'畫圖', a:'畫', b:'圖', note:'「畫」是動作，「圖」是畫出來的內容。'}
+          ],
+          mini:{ q:'下面哪一個是內容類？',
+                 options:[{w:'寫字',ok:true},{w:'洗手',ok:false},{w:'花開',ok:false}],
+                 explain:'「寫字」的「字」是「寫」出來的內容，所以是動賓式中的內容類；「洗手」是對象類，「花開」是主謂式。' }
+        }
+      ]
+    },
+    {
+      id:'zhuwei', name:'主謂式', color:'#4FC08D',
+      tag:'前面是誰，後面怎樣',
+      desc:'主謂式的前一個詞素是<b>被說明的事物</b>，後一個詞素<b>說明它怎麼樣</b>，像一句短短的句子。',
+      subs:[
+        {
+          id:'dongzuo', name:'動作類', full:'動作複合詞',
+          tag:'後面說它做甚麼',
+          formula:['花','開','花開'],
+          desc:'後面那個詞素是一個<b>動作</b>，說明前面的東西正在做甚麼：花開、鳥飛、心跳。',
+          examples:[
+            {w:'花開', a:'花', b:'開', note:'「花」是事物，「開」說明花正在綻放。'},
+            {w:'鳥飛', a:'鳥', b:'飛', note:'「鳥」是事物，「飛」說明鳥的動作。'},
+            {w:'心跳', a:'心', b:'跳', note:'「心」是事物，「跳」說明它的動作。'},
+            {w:'雨停', a:'雨', b:'停', note:'「雨」是事物，「停」說明雨停下來的動作。'}
+          ],
+          mini:{ q:'下面哪一個是動作類？',
+                 options:[{w:'花開',ok:true},{w:'天亮',ok:false},{w:'打球',ok:false}],
+                 explain:'「花開」的「開」是花正在做的動作，所以是主謂式中的動作類；「天亮」是狀態類，「打球」是動賓式。' }
+        },
+        {
+          id:'zhuangtai', name:'狀態類', full:'狀態複合詞',
+          tag:'後面說它怎麼樣',
+          formula:['天','亮','天亮'],
+          desc:'後面那個詞素說的不是動作，而是<b>狀態</b>——亮、痛、紅、急，說明前面的東西處於甚麼情況。',
+          examples:[
+            {w:'天亮', a:'天', b:'亮', note:'「天」是事物，「亮」說明天怎麼樣了。'},
+            {w:'頭痛', a:'頭', b:'痛', note:'「頭」是身體部位，「痛」說明它的感覺。'},
+            {w:'臉紅', a:'臉', b:'紅', note:'「臉」是身體部位，「紅」說明臉的狀態。'},
+            {w:'心急', a:'心', b:'急', note:'「心」是事物，「急」說明心裏焦急的狀態。'}
+          ],
+          mini:{ q:'下面哪一個是狀態類？',
+                 options:[{w:'頭痛',ok:true},{w:'鳥飛',ok:false},{w:'看見',ok:false}],
+                 explain:'「頭痛」的「痛」說明頭的狀態，所以是主謂式中的狀態類；「鳥飛」是動作類，「看見」是補充式。' }
+        }
+      ]
+    },
+    {
+      id:'buchong', name:'補充式', color:'#F2725E',
+      tag:'前面動作，後面補充',
+      desc:'補充式的前一個詞素是<b>動作</b>，後一個詞素<b>補充結果或方向</b>——做到怎麼樣了，往哪裏去。',
+      subs:[
+        {
+          id:'jieguo', name:'結果類', full:'結果複合詞',
+          tag:'做到甚麼結果',
+          formula:['吃','飽','吃飽'],
+          desc:'後面那個詞素說明動作<b>做出來的結果</b>：吃飽、看見、提高、學會。',
+          examples:[
+            {w:'吃飽', a:'吃', b:'飽', note:'「吃」是動作，「飽」是吃出來的結果。'},
+            {w:'看見', a:'看', b:'見', note:'「看」是動作，「見」是看的結果。'},
+            {w:'提高', a:'提', b:'高', note:'「提」是動作，「高」是提的結果。'},
+            {w:'學會', a:'學', b:'會', note:'「學」是動作，「會」是學會了的結果。'}
+          ],
+          mini:{ q:'下面哪一個是結果類？',
+                 options:[{w:'吃飽',ok:true},{w:'走進',ok:false},{w:'寫字',ok:false}],
+                 explain:'「吃飽」的「飽」是吃出來的結果，所以是補充式中的結果類；「走進」是方向類，「寫字」是動賓式。' }
+        },
+        {
+          id:'fangxiang', name:'方向類', full:'方向複合詞',
+          tag:'往哪個方向',
+          formula:['走','進','走進'],
+          desc:'後面那個詞素說明動作<b>往哪個方向</b>去：走進、跑出、走上、跳下。',
+          examples:[
+            {w:'走進', a:'走', b:'進', note:'「走」是動作，「進」補充方向——往裏面走。'},
+            {w:'走上', a:'走', b:'上', note:'「走」是動作，「上」補充方向——往上面走。'},
+            {w:'跳下', a:'跳', b:'下', note:'「跳」是動作，「下」補充方向——往下面跳。'},
+            {w:'跑出', a:'跑', b:'出', note:'「跑」是動作，「出」補充方向——往外面跑。'}
+          ],
+          mini:{ q:'下面哪一個是方向類？',
+                 options:[{w:'走進',ok:true},{w:'提高',ok:false},{w:'開門',ok:false}],
+                 explain:'「走進」的「進」補充「走」的方向，所以是補充式中的方向類；「提高」是結果類，「開門」是動賓式。' }
+        }
+      ]
+    }
+  ];
+
+  var MAJOR_MAP = {}, SUB_MAP = {};
+  MAJORS.forEach(function(m){
+    MAJOR_MAP[m.id] = m;
+    m.subs.forEach(function(s){
+      s.major = m.id;
+      s.color = m.color;
+      s.light = SUB_LIGHT[s.id];
+      SUB_MAP[s.id] = s;
+    });
+  });
+
+  var SUB_COUNT = MAJORS.reduce(function(n, m){ return n + m.subs.length; }, 0);
+
+  var MAJOR_TIPS = {
+    binglie:'先看兩個詞素是不是平等並排。意思相近＝近義類；意思相反＝反義類；同類或常常一起出現＝相關類。',
+    pianzheng:'先確定後面那個字是主角。前面講顏色、形狀、大小、程度＝描寫類；前面講材料、用途、屬於誰＝限定類。',
+    dongbin:'先確定後面那個字是不是被動作影響。看得見、摸得到的東西＝對象類；唱出來、讀出來、寫出來的內容＝內容類。',
+    zhuwei:'先確定後面那個字說的是動作還是狀態。做甚麼＝動作類；處於甚麼情況＝狀態類。',
+    buchong:'先確定後面那個字補充甚麼。做到甚麼結果＝結果類；往哪個方向＝方向類。'
+  };
+
+  /* =========================================================
+     2. 題庫：模式 A（分類）＋ 模式 B（異類），各 10 題
+        模式 A 先問大類，並列式的題目再問小類
+     ========================================================= */
+  var MODE1 = [
+    { word:'朋友', level:'major', major:'binglie', answer:'binglie',
+      options:['binglie','pianzheng','dongbin','zhuwei'],
+      explain:'「朋」和「友」都指同伴，兩個詞素地位平等、沒有誰修飾誰，所以是<b>並列式</b>。再往下一層看，它們意思相近，屬於近義類。' },
+    { word:'鉛筆', level:'major', major:'pianzheng', answer:'pianzheng',
+      options:['pianzheng','binglie','dongbin','buchong'],
+      explain:'「鉛」限定材料，「筆」才是主角，前面修飾後面，所以是<b>偏正式</b>。再往下一層看，它屬於限定類。' },
+    { word:'寫字', level:'major', major:'dongbin', answer:'dongbin',
+      options:['dongbin','pianzheng','zhuwei','buchong'],
+      explain:'「寫」是動作，「字」是寫出來的內容，動作＋對象，所以是<b>動賓式</b>。再往下一層看，它屬於內容類。' },
+    { word:'花開', level:'major', major:'zhuwei', answer:'zhuwei',
+      options:['zhuwei','dongbin','pianzheng','buchong'],
+      explain:'「花」是被說明的事物，「開」說明花怎麼樣，像一句短句，所以是<b>主謂式</b>。再往下一層看，它屬於動作類。' },
+    { word:'走進', level:'major', major:'buchong', answer:'buchong',
+      options:['buchong','dongbin','pianzheng','zhuwei'],
+      explain:'「走」是動作，「進」補充動作的方向，所以是<b>補充式</b>。再往下一層看，它屬於方向類。' },
+    { word:'開關', level:'sub', major:'binglie', answer:'fanyi',
+      options:['jinyi','fanyi','xiangguan'],
+      explain:'「開」和「關」意思正好相反，一開一關，兩個詞素地位平等，所以是並列式；再分下去是<b>反義類</b>。' },
+    { word:'身體', level:'sub', major:'binglie', answer:'jinyi',
+      options:['jinyi','fanyi','xiangguan'],
+      explain:'「身」和「體」都指身體，意思相近而不是相反，所以是並列式中的<b>近義類</b>。' },
+    { word:'手足', level:'sub', major:'binglie', answer:'xiangguan',
+      options:['jinyi','fanyi','xiangguan'],
+      explain:'「手」和「足」都是身體部位，同類而且經常並提，既不是近義也不是反義，所以是並列式中的<b>相關類</b>。這個詞也用來比喻兄弟。' },
+    { word:'買賣', level:'sub', major:'binglie', answer:'fanyi',
+      options:['jinyi','fanyi','xiangguan'],
+      explain:'「買」和「賣」是方向相反的動作，所以是並列式中的<b>反義類</b>。' },
+    { word:'道路', level:'sub', major:'binglie', answer:'jinyi',
+      options:['jinyi','fanyi','xiangguan'],
+      explain:'「道」和「路」都指供人行走的地方，意思相近，所以是並列式中的<b>近義類</b>。' }
+  ];
+
+  var MODE2 = [
+    { words:['道路','聲音','寒冷','出入'], answer:'出入',
+      explain:'「道路、聲音、寒冷」都是並列式中的<b>近義類</b>（兩個詞素意思相近）；「出入」的「出」和「入」意思相反，是<b>反義類</b>。' },
+    { words:['多少','動靜','買賣','花草'], answer:'花草',
+      explain:'「多少、動靜、買賣」都是並列式中的<b>反義類</b>（兩個詞素意思相反）；「花草」是<b>相關類</b>（兩種同類植物並提）。' },
+    { words:['門窗','風雨','山水','幫助'], answer:'幫助',
+      explain:'「門窗、風雨、山水」都是並列式中的<b>相關類</b>（同類或常一起出現的事物）；「幫助」是<b>近義類</b>（「幫」和「助」意思相近）。' },
+    { words:['校服','皮鞋','白雲','打球'], answer:'打球',
+      explain:'「校服、皮鞋、白雲」都是<b>偏正式</b>（前修飾後）；只有「打球」是<b>動賓式</b>（動作＋受動作的東西）。' },
+    { words:['紅花','高山','大雨','書包'], answer:'書包',
+      explain:'「紅花、高山、大雨」都是偏正式中的<b>描寫類</b>（前面描寫顏色、形狀、程度）；「書包」是<b>限定類</b>（「書」限定用途）。' },
+    { words:['打球','開門','洗手','唱歌'], answer:'唱歌',
+      explain:'「打球、開門、洗手」都是動賓式中的<b>對象類</b>（動作＋受動作的東西）；「唱歌」是<b>內容類</b>（「歌」是唱出來的內容）。' },
+    { words:['寫字','畫圖','寫信','洗手'], answer:'洗手',
+      explain:'「寫字、畫圖、寫信」都是動賓式中的<b>內容類</b>（動作＋做出來的內容）；「洗手」是<b>對象類</b>（「手」是受動作影響的東西）。' },
+    { words:['花開','鳥飛','頭痛','鉛筆'], answer:'鉛筆',
+      explain:'「花開、鳥飛」是主謂式（事物＋動作），「頭痛」也是主謂式（事物＋狀態）；只有「鉛筆」是<b>偏正式</b>（「鉛」限定材料）。' },
+    { words:['看見','提高','學會','寫字'], answer:'寫字',
+      explain:'「看見、提高、學會」都是<b>補充式</b>（動作＋結果）；只有「寫字」是<b>動賓式</b>（動作＋內容）。' },
+    { words:['吃飽','學會','看見','跑出'], answer:'跑出',
+      explain:'「吃飽、學會、看見」都是補充式中的<b>結果類</b>（後面補充結果）；「跑出」是<b>方向類</b>（「出」補充方向）。' }
+  ];
+
+  /* =========================================================
+     3. 音效（Web Audio 合成，無外部檔案）
+     ========================================================= */
+  var audio = { ctx:null, on:true, failed:false };
+
+  function ensureAudio(){
+    if (audio.ctx){
+      if (audio.ctx.state === 'suspended'){ audio.ctx.resume(); }
+      return audio.ctx;
+    }
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC){ audio.failed = true; return null; }
+    try { audio.ctx = new AC(); }
+    catch(e){ audio.failed = true; return null; }
+    return audio.ctx;
+  }
+
+  function beep(freq, dur, type, vol, delay){
+    if (!audio.on || audio.failed) return;
+    var ctx = ensureAudio();
+    if (!ctx) return;
+    var t0 = ctx.currentTime + (delay || 0);
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.type = type || 'sine';
+    osc.frequency.setValueAtTime(freq, t0);
+    gain.gain.setValueAtTime(0.0001, t0);
+    gain.gain.linearRampToValueAtTime(vol || 0.1, t0 + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(t0);
+    osc.stop(t0 + dur + 0.03);
+  }
+
+  function sfx(name){
+    if (!audio.on) return;
+    switch(name){
+      case 'tap':
+        beep(680, 0.07, 'triangle', 0.07);
+        break;
+      case 'correct':
+        beep(659.25, 0.13, 'sine', 0.11, 0);
+        beep(880.00, 0.13, 'sine', 0.11, 0.10);
+        beep(1046.5, 0.22, 'sine', 0.10, 0.20);
+        break;
+      case 'wrong':
+        beep(392.00, 0.15, 'sine', 0.10, 0);
+        beep(293.66, 0.24, 'sine', 0.09, 0.13);
+        break;
+      case 'flip':
+        beep(520, 0.06, 'square', 0.04);
+        beep(760, 0.08, 'square', 0.035, 0.05);
+        break;
+      case 'win':
+        [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach(function(f, i){
+          beep(f, 0.24, 'triangle', 0.09, i * 0.11);
+        });
+        break;
+      case 'click':
+        beep(440, 0.06, 'sine', 0.06);
+        break;
+    }
+  }
+
+  /* =========================================================
+     4. 共用工具與 DOM
+     ========================================================= */
+  var $ = function(id){ return document.getElementById(id); };
+  var views = {
+    home: $('view-home'),
+    teach: $('view-teach'),
+    sub: $('view-sub'),
+    detail: $('view-detail'),
+    challenge: $('view-challenge'),
+    quiz: $('view-quiz'),
+    result: $('view-result')
+  };
+  var backBtn = $('backBtn');
+  var soundBtn = $('soundBtn');
+  var typeGrid = $('typeGrid');
+  var detailBody = $('detailBody');
+  var toastEl = $('toast');
+  var modal = $('modal');
+  var modalText = $('modalText');
+  var modalOk = $('modalOk');
+  var modalCancel = $('modalCancel');
+
+  var state = {
+    view:'home',
+    majorId:'binglie',
+    detailSub:'jinyi',
+    mode:null,
+    questions:[],
+    qIndex:0,
+    answered:false,
+    score:0,
+    wrong:[],
+    selectedKey:null,
+    pendingConfirm:null
+  };
+
+  var toastTimer = null;
+  function toast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 2000);
+  }
+
+  function shuffle(arr){
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+    }
+    return a;
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+    });
+  }
+
+  /* =========================================================
+     5. 導覽
+     ========================================================= */
+  function show(name){
+    Object.keys(views).forEach(function(k){
+      views[k].hidden = (k !== name);
+    });
+    state.view = name;
+    backBtn.hidden = (name === 'home');
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+
+  function goHome(){
+    show('home');
+    sfx('click');
+  }
+
+  /* =========================================================
+     6. 教學館
+     ========================================================= */
+  /* =========================================================
+     6. 教學館：大類 → 小類 → 詞例（三層）
+     ========================================================= */
+  function crumbHtml(list){
+    var h = '<nav class="crumbs" aria-label="你在哪裏">';
+    list.forEach(function(it, i){
+      if (i) h += '<span class="sep" aria-hidden="true">›</span>';
+      if (it.go) h += '<button class="crumb" data-go="' + it.go + '">' + it.label + '</button>';
+      else if (it.major) h += '<button class="crumb" data-crumb-major="' + it.major + '">' + it.label + '</button>';
+      else h += '<span class="crumb now" aria-current="page">' + it.label + '</span>';
+    });
+    return h + '</nav>';
+  }
+
+  function renderQuickGrid(){
+    var el = $('quickGrid');
+    if (!el) return;
+    el.innerHTML = MAJORS.map(function(m){
+      return '<button class="quick-item" data-major="' + m.id + '" aria-label="' + m.name + '，' + m.subs.length + ' 個小類">' +
+        ICONS[m.id] + '<b>' + m.name + '</b>' +
+        '<i class="q-count">' + m.subs.length + ' 小類</i>' +
+      '</button>';
+    }).join('');
+  }
+
+  function renderTypeGrid(){
+    typeGrid.innerHTML = MAJORS.map(function(m){
+      return '<button class="type-card" data-major="' + m.id + '" style="--c:' + m.color + '">' +
+        '<span class="type-icon">' + ICONS[m.id] + '</span>' +
+        '<span class="type-body">' +
+          '<span class="type-name">' + m.name +
+            '<span class="count-chip">' + m.subs.length + ' 小類</span>' +
+          '</span>' +
+          '<span class="type-tag">' + m.tag + '</span>' +
+          '<span class="type-sub-list">' + m.subs.map(function(s){ return s.name; }).join(' · ') + '</span>' +
+        '</span>' +
+        '<span class="type-go" aria-hidden="true">›</span>' +
+      '</button>';
+    }).join('');
+  }
+
+  function renderSubList(majorId){
+    var m = MAJOR_MAP[majorId];
+    if (!m) return;
+    state.majorId = majorId;
+    var body = $('subBody');
+    var idx = MAJORS.findIndex(function(x){ return x.id === majorId; });
+    var nextM = MAJORS[(idx + 1) % MAJORS.length];
+
+    body.innerHTML =
+      crumbHtml([{ label:'教學館', go:'teach' }, { label:m.name }]) +
+      '<div class="major-head" style="--c:' + m.color + '">' +
+        '<span class="detail-icon">' + ICONS[m.id] + '</span>' +
+        '<div class="major-head-text"><h2>' + m.name + '</h2>' +
+          '<p>' + m.tag + '<span class="fam-badge">' + m.subs.length + ' 個小類</span></p>' +
+        '</div>' +
+      '</div>' +
+      '<p class="desc" style="--c:' + m.color + '">' + m.desc + '</p>' +
+      '<h3 class="sub-title" style="--c:' + m.color + '"><span class="dot"></span>再點一個小類，看詞例圖解</h3>' +
+      '<div class="sub-list">' +
+        m.subs.map(function(s){
+          return '<button class="sub-row" data-sub="' + s.id + '" style="--c:' + s.color + '">' +
+            '<span class="sub-row-icon">' + subIcon(s) + '</span>' +
+            '<span class="sub-row-body">' +
+              '<span class="sub-row-name">' + s.name + '<em>' + s.full + '</em></span>' +
+              '<span class="sub-row-tag">' + s.tag + '</span>' +
+              '<span class="sub-row-words">' + s.examples.slice(0, 3).map(function(e){ return e.w; }).join(' · ') + '</span>' +
+            '</span>' +
+            '<span class="type-go" aria-hidden="true">›</span>' +
+          '</button>';
+        }).join('') +
+      '</div>' +
+      '<div class="tip-box small"><strong>怎麼分這 ' + m.subs.length + ' 小類？</strong><p>' + (MAJOR_TIPS[m.id] || '') + '</p></div>' +
+      '<div class="detail-nav">' +
+        '<button class="btn btn-ghost btn-sm" data-go="teach">← 返回五大類</button>' +
+        '<button class="btn btn-primary btn-sm" data-crumb-major="' + nextM.id + '">下一個大類：' + nextM.name + ' →</button>' +
+      '</div>';
+
+    show('sub');
+  }
+
+  function renderDetail(subId){
+    var s = SUB_MAP[subId];
+    if (!s) return;
+    var m = MAJOR_MAP[s.major];
+    state.detailSub = subId;
+    state.majorId = m.id;
+
+    var formulaHtml = '<div class="formula" style="--c:' + s.color + '">' +
+      '<span class="chip">' + s.formula[0] + '</span>' +
+      '<span class="op">＋</span>' +
+      '<span class="chip">' + s.formula[1] + '</span>' +
+      '<span class="op">＝</span>' +
+      '<span class="chip result">' + s.formula[2] + '</span>' +
+    '</div>';
+
+    var exHtml = s.examples.map(function(ex, i){
+      return '<div class="ex-item">' +
+        '<button class="ex-card" data-ex="' + i + '" aria-expanded="false">' +
+          '<span class="w">' + ex.w + '</span>' +
+          '<span class="hint">點一下拆開 ▾</span>' +
+        '</button>' +
+        '<div class="ex-detail" hidden style="--c:' + s.color + '">' +
+          '<div class="split">' +
+            '<span class="part" style="background:' + s.color + '">' + ex.a + '</span>' +
+            '<span class="rel">＋</span>' +
+            '<span class="part b">' + ex.b + '</span>' +
+            '<span class="rel">→ ' + ex.w + '</span>' +
+          '</div>' +
+          '<p>' + ex.note + '</p>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    var miniHtml = '<div class="mini" style="--c:' + s.color + '">' +
+      '<h3>小試身手</h3>' +
+      '<p class="q">' + s.mini.q + '</p>' +
+      '<div class="mini-opts">' +
+        s.mini.options.map(function(o, i){
+          return '<button class="mini-opt" data-mini="' + i + '">' +
+            '<span>' + o.w + '</span><span class="mark" aria-hidden="true"></span>' +
+          '</button>';
+        }).join('') +
+      '</div>' +
+      '<p class="mini-fb" hidden></p>' +
+    '</div>';
+
+    var idx = m.subs.findIndex(function(x){ return x.id === subId; });
+    var next = m.subs[(idx + 1) % m.subs.length];
+    var navHtml;
+    if (m.subs.length > 1 && next.id !== subId){
+      navHtml = '<button class="btn btn-primary btn-sm" data-sub="' + next.id + '">下一個小類：' + next.name + ' →</button>';
+    } else {
+      navHtml = '<button class="btn btn-primary btn-sm" data-go="teach">看其他大類 →</button>';
+    }
+
+    detailBody.innerHTML =
+      crumbHtml([{ label:'教學館', go:'teach' }, { label:m.name, major:m.id }, { label:s.name }]) +
+      '<div class="detail-head" style="--c:' + s.color + '">' +
+        '<span class="detail-icon">' + subIcon(s) + '</span>' +
+        '<div class="major-head-text"><h2>' + s.name + '</h2>' +
+          '<p>' + s.tag + '<span class="fam-badge">' + m.name + '</span></p>' +
+        '</div>' +
+      '</div>' +
+      formulaHtml +
+      '<p class="desc" style="--c:' + s.color + '">' + s.desc + '</p>' +
+      '<h3 class="sub-title" style="--c:' + s.color + '"><span class="dot"></span>點一點，拆開看</h3>' +
+      exHtml +
+      miniHtml +
+      '<div class="detail-nav">' +
+        '<button class="btn btn-ghost btn-sm" data-crumb-major="' + m.id + '">← 返回' + m.name + '</button>' +
+        navHtml +
+      '</div>';
+
+    bindDetailEvents(s);
+    show('detail');
+  }
+
+  function bindDetailEvents(s){
+    var cards = detailBody.querySelectorAll('.ex-card');
+    Array.prototype.forEach.call(cards, function(card){
+      card.addEventListener('click', function(){
+        var i = parseInt(card.getAttribute('data-ex'), 10);
+        var panel = card.parentNode.querySelector('.ex-detail');
+        var open = !panel.hidden;
+        panel.hidden = open;
+        card.setAttribute('aria-expanded', open ? 'false' : 'true');
+        card.querySelector('.hint').textContent = open ? '點一下拆開 ▾' : '收起 ▴';
+        if (!open) sfx('flip');
+      });
+    });
+
+    var miniBtns = detailBody.querySelectorAll('.mini-opt');
+    var fb = detailBody.querySelector('.mini-fb');
+    Array.prototype.forEach.call(miniBtns, function(btn){
+      btn.addEventListener('click', function(){
+        var i = parseInt(btn.getAttribute('data-mini'), 10);
+        var opt = s.mini.options[i];
+        if (btn.disabled) return;
+        Array.prototype.forEach.call(miniBtns, function(b){
+          b.disabled = true;
+          var oi = parseInt(b.getAttribute('data-mini'), 10);
+          if (s.mini.options[oi].ok){
+            b.classList.add('ok');
+            b.querySelector('.mark').textContent = '✓';
+          }
+        });
+        if (!opt.ok){
+          btn.classList.add('no');
+          btn.querySelector('.mark').textContent = '✗';
+        }
+        fb.hidden = false;
+        fb.textContent = (opt.ok ? '答對了！' : '再想想～') + ' ' + s.mini.explain;
+        sfx(opt.ok ? 'correct' : 'wrong');
+      });
+    });
+  }
+  /* =========================================================
+     7. 遊戲流程
+     ========================================================= */
+  function buildQuestions(mode){
+    if (mode === 'classify'){
+      return shuffle(MODE1.map(function(q){
+        var isSub = (q.level === 'sub');
+        var opts = shuffle(q.options).map(function(id){
+          return { key:id, label: isSub ? SUB_MAP[id].name : MAJOR_MAP[id].name };
+        });
+        var majorName = MAJOR_MAP[q.major].name;
+        var label = isSub
+          ? (SUB_MAP[q.answer].name + '（' + majorName + '）')
+          : MAJOR_MAP[q.answer].name;
+        return {
+          prompt: isSub
+            ? '「<span class="hl">' + q.word + '</span>」屬於<b>' + majorName + '</b>中的哪一個小類？'
+            : '「<span class="hl">' + q.word + '</span>」屬於哪一個大類？',
+          options:opts,
+          answer:q.answer,
+          answerLabel:label,
+          explain:q.explain,
+          reviewQ: isSub
+            ? '「' + q.word + '」屬於' + majorName + '中的哪一個小類？'
+            : '「' + q.word + '」屬於哪一個大類？'
+        };
+      }));
+    }
+    return shuffle(MODE2.map(function(q){
+      var opts = shuffle(q.words).map(function(w){
+        return { key:w, label:w };
+      });
+      return {
+        prompt:'哪一個詞的結構和另外三個<b>不同</b>？',
+        options:opts,
+        answer:q.answer,
+        answerLabel:q.answer,
+        explain:q.explain,
+        reviewQ:q.words.join('、') + '——哪一個不同？'
+      };
+    }));
+  }
+
+  function startQuiz(mode){
+    state.mode = mode;
+    state.questions = buildQuestions(mode);
+    state.qIndex = 0;
+    state.answered = false;
+    state.score = 0;
+    state.wrong = [];
+    state.selectedKey = null;
+    $('quizModeTag').textContent = (mode === 'classify') ? '模式 A · 詞語分類站' : '模式 B · 揪出異類';
+    $('explain').hidden = true;
+    show('quiz');
+    renderQuestion();
+  }
+
+  function renderQuestion(){
+    var q = state.questions[state.qIndex];
+    state.answered = false;
+    state.selectedKey = null;
+
+    $('quizIndex').textContent = '第 ' + (state.qIndex + 1) + ' / ' + state.questions.length + ' 題';
+    $('progressFill').style.width = ((state.qIndex) / state.questions.length * 100) + '%';
+    $('qPrompt').innerHTML = q.prompt;
+    $('explain').hidden = true;
+    $('explain').className = 'explain';
+
+    var optsEl = $('opts');
+    optsEl.innerHTML = q.options.map(function(o, i){
+      return '<button class="opt" data-key="' + escapeHtml(o.key) + '" data-idx="' + i + '">' +
+        '<span class="bullet">' + 'ABCD'[i] + '</span>' +
+        '<span class="label">' + o.label + '</span>' +
+        '<span class="mark" aria-hidden="true"></span>' +
+      '</button>';
+    }).join('');
+
+    Array.prototype.forEach.call(optsEl.querySelectorAll('.opt'), function(btn){
+      btn.addEventListener('click', function(){
+        chooseOption(btn);
+      });
+    });
+  }
+
+  function chooseOption(btn){
+    if (state.answered) return;
+    var q = state.questions[state.qIndex];
+    var key = btn.getAttribute('data-key');
+    var isRight = (key === q.answer);
+    state.answered = true;
+    state.selectedKey = key;
+
+    var all = $('opts').querySelectorAll('.opt');
+    Array.prototype.forEach.call(all, function(b){
+      b.disabled = true;
+      var k = b.getAttribute('data-key');
+      if (k === q.answer){
+        b.classList.add('correct');
+        b.querySelector('.mark').textContent = '✓';
+      } else if (k === key){
+        b.classList.add('wrong');
+        b.querySelector('.mark').textContent = '✗';
+      } else {
+        b.classList.add('muted');
+      }
+    });
+
+    if (isRight){
+      state.score += 1;
+      sfx('correct');
+    } else {
+      state.wrong.push({
+        q: q.reviewQ,
+        answer: q.answerLabel,
+        explain: q.explain
+      });
+      sfx('wrong');
+    }
+
+    var exp = $('explain');
+    exp.hidden = false;
+    exp.className = 'explain ' + (isRight ? 'good' : 'bad');
+    $('expHead').textContent = isRight ? '✓ 答對了！' : '✗ 差一點，一起看清楚';
+    $('expBody').innerHTML = '<b>正確答案：' + q.answerLabel + '</b><br>' + q.explain;
+
+    var nextBtn = $('nextBtn');
+    nextBtn.textContent = (state.qIndex === state.questions.length - 1) ? '看成績 →' : '下一題 →';
+    $('progressFill').style.width = ((state.qIndex + 1) / state.questions.length * 100) + '%';
+
+    setTimeout(function(){
+      exp.scrollIntoView({ behavior:'smooth', block:'nearest' });
+    }, 80);
+  }
+
+  function nextQuestion(){
+    if (!state.answered) return;
+    if (state.qIndex === state.questions.length - 1){
+      finishQuiz();
+      return;
+    }
+    state.qIndex += 1;
+    sfx('click');
+    renderQuestion();
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+
+  function finishQuiz(){
+    var total = state.questions.length;
+    var score = state.score;
+    var stars = score >= total ? 3 : (score >= 7 ? 2 : (score >= 4 ? 1 : 0));
+
+    var starStr = '';
+    for (var i = 0; i < 3; i++){
+      starStr += (i < stars) ? '★' : '☆';
+    }
+
+    var comment = score === total
+      ? '太厲害了！每一種結構都分得清清楚楚。'
+      : (score >= 7 ? '很穩！再把錯的幾題看一次，就差不多全對了。'
+      : (score >= 4 ? '已經掌握一半，回到教學館先看大類、再看小類吧。'
+      : '別灰心，先到教學館由大類開始，一層一層看清楚，再回來挑戰。'));
+
+    var reviewHtml = '';
+    if (state.wrong.length === 0){
+      reviewHtml = '<div class="perfect">全對！這一輪沒有錯題。試試另一種模式，看看是不是一樣穩。</div>';
+    } else {
+      reviewHtml = '<div class="review"><h3>錯題回顧（' + state.wrong.length + ' 題）</h3>' +
+        state.wrong.map(function(w){
+          return '<div class="review-item">' +
+            '<p class="q">' + w.q + '</p>' +
+            '<p class="a"><b>正確答案：' + w.answer + '</b>　' + w.explain + '</p>' +
+          '</div>';
+        }).join('') + '</div>';
+    }
+
+    var modeName = state.mode === 'classify' ? '詞語分類站' : '揪出異類';
+    var otherMode = state.mode === 'classify' ? 'odd' : 'classify';
+    var otherName = state.mode === 'classify' ? '揪出異類' : '詞語分類站';
+
+    $('resultBody').innerHTML =
+      '<div class="stars" aria-label="獲得 ' + stars + ' 顆星">' + starStr + '</div>' +
+      '<h2>' + (score === total ? '完美通關！' : '挑戰完成！') + '</h2>' +
+      '<p class="score-line">' + modeName + '：答對 ' + score + ' / ' + total + ' 題</p>' +
+      '<p class="comment">' + comment + '</p>' +
+      reviewHtml +
+      '<div class="result-actions">' +
+        '<button class="btn btn-primary" data-retry="' + state.mode + '">再玩一次</button>' +
+        '<button class="btn" data-retry="' + otherMode + '">挑戰「' + otherName + '」</button>' +
+        '<button class="btn btn-ghost" data-go="teach">回教學館</button>' +
+        '<button class="btn btn-ghost" data-go="challenge">回挑戰區</button>' +
+      '</div>';
+
+    show('result');
+    sfx(score >= 7 ? 'win' : 'click');
+  }
+
+  /* =========================================================
+     8. 離開確認
+     ========================================================= */
+  function openConfirm(msg, onOk){
+    modalText.textContent = msg;
+    state.pendingConfirm = onOk;
+    modal.hidden = false;
+  }
+  function closeConfirm(){
+    modal.hidden = true;
+    state.pendingConfirm = null;
+  }
+
+  /* =========================================================
+     9. 事件綁定
+     ========================================================= */
+  document.addEventListener('click', function(e){
+    var goEl = e.target.closest('[data-go]');
+    if (goEl){
+      var dest = goEl.getAttribute('data-go');
+      sfx('click');
+      if (dest === 'teach'){ renderTypeGrid(); show('teach'); }
+      else if (dest === 'challenge'){ show('challenge'); }
+      else if (dest === 'home'){ show('home'); }
+      return;
+    }
+
+    var majorEl = e.target.closest('[data-major]');
+    if (majorEl){
+      sfx('click');
+      renderSubList(majorEl.getAttribute('data-major'));
+      return;
+    }
+
+    var crumbMajorEl = e.target.closest('[data-crumb-major]');
+    if (crumbMajorEl){
+      sfx('click');
+      renderSubList(crumbMajorEl.getAttribute('data-crumb-major'));
+      return;
+    }
+
+    var subEl = e.target.closest('[data-sub]');
+    if (subEl){
+      sfx('click');
+      renderDetail(subEl.getAttribute('data-sub'));
+      return;
+    }
+
+    var modeEl = e.target.closest('[data-mode]');
+    if (modeEl){
+      sfx('click');
+      startQuiz(modeEl.getAttribute('data-mode'));
+      return;
+    }
+
+    var retryEl = e.target.closest('[data-retry]');
+    if (retryEl){
+      sfx('click');
+      startQuiz(retryEl.getAttribute('data-retry'));
+      return;
+    }
+  });
+
+  $('nextBtn').addEventListener('click', nextQuestion);
+
+  backBtn.addEventListener('click', function(){
+    sfx('click');
+    if (state.view === 'detail'){ renderSubList(state.majorId); }
+    else if (state.view === 'sub'){ renderTypeGrid(); show('teach'); }
+    else if (state.view === 'teach'){ show('home'); }
+    else if (state.view === 'challenge'){ show('home'); }
+    else if (state.view === 'quiz'){
+      openConfirm('確定要離開這一輪嗎？今次的作答進度不會保留。', function(){
+        closeConfirm();
+        show('challenge');
+      });
+    }
+    else if (state.view === 'result'){ show('challenge'); }
+  });
+
+  soundBtn.addEventListener('click', function(){
+    audio.on = !audio.on;
+    soundBtn.setAttribute('aria-pressed', audio.on ? 'true' : 'false');
+    $('soundWave').style.display = audio.on ? '' : 'none';
+    $('soundCross').style.display = audio.on ? 'none' : '';
+    if (audio.on){
+      var ctx = ensureAudio();
+      if (!ctx || audio.failed){
+        toast('這個瀏覽器暫時未能播放音效，學習內容不受影響。');
+        audio.on = false;
+        soundBtn.setAttribute('aria-pressed', 'false');
+        $('soundWave').style.display = 'none';
+        $('soundCross').style.display = '';
+        return;
+      }
+      sfx('tap');
+      toast('音效已開啟');
+    } else {
+      toast('音效已關閉');
+    }
+  });
+
+  modalCancel.addEventListener('click', function(){ closeConfirm(); });
+  modalOk.addEventListener('click', function(){
+    var fn = state.pendingConfirm;
+    state.pendingConfirm = null;
+    modal.hidden = true;
+    if (typeof fn === 'function') fn();
+  });
+  modal.addEventListener('click', function(e){
+    if (e.target === modal) closeConfirm();
+  });
+
+  /* =========================================================
+     10. 初始化
+     ========================================================= */
+  renderQuickGrid();
+  renderTypeGrid();
+  show('home');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>古今異義大冒險｜小學文言文互動遊戲</title>
+<meta name="description" content="小學文言文「古今異義」互動學習遊戲：先看圖文教學，再玩「古義大搜查」與「古今對對碰」兩種模式，每種六組題目，即時講解答案。">
+<style>
+  :root{
+    --ink:#3a3128;
+    --ink-soft:#6b5d4d;
+    --paper:#f7ecd7;
+    --card:#fffdf6;
+    --red:#cd4a35;
+    --red-deep:#a83626;
+    --jade:#2f9e86;
+    --jade-deep:#1f7a66;
+    --gold:#f0b33f;
+    --gold-soft:#ffe6b0;
+    --blue:#4a7fc1;
+    --purple:#8a6bbf;
+    --line:3px solid var(--ink);
+    --shadow:0 6px 0 rgba(58,49,40,.18);
+    --radius:26px;
+  }
+  *{box-sizing:border-box;min-width:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    font-family:"Noto Sans TC","Noto Sans CJK HK","PingFang HK","Microsoft JhengHei","Heiti TC",system-ui,sans-serif;
+    color:var(--ink);
+    font-size:clamp(18px,0.45vw + 16px,23px);
+    line-height:1.65;
+    background-color:var(--paper);
+    background-image:
+      radial-gradient(circle at 10% 4%,rgba(240,179,63,.22),transparent 42%),
+      radial-gradient(circle at 92% 2%,rgba(47,158,134,.16),transparent 40%),
+      repeating-linear-gradient(0deg,rgba(150,120,80,.055) 0 1px,transparent 1px 24px);
+    -webkit-tap-highlight-color:transparent;
+    overflow-x:hidden;
+  }
+  [hidden]{display:none !important}
+  button{font-family:inherit;color:inherit}
+  h1,h2,h3,h4,p{margin:0}
+  .app{width:100%;max-width:1120px;margin:0 auto;padding:0 clamp(12px,2.4vw,28px) clamp(24px,4vw,48px)}
+
+  /* ---------- 頂欄 ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:30;
+    display:grid;grid-template-columns:auto 1fr auto;gap:.6rem;align-items:center;
+    padding:.55rem max(12px,calc((100vw - 1120px)/2));
+    background:rgba(247,236,215,.94);
+    backdrop-filter:blur(8px);
+    border-bottom:3px solid rgba(58,49,40,.14);
+  }
+  .brand{min-width:0;text-align:center}
+  .brand-cn{display:block;font-weight:900;font-size:clamp(1rem,0.7vw + .85rem,1.3rem);letter-spacing:.06em;line-height:1.2}
+  .brand-sub{display:block;font-size:.72rem;color:var(--ink-soft);letter-spacing:.08em}
+  .chip-btn{
+    border:2.5px solid var(--ink);border-radius:999px;background:var(--card);
+    padding:.42rem .85rem;font-size:.85rem;font-weight:800;cursor:pointer;
+    box-shadow:0 3px 0 rgba(58,49,40,.35);white-space:nowrap;
+  }
+  .chip-btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(58,49,40,.35)}
+
+  /* ---------- 通用 ---------- */
+  .screen{padding-top:clamp(14px,2.4vw,30px);min-height:calc(100dvh - 4.8rem)}
+  .screen.on{display:flex;flex-direction:column}
+  #screen-learn .card{width:100%;max-width:1020px;margin:auto}
+  #screen-home .footnote{margin-top:auto;padding-top:1.1rem}
+  #screen-gameA .q-card{margin:auto 0;width:100%}
+  #screen-gameB .game-body{margin:auto 0;width:100%}
+  .screen.on{animation:rise .34s ease both}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .card{
+    background:var(--card);border:var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);
+  }
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+    border:var(--line);border-radius:999px;background:var(--gold);color:var(--ink);
+    font-weight:900;font-size:clamp(1rem,.6vw + .9rem,1.2rem);
+    padding:.7rem 1.5rem;cursor:pointer;box-shadow:0 5px 0 var(--ink);
+    transition:transform .08s ease,box-shadow .08s ease;
+    min-height:3.1rem;text-align:center;
+  }
+  .btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+  .btn.primary{background:var(--red);color:#fffdf6}
+  .btn.jade{background:var(--jade);color:#fffdf6}
+  .btn.ghost{background:var(--card);box-shadow:0 4px 0 rgba(58,49,40,.35);border-width:2.5px}
+  .btn.small{font-size:.9rem;padding:.5rem 1rem;min-height:2.6rem;box-shadow:0 3px 0 rgba(58,49,40,.35)}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .btn-row{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center}
+
+  /* ---------- 首頁 ---------- */
+  .hero{
+    display:grid;grid-template-columns:1fr;gap:1rem;align-items:center;
+    padding:clamp(16px,3vw,30px);margin-bottom:1.1rem;position:relative;overflow:hidden;
+  }
+  .hero::after{
+    content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;
+    background:rgba(240,179,63,.22);
+  }
+  .hero-copy{position:relative;z-index:1;text-align:center}
+  .kicker{
+    display:inline-block;background:var(--gold-soft);border:2.5px solid var(--ink);
+    border-radius:999px;padding:.15rem .8rem;font-size:.8rem;font-weight:800;letter-spacing:.1em;
+    margin-bottom:.6rem;
+  }
+  .hero h1{font-size:clamp(2rem,4.6vw + .8rem,3.6rem);line-height:1.15;letter-spacing:.05em;font-weight:900}
+  .hero h1 .accent{color:var(--red);text-shadow:2px 2px 0 var(--gold-soft)}
+  .hero p{margin-top:.7rem;color:var(--ink-soft);font-size:clamp(.95rem,.4vw + .85rem,1.1rem)}
+  .hero-art{display:flex;justify-content:center;position:relative;z-index:1}
+  .mascot{width:clamp(170px,28vw,250px);height:auto;filter:drop-shadow(0 8px 0 rgba(58,49,40,.12))}
+
+  .menu{display:grid;gap:.9rem}
+  .mode-card{
+    display:grid;grid-template-columns:auto 1fr;gap:.9rem;align-items:center;
+    width:100%;text-align:left;padding:1rem 1.1rem;cursor:pointer;
+    background:var(--card);border:var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);transition:transform .12s ease,box-shadow .12s ease;
+  }
+  .mode-card:hover{transform:translateY(-2px);box-shadow:0 9px 0 rgba(58,49,40,.18)}
+  .mode-card:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(58,49,40,.18)}
+  .mode-ico{
+    width:3.4rem;height:3.4rem;border-radius:18px;display:grid;place-items:center;
+    border:2.5px solid var(--ink);font-weight:900;font-size:1.5rem;flex:none;
+  }
+  .mode-card h3{font-size:clamp(1.05rem,.5vw + .95rem,1.3rem);font-weight:900;line-height:1.3}
+  .mode-card p{font-size:.88rem;color:var(--ink-soft);line-height:1.5;margin-top:.15rem}
+  .mode-meta{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.35rem}
+  .pill{font-size:.72rem;font-weight:800;border:2px solid var(--ink);border-radius:999px;padding:.02rem .5rem;background:#fff}
+  .best{font-size:.72rem;font-weight:800;color:var(--red-deep)}
+  .footnote{margin-top:1.2rem;text-align:center;font-size:.78rem;color:var(--ink-soft)}
+
+  /* ---------- 教學 ---------- */
+  .lesson-top{display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin-bottom:.8rem;flex-wrap:wrap}
+  .step-label{font-weight:900;font-size:.9rem;letter-spacing:.08em;color:var(--ink-soft)}
+  .dots{display:flex;gap:.3rem;flex-wrap:wrap}
+  .dot{width:.62rem;height:.62rem;border-radius:50%;border:2px solid var(--ink);background:#fff;opacity:.55}
+  .dot.on{background:var(--red);opacity:1;transform:scale(1.18)}
+  .dot.done{background:var(--gold);opacity:1}
+
+  .slide{padding:clamp(16px,2.8vw,32px)}
+  .slide-title{font-size:clamp(1.4rem,2vw + .9rem,2.2rem);font-weight:900;line-height:1.3;text-align:center}
+  .slide-sub{text-align:center;color:var(--ink-soft);margin-top:.4rem;font-size:.95rem}
+
+  .concept-row{display:grid;gap:.8rem;margin-top:1.1rem;grid-template-columns:1fr}
+  .concept{
+    border:2.5px dashed var(--ink);border-radius:20px;padding:.9rem;text-align:center;background:#fffaf0;
+  }
+  .concept .big-char{
+    width:3.4rem;height:3.4rem;margin:0 auto .4rem;border-radius:50%;display:grid;place-items:center;
+    border:2.5px solid var(--ink);font-weight:900;font-size:1.5rem;
+  }
+  .concept b{display:block;font-size:1.05rem}
+  .concept span{font-size:.86rem;color:var(--ink-soft)}
+
+  .word-head{display:flex;align-items:center;gap:1rem;justify-content:center;flex-wrap:wrap}
+  .word-icon{
+    width:clamp(5.2rem,12vw,7rem);height:clamp(5.2rem,12vw,7rem);flex:none;
+    border:var(--line);border-radius:24px;background:#fff8e8;display:grid;place-items:center;
+    box-shadow:0 5px 0 rgba(58,49,40,.16);
+  }
+  .word-icon svg{width:82%;height:82%}
+  .word-char{
+    font-size:clamp(3.4rem,7vw,5.4rem);font-weight:900;line-height:1;
+    letter-spacing:.05em;
+  }
+  .word-char small{display:block;font-size:.78rem;letter-spacing:.16em;color:var(--ink-soft);font-weight:700;margin-top:.4rem}
+
+  .vs{display:grid;gap:.7rem;margin-top:1.1rem;grid-template-columns:1fr}
+  .vs-box{border:var(--line);border-radius:20px;padding:.85rem 1rem;position:relative;background:#fff}
+  .vs-box.old{background:#fff1e6;border-color:var(--red-deep)}
+  .vs-box.now{background:#e9f6f2;border-color:var(--jade-deep)}
+  .tag{
+    display:inline-block;font-size:.74rem;font-weight:900;letter-spacing:.12em;
+    border:2px solid var(--ink);border-radius:999px;padding:.02rem .55rem;background:#fff;margin-bottom:.25rem;
+  }
+  .vs-box strong{display:block;font-size:clamp(1.5rem,3vw,2rem);line-height:1.2}
+  .vs-box p{font-size:.9rem;color:var(--ink-soft);margin-top:.2rem}
+  .vs-mid{display:none}
+
+  .quote{
+    margin:1rem 0 0;padding:.85rem 1rem;border-left:8px solid var(--gold);background:#fffaf0;
+    border-radius:0 16px 16px 0;font-size:clamp(1.05rem,1.4vw + .85rem,1.35rem);font-weight:700;
+  }
+  .quote cite{display:block;font-style:normal;font-size:.78rem;color:var(--ink-soft);margin-top:.2rem;font-weight:600}
+
+  /* ---------- 古文例子卡 ---------- */
+  .eg{
+    margin-top:.9rem;padding:.8rem .95rem;border:2.5px solid var(--gold);
+    border-radius:18px;background:#fffaf0;
+  }
+  .eg-tag{
+    display:inline-block;font-size:.74rem;font-weight:900;letter-spacing:.1em;
+    background:var(--gold-soft);border:2px solid var(--ink);border-radius:999px;
+    padding:.02rem .6rem;margin-bottom:.4rem;
+  }
+  .eg-line{
+    font-size:clamp(1.05rem,1.3vw + .85rem,1.3rem);font-weight:900;line-height:1.55;
+  }
+  .eg-line cite{
+    display:inline-block;font-style:normal;font-size:.76rem;font-weight:700;
+    color:var(--ink-soft);margin-left:.45rem;
+  }
+  .eg-line .hl{padding:0 .1em}
+  .eg-line .again{color:var(--red-deep);font-size:.82em;margin-right:.25em;letter-spacing:.02em}
+  .eg-trans{margin-top:.25rem;font-size:.92rem;color:var(--ink-soft);line-height:1.6}
+  .eg-trans b{color:var(--ink)}
+  .eg-gloss{
+    margin-top:.4rem;font-size:.9rem;font-weight:800;line-height:1.6;
+    border-top:2px dashed rgba(58,49,40,.16);padding-top:.4rem;
+  }
+  .eg-gloss b{color:var(--red-deep);font-size:1.08em}
+  .eg-more{
+    margin-top:.4rem;font-size:.84rem;color:var(--ink-soft);line-height:1.55;
+    background:#fff;border-radius:12px;padding:.35rem .55rem;
+  }
+  .eg-more b{color:var(--ink)}
+  .mini-speak{
+    margin-top:.55rem;display:inline-flex;align-items:center;gap:.35rem;
+    border:2.5px solid var(--ink);border-radius:999px;background:#fff;
+    padding:.32rem .8rem;font-size:.84rem;font-weight:800;cursor:pointer;
+    box-shadow:0 3px 0 rgba(58,49,40,.2);
+  }
+  .mini-speak:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(58,49,40,.2)}
+  .tip{margin-top:.8rem;background:#eef4ff;border:2px dashed var(--blue);border-radius:16px;padding:.7rem .9rem;font-size:.9rem}
+  .lesson-nav{display:flex;justify-content:space-between;align-items:center;gap:.7rem;margin-top:1.2rem;flex-wrap:wrap}
+
+  /* ---------- 遊戲通用 ---------- */
+  .game-head{display:flex;align-items:center;justify-content:space-between;gap:.7rem;margin-bottom:.8rem;flex-wrap:wrap}
+  .game-title{font-weight:900;font-size:clamp(1.05rem,.6vw + .9rem,1.35rem)}
+  .game-title span{color:var(--red-deep)}
+  .progress{display:flex;gap:.28rem;flex-wrap:wrap}
+  .pdot{width:.7rem;height:.7rem;border-radius:50%;border:2px solid var(--ink);background:#fff}
+  .pdot.on{background:var(--gold)}
+  .pdot.ok{background:var(--jade)}
+  .pdot.ng{background:var(--red)}
+
+  .q-card{padding:clamp(16px,2.6vw,30px);max-width:940px;margin-inline:auto;flex:0 0 auto}
+  .q-source{font-size:.82rem;color:var(--ink-soft);font-weight:700;letter-spacing:.05em;text-align:center}
+  .q-sentence{
+    text-align:center;font-size:clamp(2rem,3.4vw + .7rem,2.6rem);font-weight:900;
+    line-height:1.6;margin:.5rem 0 .2rem;letter-spacing:.04em;
+  }
+  .hl{
+    color:var(--red-deep);position:relative;padding:0 .12em;border-radius:8px;
+    background:linear-gradient(transparent 62%,rgba(240,179,63,.75) 62%);
+  }
+  .q-ask{text-align:center;font-size:clamp(1rem,.6vw + .9rem,1.2rem);font-weight:800;margin-top:.6rem}
+  .opts{display:grid;gap:.7rem;margin-top:1rem}
+  .opt{
+    display:flex;align-items:center;gap:.7rem;text-align:left;
+    border:var(--line);border-radius:20px;background:#fff;padding:.85rem 1rem;
+    font-size:clamp(1.125rem,.7vw + .95rem,1.3rem);font-weight:800;cursor:pointer;
+    box-shadow:0 4px 0 rgba(58,49,40,.2);transition:transform .1s ease,box-shadow .1s ease;
+    min-height:3.8rem;
+  }
+  .opt .num{
+    width:2rem;height:2rem;flex:none;border-radius:50%;border:2.5px solid var(--ink);
+    display:grid;place-items:center;font-size:.95rem;background:var(--gold-soft);
+  }
+  .opt:hover{transform:translateY(-2px)}
+  .opt:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(58,49,40,.2)}
+  .opt.right{background:#dcf3e9;border-color:var(--jade-deep)}
+  .opt.wrong{background:#ffe1da;border-color:var(--red-deep)}
+  .opt[disabled]{cursor:default;opacity:1}
+  .opt .mark{margin-left:auto;font-weight:900;font-size:1.1rem}
+
+  /* ---------- 答案彈層 ---------- */
+  .overlay{
+    position:fixed;inset:0;z-index:60;background:rgba(58,49,40,.45);
+    display:flex;align-items:flex-end;justify-content:center;padding:0;
+  }
+  .sheet{
+    width:100%;max-width:640px;background:var(--card);
+    border:var(--line);border-bottom:none;border-radius:28px 28px 0 0;
+    padding:0;
+    box-shadow:0 -8px 0 rgba(58,49,40,.12);
+    max-height:88vh;max-height:88dvh;overflow:hidden;
+    display:flex;flex-direction:column;
+    animation:up .26s ease both;
+  }
+  .sheet-scroll{
+    overflow:auto;min-height:0;padding:1.1rem 1.1rem .3rem;
+    -webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+  }
+  .sheet-foot{
+    flex:none;padding:.6rem 1.1rem calc(.9rem + env(safe-area-inset-bottom));
+    background:var(--card);border-top:2px dashed rgba(58,49,40,.14);
+  }
+  .sheet-foot .btn{width:100%;margin:0}
+  @keyframes up{from{transform:translateY(30px);opacity:.4}to{transform:none;opacity:1}}
+  .fb-top{display:flex;align-items:center;gap:.7rem}
+  .fb-badge{
+    width:3rem;height:3rem;flex:none;border-radius:50%;display:grid;place-items:center;
+    border:var(--line);font-size:1.5rem;font-weight:900;background:var(--gold-soft);
+  }
+  .fb-badge.good{background:#c9ecdf}
+  .fb-badge.bad{background:#ffd6cc}
+  .fb-top h3{font-size:clamp(1.15rem,.8vw + 1rem,1.5rem);font-weight:900}
+  .fb-answer{
+    margin-top:.7rem;padding:.7rem .9rem;border:2.5px solid var(--ink);border-radius:16px;background:#fff8e8;
+    font-size:clamp(1.05rem,.6vw + .95rem,1.25rem);font-weight:800;
+  }
+  .fb-answer .old{color:var(--red-deep)}
+  .fb-why{margin-top:.65rem;font-size:.95rem;line-height:1.7}
+  .fb-now{
+    margin-top:.6rem;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;
+    font-size:.88rem;color:var(--ink-soft);
+  }
+  .fb-now b{color:var(--ink)}
+
+  /* ---------- 對對碰 ---------- */
+  .rule-bar{
+    background:#eef4ff;border:2px dashed var(--blue);border-radius:16px;
+    padding:.55rem .8rem;font-size:.86rem;margin-bottom:.8rem;
+  }
+  .match-board{display:grid;gap:.9rem}
+  .match-group{display:grid;gap:.6rem}
+  .match-group.words{grid-template-columns:repeat(3,1fr)}
+  .match-label{font-size:.74rem;font-weight:900;letter-spacing:.12em;color:var(--ink-soft);grid-column:1/-1}
+  .mcard{
+    border:var(--line);border-radius:18px;background:#fff;cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.2rem;
+    padding:.55rem .4rem;box-shadow:0 4px 0 rgba(58,49,40,.2);
+    transition:transform .1s ease,background .15s ease;
+    min-height:4.4rem;
+  }
+  .mcard .m-ico{width:2.7rem;height:2.7rem;display:grid;place-items:center}
+  .mcard .m-ico svg{width:100%;height:100%}
+  .mcard .m-txt{font-size:clamp(1.2rem,1.4vw + .95rem,1.55rem);font-weight:900;line-height:1.2;text-align:center;letter-spacing:.03em}
+  .mcard.meaning{background:#fffaf0;min-height:4.2rem;justify-content:center}
+  .mcard.meaning .m-txt{font-size:clamp(1rem,.7vw + .9rem,1.2rem)}
+  .mcard:active{transform:translateY(2px)}
+  .mcard.sel{background:var(--gold-soft);transform:translateY(-3px);box-shadow:0 7px 0 rgba(58,49,40,.25)}
+  .mcard.ok{background:#dcf3e9;border-color:var(--jade-deep);cursor:default;opacity:.92}
+  .mcard.bad{background:#ffe1da;border-color:var(--red-deep);animation:shake .32s}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .mcard .tick{font-size:.9rem;font-weight:900;color:var(--jade-deep)}
+
+  .explain{
+    margin-top:.9rem;border:var(--line);border-radius:20px;background:#fff;padding:.9rem 1rem;
+    box-shadow:0 4px 0 rgba(58,49,40,.14);min-height:5.2rem;
+  }
+  .explain .head{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;font-weight:900}
+  .word-badge{
+    display:inline-grid;place-items:center;min-width:2.2rem;height:2.2rem;padding:0 .3rem;
+    border:2.5px solid var(--ink);border-radius:10px;background:var(--gold-soft);font-size:1.15rem;
+  }
+  .explain .eq{font-size:1.1rem;font-weight:900;color:var(--red-deep)}
+  .explain p{font-size:.9rem;margin-top:.35rem;color:var(--ink-soft)}
+  .explain .cite{font-size:.82rem;color:var(--ink-soft)}
+  .explain .now{margin-top:.2rem;font-size:.86rem}
+
+  /* ---------- 結算 ---------- */
+  .result{padding:clamp(18px,3vw,34px);text-align:center}
+  .stars{font-size:clamp(2.4rem,6vw,3.6rem);letter-spacing:.18em;line-height:1;margin:.3rem 0 .6rem}
+  .stars .on{color:var(--gold)}
+  .stars .off{color:#ded3c0}
+  .result h2{font-size:clamp(1.5rem,2.4vw + .9rem,2.2rem);font-weight:900}
+  .result .score{font-size:1rem;color:var(--ink-soft);margin-top:.3rem}
+  .review{
+    margin-top:1rem;display:grid;gap:.5rem;text-align:left;
+    grid-template-columns:1fr;
+  }
+  .review-item{
+    display:flex;align-items:center;gap:.6rem;border:2.5px solid var(--ink);border-radius:16px;
+    padding:.5rem .7rem;background:#fffaf0;font-size:.9rem;
+  }
+  .review-item .rw{font-weight:900;font-size:1.25rem;flex:none;min-width:2.2rem;text-align:center}
+  .review-item .rm{color:var(--ink-soft);font-size:.85rem}
+  .review-item .rm b{color:var(--red-deep)}
+  .review-item .rm-eg{display:inline-block;margin-top:.18rem;font-size:.8rem;color:var(--ink-soft)}
+  .result-btns{margin-top:1.2rem}
+
+  .toast{
+    position:fixed;left:50%;bottom:calc(1.4rem + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:#fffdf6;padding:.6rem 1.1rem;border-radius:999px;font-size:.88rem;font-weight:700;
+    opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:80;max-width:90vw;text-align:center;
+  }
+  .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* ---------- 平板 / 桌面 ---------- */
+  @media(min-width:640px){
+    .concept-row{grid-template-columns:repeat(3,1fr)}
+    .vs{grid-template-columns:1fr auto 1fr;align-items:stretch}
+    .vs-mid{display:grid;place-items:center;font-weight:900;color:var(--ink-soft);letter-spacing:.1em;font-size:.85rem}
+    .review{grid-template-columns:1fr 1fr}
+    .menu{grid-template-columns:1fr 1fr}
+    .menu .mode-card:first-child{grid-column:1/-1}
+  }
+  @media(min-width:820px){
+    .hero{grid-template-columns:1.25fr .75fr;text-align:left;padding:clamp(22px,3vw,40px)}
+    .hero-copy{text-align:left}
+    .match-board{grid-template-columns:1fr 1fr;align-items:start}
+    .match-group.words{grid-template-columns:1fr}
+    .match-group .mcard{min-height:6.2rem}
+    .match-group.words .mcard{flex-direction:row;gap:.7rem;min-height:5.6rem}
+    .match-group .m-ico{width:3rem;height:3rem}
+    .match-group.words .m-txt{font-size:1.6rem}
+    .sheet{border-radius:28px;border-bottom:var(--line);margin-bottom:2rem;max-width:720px}
+    .overlay{align-items:center;padding:1rem}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms !important;transition-duration:.001ms !important}
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="mascot" viewBox="0 0 170 185">
+    <ellipse cx="85" cy="172" rx="46" ry="8" fill="#3a3128" opacity=".12"/>
+    <path d="M56 98 q29 -13 58 0 l11 58 q-40 15 -80 0z" fill="#cd4a35" stroke="#3a3128" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M85 98 l-15 24 l15 15 l15 -15z" fill="#fffdf6" stroke="#3a3128" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M70 98 l15 24 l15 -24" fill="none" stroke="#3a3128" stroke-width="3"/>
+    <circle cx="47" cy="128" r="11" fill="#ffd9b8" stroke="#3a3128" stroke-width="4"/>
+    <circle cx="123" cy="128" r="11" fill="#ffd9b8" stroke="#3a3128" stroke-width="4"/>
+    <rect x="77" y="86" width="16" height="16" fill="#ffd9b8"/>
+    <circle cx="85" cy="62" r="35" fill="#ffd9b8" stroke="#3a3128" stroke-width="4.5"/>
+    <path d="M50 56 q6 -36 35 -36 q29 0 35 36 q-17 -11 -35 -11 q-18 0 -35 11z" fill="#3d5a80" stroke="#3a3128" stroke-width="4.5" stroke-linejoin="round"/>
+    <circle cx="85" cy="22" r="7.5" fill="#3d5a80" stroke="#3a3128" stroke-width="4"/>
+    <ellipse cx="72" cy="65" rx="5" ry="6.2" fill="#3a3128"/>
+    <ellipse cx="98" cy="65" rx="5" ry="6.2" fill="#3a3128"/>
+    <circle cx="73.6" cy="62.6" r="1.9" fill="#fffdf6"/>
+    <circle cx="99.6" cy="62.6" r="1.9" fill="#fffdf6"/>
+    <circle cx="61" cy="76" r="6.2" fill="#f7a6a6" opacity=".8"/>
+    <circle cx="109" cy="76" r="6.2" fill="#f7a6a6" opacity=".8"/>
+    <path d="M78 79 q7 7 14 0" fill="none" stroke="#3a3128" stroke-width="3.6" stroke-linecap="round"/>
+    <g transform="rotate(10 130 128)">
+      <rect x="116" y="106" width="26" height="36" rx="5" fill="#f0b33f" stroke="#3a3128" stroke-width="4"/>
+      <path d="M122 116 h14 M122 124 h14 M122 132 h9" stroke="#3a3128" stroke-width="2.6" stroke-linecap="round"/>
+    </g>
+  </symbol>
+</svg>
+
+<header class="topbar">
+  <button class="chip-btn" id="btnHome" type="button">← 首頁</button>
+  <div class="brand">
+    <span class="brand-cn">古今異義大冒險</span>
+    <span class="brand-sub">小學文言文 · 互動學習</span>
+  </div>
+  <button class="chip-btn" id="btnSound" type="button" aria-pressed="true">音效：開</button>
+</header>
+
+<main class="app" data-generated-by="vibe-coding-frontend-design">
+
+  <!-- ============ 首頁 ============ -->
+  <section class="screen on" id="screen-home">
+    <div class="hero card">
+      <div class="hero-copy">
+        <span class="kicker">小四至小六 · 文言文入門</span>
+        <h1>同一個字，<br><span class="accent">古今意思大不同！</span></h1>
+        <p>先看圖文學五個字，再挑戰兩種遊戲。<br>每題都會告訴你「為甚麼」，並附古文例句和句意。</p>
+      </div>
+      <div class="hero-art">
+        <svg class="mascot" viewBox="0 0 170 185" role="img" aria-label="卡通小夫子"><use href="#mascot"/></svg>
+      </div>
+    </div>
+
+    <div class="menu">
+      <button class="mode-card" type="button" data-go="learn">
+        <span class="mode-ico" style="background:#ffe6b0">學</span>
+        <span>
+          <h3>① 先學一學</h3>
+          <p>用圖示和對照卡，看懂甚麼是「古今異義」。</p>
+          <span class="mode-meta"><span class="pill">6 分鐘</span><span class="pill">5 個例子</span></span>
+        </span>
+      </button>
+
+      <button class="mode-card" type="button" data-start="A">
+        <span class="mode-ico" style="background:#ffd6cc">搜</span>
+        <span>
+          <h3>② 古義大搜查</h3>
+          <p>讀一句古詩文，找出加色字詞的古代意思。</p>
+          <span class="mode-meta"><span class="pill">6 組題目</span><span class="pill">三選一</span></span>
+          <span class="best" id="bestA"></span>
+        </span>
+      </button>
+
+      <button class="mode-card" type="button" data-start="B">
+        <span class="mode-ico" style="background:#c9ecdf">配</span>
+        <span>
+          <h3>③ 古今對對碰</h3>
+          <p>把詞語卡和古義卡配成一對，過六關。</p>
+          <span class="mode-meta"><span class="pill">6 個關卡</span><span class="pill">18 組配對</span></span>
+          <span class="best" id="bestB"></span>
+        </span>
+      </button>
+    </div>
+    <p class="footnote">繁體字形以香港常用字形為準 · 可配合電子白板投屏使用</p>
+  </section>
+
+  <!-- ============ 教學 ============ -->
+  <section class="screen" id="screen-learn" hidden>
+    <div class="lesson-top">
+      <span class="step-label" id="learnStep">第 1 / 8 步</span>
+      <div class="dots" id="learnDots" aria-hidden="true"></div>
+    </div>
+
+    <div class="card">
+      <!-- 0 封面 -->
+      <article class="slide" data-slide="0">
+        <div class="word-head" style="margin-bottom:.6rem">
+          <svg class="mascot" style="width:clamp(110px,18vw,160px)" viewBox="0 0 170 185" role="img" aria-label="卡通小夫子"><use href="#mascot"/></svg>
+        </div>
+        <h2 class="slide-title">古人說話，跟我們不一樣？</h2>
+        <p class="slide-sub">文言文是古人寫文章用的語言。<br>有些字，古代的意思和今天完全不同。</p>
+        <div class="concept-row">
+          <div class="concept"><div class="big-char" style="background:#ffe6b0">字</div><b>同一個字</b><span>寫法一樣</span></div>
+          <div class="concept"><div class="big-char" style="background:#ffd6cc">古</div><b>古代意思</b><span>古人這樣用</span></div>
+          <div class="concept"><div class="big-char" style="background:#c9ecdf">今</div><b>現代意思</b><span>我們這樣用</span></div>
+        </div>
+      </article>
+
+      <!-- 1 概念 -->
+      <article class="slide" data-slide="1" hidden>
+        <h2 class="slide-title">這就是「古今異義」</h2>
+        <p class="slide-sub">同一個字，古代和現代的意思不同，就叫「古今異義」。</p>
+        <div class="vs" style="margin-top:1rem">
+          <div class="vs-box old">
+            <span class="tag">古代</span>
+            <strong>走 ＝ 跑</strong>
+            <p>古人說「走」，是快步跑。</p>
+          </div>
+          <div class="vs-mid">VS</div>
+          <div class="vs-box now">
+            <span class="tag">現代</span>
+            <strong>走 ＝ 步行</strong>
+            <p>我們說「走」，是慢慢走路。</p>
+          </div>
+        </div>
+        <div class="eg">
+          <span class="eg-tag">古文例子</span>
+          <p class="eg-line">「兒童急<em class="hl">走</em>追黃蝶」<cite>《宿新市徐公店》楊萬里</cite></p>
+          <p class="eg-trans">句意：小孩子急忙跑著，去追那隻黃色的蝴蝶。</p>
+          <p class="eg-gloss">要追蝴蝶，一定是<b>跑</b>；所以句中的「走」＝跑。</p>
+          <button class="mini-speak" type="button" data-speak="兒童急走追黃蝶">🔊 聽一聽句子</button>
+        </div>
+        <p class="tip">讀文言文時，先問一問：<b>這個字，古人是甚麼意思？</b></p>
+      </article>
+
+      <!-- 2 走 -->
+      <article class="slide" data-slide="2" hidden>
+        <div class="word-head">
+          <div class="word-icon" data-icon="run"></div>
+          <div class="word-char">走<small>古義 ≠ 今義</small></div>
+        </div>
+        <div class="vs">
+          <div class="vs-box old"><span class="tag">古義</span><strong>跑</strong><p>快步奔跑。</p></div>
+          <div class="vs-mid">VS</div>
+          <div class="vs-box now"><span class="tag">今義</span><strong>步行</strong><p>一步一步行。</p></div>
+        </div>
+        <div class="eg">
+          <span class="eg-tag">古文例子</span>
+          <p class="eg-line">「兒童急<em class="hl">走</em>追黃蝶」<cite>《宿新市徐公店》楊萬里</cite></p>
+          <p class="eg-trans">句意：小孩子急忙跑著，去追那隻黃色的蝴蝶。</p>
+          <p class="eg-gloss">句中「走」＝<b>跑</b>，不是慢慢步行。</p>
+          <p class="eg-more">再記一句：<b>「走馬看花」</b>——騎著馬跑著看花，比喻粗略地看一看。</p>
+          <button class="mini-speak" type="button" data-speak="兒童急走追黃蝶">🔊 聽一聽句子</button>
+        </div>
+      </article>
+
+      <!-- 3 湯 -->
+      <article class="slide" data-slide="3" hidden>
+        <div class="word-head">
+          <div class="word-icon" data-icon="hotwater"></div>
+          <div class="word-char">湯<small>古義 ≠ 今義</small></div>
+        </div>
+        <div class="vs">
+          <div class="vs-box old"><span class="tag">古義</span><strong>熱水</strong><p>燒熱的水、開水。</p></div>
+          <div class="vs-mid">VS</div>
+          <div class="vs-box now"><span class="tag">今義</span><strong>湯水</strong><p>可以喝的湯。</p></div>
+        </div>
+        <div class="eg">
+          <span class="eg-tag">古文例子</span>
+          <p class="eg-line">「及其日中如探<em class="hl">湯</em>」<cite>《兩小兒辯日》</cite></p>
+          <p class="eg-trans">句意：到了中午，太陽熱得像把手伸進熱水裏。</p>
+          <p class="eg-gloss">句中「湯」＝<b>熱水、開水</b>，不是我們喝的湯。</p>
+          <p class="eg-more">再記一句：<b>「赴湯蹈火」</b>——跳進熱水、踩過烈火，比喻不怕危險。</p>
+          <button class="mini-speak" type="button" data-speak="及其日中如探湯">🔊 聽一聽句子</button>
+        </div>
+      </article>
+
+      <!-- 4 聞 -->
+      <article class="slide" data-slide="4" hidden>
+        <div class="word-head">
+          <div class="word-icon" data-icon="ear"></div>
+          <div class="word-char">聞<small>古義 ≠ 今義</small></div>
+        </div>
+        <div class="vs">
+          <div class="vs-box old"><span class="tag">古義</span><strong>聽見</strong><p>用耳朵聽到。</p></div>
+          <div class="vs-mid">VS</div>
+          <div class="vs-box now"><span class="tag">今義</span><strong>用鼻子嗅</strong><p>聞到香味。</p></div>
+        </div>
+        <div class="eg">
+          <span class="eg-tag">古文例子</span>
+          <p class="eg-line">「處處<em class="hl">聞</em>啼鳥」<cite>《春曉》孟浩然</cite></p>
+          <p class="eg-trans">句意：到處都聽見鳥兒的叫聲。</p>
+          <p class="eg-gloss">句中「聞」＝<b>聽見</b>，不是用鼻子去嗅。</p>
+          <p class="eg-more">再記一句：<b>「百聞不如一見」</b>——聽一百次，不如親眼看一次。</p>
+          <button class="mini-speak" type="button" data-speak="處處聞啼鳥">🔊 聽一聽句子</button>
+        </div>
+      </article>
+
+      <!-- 5 坐 -->
+      <article class="slide" data-slide="5" hidden>
+        <div class="word-head">
+          <div class="word-icon" data-icon="sit"></div>
+          <div class="word-char">坐<small>古義 ≠ 今義</small></div>
+        </div>
+        <div class="vs">
+          <div class="vs-box old"><span class="tag">古義</span><strong>因為</strong><p>表示原因。</p></div>
+          <div class="vs-mid">VS</div>
+          <div class="vs-box now"><span class="tag">今義</span><strong>坐下</strong><p>坐在椅子上。</p></div>
+        </div>
+        <div class="eg">
+          <span class="eg-tag">古文例子</span>
+          <p class="eg-line">「停車<em class="hl">坐</em>愛楓林晚」<cite>《山行》杜牧</cite></p>
+          <p class="eg-trans">句意：停下車來，是因為喜愛傍晚的楓林。</p>
+          <p class="eg-gloss">句中「坐」＝<b>因為</b>，不是坐下來。</p>
+          <button class="mini-speak" type="button" data-speak="停車坐愛楓林晚">🔊 聽一聽句子</button>
+        </div>
+      </article>
+
+      <!-- 6 書 -->
+      <article class="slide" data-slide="6" hidden>
+        <div class="word-head">
+          <div class="word-icon" data-icon="letter"></div>
+          <div class="word-char">書<small>古義 ≠ 今義</small></div>
+        </div>
+        <div class="vs">
+          <div class="vs-box old"><span class="tag">古義</span><strong>書信</strong><p>寫給別人的信。</p></div>
+          <div class="vs-mid">VS</div>
+          <div class="vs-box now"><span class="tag">今義</span><strong>書籍</strong><p>一本一本的書。</p></div>
+        </div>
+        <div class="eg">
+          <span class="eg-tag">古文例子</span>
+          <p class="eg-line">「家<em class="hl">書</em>抵萬金」<cite>《春望》杜甫</cite></p>
+          <p class="eg-trans">句意：家裏寄來的書信，比萬兩黃金還要珍貴。</p>
+          <p class="eg-gloss">句中「書」＝<b>書信</b>，不是一本本的書。</p>
+          <p class="eg-more">再記一句：<b>「鄉書何處達」</b>（《次北固山下》王灣）——寄回家的書信，怎樣才能送到？</p>
+          <button class="mini-speak" type="button" data-speak="家書抵萬金">🔊 聽一聽句子</button>
+        </div>
+      </article>
+
+      <!-- 7 小結 -->
+      <article class="slide" data-slide="7" hidden>
+        <h2 class="slide-title">記住三個小口訣</h2>
+        <div class="concept-row">
+          <div class="concept"><div class="big-char" style="background:#ffe6b0">1</div><b>看句子</b><span>先讀完整句</span></div>
+          <div class="concept"><div class="big-char" style="background:#ffd6cc">2</div><b>想古人</b><span>古人會怎樣用</span></div>
+          <div class="concept"><div class="big-char" style="background:#c9ecdf">3</div><b>比今義</b><span>和今天比一比</span></div>
+        </div>
+        <p class="tip" style="margin-top:1rem">學會了五個字，現在去遊戲裏試一試吧！</p>
+        <div class="btn-row" style="margin-top:1rem">
+          <button class="btn primary" type="button" data-start="A">挑戰古義大搜查</button>
+          <button class="btn jade" type="button" data-start="B">挑戰古今對對碰</button>
+        </div>
+      </article>
+
+      <div class="lesson-nav">
+        <button class="btn ghost small" id="btnPrev" type="button">← 上一步</button>
+        <button class="btn primary" id="btnNext" type="button">下一步 →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 遊戲一 ============ -->
+  <section class="screen" id="screen-gameA" hidden>
+    <div class="game-head">
+      <div class="game-title">古義大搜查 · <span id="aCount">第 1 / 6 題</span></div>
+      <div class="progress" id="aDots" aria-hidden="true"></div>
+    </div>
+
+    <div class="card q-card">
+      <p class="q-source" id="aSrc"></p>
+      <p class="q-sentence" id="aSentence"></p>
+      <p class="q-ask" id="aAsk"></p>
+      <div class="opts" id="aOpts"></div>
+    </div>
+
+    <div class="overlay" id="fbA" hidden>
+      <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="fbTitle">
+        <div class="sheet-scroll" aria-live="polite">
+          <div class="fb-top">
+            <div class="fb-badge" id="fbIcon">✓</div>
+            <h3 id="fbTitle">答對了！</h3>
+          </div>
+          <p class="fb-answer" id="fbAnswer"></p>
+          <p class="fb-why" id="fbWhy"></p>
+          <div class="eg" id="fbEg"></div>
+          <div class="fb-now" id="fbNow"></div>
+        </div>
+        <div class="sheet-foot">
+          <button class="btn primary" id="btnNextA" type="button">下一題 →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 遊戲二 ============ -->
+  <section class="screen" id="screen-gameB" hidden>
+    <div class="game-head">
+      <div class="game-title">古今對對碰 · <span id="bCount">第 1 / 6 關</span></div>
+      <div class="progress" id="bDots" aria-hidden="true"></div>
+    </div>
+
+    <p class="rule-bar">玩法：先點一張<b>詞語卡</b>，再點它對應的<b>古義卡</b>。配對成功會告訴你原因。</p>
+
+    <div class="game-body">
+      <div class="match-board">
+        <div class="match-group words" id="bWords">
+          <span class="match-label">詞語卡</span>
+        </div>
+        <div class="match-group" id="bMeans">
+          <span class="match-label">古義卡</span>
+        </div>
+      </div>
+
+      <div class="explain" id="bExplain" aria-live="polite"></div>
+      <div class="btn-row" style="margin-top:.9rem">
+        <button class="btn jade" id="btnNextB" type="button" hidden>下一關 →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 結算 ============ -->
+  <section class="screen" id="screen-result" hidden>
+    <div class="card result">
+      <div class="stars" id="resStars" aria-hidden="true"></div>
+      <h2 id="resTitle">完成了！</h2>
+      <p class="score" id="resScore"></p>
+      <div class="review" id="resReview"></div>
+      <div class="btn-row result-btns">
+        <button class="btn primary" id="btnAgain" type="button">再玩一次</button>
+        <button class="btn jade" id="btnOther" type="button">挑戰另一個模式</button>
+        <button class="btn ghost" id="btnBackHome" type="button">返回首頁</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(sel,root){ return (root||document).querySelector(sel); };
+  var $$ = function(sel,root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); };
+
+  /* ================= 圖示（內嵌 SVG） ================= */
+  var ICON = {
+    run:'<circle cx="64" cy="26" r="11" fill="#ffd9b8"/><path d="M61 39 L54 66"/><path d="M56 48 L38 36"/><path d="M56 48 L74 40"/><path d="M54 66 L36 92"/><path d="M54 66 L76 88"/><path d="M20 56 h14"/><path d="M16 70 h10"/>',
+    hotwater:'<path d="M28 50 h56 v20 a18 18 0 0 1 -18 18 h-20 a18 18 0 0 1 -18 -18 z" fill="#dff1fb"/><path d="M84 56 h7 a11 11 0 0 1 0 22 h-7"/><path d="M44 38 q7 -9 0 -18"/><path d="M60 38 q7 -9 0 -18"/><path d="M76 38 q7 -9 0 -18"/>',
+    only:'<path d="M40 94 v-24 a6 6 0 0 1 12 0 v-8 a6 6 0 0 1 12 0 v-2 a6 6 0 0 1 12 0 v34 z" fill="#ffd9b8"/><path d="M52 60 v-18 a6 6 0 0 1 12 0 v18" fill="#ffd9b8"/>',
+    sit:'<rect x="20" y="74" width="80" height="9" rx="4" fill="#c98a4b"/><path d="M32 83 v14"/><path d="M88 83 v14"/><circle cx="52" cy="36" r="11" fill="#ffd9b8"/><path d="M52 47 v12 h16 v10"/><path d="M52 59 l-6 15"/>',
+    ear:'<path d="M74 44 c-16 -14 -38 -8 -42 10 -4 18 10 30 22 34 6 2 6 10 12 10 6 0 8 -6 8 -10" fill="#ffe2d1"/><path d="M62 46 c-10 -4 -18 2 -18 10 0 8 6 12 12 14"/><path d="M88 34 q12 12 12 26"/><path d="M98 24 q16 16 16 34"/>',
+    letter:'<rect x="20" y="34" width="80" height="54" rx="7" fill="#fffaf0"/><path d="M24 40 l36 26 36 -26"/>',
+    axe:'<path d="M58 30 v64"/><path d="M58 32 c20 -8 34 2 38 16 -14 8 -26 8 -38 2 z" fill="#c3d0dd"/><path d="M50 94 h16"/>',
+    moat:'<rect x="24" y="30" width="72" height="30" fill="#e0cfa8"/><rect x="24" y="22" width="12" height="9" fill="#e0cfa8"/><rect x="44" y="22" width="12" height="9" fill="#e0cfa8"/><rect x="64" y="22" width="12" height="9" fill="#e0cfa8"/><rect x="84" y="22" width="12" height="9" fill="#e0cfa8"/><path d="M18 76 q11 9 22 0 t22 0 t22 0 t22 0" stroke="#5aa9d6"/><path d="M18 92 q11 9 22 0 t22 0 t22 0 t22 0" stroke="#5aa9d6"/>',
+    wall:'<rect x="22" y="36" width="76" height="56" fill="#ddc9a5"/><rect x="22" y="27" width="14" height="10" fill="#ddc9a5"/><rect x="46" y="27" width="14" height="10" fill="#ddc9a5"/><rect x="70" y="27" width="14" height="10" fill="#ddc9a5"/><path d="M22 58 h76"/><path d="M22 76 h76"/><path d="M48 36 v22"/><path d="M72 58 v18"/><path d="M40 76 v16"/>',
+    oldman:'<circle cx="60" cy="56" r="26" fill="#ffd9b8"/><path d="M34 48 q10 -26 26 -26 q16 0 26 26" fill="#e9e4da"/><circle cx="50" cy="56" r="3.5" fill="#3a3128"/><circle cx="70" cy="56" r="3.5" fill="#3a3128"/><path d="M52 68 q8 6 16 0"/><path d="M52 74 q-2 18 8 26"/><path d="M68 74 q2 18 -8 26"/>',
+    tear:'<circle cx="56" cy="56" r="26" fill="#ffd9b8"/><path d="M44 52 q4 -4 8 0"/><path d="M60 52 q4 -4 8 0"/><path d="M50 72 q6 -6 12 0"/><path d="M40 72 q8 12 2 22 q-10 -8 -8 -14 q1 -5 6 -8z" fill="#6fc3e8"/>',
+    face:'<circle cx="58" cy="56" r="25" fill="#ffd9b8"/><circle cx="48" cy="66" r="7" fill="#f7a6a6"/><circle cx="50" cy="50" r="3.5" fill="#3a3128"/><circle cx="70" cy="50" r="3.5" fill="#3a3128"/><path d="M52 68 q6 6 12 2"/><circle cx="98" cy="92" r="8" fill="#f0b33f"/><circle cx="82" cy="99" r="6" fill="#7fc9a8"/><circle cx="100" cy="74" r="5" fill="#8a6bbf"/>',
+    flee:'<circle cx="70" cy="26" r="10" fill="#ffd9b8"/><path d="M68 38 L60 62"/><path d="M64 46 L46 36"/><path d="M64 46 L84 40"/><path d="M60 62 L42 88"/><path d="M60 62 L82 84"/><circle cx="26" cy="78" r="8" fill="#e6dcc8"/><circle cx="38" cy="92" r="6" fill="#e6dcc8"/>',
+    fast:'<path d="M18 42 h48"/><path d="M12 60 h58"/><path d="M22 78 h44"/><path d="M74 36 l26 24 -26 24"/>',
+    borrow:'<path d="M18 78 h28 v18 h-28 z" fill="#ffd9b8"/><path d="M22 78 v-12 a5 5 0 0 1 10 0 v12"/><path d="M46 78 v-18 a5 5 0 0 1 10 0 v18"/><rect x="72" y="36" width="30" height="40" rx="4" fill="#dbe9ff"/><path d="M78 46 h18"/><path d="M78 56 h18"/><path d="M72 64 h-10"/>',
+    swap:'<path d="M30 42 h44"/><path d="M66 34 l10 8 -10 8"/><path d="M90 78 h-44"/><path d="M54 70 l-10 8 10 8"/>',
+    nose:'<path d="M56 24 v36 q0 10 -12 14 q-10 4 -2 10 q9 6 24 2" fill="#ffd9b8"/><path d="M84 38 q10 12 3 26"/><path d="M96 28 q14 18 5 36"/>',
+    regret:'<circle cx="50" cy="56" r="25" fill="#ffd9b8"/><path d="M40 50 q4 -4 8 0"/><path d="M56 50 q4 -4 8 0"/><path d="M40 70 q10 -8 20 0"/><path d="M84 52 q14 -2 12 10 q-2 10 -14 8"/><path d="M92 78 q6 4 8 10"/>',
+    paw:'<ellipse cx="60" cy="74" rx="22" ry="17" fill="#e8b98a"/><ellipse cx="34" cy="48" rx="7" ry="9" fill="#e8b98a"/><ellipse cx="52" cy="38" rx="7" ry="9" fill="#e8b98a"/><ellipse cx="70" cy="38" rx="7" ry="9" fill="#e8b98a"/><ellipse cx="88" cy="48" rx="7" ry="9" fill="#e8b98a"/>',
+    ox:'<path d="M34 46 q-8 -16 2 -20 q8 -3 12 14"/><path d="M86 46 q8 -16 -2 -20 q-8 -3 -12 14"/><ellipse cx="60" cy="66" rx="26" ry="24" fill="#f2cba4"/><circle cx="50" cy="62" r="3" fill="#3a3128"/><circle cx="70" cy="62" r="3" fill="#3a3128"/><ellipse cx="60" cy="80" rx="10" ry="7" fill="#e5a98a"/><circle cx="56" cy="80" r="2" fill="#3a3128"/><circle cx="64" cy="80" r="2" fill="#3a3128"/>',
+    bow:'<circle cx="34" cy="50" r="10" fill="#ffd9b8"/><path d="M42 58 q18 2 26 20"/><path d="M56 62 l22 -8"/><path d="M68 78 v16"/><path d="M68 94 h-10"/><path d="M68 94 h10"/>',
+    gate:'<rect x="28" y="50" width="64" height="44" fill="#ddc9a5"/><path d="M18 52 l42 -24 42 24z" fill="#c8452f"/><path d="M48 94 v-24 a12 12 0 0 1 24 0 v24" fill="#8a6a4a"/>',
+    stairs:'<path d="M22 94 h16 v-18 h16 v-18 h16 v-18 h16"/><path d="M24 30 h52"/><path d="M68 22 l10 8 -10 8"/>',
+    family:'<circle cx="60" cy="38" r="11" fill="#ffd9b8"/><path d="M60 50 v14"/><path d="M60 64 l-10 20"/><path d="M60 64 l10 20"/><circle cx="32" cy="58" r="8" fill="#ffd9b8"/><path d="M32 67 v12"/><path d="M32 79 l-7 14"/><path d="M32 79 l7 14"/><circle cx="88" cy="58" r="8" fill="#ffd9b8"/><path d="M88 67 v12"/><path d="M88 79 l-7 14"/><path d="M88 79 l7 14"/><path d="M44 52 q16 10 32 0"/>',
+    spring:'<circle cx="34" cy="34" r="13" fill="#ffe6b0"/><path d="M34 12 v-6"/><path d="M34 56 v6"/><path d="M12 34 h-6"/><path d="M56 34 h6"/><path d="M19 19 l-5 -5"/><path d="M49 19 l5 -5"/><path d="M68 100 v-28"/><path d="M68 82 q-16 -4 -20 -20 q18 0 20 14" fill="#c9ecdf"/><path d="M68 90 q16 -6 20 -22 q-18 0 -20 16" fill="#c9ecdf"/><path d="M58 100 h20"/>',
+    drum:'<rect x="22" y="48" width="76" height="38" rx="9" fill="#ffd6cc"/><path d="M22 58 h76"/><path d="M22 76 h76"/><circle cx="60" cy="67" r="10" fill="#fffaf0"/><path d="M38 44 l-7 -16"/><path d="M82 44 l7 -16"/><circle cx="29" cy="24" r="5" fill="#ffd9b8"/><circle cx="91" cy="24" r="5" fill="#ffd9b8"/><path d="M32 94 h56"/>'
+  };
+  function iconSVG(name){
+    return '<svg viewBox="0 0 120 120" aria-hidden="true" fill="none" stroke="#3a3128" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">' + (ICON[name] || ICON.letter) + '</svg>';
+  }
+
+  /* ================= 音效 ================= */
+  var soundOn = true;
+  var actx = null;
+  function audioCtx(){
+    if (!actx) {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      try { actx = new AC(); } catch(e) { actx = null; }
+    }
+    if (actx && actx.state === 'suspended') { actx.resume(); }
+    return actx;
+  }
+  function tone(freq, delay, dur, type, vol, slideTo){
+    var c = audioCtx(); if (!c) return;
+    var t0 = c.currentTime + delay;
+    var osc = c.createOscillator();
+    var g = c.createGain();
+    osc.type = type || 'sine';
+    osc.frequency.setValueAtTime(freq, t0);
+    if (slideTo) { osc.frequency.exponentialRampToValueAtTime(slideTo, t0 + dur); }
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(vol || 0.14, t0 + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    osc.connect(g); g.connect(c.destination);
+    osc.start(t0); osc.stop(t0 + dur + 0.03);
+  }
+  function sfx(name){
+    if (!soundOn) return;
+    if (name === 'tap') tone(620, 0, 0.07, 'square', 0.07);
+    else if (name === 'flip') { tone(480, 0, 0.08, 'triangle', 0.09); tone(700, 0.06, 0.1, 'triangle', 0.08); }
+    else if (name === 'right') { tone(523, 0, 0.1, 'triangle', 0.13); tone(659, 0.09, 0.1, 'triangle', 0.13); tone(784, 0.18, 0.16, 'triangle', 0.13); }
+    else if (name === 'wrong') { tone(240, 0, 0.16, 'sawtooth', 0.08, 180); }
+    else if (name === 'win') { tone(523,0,.12,'triangle',.13); tone(659,.1,.12,'triangle',.13); tone(784,.2,.12,'triangle',.13); tone(1046,.3,.28,'triangle',.14); }
+    else if (name === 'pop') { tone(880, 0, 0.06, 'sine', 0.1); }
+  }
+  function stopSpeak(){
+    if ('speechSynthesis' in window) { try { window.speechSynthesis.cancel(); } catch(e) {} }
+  }
+  function speak(text){
+    if (!text) return;
+    if (!soundOn) { toast('聲音已關閉，可按右上角開啟'); return; }
+    if (!('speechSynthesis' in window)) { toast('此裝置未支援語音朗讀'); return; }
+    try {
+      stopSpeak();
+      var u = new SpeechSynthesisUtterance(String(text));
+      u.lang = 'zh-HK'; u.rate = 0.82; u.pitch = 1.05;
+      var vs = window.speechSynthesis.getVoices() || [];
+      for (var i=0;i<vs.length;i++){
+        var lg = (vs[i].lang||'').toLowerCase();
+        if (lg.indexOf('zh-hk')===0 || lg.indexOf('zh-tw')===0 || lg.indexOf('zh-hant')>-1){ u.voice = vs[i]; break; }
+      }
+      window.speechSynthesis.speak(u);
+    } catch(e) { toast('語音朗讀未能使用'); }
+  }
+
+  /* ================= 題庫一：古義大搜查（6 題） ================= */
+  var GAME_A = [
+    {
+      word:'走', icon:'run', src:'《宿新市徐公店》楊萬里',
+      sentence:'兒童急<em class="hl">走</em>追黃蝶',
+      ask:'句中的「走」是甚麼意思？',
+      options:['跑','步行','離開'], answer:0,
+      old:'跑', now:'步行',
+      why:'小朋友急著去追蝴蝶，一定是「跑」。古人說「走」就是跑；古人說的「行」，才是我們今天的「走路」。',
+      eg:[
+        {s:'兒童急走追黃蝶', src:'《宿新市徐公店》', trans:'小孩子急忙跑著，追那隻黃色的蝴蝶。'},
+        {s:'走馬看花', src:'成語', trans:'騎著馬跑著看花，比喻粗略地看一看。'}
+      ]
+    },
+    {
+      word:'湯', icon:'hotwater', src:'《兩小兒辯日》',
+      sentence:'及其日中如探<em class="hl">湯</em>',
+      ask:'句中的「湯」是甚麼意思？',
+      options:['熱水','湯水','溫泉'], answer:0,
+      old:'熱水', now:'湯水',
+      why:'古人把手伸進「湯」裏，說的是熱水、開水。今天我們說的「湯」，多指可以喝的湯水，意思的範圍縮小了。',
+      eg:[
+        {s:'及其日中如探湯', src:'《兩小兒辯日》', trans:'到了中午，太陽熱得像把手伸進熱水裏。'},
+        {s:'赴湯蹈火', src:'成語', trans:'跳進熱水、踩過烈火，比喻不怕危險。'}
+      ]
+    },
+    {
+      word:'但', icon:'only', src:'《鹿柴》王維',
+      sentence:'<em class="hl">但</em>聞人語響',
+      ask:'句中的「但」是甚麼意思？',
+      options:['只、只是','但是','大聲'], answer:0,
+      old:'只、只是', now:'但是',
+      why:'詩句說：只聽見有人說話的聲音。「但」在古文裏常常是「只」的意思，不是今天的轉折詞「但是」。',
+      eg:[
+        {s:'但聞人語響', src:'《鹿柴》', trans:'只聽見有人說話的聲音。'},
+        {s:'不求有功，但求無過', src:'常用古語', trans:'不追求有功勞，只希望沒有過錯。'}
+      ]
+    },
+    {
+      word:'坐', icon:'sit', src:'《山行》杜牧',
+      sentence:'停車<em class="hl">坐</em>愛楓林晚',
+      ask:'句中的「坐」是甚麼意思？',
+      options:['因為','坐下','乘坐'], answer:0,
+      old:'因為', now:'坐下',
+      why:'詩人停車，是因為喜愛傍晚的楓林。「坐」在這裏表示原因，等於「因為」，不是坐下來。',
+      eg:[
+        {s:'停車坐愛楓林晚', src:'《山行》', trans:'停下車來，是因為喜愛傍晚的楓林。'}
+      ]
+    },
+    {
+      word:'聞', icon:'ear', src:'《春曉》孟浩然',
+      sentence:'處處<em class="hl">聞</em>啼鳥',
+      ask:'句中的「聞」是甚麼意思？',
+      options:['聽見','用鼻子嗅','新聞'], answer:0,
+      old:'聽見', now:'用鼻子嗅',
+      why:'春天到處都聽見鳥兒叫。「聞」的古義是用耳朵聽見；今天我們更常用它來表示用鼻子嗅氣味。',
+      eg:[
+        {s:'處處聞啼鳥', src:'《春曉》', trans:'到處都聽見鳥兒的叫聲。'},
+        {s:'百聞不如一見', src:'成語', trans:'聽一百次，不如親眼看一次。'}
+      ]
+    },
+    {
+      word:'書', icon:'letter', src:'《春望》杜甫',
+      sentence:'家<em class="hl">書</em>抵萬金',
+      ask:'句中的「書」是甚麼意思？',
+      options:['書信','書籍','書法'], answer:0,
+      old:'書信', now:'書籍',
+      why:'戰亂之中，家裏寄來的「書」就是書信，比萬兩黃金還珍貴。今天「書」多指一本本的書籍。',
+      eg:[
+        {s:'家書抵萬金', src:'《春望》', trans:'家裏寄來的書信，比萬兩黃金還要珍貴。'},
+        {s:'鄉書何處達', src:'《次北固山下》王灣', trans:'寄回家的書信，怎樣才能送到呢？'}
+      ]
+    }
+  ];
+
+  /* ================= 題庫二：古今對對碰（6 關 × 3 對） ================= */
+  var GAME_B = [
+    [
+      {id:'bing', word:'兵', icon:'axe', old:'兵器', now:'士兵',
+       why:'「兵」在古代指兵器、武器；今天多指士兵。',
+       eg:{s:'短兵相接', src:'成語', trans:'用短兵器近距離交戰。'}},
+      {id:'chi', word:'池', icon:'moat', old:'護城河', now:'池塘',
+       why:'古代的「池」指城牆外圍的護城河，用來防守；今天指池塘。',
+       eg:{s:'城門失火，殃及池魚', src:'成語', trans:'城門著火，人們取護城河的水救火，水乾了魚也遭殃。'}},
+      {id:'cheng', word:'城', icon:'wall', old:'城牆', now:'城市',
+       why:'古代的「城」指城牆；今天多指城市。',
+       eg:{s:'眾志成城', src:'成語', trans:'大家同心協力，力量就像堅固的城牆。'}}
+    ],
+    [
+      {id:'ye', word:'爺', icon:'oldman', old:'父親', now:'祖父',
+       why:'木蘭說「阿爺」，指的是父親；今天「爺爺」指祖父。',
+       eg:{s:'阿爺無大兒', src:'《木蘭詩》', trans:'父親沒有大兒子。'}},
+      {id:'ti', word:'涕', icon:'tear', old:'眼淚', now:'鼻涕',
+       why:'古人說的「涕」是眼淚；今天「涕」多指鼻涕，眼淚叫「淚」。',
+       eg:{s:'涕泗橫流', src:'成語', trans:'眼淚和鼻涕一起流下來，形容非常傷心。'}},
+      {id:'qingchun', word:'青春', icon:'spring', old:'春天', now:'年輕的時期',
+       why:'古代的「青春」指春天、明媚的春光；今天指年輕的時期。',
+       eg:{s:'青春作伴好還鄉', src:'《聞官軍收河南河北》杜甫', trans:'趁著明媚的春光，正好結伴回鄉。'}}
+    ],
+    [
+      {id:'wang', word:'亡', icon:'flee', old:'丟失', now:'死亡',
+       why:'「亡」在古文常解作丟失、失去；今天多解作死亡。',
+       eg:{s:'亡羊補牢', src:'成語', trans:'羊丟失了才修補羊圈，比喻出錯後及時補救。'}},
+      {id:'ji', word:'疾', icon:'fast', old:'急速、猛烈', now:'疾病',
+       why:'「疾」的古義是急速、猛烈，如「疾風」；今天多指疾病。',
+       eg:{s:'疾風驟雨', src:'成語', trans:'又急又猛的風和雨。'}},
+      {id:'jia', word:'假', icon:'borrow', old:'借、憑藉', now:'虛假',
+       why:'「假」在古文是借、憑藉的意思；今天多解作不真實、虛假。',
+       eg:{s:'狐假虎威', src:'成語', trans:'狐狸借用老虎的威風，嚇走其他動物。'}}
+    ],
+    [
+      {id:'yi', word:'易', icon:'swap', old:'交換', now:'容易',
+       why:'「易」的古義是交換；今天常用來表示容易。',
+       eg:{s:'以物易物', src:'成語', trans:'用一件東西交換另一件東西。'}},
+      {id:'chou', word:'臭', icon:'nose', old:'氣味', now:'難聞的氣味',
+       why:'古代的「臭」泛指氣味，香、臭都可以；今天只指難聞的氣味。',
+       eg:{s:'其臭如蘭', src:'《易經·繫辭上》', trans:'它的氣味像蘭花一樣清香。'}},
+      {id:'hen', word:'恨', icon:'regret', old:'遺憾', now:'怨恨',
+       why:'古代的「恨」多指遺憾、可惜；今天的「恨」是怨恨，程度重得多。',
+       eg:{s:'相見恨晚', src:'成語', trans:'相見得太晚，心裏覺得遺憾。'}}
+    ],
+    [
+      {id:'zhuaya', word:'爪牙', icon:'paw', old:'得力的幫手', now:'壞人的幫兇',
+       why:'古代的「爪牙」指得力的幫手、武將，是褒義；今天卻變成貶義，指壞人的幫兇。',
+       eg:{s:'國之爪牙', src:'古語', trans:'國家的得力助手，像猛獸的爪和牙一樣有力。'}},
+      {id:'xisheng', word:'犧牲', icon:'ox', old:'祭祀用的牲畜', now:'為正義捨棄生命',
+       why:'古代的「犧牲」指拜神祭祖時用的牛羊等牲畜；今天指為正義而捨棄生命或利益。',
+       eg:{s:'犧牲玉帛', src:'《曹劌論戰》', trans:'祭祀用的牲畜、玉器和絲綢。'}},
+      {id:'xie', word:'謝', icon:'bow', old:'道歉', now:'感謝',
+       why:'「謝」在古文常解作道歉、認錯；今天多解作感謝。',
+       eg:{s:'長跪而謝之', src:'《唐雎不辱使命》', trans:'直身跪著，向對方道歉。'}}
+    ],
+    [
+      {id:'guo', word:'國', icon:'gate', old:'國都、京城', now:'國家',
+       why:'古代的「國」常指國都、京城；今天指整個國家。',
+       eg:{s:'去國懷鄉', src:'《岳陽樓記》', trans:'離開國都，懷念故鄉。'}},
+      {id:'gu', word:'鼓', icon:'drum', old:'彈奏', now:'打鼓',
+       why:'古代的「鼓」可以指彈奏樂器，如「鼓琴」；今天多指打鼓。',
+       eg:{s:'伯牙鼓琴', src:'《伯牙鼓琴》', trans:'伯牙彈琴。'}},
+      {id:'qizi', word:'妻子', icon:'family', old:'妻子和兒女', now:'男子的配偶',
+       why:'古代的「妻子」包括妻子和兒女；今天只指男子的配偶。',
+       eg:{s:'率妻子邑人來此絕境', src:'《桃花源記》', trans:'帶著妻子、兒女和同鄉，來到這個與世隔絕的地方。'}}
+    ]
+  ];
+
+  /* ================= 狀態 ================= */
+  var state = { sound:true, learn:0, mode:null };
+  var A = { idx:0, wrong:0, answered:false, order:[], wrongWords:[] };
+  var B = { round:0, mistakes:0, pairs:[], selected:null, matched:{}, matchedCount:0, learned:[] };
+  var lastMode = 'A';
+
+  function shuffle(arr){
+    var a = arr.slice();
+    for (var i=a.length-1;i>0;i--){ var j = Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+    return a;
+  }
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  /* 古文例子區：原句 → 句意 → 字義對照 */
+  function egHTML(word, old, list){
+    var h = '<span class="eg-tag">古文例子</span>';
+    list.forEach(function(e, i){
+      var line = esc(e.s).split(esc(word)).join('<em class="hl">' + esc(word) + '</em>');
+      h += '<p class="eg-line">' + (i ? '<span class="again">再舉一例：</span>' : '') +
+           '「' + line + '」<cite>' + esc(e.src) + '</cite></p>' +
+           '<p class="eg-trans">句意：' + esc(e.trans) + '</p>';
+    });
+    h += '<p class="eg-gloss">句中「' + esc(word) + '」＝<b>' + esc(old) + '</b>，不是今天常用的意思。</p>';
+    h += '<button class="mini-speak" type="button" data-say="' + esc(list[0].s) + '">🔊 讀一讀例句</button>';
+    return h;
+  }
+
+  /* ================= 導航 ================= */
+  function show(name){
+    stopSpeak();
+    $$('.screen').forEach(function(s){ s.hidden = (s.id !== 'screen-' + name); });
+    var target = document.getElementById('screen-' + name);
+    if (target) { target.classList.remove('on'); void target.offsetWidth; target.classList.add('on'); }
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+
+  function toast(msg){
+    var el = $('#toast');
+    el.textContent = msg; el.classList.add('on');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function(){ el.classList.remove('on'); }, 1900);
+  }
+
+  /* ================= 首頁 / 模式 ================= */
+  function bestOf(mode){
+    try { return parseInt(window.localStorage.getItem('gjyi_best_' + mode) || '0', 10) || 0; } catch(e) { return 0; }
+  }
+  function saveBest(mode, stars){
+    try { if (stars > bestOf(mode)) window.localStorage.setItem('gjyi_best_' + mode, String(stars)); } catch(e) {}
+  }
+  function renderBest(){
+    ['A','B'].forEach(function(m){
+      var el = $('#best' + m); if (!el) return;
+      var s = bestOf(m);
+      el.textContent = s ? ('最佳成績：' + '★'.repeat(s) + '☆'.repeat(3-s)) : '';
+    });
+  }
+
+  /* ================= 教學 ================= */
+  var slides = $$('.slide');
+  function renderLesson(){
+    slides.forEach(function(s, i){ s.hidden = (i !== state.learn); });
+    $('#learnStep').textContent = '第 ' + (state.learn + 1) + ' / ' + slides.length + ' 步';
+    var dots = $('#learnDots'); dots.innerHTML = '';
+    slides.forEach(function(_, i){
+      var d = document.createElement('span');
+      d.className = 'dot' + (i === state.learn ? ' on' : (i < state.learn ? ' done' : ''));
+      dots.appendChild(d);
+    });
+    $('#btnPrev').disabled = (state.learn === 0);
+    var last = (state.learn === slides.length - 1);
+    $('#btnNext').hidden = last;
+    $('#btnPrev').textContent = last ? '↺ 重看一次' : '← 上一步';
+    if (last) $('#btnPrev').hidden = false;
+  }
+  function goLearn(step){
+    state.learn = Math.max(0, Math.min(step, slides.length - 1));
+    sfx('flip');
+    renderLesson();
+  }
+
+  /* ================= 遊戲一 ================= */
+  function startA(){
+    lastMode = 'A';
+    A.idx = 0; A.wrong = 0; A.answered = false; A.wrongWords = []; A.results = [];
+    A.order = shuffle(GAME_A.map(function(_, i){ return i; }));
+    renderA();
+    show('gameA');
+  }
+  function renderA(){
+    A.answered = false;
+    var qi = A.order[A.idx];
+    var q = GAME_A[qi];
+    $('#aCount').textContent = '第 ' + (A.idx + 1) + ' / ' + GAME_A.length + ' 題';
+    $('#aSrc').textContent = q.src;
+    $('#aSentence').innerHTML = q.sentence;
+    $('#aAsk').textContent = q.ask;
+
+    var dots = $('#aDots'); dots.innerHTML = '';
+    for (var i=0;i<GAME_A.length;i++){
+      var d = document.createElement('span');
+      var cls = 'pdot';
+      if (i < A.idx) cls += A.results && A.results[i] ? ' ok' : ' ng';
+      if (i === A.idx) cls += ' on';
+      d.className = cls;
+      dots.appendChild(d);
+    }
+    if (!A.results) A.results = [];
+    // 同步已完成狀態
+    for (var j=0;j<dots.children.length;j++){
+      if (j < A.idx) dots.children[j].className = 'pdot ' + (A.results[j] ? 'ok' : 'ng');
+    }
+
+    var opts = $('#aOpts'); opts.innerHTML = '';
+    var order = shuffle(q.options.map(function(_, i){ return i; }));
+    order.forEach(function(oi, pos){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'opt';
+      b.setAttribute('data-oi', String(oi));
+      b.innerHTML = '<span class="num">' + (pos + 1) + '</span><span>' + esc(q.options[oi]) + '</span>';
+      b.addEventListener('click', function(){ answerA(oi, b); });
+      opts.appendChild(b);
+    });
+    $('#fbA').hidden = true;
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+  function answerA(oi, btn){
+    if (A.answered) return;
+    A.answered = true;
+    var q = GAME_A[A.order[A.idx]];
+    var ok = (oi === q.answer);
+    if (!A.results) A.results = [];
+    A.results[A.idx] = ok;
+    if (!ok) { A.wrong++; A.wrongWords.push(q.word); }
+
+    $$('#aOpts .opt').forEach(function(b){
+      b.disabled = true;
+      var k = parseInt(b.getAttribute('data-oi'), 10);
+      if (k === q.answer) { b.classList.add('right'); b.insertAdjacentHTML('beforeend', '<span class="mark">✓</span>'); }
+    });
+    if (!ok) { btn.classList.add('wrong'); btn.insertAdjacentHTML('beforeend', '<span class="mark">✗</span>'); }
+
+    sfx(ok ? 'right' : 'wrong');
+    var fb = $('#fbA');
+    var badge = $('#fbIcon'), title = $('#fbTitle');
+    badge.className = 'fb-badge ' + (ok ? 'good' : 'bad');
+    badge.textContent = ok ? '✓' : '✗';
+    title.textContent = ok ? '答對了！' : '差一點，再看一次解釋';
+    $('#fbAnswer').innerHTML = '「' + esc(q.word) + '」＝<span class="old">' + esc(q.old) + '</span>';
+    $('#fbWhy').textContent = q.why;
+    $('#fbEg').innerHTML = egHTML(q.word, q.old, q.eg);
+    $('#fbNow').innerHTML = '<span>今義：<b>' + esc(q.now) + '</b></span><span>出處：' + esc(q.src) + '</span>';
+    $('#btnNextA').textContent = (A.idx === GAME_A.length - 1) ? '看成績 →' : '下一題 →';
+    fb.hidden = false;
+    var sc = fb.querySelector('.sheet-scroll');
+    if (sc) sc.scrollTop = 0;
+    setTimeout(function(){ $('#btnNextA').focus({ preventScroll:true }); }, 60);
+  }
+  function nextA(){
+    sfx('pop');
+    $('#fbA').hidden = true;
+    if (A.idx >= GAME_A.length - 1) { finish('A'); return; }
+    A.idx++;
+    renderA();
+  }
+
+  /* ================= 遊戲二 ================= */
+  function startB(){
+    lastMode = 'B';
+    B.round = 0; B.mistakes = 0;
+    renderB();
+    show('gameB');
+  }
+  function renderB(){
+    var pairs = GAME_B[B.round];
+    B.pairs = pairs;
+    B.matched = {}; B.selected = null; B.matchedCount = 0;
+
+    $('#bCount').textContent = '第 ' + (B.round + 1) + ' / ' + GAME_B.length + ' 關';
+    var dots = $('#bDots'); dots.innerHTML = '';
+    GAME_B.forEach(function(_, i){
+      var d = document.createElement('span');
+      d.className = 'pdot' + (i < B.round ? ' ok' : (i === B.round ? ' on' : ''));
+      dots.appendChild(d);
+    });
+
+    var words = $('#bWords'); words.innerHTML = '<span class="match-label">詞語卡</span>';
+    shuffle(pairs).forEach(function(p){
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'mcard word'; b.setAttribute('data-pid', p.id);
+      b.setAttribute('aria-label', '詞語卡：' + p.word);
+      b.innerHTML = '<span class="m-ico">' + iconSVG(p.icon) + '</span><span class="m-txt">' + esc(p.word) + '</span>';
+      b.addEventListener('click', function(){ pickWord(p.id, b); });
+      words.appendChild(b);
+    });
+
+    var means = $('#bMeans'); means.innerHTML = '<span class="match-label">古義卡</span>';
+    shuffle(pairs).forEach(function(p){
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'mcard meaning'; b.setAttribute('data-pid', p.id);
+      b.setAttribute('aria-label', '古義卡：' + p.old);
+      b.innerHTML = '<span class="m-txt">' + esc(p.old) + '</span>';
+      b.addEventListener('click', function(){ pickMeaning(p.id, b); });
+      means.appendChild(b);
+    });
+
+    $('#btnNextB').hidden = true;
+    $('#bExplain').innerHTML = '<p class="cite">先點一張詞語卡，再點它對應的古義卡。</p>';
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+  function pickWord(pid, el){
+    if (B.matched[pid]) return;
+    B.selected = pid;
+    $$('#bWords .mcard').forEach(function(c){ c.classList.toggle('sel', c === el); });
+    sfx('tap');
+    var p = B.pairs.filter(function(x){ return x.id === pid; })[0];
+    $('#bExplain').innerHTML = '<p class="cite">已選「' + esc(p.word) + '」，現在選它的古義卡。</p>';
+  }
+  function pickMeaning(pid, el){
+    if (B.matched[pid]) return;
+    if (!B.selected) {
+      sfx('wrong');
+      $('#bExplain').innerHTML = '<p class="cite">先點上面的詞語卡，再選古義卡喔。</p>';
+      toast('先選一張詞語卡');
+      return;
+    }
+    var p = B.pairs.filter(function(x){ return x.id === pid; })[0];
+    if (B.selected === pid) {
+      B.matched[pid] = true;
+      B.matchedCount++;
+      sfx('right');
+      var wc = $('#bWords .mcard[data-pid="' + pid + '"]');
+      var mc = el;
+      if (wc) { wc.classList.remove('sel'); wc.classList.add('ok'); wc.insertAdjacentHTML('beforeend', '<span class="tick">✓ 配對</span>'); }
+      mc.classList.add('ok');
+      mc.insertAdjacentHTML('beforeend', '<span class="tick">✓</span>');
+      B.selected = null;
+      $('#bExplain').innerHTML =
+        '<div class="head"><span class="word-badge">' + esc(p.word) + '</span><span class="eq">＝ ' + esc(p.old) + '</span></div>' +
+        '<p>' + esc(p.why) + '</p>' +
+        '<div class="eg">' + egHTML(p.word, p.old, [p.eg]) + '</div>' +
+        '<p class="now">今義：<b>' + esc(p.now) + '</b></p>';
+      if (B.matchedCount === B.pairs.length) {
+        $('#btnNextB').hidden = false;
+        $('#btnNextB').textContent = (B.round === GAME_B.length - 1) ? '看成績 →' : '下一關 →';
+        $('#btnNextB').focus();
+      }
+    } else {
+      B.mistakes++;
+      sfx('wrong');
+      el.classList.add('bad');
+      setTimeout(function(){ el.classList.remove('bad'); }, 360);
+      $('#bExplain').innerHTML = '<p class="cite">這個意思不對應「' + esc(B.pairs.filter(function(x){ return x.id === B.selected; })[0].word) + '」，再試一次。</p>';
+    }
+  }
+  function nextB(){
+    sfx('pop');
+    if (B.round >= GAME_B.length - 1) { finish('B'); return; }
+    B.round++;
+    renderB();
+  }
+
+  /* ================= 結算 ================= */
+  function finish(mode){
+    var stars, title, score, items = [];
+    if (mode === 'A') {
+      var correct = GAME_A.length - A.wrong;
+      stars = A.wrong === 0 ? 3 : (A.wrong <= 2 ? 2 : 1);
+      title = A.wrong === 0 ? '全對！太厲害了！' : '完成了！繼續加油！';
+      score = '答對 ' + correct + ' / ' + GAME_A.length + ' 題　·　答錯 ' + A.wrong + ' 題';
+      if (A.wrong === 0) {
+        items.push('<div class="review-item"><span class="rw">✓</span><span class="rm">全部答對，你已經掌握這六個字了！</span></div>');
+      } else {
+        A.wrongWords.forEach(function(w){
+          var q = GAME_A.filter(function(x){ return x.word === w; })[0];
+          if (q) items.push('<div class="review-item"><span class="rw">' + esc(q.word) + '</span><span class="rm">古義：<b>' + esc(q.old) + '</b>　今義：' + esc(q.now) + '<br><span class="rm-eg">例：「' + esc(q.eg[0].s) + '」（' + esc(q.eg[0].src) + '）</span></span></div>');
+        });
+      }
+    } else {
+      stars = B.mistakes === 0 ? 3 : (B.mistakes <= 3 ? 2 : 1);
+      title = B.mistakes === 0 ? '六關全勝！' : '六關完成！';
+      score = '完成 18 組配對　·　失誤 ' + B.mistakes + ' 次';
+      var all = [];
+      GAME_B.forEach(function(round){ round.forEach(function(p){ all.push(p); }); });
+      all.forEach(function(p){
+        items.push('<div class="review-item"><span class="rw">' + esc(p.word) + '</span><span class="rm">古義：<b>' + esc(p.old) + '</b>　今義：' + esc(p.now) +
+          '<br><span class="rm-eg">例：「' + esc(p.eg.s) + '」</span></span></div>');
+      });
+    }
+    saveBest(mode, stars);
+    renderBest();
+
+    var s = '';
+    for (var i=0;i<3;i++){ s += '<span class="' + (i < stars ? 'on' : 'off') + '">★</span>'; }
+    $('#resStars').innerHTML = s;
+    $('#resTitle').textContent = title;
+    $('#resScore').textContent = score;
+    $('#resReview').innerHTML = items.join('');
+    state.mode = mode;
+    show('result');
+    sfx(stars === 3 ? 'win' : 'pop');
+  }
+
+  /* ================= 事件 ================= */
+  $('#btnHome').addEventListener('click', function(){
+    if (window.speechSynthesis) { try { window.speechSynthesis.cancel(); } catch(e) {} }
+    sfx('tap'); show('home'); renderBest();
+  });
+  $('#btnSound').addEventListener('click', function(){
+    state.sound = !state.sound; soundOn = state.sound;
+    this.textContent = '音效：' + (state.sound ? '開' : '關');
+    this.setAttribute('aria-pressed', String(state.sound));
+    if (state.sound) sfx('pop'); else stopSpeak();
+  });
+
+  $$('[data-go]').forEach(function(el){
+    el.addEventListener('click', function(){
+      sfx('flip');
+      if (el.getAttribute('data-go') === 'learn') { state.learn = 0; renderLesson(); show('learn'); }
+    });
+  });
+  $$('[data-start]').forEach(function(el){
+    el.addEventListener('click', function(){
+      sfx('flip');
+      var m = el.getAttribute('data-start');
+      if (m === 'A') startA(); else startB();
+    });
+  });
+
+  $('#btnPrev').addEventListener('click', function(){
+    if (state.learn === slides.length - 1) { goLearn(0); return; }
+    goLearn(state.learn - 1);
+  });
+  $('#btnNext').addEventListener('click', function(){ goLearn(state.learn + 1); });
+
+  document.addEventListener('click', function(e){
+    var btn = e.target && e.target.closest ? e.target.closest('.mini-speak') : null;
+    if (!btn) return;
+    sfx('tap');
+    speak(btn.getAttribute('data-say') || btn.getAttribute('data-speak'));
+  });
+
+  $('#btnNextA').addEventListener('click', nextA);
+  $('#btnNextB').addEventListener('click', nextB);
+
+  $('#btnAgain').addEventListener('click', function(){
+    if (state.mode === 'A') startA(); else startB();
+  });
+  $('#btnOther').addEventListener('click', function(){
+    if (state.mode === 'A') startB(); else startA();
+  });
+  $('#btnBackHome').addEventListener('click', function(){ sfx('tap'); show('home'); renderBest(); });
+
+  document.addEventListener('keydown', function(e){
+    if (!$('#screen-gameA').hidden && $('#fbA').hidden) {
+      var n = parseInt(e.key, 10);
+      if (n >= 1 && n <= 3) {
+        var btn = $$('#aOpts .opt')[n-1];
+        if (btn && !btn.disabled) btn.click();
+      }
+    }
+    if (!$('#fbA').hidden && (e.key === 'Enter' || e.key === ' ')) {
+      if (e.target && e.target.closest && e.target.closest('button')) return;
+      e.preventDefault(); nextA();
+    }
+  });
+
+  /* ================= 初始化 ================= */
+  $$('[data-icon]').forEach(function(el){ el.innerHTML = iconSVG(el.getAttribute('data-icon')); });
+  renderLesson();
+  renderBest();
+})();
+</script>
+</body>
+</html>

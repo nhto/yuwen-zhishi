@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>加法識字 · 拼字小甲蟲</title>
+<meta name="description" content="把兩個部件加起來，拼出一個新字。初小版與高小版各 30 組繁體字，配有音效與朗讀。">
+<style>
+  :root{
+    --cream:#FFF8EA;
+    --paper:#FFFDF7;
+    --ink:#4A3B2F;
+    --ink-2:#7C6757;
+    --ink-3:#A99684;
+    --mint:#8FDCC0;
+    --mint-2:#DDF7EC;
+    --sky:#93C9F2;
+    --sky-2:#E0F1FD;
+    --peach:#FFB49A;
+    --peach-2:#FFE5DA;
+    --butter:#FFD976;
+    --butter-2:#FFF2CE;
+    --coral:#FF8E7A;
+    --leaf:#6FBF8F;
+    --lilac:#C9B8F0;
+    --shadow:0 4px 0 rgba(74,59,47,.20);
+    --shadow-lg:0 7px 0 rgba(74,59,47,.16);
+    --font:"Yuanti TC","YuanTi TC","PingFang TC","Hiragino Sans CNS","Microsoft JhengHei","Noto Sans TC",system-ui,-apple-system,sans-serif;
+  }
+
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    min-height:100dvh;
+    font-family:var(--font);
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 10% 6%, #FFE9C8 0%, rgba(255,233,200,0) 52%),
+      radial-gradient(circle at 92% 2%, #D8F5E8 0%, rgba(216,245,232,0) 46%),
+      radial-gradient(circle at 50% 104%, #FFE3DA 0%, rgba(255,227,218,0) 54%),
+      var(--cream);
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.38;
+    background-image:radial-gradient(rgba(74,59,47,.16) 1.4px, transparent 1.4px);
+    background-size:24px 24px;
+  }
+  button{font-family:inherit;color:inherit}
+  button:focus-visible,a:focus-visible{outline:3px solid #4A90D9;outline-offset:3px}
+  [hidden]{display:none !important}
+
+  #app{position:relative;z-index:1;min-height:100dvh;display:flex;flex-direction:column}
+  .screen{
+    flex:1;width:100%;max-width:920px;margin:0 auto;
+    padding:0 clamp(14px,4.2vw,24px) calc(18px + env(safe-area-inset-bottom));
+    display:flex;flex-direction:column;
+    animation:screenIn .26s ease-out;
+  }
+  .screen.play{max-width:640px}
+  @keyframes screenIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* ---------- top bar ---------- */
+  .bar{
+    display:flex;align-items:center;gap:10px;
+    padding:calc(10px + env(safe-area-inset-top)) 0 8px;
+    flex:none;
+  }
+  .bar-title{
+    flex:1;min-width:0;text-align:center;
+    font-size:clamp(15px,4.2vw,18px);font-weight:800;letter-spacing:.02em;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .icon-btn{
+    flex:none;width:44px;height:44px;border-radius:15px;
+    border:2.5px solid var(--ink);background:var(--paper);
+    display:grid;place-items:center;cursor:pointer;
+    box-shadow:var(--shadow);transition:transform .12s,box-shadow .12s;
+  }
+  .icon-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(74,59,47,.2)}
+  .icon-btn.spacer{visibility:hidden;pointer-events:none}
+
+  /* ---------- home ---------- */
+  .home-main{flex:1;display:flex;flex-direction:column;justify-content:center;padding-bottom:8px}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:16px;letter-spacing:.04em}
+  .brand-dots{display:flex;gap:3px}
+  .brand-dots i{width:9px;height:9px;border-radius:50%;border:2px solid var(--ink);display:block}
+  .brand-dots i:nth-child(1){background:var(--coral)}
+  .brand-dots i:nth-child(2){background:var(--butter)}
+  .brand-dots i:nth-child(3){background:var(--mint)}
+
+  .hero{padding:clamp(6px,2vw,18px) 0 clamp(14px,3vw,22px)}
+  .eyebrow{
+    display:inline-block;margin:0 0 8px;padding:5px 12px;
+    border:2px solid var(--ink);border-radius:999px;background:var(--butter-2);
+    font-size:12px;font-weight:800;letter-spacing:.14em;
+  }
+  .hero h1{
+    margin:0;font-size:clamp(27px,7.4vw,40px);line-height:1.22;letter-spacing:.01em;
+  }
+  .hero h1 em{font-style:normal;color:#2F8F6B;position:relative;white-space:nowrap}
+  .hero h1 em::after{
+    content:"";position:absolute;left:0;right:0;bottom:2px;height:8px;border-radius:6px;
+    background:rgba(143,220,192,.55);z-index:-1;
+  }
+  .lede{margin:10px 0 0;color:var(--ink-2);font-size:clamp(13.5px,3.7vw,15px);line-height:1.7;max-width:30em}
+
+  .hero-demo{
+    margin-top:clamp(12px,3vw,18px);
+    display:flex;align-items:center;justify-content:center;gap:clamp(6px,2vw,10px);
+    padding:clamp(14px,3.4vw,20px) 10px clamp(10px,2.6vw,14px);
+    border:3px solid var(--ink);border-radius:26px;
+    background:linear-gradient(180deg,#FFFDF7,#FFF1D9);
+    box-shadow:var(--shadow-lg);position:relative;overflow:hidden;
+  }
+  .hero-demo::before{
+    content:"";position:absolute;width:120px;height:120px;border-radius:50%;
+    background:rgba(143,220,192,.28);top:-52px;right:-30px;
+  }
+  .hero-demo::after{
+    content:"";position:absolute;width:90px;height:90px;border-radius:50%;
+    background:rgba(255,180,154,.24);bottom:-46px;left:-24px;
+  }
+  .mini-holder{position:relative;padding-top:20px;display:flex;flex-direction:column;align-items:center}
+  .mini-bug{position:absolute;top:0;left:50%;transform:translateX(-50%);width:40px;z-index:2}
+  .mini-tile{
+    width:clamp(48px,13.5vw,60px);aspect-ratio:1/1;display:grid;place-items:center;
+    border:2.5px solid var(--ink);border-radius:16px;background:#fff;
+    font-size:clamp(24px,7vw,30px);font-weight:800;line-height:1;
+    box-shadow:0 3px 0 rgba(74,59,47,.18);position:relative;z-index:3;
+  }
+  .mini-tile.result{background:var(--butter-2);border-color:var(--ink)}
+  .mini-op{font-size:clamp(18px,5vw,22px);font-weight:800;color:var(--ink-2);padding-top:20px}
+  .demo-note{
+    position:absolute;right:12px;bottom:8px;font-size:10.5px;color:var(--ink-3);
+    font-weight:700;letter-spacing:.06em;
+  }
+
+  .levels{display:grid;gap:12px}
+  .level-card{
+    position:relative;overflow:hidden;text-align:left;cursor:pointer;
+    border:3px solid var(--ink);border-radius:26px;padding:16px 18px;
+    background:var(--paper);box-shadow:var(--shadow-lg);
+    transition:transform .14s,box-shadow .14s;
+  }
+  .level-card:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(74,59,47,.18)}
+  .level-card.junior{background:linear-gradient(150deg,#FFFDF7 42%,var(--mint-2))}
+  .level-card.senior{background:linear-gradient(150deg,#FFFDF7 42%,var(--sky-2))}
+  .level-card .blob{
+    position:absolute;right:-34px;top:-44px;width:120px;height:120px;border-radius:50%;
+    border:3px solid rgba(74,59,47,.12);
+  }
+  .level-card.junior .blob{background:rgba(143,220,192,.5)}
+  .level-card.senior .blob{background:rgba(147,201,242,.5)}
+  .lv-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;position:relative}
+  .lv-tag{
+    font-size:12px;font-weight:800;letter-spacing:.1em;padding:4px 10px;
+    border:2px solid var(--ink);border-radius:999px;background:#fff;
+  }
+  .lv-name{font-size:clamp(18px,5vw,22px);font-weight:800;letter-spacing:.02em}
+  .lv-starcount{
+    margin-left:auto;display:inline-flex;align-items:center;gap:3px;
+    font-size:12px;font-weight:800;color:var(--ink-2);white-space:nowrap;
+  }
+  .lv-starcount svg{width:15px;height:15px}
+  .lv-desc{margin:2px 0 12px;color:var(--ink-2);font-size:13px;line-height:1.6;max-width:26em}
+  .lv-bar{height:10px;border-radius:999px;background:rgba(74,59,47,.12);overflow:hidden;border:1.5px solid rgba(74,59,47,.14)}
+  .lv-bar i{display:block;height:100%;border-radius:999px;background:var(--leaf);transition:width .4s}
+  .lv-meta{display:flex;justify-content:space-between;gap:10px;margin-top:7px;padding-right:46px;font-size:11.5px;font-weight:700;color:var(--ink-2)}
+  .lv-arrow{
+    position:absolute;right:14px;bottom:12px;width:36px;height:36px;border-radius:50%;
+    border:2.5px solid var(--ink);background:#fff;display:grid;place-items:center;
+  }
+
+  .book-entry{
+    margin-top:14px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;
+    padding:13px;border:2.5px dashed rgba(74,59,47,.5);border-radius:18px;
+    background:rgba(255,253,247,.75);font-size:14px;font-weight:800;cursor:pointer;
+  }
+  .book-entry span{color:var(--ink-2);font-weight:700;font-size:12.5px}
+  .foot-note{margin:12px 0 0;text-align:center;font-size:11.5px;color:var(--ink-3);line-height:1.7}
+
+  /* ---------- map ---------- */
+  .map-hero{display:flex;align-items:center;gap:12px;margin:6px 0 16px}
+  .map-mascot{
+    flex:none;width:clamp(72px,20vw,92px);aspect-ratio:1/1;border-radius:24px;
+    border:3px solid var(--ink);background:var(--butter-2);
+    display:grid;place-items:center;box-shadow:var(--shadow);
+  }
+  .map-mascot svg{width:76%;height:auto}
+  .map-copy h2{margin:0 0 4px;font-size:clamp(20px,5.6vw,26px)}
+  .map-copy p{margin:0;color:var(--ink-2);font-size:12.8px;line-height:1.6}
+  .stages{display:grid;gap:11px}
+  .stage-card{
+    position:relative;text-align:left;cursor:pointer;
+    border:3px solid var(--ink);border-radius:22px;padding:14px 16px;
+    background:var(--paper);box-shadow:var(--shadow);
+    display:grid;grid-template-columns:1fr auto;gap:6px 10px;align-items:center;
+  }
+  .stage-card:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(74,59,47,.2)}
+  .stage-no{font-size:16px;font-weight:800;letter-spacing:.03em}
+  .stage-words{grid-column:1;font-size:12.5px;color:var(--ink-2);letter-spacing:.12em}
+  .stage-stars{grid-column:2;grid-row:1;display:flex;gap:3px}
+  .stage-stars svg{width:17px;height:17px}
+  .stage-go{
+    grid-column:2;grid-row:2;justify-self:end;
+    font-size:12px;font-weight:800;padding:5px 12px;border-radius:999px;
+    border:2px solid var(--ink);background:var(--butter-2);
+  }
+  .stage-card.cleared{background:linear-gradient(140deg,#FFFDF7,#E9F8F1)}
+
+  /* ---------- play ---------- */
+  .play-wrap{flex:1;display:flex;flex-direction:column;max-width:640px;margin:0 auto;width:100%}
+  .dots{display:flex;gap:5px;justify-content:center;margin:0 0 10px;flex:none}
+  .dot{width:7px;height:7px;border-radius:50%;background:rgba(74,59,47,.16);transition:all .2s}
+  .dot.done{background:var(--leaf)}
+  .dot.now{background:var(--coral);transform:scale(1.35)}
+
+  .hint{
+    flex:none;text-align:center;padding:8px 12px;margin-bottom:10px;
+    border-radius:16px;background:rgba(255,253,247,.8);
+    border:2px dashed rgba(74,59,47,.35);
+  }
+  .hint-word{
+    font-size:clamp(22px,6.4vw,28px);font-weight:800;letter-spacing:.1em;
+    display:flex;justify-content:center;align-items:center;gap:2px;line-height:1.3;
+  }
+  .hint-word .blank{
+    display:inline-grid;place-items:center;min-width:1.15em;height:1.15em;
+    margin:0 .06em;border-bottom:3px solid var(--coral);color:var(--coral);
+    font-size:.92em;
+  }
+  .hint-main{margin:2px 0 0;font-size:12.5px;color:var(--ink-2);line-height:1.6}
+
+  .stage{
+    position:relative;flex:1;min-height:172px;
+    border:3px solid var(--ink);border-radius:28px;
+    background:linear-gradient(180deg,#FFFDF7 0%,#FFF4DF 100%);
+    box-shadow:var(--shadow-lg);
+    display:flex;align-items:center;justify-content:center;
+    padding:26px 8px 18px;overflow:hidden;
+  }
+  .stage::before{
+    content:"";position:absolute;width:150px;height:150px;border-radius:50%;
+    background:rgba(143,220,192,.20);top:-70px;right:-46px;
+  }
+  .stage::after{
+    content:"";position:absolute;width:110px;height:110px;border-radius:50%;
+    background:rgba(255,180,154,.18);bottom:-56px;left:-34px;
+  }
+  .eq{
+    position:relative;z-index:1;
+    display:flex;align-items:center;justify-content:center;
+    gap:clamp(3px,1.4vw,9px);
+  }
+  .holder{position:relative;display:flex;flex-direction:column;align-items:center}
+  .bughead{
+    position:absolute;top:-27px;left:50%;transform:translateX(-50%);
+    width:clamp(46px,13.5vw,58px);z-index:2;pointer-events:none;
+    animation:bob 3.2s ease-in-out infinite;
+  }
+  .holder:nth-child(1) .bughead{animation-delay:-.4s}
+  .holder:nth-child(3) .bughead{animation-delay:-1.6s}
+  @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-4px)}}
+  .tile{
+    width:clamp(58px,18.5vw,82px);aspect-ratio:1/1;
+    display:grid;place-items:center;
+    border:3px solid var(--ink);border-radius:20px;background:#fff;
+    font-size:clamp(30px,9.6vw,46px);font-weight:800;line-height:1;
+    box-shadow:0 4px 0 rgba(74,59,47,.2);
+    position:relative;z-index:3;
+    transition:transform .25s,background .25s;
+  }
+  .tile.tile-b.mystery{border-style:dashed;color:var(--ink-3);background:#FFFBF0}
+  .tile.tile-c{border-style:dashed;border-color:rgba(74,59,47,.35);background:#FFFBF0}
+  .tile.tile-c.ghost{
+    color:rgba(74,59,47,.18);
+    background:#FFF9EC;
+  }
+  @supports (-webkit-text-stroke:1px #000){
+    .tile.tile-c.ghost{
+      color:transparent;
+      -webkit-text-stroke:1.4px rgba(74,59,47,.42);
+    }
+  }
+  .tile.tile-c.unknown{color:rgba(74,59,47,.3);border-style:dashed}
+  .tile.tile-c.reveal{
+    border-style:solid;background:linear-gradient(160deg,#FFE9A8,#FFD976);
+    animation:popIn .46s cubic-bezier(.2,1.5,.4,1) both;
+  }
+  @keyframes popIn{0%{transform:scale(.55) rotate(-8deg);opacity:.2}60%{transform:scale(1.12) rotate(2deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+  .tile.pop{animation:popTile .4s cubic-bezier(.2,1.4,.4,1)}
+  @keyframes popTile{0%{transform:scale(.6)}60%{transform:scale(1.1)}100%{transform:scale(1)}}
+  .op{font-size:clamp(20px,6vw,28px);font-weight:800;color:var(--ink-3);padding-top:6px}
+  .eq.merged .tile-a{transform:translateX(5px) rotate(-3deg)}
+  .eq.merged .tile-b{transform:translateX(-5px) rotate(3deg)}
+  .spark{
+    position:absolute;left:50%;top:50%;width:8px;height:8px;border-radius:50%;
+    pointer-events:none;z-index:5;
+  }
+  @keyframes sparkFly{
+    0%{transform:translate(-50%,-50%) scale(1);opacity:1}
+    100%{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(.2);opacity:0}
+  }
+
+  .choices{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(62px,1fr));
+    gap:10px;margin-top:14px;flex:none;
+  }
+  .choice{
+    aspect-ratio:1/1;min-height:62px;border:3px solid var(--ink);border-radius:20px;
+    background:#fff;font-size:clamp(27px,8.2vw,36px);font-weight:800;line-height:1;
+    box-shadow:0 4px 0 rgba(74,59,47,.2);cursor:pointer;
+    transition:transform .12s,box-shadow .12s,background .2s;
+  }
+  .choice:nth-child(1){background:#FFF3D6}
+  .choice:nth-child(2){background:#E3F7EE}
+  .choice:nth-child(3){background:#E4F1FC}
+  .choice:nth-child(4){background:#F7E7E1}
+  .choice:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(74,59,47,.2)}
+  .choice.correct{background:#B9EBD2;border-color:#2F8F6B}
+  .choice.wrong{background:#FFD3CB;border-color:#C9523F;animation:shake .42s}
+  .choice:disabled{opacity:.4;cursor:default}
+  .choice.wrong:disabled{opacity:.55}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px) rotate(-2deg)}40%{transform:translateX(5px) rotate(2deg)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+
+  .feedback{
+    min-height:20px;margin:8px 2px 0;text-align:center;
+    font-size:12.5px;font-weight:700;color:var(--ink-2);line-height:1.5;
+  }
+  .feedback.bad{color:#B4462F}
+  .feedback.good{color:#2F7F5C}
+
+  .learn{
+    margin-top:12px;flex:none;
+    border:3px solid var(--ink);border-radius:24px;background:var(--paper);
+    box-shadow:var(--shadow-lg);padding:12px 14px;
+    animation:slideUp .32s cubic-bezier(.2,.9,.3,1);
+  }
+  @keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .learn-head{display:flex;align-items:center;gap:12px}
+  .learn-char{
+    flex:none;width:clamp(56px,15vw,66px);aspect-ratio:1/1;display:grid;place-items:center;
+    border:2.5px solid var(--ink);border-radius:18px;
+    background:linear-gradient(160deg,#FFEFB9,#FFD976);
+    font-size:clamp(32px,9vw,40px);font-weight:800;line-height:1;
+  }
+  .learn-info{min-width:0;flex:1}
+  .learn-word{
+    font-size:clamp(16px,4.6vw,19px);font-weight:800;letter-spacing:.06em;
+    display:flex;align-items:center;gap:7px;flex-wrap:wrap;
+  }
+  .learn-word .pill{
+    font-size:10.5px;letter-spacing:.04em;font-weight:800;color:var(--ink-2);
+    background:rgba(74,59,47,.08);border-radius:999px;padding:3px 8px;
+  }
+  .learn-sent{margin:4px 0 0;font-size:12.5px;line-height:1.6;color:var(--ink-2)}
+  .learn-btns{display:flex;gap:9px;margin-top:10px}
+  .btn{
+    border:2.5px solid var(--ink);border-radius:15px;padding:11px 14px;
+    font-size:14px;font-weight:800;cursor:pointer;background:#fff;
+    box-shadow:var(--shadow);transition:transform .12s,box-shadow .12s;
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  }
+  .btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(74,59,47,.2)}
+  .btn.primary{flex:1;background:var(--butter)}
+  .btn.ghost-btn{flex:none;background:#fff}
+  .btn svg{width:17px;height:17px}
+
+  /* ---------- overlay ---------- */
+  .overlay{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:22px}
+  .backdrop{
+    position:absolute;inset:0;background:rgba(74,59,47,.42);
+    backdrop-filter:blur(3px);animation:fadeIn .2s;
+  }
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  .result-card{
+    position:relative;width:100%;max-width:360px;
+    border:3px solid var(--ink);border-radius:28px;background:var(--paper);
+    box-shadow:0 10px 0 rgba(74,59,47,.22);padding:22px 20px 18px;text-align:center;
+    animation:popCard .4s cubic-bezier(.2,1.3,.4,1);
+  }
+  @keyframes popCard{from{opacity:0;transform:scale(.9) translateY(14px)}to{opacity:1;transform:none}}
+  .result-tag{
+    display:inline-block;font-size:11px;font-weight:800;letter-spacing:.15em;
+    padding:4px 12px;border:2px solid var(--ink);border-radius:999px;background:var(--butter-2);
+  }
+  .result-card h2{margin:10px 0 4px;font-size:clamp(22px,6.4vw,27px);letter-spacing:.02em}
+  .result-card p{margin:6px 0 0;font-size:13px;color:var(--ink-2);line-height:1.6}
+  .big-stars{display:flex;justify-content:center;gap:8px;margin:12px 0 4px}
+  .big-stars svg{width:38px;height:38px;animation:starIn .45s cubic-bezier(.2,1.5,.4,1) both}
+  .big-stars svg:nth-child(2){animation-delay:.1s}
+  .big-stars svg:nth-child(3){animation-delay:.2s}
+  @keyframes starIn{from{transform:scale(0) rotate(-30deg);opacity:0}to{transform:none;opacity:1}}
+  .result-btns{display:grid;gap:8px;margin-top:16px}
+  .result-btns .row{display:flex;gap:8px}
+  .result-btns .btn{flex:1}
+
+  /* ---------- book ---------- */
+  .tabs{display:flex;gap:8px;margin:4px 0 14px}
+  .tab{
+    flex:1;padding:10px 8px;border-radius:15px;border:2.5px solid var(--ink);
+    background:#fff;font-size:13.5px;font-weight:800;cursor:pointer;box-shadow:var(--shadow);
+  }
+  .tab[aria-selected="true"]{background:var(--butter-2);box-shadow:0 2px 0 rgba(74,59,47,.22);transform:translateY(2px)}
+  .book-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  .char-btn{
+    aspect-ratio:1/1;border:2.5px solid var(--ink);border-radius:14px;background:#fff;
+    font-size:clamp(20px,6vw,26px);font-weight:800;cursor:pointer;
+    box-shadow:0 3px 0 rgba(74,59,47,.16);position:relative;line-height:1;
+  }
+  .char-btn.locked{background:rgba(74,59,47,.05);border-color:rgba(74,59,47,.25);color:rgba(74,59,47,.28);box-shadow:none;cursor:default}
+  .char-btn.learned{background:linear-gradient(160deg,#FFFDF7,#FFF1CF)}
+  .char-btn.learned:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(74,59,47,.16)}
+  .book-count{margin:12px 0 0;text-align:center;font-size:12px;color:var(--ink-2);font-weight:700}
+  .sheet{
+    position:relative;width:100%;max-width:340px;text-align:center;
+    border:3px solid var(--ink);border-radius:26px;background:var(--paper);
+    box-shadow:0 10px 0 rgba(74,59,47,.22);padding:20px 18px 16px;
+    animation:popCard .35s cubic-bezier(.2,1.3,.4,1);
+  }
+  .sheet-char{
+    width:78px;height:78px;margin:0 auto 8px;display:grid;place-items:center;
+    border:3px solid var(--ink);border-radius:22px;background:linear-gradient(160deg,#FFEFB9,#FFD976);
+    font-size:46px;font-weight:800;line-height:1;box-shadow:var(--shadow);
+  }
+  .sheet-word{font-size:19px;font-weight:800;letter-spacing:.08em}
+  .sheet-sent{margin:6px 0 0;font-size:13px;line-height:1.7;color:var(--ink-2)}
+  .sheet-parts{
+    display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:5px 12px;
+    border-radius:999px;background:rgba(74,59,47,.06);font-size:13px;font-weight:800;letter-spacing:.1em;
+  }
+  .sheet-status{min-height:16px;margin:8px 0 0;font-size:11.5px;color:var(--ink-2)}
+  .sheet-btns{display:flex;gap:8px;margin-top:10px}
+  .sheet-btns .btn{flex:1}
+
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+  /* ---------- desktop ---------- */
+  @media (min-width:820px){
+    .home-main{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(20px,4vw,44px);align-items:center}
+    .hero{padding:0}
+    .hero-demo{margin-top:22px}
+    .levels{gap:14px}
+    .foot-note{grid-column:1 / -1;margin-top:4px}
+    .book-entry{grid-column:1 / -1;margin-top:0}
+    .screen.play{max-width:600px}
+    .play-wrap{justify-content:center}
+    .stage{flex:0 0 auto;height:330px;min-height:0}
+    .tile{width:92px;font-size:50px}
+    .bughead{width:62px;top:-28px}
+    .choices{grid-template-columns:repeat(auto-fit,minmax(62px,94px));justify-content:center}
+    .choice{font-size:38px}
+    .learn-char{width:70px}
+    .learn-char{font-size:44px}
+    .stages{grid-template-columns:1fr 1fr 1fr;gap:12px}
+    .stage-card{grid-template-columns:1fr;gap:8px}
+    .stage-stars{grid-row:auto;grid-column:1;justify-content:flex-start}
+    .stage-go{grid-row:auto;grid-column:1;justify-self:start;margin-top:2px}
+    .book-grid{grid-template-columns:repeat(10,1fr);gap:9px}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+  }
+</style>
+</head>
+<body>
+<main id="app" data-generated-by="vibe-coding-frontend-design"></main>
+<script>
+(function(){
+  'use strict';
+
+  /* ================= 資料 ================= */
+
+  function mk(a,b,c,opts,word,sent,meaning){
+    return {a:a,b:b,c:c,opts:opts,word:word,sent:sent,meaning:meaning||''};
+  }
+
+  var DATA = {
+    junior: {
+      key:'junior', name:'初小版', range:'小一至小三',
+      blurb:'從日月山水開始，拼出 30 個常用字',
+      items:[
+        mk('日','月','明',['月','目','用'],'明亮','房間裡很明亮。'),
+        mk('女','子','好',['子','了','女'],'好人','他是一個好人。'),
+        mk('人','木','休',['木','本','林'],'休息','我們在樹下休息。'),
+        mk('田','力','男',['力','刀','方'],'男生','班上有十二個男生。'),
+        mk('小','大','尖',['大','太','天'],'尖角','星星有五個尖角。'),
+        mk('人','固','個',['固','古','回'],'一個','桌上有一個紅蘋果。'),
+        mk('木','木','林',['木','本','禾'],'森林','森林裡住著許多小動物。'),
+        mk('火','火','炎',['火','水','山'],'炎熱','夏天的太陽很炎熱。'),
+        mk('口','鳥','鳴',['鳥','馬','烏'],'鳥鳴','清晨傳來清脆的鳥鳴。'),
+        mk('雨','田','雷',['田','由','甲'],'打雷','下雨了，天空在打雷。'),
+        mk('虫','工','虹',['工','土','王'],'彩虹','雨後天上掛著彩虹。'),
+        mk('禾','火','秋',['火','木','日'],'秋天','秋天到了，樹葉變黃了。'),
+        mk('日','生','星',['生','牛','主'],'星星','晚上天空有很多星星。'),
+        mk('月','月','朋',['月','目','用'],'朋友','他是我最好的朋友。'),
+        mk('女','生','姓',['生','牛','土'],'姓名','請寫上你的姓名。'),
+        mk('木','子','李',['子','了','木'],'李子','樹上結滿了李子。'),
+        mk('宀','女','安',['女','子','母'],'安全','過馬路要注意安全。'),
+        mk('宀','子','字',['子','了','女'],'字典','我不懂的字會查字典。'),
+        mk('門','口','問',['口','日','目'],'問題','我有兩個問題。'),
+        mk('門','日','間',['日','目','口'],'時間','我們沒有時間了。'),
+        mk('白','水','泉',['水','木','火'],'泉水','山上的泉水很清涼。'),
+        mk('土','也','地',['也','他','土'],'地方','這裡是個好地方。'),
+        mk('女','馬','媽',['馬','鳥','虫'],'媽媽','媽媽帶我去公園。'),
+        mk('父','巴','爸',['巴','色','邑'],'爸爸','爸爸在廚房煮飯。'),
+        mk('口','未','味',['未','末','朱'],'味道','這碗湯的味道很好。'),
+        mk('舌','甘','甜',['甘','日','廿'],'甜甜','西瓜吃起來甜甜的。'),
+        mk('田','心','思',['心','田','必'],'思考','我喜歡思考問題。'),
+        mk('人','言','信',['言','音','語'],'寫信','我寫信給外婆。'),
+        mk('木','各','格',['各','名','洛'],'格子','作業本上有很多格子。'),
+        mk('扌','丁','打',['丁','刀','力'],'打球','放學後我們一起打球。')
+      ]
+    },
+    senior: {
+      key:'senior', name:'高小版', range:'小四至小六',
+      blurb:'挑戰形聲字，從詞語提示找出正確部件',
+      items:[
+        mk('彥','頁','顏',['頁','首','面','貝'],'顏色','你最喜歡哪種顏色？','色彩'),
+        mk('木','喬','橋',['喬','高','向','夭'],'小橋','河上有一座小橋。','跨越河流的建築'),
+        mk('禾','重','種',['重','童','量','里'],'種子','春天是播種的季節。','植物用來繁殖的部分'),
+        mk('氵','每','海',['每','母','敏','繁'],'海洋','海洋裡有許多生物。','很寬闊的水域'),
+        mk('氵','青','清',['青','生','主','月'],'清水','山澗的清水很涼。','乾淨的水'),
+        mk('日','青','晴',['青','日','月','生'],'晴天','今天是一個大晴天。','有陽光的天氣'),
+        mk('目','青','睛',['青','目','日','月'],'眼睛','看書久了要讓眼睛休息。','用來看東西的器官'),
+        mk('言','青','請',['青','生','言','主'],'請客','今天由我請客。','請別人吃飯'),
+        mk('忄','青','情',['青','生','心','主'],'心情','我今天的心情很好。','內心的感受'),
+        mk('王','里','理',['里','童','重','量'],'道理','這個故事告訴我們一個道理。','事情正確的道理'),
+        mk('王','見','現',['見','貝','頁','目'],'現在','現在是下午三點。','此刻'),
+        mk('木','交','校',['交','文','父','立'],'校園','校園裡種了很多花。','學校的地方'),
+        mk('石','皮','破',['皮','石','波','又'],'打破','他不小心打破了花瓶。','弄壞了'),
+        mk('虫','文','蚊',['文','父','虫','立'],'蚊子','夏天有很多蚊子。','會叮人的小蟲'),
+        mk('虫','馬','螞',['馬','鳥','虫','象'],'螞蟻','螞蟻排著隊搬食物。','排隊搬食物的小昆蟲'),
+        mk('雨','相','霜',['相','想','木','目'],'白霜','清晨的草葉上結了一層白霜。','清晨草上的白色冰晶'),
+        mk('雨','包','雹',['包','雨','飽','已'],'冰雹','突然下起了冰雹。','從天而降的冰粒'),
+        mk('雨','令','零',['令','今','冷','命'],'零錢','我把零錢放進錢包。','小額的錢幣'),
+        mk('相','心','想',['心','木','目','相'],'想念','我很想念遠方的朋友。','思念'),
+        mk('竹','間','簡',['間','問','門','日'],'簡單','這道題很簡單。','不複雜'),
+        mk('言','侖','論',['侖','命','人','冊'],'討論','同學們正在討論問題。','一起商量'),
+        mk('車','侖','輪',['侖','命','車','冊'],'車輪','車輪轉得很快。','車子圓圓的部分'),
+        mk('加','貝','賀',['貝','見','頁','力'],'祝賀','同學們一起祝賀他得獎。','慶祝、道喜'),
+        mk('火','堯','燒',['堯','曉','火','焦'],'燒烤','週末我們去燒烤。','用火烤食物'),
+        mk('艹','化','花',['化','代','作','匕'],'花朵','花園裡開滿了花朵。','植物開的花'),
+        mk('辶','隹','進',['隹','佳','住','辶'],'進步','你的成績進步了很多。','變得更好'),
+        mk('石','更','硬',['更','便','石','史'],'堅硬','石頭非常堅硬。','不容易變形'),
+        mk('扌','甫','捕',['甫','布','用','扌'],'捕捉','貓在捕捉一隻蝴蝶。','抓住'),
+        mk('氵','昷','溫',['昷','日','皿','水'],'溫暖','陽光給人溫暖的感覺。','不太冷也不太熱'),
+        mk('金','竟','鏡',['竟','景','金','日'],'鏡子','她對著鏡子微笑。','可以照見自己')
+      ]
+    }
+  };
+
+  var TOTAL = 30;
+  var STAGE_SIZE = 10;
+  var STAGE_COUNT = 3;
+  var STORE_KEY = 'addchars_v2';
+
+  /* ================= 狀態 ================= */
+
+  var state = {
+    screen:'home',
+    level:'junior',
+    stage:0,
+    index:0,
+    phase:'ask',
+    firstTry:true,
+    stageFirst:0,
+    sound:true,
+    bookLevel:'junior',
+    sheet:null,
+    overlay:null
+  };
+
+  var learned = {junior:[], senior:[]};
+  var stars = {junior:[0,0,0], senior:[0,0,0]};
+  var lock = false;
+
+  function loadStore(){
+    try{
+      var raw = localStorage.getItem(STORE_KEY);
+      if(!raw) return;
+      var d = JSON.parse(raw);
+      if(!d || typeof d !== 'object') return;
+      ['junior','senior'].forEach(function(k){
+        if(d.learned && Array.isArray(d.learned[k])){
+          learned[k] = d.learned[k].filter(function(x){return typeof x === 'string';});
+        }
+        if(d.stars && Array.isArray(d.stars[k])){
+          stars[k] = [0,1,2].map(function(i){
+            var v = Number(d.stars[k][i]);
+            return isFinite(v) ? Math.max(0,Math.min(3,Math.round(v))) : 0;
+          });
+        }
+      });
+      if(d.sound === false) state.sound = false;
+    }catch(e){ /* 靜默降級：無法讀取就當作新玩家 */ }
+  }
+
+  function saveStore(){
+    try{
+      localStorage.setItem(STORE_KEY, JSON.stringify({
+        learned:learned, stars:stars, sound:state.sound
+      }));
+    }catch(e){ /* 無痕模式或配額不足時不阻斷遊戲 */ }
+  }
+
+  function hasLearned(c){ return learned[state.level].indexOf(c) > -1; }
+  function addLearned(c){
+    if(learned[state.level].indexOf(c) === -1){
+      learned[state.level].push(c);
+      saveStore();
+    }
+  }
+  function learnedCount(level){ return learned[level].length; }
+
+  /* ================= 音效 ================= */
+
+  var Sfx = (function(){
+    var ctx = null, master = null, noiseBuf = null;
+
+    function ensure(){
+      if(!state.sound) return null;
+      if(!ctx){
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if(!AC) return null;
+        try{
+          ctx = new AC();
+          master = ctx.createGain();
+          master.gain.value = 0.22;
+          master.connect(ctx.destination);
+        }catch(e){ return null; }
+      }
+      if(ctx.state === 'suspended'){
+        try{ ctx.resume(); }catch(e){}
+      }
+      return ctx;
+    }
+
+    function beep(freq, delay, dur, type, vol){
+      var c = ensure();
+      if(!c) return;
+      try{
+        var t = c.currentTime + (delay || 0);
+        var o = c.createOscillator();
+        var g = c.createGain();
+        o.type = type || 'sine';
+        o.frequency.setValueAtTime(freq, t);
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(vol || 0.16, t + 0.012);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+        o.connect(g); g.connect(master);
+        o.start(t); o.stop(t + dur + 0.04);
+      }catch(e){}
+    }
+
+    function noise(){
+      var c = ensure();
+      if(!c) return;
+      try{
+        if(!noiseBuf){
+          var len = Math.floor(c.sampleRate * 0.34);
+          noiseBuf = c.createBuffer(1, len, c.sampleRate);
+          var d = noiseBuf.getChannelData(0);
+          for(var i=0;i<len;i++){
+            d[i] = (Math.random()*2-1) * (1 - i/len);
+          }
+        }
+        var t = c.currentTime;
+        var src = c.createBufferSource();
+        src.buffer = noiseBuf;
+        var f = c.createBiquadFilter();
+        f.type = 'bandpass'; f.Q.value = 1.1;
+        f.frequency.setValueAtTime(420, t);
+        f.frequency.exponentialRampToValueAtTime(2600, t + 0.3);
+        var g = c.createGain();
+        g.gain.setValueAtTime(0.24, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.32);
+        src.connect(f); f.connect(g); g.connect(master);
+        src.start(t);
+      }catch(e){}
+    }
+
+    return {
+      tap: function(){ beep(540, 0, 0.07, 'sine', 0.1); },
+      pop: function(){ beep(760, 0, 0.11, 'triangle', 0.12); },
+      correct: function(){
+        [523.25, 659.25, 783.99, 1046.5].forEach(function(f,i){
+          beep(f, i*0.075, 0.2, 'triangle', 0.13);
+        });
+      },
+      wrong: function(){
+        beep(196, 0, 0.16, 'triangle', 0.1);
+        beep(165, 0.12, 0.2, 'triangle', 0.09);
+      },
+      merge: function(){
+        noise();
+        beep(680, 0.02, 0.14, 'sine', 0.13);
+      },
+      star: function(){
+        [784, 988, 1319].forEach(function(f,i){ beep(f, i*0.09, 0.24, 'sine', 0.12); });
+      },
+      fanfare: function(){
+        [523, 659, 784, 1046, 1318].forEach(function(f,i){
+          beep(f, i*0.11, 0.32, 'triangle', 0.12);
+        });
+      }
+    };
+  })();
+
+  /* ================= 語音 ================= */
+
+  var Speech = (function(){
+    var supported = ('speechSynthesis' in window) && ('SpeechSynthesisUtterance' in window);
+    var voices = [];
+
+    function load(){
+      if(!supported) return;
+      try{ voices = window.speechSynthesis.getVoices() || []; }catch(e){ voices = []; }
+    }
+    if(supported){
+      load();
+      try{ window.speechSynthesis.addEventListener('voiceschanged', load); }catch(e){}
+    }
+
+    function pick(){
+      if(!voices.length) load();
+      var order = [/^zh[-_]HK/i, /^zh[-_]TW/i, /^zh[-_]CN/i, /^zh/i];
+      for(var i=0;i<order.length;i++){
+        for(var j=0;j<voices.length;j++){
+          if(order[i].test(voices[j].lang)) return voices[j];
+        }
+      }
+      return null;
+    }
+
+    return {
+      supported: supported,
+      say: function(text){
+        if(!supported) return false;
+        try{
+          window.speechSynthesis.cancel();
+          var u = new SpeechSynthesisUtterance(text);
+          var v = pick();
+          if(v){ u.voice = v; u.lang = v.lang; } else { u.lang = 'zh-TW'; }
+          u.rate = 0.8; u.pitch = 1.15; u.volume = 1;
+          window.speechSynthesis.speak(u);
+          return true;
+        }catch(e){ return false; }
+      },
+      stop: function(){
+        if(!supported) return;
+        try{ window.speechSynthesis.cancel(); }catch(e){}
+      }
+    };
+  })();
+
+  /* ================= 小工具 ================= */
+
+  function esc(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function shuffle(arr){
+    var a = arr.slice();
+    for(var i=a.length-1;i>0;i--){
+      var j = Math.floor(Math.random()*(i+1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function itemAt(level, stage, index){
+    return DATA[level].items[stage*STAGE_SIZE + index];
+  }
+  function currentItem(){
+    return itemAt(state.level, state.stage, state.index);
+  }
+  function starsFor(n){ return n >= 9 ? 3 : (n >= 7 ? 2 : 1); }
+
+  /* ================= 圖示 ================= */
+
+  function icon(name){
+    if(name === 'back'){
+      return '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4.5 7.5 12 15 19.5"/></svg>';
+    }
+    if(name === 'sound'){
+      return state.sound
+        ? '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.6L13 5.5v13L7.6 14.5H4z"/><path d="M16.4 8.4a5 5 0 0 1 0 7.2"/><path d="M18.8 6a8.4 8.4 0 0 1 0 12"/></svg>'
+        : '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.6L13 5.5v13L7.6 14.5H4z"/><path d="m17 9.5 5 5"/><path d="m22 9.5-5 5"/></svg>';
+    }
+    if(name === 'star-on'){
+      return '<svg viewBox="0 0 24 24" fill="#FFC93C" stroke="#4A3B2F" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l2.9 6 6.6.9-4.8 4.6 1.2 6.5-5.9-3.2-5.9 3.2 1.2-6.5L2.5 9.7l6.6-.9z"/></svg>';
+    }
+    if(name === 'star-off'){
+      return '<svg viewBox="0 0 24 24" fill="rgba(74,59,47,.07)" stroke="rgba(74,59,47,.3)" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l2.9 6 6.6.9-4.8 4.6 1.2 6.5-5.9-3.2-5.9 3.2 1.2-6.5L2.5 9.7l6.6-.9z"/></svg>';
+    }
+    if(name === 'play'){
+      return '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5.5v13l10-6.5z"/></svg>';
+    }
+    if(name === 'book'){
+      return '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20"/></svg>';
+    }
+    return '';
+  }
+
+  function bugHead(){
+    return '<svg viewBox="0 0 70 48" fill="none" aria-hidden="true">'
+      + '<path d="M24 21C19 11 14 8 8 8" stroke="#4A3B2F" stroke-width="3.4" stroke-linecap="round"/>'
+      + '<circle cx="7" cy="7" r="4.2" fill="#FFD976" stroke="#4A3B2F" stroke-width="2.8"/>'
+      + '<path d="M46 21C51 11 56 8 62 8" stroke="#4A3B2F" stroke-width="3.4" stroke-linecap="round"/>'
+      + '<circle cx="63" cy="7" r="4.2" fill="#FFD976" stroke="#4A3B2F" stroke-width="2.8"/>'
+      + '<ellipse cx="35" cy="29" rx="23" ry="18" fill="var(--bug)" stroke="#4A3B2F" stroke-width="3.2"/>'
+      + '<circle cx="27" cy="26" r="6.4" fill="#fff" stroke="#4A3B2F" stroke-width="2.6"/>'
+      + '<circle cx="28.4" cy="27" r="2.7" fill="#4A3B2F"/>'
+      + '<circle cx="43" cy="26" r="6.4" fill="#fff" stroke="#4A3B2F" stroke-width="2.6"/>'
+      + '<circle cx="44.4" cy="27" r="2.7" fill="#4A3B2F"/>'
+      + '<ellipse cx="19" cy="35" rx="4.6" ry="3" fill="#FF9C93" opacity=".7"/>'
+      + '<ellipse cx="51" cy="35" rx="4.6" ry="3" fill="#FF9C93" opacity=".7"/>'
+      + '<path d="M31 35q4 3.6 8 0" stroke="#4A3B2F" stroke-width="2.4" stroke-linecap="round"/>'
+      + '</svg>';
+  }
+
+  function mascot(variant){
+    var body = variant === 'sky' ? '#93C9F2' : '#8FDCC0';
+    return '<svg viewBox="0 0 110 110" fill="none" aria-hidden="true">'
+      + '<path d="M40 34C33 20 26 16 16 16" stroke="#4A3B2F" stroke-width="4" stroke-linecap="round"/>'
+      + '<circle cx="14" cy="14" r="6" fill="#FFD976" stroke="#4A3B2F" stroke-width="3.4"/>'
+      + '<path d="M70 34C77 20 84 16 94 16" stroke="#4A3B2F" stroke-width="4" stroke-linecap="round"/>'
+      + '<circle cx="96" cy="14" r="6" fill="#FFD976" stroke="#4A3B2F" stroke-width="3.4"/>'
+      + '<ellipse cx="55" cy="66" rx="36" ry="31" fill="'+body+'" stroke="#4A3B2F" stroke-width="4"/>'
+      + '<circle cx="55" cy="41" r="26" fill="'+body+'" stroke="#4A3B2F" stroke-width="4"/>'
+      + '<circle cx="45" cy="38" r="8" fill="#fff" stroke="#4A3B2F" stroke-width="3"/>'
+      + '<circle cx="47" cy="39.5" r="3.4" fill="#4A3B2F"/>'
+      + '<circle cx="65" cy="38" r="8" fill="#fff" stroke="#4A3B2F" stroke-width="3"/>'
+      + '<circle cx="67" cy="39.5" r="3.4" fill="#4A3B2F"/>'
+      + '<ellipse cx="35" cy="50" rx="6" ry="3.8" fill="#FF9C93" opacity=".7"/>'
+      + '<ellipse cx="75" cy="50" rx="6" ry="3.8" fill="#FF9C93" opacity=".7"/>'
+      + '<path d="M48 51q7 6 14 0" stroke="#4A3B2F" stroke-width="3.2" stroke-linecap="round"/>'
+      + '<path d="M33 92q-6 8-13 9" stroke="#4A3B2F" stroke-width="4" stroke-linecap="round"/>'
+      + '<path d="M77 92q6 8 13 9" stroke="#4A3B2F" stroke-width="4" stroke-linecap="round"/>'
+      + '</svg>';
+  }
+
+  function starRow(n){
+    var out = '';
+    for(var i=0;i<3;i++) out += icon(i < n ? 'star-on' : 'star-off');
+    return out;
+  }
+
+  /* ================= 畫面 ================= */
+
+  var app = document.getElementById('app');
+
+  function render(){
+    if(state.screen === 'home') app.innerHTML = homeHTML();
+    else if(state.screen === 'map') app.innerHTML = mapHTML();
+    else if(state.screen === 'play') app.innerHTML = playHTML();
+    else if(state.screen === 'book') app.innerHTML = bookHTML();
+    app.dataset.screen = state.screen;
+  }
+
+  function homeHTML(){
+    var total = learnedCount('junior') + learnedCount('senior');
+    return ''
+      + '<div class="screen home">'
+      +   '<header class="bar">'
+      +     '<div class="brand"><span class="brand-dots"><i></i><i></i><i></i></span>加法識字</div>'
+      +     '<div style="flex:1"></div>'
+      +     '<button class="icon-btn" data-act="toggle-sound" aria-label="'+(state.sound?'關閉音效':'開啟音效')+'">'+icon('sound')+'</button>'
+      +   '</header>'
+      +   '<div class="home-main">'
+      +     '<section class="hero">'
+      +       '<p class="eyebrow">識字 · 拼字 · 讀字</p>'
+      +       '<h1>兩個部件，<br>拼出<em>一個新字</em></h1>'
+      +       '<p class="lede">跟著小甲蟲，把偏旁和部件加起來。拼對了，字就會跳出來，還能聽聽它怎麼讀。</p>'
+      +       '<div class="hero-demo" aria-hidden="true">'
+      +         '<div class="mini-holder" style="--bug:#FFB49A">'
+      +           '<span class="mini-bug">'+bugHead()+'</span>'
+      +           '<div class="mini-tile">日</div>'
+      +         '</div>'
+      +         '<span class="mini-op">＋</span>'
+      +         '<div class="mini-holder" style="--bug:#8FDCC0">'
+      +           '<span class="mini-bug">'+bugHead()+'</span>'
+      +           '<div class="mini-tile">月</div>'
+      +         '</div>'
+      +         '<span class="mini-op">＝</span>'
+      +         '<div class="mini-tile result">明</div>'
+      +         '<span class="demo-note">例：日 ＋ 月</span>'
+      +       '</div>'
+      +     '</section>'
+      +     '<section class="levels">'
+      +       levelCard('junior') + levelCard('senior')
+      +       '<button class="book-entry" data-act="book" data-level="'+state.level+'">'
+      +         icon('book')+' 我的識字冊 <span>已認識 '+total+' / 60 個字</span>'
+      +       '</button>'
+      +       '<p class="foot-note">每個版本 3 關，每關 10 組 · 進度自動保存在這部裝置<br>建議家長或老師陪伴，一起把詞語讀出來</p>'
+      +     '</section>'
+      +   '</div>'
+      + '</div>';
+  }
+
+  function levelCard(key){
+    var lv = DATA[key];
+    var n = learnedCount(key);
+    var pct = Math.round(n / TOTAL * 100);
+    var starTotal = stars[key].reduce(function(a,b){return a+b;},0);
+    return ''
+      + '<button class="level-card '+key+'" data-act="level" data-level="'+key+'">'
+      +   '<span class="blob"></span>'
+      +   '<div class="lv-top">'
+      +     '<span class="lv-tag">'+lv.name+'</span>'
+      +     '<span style="font-size:12px;color:var(--ink-2);font-weight:700">'+lv.range+'</span>'
+      +     '<span class="lv-starcount">'+icon('star-on')+' '+starTotal+' / 9</span>'
+      +   '</div>'
+      +   '<div class="lv-name">'+(key==='junior' ? '基礎合體字' : '進階形聲字')+'</div>'
+      +   '<div class="lv-desc">'+(key==='junior' ? '從日月山水開始，看字形輪廓選出缺的部件。' : '從詞語提示推理部件，挑戰 30 個形聲字。')+'</div>'
+      +   '<div class="lv-bar"><i style="width:'+pct+'%"></i></div>'
+      +   '<div class="lv-meta"><span>已認識 '+n+' / '+TOTAL+' 個字</span><span>3 關 · 30 組</span></div>'
+      +   '<span class="lv-arrow">'+icon('back').replace('M15 4.5 7.5 12 15 19.5','M9 4.5 16.5 12 9 19.5')+'</span>'
+      + '</button>';
+  }
+
+  function mapHTML(){
+    var lv = DATA[state.level];
+    var n = learnedCount(state.level);
+    var cards = '';
+    for(var i=0;i<STAGE_COUNT;i++){
+      var items = lv.items.slice(i*STAGE_SIZE,(i+1)*STAGE_SIZE);
+      var preview = items.slice(0,3).map(function(x){return x.c;}).join(' · ');
+      cards += ''
+        + '<button class="stage-card'+(stars[state.level][i]>0?' cleared':'')+'" data-act="stage" data-stage="'+i+'">'
+        +   '<span class="stage-no">第 '+(i+1)+' 關</span>'
+        +   '<span class="stage-stars">'+starRow(stars[state.level][i])+'</span>'
+        +   '<span class="stage-words">'+preview+' …　共 10 字</span>'
+        +   '<span class="stage-go">'+(stars[state.level][i]>0?'再玩一次':'開始')+'</span>'
+        + '</button>';
+    }
+    return ''
+      + '<div class="screen">'
+      +   '<header class="bar">'
+      +     '<button class="icon-btn" data-act="home" aria-label="返回首頁">'+icon('back')+'</button>'
+      +     '<div class="bar-title">'+lv.name+' · 30 組</div>'
+      +     '<button class="icon-btn" data-act="toggle-sound" aria-label="'+(state.sound?'關閉音效':'開啟音效')+'">'+icon('sound')+'</button>'
+      +   '</header>'
+      +   '<div class="map-hero">'
+      +     '<div class="map-mascot">'+mascot(state.level==='junior'?'mint':'sky')+'</div>'
+      +     '<div class="map-copy">'
+      +       '<h2>選一個關卡</h2>'
+      +       '<p>每關 10 個字，拼對就會收進識字冊。<br>已認識 '+n+' / '+TOTAL+' 個字</p>'
+      +     '</div>'
+      +   '</div>'
+      +   '<div class="stages">'+cards+'</div>'
+      +   '<button class="book-entry" data-act="book" data-level="'+state.level+'">'+icon('book')+' 我的識字冊 <span>'+n+' / '+TOTAL+'</span></button>'
+      + '</div>';
+  }
+
+  function playHTML(){
+    var lv = DATA[state.level];
+    var fallbackIndex = Math.min(state.index, STAGE_SIZE - 1);
+    var item = currentItem() || itemAt(state.level, state.stage, fallbackIndex);
+    var isJunior = state.level === 'junior';
+    var dots = '';
+    for(var i=0;i<STAGE_SIZE;i++){
+      var cls = 'dot';
+      if(i < state.index || state.phase === 'done') cls += ' done';
+      if(i === state.index && state.phase !== 'done') cls += ' now';
+      dots += '<i class="'+cls+'"></i>';
+    }
+
+    var hint = isJunior
+      ? '<div class="hint"><p class="hint-main">把兩個部件加起來，拼成右邊的字</p></div>'
+      : '<div class="hint"><div class="hint-word">'+blankWord(item)+'</div><p class="hint-main">'+esc(item.meaning)+'</p></div>';
+
+    var choices = '';
+    shuffle(item.opts).forEach(function(o){
+      choices += '<button class="choice" data-act="choose" data-opt="'+esc(o)+'">'+esc(o)+'</button>';
+    });
+
+    var resultCls = isJunior ? 'tile tile-c ghost' : 'tile tile-c unknown';
+    var resultTxt = isJunior ? esc(item.c) : '？';
+
+    var overlay = '';
+    if(state.phase === 'done') overlay = resultHTML();
+
+    return ''
+      + '<div class="screen play">'
+      +   '<header class="bar">'
+      +     '<button class="icon-btn" data-act="map" aria-label="返回關卡">'+icon('back')+'</button>'
+      +     '<div class="bar-title">'+lv.name+' · 第 '+(state.stage+1)+' 關</div>'
+      +     '<button class="icon-btn" data-act="toggle-sound" aria-label="'+(state.sound?'關閉音效':'開啟音效')+'">'+icon('sound')+'</button>'
+      +   '</header>'
+      +   '<div class="play-wrap"'+(state.phase === 'done' ? ' inert aria-hidden="true"' : '')+'>'
+      +     '<div class="dots" aria-hidden="true">'+dots+'</div>'
+      +     hint
+      +     '<div class="stage" id="stage">'
+      +       '<div class="eq" id="eq">'
+      +         '<div class="holder" style="--bug:#FFB49A">'
+      +           '<span class="bughead">'+bugHead()+'</span>'
+      +           '<div class="tile tile-a">'+esc(item.a)+'</div>'
+      +         '</div>'
+      +         '<span class="op">＋</span>'
+      +         '<div class="holder" style="--bug:#8FDCC0">'
+      +           '<span class="bughead">'+bugHead()+'</span>'
+      +           '<div class="tile tile-b mystery" id="tileB">？</div>'
+      +         '</div>'
+      +         '<span class="op">＝</span>'
+      +         '<div class="holder">'
+      +           '<div class="'+resultCls+'" id="tileC">'+resultTxt+'</div>'
+      +         '</div>'
+      +       '</div>'
+      +     '</div>'
+      +     '<div class="choices" id="choices">'+choices+'</div>'
+      +     '<p class="feedback" id="feedback" aria-live="polite">選一個部件，看看會拼出什麼字</p>'
+      +     '<div class="learn" id="learn" hidden></div>'
+      +   '</div>'
+      +   overlay
+      + '</div>';
+  }
+
+  function blankWord(item){
+    var chars = item.word.split('');
+    var used = false;
+    return chars.map(function(ch){
+      if(ch === item.c && !used){
+        used = true;
+        return '<span class="blank">？</span>';
+      }
+      return '<span>'+esc(ch)+'</span>';
+    }).join('');
+  }
+
+  function resultHTML(){
+    var n = state.stageFirst;
+    var s = starsFor(n);
+    var isLast = state.stage === STAGE_COUNT - 1;
+    return ''
+      + '<div class="overlay">'
+      +   '<div class="backdrop"></div>'
+      +   '<div class="result-card" role="dialog" aria-modal="true" aria-label="關卡完成">'
+      +     '<span class="result-tag">關卡完成</span>'
+      +     '<h2>'+(s === 3 ? '太厲害了！' : '過關啦！')+'</h2>'
+      +     '<div class="big-stars">'+starRow(s)+'</div>'
+      +     '<p>第一次就答對 <strong>'+n+' / 10</strong> 題<br>已收集 '+learnedCount(state.level)+' / '+TOTAL+' 個字</p>'
+      +     '<div class="result-btns">'
+      +       (isLast
+              ? '<button class="btn primary" data-act="map">回關卡地圖</button>'
+              : '<button class="btn primary" data-act="next-stage">下一關</button>')
+      +       '<div class="row">'
+      +         '<button class="btn ghost-btn" data-act="replay">再玩一次</button>'
+      +         '<button class="btn ghost-btn" data-act="map">回地圖</button>'
+      +       '</div>'
+      +     '</div>'
+      +   '</div>'
+      + '</div>';
+  }
+
+  function bookHTML(){
+    var lv = DATA[state.bookLevel];
+    var list = learned[state.bookLevel];
+    var tiles = '';
+    lv.items.forEach(function(it, i){
+      var got = list.indexOf(it.c) > -1;
+      tiles += '<button class="char-btn '+(got?'learned':'locked')+'" '
+        + (got ? 'data-act="open-char" data-i="'+i+'" aria-label="查看 '+esc(it.c)+'"' : 'disabled aria-label="未收集"')
+        + '>'+esc(got ? it.c : '？')+'</button>';
+    });
+
+    var current = learned[state.bookLevel];
+    var sheetHTML = '';
+    if(state.sheet !== null){
+      var it = lv.items[state.sheet];
+      sheetHTML = ''
+        + '<div class="overlay">'
+        +   '<div class="backdrop" data-act="close-sheet"></div>'
+        +   '<div class="sheet" role="dialog" aria-modal="true" aria-label="'+esc(it.c)+' 的字卡">'
+        +     '<div class="sheet-char">'+esc(it.c)+'</div>'
+        +     '<div class="sheet-word">'+esc(it.word)+'</div>'
+        +     '<p class="sheet-sent">'+esc(it.sent)+'</p>'
+        +     '<div class="sheet-parts">'+esc(it.a)+' ＋ '+esc(it.b)+' ＝ '+esc(it.c)+'</div>'
+        +     '<p class="sheet-status" id="sheetStatus"></p>'
+        +     '<div class="sheet-btns">'
+        +       '<button class="btn ghost-btn" data-act="speak-char">'+icon('play')+' 聽一聽</button>'
+        +       '<button class="btn primary" data-act="close-sheet">關閉</button>'
+        +     '</div>'
+        +   '</div>'
+        + '</div>';
+    }
+
+    return ''
+      + '<div class="screen">'
+      +   '<header class="bar">'
+      +     '<button class="icon-btn" data-act="home" aria-label="返回首頁">'+icon('back')+'</button>'
+      +     '<div class="bar-title">我的識字冊</div>'
+      +     '<button class="icon-btn" data-act="toggle-sound" aria-label="'+(state.sound?'關閉音效':'開啟音效')+'">'+icon('sound')+'</button>'
+      +   '</header>'
+      +   '<div class="tabs" role="tablist">'
+      +     '<button class="tab" role="tab" aria-selected="'+(state.bookLevel==='junior')+'" data-act="book-tab" data-level="junior">初小版</button>'
+      +     '<button class="tab" role="tab" aria-selected="'+(state.bookLevel==='senior')+'" data-act="book-tab" data-level="senior">高小版</button>'
+      +   '</div>'
+      +   '<div class="book-grid">'+tiles+'</div>'
+      +   '<p class="book-count">'+lv.name+'：已收集 '+current.length+' / '+TOTAL+' 個字</p>'
+      +   sheetHTML
+      + '</div>';
+  }
+
+  /* ================= 動畫 ================= */
+
+  function burst(){
+    var stage = document.getElementById('stage');
+    if(!stage) return;
+    var colors = ['#FFD976','#FF8E7A','#8FDCC0','#93C9F2','#C9B8F0'];
+    for(var i=0;i<14;i++){
+      var s = document.createElement('i');
+      s.className = 'spark';
+      var ang = Math.random()*Math.PI*2;
+      var dist = 40 + Math.random()*70;
+      s.style.setProperty('--dx', (Math.cos(ang)*dist).toFixed(1)+'px');
+      s.style.setProperty('--dy', (Math.sin(ang)*dist).toFixed(1)+'px');
+      s.style.background = colors[i % colors.length];
+      s.style.animation = 'sparkFly '+(0.55+Math.random()*0.3)+'s ease-out forwards';
+      stage.appendChild(s);
+      (function(node){
+        setTimeout(function(){ if(node.parentNode) node.parentNode.removeChild(node); }, 950);
+      })(s);
+    }
+  }
+
+  /* ================= 流程 ================= */
+
+  function setScreen(name){
+    state.screen = name;
+    state.overlay = null;
+    render();
+    try{ window.scrollTo(0,0); }catch(e){}
+  }
+
+  function startStage(level, stage){
+    state.level = level;
+    state.stage = stage;
+    state.index = 0;
+    state.phase = 'ask';
+    state.firstTry = true;
+    state.stageFirst = 0;
+    lock = false;
+    Speech.stop();
+    setScreen('play');
+  }
+
+  function choose(opt, btn){
+    if(state.phase !== 'ask' || lock) return;
+    var item = currentItem();
+
+    if(opt === item.b){
+      lock = true;
+      Sfx.correct();
+      btn.classList.add('correct');
+
+      var tileB = document.getElementById('tileB');
+      var tileC = document.getElementById('tileC');
+      if(tileB){
+        tileB.textContent = item.b;
+        tileB.classList.remove('mystery');
+        tileB.classList.add('pop');
+      }
+      var all = document.querySelectorAll('.choice');
+      for(var i=0;i<all.length;i++) all[i].disabled = true;
+
+      setTimeout(function(){
+        Sfx.merge();
+        var eq = document.getElementById('eq');
+        if(eq) eq.classList.add('merged');
+        if(tileC){
+          tileC.textContent = item.c;
+          tileC.classList.remove('ghost','unknown');
+          tileC.classList.add('reveal');
+        }
+        burst();
+      }, 280);
+
+      setTimeout(function(){
+        state.phase = 'reveal';
+        if(state.firstTry) state.stageFirst++;
+        addLearned(item.c);
+        showLearn();
+        lock = false;
+      }, 900);
+      return;
+    }
+
+    state.firstTry = false;
+    btn.classList.add('wrong');
+    btn.disabled = true;
+    Sfx.wrong();
+    setFeedback('這個部件合起來不是這個字，再試試看', true);
+  }
+
+  function setFeedback(text, bad){
+    var el = document.getElementById('feedback');
+    if(!el) return;
+    el.textContent = text;
+    el.classList.remove('bad','good');
+    if(bad) el.classList.add('bad');
+  }
+
+  function showLearn(){
+    var item = currentItem();
+    var choices = document.getElementById('choices');
+    var learn = document.getElementById('learn');
+    var fb = document.getElementById('feedback');
+    if(choices) choices.hidden = true;
+    if(fb){ fb.textContent = '拼對了！'; fb.classList.remove('bad'); fb.classList.add('good'); }
+    if(!learn) return;
+
+    learn.hidden = false;
+    learn.innerHTML = ''
+      + '<div class="learn-head">'
+      +   '<div class="learn-char">'+esc(item.c)+'</div>'
+      +   '<div class="learn-info">'
+      +     '<div class="learn-word">'+esc(item.word)+'<span class="pill">'+esc(item.a)+' ＋ '+esc(item.b)+'</span></div>'
+      +     '<p class="learn-sent">'+esc(item.sent)+'</p>'
+      +   '</div>'
+      + '</div>'
+      + '<div class="learn-btns">'
+      +   '<button class="btn ghost-btn" data-act="speak">'+icon('play')+' 聽一聽</button>'
+      +   '<button class="btn primary" data-act="next">'+(state.index === STAGE_SIZE-1 ? '完成本關' : '下一個')+'</button>'
+      + '</div>';
+
+    if(state.sound){
+      setTimeout(function(){
+        if(state.phase === 'reveal') Speech.say(item.c + '，' + item.word);
+      }, 420);
+    }
+  }
+
+  function nextItem(){
+    if(state.phase !== 'reveal') return;
+    Speech.stop();
+    state.index++;
+    state.firstTry = true;
+    state.phase = 'ask';
+    lock = false;
+    if(state.index >= STAGE_SIZE){
+      finishStage();
+    }else{
+      render();
+      try{ window.scrollTo(0,0); }catch(e){}
+    }
+  }
+
+  function finishStage(){
+    var s = starsFor(state.stageFirst);
+    if(s > stars[state.level][state.stage]){
+      stars[state.level][state.stage] = s;
+    }
+    saveStore();
+    state.phase = 'done';
+    render();
+    Sfx.fanfare();
+  }
+
+  /* ================= 事件 ================= */
+
+  app.addEventListener('click', function(e){
+    var el = e.target.closest ? e.target.closest('[data-act]') : null;
+    if(!el || el.disabled) return;
+    var act = el.getAttribute('data-act');
+
+    if(act === 'level'){
+      state.level = el.getAttribute('data-level');
+      Sfx.tap();
+      setScreen('map');
+      return;
+    }
+    if(act === 'stage'){
+      startStage(state.level, parseInt(el.getAttribute('data-stage'),10) || 0);
+      Sfx.tap();
+      return;
+    }
+    if(act === 'home'){
+      Speech.stop();
+      Sfx.tap();
+      setScreen('home');
+      return;
+    }
+    if(act === 'map'){
+      Speech.stop();
+      Sfx.tap();
+      setScreen('map');
+      return;
+    }
+    if(act === 'book'){
+      var lv = el.getAttribute('data-level');
+      if(lv) state.bookLevel = lv;
+      state.sheet = null;
+      Sfx.tap();
+      setScreen('book');
+      return;
+    }
+    if(act === 'book-tab'){
+      state.bookLevel = el.getAttribute('data-level');
+      state.sheet = null;
+      Sfx.tap();
+      render();
+      return;
+    }
+    if(act === 'open-char'){
+      state.sheet = parseInt(el.getAttribute('data-i'),10) || 0;
+      Sfx.pop();
+      render();
+      return;
+    }
+    if(act === 'close-sheet'){
+      state.sheet = null;
+      render();
+      return;
+    }
+    if(act === 'speak-char'){
+      var it = DATA[state.bookLevel].items[state.sheet];
+      var ok = Speech.say(it.c + '，' + it.word);
+      var st = document.getElementById('sheetStatus');
+      if(st) st.textContent = ok ? '正在朗讀：' + it.word : '這個裝置暫時不能朗讀，請跟著大人讀一遍。';
+      return;
+    }
+    if(act === 'choose'){
+      choose(el.getAttribute('data-opt'), el);
+      return;
+    }
+    if(act === 'speak'){
+      var item = currentItem();
+      var good = Speech.say(item.c + '，' + item.word);
+      if(!good) setFeedback('這個裝置暫時不能朗讀，請跟著大人讀一遍', true);
+      return;
+    }
+    if(act === 'next'){
+      nextItem();
+      return;
+    }
+    if(act === 'replay'){
+      startStage(state.level, state.stage);
+      return;
+    }
+    if(act === 'next-stage'){
+      var nxt = Math.min(state.stage + 1, STAGE_COUNT - 1);
+      startStage(state.level, nxt);
+      return;
+    }
+    if(act === 'toggle-sound'){
+      state.sound = !state.sound;
+      saveStore();
+      if(!state.sound) Speech.stop();
+      else Sfx.tap();
+      var soundBtns = document.querySelectorAll('[data-act="toggle-sound"]');
+      for(var si=0; si<soundBtns.length; si++){
+        soundBtns[si].innerHTML = icon('sound');
+        soundBtns[si].setAttribute('aria-label', state.sound ? '關閉音效' : '開啟音效');
+      }
+      return;
+    }
+  });
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){
+      if(state.sheet !== null){
+        state.sheet = null;
+        render();
+      }
+    }
+  });
+
+  /* ================= 啟動 ================= */
+
+  loadStore();
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>文言小偵探 · 語氣詞大冒險</title>
+<meta name="description" content="小學文言文語氣詞互動學習遊戲：七個常用語氣詞圖文教學，兩種互動遊戲各十道不重複題目，即時解釋，適合手機、平板及電腦。">
+<style>
+:root{
+  --paper:#FBF3E4;
+  --card:#FFFCF5;
+  --ink:#3A302A;
+  --ink-2:#6E6055;
+  --line:#E6D5BB;
+  --green:#2F7A5E;
+  --green-d:#245C47;
+  --green-l:#DCEFE4;
+  --orange:#E4694B;
+  --orange-d:#B4442B;
+  --orange-l:#FBE2D9;
+  --gold:#F0B03F;
+  --gold-l:#FCEBC8;
+  --blue:#5FA8D3;
+  --blue-l:#DFF0F8;
+  --radius:1.35rem;
+  --shadow-hard:0 .32rem 0 rgba(58,48,42,.13);
+  --font-ui:"PingFang TC","Hiragino Sans TC","Microsoft JhengHei","Noto Sans TC","Heiti TC",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-kai:"Kaiti TC","Kaiti SC","BiauKai","DFKai-SB","KaiTi","STKaiti","Songti TC","Noto Serif TC",serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{
+  font-size:clamp(16px,1.05vw + 9.6px,20px);
+  -webkit-text-size-adjust:100%;
+  scroll-behavior:smooth;
+  scroll-padding-top:calc(var(--hdr, 4.4rem) + 1rem);
+}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:var(--font-ui);
+  color:var(--ink);
+  background-color:var(--paper);
+  background-image:
+    radial-gradient(circle at 10% 4%, #FDEBCF 0%, rgba(253,235,207,0) 40%),
+    radial-gradient(circle at 92% 2%, #E2F1E7 0%, rgba(226,241,231,0) 36%),
+    radial-gradient(circle at 50% 100%, #F7E6CE 0%, rgba(247,230,206,0) 45%);
+  background-attachment:fixed;
+  line-height:1.6;
+}
+p{margin:0}
+button{font-family:inherit}
+
+/* ---------- layout ---------- */
+.wrap{
+  width:100%;
+  max-width:74rem;
+  margin-inline:auto;
+  padding-inline:clamp(.9rem,3.2vw,1.8rem);
+}
+main[data-generated-by]{position:relative;z-index:1;padding-bottom:3.5rem}
+.view{display:none}
+.view.is-active{display:block;animation:viewIn .3s ease both}
+@keyframes viewIn{from{opacity:0;transform:translateY(.6rem)}to{opacity:1;transform:none}}
+
+/* ---------- topbar ---------- */
+.topbar{
+  position:sticky;top:0;z-index:40;
+  background:rgba(251,243,228,.94);
+  border-bottom:2px solid var(--line);
+  box-shadow:0 .3rem 1rem rgba(58,48,42,.06);
+}
+.topbar-inner{
+  display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .8rem;
+  max-width:74rem;margin-inline:auto;
+  padding:.55rem clamp(.9rem,3.2vw,1.8rem);
+}
+.brand{
+  display:inline-flex;align-items:center;gap:.5rem;
+  border:none;background:none;padding:.2rem;cursor:pointer;
+  font-weight:800;font-size:1.05rem;color:var(--ink);letter-spacing:.02em;
+}
+.brand:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:.6rem}
+.brand-mark{width:2.1rem;height:2.1rem;flex:none;display:block}
+.brand-sub{display:block;font-size:.62rem;font-weight:600;color:var(--ink-2);letter-spacing:.1em;line-height:1.4}
+.brand-txt{display:flex;flex-direction:column;align-items:flex-start;line-height:1.15}
+.nav{
+  order:3;width:100%;
+  display:flex;gap:.3rem;
+  overflow-x:auto;overflow-y:hidden;
+  padding-bottom:.15rem;
+  scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{
+  flex:none;
+  border:2px solid transparent;background:transparent;
+  color:var(--ink-2);font-weight:700;font-size:.95rem;
+  padding:.5rem .8rem;border-radius:999px;cursor:pointer;
+  min-height:2.6rem;white-space:nowrap;
+  transition:background .18s,color .18s,border-color .18s;
+}
+.nav-btn:hover{background:#F5E7CF;color:var(--ink)}
+.nav-btn.is-on{background:var(--green);border-color:var(--green-d);color:#FFFDF7}
+.nav-btn:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.sound-btn{
+  margin-left:auto;flex:none;
+  border:2px solid var(--line);background:var(--card);
+  color:var(--ink);font-weight:700;font-size:.88rem;
+  padding:.45rem .8rem;border-radius:999px;cursor:pointer;
+  min-height:2.5rem;
+}
+.sound-btn[aria-pressed="false"]{color:var(--ink-2);background:#F2E7D6}
+.sound-btn:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+
+/* ---------- generic ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  font-size:1.02rem;font-weight:800;line-height:1.25;text-align:center;
+  padding:.8rem 1.5rem;border-radius:999px;
+  border:2px solid var(--ink);background:var(--card);color:var(--ink);
+  box-shadow:0 .26rem 0 var(--ink);cursor:pointer;
+  min-height:3rem;
+  transition:transform .12s ease, box-shadow .12s ease, background .18s;
+}
+.btn:hover{transform:translateY(-.1rem)}
+.btn:active{transform:translateY(.18rem);box-shadow:0 .06rem 0 var(--ink)}
+.btn:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.btn-primary{background:var(--green);border-color:var(--green-d);color:#FFFDF7;box-shadow:0 .26rem 0 var(--green-d)}
+.btn-primary:active{box-shadow:0 .06rem 0 var(--green-d)}
+.btn-gold{background:var(--gold);border-color:#C08A22;color:#3A302A;box-shadow:0 .26rem 0 #C08A22}
+.btn-gold:active{box-shadow:0 .06rem 0 #C08A22}
+.btn-ghost{background:#FFF7E7}
+.btn-sm{font-size:.9rem;padding:.55rem 1.1rem;min-height:2.6rem;box-shadow:0 .18rem 0 var(--ink)}
+.eyebrow{
+  display:inline-block;
+  font-size:.78rem;font-weight:800;letter-spacing:.18em;
+  color:var(--green-d);background:var(--green-l);
+  padding:.3rem .8rem;border-radius:999px;
+  text-transform:uppercase;
+}
+.section-head{display:grid;gap:.5rem;margin-bottom:clamp(1rem,2.4vw,1.6rem)}
+.section-head h2{
+  margin:0;font-size:clamp(1.5rem,3.4vw,2.2rem);line-height:1.3;letter-spacing:.01em;
+}
+.section-head p{color:var(--ink-2);font-size:1rem;max-width:46rem}
+.panel{
+  background:var(--card);border:2px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow-hard);padding:clamp(1rem,2.6vw,1.7rem);
+}
+
+/* ---------- hero ---------- */
+.hero{
+  display:grid;grid-template-columns:1fr;gap:1rem;align-items:center;
+  padding-block:clamp(1rem,3vw,2.2rem);
+}
+.hero-copy{display:grid;gap:1rem;justify-items:start}
+.hero h1{
+  margin:0;
+  font-size:clamp(2rem,6.4vw,3.9rem);
+  line-height:1.15;
+  letter-spacing:.01em;
+  font-weight:900;
+}
+.hero h1 span{color:var(--green-d)}
+.lede{font-size:clamp(1rem,2vw,1.15rem);color:var(--ink-2);line-height:1.85;max-width:34rem}
+.hero-actions{display:flex;flex-wrap:wrap;gap:.7rem;width:100%}
+.hero-facts{
+  list-style:none;display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;
+  padding:0;margin:.2rem 0 0;color:var(--ink-2);font-size:.92rem;
+}
+.hero-facts strong{color:var(--ink);font-size:1.25rem;margin-right:.2rem}
+.hero-art{
+  position:relative;
+  display:flex;justify-content:center;align-items:center;
+  padding-block:0;
+}
+.hero-svg{width:min(100%,30rem);height:auto;display:block;filter:drop-shadow(0 1rem 1.6rem rgba(58,48,42,.10))}
+.bubble-text{font-family:var(--font-kai);font-weight:700}
+
+/* ---------- entry cards ---------- */
+.entry-grid{display:grid;grid-template-columns:1fr;gap:.9rem;margin-top:clamp(1rem,3vw,1.8rem)}
+.entry{
+  display:grid;gap:.4rem;align-content:start;text-align:left;
+  background:var(--card);border:2px solid var(--line);border-radius:1.15rem;
+  box-shadow:var(--shadow-hard);padding:1.05rem 1.1rem;
+  cursor:pointer;color:inherit;font-family:inherit;
+  transition:transform .16s ease,border-color .16s ease;
+  min-height:100%;
+}
+.entry:hover{transform:translateY(-.2rem);border-color:#D8BE99}
+.entry:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.entry-top{display:flex;align-items:center;gap:.55rem}
+.entry-icon{width:2.4rem;height:2.4rem;flex:none}
+.entry h3{margin:0;font-size:1.18rem;line-height:1.3}
+.entry p{color:var(--ink-2);font-size:.95rem;line-height:1.7}
+.entry-tag{font-size:.75rem;font-weight:800;letter-spacing:.1em;color:var(--green-d);background:var(--green-l);padding:.15rem .55rem;border-radius:999px;justify-self:start;margin-top:.2rem}
+.entry-tag.orange{color:var(--orange-d);background:var(--orange-l)}
+.entry-tag.gold{color:#8A6414;background:var(--gold-l)}
+
+/* ---------- learn ---------- */
+.teach-grid{
+  display:grid;gap:1rem;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,14.5rem),1fr));
+}
+.tcard{
+  position:relative;padding:0;overflow:hidden;
+  background:var(--card);border:2px solid var(--line);border-radius:1.2rem;
+  box-shadow:var(--shadow-hard);cursor:pointer;text-align:left;color:inherit;font-family:inherit;
+  display:flex;flex-direction:column;
+  transition:transform .16s ease,border-color .16s ease;
+}
+.tcard:hover{transform:translateY(-.22rem);border-color:#D8BE99}
+.tcard:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.tcard-art{
+  position:relative;
+  height:clamp(10rem,30vw,11.5rem);
+  background:linear-gradient(180deg,#FDEBCF 0%,#FFF7E7 100%);
+  border-bottom:2px solid var(--line);
+  display:flex;align-items:flex-end;justify-content:center;
+  overflow:hidden;
+}
+.tcard-art svg{height:94%;width:auto;display:block;transform:translateY(.2rem);position:relative;z-index:1}
+.tcard-char{
+  position:absolute;right:.55rem;top:.1rem;
+  font-family:var(--font-kai);font-size:clamp(2.6rem,8vw,3.7rem);
+  line-height:1;color:rgba(58,48,42,.12);font-weight:700;z-index:0;
+}
+.tcard-body{padding:.85rem 1rem 1.05rem;display:grid;gap:.2rem}
+.tcard-title{display:flex;align-items:baseline;gap:.5rem}
+.tcard-title b{font-family:var(--font-kai);font-size:1.8rem;line-height:1.2}
+.tcard-title span{font-size:1rem;color:var(--ink-2);font-weight:700}
+.tcard-meaning{font-size:1.1rem;color:var(--green-d);font-weight:800}
+.tcard-hint{font-size:.95rem;color:var(--ink-2);line-height:1.6}
+.learned-badge{
+  position:absolute;left:.6rem;top:.55rem;
+  background:var(--green);color:#FFFDF7;
+  font-size:.7rem;font-weight:800;letter-spacing:.08em;
+  padding:.16rem .5rem;border-radius:999px;
+  display:flex;align-items:center;gap:.25rem;
+  box-shadow:0 .12rem 0 var(--green-d);
+}
+.learn-progress{
+  display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;
+  margin-top:1rem;font-size:.92rem;color:var(--ink-2);font-weight:700;
+}
+.learn-progress .track{flex:1 1 8rem;height:.6rem;background:#EFE1C9;border-radius:999px;overflow:hidden;min-width:6rem}
+.learn-progress .track i{display:block;height:100%;background:var(--green);transition:width .35s ease}
+
+/* ---------- lesson dialog ---------- */
+dialog.lesson{
+  border:none;padding:0;margin:auto;
+  width:min(93vw,38rem);max-width:none;max-height:90vh;max-height:90dvh;
+  background:var(--card);color:var(--ink);
+  border-radius:1.4rem;
+  box-shadow:0 1.4rem 3.4rem rgba(58,48,42,.34);
+  overflow:hidden;
+}
+dialog.lesson::backdrop{background:rgba(48,39,33,.52)}
+.lesson-scroll{
+  max-height:calc(90vh - 2px);max-height:calc(90dvh - 2px);overflow-y:auto;overscroll-behavior:contain;
+  padding:clamp(1rem,3vw,1.6rem);
+  padding-bottom:calc(clamp(1rem,3vw,1.6rem) + env(safe-area-inset-bottom));
+  display:grid;gap:.9rem;
+}
+.lesson-top{display:flex;align-items:flex-start;gap:.9rem}
+.lesson-glyph{
+  flex:none;width:clamp(4.2rem,16vw,5.4rem);height:clamp(4.2rem,16vw,5.4rem);
+  border-radius:1.1rem;background:linear-gradient(160deg,#FDEBCF,#FCEBC8);
+  border:2px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-kai);font-size:clamp(2.4rem,9vw,3.2rem);font-weight:700;line-height:1;
+}
+.lesson-head-txt{display:grid;gap:.15rem;flex:1;min-width:0}
+.lesson-head-txt h3{margin:0;font-size:1.25rem;line-height:1.35}
+.lesson-head-txt .say{font-size:.9rem;color:var(--ink-2)}
+.lesson-close{
+  flex:none;margin-left:auto;
+  width:2.7rem;height:2.7rem;border-radius:999px;
+  border:2px solid var(--line);background:#FFF7E7;color:var(--ink);
+  font-size:1.2rem;font-weight:800;cursor:pointer;line-height:1;
+}
+.lesson-close:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.lesson-block{display:grid;gap:.35rem}
+.lesson-block h4{margin:0;font-size:.82rem;letter-spacing:.14em;color:var(--green-d);font-weight:800}
+.lesson-block p{font-size:1rem;line-height:1.8}
+.lesson-points{list-style:none;margin:0;padding:0;display:grid;gap:.4rem}
+.lesson-points li{
+  position:relative;padding-left:1.15rem;font-size:.98rem;line-height:1.7;color:var(--ink-2);
+}
+.lesson-points li::before{
+  content:'';position:absolute;left:0;top:.62rem;width:.5rem;height:.5rem;border-radius:999px;background:var(--gold);
+}
+.example{
+  background:#FFF8E9;border:2px solid var(--line);border-radius:.9rem;
+  padding:.7rem .9rem;display:grid;gap:.3rem;
+}
+.example .ex-s{font-family:var(--font-kai);font-size:1.22rem;line-height:1.65}
+.example .ex-p{font-size:.94rem;color:var(--ink-2);line-height:1.7}
+.example .ex-src{font-size:.78rem;color:#9A8771;letter-spacing:.04em}
+.tip-box{
+  background:var(--blue-l);border:2px solid #B9DCEC;border-radius:.9rem;
+  padding:.7rem .9rem;font-size:.95rem;line-height:1.75;color:#25566E;
+}
+.lesson-actions{display:flex;flex-wrap:wrap;gap:.6rem}
+.lesson-note{font-size:.82rem;color:var(--ink-2)}
+
+/* ---------- quiz ---------- */
+#view-gameA .wrap,#view-gameB .wrap{
+  min-height:calc(100vh - var(--hdr,4.4rem));
+  display:flex;flex-direction:column;
+  padding-bottom:clamp(1.2rem,3vw,2.4rem);
+}
+.quiz-shell{width:100%;max-width:52rem;margin:auto;display:grid;gap:1rem}
+.quiz-top{display:grid;gap:.5rem}
+.quiz-meta{display:flex;align-items:baseline;justify-content:space-between;gap:.8rem;flex-wrap:wrap}
+.quiz-meta h2{margin:0;font-size:clamp(1.25rem,2.6vw,1.65rem);line-height:1.3}
+.quiz-count{font-weight:800;font-size:.95rem;color:var(--ink-2);white-space:nowrap}
+.progress{height:.72rem;border-radius:999px;background:#EFE1C9;border:2px solid var(--line);overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--orange));transition:width .35s ease}
+.qcard{
+  background:var(--card);border:2px solid var(--line);border-radius:1.35rem;
+  box-shadow:var(--shadow-hard);
+  padding:clamp(1rem,3.2vw,1.9rem);
+  display:grid;gap:clamp(.9rem,2.4vw,1.3rem);
+}
+.q-tag{
+  justify-self:center;
+  font-size:.82rem;font-weight:800;letter-spacing:.08em;color:var(--green-d);
+  background:var(--green-l);padding:.25rem .8rem;border-radius:999px;
+}
+.q-sentence{
+  font-family:var(--font-kai);
+  font-size:clamp(1.55rem,4.2vw,2.55rem);
+  line-height:1.75;
+  letter-spacing:.02em;
+  text-align:center;
+  margin:0;
+  overflow-wrap:break-word;
+}
+.blank{
+  display:inline-block;min-width:2.4em;
+  border-bottom:.16em solid var(--gold);
+  color:var(--gold);text-align:center;line-height:1.2;
+}
+.blank.is-filled{color:var(--green);border-bottom-color:var(--green)}
+.mark{
+  font-style:normal;color:var(--orange-d);position:relative;padding-inline:.05em;
+}
+.mark::after{
+  content:'';position:absolute;left:0;right:0;bottom:.02em;height:.14em;
+  background:var(--orange);opacity:.55;border-radius:2px;
+}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}
+.opt{
+  position:relative;
+  font-size:clamp(1.02rem,2.4vw,1.22rem);font-weight:800;
+  padding:.85rem .6rem;min-height:3.5rem;
+  border-radius:1rem;border:2px solid var(--line);
+  background:#FFF9EC;color:var(--ink);
+  box-shadow:0 .2rem 0 rgba(58,48,42,.1);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:.3rem;
+  transition:transform .12s ease,background .18s,border-color .18s,box-shadow .12s;
+  overflow-wrap:break-word;line-height:1.3;
+}
+.opt.is-char{font-family:var(--font-kai);font-size:clamp(1.6rem,3.8vw,2.1rem)}
+.opt:hover:not(:disabled){background:#FFF2D8;border-color:#DCC29B;transform:translateY(-.1rem)}
+.opt:active:not(:disabled){transform:translateY(.1rem);box-shadow:0 .06rem 0 rgba(58,48,42,.1)}
+.opt:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.opt:disabled{cursor:default}
+.opt.is-correct{background:var(--green-l);border-color:var(--green);color:var(--green-d);box-shadow:0 .2rem 0 rgba(47,122,94,.3)}
+.opt.is-correct::after{content:'✓';font-size:1.05em;font-weight:900}
+.opt.is-wrong{background:var(--orange-l);border-color:var(--orange);color:var(--orange-d);box-shadow:0 .2rem 0 rgba(228,105,75,.3)}
+.opt.is-wrong::after{content:'✕';font-size:1.05em;font-weight:900}
+.opt.is-dim{opacity:.62}
+.feedback{
+  border:2px dashed #D9C3A2;border-radius:1rem;
+  background:#FFFBF0;padding:clamp(.85rem,2.4vw,1.1rem);
+  display:grid;gap:.65rem;
+  animation:fbIn .28s ease both;
+}
+@keyframes fbIn{from{opacity:0;transform:translateY(.4rem)}to{opacity:1;transform:none}}
+.fb-head{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}
+.fb-badge{
+  flex:none;width:2rem;height:2rem;border-radius:999px;
+  display:flex;align-items:center;justify-content:center;
+  color:#FFFDF7;font-weight:900;font-size:1.1rem;line-height:1;
+}
+.fb-badge.ok{background:var(--green);box-shadow:0 .15rem 0 var(--green-d)}
+.fb-badge.no{background:var(--orange);box-shadow:0 .15rem 0 var(--orange-d)}
+.fb-head strong{font-size:1.12rem;line-height:1.4}
+.fb-head .answer-chip{
+  font-family:var(--font-kai);font-size:1.35rem;font-weight:700;
+  color:var(--green-d);background:var(--green-l);border-radius:.55rem;padding:.05rem .55rem;
+}
+.fb-block{display:grid;gap:.2rem}
+.fb-block h4{margin:0;font-size:.76rem;letter-spacing:.14em;color:#9A8771;font-weight:800}
+.fb-block p{font-size:1rem;line-height:1.8}
+.fb-plain{background:#FFF2DC;border-radius:.75rem;padding:.6rem .8rem;font-size:.98rem;line-height:1.8}
+.fb-src{font-size:.8rem;color:#9A8771;letter-spacing:.03em}
+.fb-actions{display:flex;justify-content:flex-end;gap:.6rem;flex-wrap:wrap;margin-top:.15rem}
+
+/* ---------- start / result ---------- */
+.start-card{
+  display:grid;gap:1rem;justify-items:center;text-align:center;
+  background:var(--card);border:2px solid var(--line);border-radius:1.35rem;
+  box-shadow:var(--shadow-hard);padding:clamp(1.2rem,4vw,2.4rem);
+}
+.start-card h2{margin:0;font-size:clamp(1.4rem,3.4vw,2rem)}
+.start-card p{color:var(--ink-2);max-width:32rem;line-height:1.8}
+.start-art{width:min(60%,14rem);height:auto}
+.mode-rules{
+  display:grid;gap:.5rem;width:100%;max-width:34rem;text-align:left;
+  background:#FFF8E9;border:2px solid var(--line);border-radius:.9rem;padding:.85rem 1rem;
+}
+.mode-rules div{display:flex;gap:.55rem;align-items:flex-start;font-size:.95rem;line-height:1.7;color:var(--ink-2)}
+.mode-rules b{color:var(--ink);flex:none}
+.dot{width:.55rem;height:.55rem;border-radius:999px;background:var(--gold);flex:none;margin-top:.55rem}
+.result-card{
+  display:grid;gap:.9rem;justify-items:center;text-align:center;
+  background:var(--card);border:2px solid var(--line);border-radius:1.35rem;
+  box-shadow:var(--shadow-hard);padding:clamp(1.2rem,4vw,2.4rem);
+}
+.result-score{
+  display:flex;align-items:baseline;gap:.35rem;justify-content:center;
+  font-weight:900;line-height:1;
+}
+.result-score b{font-size:clamp(3rem,10vw,4.4rem);color:var(--green-d)}
+.result-score span{font-size:1.1rem;color:var(--ink-2);font-weight:700}
+.stars{display:flex;gap:.45rem;align-items:center;justify-content:center}
+.stars svg{width:clamp(2.2rem,7vw,3rem);height:auto;display:block}
+.stars .star-on{color:var(--gold)}
+.stars .star-off{color:#E7D8BF}
+.result-msg{font-size:1.05rem;color:var(--ink-2);max-width:30rem;line-height:1.8}
+.result-actions{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;width:100%;max-width:26rem}
+.result-actions .btn{width:100%}
+.result-actions .btn:last-child{grid-column:1 / -1}
+@media (max-width:400px){.result-actions{grid-template-columns:1fr}.result-actions .btn:last-child{grid-column:auto}}
+.result-sub{font-size:.9rem;color:#9A8771}
+
+/* ---------- plan page ---------- */
+.plan-grid{display:grid;gap:1rem;grid-template-columns:1fr}
+.plan-card{
+  background:var(--card);border:2px solid var(--line);border-radius:1.15rem;
+  box-shadow:var(--shadow-hard);padding:clamp(1rem,2.6vw,1.5rem);
+  display:grid;gap:.6rem;align-content:start;
+}
+.plan-card h3{margin:0;font-size:1.2rem;display:flex;align-items:center;gap:.5rem;line-height:1.4}
+.plan-num{
+  flex:none;width:1.9rem;height:1.9rem;border-radius:.55rem;
+  background:var(--green);color:#FFFDF7;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.98rem;font-weight:900;
+}
+.plan-card p{font-size:.97rem;line-height:1.8;color:var(--ink-2)}
+.plan-list{list-style:none;margin:0;padding:0;display:grid;gap:.45rem}
+.plan-list li{
+  position:relative;padding-left:1.1rem;font-size:.95rem;line-height:1.75;color:var(--ink-2);
+}
+.plan-list li::before{
+  content:'';position:absolute;left:0;top:.62rem;width:.45rem;height:.45rem;border-radius:999px;background:var(--gold);
+}
+.plan-list b{color:var(--ink)}
+.flow{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;font-size:.9rem;font-weight:700}
+.flow-node{
+  background:#FFF3DC;border:2px solid var(--line);border-radius:.6rem;padding:.3rem .65rem;color:var(--ink);
+}
+.flow-arrow{color:#B69B78;font-weight:900}
+.table-scroll{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.plan-table{border-collapse:collapse;width:100%;min-width:28rem;font-size:.93rem}
+table.plan-table th,table.plan-table td{
+  border-bottom:1px solid var(--line);padding:.55rem .6rem;text-align:left;vertical-align:top;line-height:1.7;
+}
+table.plan-table th{background:#FFF8E9;color:var(--green-d);font-size:.85rem;letter-spacing:.05em;white-space:nowrap}
+table.plan-table td:first-child{font-weight:800;white-space:nowrap;color:var(--ink)}
+table.plan-table tr:last-child td{border-bottom:none}
+
+/* ---------- demo band ---------- */
+.demo-band{
+  margin-top:clamp(1.4rem,3vw,2.2rem);
+  padding:clamp(1.1rem,3vw,1.8rem);
+  background:var(--card);border:2px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow-hard);
+}
+.demo-intro{display:grid;gap:.45rem;margin-bottom:1rem;justify-items:start}
+.demo-intro h2{margin:0;font-size:clamp(1.3rem,3vw,1.8rem);line-height:1.35}
+.demo-intro p{color:var(--ink-2);font-size:.96rem;max-width:46rem;line-height:1.8}
+.demo-cards{display:grid;gap:.8rem;grid-template-columns:1fr}
+.demo-item{
+  background:#FFF8E9;border:2px solid var(--line);border-radius:1rem;
+  padding:.9rem 1rem;display:grid;gap:.4rem;align-content:start;
+}
+.demo-tag{
+  justify-self:start;font-size:.75rem;font-weight:800;letter-spacing:.08em;
+  color:var(--green-d);background:var(--green-l);padding:.15rem .6rem;border-radius:999px;
+}
+.demo-s{font-family:var(--font-kai);font-size:clamp(1.2rem,2.4vw,1.45rem);line-height:1.62}
+.demo-p{color:var(--ink-2);font-size:.95rem;line-height:1.75}
+@media (min-width:760px){.demo-cards{grid-template-columns:1fr 1fr}}
+
+/* ---------- footer ---------- */
+.foot{
+  margin-top:2.5rem;padding-top:1.2rem;border-top:2px dashed var(--line);
+  display:flex;flex-wrap:wrap;gap:.6rem;justify-content:space-between;align-items:center;
+  font-size:.85rem;color:#9A8771;
+}
+.foot button{
+  border:none;background:none;color:var(--green-d);font-weight:800;cursor:pointer;
+  font-size:.85rem;padding:.3rem .2rem;text-decoration:underline;text-underline-offset:.2em;
+}
+
+/* ---------- responsive ---------- */
+@media (min-width:760px){
+  .nav{order:2;width:auto;margin-left:auto;overflow:visible}
+  .sound-btn{order:3;margin-left:0}
+  .entry-grid{grid-template-columns:repeat(3,1fr)}
+  .plan-grid{grid-template-columns:1fr 1fr}
+}
+@media (min-width:900px){
+  .hero{grid-template-columns:1.02fr .98fr;gap:2.8rem;padding-block:2.6rem}
+  .hero h1{font-size:clamp(2.4rem,5vw,3.5rem)}
+  .hero-copy{max-width:32rem}
+}
+@media (max-width:420px){
+  .options{grid-template-columns:1fr 1fr}
+  .opt{padding:.75rem .4rem;font-size:1rem}
+  .nav-btn{padding:.45rem .6rem;font-size:.9rem}
+  .brand-sub{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<main data-generated-by="vibe-coding-frontend-design">
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="brand" type="button" data-nav="home" aria-label="回到首頁">
+      <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true">
+        <rect x="3" y="3" width="42" height="42" rx="13" fill="#2F7A5E"/>
+        <path d="M15 15h18M15 24h18M15 33h11" stroke="#FFF7E7" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="34" cy="33" r="4.5" fill="#F0B03F"/>
+      </svg>
+      <span class="brand-txt">
+        <span>文言小偵探</span>
+        <span class="brand-sub">語氣詞大冒險</span>
+      </span>
+    </button>
+
+    <nav class="nav" id="mainNav" aria-label="主要導覽">
+      <button class="nav-btn is-on" type="button" data-nav="home">首頁</button>
+      <button class="nav-btn" type="button" data-nav="learn">學一學</button>
+      <button class="nav-btn" type="button" data-nav="gameA">遊戲一</button>
+      <button class="nav-btn" type="button" data-nav="gameB">遊戲二</button>
+      <button class="nav-btn" type="button" data-nav="plan">設計說明</button>
+    </nav>
+
+    <button class="sound-btn" type="button" id="soundBtn" aria-pressed="true">音效：開</button>
+  </div>
+</header>
+
+<!-- ============ 首頁 ============ -->
+<section class="view is-active" id="view-home">
+  <div class="wrap">
+    <div class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">小學文言文 · 語氣詞</span>
+        <h1>文言小偵探<br><span>語氣詞大冒險</span></h1>
+        <p class="lede">古人說話，句尾藏着心情。<br>學會「乎、矣、焉、也、哉、耳、夫」七個小幫手，你就能聽懂二千年前的人在說甚麼。</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" type="button" data-nav="learn">先學一學</button>
+          <button class="btn btn-ghost" type="button" data-nav="gameA">直接挑戰</button>
+        </div>
+        <ul class="hero-facts">
+          <li><strong>7</strong>個常用語氣詞</li>
+          <li><strong>2</strong>種遊戲模式</li>
+          <li><strong>20</strong>道不重複題目</li>
+        </ul>
+      </div>
+
+      <div class="hero-art">
+        <svg class="hero-svg" viewBox="0 0 420 380" role="img" aria-label="卡通小書生小文捧着書卷，旁邊有一個寫着「乎？」的對話泡泡">
+          <circle cx="210" cy="196" r="170" fill="#FDEBCF"/>
+          <circle cx="210" cy="196" r="142" fill="#FFF7E7"/>
+          <g fill="#E2F0E5">
+            <ellipse cx="92" cy="96" rx="36" ry="17"/>
+            <circle cx="80" cy="86" r="16"/>
+            <circle cx="106" cy="83" r="19"/>
+            <circle cx="126" cy="92" r="12"/>
+          </g>
+          <g fill="#EFE0C6">
+            <ellipse cx="336" cy="252" rx="30" ry="13"/>
+            <circle cx="326" cy="244" r="13"/>
+            <circle cx="346" cy="242" r="15"/>
+          </g>
+          <ellipse cx="210" cy="330" rx="150" ry="26" fill="#DCEFE4"/>
+          <g fill="#C9E4D3">
+            <circle cx="94" cy="326" r="9"/>
+            <circle cx="110" cy="332" r="7"/>
+            <circle cx="316" cy="330" r="8"/>
+            <circle cx="332" cy="324" r="10"/>
+          </g>
+
+          <circle cx="146" cy="300" r="14" fill="#FFE2C6" stroke="#3A302A" stroke-width="4"/>
+          <circle cx="274" cy="300" r="14" fill="#FFE2C6" stroke="#3A302A" stroke-width="4"/>
+          <path d="M150 322 q0-74 60-74 q60 0 60 74 z" fill="#2F7A5E" stroke="#3A302A" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M196 250 l14 20 l14-20" fill="none" stroke="#FFF7E7" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+          <path d="M180 276 q30 12 60 0" fill="none" stroke="#FFF7E7" stroke-width="3.5" opacity=".55"/>
+          <g transform="rotate(-5 210 296)">
+            <rect x="168" y="278" width="84" height="30" rx="7" fill="#FFFCF5" stroke="#3A302A" stroke-width="4"/>
+            <path d="M210 281v24" stroke="#D9C3A2" stroke-width="3.5"/>
+            <path d="M178 288h24M178 296h18M218 288h24M218 296h18" stroke="#C6AE8C" stroke-width="2.6" stroke-linecap="round"/>
+          </g>
+          <circle cx="144" cy="196" r="12" fill="#FFE2C6" stroke="#3A302A" stroke-width="4"/>
+          <circle cx="276" cy="196" r="12" fill="#FFE2C6" stroke="#3A302A" stroke-width="4"/>
+          <circle cx="210" cy="190" r="66" fill="#FFE2C6" stroke="#3A302A" stroke-width="4.5"/>
+          <path d="M144 188 q-4-72 66-72 q70 0 66 72 q-18-38-66-38 q-48 0-66 38z" fill="#3A302A"/>
+          <circle cx="210" cy="110" r="19" fill="#3A302A"/>
+          <circle cx="210" cy="110" r="7" fill="#F0B03F"/>
+          <ellipse cx="170" cy="212" rx="13" ry="9" fill="#F7B3A0" opacity=".72"/>
+          <ellipse cx="250" cy="212" rx="13" ry="9" fill="#F7B3A0" opacity=".72"/>
+          <path d="M178 190q12-13 24 0" stroke="#3A302A" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+          <path d="M218 190q12-13 24 0" stroke="#3A302A" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+          <path d="M199 218q11 11 22 0" stroke="#3A302A" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+
+          <rect x="288" y="66" width="108" height="80" rx="22" fill="#FFFDF7" stroke="#3A302A" stroke-width="4"/>
+          <circle cx="306" cy="158" r="9" fill="#FFFDF7" stroke="#3A302A" stroke-width="4"/>
+          <circle cx="292" cy="174" r="5.5" fill="#FFFDF7" stroke="#3A302A" stroke-width="3.5"/>
+          <text class="bubble-text" x="342" y="122" text-anchor="middle" font-size="38" fill="#E4694B">乎？</text>
+
+          <g transform="rotate(9 76 300)">
+            <rect x="60" y="272" width="30" height="46" rx="5" fill="#F0B03F" stroke="#3A302A" stroke-width="3.5"/>
+            <path d="M60 310v10l15-9 15 9v-10z" fill="#FFF7E7" stroke="#3A302A" stroke-width="3.5" stroke-linejoin="round"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="entry-grid" aria-label="三個入口">
+      <button class="entry" type="button" data-nav="learn">
+        <div class="entry-top">
+          <svg class="entry-icon" viewBox="0 0 48 48" aria-hidden="true">
+            <rect x="3" y="5" width="42" height="38" rx="9" fill="#DCEFE4"/>
+            <path d="M13 15h22M13 24h22M13 33h13" stroke="#2F7A5E" stroke-width="4" stroke-linecap="round"/>
+          </svg>
+          <h3>學一學</h3>
+        </div>
+        <p>七張圖文卡，一卡一個語氣詞。看圖、讀例句，一分鐘就明白。</p>
+        <span class="entry-tag">7 個語氣詞</span>
+      </button>
+
+      <button class="entry" type="button" data-nav="gameA">
+        <div class="entry-top">
+          <svg class="entry-icon" viewBox="0 0 48 48" aria-hidden="true">
+            <rect x="3" y="5" width="42" height="38" rx="9" fill="#FCEBC8"/>
+            <path d="M11 30h26" stroke="#C08A22" stroke-width="4" stroke-linecap="round"/>
+            <path d="M24 12v12" stroke="#E4694B" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="24" cy="13" r="4" fill="#E4694B"/>
+          </svg>
+          <h3>遊戲一 · 語氣詞填空</h3>
+        </div>
+        <p>句子空了一格，從四個語氣詞中選一個放回去，看看意思通不通。</p>
+        <span class="entry-tag orange">10 道題</span>
+      </button>
+
+      <button class="entry" type="button" data-nav="gameB">
+        <div class="entry-top">
+          <svg class="entry-icon" viewBox="0 0 48 48" aria-hidden="true">
+            <rect x="3" y="5" width="42" height="38" rx="9" fill="#DFF0F8"/>
+            <circle cx="21" cy="21" r="10.5" fill="#FFFDF7" stroke="#3A6E8C" stroke-width="4"/>
+            <path d="M29 29l9 9" stroke="#3A6E8C" stroke-width="5" stroke-linecap="round"/>
+          </svg>
+          <h3>遊戲二 · 語氣偵探</h3>
+        </div>
+        <p>讀一句古文，判斷句尾那個字在表達甚麼心情：問？嘆？還是判斷？</p>
+        <span class="entry-tag gold">10 道題</span>
+      </button>
+    </div>
+
+    <div class="demo-band">
+      <div class="demo-intro">
+        <span class="eyebrow">一分鐘示範</span>
+        <h2>同一個「乎」，兩種問法</h2>
+        <p>「乎」不一定真的在發問。讀懂上下文，才知道它是認真提問，還是早已有答案的反問。</p>
+      </div>
+      <div class="demo-cards">
+        <div class="demo-item">
+          <span class="demo-tag">反問 · 等於「嗎」</span>
+          <p class="demo-s">學而時習之，不亦說乎？</p>
+          <p class="demo-p">學了知識，又按時溫習，不也是很快樂嗎？</p>
+        </div>
+        <div class="demo-item">
+          <span class="demo-tag">疑問 · 等於「呢」</span>
+          <p class="demo-s">孰為汝多知乎？</p>
+          <p class="demo-p">誰說你知識豐富呢？</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <span>文言小偵探 · 小學文言文語氣詞學習遊戲</span>
+      <button type="button" data-nav="plan">看設計說明</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 學一學 ============ -->
+<section class="view" id="view-learn">
+  <div class="wrap" style="padding-top:clamp(1.2rem,3vw,2rem)">
+    <div class="section-head">
+      <span class="eyebrow">第一部分 · 教學</span>
+      <h2>七個句尾小幫手</h2>
+      <p>古人把心情放在句子最後一個字。點一點卡片，看圖、讀例句，就知道它在說甚麼。</p>
+    </div>
+    <div class="teach-grid" id="teachGrid"></div>
+    <div class="learn-progress">
+      <span>學習進度</span>
+      <span class="track" aria-hidden="true"><i id="learnBar" style="width:0%"></i></span>
+      <span id="learnCount">0 / 7</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.4rem">
+      <button class="btn btn-primary" type="button" data-nav="gameA">學完了，去遊戲一</button>
+      <button class="btn btn-ghost" type="button" data-nav="gameB">去遊戲二</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 遊戲一 ============ -->
+<section class="view" id="view-gameA">
+  <div class="wrap" style="padding-top:clamp(1rem,2.6vw,1.6rem)">
+    <div class="quiz-shell" id="hostA"></div>
+  </div>
+</section>
+
+<!-- ============ 遊戲二 ============ -->
+<section class="view" id="view-gameB">
+  <div class="wrap" style="padding-top:clamp(1rem,2.6vw,1.6rem)">
+    <div class="quiz-shell" id="hostB"></div>
+  </div>
+</section>
+
+<!-- ============ 設計說明 ============ -->
+<section class="view" id="view-plan">
+  <div class="wrap" style="padding-top:clamp(1.2rem,3vw,2rem)">
+    <div class="section-head">
+      <span class="eyebrow">應用方案</span>
+      <h2>產品定位 · 核心功能 · 頁面結構 · 實現路徑</h2>
+      <p>這一頁把整個產品的設計思路寫清楚，方便老師、家長與設計者快速掌握。</p>
+    </div>
+
+    <div class="plan-grid">
+      <article class="plan-card">
+        <h3><span class="plan-num">1</span>產品定位</h3>
+        <p><b>一句話：</b>讓小學生在十分鐘內，聽懂古文句尾的心情。</p>
+        <ul class="plan-list">
+          <li><b>對象：</b>香港小學高年級（小四至小六），剛接觸文言文與古詩文的學生。</li>
+          <li><b>場景：</b>課堂投影示範、學生課後自學、親子共讀三種情境共用一個頁面。</li>
+          <li><b>目標：</b>認識七個常見句末語氣詞，能辨認位置、讀出語氣、說出現代意思。</li>
+          <li><b>邊界：</b>不考默寫、不考語法術語，重點是「讀懂」而非「背誦」。</li>
+          <li><b>難度：</b>句子取自《論語》《孟子》及小學常見寓言，句短、字淺、有白話對照。</li>
+        </ul>
+      </article>
+
+      <article class="plan-card">
+        <h3><span class="plan-num">2</span>核心功能</h3>
+        <div class="table-scroll">
+          <table class="plan-table">
+            <thead><tr><th>功能</th><th>說明</th></tr></thead>
+            <tbody>
+              <tr><td>圖文教學卡</td><td>七個語氣詞各一張卡，Q 版插畫＋現代意思＋兩句例句＋小提示。</td></tr>
+              <tr><td>遊戲一 填空</td><td>句子留空，四選一，考「放哪個字才通」。</td></tr>
+              <tr><td>遊戲二 判斷</td><td>句子完整，考「這個字在表達甚麼語氣」。</td></tr>
+              <tr><td>即時解釋</td><td>每次揭曉答案都說明語氣作用、白話意思與出處。</td></tr>
+              <tr><td>音效與朗讀</td><td>答對、答錯、過關有合成音效；教學卡可朗讀例句。</td></tr>
+              <tr><td>進度記錄</td><td>記錄已學會的語氣詞與兩個模式的最佳成績。</td></tr>
+              <tr><td>跨裝置</td><td>手機、平板、電腦自適應，字體與插畫放大，適合投影。</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="plan-card">
+        <h3><span class="plan-num">3</span>頁面結構</h3>
+        <div class="flow" aria-label="頁面流程">
+          <span class="flow-node">首頁</span><span class="flow-arrow">→</span>
+          <span class="flow-node">學一學</span><span class="flow-arrow">→</span>
+          <span class="flow-node">遊戲一</span><span class="flow-arrow">→</span>
+          <span class="flow-node">遊戲二</span><span class="flow-arrow">→</span>
+          <span class="flow-node">成績頁</span>
+        </div>
+        <ul class="plan-list">
+          <li><b>首頁：</b>主視覺、一分鐘示範、三個入口（教學／遊戲一／遊戲二）。</li>
+          <li><b>學一學：</b>七張卡片牆；點卡打開詳情層，內含讀音、用法、例句、提示。</li>
+          <li><b>遊戲頁：</b>開始屏 → 題目卡（進度、題幹、選項）→ 答案解析 → 下一題。</li>
+          <li><b>成績頁：</b>得分、星級、評語，可重玩、換模式或回教學。</li>
+          <li><b>設計說明：</b>本頁，供老師與家長了解設計依據。</li>
+        </ul>
+      </article>
+
+      <article class="plan-card">
+        <h3><span class="plan-num">4</span>實現路徑</h3>
+        <ul class="plan-list">
+          <li><b>第一步 內容審訂：</b>依《香港小學學習字詞表》統一繁體用字，例句注明出處，逐句核對語氣詞用法。</li>
+          <li><b>第二步 資訊架構：</b>確定「先學後玩」的單向流程，兩個遊戲共用一套答題引擎，各自獨立的十題題庫。</li>
+          <li><b>第三步 視覺設計：</b>建立米黃紙感＋墨綠主色的繪本系統，自繪 SVG 小書生與道具，確保離線可用。</li>
+          <li><b>第四步 前端開發：</b>單文件 HTML／CSS／JavaScript；Web Audio 合成音效；localStorage 記錄進度。</li>
+          <li><b>第五步 測試：</b>在 360px 手機、768px 平板、1440px 電腦實測排版與點擊區，並投影檢查字級。</li>
+          <li><b>第六步 延伸：</b>可加入粵語真人錄音、教師出題模式、更多語氣詞（耶、歟、兮）。</li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="panel" style="margin-top:1rem">
+      <div class="section-head" style="margin-bottom:.6rem">
+        <h2 style="font-size:clamp(1.1rem,2.4vw,1.35rem)">用字與內容說明</h2>
+      </div>
+      <ul class="plan-list">
+        <li>全站使用繁體字，並依《香港小學學習字詞表》慣用字形，如「裏」、「為」、「說」、「着」。</li>
+        <li>例句以《論語》為主，輔以《孟子》、《禮記》、《戰國策》、《韓非子》、《呂氏春秋》及《資治通鑑》，全部注明出處。</li>
+        <li>「說」在「不亦說乎」中同「悅」；「舍」在「不舍晝夜」中同「捨」，卡片內已加注。</li>
+        <li>題目共二十道，兩個模式不重複使用同一句子；每次重玩只打亂次序與選項，不改變答案。</li>
+      </ul>
+    </div>
+
+    <div class="foot">
+      <span>文言小偵探 · 單文件離線版</span>
+      <button type="button" data-nav="home">回到首頁</button>
+    </div>
+  </div>
+</section>
+
+</main>
+<script>
+(function () {
+  'use strict';
+
+  /* ============================================================
+     1. 內容資料
+     ============================================================ */
+
+  var TONES = {
+    ask:   { label: '疑問反問', chip: '問', hint: '像「嗎」、「呢」' },
+    sigh:  { label: '感嘆讚美', chip: '嘆', hint: '像「啊」、「呀」' },
+    judge: { label: '判斷肯定', chip: '判', hint: '像「是」、「的」' },
+    only:  { label: '限止（罷了）', chip: '限', hint: '像「罷了」、「而已」' },
+    done:  { label: '已然變化', chip: '了', hint: '像「了」' }
+  };
+
+  var TEACH = [
+    {
+      id: 'hu', char: '乎', say: '粵音近「呼」', tone: '疑問 · 反問', meaning: '嗎 / 呢',
+      role: '句末問一問', prop: 'ask', mood: 'think',
+      summary: '放在句子最後，表示疑問或反問。',
+      points: [
+        '疑問：真的這樣嗎？',
+        '反問：答案其實已經藏在句子裏。',
+        '常見句式：「不亦……乎」，意思是「不也是……嗎」。'
+      ],
+      examples: [
+        { s: '學而時習之，不亦說乎？', p: '學了知識，又按時溫習，不也是很快樂嗎？', src: '《論語·學而》' },
+        { s: '孰為汝多知乎？', p: '誰說你知識豐富呢？', src: '《列子·湯問·兩小兒辯日》' }
+      ],
+      tip: '「說」在這裏同「悅」，是快樂的意思，不是說話。'
+    },
+    {
+      id: 'yi', char: '矣', say: '粵音近「以」', tone: '完成 · 變化', meaning: '了',
+      role: '事情完成了', prop: 'done', mood: 'happy',
+      summary: '表示事情已經發生、已經達到某種程度，像今天的「了」。',
+      points: [
+        '已經完成：可以為師矣。',
+        '已經變化：舟已行矣。',
+        '和「也」不同：「矣」着重變化，「也」着重判斷。'
+      ],
+      examples: [
+        { s: '溫故而知新，可以為師矣。', p: '溫習舊知識，又得到新體會，就可以做老師了。', src: '《論語·為政》' },
+        { s: '舟已行矣，而劍不行。', p: '船已經走了，可是劍不會跟着船走。', src: '《呂氏春秋·察今》' }
+      ],
+      tip: '「矣」常在句末輕輕一收，告訴你：事情已經這樣了。'
+    },
+    {
+      id: 'yan', char: '焉', say: '粵音近「煙」', tone: '肯定 · 收句', meaning: '呢 / 在這裏',
+      role: '句末輕輕收尾', prop: 'here', mood: 'happy',
+      summary: '用在句末表示肯定語氣，有時兼有「在這裏」的意思。',
+      points: [
+        '句末語氣：三人行，必有我師焉。',
+        '兼有實義：四時行焉，萬物生焉。',
+        '它一邊收句，一邊指向「在這裏」。'
+      ],
+      examples: [
+        { s: '三人行，必有我師焉。', p: '幾個人一起走，當中一定有可以做我老師的人。', src: '《論語·述而》' },
+        { s: '四時行焉，萬物生焉。', p: '四季在那裏運行，萬物在那裏生長。', src: '《論語·陽貨》' }
+      ],
+      tip: '「焉」不只是語氣詞，它常常同時代替「於此」，即「在這裏」。'
+    },
+    {
+      id: 'ye', char: '也', say: '粵音近「野」', tone: '判斷 · 肯定', meaning: '是 / 啊',
+      role: '判斷與肯定', prop: 'judge', mood: 'happy',
+      summary: '用在句末表示判斷或肯定，像今天的「是……的」。',
+      points: [
+        '判斷：蓮，花之君子者也。',
+        '肯定：苛政猛於虎也。',
+        '「……也」和「……者也」都是常見的判斷句式。'
+      ],
+      examples: [
+        { s: '知之為知之，不知為不知，是知也。', p: '知道就說知道，不知道就說不知道，這才是真正的智慧。', src: '《論語·為政》' },
+        { s: '蓮，花之君子者也。', p: '蓮花，是花中的君子。', src: '周敦頤《愛蓮說》' }
+      ],
+      tip: '看到句末的「也」，可以先問自己：這句話是不是在「說明它是甚麼」？'
+    },
+    {
+      id: 'zai', char: '哉', say: '粵音近「災」', tone: '感嘆 · 讚美', meaning: '啊',
+      role: '大聲感嘆', prop: 'wow', mood: 'wow',
+      summary: '表示強烈的感嘆、讚美或驚訝，像今天的「啊」。',
+      points: [
+        '讚美：賢哉，回也！',
+        '感嘆：燕雀安知鴻鵠之志哉！',
+        '「哉」也可以放在句中，如「快哉此風」。'
+      ],
+      examples: [
+        { s: '賢哉，回也！', p: '顏回真是賢德啊！', src: '《論語·雍也》' },
+        { s: '快哉此風！', p: '這風真使人暢快啊！', src: '宋玉《風賦》' }
+      ],
+      tip: '「賢哉，回也！」先讚嘆，再叫名字，語氣比平時說話強得多。'
+    },
+    {
+      id: 'er', char: '耳', say: '粵音同「耳」', tone: '限止', meaning: '罷了',
+      role: '只是這樣', prop: 'only', mood: 'happy',
+      summary: '表示限止，意思是「只是這樣」、「不過如此」，像今天的「罷了」。',
+      points: [
+        '限止：但當涉獵，見往事耳。',
+        '常有「只是……罷了」的意味。',
+        '它不是耳朵的意思，只負責把語氣收窄。'
+      ],
+      examples: [
+        { s: '但當涉獵，見往事耳。', p: '只是應該廣泛閱讀，了解以往的事情罷了。', src: '《資治通鑑·孫權勸學》' },
+        { s: '直不百步耳，是亦走也。', p: '只是沒有跑一百步罷了，這也是逃跑啊。', src: '《孟子·梁惠王上》' }
+      ],
+      tip: '「耳」和「而已」意思相近，都是把話說小一點。'
+    },
+    {
+      id: 'fu', char: '夫', say: '粵音同「扶」', tone: '感嘆', meaning: '啊',
+      role: '長長一聲感嘆', prop: 'sigh', mood: 'wow',
+      summary: '用在句末表示感嘆，像今天的「啊」。',
+      points: [
+        '感嘆：逝者如斯夫！',
+        '讀音同「扶」，不是「丈夫」的「夫」。',
+        '常帶着惋惜、感慨的意味。'
+      ],
+      examples: [
+        { s: '逝者如斯夫！不舍晝夜。', p: '消逝的時光就像這河水一樣啊，日夜不停。', src: '《論語·子罕》' },
+        { s: '後之視今，亦猶今之視昔，悲夫！', p: '後人看今天，也像今天的人看從前一樣，真可悲啊！', src: '王羲之《蘭亭集序》' }
+      ],
+      tip: '「舍」在這裏同「捨」，是停下來的意思。'
+    }
+  ];
+
+  var MODE_A = [
+    {
+      s: '學而時習之，不亦說____？', a: '乎', opts: ['乎', '矣', '焉', '也'],
+      why: '句末的「乎」表示反問，等於今天的「嗎」。「不亦說乎」就是「不也是很快樂嗎」。',
+      plain: '學了知識，又按時溫習，不也是很快樂嗎？',
+      src: '《論語·學而》'
+    },
+    {
+      s: '溫故而知新，可以為師____。', a: '矣', opts: ['矣', '哉', '耳', '乎'],
+      why: '「矣」表示事情已經達到某種程度，等於今天的「了」。',
+      plain: '溫習舊知識，又得到新體會，就可以做老師了。',
+      src: '《論語·為政》'
+    },
+    {
+      s: '三人行，必有我師____。', a: '焉', opts: ['焉', '矣', '哉', '夫'],
+      why: '「焉」用在句末，表示肯定的語氣，還帶有「在這裏」的意味。',
+      plain: '幾個人一起走，當中一定有可以做我老師的人。',
+      src: '《論語·述而》'
+    },
+    {
+      s: '知之為知之，不知為不知，是知____。', a: '也', opts: ['也', '矣', '乎', '耳'],
+      why: '「也」用在句末表示判斷、肯定，語氣像「是……的」。',
+      plain: '知道就說知道，不知道就說不知道，這才是真正的智慧。',
+      src: '《論語·為政》'
+    },
+    {
+      s: '逝者如斯____！不舍晝夜。', a: '夫', opts: ['夫', '也', '矣', '焉'],
+      why: '句末的「夫」讀同「扶」，表示感嘆，等於今天的「啊」。',
+      plain: '消逝的時光就像這河水一樣啊，日夜不停。',
+      src: '《論語·子罕》'
+    },
+    {
+      s: '燕雀安知鴻鵠之志____！', a: '哉', opts: ['哉', '矣', '也', '耳'],
+      why: '「哉」表示強烈的感嘆，等於今天的「啊」。',
+      plain: '小鳥哪裏知道大鳥的志向呢！',
+      src: '《史記·陳涉世家》'
+    },
+    {
+      s: '但當涉獵，見往事____。', a: '耳', opts: ['耳', '矣', '乎', '夫'],
+      why: '「耳」表示限止，等於「罷了」、「而已」，把語氣收窄。',
+      plain: '只是應該廣泛閱讀，了解以往的事情罷了。',
+      src: '《資治通鑑·孫權勸學》'
+    },
+    {
+      s: '孰為汝多知____？', a: '乎', opts: ['乎', '矣', '也', '哉'],
+      why: '「乎」在句末表示疑問，等於今天的「呢」。',
+      plain: '誰說你知識豐富呢？',
+      src: '《列子·湯問·兩小兒辯日》'
+    },
+    {
+      s: '苛政猛於虎____。', a: '也', opts: ['也', '耳', '矣', '焉'],
+      why: '「也」表示判斷、肯定，說明「苛政比老虎更凶猛」這個結論。',
+      plain: '苛刻的政令比老虎還要兇猛啊。',
+      src: '《禮記·檀弓下》'
+    },
+    {
+      s: '天何言____？四時行焉，萬物生焉。', a: '哉', opts: ['哉', '夫', '矣', '耳'],
+      why: '「哉」在這裏表示反問、感慨，等於「呢」或「啊」；後面兩個「焉」則是句末收尾。',
+      plain: '天說了甚麼呢！四季照樣運行，萬物照樣生長。',
+      src: '《論語·陽貨》'
+    }
+  ];
+
+  var MODE_B = [
+    {
+      s: '有朋自遠方來，不亦樂乎？', mark: '乎', a: 'ask',
+      why: '「乎」在「不亦……乎」的格式裏表示反問，等於「嗎」。',
+      plain: '有志同道合的朋友從遠方來，不也是很快樂嗎？',
+      src: '《論語·學而》'
+    },
+    {
+      s: '賢哉，回也！', mark: '哉', a: 'sigh',
+      why: '「哉」表示讚美、感嘆，等於「啊」。「賢哉」就是「多麼賢德啊」。',
+      plain: '顏回真是賢德啊！',
+      src: '《論語·雍也》'
+    },
+    {
+      s: '此何遽不為福乎？', mark: '乎', a: 'ask',
+      why: '「乎」在這裏表示反問，等於「呢」，答案其實是「怎麼不是福氣」。',
+      plain: '這怎麼就不是福氣呢？',
+      src: '《淮南子·人間訓》'
+    },
+    {
+      s: '虎不知獸畏己而走也，以為畏狐也。', mark: '也', markLast: true, a: 'judge',
+      why: '句末的「也」表示判斷、說明情況，等於「是……的」；前一分句的「也」也起同樣作用。',
+      plain: '老虎不知道野獸是怕自己才逃走，還以為牠們怕狐狸。',
+      src: '《戰國策·楚策一》'
+    },
+    {
+      s: '直不百步耳，是亦走也。', mark: '耳', a: 'only',
+      why: '「耳」表示限止，等於「罷了」，強調「只是沒有跑一百步」。',
+      plain: '只是沒有跑一百步罷了，但這也是逃跑啊。',
+      src: '《孟子·梁惠王上》'
+    },
+    {
+      s: '快哉此風！', mark: '哉', a: 'sigh',
+      why: '「哉」表示感嘆，等於「啊」，放在句中加強語氣。',
+      plain: '這風真使人暢快啊！',
+      src: '宋玉《風賦》'
+    },
+    {
+      s: '吾矛之利，於物無不陷也。', mark: '也', a: 'judge',
+      why: '「也」表示肯定的判斷，說明矛的鋒利。',
+      plain: '我的矛很鋒利，沒有東西刺不穿。',
+      src: '《韓非子·難一》'
+    },
+    {
+      s: '有顏回者好學，不遷怒，不貳過，不幸短命死矣。', mark: '矣', a: 'done',
+      why: '「矣」表示事情已經發生，等於「了」，帶着惋惜。',
+      plain: '顏回好學，不把怒氣轉移到別人身上，不重犯同樣的過錯，可惜短命死了。',
+      src: '《論語·雍也》'
+    },
+    {
+      s: '蓮，花之君子者也。', mark: '也', a: 'judge',
+      why: '「……者也」是古文常見的判斷句式，等於「是……」。',
+      plain: '蓮花，是花中的君子。',
+      src: '周敦頤《愛蓮說》'
+    },
+    {
+      s: '舟已行矣，而劍不行，求劍若此，不亦惑乎？', mark: '乎', a: 'ask',
+      why: '「乎」表示反問，等於「嗎」；句中的「矣」則表示「已經」。',
+      plain: '船已經走了，可是劍不會走，這樣找劍，不是太糊塗了嗎？',
+      src: '《呂氏春秋·察今》'
+    }
+  ];
+
+  /* ============================================================
+     2. 狀態與小工具
+     ============================================================ */
+
+  var LS_KEY = 'wyq_state_v1';
+
+  var state = {
+    view: 'home',
+    muted: false,
+    learned: {},
+    best: { A: 0, B: 0 },
+    played: { A: false, B: false },
+    quizzes: { A: null, B: null }
+  };
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function $all(sel, root) {
+    return Array.prototype.slice.call((root || document).querySelectorAll(sel));
+  }
+
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function loadState() {
+    try {
+      var raw = window.localStorage.getItem(LS_KEY);
+      if (!raw) return;
+      var o = JSON.parse(raw);
+      if (!o || typeof o !== 'object') return;
+      if (o.learned && typeof o.learned === 'object') state.learned = o.learned;
+      if (o.best) {
+        state.best.A = Number(o.best.A) || 0;
+        state.best.B = Number(o.best.B) || 0;
+      }
+      if (o.played && typeof o.played === 'object') {
+        state.played.A = !!o.played.A;
+        state.played.B = !!o.played.B;
+      }
+      if (typeof o.muted === 'boolean') state.muted = o.muted;
+    } catch (e) { /* 私密模式或存儲不可用時，退回預設值 */ }
+  }
+
+  function saveState() {
+    try {
+      window.localStorage.setItem(LS_KEY, JSON.stringify({
+        learned: state.learned, best: state.best, played: state.played, muted: state.muted
+      }));
+    } catch (e) { /* 存儲不可用時不影響遊戲 */ }
+  }
+
+  /* ============================================================
+     3. 音效（Web Audio 合成，無外部檔案）
+     ============================================================ */
+
+  var audioCtx = null;
+
+  function getAudio() {
+    if (state.muted) return null;
+    try {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return null;
+      if (!audioCtx) audioCtx = new Ctx();
+      if (audioCtx.state === 'suspended' && audioCtx.resume) audioCtx.resume();
+      return audioCtx;
+    } catch (e) { return null; }
+  }
+
+  function beep(freq, delay, dur, type, vol) {
+    var c = getAudio();
+    if (!c) return;
+    try {
+      var osc = c.createOscillator();
+      var gain = c.createGain();
+      osc.type = type || 'sine';
+      osc.frequency.value = freq;
+      osc.connect(gain);
+      gain.connect(c.destination);
+      var t = c.currentTime + delay;
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.linearRampToValueAtTime(vol || 0.12, t + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      osc.start(t);
+      osc.stop(t + dur + 0.05);
+    } catch (e) { /* 音效失敗不影響流程 */ }
+  }
+
+  function sfx(name) {
+    if (state.muted) return;
+    if (name === 'tap') { beep(640, 0, 0.08, 'triangle', 0.06); }
+    else if (name === 'ok') {
+      beep(659.25, 0, 0.16, 'sine', 0.13);
+      beep(880, 0.09, 0.18, 'sine', 0.12);
+      beep(1174.66, 0.19, 0.26, 'sine', 0.1);
+    } else if (name === 'no') {
+      beep(311.13, 0, 0.18, 'triangle', 0.11);
+      beep(233.08, 0.14, 0.26, 'triangle', 0.09);
+    } else if (name === 'win') {
+      [523.25, 659.25, 783.99, 1046.5].forEach(function (f, i) {
+        beep(f, i * 0.12, 0.32, 'sine', 0.12);
+      });
+    }
+  }
+
+  /* ============================================================
+     4. Q 版小書生插畫
+     ============================================================ */
+
+  var PROPS = {
+    ask: '<g><rect x="150" y="12" width="58" height="46" rx="14" fill="#FFFDF7" stroke="#3A302A" stroke-width="3.5"/><circle cx="162" cy="66" r="5.5" fill="#FFFDF7" stroke="#3A302A" stroke-width="3"/><text x="179" y="46" text-anchor="middle" font-size="30" font-family="Kaiti TC, serif" fill="#E4694B">？</text></g>',
+    done: '<g><rect x="170" y="18" width="6" height="54" rx="3" fill="#8B6F4E"/><path d="M176 20h30v26h-30z" fill="#F0B03F" stroke="#3A302A" stroke-width="3" stroke-linejoin="round"/></g>',
+    here: '<g><path d="M150 64q22-14 56 0" stroke="#8B6F4E" stroke-width="5" fill="none" stroke-linecap="round"/><ellipse cx="186" cy="50" rx="12" ry="9" fill="#5FA8D3" stroke="#3A302A" stroke-width="3"/><circle cx="192" cy="42" r="7.5" fill="#5FA8D3" stroke="#3A302A" stroke-width="3"/><path d="M198 42l7 2-7 2z" fill="#F0B03F"/></g>',
+    judge: '<g transform="rotate(-8 180 40)"><rect x="156" y="16" width="46" height="46" rx="8" fill="#E4694B" stroke="#3A302A" stroke-width="3.5"/><path d="M170 30h18M170 40h18M170 50h10" stroke="#FFF7E7" stroke-width="3" stroke-linecap="round"/></g>',
+    wow: '<g fill="#F0B03F" stroke="#3A302A" stroke-width="2.5" stroke-linejoin="round"><path d="M182 8l6 14 15 2-11 11 3 15-13-8-13 8 3-15-11-11 15-2z"/></g><circle cx="160" cy="54" r="4" fill="#E4694B"/><circle cx="206" cy="60" r="5" fill="#E4694B"/>',
+    only: '<g><path d="M158 42h42v18a12 12 0 0 1-12 12h-18a12 12 0 0 1-12-12z" fill="#FFFDF7" stroke="#3A302A" stroke-width="3.5" stroke-linejoin="round"/><path d="M200 46q14 4 0 18" fill="none" stroke="#3A302A" stroke-width="3.5"/><path d="M166 34q6-8 0-14M180 34q6-8 0-14" stroke="#9A8771" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"/></g>',
+    sigh: '<g><path d="M150 44q10-10 20 0t20 0t14 0" stroke="#5FA8D3" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M150 62q10-10 20 0t20 0t14 0" stroke="#5FA8D3" stroke-width="5" fill="none" stroke-linecap="round" opacity=".65"/><path d="M150 80q10-10 20 0t20 0t14 0" stroke="#5FA8D3" stroke-width="5" fill="none" stroke-linecap="round" opacity=".35"/></g>'
+  };
+
+  function kidSvg(mood, prop, cls) {
+    var eyes, mouth;
+    if (mood === 'wow') {
+      eyes = '<circle cx="88" cy="100" r="6.5" fill="#3A302A"/><circle cx="122" cy="100" r="6.5" fill="#3A302A"/>' +
+             '<circle cx="90" cy="97.4" r="2.1" fill="#FFFDF7"/><circle cx="124" cy="97.4" r="2.1" fill="#FFFDF7"/>';
+      mouth = '<ellipse cx="105" cy="122" rx="6.5" ry="7.5" fill="#C9553B"/>';
+    } else if (mood === 'think') {
+      eyes = '<circle cx="88" cy="100" r="6" fill="#3A302A"/><circle cx="90" cy="98" r="1.9" fill="#FFFDF7"/>' +
+             '<path d="M114 100q8-9 16 0" stroke="#3A302A" stroke-width="4.5" fill="none" stroke-linecap="round"/>';
+      mouth = '<circle cx="105" cy="122" r="4" fill="none" stroke="#3A302A" stroke-width="3.5"/>';
+    } else {
+      eyes = '<path d="M80 100q8-9 16 0" stroke="#3A302A" stroke-width="4.5" fill="none" stroke-linecap="round"/>' +
+             '<path d="M114 100q8-9 16 0" stroke="#3A302A" stroke-width="4.5" fill="none" stroke-linecap="round"/>';
+      mouth = '<path d="M98 120q7 7 14 0" stroke="#3A302A" stroke-width="4.5" fill="none" stroke-linecap="round"/>';
+    }
+    return '<svg viewBox="0 0 220 200" class="' + (cls || '') + '" aria-hidden="true">' +
+      '<ellipse cx="105" cy="196" rx="52" ry="8" fill="#3A302A" opacity=".1"/>' +
+      (PROPS[prop] || '') +
+      '<circle cx="58" cy="176" r="9.5" fill="#FFE2C6" stroke="#3A302A" stroke-width="3"/>' +
+      '<circle cx="152" cy="176" r="9.5" fill="#FFE2C6" stroke="#3A302A" stroke-width="3"/>' +
+      '<path d="M63 192q0-46 42-46q42 0 42 46z" fill="#2F7A5E" stroke="#3A302A" stroke-width="4" stroke-linejoin="round"/>' +
+      '<path d="M92 148l13 17 13-17" fill="none" stroke="#FFF7E7" stroke-width="4.5" stroke-linejoin="round"/>' +
+      '<circle cx="60" cy="100" r="9" fill="#FFE2C6" stroke="#3A302A" stroke-width="3"/>' +
+      '<circle cx="150" cy="100" r="9" fill="#FFE2C6" stroke="#3A302A" stroke-width="3"/>' +
+      '<circle cx="105" cy="98" r="46" fill="#FFE2C6" stroke="#3A302A" stroke-width="4"/>' +
+      '<path d="M59 96q-2-48 46-48q48 0 46 48q-13-24-46-24q-33 0-46 24z" fill="#3A302A"/>' +
+      '<circle cx="105" cy="42" r="13" fill="#3A302A"/><circle cx="105" cy="42" r="5" fill="#F0B03F"/>' +
+      '<ellipse cx="77" cy="115" rx="9" ry="6.5" fill="#F7B3A0" opacity=".72"/>' +
+      '<ellipse cx="133" cy="115" rx="9" ry="6.5" fill="#F7B3A0" opacity=".72"/>' +
+      eyes + mouth + '</svg>';
+  }
+
+  function starSvg(on) {
+    return '<svg viewBox="0 0 32 32" class="' + (on ? 'star-on' : 'star-off') + '" aria-hidden="true">' +
+      '<path d="M16 3l4 8.6 9.4 1.2-6.9 6.5 1.8 9.3L16 24.2 7.7 28.6l1.8-9.3L2.6 12.8 12 11.6z" fill="currentColor" stroke="#3A302A" stroke-width="1.4" stroke-linejoin="round"/>' +
+      '</svg>';
+  }
+
+  /* ============================================================
+     5. 導覽與教學
+     ============================================================ */
+
+  function go(view) {
+    if (!document.getElementById('view-' + view)) return;
+    state.view = view;
+    $all('.view').forEach(function (v) {
+      v.classList.toggle('is-active', v.id === 'view-' + view);
+    });
+    $all('.nav-btn').forEach(function (b) {
+      var on = b.getAttribute('data-nav') === view;
+      b.classList.toggle('is-on', on);
+      if (on) { b.setAttribute('aria-current', 'page'); }
+      else { b.removeAttribute('aria-current'); }
+    });
+    if (view === 'gameA') { renderHost('A'); }
+    if (view === 'gameB') { renderHost('B'); }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    sfx('tap');
+  }
+
+  function renderTeach() {
+    var grid = document.getElementById('teachGrid');
+    if (!grid) return;
+    grid.innerHTML = TEACH.map(function (t) {
+      var done = !!state.learned[t.id];
+      return '<button class="tcard" type="button" data-char="' + t.id + '" aria-label="打開「' + t.char + '」的說明">' +
+        '<div class="tcard-art">' +
+          kidSvg(t.mood, t.prop) +
+          '<span class="tcard-char" aria-hidden="true">' + t.char + '</span>' +
+          (done ? '<span class="learned-badge">已學會</span>' : '') +
+        '</div>' +
+        '<div class="tcard-body">' +
+          '<div class="tcard-title"><b>' + t.char + '</b><span>' + t.say + '</span></div>' +
+          '<div class="tcard-meaning">' + t.meaning + '</div>' +
+          '<div class="tcard-hint">' + t.role + '</div>' +
+        '</div>' +
+      '</button>';
+    }).join('');
+    updateLearnBar();
+  }
+
+  function updateLearnBar() {
+    var n = TEACH.filter(function (t) { return !!state.learned[t.id]; }).length;
+    var bar = document.getElementById('learnBar');
+    var txt = document.getElementById('learnCount');
+    if (bar) bar.style.width = Math.round(n / TEACH.length * 100) + '%';
+    if (txt) txt.textContent = n + ' / ' + TEACH.length;
+  }
+
+  var dlg = null;
+
+  function ensureDialog() {
+    if (dlg) return dlg;
+    dlg = document.createElement('dialog');
+    dlg.className = 'lesson';
+    dlg.id = 'lessonDlg';
+    dlg.setAttribute('aria-labelledby', 'lessonTitle');
+    dlg.innerHTML = '<div class="lesson-scroll" id="lessonBody"></div>';
+    document.querySelector('main').appendChild(dlg);
+    dlg.addEventListener('click', function (e) {
+      if (e.target === dlg) { closeDialog(); }
+    });
+    return dlg;
+  }
+
+  function closeDialog() {
+    if (!dlg) return;
+    if (typeof dlg.close === 'function') { dlg.close(); }
+    else { dlg.removeAttribute('open'); }
+  }
+
+  function openLesson(id) {
+    var t = null;
+    for (var i = 0; i < TEACH.length; i++) { if (TEACH[i].id === id) { t = TEACH[i]; break; } }
+    if (!t) return;
+
+    var d = ensureDialog();
+    var body = document.getElementById('lessonBody');
+    body.innerHTML =
+      '<div class="lesson-top">' +
+        '<div class="lesson-glyph" aria-hidden="true">' + t.char + '</div>' +
+        '<div class="lesson-head-txt">' +
+          '<h3 id="lessonTitle">' + t.char + ' · ' + t.meaning + '</h3>' +
+          '<span class="say">' + t.say + '　|　' + t.tone + '</span>' +
+        '</div>' +
+        '<button class="lesson-close" type="button" data-act="close" aria-label="關閉">✕</button>' +
+      '</div>' +
+      '<div class="lesson-block">' +
+        '<h4>它負責甚麼</h4>' +
+        '<p>' + t.summary + '</p>' +
+      '</div>' +
+      '<ul class="lesson-points">' +
+        t.points.map(function (p) { return '<li>' + p + '</li>'; }).join('') +
+      '</ul>' +
+      '<div class="lesson-block"><h4>讀一讀例句</h4></div>' +
+      t.examples.map(function (ex) {
+        return '<div class="example">' +
+          '<div class="ex-s">' + ex.s + '</div>' +
+          '<div class="ex-p">' + ex.p + '</div>' +
+          '<div class="ex-src">' + ex.src + '</div>' +
+        '</div>';
+      }).join('') +
+      '<div class="tip-box">小提示：' + t.tip + '</div>' +
+      '<div class="lesson-actions">' +
+        '<button class="btn btn-ghost btn-sm" type="button" data-act="speak" data-text="' + esc(t.examples[0].s) + '">聽一聽例句</button>' +
+        '<button class="btn btn-primary btn-sm" type="button" data-act="close">明白啦</button>' +
+      '</div>' +
+      '<p class="lesson-note" id="lessonNote">語氣詞要配合整句意思來讀，先想想句子在問、在嘆，還是在說明。</p>';
+
+    sfx('tap');
+    if (typeof d.showModal === 'function') {
+      if (!d.open) { d.showModal(); }
+    } else {
+      d.setAttribute('open', '');
+    }
+    body.scrollTop = 0;
+
+    if (!state.learned[t.id]) {
+      state.learned[t.id] = true;
+      saveState();
+      renderTeach();
+    }
+  }
+
+  function setLessonNote(msg) {
+    var n = document.getElementById('lessonNote');
+    if (n) n.textContent = msg;
+  }
+
+  function speak(text) {
+    if (!('speechSynthesis' in window) || typeof window.SpeechSynthesisUtterance !== 'function') {
+      setLessonNote('這個瀏覽器沒有語音朗讀功能，可以跟着文字慢慢讀一次。');
+      return;
+    }
+    try {
+      window.speechSynthesis.cancel();
+      var u = new window.SpeechSynthesisUtterance(text);
+      u.lang = 'zh-HK';
+      u.rate = 0.85;
+      u.pitch = 1.05;
+      u.onerror = function () {
+        setLessonNote('語音暫時未能播放，可以跟着文字慢慢讀一次。');
+      };
+      window.speechSynthesis.speak(u);
+    } catch (e) {
+      setLessonNote('語音暫時未能播放，可以跟着文字慢慢讀一次。');
+    }
+  }
+
+  /* ============================================================
+     6. 遊戲引擎
+     ============================================================ */
+
+  function hostOf(mode) {
+    return document.getElementById(mode === 'A' ? 'hostA' : 'hostB');
+  }
+
+  function toneOptions(correct) {
+    var keys = Object.keys(TONES);
+    var others = shuffle(keys.filter(function (k) { return k !== correct; })).slice(0, 3);
+    return shuffle(others.concat([correct]));
+  }
+
+  function startQuiz(mode) {
+    var src = mode === 'A' ? MODE_A : MODE_B;
+    var order = shuffle(src.map(function (_, i) { return i; }));
+    var qs = order.map(function (i) {
+      var q = JSON.parse(JSON.stringify(src[i]));
+      q.shuffled = mode === 'A' ? shuffle(q.opts.slice()) : toneOptions(q.a);
+      return q;
+    });
+    state.quizzes[mode] = {
+      mode: mode, qs: qs, i: 0, score: 0,
+      answered: false, picked: null, done: false
+    };
+    sfx('tap');
+    renderHost(mode);
+    scrollQuizTop(mode);
+  }
+
+  function headerH() {
+    var bar = document.querySelector('.topbar');
+    return bar ? bar.offsetHeight : 72;
+  }
+
+  function scrollToEl(el, pad) {
+    if (!el) return;
+    var y = el.getBoundingClientRect().top + window.pageYOffset - headerH() - (pad || 12);
+    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+  }
+
+  function scrollQuizTop(mode) {
+    var host = hostOf(mode);
+    if (!host) return;
+    scrollToEl(host, 10);
+  }
+
+  function startHTML(mode) {
+    var isA = mode === 'A';
+    return '<div class="start-card">' +
+      kidSvg(isA ? 'think' : 'happy', isA ? 'ask' : 'judge', 'start-art') +
+      '<h2>' + (isA ? '遊戲一 · 語氣詞填空' : '遊戲二 · 語氣偵探') + '</h2>' +
+      '<p>' + (isA
+        ? '句子中間空了一格，請從四個語氣詞中選一個放回去。放對位置，句子才讀得通。'
+        : '句子是完整的古文，請判斷被標示的語氣詞在表達哪一種語氣。') + '</p>' +
+      '<div class="mode-rules">' +
+        '<div><span class="dot"></span><span><b>共 10 題</b>，每題只有一個正確答案。</span></div>' +
+        '<div><span class="dot"></span><span><b>即時解釋</b>：揭曉答案時會說明語氣作用和白話意思。</span></div>' +
+        '<div><span class="dot"></span><span><b>可以重玩</b>：每次重新排列題目與選項，題目不會重複。</span></div>' +
+      '</div>' +
+      '<button class="btn btn-primary" type="button" data-act="start" data-mode="' + mode + '">開始挑戰（10 題）</button>' +
+      '<span class="result-sub">' + (state.played[mode] ? '最佳成績：' + state.best[mode] + ' / 10' : '尚未挑戰，準備好就開始吧') + '</span>' +
+      '</div>';
+  }
+
+  function sentenceHTML(mode, q, answered) {
+    if (mode === 'A') {
+      var parts = q.s.split('____');
+      var blank = '<span class="blank' + (answered ? ' is-filled' : '') + '">' +
+        (answered ? esc(q.a) : '&nbsp;&nbsp;&nbsp;') + '</span>';
+      return esc(parts[0]) + blank + esc(parts.slice(1).join('____'));
+    }
+    var safe = esc(q.s);
+    var mk = esc(q.mark);
+    if (q.markLast) {
+      var at = safe.lastIndexOf(mk);
+      if (at >= 0) {
+        return safe.slice(0, at) + '<em class="mark">' + mk + '</em>' + safe.slice(at + mk.length);
+      }
+    }
+    return safe.split(mk).join('<em class="mark">' + mk + '</em>');
+  }
+
+  function questionHTML(mode, qz) {
+    var q = qz.qs[qz.i];
+    var done = qz.i + (qz.answered ? 1 : 0);
+    var pct = Math.round(done / qz.qs.length * 100);
+    var isA = mode === 'A';
+
+    var opts = q.shuffled.map(function (k) {
+      var label = isA ? k : TONES[k].label;
+      return '<button class="opt' + (isA ? ' is-char' : '') + '" type="button" data-key="' + esc(k) + '">' +
+        esc(label) + '</button>';
+    }).join('');
+
+    return '<div class="quiz-top">' +
+        '<div class="quiz-meta">' +
+          '<h2>' + (isA ? '遊戲一 · 語氣詞填空' : '遊戲二 · 語氣偵探') + '</h2>' +
+          '<span class="quiz-count">第 ' + (qz.i + 1) + ' 題 / 共 ' + qz.qs.length + ' 題</span>' +
+        '</div>' +
+        '<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="' + qz.qs.length + '" aria-valuenow="' + done + '" aria-label="答題進度"><i style="width:' + pct + '%"></i></div>' +
+      '</div>' +
+      '<div class="qcard">' +
+        '<span class="q-tag">' + (isA ? '選一個語氣詞，放進句子裏' : '句尾標示的字，在表達甚麼語氣？') + '</span>' +
+        '<p class="q-sentence">' + sentenceHTML(mode, q, false) + '</p>' +
+        '<div class="options">' + opts + '</div>' +
+      '</div>';
+  }
+
+  function feedbackHTML(mode, q, ok, isLast) {
+    var answer = mode === 'A' ? q.a : TONES[q.a].label;
+    return '<div class="fb-head">' +
+        '<span class="fb-badge ' + (ok ? 'ok' : 'no') + '">' + (ok ? '✓' : '✕') + '</span>' +
+        '<strong>' + (ok ? '答對了！' : '再想想，正確答案是') + '</strong>' +
+        '<span class="answer-chip">' + answer + '</span>' +
+      '</div>' +
+      '<div class="fb-block">' +
+        '<h4>為甚麼</h4>' +
+        '<p>' + q.why + '</p>' +
+      '</div>' +
+      '<div class="fb-block">' +
+        '<h4>白話一點</h4>' +
+        '<div class="fb-plain">' + q.plain + '</div>' +
+      '</div>' +
+      '<div class="fb-src">出處：' + q.src + '</div>' +
+      '<div class="fb-actions">' +
+        '<button class="btn btn-primary btn-sm" type="button" data-act="next" data-mode="' + mode + '">' +
+          (isLast ? '看成績' : '下一題') +
+        '</button>' +
+      '</div>';
+  }
+
+  function renderHost(mode) {
+    var host = hostOf(mode);
+    if (!host) return;
+    var qz = state.quizzes[mode];
+
+    if (!qz) { host.innerHTML = startHTML(mode); return; }
+    if (qz.done) { host.innerHTML = resultHTML(mode, qz); return; }
+    host.innerHTML = questionHTML(mode, qz);
+    if (qz.answered) { paintAnswer(mode, qz); }
+  }
+
+  function paintAnswer(mode, qz) {
+    var shell = hostOf(mode);
+    if (!shell) return false;
+    var q = qz.qs[qz.i];
+    var key = qz.picked;
+    var ok = (key === q.a);
+
+    $all('.opt', shell).forEach(function (b) {
+      b.disabled = true;
+      b.setAttribute('aria-disabled', 'true');
+      var bk = b.getAttribute('data-key');
+      if (bk === q.a) { b.classList.add('is-correct'); }
+      else if (bk === key) { b.classList.add('is-wrong'); }
+      else { b.classList.add('is-dim'); }
+    });
+
+    var blank = $('.blank', shell);
+    if (blank) {
+      blank.classList.add('is-filled');
+      blank.textContent = q.a;
+    }
+
+    var card = $('.qcard', shell);
+    if (card && !$('.feedback', card)) {
+      var fb = document.createElement('div');
+      fb.className = 'feedback';
+      fb.setAttribute('role', 'status');
+      fb.setAttribute('aria-live', 'polite');
+      fb.innerHTML = feedbackHTML(mode, q, ok, qz.i === qz.qs.length - 1);
+      card.appendChild(fb);
+      var nb = $('[data-act="next"]', fb);
+      if (nb) { try { nb.focus({ preventScroll: true }); } catch (e) { } }
+    }
+    return ok;
+  }
+
+  function pickOption(btn) {
+    var shell = btn.closest('.quiz-shell');
+    if (!shell) return;
+    var mode = shell.id === 'hostA' ? 'A' : 'B';
+    var qz = state.quizzes[mode];
+    if (!qz || qz.answered) return;
+
+    qz.answered = true;
+    qz.picked = btn.getAttribute('data-key');
+
+    var ok = paintAnswer(mode, qz);
+    if (ok) qz.score += 1;
+    sfx(ok ? 'ok' : 'no');
+
+    // 只在題卡被導覽列遮住時向上補回，避免把原句推出畫面
+    var card = $('.qcard', shell);
+    if (card) {
+      var diff = card.getBoundingClientRect().top - headerH() - 10;
+      if (diff < 0) { window.scrollBy({ top: diff, behavior: 'smooth' }); }
+    }
+  }
+
+  function nextQuestion(mode) {
+    var qz = state.quizzes[mode];
+    if (!qz || !qz.answered) return;
+    qz.i += 1;
+    qz.answered = false;
+    qz.picked = null;
+    if (qz.i >= qz.qs.length) {
+      qz.done = true;
+      if (qz.score > state.best[mode]) state.best[mode] = qz.score;
+      state.played[mode] = true;
+      saveState();
+      sfx('win');
+      renderHost(mode);
+      scrollQuizTop(mode);
+      return;
+    }
+    renderHost(mode);
+    scrollQuizTop(mode);
+  }
+
+  function resultHTML(mode, qz) {
+    var total = qz.qs.length;
+    var ratio = qz.score / total;
+    var stars = ratio >= 0.9 ? 3 : (ratio >= 0.7 ? 2 : (ratio >= 0.5 ? 1 : 0));
+    var msg;
+    if (qz.score === total) { msg = '滿分！你已經是語氣詞小專家，可以去讀更長的古文了。'; }
+    else if (qz.score >= 8) { msg = '很厲害，只差一點點就全對。再看看錯的那一兩題，印象會更深。'; }
+    else if (qz.score >= 6) { msg = '不錯的開始。回「學一學」把卡片再看一遍，下次一定更穩。'; }
+    else { msg = '別灰心，語氣詞要靠感覺。先回「學一學」看圖讀例句，再來挑戰一次。'; }
+
+    var starHtml = '';
+    for (var i = 0; i < 3; i++) { starHtml += starSvg(i < stars); }
+
+    return '<div class="result-card">' +
+      '<span class="eyebrow">' + (mode === 'A' ? '遊戲一完成' : '遊戲二完成') + '</span>' +
+      '<div class="result-score"><b>' + qz.score + '</b><span>/ ' + total + ' 題</span></div>' +
+      '<div class="stars" aria-label="獲得 ' + stars + ' 顆星">' + starHtml + '</div>' +
+      '<p class="result-msg">' + msg + '</p>' +
+      '<div class="result-actions">' +
+        '<button class="btn btn-primary" type="button" data-act="again" data-mode="' + mode + '">再玩一次</button>' +
+        '<button class="btn btn-ghost" type="button" data-act="switch" data-mode="' + mode + '">' +
+          (mode === 'A' ? '去遊戲二' : '去遊戲一') + '</button>' +
+        '<button class="btn btn-ghost" type="button" data-nav="learn">回教學</button>' +
+      '</div>' +
+      '<span class="result-sub">歷史最佳：' + state.best[mode] + ' / ' + total + '</span>' +
+      '</div>';
+  }
+
+  /* ============================================================
+     7. 事件綁定
+     ============================================================ */
+
+  document.addEventListener('click', function (e) {
+    var nav = e.target.closest('[data-nav]');
+    if (nav) {
+      go(nav.getAttribute('data-nav'));
+      return;
+    }
+
+    var closeBtn = e.target.closest('[data-act="close"]');
+    if (closeBtn) { closeDialog(); return; }
+
+    var speakBtn = e.target.closest('[data-act="speak"]');
+    if (speakBtn) { speak(speakBtn.getAttribute('data-text') || ''); return; }
+
+    var card = e.target.closest('[data-char]');
+    if (card) { openLesson(card.getAttribute('data-char')); return; }
+
+    var opt = e.target.closest('.opt');
+    if (opt) { pickOption(opt); return; }
+
+    var act = e.target.closest('[data-act]');
+    if (act) {
+      var a = act.getAttribute('data-act');
+      var mode = act.getAttribute('data-mode') || (state.view === 'gameA' ? 'A' : 'B');
+      if (a === 'start' || a === 'again') {
+        startQuiz(mode);
+      } else if (a === 'next') {
+        nextQuestion(mode);
+      } else if (a === 'switch') {
+        go(mode === 'A' ? 'gameB' : 'gameA');
+      }
+    }
+  });
+
+  var soundBtn = document.getElementById('soundBtn');
+
+  function syncSound() {
+    if (!soundBtn) return;
+    soundBtn.setAttribute('aria-pressed', state.muted ? 'false' : 'true');
+    soundBtn.textContent = state.muted ? '音效：關' : '音效：開';
+  }
+
+  if (soundBtn) {
+    soundBtn.addEventListener('click', function () {
+      state.muted = !state.muted;
+      syncSound();
+      saveState();
+      if (!state.muted) { beep(700, 0, 0.12, 'sine', 0.1); }
+    });
+  }
+
+  function syncHeaderVar() {
+    document.documentElement.style.setProperty('--hdr', headerH() + 'px');
+  }
+
+  window.addEventListener('resize', syncHeaderVar);
+  window.addEventListener('orientationchange', function () { setTimeout(syncHeaderVar, 120); });
+
+  /* ============================================================
+     8. 啟動
+     ============================================================ */
+
+  loadState();
+  syncHeaderVar();
+  syncSound();
+  renderTeach();
+  renderHost('A');
+  renderHost('B');
+})();
+
+</script>
+</body>
+</html>

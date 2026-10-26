@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FFF6E5">
+<title>回聲谷 · 反復修辭樂園｜小學中文互動遊戲</title>
+<meta name="description" content="小學中文「反復」修辭互動遊戲：四頁圖文教學，加上「反復偵探」與「連續定間隔」兩種模式各十道題，每題附逐點講解，適合手機、平板及電腦使用。">
+<style>
+  :root{
+    --cream:#FFF6E5;
+    --paper:#FFFDF7;
+    --ink:#2F2A24;
+    --ink-2:#6E5D4B;
+    --muted:#786753;
+    --teal:#38BBA6;
+    --teal-d:#17796C;
+    --teal-l:#DCF4EE;
+    --coral:#FF7A5C;
+    --coral-d:#C2452B;
+    --coral-l:#FFE8E1;
+    --sun:#FFC94D;
+    --sun-d:#8A5E00;
+    --sun-l:#FFF1CC;
+    --violet:#7C6BE8;
+    --violet-d:#4E3DB5;
+    --violet-l:#ECE7FF;
+    --line:rgba(47,42,36,.16);
+    --radius:1.6rem;
+    --shadow:0 .4rem 0 rgba(47,42,36,.13);
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  [hidden]{display:none !important}
+  html{-webkit-text-size-adjust:100%}
+  html,body{max-width:100%}
+  body{overflow-x:hidden;overflow-x:clip}
+  body{
+    margin:0;min-height:100vh;min-height:100dvh;
+    font-family:"Noto Sans TC","Noto Sans CJK TC","PingFang TC","PingFang HK","Microsoft JhengHei","Heiti TC","Hiragino Sans CNS",system-ui,-apple-system,"Segoe UI",sans-serif;
+    font-size:clamp(1.07rem,.98rem + .4vw,1.2rem);
+    line-height:1.7;color:var(--ink);
+    background:var(--cream);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:radial-gradient(rgba(47,42,36,.07) 1.3px,transparent 1.4px);
+    background-size:24px 24px;
+  }
+  button{font:inherit;color:inherit;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+  button:focus-visible,a:focus-visible,[tabindex]:focus-visible{
+    outline:3px solid var(--violet);outline-offset:3px;border-radius:.6rem;
+  }
+  .ico{width:1.25em;height:1.25em;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .sprite{position:absolute;width:0;height:0;overflow:hidden}
+  .app{position:relative;z-index:1;min-height:100dvh;display:flex;flex-direction:column}
+  .wrap{width:100%;max-width:66rem;margin:0 auto;padding:0 1rem}
+  main{flex:1 1 auto}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:30;
+    padding-top:env(safe-area-inset-top);
+    background:rgba(255,246,229,.93);
+    backdrop-filter:blur(10px);
+    border-bottom:2px solid var(--line);
+  }
+  .topbar-in{max-width:66rem;margin:0 auto;padding:.6rem 1rem;display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:.75rem}
+  .brand{display:flex;flex-direction:row;align-items:center;gap:.6rem;background:none;border:0;padding:.15rem;cursor:pointer;text-align:left}
+  .brand-mark{width:2.9rem;height:2.9rem;flex:0 0 auto;border-radius:50%;background:var(--teal-l);border:2.5px solid var(--ink);display:grid;place-items:center;overflow:hidden}
+  .brand-mark svg{width:2.5rem;height:2.5rem;display:block}
+  .brand-text{display:flex;flex-direction:column;line-height:1.2;min-width:0}
+  .brand-text strong{font-size:1.12rem;font-weight:900;letter-spacing:.02em}
+  .brand-text small{font-size:.76rem;font-weight:700;color:var(--ink-2);letter-spacing:.06em}
+  .sound-btn{
+    display:inline-flex;flex-direction:row;align-items:center;gap:.4rem;
+    min-height:2.75rem;padding:.45rem .9rem;border-radius:999px;
+    border:2.5px solid var(--ink);background:var(--paper);
+    font-size:.88rem;font-weight:800;cursor:pointer;box-shadow:0 .2rem 0 rgba(47,42,36,.14);
+  }
+  .sound-btn:active{transform:translateY(2px);box-shadow:none}
+  .sound-btn.muted{background:#F1E7D6;color:var(--muted)}
+  .sound-btn.muted .ico{opacity:.7}
+
+  /* ---------- home ---------- */
+  .hero{
+    position:relative;margin:1rem 0 0;padding:1.35rem 1.15rem 1.5rem;
+    background:var(--paper);border:3px solid var(--ink);border-radius:2rem;
+    box-shadow:var(--shadow);overflow:hidden;
+    display:grid;grid-template-columns:1fr;gap:1rem;
+  }
+  .hero::after{
+    content:"";position:absolute;right:-3.5rem;top:-3.5rem;width:11rem;height:11rem;border-radius:50%;
+    background:var(--sun-l);z-index:0;
+  }
+  .hero-copy{position:relative;z-index:1;min-width:0}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:.35rem;
+    font-size:.8rem;font-weight:900;letter-spacing:.14em;color:var(--teal-d);
+    background:var(--teal-l);border:2px solid var(--teal-d);border-radius:999px;padding:.2rem .7rem;
+  }
+  h1{
+    margin:.7rem 0 .5rem;
+    font-size:clamp(1.9rem,1.25rem + 3.2vw,3rem);
+    line-height:1.25;font-weight:900;letter-spacing:.01em;
+  }
+  h1 em{font-style:normal;color:var(--teal-d);position:relative;white-space:nowrap}
+  h1 em::after{content:"";position:absolute;left:0;right:0;bottom:.02em;height:.28em;background:var(--sun);z-index:-1;border-radius:999px}
+  .lead{margin:.35rem 0 0;color:var(--ink-2);font-size:1.06rem;line-height:1.75;max-width:34em}
+  .hero-tags{display:flex;flex-direction:row;flex-wrap:wrap;gap:.45rem;margin-top:.9rem}
+  .tag{display:inline-flex;flex-direction:row;align-items:center;gap:.32rem;font-size:.85rem;font-weight:800;color:var(--ink);background:#FFF3D9;border:2px solid rgba(47,42,36,.25);border-radius:999px;padding:.2rem .65rem}
+  .tag .ico{width:1em;height:1em;color:var(--teal-d)}
+  .hero-art{position:relative;z-index:1;display:grid;place-items:center;min-height:11rem}
+  .hero-art .ring{position:absolute;width:13rem;height:13rem;border-radius:50%;border:3px dashed rgba(23,121,108,.35)}
+  .hero-art .ring2{position:absolute;width:9.4rem;height:9.4rem;border-radius:50%;background:var(--teal-l)}
+  .hero-art .mascot{position:relative;width:10.5rem;height:10.5rem;display:block;filter:drop-shadow(0 .5rem 0 rgba(47,42,36,.12))}
+  .bob{animation:bob 3.2s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  .hero-art .spark{position:absolute;width:1.5rem;height:1.5rem;color:var(--sun-d)}
+  .hero-art .s1{left:8%;top:12%}
+  .hero-art .s2{right:6%;bottom:18%;width:1.1rem;height:1.1rem;color:var(--coral-d)}
+
+  .mode-grid{display:grid;grid-template-columns:1fr;gap:.9rem;margin-top:1rem}
+  .mode-card{
+    position:relative;text-align:left;cursor:pointer;
+    display:flex;flex-direction:column;align-items:flex-start;gap:.3rem;
+    padding:1.15rem 1.15rem 1.2rem;min-height:100%;
+    background:var(--paper);border:3px solid var(--ink);border-radius:1.5rem;
+    box-shadow:var(--shadow);transition:transform .16s ease,box-shadow .16s ease;
+  }
+  .mode-card:hover{transform:translateY(-3px);box-shadow:0 .55rem 0 rgba(47,42,36,.16)}
+  .mode-card:active{transform:translateY(1px);box-shadow:0 .2rem 0 rgba(47,42,36,.14)}
+  .mode-icon{width:3.1rem;height:3.1rem;border-radius:1rem;display:grid;place-items:center;border:2.5px solid var(--ink);margin-bottom:.35rem}
+  .mode-icon .ico{width:1.6rem;height:1.6rem;stroke-width:2.1}
+  .ic-teach{background:var(--sun-l);color:var(--sun-d)}
+  .ic-play1{background:var(--teal-l);color:var(--teal-d)}
+  .ic-play2{background:var(--violet-l);color:var(--violet-d)}
+  .badge{font-size:.72rem;font-weight:900;letter-spacing:.14em;color:var(--muted)}
+  .mode-card h2{margin:.05rem 0 .1rem;font-size:1.35rem;font-weight:900;line-height:1.35}
+  .mode-card p{margin:0;color:var(--ink-2);font-size:.95rem;line-height:1.65}
+  .mode-card .meta{margin-top:auto;padding-top:.6rem;padding-right:1.9rem;font-size:.8rem;font-weight:800;color:var(--teal-d)}
+  .mode-card .arrow{position:absolute;right:1rem;bottom:1rem;width:1.2rem;height:1.2rem;color:var(--ink-2)}
+  .home-note{
+    display:flex;flex-direction:row;align-items:flex-start;gap:.55rem;
+    margin:1rem 0 0;padding:.85rem 1rem;border-radius:1.1rem;
+    background:var(--sun-l);border:2px dashed rgba(138,94,0,.45);
+    font-size:.92rem;color:#6B4D05;line-height:1.65;
+  }
+  .home-note .ico{color:var(--sun-d);margin-top:.15rem}
+
+  /* ---------- shared ---------- */
+  .view{padding-bottom:1.5rem}
+  .section-head{display:flex;flex-direction:row;align-items:center;gap:.6rem;margin:1rem 0 .7rem;flex-wrap:wrap}
+  .section-head h2{margin:0;font-size:1.2rem;font-weight:900;letter-spacing:.02em}
+  .section-head .step{
+    display:grid;place-items:center;min-width:2.1rem;height:2.1rem;padding:0 .4rem;
+    border-radius:999px;background:var(--teal-d);color:#fff;font-weight:900;font-size:.95rem;
+  }
+  .section-head .sub{font-size:.85rem;color:var(--muted);font-weight:700}
+  .btn{
+    display:inline-flex;flex-direction:row;align-items:center;justify-content:center;gap:.45rem;
+    padding:.8rem 1.15rem;border-radius:1rem;border:2.5px solid var(--ink);
+    background:var(--paper);font-weight:900;font-size:1rem;cursor:pointer;
+    box-shadow:0 .24rem 0 rgba(47,42,36,.16);
+    transition:transform .12s ease,box-shadow .12s ease,background .12s ease;
+    text-decoration:none;
+  }
+  .btn:hover{transform:translateY(-1px)}
+  .btn:active{transform:translateY(2px);box-shadow:0 .1rem 0 rgba(47,42,36,.14)}
+  .btn.primary{background:var(--teal-d);color:#FFFDF5}
+  .btn.sun{background:var(--sun);color:#3B2C08}
+  .btn.ghost{background:transparent;box-shadow:none;border-color:rgba(47,42,36,.35);color:var(--ink-2)}
+  .btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+
+  /* ---------- teach ---------- */
+  .teach-wrap{width:100%;max-width:60rem;margin:0 auto}
+  .teach-slide{
+    display:grid;grid-template-columns:1fr;gap:1rem;
+    background:var(--paper);border:3px solid var(--ink);border-radius:1.8rem;
+    padding:1rem;box-shadow:var(--shadow);
+  }
+  .slide-visual{
+    background:linear-gradient(160deg,#FFF8E8,#EAF8F4 70%);
+    border:2px solid rgba(47,42,36,.22);border-radius:1.3rem;
+    padding:.5rem;display:grid;place-items:center;min-height:12rem;overflow:hidden;
+  }
+  .slide-visual svg.illus{width:100%;height:auto;max-height:21rem;display:block}
+  .slide-body{min-width:0;padding:.2rem .35rem .4rem}
+  .kicker{display:inline-block;font-size:.78rem;font-weight:900;letter-spacing:.12em;color:var(--coral-d);background:var(--coral-l);border-radius:999px;padding:.18rem .6rem}
+  .slide-body h3{margin:.45rem 0 .4rem;font-size:clamp(1.45rem,1.1rem + 1.5vw,2rem);font-weight:900;line-height:1.35}
+  .slide-body p{margin:.3rem 0;line-height:1.8}
+  .slide-body strong{background:linear-gradient(transparent 62%,var(--sun) 62%);padding:0 .1em;font-weight:900}
+  .bullets{list-style:none;margin:.7rem 0;padding:0;display:flex;flex-direction:column;gap:.45rem}
+  .bullets li{display:flex;flex-direction:row;align-items:flex-start;gap:.5rem;font-size:.98rem}
+  .bullets .ico{width:1.2rem;height:1.2rem;color:var(--teal-d);margin-top:.18rem}
+  .example{
+    margin:.75rem 0;padding:.75rem .9rem;border-radius:1rem;
+    background:#FFF7E2;border:2px dashed rgba(138,94,0,.4);
+    font-size:clamp(1.12rem,1rem + .7vw,1.45rem);font-weight:800;line-height:1.8;
+  }
+  .example .label{
+    display:inline-block;font-size:.72rem;font-weight:900;letter-spacing:.1em;
+    color:#6B4D05;background:var(--sun);border-radius:.45rem;padding:.05rem .45rem;margin-right:.4rem;vertical-align:.15em;
+  }
+  .hl{background:linear-gradient(transparent 18%,#FFE08A 18%,#FFE08A 92%,transparent 92%);border-radius:.2rem;padding:0 .08em;font-weight:900;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .tip{display:flex;flex-direction:row;align-items:flex-start;gap:.5rem;margin-top:.7rem;padding:.7rem .9rem;background:var(--teal-l);border-radius:1rem;font-size:.93rem;line-height:1.7;color:#0F5A51}
+  .tip .ico{color:var(--teal-d);margin-top:.2rem}
+  .teach-nav{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:.6rem;margin-top:.9rem}
+  .dots{display:flex;flex-direction:row;align-items:center;gap:.4rem}
+  .dot{position:relative;width:2.25rem;height:2.25rem;padding:0;border:0;background:transparent;cursor:pointer}
+  .dot::before{
+    content:"";position:absolute;inset:.7rem;border-radius:50%;
+    border:2px solid var(--ink);background:var(--paper);
+    transition:transform .15s ease,background .15s ease;
+  }
+  .dot.on::before{background:var(--teal-d);transform:scale(1.25)}
+  .teach-nav .btn{padding:.65rem .9rem;font-size:.92rem}
+  @media (max-width:26rem){
+    .teach-nav{flex-wrap:wrap;gap:.5rem}
+    .teach-nav #teachPrev{order:1}
+    .teach-nav #teachNext{order:2;margin-left:auto}
+    .teach-nav .dots{order:3;width:100%;justify-content:center;margin-top:.2rem}
+  }
+  .cta-row{display:flex;flex-direction:column;gap:.55rem;margin-top:.9rem}
+  .cta-row .btn{width:100%}
+  .compare{display:flex;flex-direction:column;gap:.6rem;width:100%}
+  .cmp-row{
+    display:flex;flex-direction:column;align-items:flex-start;gap:.4rem;
+    background:#FFFDF7;border:2px solid rgba(47,42,36,.22);border-radius:1rem;padding:.7rem .8rem;
+  }
+  .cmp-tag{font-size:.78rem;font-weight:900;padding:.12rem .55rem;border-radius:999px;background:var(--teal-l);color:var(--teal-d);border:2px solid var(--teal-d)}
+  .cmp-tag.sep{background:var(--violet-l);color:var(--violet-d);border-color:var(--violet-d)}
+  .cmp-tag.warn{background:#EFE7DA;color:var(--ink-2);border-color:rgba(47,42,36,.3)}
+  .pills{display:flex;flex-direction:row;flex-wrap:wrap;gap:.32rem;align-items:center}
+  .pill{display:inline-block;font-size:1rem;font-weight:900;padding:.25rem .6rem;border-radius:.6rem;background:#F0E6D4;border:2px solid rgba(47,42,36,.28);line-height:1.4}
+  .pill.teal{background:var(--teal-l);border-color:var(--teal-d);color:var(--teal-d)}
+  .cmp-note{font-size:.94rem;color:var(--ink-2);line-height:1.55}
+
+  /* ---------- game ---------- */
+  .game-shell{width:100%;max-width:54rem;margin:0 auto}
+  .game-head{
+    display:flex;flex-direction:row;align-items:center;gap:.6rem;
+    margin-top:.9rem;flex-wrap:nowrap;
+  }
+  .game-head .quit{padding:.5rem .7rem;font-size:.85rem;min-height:2.7rem}
+  .game-title{flex:1 1 auto;text-align:center;min-width:0;line-height:1.25}
+  .game-title strong{display:block;font-size:clamp(1.1rem,1rem + .5vw,1.4rem);font-weight:900}
+  .game-title small{display:block;font-size:.78rem;font-weight:700;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .score-chip{
+    display:inline-flex;flex-direction:row;align-items:center;gap:.3rem;white-space:nowrap;
+    background:var(--sun);border:2.5px solid var(--ink);border-radius:999px;padding:.35rem .7rem;
+    font-size:.82rem;font-weight:800;box-shadow:0 .18rem 0 rgba(47,42,36,.14);
+  }
+  .score-chip strong{font-size:1.1rem;font-weight:900}
+  .progress{height:.65rem;border-radius:999px;background:#EFE3CE;border:2px solid rgba(47,42,36,.22);overflow:hidden;margin-top:.7rem}
+  .progress > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--teal-d));border-radius:999px;transition:width .3s ease}
+  .qmeta{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:.5rem;margin:.55rem 0 .45rem;font-size:.82rem;font-weight:800;color:var(--ink-2);flex-wrap:wrap}
+  .qmeta .mode-tag{background:var(--violet-l);color:var(--violet-d);border-radius:999px;padding:.12rem .6rem;font-size:.76rem}
+  .qdots{display:flex;flex-direction:row;align-items:center;gap:.26rem;flex-wrap:wrap}
+  .qdot{width:.62rem;height:.62rem;border-radius:50%;background:#EDE1CC;border:1.5px solid rgba(47,42,36,.2)}
+  .qdot.now{background:var(--sun);border-color:var(--ink);transform:scale(1.18)}
+  .qdot.ok{background:var(--teal-d);border-color:var(--teal-d)}
+  .qdot.no{background:var(--coral);border-color:var(--coral-d)}
+  .qcard{background:var(--paper);border:3px solid var(--ink);border-radius:1.7rem;padding:1.05rem;box-shadow:var(--shadow)}
+  .prompt{margin:0 0 .55rem;font-size:clamp(1.02rem,.98rem + .3vw,1.2rem);font-weight:900;color:var(--teal-d)}
+  .sentence{
+    margin:0 0 .9rem;padding:.8rem .9rem;border-radius:1rem;
+    background:#FFF8E8;border:2px solid rgba(47,42,36,.18);
+    font-size:clamp(1.4rem,1.1rem + 1.8vw,2.1rem);
+    line-height:1.9;font-weight:800;letter-spacing:.02em;
+  }
+  .sentence .hl{background:linear-gradient(transparent 12%,#FFD979 12%,#FFD979 94%,transparent 94%)}
+  .options{display:grid;grid-template-columns:1fr;gap:.6rem;margin-top:.2rem}
+  .opt{
+    position:relative;display:flex;flex-direction:row;align-items:center;gap:.7rem;text-align:left;
+    width:100%;padding:.85rem .9rem;border-radius:1.05rem;
+    background:#FFFDF8;border:2.5px solid var(--ink);
+    font-size:clamp(1.13rem,1.02rem + .7vw,1.42rem);font-weight:900;line-height:1.5;
+    cursor:pointer;box-shadow:0 .22rem 0 rgba(47,42,36,.13);
+    transition:transform .12s ease,background .12s ease,box-shadow .12s ease;
+  }
+  .opt:hover:not(:disabled){background:#FFF6DE;transform:translateY(-2px)}
+  .opt:active:not(:disabled){transform:translateY(1px);box-shadow:0 .1rem 0 rgba(47,42,36,.12)}
+  .opt:disabled{cursor:default}
+  .opt .key{
+    flex:0 0 auto;width:2.1rem;height:2.1rem;border-radius:.7rem;display:grid;place-items:center;
+    background:var(--teal-l);border:2px solid var(--teal-d);color:var(--teal-d);
+    font-size:.95rem;font-weight:900;
+  }
+  .opt .txt{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:.1rem}
+  .opt .sub{font-size:.8rem;font-weight:700;color:var(--ink-2);line-height:1.5}
+  .opt .mark{flex:0 0 auto;width:1.5rem;height:1.5rem;display:grid;place-items:center;color:var(--teal-d);opacity:0}
+  .opt .mark .ico{width:1.4rem;height:1.4rem;stroke-width:3}
+  .opt.is-correct{background:var(--teal-l);border-color:var(--teal-d);box-shadow:0 .22rem 0 rgba(23,121,108,.28)}
+  .opt.is-correct .key{background:var(--teal-d);color:#fff;border-color:var(--teal-d)}
+  .opt.is-correct .mark{opacity:1}
+  .opt.is-wrong{background:var(--coral-l);border-color:var(--coral-d);color:#6B2414}
+  .opt.is-wrong .key{background:var(--coral-d);color:#fff;border-color:var(--coral-d)}
+  .opt.is-wrong .mark{opacity:1;color:var(--coral-d)}
+  .opt.is-dim{opacity:.62}
+
+  .feedback{margin-top:.9rem;padding:.9rem;border-radius:1.1rem;border:2.5px solid var(--teal-d);background:#F1FBF7;animation:pop .22s ease}
+  .feedback.bad{border-color:var(--coral-d);background:#FFF3EE}
+  @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .fb-head{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap}
+  .fb-badge{display:inline-flex;flex-direction:row;align-items:center;gap:.35rem;font-size:1.02rem;font-weight:900;color:var(--teal-d)}
+  .feedback.bad .fb-badge{color:var(--coral-d)}
+  .fb-type{font-size:.76rem;font-weight:900;padding:.15rem .55rem;border-radius:999px;background:var(--paper);border:2px solid currentColor;color:var(--teal-d)}
+  .feedback.bad .fb-type{color:var(--coral-d)}
+  .fb-picked{margin:.5rem 0 0;font-size:.9rem;font-weight:800;color:var(--coral-d)}
+  .fb-answer{margin:.5rem 0 .2rem;font-size:1rem;font-weight:800}
+  .fb-answer strong{color:var(--teal-d);font-size:1.1em}
+  .fb-sentence{
+    margin:.55rem 0;padding:.55rem .7rem;border-radius:.8rem;background:var(--paper);
+    border:2px solid rgba(47,42,36,.16);font-size:1.05rem;font-weight:800;line-height:1.85;
+  }
+  .fb-steps{display:flex;flex-direction:column;gap:.45rem;margin:.65rem 0 .2rem}
+  .fb-step{display:flex;flex-direction:row;align-items:flex-start;gap:.5rem;font-size:1rem;line-height:1.7}
+  .fb-step .n{
+    flex:0 0 auto;width:1.6rem;height:1.6rem;border-radius:50%;display:grid;place-items:center;
+    background:var(--teal-d);color:#fff;font-size:.8rem;font-weight:900;margin-top:.1rem;
+  }
+  .feedback.bad .fb-step .n{background:var(--coral-d)}
+  .fb-step .k{font-weight:900;display:block;font-size:.86rem;color:var(--ink-2);letter-spacing:.02em}
+  .fb-step .v{display:block}
+  .feedback .btn{width:100%;margin-top:.7rem}
+  .kbd-hint{margin:.7rem 0 0;text-align:center;font-size:.76rem;color:var(--muted);font-weight:700}
+  @media (pointer:coarse),(max-width:47.99rem){.kbd-hint{display:none}}
+
+  /* ---------- result ---------- */
+  .result-wrap{width:100%;max-width:44rem;margin:0 auto}
+  .result-card{
+    margin-top:1rem;padding:1.3rem 1.1rem 1.2rem;text-align:center;
+    background:var(--paper);border:3px solid var(--ink);border-radius:2rem;box-shadow:var(--shadow);
+  }
+  .result-card > .mascot{width:7.5rem;height:7.5rem;display:block;margin:0 auto}
+  .stars{display:flex;flex-direction:row;justify-content:center;gap:.3rem;margin:.35rem 0 .1rem}
+  .star{width:2.6rem;height:2.6rem;fill:#E6D8C2;stroke:rgba(47,42,36,.35);stroke-width:1.4}
+  .star.on{fill:var(--sun);stroke:var(--ink)}
+  .result-mode{
+    display:inline-block;margin:.45rem 0 0;padding:.15rem .75rem;border-radius:999px;
+    background:var(--teal-l);color:var(--teal-d);font-size:.8rem;font-weight:900;letter-spacing:.08em;
+  }
+  .result-card h2{margin:.3rem 0 .2rem;font-size:clamp(1.6rem,1.3rem + 1.6vw,2.2rem);font-weight:900}
+  .result-score{margin:.1rem 0 .5rem;font-size:1.05rem;font-weight:800;color:var(--ink-2)}
+  .result-score strong{font-size:1.6rem;color:var(--teal-d)}
+  .rate-bar{height:.8rem;border-radius:999px;background:#EFE3CE;border:2px solid rgba(47,42,36,.2);overflow:hidden;margin:.5rem 0 .8rem}
+  .rate-bar span{display:block;height:100%;background:linear-gradient(90deg,var(--sun),var(--teal));border-radius:999px;transition:width .5s ease}
+  .result-msg{margin:.2rem auto .9rem;max-width:30em;color:var(--ink-2);font-size:.98rem;line-height:1.75}
+  .result-actions{display:flex;flex-direction:column;gap:.55rem}
+  .result-actions .btn{width:100%}
+  .review{margin-top:1.1rem;text-align:left}
+  .review h3{margin:0 0 .55rem;font-size:1rem;font-weight:900;color:var(--coral-d);display:flex;flex-direction:row;align-items:center;gap:.4rem}
+  .review-item{padding:.7rem .8rem;border-radius:.9rem;background:#FFF6F1;border:2px solid rgba(194,69,43,.35);margin-bottom:.5rem}
+  .review-item .rq{font-size:.76rem;font-weight:900;color:var(--coral-d);letter-spacing:.08em}
+  .review-item .rs{font-size:.98rem;font-weight:800;line-height:1.75;margin:.1rem 0 .25rem}
+  .review-item .ra{font-size:.9rem;color:var(--ink-2);line-height:1.7}
+  .review-empty{font-size:.95rem;color:var(--teal-d);font-weight:800;background:var(--teal-l);border-radius:.9rem;padding:.7rem .8rem}
+
+  .foot{padding:1.3rem 1rem calc(1.6rem + env(safe-area-inset-bottom));text-align:center;font-size:.74rem;color:var(--muted);line-height:1.6}
+
+  @media (min-width:34rem){
+    .cta-row{flex-direction:row;flex-wrap:wrap}
+    .cta-row .btn{width:auto;flex:1 1 12rem}
+    .result-actions{flex-direction:row;flex-wrap:wrap;justify-content:center}
+    .result-actions .btn{width:auto;flex:1 1 11rem}
+    .cmp-row{flex-direction:row;align-items:center;flex-wrap:wrap;gap:.55rem}
+    .cmp-note{margin-left:auto;text-align:right}
+  }
+  @media (min-width:48rem){
+    .hero{grid-template-columns:1.15fr .85fr;align-items:center;padding:1.8rem 2rem}
+    .hero-art{min-height:14rem}
+    .hero-art .mascot{width:12.5rem;height:12.5rem}
+    .mode-grid{grid-template-columns:repeat(3,1fr);gap:1rem}
+    .teach-slide{grid-template-columns:1.02fr 1fr;gap:1.4rem;padding:1.3rem}
+    .slide-body{padding:.4rem .4rem .4rem 0}
+    .qcard{padding:1.4rem}
+    .options.cols{grid-template-columns:repeat(3,1fr)}
+    .options.cols .opt{flex-direction:column;align-items:flex-start;gap:.35rem}
+    .options.cols .opt .mark{position:absolute;right:.6rem;top:.6rem}
+    .options.cols .opt .key{width:1.8rem;height:1.8rem;font-size:.85rem}
+    .options.cols .opt .txt{font-size:1.15rem}
+  }
+  @media (min-width:64rem){
+    body{font-size:1.14rem}
+    .hero{margin-top:1.4rem}
+    #view-teach,#view-game,#view-result{
+      display:flex;flex-direction:column;justify-content:center;
+      min-height:calc(100dvh - 10.5rem);
+    }
+    .prompt{font-size:1.3rem}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .bob{animation:none}
+    *{transition:none !important;animation:none !important}
+  }
+</style>
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="mascot" viewBox="0 0 200 200">
+    <ellipse cx="100" cy="186" rx="52" ry="8" fill="rgba(47,42,36,.10)"/>
+    <path d="M78 60 L70 32" stroke="#2F2A24" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M122 60 L130 32" stroke="#2F2A24" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <circle cx="69" cy="28" r="8.5" fill="#FFC94D" stroke="#2F2A24" stroke-width="4"/>
+    <circle cx="131" cy="28" r="8.5" fill="#FFC94D" stroke="#2F2A24" stroke-width="4"/>
+    <path d="M100 50c31 0 56 24 56 55s-25 57-56 57-56-26-56-57 25-55 56-55Z" fill="#7FDDCB" stroke="#2E5D57" stroke-width="5"/>
+    <path d="M63 120c0 19 17 33 37 33s37-14 37-33c0-15-17-23-37-23s-37 8-37 23Z" fill="#FFF7E8" opacity=".92"/>
+    <ellipse cx="63" cy="122" rx="10" ry="7" fill="#FFB3A0" opacity=".85"/>
+    <ellipse cx="137" cy="122" rx="10" ry="7" fill="#FFB3A0" opacity=".85"/>
+    <circle cx="81" cy="98" r="15" fill="#FFFFFF" stroke="#2E5D57" stroke-width="3"/>
+    <circle cx="119" cy="98" r="15" fill="#FFFFFF" stroke="#2E5D57" stroke-width="3"/>
+    <circle cx="83" cy="101" r="7" fill="#2F2A24"/>
+    <circle cx="121" cy="101" r="7" fill="#2F2A24"/>
+    <circle cx="85.5" cy="98" r="2.4" fill="#FFFFFF"/>
+    <circle cx="123.5" cy="98" r="2.4" fill="#FFFFFF"/>
+    <path d="M92 128q8 10 16 0" stroke="#2F2A24" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+    <path d="M44 118c-10 2-14 9-13 15" stroke="#2E5D57" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M156 118c10 2 14 9 13 15" stroke="#2E5D57" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <ellipse cx="77" cy="174" rx="13" ry="9" fill="#5FC9B5" stroke="#2E5D57" stroke-width="4"/>
+    <ellipse cx="123" cy="174" rx="13" ry="9" fill="#5FC9B5" stroke="#2E5D57" stroke-width="4"/>
+  </symbol>
+
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5V5.5Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></symbol>
+  <symbol id="i-sort" viewBox="0 0 24 24"><path d="M12 3 21 8l-9 5-9-5 9-5Z"/><path d="M3 12.5 12 17.5 21 12.5"/><path d="M3 17 12 22l9-5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.45L12 17.4l-5.8 3.1 1.1-6.45L2.6 9.45l6.5-.95L12 2.6Z" stroke-linejoin="round"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V20h13V9.5"/></symbol>
+  <symbol id="i-repeat" viewBox="0 0 24 24"><path d="M3 11a8 8 0 0 1 13.7-5.6L21 9"/><path d="M21 4v5h-5"/><path d="M21 13a8 8 0 0 1-13.7 5.6L3 15"/><path d="M3 20v-5h5"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 1.1 1 1.9V16h5v-.2c0-.8.4-1.5 1-1.9A6 6 0 0 0 12 3Z"/></symbol>
+  <symbol id="i-sound-on" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13L7.5 14.5H4z" stroke-linejoin="round"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M18.8 6.5a8 8 0 0 1 0 11"/></symbol>
+  <symbol id="i-sound-off" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13L7.5 14.5H4z" stroke-linejoin="round"/><path d="M16.5 9.5 21 14M21 9.5l-4.5 4.5"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></symbol>
+</svg>
+
+<div class="app">
+  <header class="topbar">
+    <div class="topbar-in">
+      <button class="brand" id="brandBtn" type="button" aria-label="回到首頁">
+        <span class="brand-mark"><svg viewBox="0 0 200 200" aria-hidden="true"><use href="#mascot"/></svg></span>
+        <span class="brand-text"><strong>回聲谷</strong><small>反復修辭樂園</small></span>
+      </button>
+      <button class="sound-btn" id="soundBtn" type="button" aria-pressed="true" aria-label="關閉音效">
+        <svg class="ico" aria-hidden="true"><use id="soundUse" href="#i-sound-on"/></svg>
+        <span id="soundLabel">音效開</span>
+      </button>
+    </div>
+  </header>
+
+  <main data-generated-by="vibe-coding-frontend-design">
+    <div class="wrap">
+
+      <!-- ================= 首頁 ================= -->
+      <section class="view" id="view-home" aria-label="首頁">
+        <div class="hero">
+          <div class="hero-copy">
+            <span class="eyebrow">小學中文 · 修辭練習</span>
+            <h1>走進<em>回聲谷</em><br>學會「反復」修辭</h1>
+            <p class="lead">同一句話再說一次，山谷就會把聲音傳回來。先看四張圖卡，分清「連續反復」和「間隔反復」，再挑戰兩個遊戲 —— 每題都會告訴你為甚麼。</p>
+            <div class="hero-tags">
+              <span class="tag"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>圖文教學</span>
+              <span class="tag"><svg class="ico" aria-hidden="true"><use href="#i-repeat"/></svg>兩種模式</span>
+              <span class="tag"><svg class="ico" aria-hidden="true"><use href="#i-spark"/></svg>20 道題目</span>
+            </div>
+          </div>
+          <div class="hero-art">
+            <span class="ring" aria-hidden="true"></span>
+            <span class="ring2" aria-hidden="true"></span>
+            <svg class="spark s1" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-spark"/></svg>
+            <svg class="spark s2" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-spark"/></svg>
+            <svg class="mascot bob" viewBox="0 0 200 200" role="img" aria-label="回聲精靈，圓圓的綠色臉孔，笑着張開雙手"><use href="#mascot"/></svg>
+          </div>
+        </div>
+
+        <div class="mode-grid">
+          <button class="mode-card" type="button" data-go="teach">
+            <span class="mode-icon ic-teach"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg></span>
+            <span class="badge">STEP 1</span>
+            <h2>先學一學</h2>
+            <p>四張圖卡，看懂甚麼是反復，以及連續和間隔的分別。</p>
+            <span class="meta">4 頁圖文教學 · 約 3 分鐘</span>
+            <svg class="ico arrow" aria-hidden="true"><use href="#i-right"/></svg>
+          </button>
+
+          <button class="mode-card" type="button" data-start="1">
+            <span class="mode-icon ic-play1"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg></span>
+            <span class="badge">GAME 1</span>
+            <h2>反復偵探</h2>
+            <p>讀句子，找出被反復使用的那個詞語，像偵探一樣找出線索。</p>
+            <span class="meta">10 道題 · 三選一</span>
+            <svg class="ico arrow" aria-hidden="true"><use href="#i-right"/></svg>
+          </button>
+
+          <button class="mode-card" type="button" data-start="2">
+            <span class="mode-icon ic-play2"><svg class="ico" aria-hidden="true"><use href="#i-sort"/></svg></span>
+            <span class="badge">GAME 2</span>
+            <h2>連續定間隔</h2>
+            <p>判斷句子屬於連續反復、間隔反復，還是根本沒有反復。</p>
+            <span class="meta">10 道題 · 三選一</span>
+            <svg class="ico arrow" aria-hidden="true"><use href="#i-right"/></svg>
+          </button>
+        </div>
+
+        <div class="home-note">
+          <svg class="ico" aria-hidden="true"><use href="#i-bulb"/></svg>
+          <span><strong>小提示：</strong>兩個遊戲的題目完全不同。做完一個，可以再挑戰另一個，看看自己是否真的分得清。口訣是「緊貼是連續，隔開是間隔」。</span>
+        </div>
+      </section>
+
+      <!-- ================= 教學 ================= -->
+      <section class="view" id="view-teach" hidden aria-label="圖卡教學">
+        <div class="teach-wrap">
+          <div class="section-head">
+            <span class="step" id="teachStep">1</span>
+            <h2>圖卡教學</h2>
+            <span class="sub" id="teachCount">第 1 頁，共 4 頁</span>
+          </div>
+
+          <!-- slide 1 -->
+          <article class="teach-slide" id="teach-slide-0" data-slide="0">
+            <div class="slide-visual">
+              <svg class="illus" viewBox="0 0 360 250" role="img" aria-label="回聲精靈在山谷中大叫春天來了，左右兩邊各有一個寫着春天來了的對話框，並有聲波傳開">
+                <defs>
+                  <linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#E7F8F3"/><stop offset="1" stop-color="#FFF6E0"/>
+                  </linearGradient>
+                </defs>
+                <rect width="360" height="250" fill="url(#sky1)"/>
+                <circle cx="300" cy="42" r="20" fill="#FFC94D" opacity=".7"/>
+                <path d="M0 196c40-34 74-34 112-6 30-30 70-30 106 4 34-22 78-20 142 6v50H0Z" fill="#BFEBDF"/>
+                <path d="M0 214c46-24 82-22 118-2 36-26 78-24 112 2 42-18 88-14 130 4v32H0Z" fill="#8FDCCB"/>
+                <g fill="#FFFDF8" stroke="#2F2A24" stroke-width="4">
+                  <rect x="14" y="26" width="132" height="50" rx="16"/>
+                  <rect x="214" y="26" width="132" height="50" rx="16"/>
+                </g>
+                <text x="80" y="59" text-anchor="middle" font-size="19" font-weight="800" fill="#2F2A24">春天來了！</text>
+                <text x="280" y="59" text-anchor="middle" font-size="19" font-weight="800" fill="#2F2A24">春天來了！</text>
+                <path d="M120 78l10 12 4-14" fill="none" stroke="#2F2A24" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M240 78l-10 12-4-14" fill="none" stroke="#2F2A24" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <g fill="none" stroke="#17796C" stroke-width="4" stroke-linecap="round" opacity=".5">
+                  <path d="M56 128a26 26 0 0 1 0 40"/><path d="M38 116a46 46 0 0 1 0 64"/>
+                  <path d="M304 128a26 26 0 0 0 0 40"/><path d="M322 116a46 46 0 0 0 0 64"/>
+                </g>
+                <use href="#mascot" x="106" y="80" width="148" height="148"/>
+                <g fill="#FF7A5C">
+                  <circle cx="52" cy="196" r="6"/><circle cx="72" cy="206" r="5"/>
+                  <circle cx="308" cy="196" r="6"/><circle cx="288" cy="206" r="5"/>
+                </g>
+                <g stroke="#17796C" stroke-width="4" stroke-linecap="round">
+                  <path d="M56 206v14"/><path d="M70 208v12"/><path d="M304 206v14"/><path d="M290 208v12"/>
+                </g>
+              </svg>
+            </div>
+            <div class="slide-body">
+              <span class="kicker">第一站</span>
+              <h3>甚麼是「反復」？</h3>
+              <p>把同一個詞語或句子，一次又一次地說出來（兩次或以上），就叫<strong>反復</strong>。就像在山谷大喊，聲音會傳回來。</p>
+              <ul class="bullets">
+                <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>可以強調心情，例如很開心、很着急。</span></li>
+                <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>讀起來有節奏，像唱歌一樣好聽。</span></li>
+              </ul>
+              <div class="example"><span class="label">例子</span>春天來了，<span class="hl">春天來了</span>，花兒都開了。</div>
+              <p style="color:var(--ink-2);font-size:.95rem">「春天來了」說了兩次，像回聲一樣，強調春天真的到了。</p>
+            </div>
+          </article>
+
+          <!-- slide 2 -->
+          <article class="teach-slide" id="teach-slide-1" data-slide="1" hidden>
+            <div class="slide-visual">
+              <svg class="illus" viewBox="0 0 360 250" role="img" aria-label="兩個寫着加油的方塊緊緊貼在一起，下面標示中間沒有其他詞語">
+                <rect width="360" height="250" fill="#FFF9EA"/>
+                <circle cx="48" cy="46" r="14" fill="#FFC94D" opacity=".55"/>
+                <circle cx="312" cy="196" r="18" fill="#38BBA6" opacity=".18"/>
+                <g stroke="#FFC94D" stroke-width="5" stroke-linecap="round">
+                  <path d="M70 60l6 12M62 72l-12 4"/><path d="M292 76l-6 12M300 88l12 4"/>
+                </g>
+                <g>
+                  <rect x="34" y="88" width="136" height="82" rx="20" fill="#7FDDCB" stroke="#2F2A24" stroke-width="4"/>
+                  <rect x="170" y="88" width="136" height="82" rx="20" fill="#7FDDCB" stroke="#2F2A24" stroke-width="4"/>
+                  <text x="102" y="142" text-anchor="middle" font-size="30" font-weight="900" fill="#17564D">加油</text>
+                  <text x="238" y="142" text-anchor="middle" font-size="30" font-weight="900" fill="#17564D">加油</text>
+                </g>
+                <path d="M170 82v94" stroke="#2F2A24" stroke-width="3" stroke-dasharray="6 6" opacity=".45"/>
+                <path d="M132 64h96" stroke="#17796C" stroke-width="3" stroke-linecap="round"/>
+                <path d="M132 64l8-5M132 64l8 5M228 64l-8-5M228 64l-8 5" stroke="#17796C" stroke-width="3" stroke-linecap="round" fill="none"/>
+                <text x="180" y="50" text-anchor="middle" font-size="15" font-weight="800" fill="#17796C">緊緊貼在一起</text>
+                <rect x="78" y="192" width="204" height="38" rx="19" fill="#FFF1CC" stroke="#8A5E00" stroke-width="2.5" stroke-dasharray="7 6"/>
+                <text x="180" y="217" text-anchor="middle" font-size="15" font-weight="800" fill="#6B4D05">中間沒有其他詞語</text>
+              </svg>
+            </div>
+            <div class="slide-body">
+              <span class="kicker">第二站 · 連續反復</span>
+              <h3>同一個詞語，貼在一起</h3>
+              <p>重複的詞語<strong>緊緊貼在一起</strong>，中間沒有其他詞語，就是連續反復。</p>
+              <div class="example"><span class="label">例子</span><span class="hl">加油</span>！<span class="hl">加油</span>！我們一定做得到！</div>
+              <div class="tip"><svg class="ico" aria-hidden="true"><use href="#i-bulb"/></svg><span>打氣、着急、興奮的時候，最常用連續反復，讀起來一聲比一聲響。</span></div>
+            </div>
+          </article>
+
+          <!-- slide 3 -->
+          <article class="teach-slide" id="teach-slide-2" data-slide="2" hidden>
+            <div class="slide-visual">
+              <svg class="illus" viewBox="0 0 360 250" role="img" aria-label="我愛看書、我愛畫畫、我愛唱歌三張字卡上下排列，三個我愛分開站着，中間隔着不同的活動">
+                <rect width="360" height="250" fill="#F7F4FF"/>
+                <circle cx="322" cy="44" r="16" fill="#7C6BE8" opacity=".14"/>
+                <text x="180" y="31" text-anchor="middle" font-size="14.5" font-weight="800" fill="#4E3DB5">「我愛」出現了三次</text>
+                <path d="M87 58v154" stroke="#7C6BE8" stroke-width="3" stroke-dasharray="7 7" stroke-linecap="round" opacity=".65"/>
+                <g font-size="19" font-weight="800" text-anchor="middle">
+                  <rect x="46" y="56" width="82" height="46" rx="14" fill="#7FDDCB" stroke="#2F2A24" stroke-width="3.5"/>
+                  <text x="87" y="86" fill="#17564D">我愛</text>
+                  <rect x="140" y="56" width="122" height="46" rx="14" fill="#FFE3A8" stroke="#2F2A24" stroke-width="3.5"/>
+                  <text x="201" y="86" fill="#7A5A16">看書</text>
+
+                  <rect x="46" y="110" width="82" height="46" rx="14" fill="#7FDDCB" stroke="#2F2A24" stroke-width="3.5"/>
+                  <text x="87" y="140" fill="#17564D">我愛</text>
+                  <rect x="140" y="110" width="122" height="46" rx="14" fill="#FFE3A8" stroke="#2F2A24" stroke-width="3.5"/>
+                  <text x="201" y="140" fill="#7A5A16">畫畫</text>
+
+                  <rect x="46" y="164" width="82" height="46" rx="14" fill="#7FDDCB" stroke="#2F2A24" stroke-width="3.5"/>
+                  <text x="87" y="194" fill="#17564D">我愛</text>
+                  <rect x="140" y="164" width="122" height="46" rx="14" fill="#FFE3A8" stroke="#2F2A24" stroke-width="3.5"/>
+                  <text x="201" y="194" fill="#7A5A16">唱歌</text>
+                </g>
+                <text x="180" y="233" text-anchor="middle" font-size="12.5" font-weight="800" fill="#4E3DB5">三個「我愛」分開站着，中間隔着不同的活動</text>
+              </svg>
+            </div>
+            <div class="slide-body">
+              <span class="kicker">第三站 · 間隔反復</span>
+              <h3>同一個詞語，分開站着</h3>
+              <p>重複的詞語中間<strong>隔着其他詞語</strong>，就是間隔反復。</p>
+              <div class="example"><span class="label">例子</span><span class="hl">我愛</span>看書，<span class="hl">我愛</span>畫畫，<span class="hl">我愛</span>唱歌。</div>
+              <div class="tip"><svg class="ico" aria-hidden="true"><use href="#i-bulb"/></svg><span>想一件一件數出來、一層一層說心情，可以用間隔反復。</span></div>
+            </div>
+          </article>
+
+          <!-- slide 4 -->
+          <article class="teach-slide" id="teach-slide-3" data-slide="3" hidden>
+            <div class="slide-visual" style="padding:.9rem .8rem">
+              <div class="compare">
+                <div class="cmp-row">
+                  <span class="cmp-tag">連續</span>
+                  <span class="pills"><span class="pill teal">加油</span><span class="pill teal">加油</span></span>
+                  <span class="cmp-note">貼在一起，中間沒有東西</span>
+                </div>
+                <div class="cmp-row">
+                  <span class="cmp-tag sep">間隔</span>
+                  <span class="pills"><span class="pill teal">我愛</span><span class="pill">看書</span><span class="pill teal">我愛</span></span>
+                  <span class="cmp-note">分開站着，中間隔着其他詞語</span>
+                </div>
+                <div class="cmp-row" style="background:#FFF8E9">
+                  <span class="cmp-tag warn">注意</span>
+                  <span class="pills"><span class="pill">紅紅</span><span class="pill">綠綠</span><span class="pill">高高</span></span>
+                  <span class="cmp-note">這是「疊詞」，不是反復</span>
+                </div>
+              </div>
+            </div>
+            <div class="slide-body">
+              <span class="kicker">第四站 · 一眼分清</span>
+              <h3>記住一句口訣</h3>
+              <p style="font-size:clamp(1.2rem,1rem + 1vw,1.5rem);font-weight:900;line-height:1.7">「<span style="color:var(--teal-d)">緊貼</span>是連續，<span style="color:var(--violet-d)">隔開</span>是間隔。」</p>
+              <ul class="bullets">
+                <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>先數一數：同一個詞語出現了兩次或以上嗎？</span></li>
+                <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>再看看：中間有沒有隔着其他詞語？</span></li>
+                <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>最後想想：作者想強調甚麼心情？</span></li>
+              </ul>
+              <div class="cta-row">
+                <button class="btn primary" type="button" data-start="1">挑戰模式一<svg class="ico" aria-hidden="true"><use href="#i-right"/></svg></button>
+                <button class="btn sun" type="button" data-start="2">挑戰模式二<svg class="ico" aria-hidden="true"><use href="#i-right"/></svg></button>
+              </div>
+            </div>
+          </article>
+
+          <div class="teach-nav">
+            <button class="btn ghost" id="teachPrev" type="button"><svg class="ico" aria-hidden="true"><use href="#i-left"/></svg>上一頁</button>
+            <div class="dots" id="teachDots" role="tablist" aria-label="教學頁面">
+              <button class="dot" type="button" role="tab" data-slide="0" aria-controls="teach-slide-0" aria-label="第 1 頁" aria-selected="true"></button>
+              <button class="dot" type="button" role="tab" data-slide="1" aria-controls="teach-slide-1" aria-label="第 2 頁" aria-selected="false"></button>
+              <button class="dot" type="button" role="tab" data-slide="2" aria-controls="teach-slide-2" aria-label="第 3 頁" aria-selected="false"></button>
+              <button class="dot" type="button" role="tab" data-slide="3" aria-controls="teach-slide-3" aria-label="第 4 頁" aria-selected="false"></button>
+            </div>
+            <button class="btn primary" id="teachNext" type="button">下一頁<svg class="ico" aria-hidden="true"><use href="#i-right"/></svg></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 遊戲 ================= -->
+      <section class="view" id="view-game" hidden aria-label="答題遊戲">
+        <div class="game-shell">
+          <div class="game-head">
+            <button class="btn ghost quit" id="quitBtn" type="button">
+              <svg class="ico" aria-hidden="true"><use href="#i-home"/></svg>離開
+            </button>
+            <div class="game-title">
+              <strong id="gameModeName">反復偵探</strong>
+              <small id="gameHint">找出被反復使用的詞語</small>
+            </div>
+            <div class="score-chip">得分 <strong id="scoreNum">0</strong></div>
+          </div>
+
+          <div class="progress" role="progressbar" aria-label="答題進度" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" id="progressBar">
+            <span id="progressFill"></span>
+          </div>
+
+          <div class="qmeta">
+            <span id="qIndex">第 1 / 10 題</span>
+            <span class="qdots" id="qDots" aria-hidden="true"></span>
+            <span class="mode-tag" id="qModeTag">模式一 · 找出反復的詞語</span>
+          </div>
+
+          <article class="qcard">
+            <h2 class="prompt" id="qPrompt" tabindex="-1">句子中哪個詞語被反復使用？</h2>
+            <p class="sentence" id="qSentence"></p>
+            <div class="options" id="options"></div>
+
+            <div class="feedback" id="feedback" hidden aria-live="polite">
+              <div class="fb-head">
+                <span class="fb-badge">
+                  <svg class="ico" aria-hidden="true"><use id="fbIcon" href="#i-check"/></svg>
+                  <span id="fbBadgeText">答對了！</span>
+                </span>
+                <span class="fb-type" id="fbType">連續反復</span>
+              </div>
+              <p class="fb-picked" id="fbPicked" hidden></p>
+              <p class="fb-answer">正確答案：<strong id="fbAnswer"></strong></p>
+              <p class="fb-sentence" id="fbSentence"></p>
+              <div class="fb-steps" id="fbSteps"></div>
+              <button class="btn primary" id="nextBtn" type="button">下一題<svg class="ico" aria-hidden="true"><use href="#i-right"/></svg></button>
+            </div>
+          </article>
+
+          <p class="kbd-hint">鍵盤：按 1 / 2 / 3 選答，按 Enter 到下一題</p>
+        </div>
+      </section>
+
+      <!-- ================= 結果 ================= -->
+      <section class="view" id="view-result" hidden aria-label="成績">
+        <div class="result-wrap">
+          <div class="result-card">
+            <svg class="mascot bob" viewBox="0 0 200 200" aria-hidden="true"><use href="#mascot"/></svg>
+            <p class="result-mode" id="resultMode">模式一 · 反復偵探</p>
+            <div class="stars" id="resultStars" role="img" aria-label="星級評分"></div>
+            <h2 id="resultTitle">太厲害了！</h2>
+            <p class="result-score">答對 <strong id="resultScore">0</strong> / 10 題</p>
+            <div class="rate-bar"><span id="rateFill" style="width:0%"></span></div>
+            <p class="result-msg" id="resultMsg"></p>
+
+            <div class="review" id="reviewBox" hidden>
+              <h3><svg class="ico" aria-hidden="true"><use href="#i-bulb"/></svg>答錯的題目，再看一次</h3>
+              <div id="reviewList"></div>
+            </div>
+            <p class="review-empty" id="reviewEmpty" hidden>全部答對，沒有需要重看的題目。你可以挑戰另一個模式！</p>
+
+            <div class="result-actions">
+              <button class="btn primary" id="againBtn" type="button"><svg class="ico" aria-hidden="true"><use href="#i-repeat"/></svg>再玩一次</button>
+              <button class="btn sun" id="otherBtn" type="button"><svg class="ico" aria-hidden="true"><use href="#i-sort"/></svg>玩另一個模式</button>
+              <button class="btn ghost" id="homeBtn" type="button"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg>回到首頁</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="foot">用字參考《香港小學學習字詞表》常用字詞 · 題目及講解均為教學示例 · 可離線使用</footer>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ================= 題庫 ================= */
+  var MODE1 = [
+    {
+      s:'下雨了，下雨了，媽媽趕快收衣服！', hl:'下雨了', ans:'下雨了', type:'連續反復',
+      opts:['下雨了','媽媽','衣服'],
+      parts:[
+        {k:'重複了甚麼', v:'「下雨了」出現了兩次。'},
+        {k:'中間有沒有隔開', v:'兩次緊緊相連，中間沒有其他詞語，只有逗號。'},
+        {k:'有甚麼作用', v:'像急着喊媽媽，強調雨真的下起來了。'}
+      ]
+    },
+    {
+      s:'我盼着放假，盼着旅行，盼着去看大海。', hl:'盼着', ans:'盼着', type:'間隔反復',
+      opts:['盼着','放假','大海'],
+      parts:[
+        {k:'重複了甚麼', v:'「盼着」出現了三次。'},
+        {k:'中間有沒有隔開', v:'三次之間隔着「放假」和「旅行」，不是緊貼在一起。'},
+        {k:'有甚麼作用', v:'一層一層說出心裏的期待，好像愈想愈開心。'}
+      ]
+    },
+    {
+      s:'加油！加油！我們一定可以做到。', hl:'加油', ans:'加油', type:'連續反復',
+      opts:['加油','一定','做到'],
+      parts:[
+        {k:'重複了甚麼', v:'「加油」出現了兩次。'},
+        {k:'中間有沒有隔開', v:'兩次緊緊相連，中間沒有其他詞語，只有感嘆號。'},
+        {k:'有甚麼作用', v:'像打氣的聲音，一聲比一聲有力量。'}
+      ]
+    },
+    {
+      s:'風停了，雨停了，天空慢慢亮起來。', hl:'停了', ans:'停了', type:'間隔反復',
+      opts:['停了','天空','亮起來'],
+      parts:[
+        {k:'重複了甚麼', v:'「停了」出現了兩次。'},
+        {k:'中間有沒有隔開', v:'兩次之間隔着「雨」，不是緊貼在一起。'},
+        {k:'有甚麼作用', v:'寫出風雨先後停下、天空慢慢放晴的過程。'}
+      ]
+    },
+    {
+      s:'快點，快點，老師已經在等我們了。', hl:'快點', ans:'快點', type:'連續反復',
+      opts:['快點','老師','等我們'],
+      parts:[
+        {k:'重複了甚麼', v:'「快點」出現了兩次。'},
+        {k:'中間有沒有隔開', v:'兩次緊緊相連，中間沒有其他詞語，只有逗號。'},
+        {k:'有甚麼作用', v:'表現出很着急、想快一點的心情。'}
+      ]
+    },
+    {
+      s:'一年過去了，兩年過去了，我長高了許多。', hl:'過去了', ans:'過去了', type:'間隔反復',
+      opts:['過去了','一年','長高'],
+      parts:[
+        {k:'重複了甚麼', v:'「過去了」出現了兩次。'},
+        {k:'中間有沒有隔開', v:'兩次之間隔着「兩年」，不是緊貼在一起。'},
+        {k:'有甚麼作用', v:'表示時間一年一年地過去，我漸漸長大。'}
+      ]
+    },
+    {
+      s:'再見了，再見了，親愛的老師！', hl:'再見了', ans:'再見了', type:'連續反復',
+      opts:['再見了','親愛','老師'],
+      parts:[
+        {k:'重複了甚麼', v:'「再見了」出現了兩次。'},
+        {k:'中間有沒有隔開', v:'兩次緊緊相連，中間沒有其他詞語，只有逗號。'},
+        {k:'有甚麼作用', v:'說出很不捨得離開老師的心情。'}
+      ]
+    },
+    {
+      s:'媽媽笑了，我也笑了，連小狗也搖着尾巴笑了。', hl:'笑了', ans:'笑了', type:'間隔反復',
+      opts:['笑了','媽媽','小狗'],
+      parts:[
+        {k:'重複了甚麼', v:'「笑了」出現了三次。'},
+        {k:'中間有沒有隔開', v:'三次之間隔着「我」和「小狗」，不是緊貼在一起。'},
+        {k:'有甚麼作用', v:'開心的氣氛一層一層擴大，連小狗也感染到。'}
+      ]
+    },
+    {
+      s:'走啊走，走啊走，我們走到小山頂。', hl:'走啊走', ans:'走啊走', type:'連續反復',
+      opts:['走啊走','小山頂','我們'],
+      parts:[
+        {k:'重複了甚麼', v:'「走啊走」出現了兩次。'},
+        {k:'中間有沒有隔開', v:'兩次緊緊相連，中間沒有其他詞語，只有逗號。'},
+        {k:'有甚麼作用', v:'讀起來好像走了很久、很遠，才走到山頂。'}
+      ]
+    },
+    {
+      s:'我愛吃蘋果，我愛吃香蕉，我愛吃甜甜的西瓜。', hl:'我愛吃', ans:'我愛吃', type:'間隔反復',
+      opts:['我愛吃','蘋果','西瓜'],
+      parts:[
+        {k:'重複了甚麼', v:'「我愛吃」出現了三次。'},
+        {k:'中間有沒有隔開', v:'三次之間隔着「蘋果」和「香蕉」，不是緊貼在一起。'},
+        {k:'有甚麼作用', v:'把喜愛的水果一樣一樣說出來，語氣很開心。'}
+      ]
+    }
+  ];
+
+  var MODE2 = [
+    {
+      s:'下雪了，下雪了，屋頂都變白了。', hl:'下雪了', ans:'cont', type:'連續反復',
+      parts:[
+        {k:'重複了甚麼', v:'「下雪了」出現了兩次。'},
+        {k:'中間有沒有隔開', v:'兩次緊緊相連，中間沒有其他詞語，只有逗號。'},
+        {k:'有甚麼作用', v:'寫出看到下雪時，興奮得叫起來的心情。'}
+      ]
+    },
+    {
+      s:'花園裏有紅紅的花，綠綠的草，還有高高的樹。', hl:'', ans:'none', type:'沒有反復',
+      parts:[
+        {k:'句子裏有甚麼', v:'「紅紅」「綠綠」「高高」都是把同一個字疊起來的疊詞。'},
+        {k:'為甚麼不算反復', v:'疊詞是把一個字重疊成詞（例如「紅紅」），不是把同一個詞語再說一次。'},
+        {k:'怎樣分辨', v:'疊詞重疊的是字（例如「紅紅」）；反復重複的是整個詞語或句子。'}
+      ]
+    },
+    {
+      s:'我喜歡春天，我喜歡夏天，我喜歡秋天的落葉。', hl:'我喜歡', ans:'sep', type:'間隔反復',
+      parts:[
+        {k:'重複了甚麼', v:'「我喜歡」出現了三次。'},
+        {k:'中間有沒有隔開', v:'三次之間隔着「春天」和「夏天」，不是緊貼在一起。'},
+        {k:'有甚麼作用', v:'把喜愛的季節一個一個數出來。'}
+      ]
+    },
+    {
+      s:'小心！小心！前面有車！', hl:'小心', ans:'cont', type:'連續反復',
+      parts:[
+        {k:'重複了甚麼', v:'「小心」出現了兩次。'},
+        {k:'中間有沒有隔開', v:'兩次緊緊相連，中間沒有其他詞語，只有感嘆號。'},
+        {k:'有甚麼作用', v:'情況緊急，要立刻提醒對方。'}
+      ]
+    },
+    {
+      s:'小狗搖着尾巴，跑進花園找皮球。', hl:'', ans:'none', type:'沒有反復',
+      parts:[
+        {k:'句子裏有甚麼', v:'句子說小狗搖着尾巴，跑進花園找皮球，每個詞語只出現一次。'},
+        {k:'為甚麼不算反復', v:'反復要把同一個詞語說兩次或以上，這句沒有。'},
+        {k:'怎樣分辨', v:'先找一找有沒有重複的詞語；找不到，就不是反復。'}
+      ]
+    },
+    {
+      s:'小貓叫了一聲，小狗叫了一聲，連小鴨也叫了一聲。', hl:'叫了一聲', ans:'sep', type:'間隔反復',
+      parts:[
+        {k:'重複了甚麼', v:'「叫了一聲」出現了三次。'},
+        {k:'中間有沒有隔開', v:'三次之間隔着「小狗」「小鴨」等不同的動物，不是緊貼在一起。'},
+        {k:'有甚麼作用', v:'讀起來很有節奏，好像你一句、我一句。'}
+      ]
+    },
+    {
+      s:'我長大了，我長大了，我可以自己上學了。', hl:'我長大了', ans:'cont', type:'連續反復',
+      parts:[
+        {k:'重複了甚麼', v:'「我長大了」出現了兩次。'},
+        {k:'中間有沒有隔開', v:'兩次緊緊相連，中間沒有其他詞語，只有逗號。'},
+        {k:'有甚麼作用', v:'強調自己真的長大了，感到很自豪。'}
+      ]
+    },
+    {
+      s:'他跑過草地，跑過小橋，跑過安靜的走廊。', hl:'跑過', ans:'sep', type:'間隔反復',
+      parts:[
+        {k:'重複了甚麼', v:'「跑過」出現了三次。'},
+        {k:'中間有沒有隔開', v:'三次之間隔着「草地」和「小橋」，不是緊貼在一起。'},
+        {k:'有甚麼作用', v:'寫出他一路跑過很多地方，路程很長。'}
+      ]
+    },
+    {
+      s:'好棒！好棒！你真的做到了！', hl:'好棒', ans:'cont', type:'連續反復',
+      parts:[
+        {k:'重複了甚麼', v:'「好棒」出現了兩次。'},
+        {k:'中間有沒有隔開', v:'兩次緊緊相連，中間沒有其他詞語，只有感嘆號。'},
+        {k:'有甚麼作用', v:'像歡呼一樣，強調真的很棒。'}
+      ]
+    },
+    {
+      s:'我數着星星，數着雲朵，數着回家的日子。', hl:'數着', ans:'sep', type:'間隔反復',
+      parts:[
+        {k:'重複了甚麼', v:'「數着」出現了三次。'},
+        {k:'中間有沒有隔開', v:'三次之間隔着「星星」和「雲朵」，不是緊貼在一起。'},
+        {k:'有甚麼作用', v:'一邊數，一邊想念回家的日子。'}
+      ]
+    }
+  ];
+
+  var BANKS = { 1: MODE1, 2: MODE2 };
+  var TOTAL = 10;
+  var LABEL = { cont:'連續反復', sep:'間隔反復', none:'沒有反復' };
+  var MODE_NAME = { 1:'反復偵探', 2:'連續定間隔' };
+  var MODE_HINT = { 1:'找出被反復使用的詞語', 2:'判斷句子屬於哪一種' };
+  var MODE_TAG = { 1:'模式一 · 找出反復的詞語', 2:'模式二 · 判斷反復類型' };
+
+  var state = {
+    view:'home',
+    mode:1,
+    idx:0,
+    score:0,
+    locked:false,
+    teach:0,
+    sound:true,
+    results:[]
+  };
+
+  /* ================= 音效 ================= */
+  var ac = null;
+  var audioUnlocked = false;
+  var soundBroken = false;
+
+  function audioCtx(){
+    if(!audioUnlocked || soundBroken) return null;
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC){ soundBroken = true; return null; }
+    if(!ac){
+      try { ac = new AC(); } catch(e){ soundBroken = true; return null; }
+    }
+    if(ac.state === 'suspended'){ try { ac.resume(); } catch(e){} }
+    return ac;
+  }
+
+  function beep(freq, delay, dur, type, vol){
+    var a = audioCtx();
+    if(!a) return;
+    try{
+      var t0 = a.currentTime + delay;
+      var osc = a.createOscillator();
+      var g = a.createGain();
+      osc.type = type || 'sine';
+      osc.frequency.setValueAtTime(freq, t0);
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(vol || 0.08, t0 + 0.015);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+      osc.connect(g);
+      g.connect(a.destination);
+      osc.start(t0);
+      osc.stop(t0 + dur + 0.03);
+    }catch(e){}
+  }
+
+  function sfx(kind){
+    if(!state.sound) return;
+    if(kind === 'tap'){ beep(680, 0, 0.07, 'triangle', 0.045); }
+    else if(kind === 'page'){ beep(520, 0, 0.09, 'sine', 0.04); beep(660, 0.06, 0.1, 'sine', 0.035); }
+    else if(kind === 'correct'){
+      beep(523.25, 0, 0.13, 'sine', 0.09);
+      beep(659.25, 0.1, 0.14, 'sine', 0.09);
+      beep(783.99, 0.2, 0.26, 'sine', 0.085);
+    }
+    else if(kind === 'wrong'){
+      beep(233.08, 0, 0.16, 'triangle', 0.07);
+      beep(174.61, 0.13, 0.26, 'triangle', 0.06);
+    }
+    else if(kind === 'win'){
+      [523.25, 659.25, 783.99, 1046.5].forEach(function(f, i){ beep(f, i * 0.11, 0.24, 'sine', 0.085); });
+    }
+  }
+
+  function unlockAudio(){
+    if(audioUnlocked) return;
+    audioUnlocked = true;
+    if(state.sound) audioCtx();
+  }
+
+  /* ================= 工具 ================= */
+  function $(sel, root){ return (root || document).querySelector(sel); }
+  function $$(sel, root){ return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+
+  function setUse(el, id){
+    if(!el) return;
+    el.setAttribute('href', id);
+    try { el.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', id); } catch(e){}
+  }
+
+  function esc(t){
+    return String(t).replace(/[&<>"']/g, function(c){
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+    });
+  }
+
+  function markPhrase(text, phrase){
+    var safe = esc(text);
+    if(!phrase) return safe;
+    var p = esc(phrase);
+    return safe.split(p).join('<span class="hl">' + p + '</span>');
+  }
+
+  function shuffle(arr){
+    for(var i = arr.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+
+  function currentQ(){ return BANKS[state.mode][state.idx]; }
+
+  /* ================= 檢視切換 ================= */
+  var VIEWS = { home:'view-home', teach:'view-teach', game:'view-game', result:'view-result' };
+
+  function showView(name){
+    state.view = name;
+    Object.keys(VIEWS).forEach(function(k){
+      var el = document.getElementById(VIEWS[k]);
+      if(el) el.hidden = (k !== name);
+    });
+    try { window.scrollTo(0, 0); } catch(e){}
+  }
+
+  /* 對齊到固定頁首之下，避免內容被遮住 */
+  function scrollToTop(el){
+    if(!el) return;
+    var y = el.getBoundingClientRect().top + window.pageYOffset - 72;
+    if(y < 0) y = 0;
+    try { window.scrollTo({ top:y, behavior:'smooth' }); }
+    catch(e){ window.scrollTo(0, y); }
+  }
+
+  /* ================= 教學 ================= */
+  function showTeach(i, scroll){
+    var pages = $$('#view-teach .teach-slide');
+    state.teach = Math.max(0, Math.min(pages.length - 1, i));
+    pages.forEach(function(p, n){ p.hidden = (n !== state.teach); });
+
+    $$('#teachDots .dot').forEach(function(d, n){
+      d.classList.toggle('on', n === state.teach);
+      d.setAttribute('aria-selected', n === state.teach ? 'true' : 'false');
+    });
+
+    $('#teachStep').textContent = String(state.teach + 1);
+    $('#teachCount').textContent = '第 ' + (state.teach + 1) + ' 頁，共 ' + pages.length + ' 頁';
+
+    var prev = $('#teachPrev');
+    var next = $('#teachNext');
+    prev.disabled = (state.teach === 0);
+    var last = (state.teach === pages.length - 1);
+    next.disabled = last;
+    next.style.visibility = last ? 'hidden' : 'visible';
+    if(scroll) scrollToTop(document.getElementById('view-teach'));
+    sfx('page');
+  }
+
+  /* ================= 遊戲 ================= */
+  function buildQDots(){
+    var box = $('#qDots');
+    box.innerHTML = '';
+    for(var i = 0; i < TOTAL; i++){
+      var d = document.createElement('span');
+      d.className = 'qdot';
+      box.appendChild(d);
+    }
+  }
+
+  function paintQDots(){
+    var dots = $$('#qDots .qdot');
+    for(var i = 0; i < dots.length; i++){
+      dots[i].className = 'qdot';
+      if(state.results[i] === true) dots[i].className = 'qdot ok';
+      else if(state.results[i] === false) dots[i].className = 'qdot no';
+      else if(i === state.idx && state.view === 'game') dots[i].className = 'qdot now';
+    }
+  }
+
+  function startGame(mode){
+    state.mode = mode;
+    state.idx = 0;
+    state.score = 0;
+    state.locked = false;
+    state.results = new Array(TOTAL);
+
+    $('#gameModeName').textContent = MODE_NAME[mode];
+    $('#gameHint').textContent = MODE_HINT[mode];
+    $('#qModeTag').textContent = MODE_TAG[mode];
+    $('#scoreNum').textContent = '0';
+    $('#progressBar').setAttribute('aria-valuemax', String(TOTAL));
+
+    showView('game');
+    renderQuestion();
+    sfx('tap');
+  }
+
+  function renderQuestion(){
+    var q = currentQ();
+    state.locked = false;
+
+    $('#qIndex').textContent = '第 ' + (state.idx + 1) + ' / ' + TOTAL + ' 題';
+    $('#progressBar').setAttribute('aria-valuenow', String(state.idx));
+    $('#progressFill').style.width = (state.idx / TOTAL * 100) + '%';
+    $('#qPrompt').textContent = (state.mode === 1)
+      ? '句子中哪個詞語被反復使用？'
+      : '這句話屬於哪一種？';
+
+    /* 作答前不顯示高亮，避免直接泄露答案 */
+    $('#qSentence').textContent = q.s;
+    $('#qSentence').className = 'sentence';
+
+    var fb = $('#feedback');
+    fb.hidden = true;
+    fb.className = 'feedback';
+
+    var box = $('#options');
+    box.innerHTML = '';
+    box.className = 'options' + (state.mode === 1 ? ' cols' : '');
+
+    var opts = [];
+    if(state.mode === 1){
+      opts = shuffle(q.opts.slice()).map(function(t){
+        return { v:t, label:t, sub:'' };
+      });
+    }else{
+      opts = [
+        { v:'cont', label:'連續反復', sub:'重複的詞語緊緊相連' },
+        { v:'sep', label:'間隔反復', sub:'重複的詞語中間隔着其他詞語' },
+        { v:'none', label:'沒有反復', sub:'沒有把同一個詞語再說一次' }
+      ];
+    }
+
+    opts.forEach(function(o, i){
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'opt';
+      btn.dataset.val = o.v;
+
+      var key = document.createElement('span');
+      key.className = 'key';
+      key.textContent = String(i + 1);
+
+      var txt = document.createElement('span');
+      txt.className = 'txt';
+      txt.appendChild(document.createTextNode(o.label));
+      if(o.sub){
+        var sub = document.createElement('span');
+        sub.className = 'sub';
+        sub.textContent = o.sub;
+        txt.appendChild(sub);
+      }
+
+      var mark = document.createElement('span');
+      mark.className = 'mark';
+      mark.innerHTML = '<svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>';
+
+      btn.appendChild(key);
+      btn.appendChild(txt);
+      btn.appendChild(mark);
+      box.appendChild(btn);
+    });
+
+    paintQDots();
+    scrollToTop(document.getElementById('view-game'));
+    $('#qPrompt').focus({ preventScroll: true });
+  }
+
+  function answer(btn){
+    if(state.locked) return;
+    var q = currentQ();
+    var val = btn.dataset.val;
+    var ok = (val === q.ans);
+
+    state.locked = true;
+    state.results[state.idx] = ok;
+    if(ok) state.score += 1;
+
+    $('#scoreNum').textContent = String(state.score);
+    $('#progressBar').setAttribute('aria-valuenow', String(state.idx + 1));
+    $('#progressFill').style.width = ((state.idx + 1) / TOTAL * 100) + '%';
+
+    $$('#options .opt').forEach(function(b){
+      b.disabled = true;
+      var mark = b.querySelector('.mark');
+      if(b.dataset.val === q.ans){
+        b.classList.add('is-correct');
+        if(mark) mark.innerHTML = '<svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>';
+      }else if(b === btn){
+        b.classList.add('is-wrong');
+        if(mark) mark.innerHTML = '<svg class="ico" aria-hidden="true"><use href="#i-cross"/></svg>';
+      }else{
+        b.classList.add('is-dim');
+      }
+    });
+
+    paintQDots();
+    showFeedback(q, ok, val);
+    sfx(ok ? 'correct' : 'wrong');
+
+    var nb = $('#nextBtn');
+    if(nb) nb.focus({ preventScroll: true });
+  }
+
+  function showFeedback(q, ok, val){
+    var fb = $('#feedback');
+    fb.hidden = false;
+    fb.className = 'feedback ' + (ok ? 'good' : 'bad');
+
+    $('#fbBadgeText').textContent = ok ? '答對了！' : '答錯了，一齊看看';
+    setUse($('#fbIcon'), ok ? '#i-check' : '#i-cross');
+    $('#fbType').textContent = q.type;
+
+    var picked = $('#fbPicked');
+    if(ok){
+      picked.hidden = true;
+      picked.textContent = '';
+    }else{
+      picked.hidden = false;
+      picked.textContent = '你選了「' + (state.mode === 1 ? val : LABEL[val]) + '」。';
+    }
+
+    $('#fbAnswer').textContent = (state.mode === 1) ? q.ans : LABEL[q.ans];
+
+    var sent = $('#fbSentence');
+    sent.innerHTML = markPhrase(q.s, q.hl);
+
+    var steps = $('#fbSteps');
+    steps.innerHTML = '';
+    q.parts.forEach(function(p, i){
+      var row = document.createElement('div');
+      row.className = 'fb-step';
+
+      var n = document.createElement('span');
+      n.className = 'n';
+      n.textContent = String(i + 1);
+
+      var body = document.createElement('span');
+      var k = document.createElement('span');
+      k.className = 'k';
+      k.textContent = p.k;
+      var v = document.createElement('span');
+      v.className = 'v';
+      v.textContent = p.v;
+
+      body.appendChild(k);
+      body.appendChild(v);
+      row.appendChild(n);
+      row.appendChild(body);
+      steps.appendChild(row);
+    });
+
+    var next = $('#nextBtn');
+    var last = (state.idx === TOTAL - 1);
+    next.innerHTML = (last ? '看成績' : '下一題') + '<svg class="ico" aria-hidden="true"><use href="#i-right"/></svg>';
+
+    window.setTimeout(function(){
+      if(fb.hidden) return;
+      var r = fb.getBoundingClientRect();
+      var delta = 0;
+      if(r.top > window.innerHeight - 160) delta = r.top - 80;
+      else if(r.bottom > window.innerHeight - 8) delta = r.bottom - window.innerHeight + 24;
+      if(delta > 0){
+        try { window.scrollBy({ top:delta, behavior:'smooth' }); }
+        catch(e){ window.scrollBy(0, delta); }
+      }
+    }, 120);
+  }
+
+  function nextQuestion(){
+    if(state.idx < TOTAL - 1){
+      state.idx += 1;
+      renderQuestion();
+      sfx('tap');
+    }else{
+      showResult();
+    }
+  }
+
+  function showResult(){
+    var score = state.score;
+    var stars = score >= 9 ? 3 : (score >= 6 ? 2 : (score >= 3 ? 1 : 0));
+
+    var starBox = $('#resultStars');
+    starBox.innerHTML = '';
+    for(var i = 0; i < 3; i++){
+      var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('class', 'star' + (i < stars ? ' on' : ''));
+      svg.setAttribute('viewBox', '0 0 24 24');
+      svg.setAttribute('aria-hidden', 'true');
+      var use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+      setUse(use, '#i-star');
+      svg.appendChild(use);
+      starBox.appendChild(svg);
+    }
+    starBox.setAttribute('aria-label', '獲得 ' + stars + ' 顆星');
+
+    $('#resultMode').textContent = '模式' + (state.mode === 1 ? '一' : '二') + ' · ' + MODE_NAME[state.mode];
+    $('#resultScore').textContent = String(score);
+    $('#rateFill').style.width = (score / TOTAL * 100) + '%';
+
+    var title, msg;
+    if(score >= 9){
+      title = '太厲害了！';
+      msg = '你已經完全掌握反復修辭，連續和間隔都分得清。再挑戰另一個模式，看看能否同樣拿滿分！';
+    }else if(score >= 6){
+      title = '做得很好！';
+      msg = '大部分題目都答對了。看看下面答錯題目的講解，再玩一次就會更穩固。';
+    }else if(score >= 3){
+      title = '繼續努力！';
+      msg = '你已經分得清一部分，先回到圖卡教學看看例子，再挑戰一次，一定會進步。';
+    }else{
+      title = '再試一次！';
+      msg = '別灰心，先回到圖卡教學，看清「連續」和「間隔」的例子，再來挑戰。';
+    }
+    $('#resultTitle').textContent = title;
+    $('#resultMsg').textContent = msg;
+
+    /* 錯題重看 */
+    var box = $('#reviewBox');
+    var list = $('#reviewList');
+    var empty = $('#reviewEmpty');
+    list.innerHTML = '';
+
+    var wrong = [];
+    for(var j = 0; j < TOTAL; j++){
+      if(state.results[j] === false) wrong.push(j);
+    }
+
+    if(wrong.length){
+      box.hidden = false;
+      empty.hidden = true;
+      wrong.forEach(function(idx){
+        var q = BANKS[state.mode][idx];
+
+        var item = document.createElement('div');
+        item.className = 'review-item';
+
+        var rq = document.createElement('p');
+        rq.className = 'rq';
+        rq.textContent = '第 ' + (idx + 1) + ' 題';
+
+        var rs = document.createElement('p');
+        rs.className = 'rs';
+        rs.innerHTML = markPhrase(q.s, q.hl);
+
+        var ra = document.createElement('p');
+        ra.className = 'ra';
+        ra.textContent = '正確答案：' + ((state.mode === 1) ? q.ans : LABEL[q.ans]) + '。' + q.parts[q.parts.length - 1].v;
+
+        item.appendChild(rq);
+        item.appendChild(rs);
+        item.appendChild(ra);
+        list.appendChild(item);
+      });
+    }else{
+      box.hidden = true;
+      empty.hidden = false;
+    }
+
+    showView('result');
+    sfx('win');
+    var again = $('#againBtn');
+    if(again) again.focus({ preventScroll: true });
+  }
+
+  /* ================= 音效開關 ================= */
+  function updateSound(){
+    var btn = $('#soundBtn');
+    setUse($('#soundUse'), state.sound ? '#i-sound-on' : '#i-sound-off');
+    $('#soundLabel').textContent = state.sound ? '音效開' : '音效關';
+    btn.classList.toggle('muted', !state.sound);
+    btn.setAttribute('aria-pressed', state.sound ? 'true' : 'false');
+    btn.setAttribute('aria-label', state.sound ? '關閉音效' : '開啟音效');
+  }
+
+  /* ================= 事件 ================= */
+  $('#brandBtn').addEventListener('click', function(){ sfx('tap'); showView('home'); });
+
+  $('#soundBtn').addEventListener('click', function(){
+    state.sound = !state.sound;
+    updateSound();
+    try { localStorage.setItem('echo-sound', state.sound ? '1' : '0'); } catch(e){}
+    if(state.sound){ unlockAudio(); sfx('tap'); }
+  });
+
+  $$('[data-go="teach"]').forEach(function(b){
+    b.addEventListener('click', function(){ sfx('tap'); showTeach(0); showView('teach'); });
+  });
+
+  $$('[data-start]').forEach(function(b){
+    b.addEventListener('click', function(){ startGame(parseInt(b.getAttribute('data-start'), 10)); });
+  });
+
+  $('#teachPrev').addEventListener('click', function(){ if(state.teach > 0) showTeach(state.teach - 1, true); });
+  $('#teachNext').addEventListener('click', function(){ if(state.teach < 3) showTeach(state.teach + 1, true); });
+
+  $$('#teachDots .dot').forEach(function(d){
+    d.addEventListener('click', function(){ showTeach(parseInt(d.getAttribute('data-slide'), 10), true); });
+  });
+
+  $('#options').addEventListener('click', function(e){
+    var btn = e.target.closest ? e.target.closest('.opt') : null;
+    if(!btn || btn.disabled) return;
+    answer(btn);
+  });
+
+  $('#nextBtn').addEventListener('click', nextQuestion);
+
+  $('#quitBtn').addEventListener('click', function(){
+    sfx('tap');
+    showView('home');
+  });
+
+  $('#againBtn').addEventListener('click', function(){ startGame(state.mode); });
+  $('#otherBtn').addEventListener('click', function(){ startGame(state.mode === 1 ? 2 : 1); });
+  $('#homeBtn').addEventListener('click', function(){ sfx('tap'); showView('home'); });
+
+  document.addEventListener('keydown', function(e){
+    if(e.repeat) return;
+
+    if(state.view === 'game'){
+      if(!state.locked){
+        var map = { '1':0, '2':1, '3':2, 'a':0, 'b':1, 'c':2 };
+        var key = String(e.key).toLowerCase();
+        if(Object.prototype.hasOwnProperty.call(map, key)){
+          var btns = $$('#options .opt');
+          var idx = map[key];
+          if(btns[idx]){
+            e.preventDefault();
+            btns[idx].click();
+          }
+        }
+      }else if(e.key === 'Enter'){
+        var nb = $('#nextBtn');
+        /* 焦點已在按鈕上時，交給瀏覽器原生點擊，避免一次跳兩題 */
+        if(document.activeElement === nb) return;
+        e.preventDefault();
+        nb.click();
+      }
+      return;
+    }
+
+    if(state.view === 'teach'){
+      if(e.key === 'ArrowLeft' && state.teach > 0) showTeach(state.teach - 1, true);
+      if(e.key === 'ArrowRight' && state.teach < 3) showTeach(state.teach + 1, true);
+    }
+  });
+
+  document.addEventListener('pointerdown', unlockAudio, { once:true });
+  document.addEventListener('keydown', unlockAudio, { once:true });
+
+  /* ================= 初始化 ================= */
+  try{
+    if(localStorage.getItem('echo-sound') === '0') state.sound = false;
+  }catch(e){}
+
+  updateSound();
+  buildQDots();
+  showTeach(0);
+  showView('home');
+})();
+</script>
+</body>
+</html>

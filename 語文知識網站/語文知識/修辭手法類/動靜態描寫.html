@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FFF7E9">
+<title>動靜描寫小偵探｜小學語文互動遊戲</title>
+<meta name="description" content="小學語文動態描寫與靜態描寫互動教學遊戲：圖文教學、四種遊戲模式、每題即時講解，適用手機、平板與電腦。">
+<style>
+:root{
+  --paper:#FFF7E9;
+  --paper2:#FFFDF7;
+  --ink:#4A3B32;
+  --ink-soft:#8A7466;
+  --orange:#FF8A65;
+  --orange-soft:#FFD9C9;
+  --blue:#4FC3F7;
+  --blue-soft:#D6F0FF;
+  --green:#7BC96F;
+  --green-soft:#CFF3C8;
+  --yellow:#FFD166;
+  --purple:#B39DDB;
+  --line:rgba(74,59,50,.18);
+  --shadow:0 6px 0 rgba(74,59,50,.12), 0 12px 26px rgba(74,59,50,.10);
+  font-size:clamp(17px,0.5vw + 14px,21px);
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  min-height:100vh;
+  min-height:100dvh;
+  color:var(--ink);
+  background:var(--paper);
+  background-image:
+    radial-gradient(circle at 10% 6%, #FFE7CB 0, rgba(255,231,203,0) 40%),
+    radial-gradient(circle at 90% 2%, #DCF1FF 0, rgba(220,241,255,0) 38%),
+    radial-gradient(circle at 50% 104%, #E4F8E0 0, rgba(228,248,224,0) 46%);
+  background-attachment:fixed;
+  font-family:"PingFang TC","Hiragino Sans TC","Microsoft JhengHei","Noto Sans TC","Heiti TC",system-ui,-apple-system,"Segoe UI",sans-serif;
+  line-height:1.62;
+  font-size:1rem;
+  -webkit-font-smoothing:antialiased;
+}
+button{font:inherit;color:inherit;background:none;border:none;padding:0;margin:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+p{margin:0}
+h1,h2,h3{margin:0;line-height:1.3}
+svg{display:block}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ===== app shell ===== */
+.app{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+body.sheet-open .app{padding-bottom:66vh;min-height:168dvh}
+@media(min-width:900px){body.sheet-open .app{padding-bottom:54vh;min-height:156dvh}}
+.topbar{
+  position:sticky;top:0;z-index:30;
+  display:flex;align-items:center;gap:.55rem;
+  padding:.5rem .9rem .5rem .7rem;
+  background:rgba(255,247,233,.94);
+  border-bottom:2px dashed var(--line);
+  backdrop-filter:blur(8px);
+}
+.topbar-left{display:flex;align-items:center;gap:.55rem;min-width:0;flex:1}
+.brand{display:flex;align-items:center;gap:.5rem;min-width:0}
+.brand-mark{width:2.1rem;height:2.1rem;flex:none;border-radius:.7rem;background:var(--orange-soft);border:2.5px solid var(--ink);display:grid;place-items:center;overflow:hidden}
+.brand-mark svg{width:1.6rem;height:1.6rem}
+.brand-text{min-width:0}
+.brand-title{font-size:1rem;font-weight:900;letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand-sub{font-size:.72rem;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.icon-btn{
+  width:2.7rem;height:2.7rem;flex:none;border-radius:.9rem;
+  border:2.5px solid var(--ink);background:var(--paper2);
+  display:grid;place-items:center;
+  box-shadow:0 3px 0 rgba(74,59,50,.16);
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.icon-btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(74,59,50,.16)}
+.icon-btn .ic{width:1.4rem;height:1.4rem}
+.icon-btn:focus-visible{outline:4px solid var(--blue);outline-offset:2px}
+.icon-btn.off{background:#EFE6D8;color:#A6968A}
+
+main{flex:1;width:100%;display:flex;justify-content:center;align-items:flex-start;padding:.9rem .9rem 2.4rem}
+.screen{width:100%;max-width:1060px;display:flex;flex-direction:column;gap:.9rem;min-height:calc(100dvh - 7.4rem);justify-content:flex-start;animation:fadeUp .26s ease-out}
+#screen-home,#screen-menu,#screen-result,#screen-teach{justify-content:center}
+#gameHost{display:flex;flex-direction:column;gap:.9rem}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ===== shared bits ===== */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.45em;
+  min-height:3.2rem;padding:.7em 1.15em;
+  border:3px solid var(--ink);border-radius:1.1rem;
+  background:var(--paper2);color:var(--ink);
+  font-weight:900;font-size:1rem;letter-spacing:.02em;
+  box-shadow:0 5px 0 rgba(74,59,50,.18);
+  transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+  text-align:center;
+}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(74,59,50,.18)}
+.btn[disabled]{opacity:.45;box-shadow:none;cursor:default;transform:none}
+.btn:focus-visible{outline:4px solid var(--blue);outline-offset:3px}
+.btn .ic{width:1.35rem;height:1.35rem;flex:none}
+.btn-primary{background:var(--orange)}
+.btn-blue{background:var(--blue)}
+.btn-yellow{background:var(--yellow)}
+.btn-ghost{background:var(--paper2);color:var(--ink-soft)}
+.btn-block{width:100%}
+.ic{width:1.2rem;height:1.2rem;flex:none}
+.chip{
+  display:inline-flex;align-items:center;gap:.3em;
+  padding:.2em .7em;border-radius:99px;
+  background:var(--paper2);border:2px solid var(--ink);
+  font-size:.86rem;font-weight:900;letter-spacing:.02em;
+}
+.chip .dot{width:.55rem;height:.55rem;border-radius:50%;background:var(--c,var(--orange));flex:none}
+
+/* ===== home ===== */
+.home-hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.35rem;padding-top:.3rem}
+.hero-art{width:clamp(6.4rem,16vw,9rem);height:auto}
+.hero-art svg{width:100%;height:auto}
+.hero-title{font-size:clamp(1.85rem,5.2vw,2.9rem);font-weight:900;letter-spacing:.04em;margin-top:.1rem}
+.hero-title em{font-style:normal;color:var(--orange)}
+.hero-sub{font-size:clamp(.95rem,1.8vw,1.1rem);color:var(--ink-soft);font-weight:700}
+.tag-row{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin-top:.2rem}
+.tag{background:#fff;border:2px solid var(--line);border-radius:99px;padding:.15em .75em;font-size:.82rem;font-weight:800;color:var(--ink-soft)}
+.entries{display:grid;gap:.75rem;grid-template-columns:1fr;margin-top:.3rem}
+@media(min-width:820px){.entries{grid-template-columns:repeat(3,1fr)}}
+.entry{
+  position:relative;display:flex;align-items:center;gap:.9rem;
+  padding:.9rem 1rem;border:3px solid var(--ink);border-radius:1.4rem;
+  background:var(--paper2);text-align:left;
+  box-shadow:0 6px 0 rgba(74,59,50,.14), 0 12px 22px rgba(74,59,50,.08);
+  transition:transform .12s ease, box-shadow .12s ease;
+  overflow:hidden;
+}
+.entry::before{content:"";position:absolute;inset:0 auto 0 0;width:.55rem;background:var(--c)}
+.entry:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(74,59,50,.14)}
+.entry:focus-visible{outline:4px solid var(--blue);outline-offset:3px}
+.entry-icon{width:3.6rem;height:3.6rem;flex:none;border-radius:1.1rem;background:var(--soft);border:2.5px solid var(--ink);display:grid;place-items:center}
+.entry-icon .ic{width:2rem;height:2rem}
+.entry-body{min-width:0;flex:1}
+.entry-name{display:block;font-size:1.25rem;font-weight:900;line-height:1.25}
+.entry-desc{display:block;font-size:.92rem;color:var(--ink-soft);font-weight:700;margin-top:.15rem;line-height:1.45}
+.entry-go{margin-left:auto;flex:none;width:2rem;height:2rem;border-radius:50%;background:var(--soft);display:grid;place-items:center}
+.entry-go .ic{width:1.05rem;height:1.05rem}
+.best-row{display:flex;flex-wrap:wrap;gap:.45rem;justify-content:center;font-size:.82rem;color:var(--ink-soft);font-weight:800;margin-top:.2rem}
+.best-pill{display:inline-flex;align-items:center;gap:.3em;background:#fff;border:2px dashed var(--line);border-radius:99px;padding:.2em .7em}
+.best-pill .ic{width:1rem;height:1rem;color:var(--yellow)}
+.home-note{font-size:.84rem;color:var(--ink-soft);text-align:center;line-height:1.7}
+.home-note b{color:var(--ink)}
+
+/* ===== teaching ===== */
+.section-head{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.section-title{font-size:clamp(1.25rem,2.8vw,1.7rem);font-weight:900}
+.section-sub{font-size:.85rem;color:var(--ink-soft);font-weight:700}
+.teach-wrap{display:grid;gap:.9rem}
+@media(min-width:900px){.teach-wrap{grid-template-columns:1.02fr 1fr;align-items:center;gap:1.3rem}}
+.teach-art{
+  border:3px solid var(--ink);border-radius:1.6rem;background:#fff;
+  padding:.55rem;box-shadow:var(--shadow);position:relative;
+}
+.teach-art > svg{width:100%;height:auto;border-radius:1.1rem}
+.teach-card{border:3px solid var(--ink);border-radius:1.6rem;background:var(--paper2);padding:1.1rem;box-shadow:var(--shadow)}
+.kicker{display:inline-flex;align-items:center;gap:.35em;font-size:.78rem;font-weight:900;color:var(--ink-soft);letter-spacing:.08em}
+.kicker .pin{width:.5rem;height:.5rem;border-radius:50%;background:var(--orange)}
+.teach-title{font-size:clamp(1.4rem,3.4vw,2rem);font-weight:900;margin:.15rem 0 .5rem;line-height:1.3}
+.teach-text{font-size:1.02rem;line-height:1.8;display:flex;flex-direction:column;gap:.4rem}
+.teach-text b{color:var(--orange)}
+.teach-example{
+  margin-top:.8rem;padding:.7rem .85rem;border-radius:1rem;
+  background:#FFF3D6;border:2px dashed rgba(74,59,50,.35);
+  font-size:.98rem;font-weight:700;line-height:1.7;
+}
+.teach-example span{display:block;font-size:.72rem;color:var(--ink-soft);font-weight:900;letter-spacing:.08em;margin-bottom:.15rem}
+.chip-row{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.85rem}
+.mini-chip{display:inline-flex;align-items:center;gap:.3em;background:var(--paper);border:2px solid var(--line);border-radius:99px;padding:.22em .65em;font-size:.8rem;font-weight:800}
+.mini-chip .ic{width:1rem;height:1rem;color:var(--orange)}
+.teach-nav{display:flex;align-items:center;gap:.55rem;justify-content:space-between;margin-top:.2rem}
+.teach-nav .btn{flex:none;white-space:nowrap;padding-left:.85em;padding-right:.85em;font-size:.95rem}
+.dots{display:flex;gap:.35rem;align-items:center;justify-content:center;flex:1}
+.dots i{width:.55rem;height:.55rem;border-radius:50%;background:#E2D3BE;transition:width .2s, background .2s}
+.dots i.on{width:1.4rem;border-radius:99px;background:var(--orange)}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.compare figure{margin:0;border:2.5px solid var(--ink);border-radius:1rem;overflow:hidden;background:#fff}
+.compare figcaption{font-size:.78rem;font-weight:900;text-align:center;padding:.25em 0;background:var(--paper)}
+.compare svg{width:100%;height:auto;display:block}
+.compare .lbl-a{background:var(--blue-soft)}
+.compare .lbl-b{background:var(--orange-soft)}
+.teach-steps{display:flex;flex-direction:column;gap:.55rem;margin-top:.9rem}
+.step-row{display:flex;align-items:flex-start;gap:.6rem;background:#fff;border:2px solid var(--line);border-radius:.9rem;padding:.55rem .7rem}
+.step-no{width:1.7rem;height:1.7rem;flex:none;border-radius:50%;background:var(--orange);border:2px solid var(--ink);display:grid;place-items:center;font-weight:900;font-size:.9rem}
+.step-row p{font-size:.9rem;font-weight:700;line-height:1.55}
+.motto{
+  font-size:clamp(1.25rem,3.2vw,1.75rem);font-weight:900;line-height:1.65;
+  background:#fff;border:3px dashed rgba(74,59,50,.4);border-radius:1.2rem;
+  padding:1rem;text-align:center;letter-spacing:.05em;
+}
+.motto span{color:var(--orange)}
+
+/* ===== menu ===== */
+.mode-list{display:grid;gap:.8rem;grid-template-columns:1fr}
+@media(min-width:760px){.mode-list{grid-template-columns:1fr 1fr}}
+.mode-card{
+  display:flex;align-items:center;gap:.9rem;text-align:left;
+  padding:1rem;border:3px solid var(--ink);border-radius:1.5rem;background:var(--paper2);
+  box-shadow:0 6px 0 rgba(74,59,50,.14);transition:transform .12s ease, box-shadow .12s ease;
+}
+.mode-card:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(74,59,50,.14)}
+.mode-card:focus-visible{outline:4px solid var(--blue);outline-offset:3px}
+.mode-icon{width:4rem;height:4rem;flex:none;border-radius:1.2rem;background:var(--soft);border:2.5px solid var(--ink);display:grid;place-items:center}
+.mode-icon .ic{width:2.2rem;height:2.2rem}
+.mode-body{min-width:0;flex:1}
+.mode-name{display:block;font-size:1.3rem;font-weight:900;line-height:1.25}
+.mode-desc{display:block;font-size:.88rem;color:var(--ink-soft);font-weight:700;margin-top:.1rem;line-height:1.5}
+.mode-meta{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.35rem}
+.mode-meta span{font-size:.76rem;font-weight:800;background:var(--paper);border:2px solid var(--line);border-radius:99px;padding:.05em .55em;color:var(--ink-soft)}
+.menu-tip{font-size:.9rem;color:var(--ink-soft);font-weight:700;background:#fff;border:2px dashed var(--line);border-radius:1rem;padding:.6rem .85rem;line-height:1.65}
+
+/* ===== game ===== */
+.game-top{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.progress{flex:1;min-width:5.5rem;height:.72rem;background:#EFE2CE;border-radius:99px;border:2px solid rgba(74,59,50,.22);overflow:hidden}
+.progress i{display:block;height:100%;border-radius:99px;background:var(--c,var(--orange));transition:width .35s ease}
+.counter{font-size:.82rem;font-weight:900;color:var(--ink-soft);white-space:nowrap}
+.qcard{background:var(--paper2);border:3px solid var(--ink);border-radius:1.5rem;padding:1rem;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:.85rem}
+.q-head{display:flex;align-items:center;gap:.5rem;font-size:.94rem;font-weight:900;color:var(--ink-soft)}
+.q-head .ic{width:1.15rem;height:1.15rem;color:var(--orange)}
+.q-prompt{font-size:clamp(1.15rem,2.6vw,1.6rem);font-weight:900;line-height:1.75;letter-spacing:.02em}
+.q-sentence{
+  font-size:clamp(1.1rem,2.5vw,1.5rem);font-weight:800;line-height:1.8;
+  background:#fff;border:2.5px dashed rgba(74,59,50,.3);border-radius:1rem;padding:.75rem .9rem;
+}
+.q-sentence .hl{color:var(--orange)}
+.tokens{display:flex;flex-wrap:wrap;gap:.55rem;justify-content:center;padding:.15rem 0}
+.token{
+  font-size:clamp(1.05rem,2.4vw,1.45rem);font-weight:900;letter-spacing:.02em;
+  padding:.5em .78em;border:3px solid var(--ink);border-radius:1rem;background:#fff;
+  box-shadow:0 4px 0 rgba(74,59,50,.15);
+  transition:transform .12s ease, box-shadow .12s ease, background .15s ease;
+}
+.token:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(74,59,50,.15)}
+.token:focus-visible{outline:4px solid var(--blue);outline-offset:3px}
+.token.correct{background:var(--green-soft);border-color:#3E8E3A}
+.token.wrong{background:#FFD3CB;border-color:#C9563F;opacity:.95}
+.pic-grid{display:grid;gap:.8rem;grid-template-columns:1fr}
+@media(min-width:620px){.pic-grid{grid-template-columns:repeat(3,1fr)}}
+.pic{
+  position:relative;display:block;padding:.4rem;
+  border:3px solid var(--ink);border-radius:1.2rem;background:#fff;
+  box-shadow:0 5px 0 rgba(74,59,50,.14);
+  transition:transform .12s ease, box-shadow .12s ease, background .15s ease;
+}
+.pic:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(74,59,50,.14)}
+.pic:focus-visible{outline:4px solid var(--blue);outline-offset:3px}
+.pic-no{
+  position:absolute;top:.2rem;left:.2rem;z-index:1;
+  width:1.6rem;height:1.6rem;border-radius:50%;
+  display:grid;place-items:center;
+  background:var(--paper2);border:2.5px solid var(--ink);
+  font-size:.82rem;font-weight:900;line-height:1;
+}
+.pic-art{display:block;width:100%;aspect-ratio:4/3;border-radius:.9rem;overflow:hidden;background:#F7FBFF}
+.pic-art svg{width:100%;height:100%}
+.pic.correct{background:var(--green-soft);border-color:#3E8E3A}
+.pic.wrong{background:#FFD3CB;border-color:#C9563F}
+
+/* 挑戰二：看圖選句 */
+.see-art{
+  width:100%;max-width:24rem;margin:0 auto;
+  border:3px solid var(--ink);border-radius:1.2rem;overflow:hidden;background:#F7FBFF;
+  box-shadow:0 5px 0 rgba(74,59,50,.14);
+}
+.see-art svg{width:100%;height:auto}
+.say-list{display:grid;gap:.6rem}
+.say{
+  display:flex;align-items:flex-start;gap:.65rem;text-align:left;
+  padding:.72rem .85rem;border:3px solid var(--ink);border-radius:1.1rem;background:#fff;
+  box-shadow:0 4px 0 rgba(74,59,50,.14);
+  font-weight:800;font-size:clamp(1rem,2.2vw,1.18rem);line-height:1.55;
+  transition:transform .12s ease, box-shadow .12s ease, background .15s ease;
+}
+.say:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(74,59,50,.14)}
+.say:focus-visible{outline:4px solid var(--blue);outline-offset:3px}
+.say-no{
+  flex:none;width:1.7rem;height:1.7rem;border-radius:50%;
+  display:grid;place-items:center;
+  background:var(--green-soft);border:2.5px solid var(--ink);
+  font-size:.85rem;font-weight:900;line-height:1;
+}
+.say-text{min-width:0}
+.say.correct{background:var(--green-soft);border-color:#3E8E3A}
+.say.wrong{background:#FFD3CB;border-color:#C9563F}
+.type-tag{
+  display:inline-flex;align-items:center;gap:.3em;
+  margin-top:.55rem;padding:.12em .75em;border-radius:99px;border:2px solid;
+  font-size:.85rem;font-weight:900;letter-spacing:.03em;
+}
+.type-tag.dyn{background:var(--orange-soft);border-color:#C9563F;color:#8E3B24}
+.type-tag.sta{background:var(--blue-soft);border-color:#2F7FA8;color:#1F5F7E}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.choice{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.2rem;
+  padding:.9rem .4rem;border:3px solid var(--ink);border-radius:1.3rem;
+  font-weight:900;font-size:clamp(1rem,2.2vw,1.25rem);
+  box-shadow:0 6px 0 rgba(74,59,50,.16);
+  transition:transform .12s ease, box-shadow .12s ease, background .15s ease;
+}
+.choice .ic{width:2rem;height:2rem}
+.choice .sub{font-size:.72rem;font-weight:800;color:var(--ink-soft)}
+.choice:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(74,59,50,.16)}
+.choice:focus-visible{outline:4px solid var(--blue);outline-offset:3px}
+.choice.dyn{background:var(--orange-soft)}
+.choice.sta{background:var(--blue-soft)}
+.choice.correct{background:var(--green-soft);border-color:#3E8E3A}
+.choice.wrong{background:#FFD3CB;border-color:#C9563F}
+
+/* ===== answer sheet ===== */
+.sheet{
+  position:fixed;left:50%;bottom:0;transform:translateX(-50%);
+  width:min(94vw,640px);max-height:76vh;overflow:auto;z-index:50;
+  background:var(--paper2);border:3px solid var(--ink);border-bottom:none;
+  border-radius:1.5rem 1.5rem 0 0;
+  padding:.85rem 1rem calc(1rem + env(safe-area-inset-bottom));
+  box-shadow:0 -12px 34px rgba(74,59,50,.22);
+  animation:sheetUp .26s cubic-bezier(.2,.9,.3,1.2);
+}
+@media(min-width:900px){
+  .sheet{bottom:1rem;border-bottom:3px solid var(--ink);border-radius:1.5rem}
+}
+@media(max-width:899px){
+  .sheet{max-height:68vh}
+}
+@keyframes sheetUp{from{opacity:0;transform:translate(-50%,26px)}to{opacity:1;transform:translate(-50%,0)}}
+.sheet-grab{width:3rem;height:.32rem;border-radius:99px;background:#E2D3BE;margin:0 auto .55rem}
+.sheet-head{display:flex;align-items:center;gap:.6rem}
+.sheet-badge{width:2.9rem;height:2.9rem;flex:none;border-radius:50%;display:grid;place-items:center;border:3px solid var(--ink)}
+.sheet-badge .ic{width:1.7rem;height:1.7rem}
+.sheet-badge.ok{background:var(--green-soft)}
+.sheet-badge.no{background:#FFD3CB}
+.sheet-title{font-size:1.25rem;font-weight:900;line-height:1.3}
+.sheet-sub{font-size:.84rem;font-weight:800;color:var(--ink-soft)}
+.answer-box{margin-top:.65rem;background:#fff;border:2px solid var(--line);border-radius:.9rem;padding:.5rem .75rem;display:flex;gap:.5rem;align-items:baseline}
+.answer-box b{font-size:.75rem;font-weight:900;color:var(--ink-soft);letter-spacing:.08em;white-space:nowrap}
+.answer-box span{font-size:1.05rem;font-weight:900;color:#3E8E3A;line-height:1.5}
+.why-text{font-size:.98rem;line-height:1.78;margin-top:.55rem}
+.tip-box{margin-top:.55rem;background:#FFF3D6;border-left:.3rem solid var(--yellow);border-radius:.3rem .8rem .8rem .3rem;padding:.5rem .7rem;font-size:.9rem;font-weight:700;line-height:1.65}
+.tip-box b{color:var(--ink)}
+.sheet .btn{margin-top:.75rem}
+
+/* ===== result ===== */
+.result-card{
+  background:var(--paper2);border:3px solid var(--ink);border-radius:1.7rem;
+  padding:1.3rem 1.1rem;box-shadow:var(--shadow);text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:.55rem;
+  max-width:40rem;margin:0 auto;width:100%;
+}
+.stars{display:flex;gap:.45rem;align-items:flex-end;justify-content:center;margin:.2rem 0}
+.stars .st{display:inline-flex;color:#DCCFBD}
+.stars .st .ic{width:2.4rem;height:2.4rem}
+.stars .st.on{color:var(--yellow)}
+.stars .st.on .ic{filter:drop-shadow(0 3px 0 rgba(74,59,50,.18))}
+.stars .st.mid .ic{width:3rem;height:3rem}
+.result-title{font-size:clamp(1.4rem,3.6vw,1.9rem);font-weight:900}
+.result-score{font-size:1.02rem;font-weight:800;color:var(--ink-soft)}
+.result-score b{font-size:1.5rem;color:var(--orange)}
+.result-msg{font-size:.95rem;line-height:1.75;max-width:30rem}
+.result-actions{display:grid;gap:.55rem;width:100%;max-width:22rem;margin-top:.3rem}
+@media(min-width:560px){.result-actions{grid-template-columns:1fr 1fr;max-width:30rem}}
+.result-note{display:flex;align-items:center;justify-content:center;gap:.3em;font-size:.84rem;color:var(--ink-soft)}
+.result-note .ic{display:inline-block;width:1rem;height:1rem;color:var(--yellow)}
+
+/* ===== confetti ===== */
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
+.confetti i{position:absolute;top:-8vh;width:.55rem;height:.85rem;border-radius:2px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(118vh) rotate(760deg)}}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+@media (max-width:420px){
+  .brand-sub{display:none}
+  .teach-card{padding:.9rem}
+  .qcard{padding:.8rem}
+}
+</style>
+</head>
+<body>
+<div class="app" data-generated-by="vibe-coding-frontend-design">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="icon-btn" id="backBtn" type="button" aria-label="返回上一頁" hidden>
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" aria-hidden="true">
+            <circle cx="17" cy="19" r="10" fill="#FFD9A8" stroke="#4A3B32" stroke-width="2.6"/>
+            <path d="M10 11l-2-6 7 3z" fill="#FFD9A8" stroke="#4A3B32" stroke-width="2.6" stroke-linejoin="round"/>
+            <path d="M24 11l2-6-7 3z" fill="#FFD9A8" stroke="#4A3B32" stroke-width="2.6" stroke-linejoin="round"/>
+            <circle cx="14" cy="18" r="1.6" fill="#4A3B32"/><circle cx="21" cy="18" r="1.6" fill="#4A3B32"/>
+            <path d="M17 22q1.8 1.6 3.6 0" stroke="#4A3B32" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <circle cx="27" cy="26" r="6" fill="#BFEAFF" fill-opacity=".6" stroke="#4A3B32" stroke-width="2.6"/>
+            <path d="M31 30l4 4" stroke="#4A3B32" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title">動靜描寫小偵探</div>
+          <div class="brand-sub">小學語文 · 動態描寫與靜態描寫</div>
+        </div>
+      </div>
+    </div>
+    <button class="icon-btn" id="soundBtn" type="button" aria-label="關閉音效" aria-pressed="true">
+      <svg class="ic" id="soundIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v4h3l4 3.5v-11L7 10z"/><path d="M15.5 8.5a5 5 0 010 7"/><path d="M18 6a8.5 8.5 0 010 12"/></svg>
+    </button>
+  </header>
+
+  <main>
+    <section id="screen-home" class="screen"></section>
+    <section id="screen-teach" class="screen" hidden></section>
+    <section id="screen-menu" class="screen" hidden></section>
+    <section id="screen-game" class="screen" hidden><div id="gameHost"></div></section>
+    <section id="screen-result" class="screen" hidden></section>
+  </main>
+</div>
+
+<div id="sheet" class="sheet" hidden role="dialog" aria-modal="true" aria-label="答案解析"></div>
+<div id="confetti" class="confetti" aria-hidden="true"></div>
+<div id="live" class="sr-only" aria-live="polite"></div>
+<script>
+(function () {
+  'use strict';
+
+  /* =========================================================
+     Icons
+  ========================================================= */
+  var ICONS = {
+    book: '<path d="M3 5.2A2.2 2.2 0 015.2 3H11v16H5.2A2.2 2.2 0 003 21.2z"/><path d="M21 5.2A2.2 2.2 0 0018.8 3H13v16h5.8A2.2 2.2 0 0121 21.2z"/>',
+    pencil: '<path d="M4 20l4.2-1.2L19.4 7.6l-3-3L5.2 15.8z"/><path d="M14.8 5.8l3 3"/><path d="M4 20l1.2-4.2"/>',
+    trophy: '<path d="M8 4h8v5.2a4 4 0 01-8 0z"/><path d="M8 5.4H5v1.8a3 3 0 003 3"/><path d="M16 5.4h3v1.8a3 3 0 01-3 3"/><path d="M12 13.2V17"/><path d="M8.4 20.6h7.2"/><path d="M9.6 17h4.8l.6 3.6H9z"/>',
+    eye: '<path d="M2.4 12S6.2 5.2 12 5.2 21.6 12 21.6 12 17.8 18.8 12 18.8 2.4 12 2.4 12z"/><circle cx="12" cy="12" r="3.1"/>',
+    palette: '<path d="M12 3a9 9 0 000 18h1.6a2.3 2.3 0 000-4.6h-.8a1.8 1.8 0 010-3.6H18a3 3 0 003-3C21 6.1 17 3 12 3z"/><circle cx="7.6" cy="10.6" r=".9"/><circle cx="9.8" cy="6.8" r=".9"/><circle cx="14.2" cy="6.6" r=".9"/>',
+    shape: '<rect x="3.4" y="3.4" width="9.2" height="9.2" rx="2"/><circle cx="16.2" cy="16.2" r="4.4"/>',
+    ruler: '<path d="M3 15L15 3l6 6L9 21z"/><path d="M8 10l2 2M11 7l2 2M5 13l2 2"/>',
+    pin: '<path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/>',
+    sun: '<circle cx="12" cy="12" r="4.1"/><path d="M12 2.2v2.4M12 19.4v2.4M2.2 12h2.4M19.4 12h2.4M5.4 5.4l1.7 1.7M16.9 16.9l1.7 1.7M18.6 5.4l-1.7 1.7M7.1 16.9l-1.7 1.7"/>',
+    run: '<circle cx="14.4" cy="5" r="1.9"/><path d="M13.2 8.6l-2.4 2.6 1.8 3-1.6 5"/><path d="M10.8 11.2l-4.2 1.2"/><path d="M12.6 14.2l4 1 1.8 3.6"/>',
+    note: '<path d="M9 17.6V6.2l7.4-1.8v11.4"/><circle cx="7.1" cy="17.8" r="2.2"/><circle cx="14.5" cy="16" r="2.2"/>',
+    refresh: '<path d="M20.2 12a8.2 8.2 0 11-2.6-6"/><path d="M20.4 4.4v5h-5"/>',
+    check: '<path d="M4.4 12.6l4.8 4.8L19.6 7"/>',
+    x: '<path d="M6 6l12 12M18 6L6 18"/>',
+    left: '<path d="M15 5l-7 7 7 7"/>',
+    right: '<path d="M9 5l7 7-7 7"/>',
+    home: '<path d="M3.6 11L12 4l8.4 7"/><path d="M5.8 9.8V20h12.4V9.8"/>',
+    speaker: '<path d="M4 10v4h3l4 3.4V6.6L7 10z"/><path d="M15.4 8.6a5 5 0 010 6.8"/><path d="M18 6a8.6 8.6 0 010 12"/>',
+    speakerOff: '<path d="M4 10v4h3l4 3.4V6.6L7 10z"/><path d="M16 9.4l5 5.2M21 9.4l-5 5.2"/>',
+    play: '<path d="M8 4.8l11 7.2-11 7.2z"/>',
+    search: '<circle cx="11" cy="11" r="6.4"/><path d="M15.8 15.8L21 21"/>',
+    star: '<path d="M12 3.4l2.6 5.4 5.9.8-4.3 4.1 1.1 5.9-5.3-2.9-5.3 2.9 1.1-5.9L3.5 9.6l5.9-.8z"/>',
+    spark: '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.4 2.4M15.6 15.6L18 18M18 6l-2.4 2.4M8.4 15.6L6 18"/>'
+  };
+
+  function icon(name) {
+    return '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICONS[name] || '') + '</svg>';
+  }
+
+  /* =========================================================
+     SVG illustrations (Q-style, all inline)
+  ========================================================= */
+  var ART = {};
+
+  ART.cat = function () {
+    return '<svg viewBox="0 0 200 190" role="img" aria-label="拿著放大鏡的小貓偵探">' +
+      '<ellipse cx="100" cy="172" rx="52" ry="9" fill="#E9D8C2" opacity=".7"/>' +
+      '<path d="M70 170c-10-34 4-62 30-62s40 28 30 62z" fill="#FFD9A8" stroke="#4A3B32" stroke-width="5" stroke-linejoin="round"/>' +
+      '<path d="M62 74 54 40l30 12z" fill="#FFD9A8" stroke="#4A3B32" stroke-width="5" stroke-linejoin="round"/>' +
+      '<path d="M138 74 146 40l-30 12z" fill="#FFD9A8" stroke="#4A3B32" stroke-width="5" stroke-linejoin="round"/>' +
+      '<path d="M64 70 60 53l15 7z" fill="#FFB4A2"/>' +
+      '<path d="M136 70 140 53l-15 7z" fill="#FFB4A2"/>' +
+      '<circle cx="100" cy="90" r="44" fill="#FFD9A8" stroke="#4A3B32" stroke-width="5"/>' +
+      '<circle cx="85" cy="88" r="4.6" fill="#4A3B32"/><circle cx="115" cy="88" r="4.6" fill="#4A3B32"/>' +
+      '<circle cx="86.6" cy="86.4" r="1.6" fill="#FFFDF7"/><circle cx="116.6" cy="86.4" r="1.6" fill="#FFFDF7"/>' +
+      '<ellipse cx="71" cy="102" rx="8" ry="5" fill="#FFAFA0" opacity=".85"/>' +
+      '<ellipse cx="129" cy="102" rx="8" ry="5" fill="#FFAFA0" opacity=".85"/>' +
+      '<path d="M96 99l4 4 4-4" fill="#FF8A65" stroke="#4A3B32" stroke-width="2.4" stroke-linejoin="round"/>' +
+      '<path d="M100 103v4M100 107q-6 6-11 1M100 107q6 6 11 1" stroke="#4A3B32" stroke-width="2.6" fill="none" stroke-linecap="round"/>' +
+      '<path d="M58 96H42M58 104H44M142 96h16M142 104h14" stroke="#4A3B32" stroke-width="2.6" stroke-linecap="round"/>' +
+      '<circle cx="142" cy="128" r="24" fill="#BFEAFF" fill-opacity=".55" stroke="#4A3B32" stroke-width="6"/>' +
+      '<circle cx="135" cy="121" r="7" fill="#FFFFFF" opacity=".55"/>' +
+      '<path d="M160 146l14 14" stroke="#4A3B32" stroke-width="9" stroke-linecap="round"/>' +
+      '</svg>';
+  };
+
+  ART.lake = function () {
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="平靜的湖面，像鏡子一樣倒映著藍天、白雲和山">' +
+      '<rect width="200" height="150" fill="#EAF7FF"/>' +
+      '<circle cx="168" cy="24" r="11" fill="#FFD166" stroke="#4A3B32" stroke-width="3"/>' +
+      '<g fill="#FFFFFF" stroke="#4A3B32" stroke-width="2.6">' +
+        '<ellipse cx="40" cy="26" rx="17" ry="7.5"/><ellipse cx="58" cy="30" rx="13" ry="6"/>' +
+        '<ellipse cx="112" cy="20" rx="13" ry="5.5"/>' +
+      '</g>' +
+      '<path d="M0 78 42 34 84 78z" fill="#AFDCC0" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M64 78 104 42 144 78z" fill="#8FCB9F" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M0 78h200v72H0z" fill="#8FD4F0"/>' +
+      '<path d="M0 78 42 122 84 78z" fill="#6FB58A" opacity=".55"/>' +
+      '<path d="M64 78 104 114 144 78z" fill="#6FB58A" opacity=".45"/>' +
+      '<path d="M0 78 42 122 84 78zM64 78 104 114 144 78z" fill="none" stroke="#4F8F6C" stroke-width="2" opacity=".4"/>' +
+      '<ellipse cx="40" cy="100" rx="17" ry="5.5" fill="#FFFFFF" opacity=".9"/>' +
+      '<ellipse cx="58" cy="106" rx="13" ry="4.5" fill="#FFFFFF" opacity=".8"/>' +
+      '<ellipse cx="112" cy="98" rx="13" ry="4" fill="#FFFFFF" opacity=".75"/>' +
+      '<path d="M0 78h200" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M12 132h36M84 138h30M142 128h42" stroke="#FFFFFF" stroke-width="3.4" stroke-linecap="round" opacity=".85"/>' +
+      '<path d="M26 86h22M100 90h18M150 84h26" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" opacity=".7"/>' +
+      '</svg>';
+  };
+
+  ART.market = function () {
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="熱鬧的街市">' +
+      '<rect width="200" height="150" fill="#FFF0D9"/>' +
+      '<rect y="118" width="200" height="32" fill="#F2D6AF"/>' +
+      '<rect x="10" y="58" width="54" height="60" rx="5" fill="#FFC2B4" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="72" y="38" width="58" height="80" rx="5" fill="#FFE0A3" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="138" y="62" width="52" height="56" rx="5" fill="#C7E6FF" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M6 58h62l-6 15H12z" fill="#FF8A65" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M68 38h66l-6 15H74z" fill="#4FC3F7" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M134 62h60l-6 15h-48z" fill="#7BC96F" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/>' +
+      '<rect x="22" y="84" width="12" height="12" fill="#FFFFFF" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<rect x="42" y="84" width="12" height="12" fill="#FFFFFF" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<rect x="86" y="66" width="14" height="14" fill="#FFFFFF" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<rect x="108" y="66" width="14" height="14" fill="#FFFFFF" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<rect x="150" y="86" width="12" height="12" fill="#FFFFFF" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<circle cx="32" cy="128" r="6" fill="#FFD9A8" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<rect x="27" y="134" width="10" height="14" rx="4" fill="#B39DDB" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<circle cx="66" cy="130" r="6" fill="#FFD9A8" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<rect x="61" y="136" width="10" height="12" rx="4" fill="#7BC96F" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<circle cx="104" cy="128" r="6" fill="#FFD9A8" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<rect x="99" y="134" width="10" height="14" rx="4" fill="#4FC3F7" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<circle cx="158" cy="130" r="6" fill="#FFD9A8" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<rect x="153" y="136" width="10" height="12" rx="4" fill="#FF8A65" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '</svg>';
+  };
+
+  ART.playground = function () {
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="奔跑的操場">' +
+      '<rect width="200" height="150" fill="#DFF6EA"/>' +
+      '<circle cx="170" cy="26" r="14" fill="#FFD166" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M0 94h200v56H0z" fill="#9FDD8F"/>' +
+      '<path d="M0 94h200" stroke="#4A3B32" stroke-width="3"/>' +
+      '<circle cx="78" cy="56" r="11" fill="#FFD9A8" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M78 67v22" stroke="#4A3B32" stroke-width="6" stroke-linecap="round"/>' +
+      '<path d="M78 72l-16 8M78 72l17 6" stroke="#4A3B32" stroke-width="6" stroke-linecap="round"/>' +
+      '<path d="M78 89l-11 22M78 89l13 20" stroke="#4A3B32" stroke-width="6" stroke-linecap="round"/>' +
+      '<circle cx="136" cy="116" r="12" fill="#FFFFFF" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M136 106l6 5-2 8h-8l-2-8z" fill="#4A3B32" opacity=".75"/>' +
+      '<path d="M34 54h16M28 66h14" stroke="#4A3B32" stroke-width="3" stroke-linecap="round" opacity=".45"/>' +
+      '<path d="M118 62h12M112 74h10" stroke="#4A3B32" stroke-width="3" stroke-linecap="round" opacity=".3"/>' +
+      '</svg>';
+  };
+
+  ART.desk = function () {
+    var colors = ['#FF8A65', '#4FC3F7', '#FFD166', '#7BC96F', '#B39DDB', '#FF9FB2'];
+    var pencils = '';
+    for (var i = 0; i < 6; i++) {
+      var x = 34 + i * 21;
+      pencils += '<rect x="' + x + '" y="46" width="9" height="28" rx="3" fill="' + colors[i] + '" stroke="#4A3B32" stroke-width="2.6"/>' +
+        '<path d="M' + x + ' 46l4.5-9 4.5 9z" fill="#FFE0B2" stroke="#4A3B32" stroke-width="2.6" stroke-linejoin="round"/>' +
+        '<path d="M' + (x + 2.5) + ' 44h4" stroke="#4A3B32" stroke-width="2"/>';
+    }
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="書桌上整整齊齊排著的彩色鉛筆">' +
+      '<rect width="200" height="150" fill="#FFF6E6"/>' +
+      '<rect x="10" y="88" width="180" height="13" rx="6" fill="#D9A56B" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="24" y="101" width="11" height="38" rx="3" fill="#C08D57" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="165" y="101" width="11" height="38" rx="3" fill="#C08D57" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="28" y="76" width="132" height="10" rx="4" fill="#F0DCC0" stroke="#4A3B32" stroke-width="2.6"/>' +
+      pencils +
+      '</svg>';
+  };
+
+  ART.street = function () {
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="深夜安靜的街道與路燈">' +
+      '<rect width="200" height="150" fill="#2E3A59"/>' +
+      '<circle cx="160" cy="28" r="12" fill="#FFF2C4"/>' +
+      '<circle cx="160" cy="28" r="20" fill="#FFF2C4" opacity=".14"/>' +
+      '<rect x="8" y="62" width="52" height="58" fill="#3F4E75" stroke="#1F2740" stroke-width="3"/>' +
+      '<rect x="70" y="48" width="46" height="72" fill="#46567F" stroke="#1F2740" stroke-width="3"/>' +
+      '<rect x="128" y="68" width="58" height="52" fill="#3F4E75" stroke="#1F2740" stroke-width="3"/>' +
+      '<rect x="18" y="76" width="9" height="9" fill="#FFD166" opacity=".9"/>' +
+      '<rect x="38" y="76" width="9" height="9" fill="#FFD166" opacity=".35"/>' +
+      '<rect x="82" y="62" width="10" height="10" fill="#FFD166" opacity=".8"/>' +
+      '<rect x="100" y="62" width="10" height="10" fill="#FFD166" opacity=".3"/>' +
+      '<rect x="140" y="82" width="10" height="10" fill="#FFD166" opacity=".7"/>' +
+      '<rect x="164" y="82" width="10" height="10" fill="#FFD166" opacity=".3"/>' +
+      '<rect y="120" width="200" height="30" fill="#20283D"/>' +
+      '<path d="M16 136h26M62 136h26M108 136h26M154 136h30" stroke="#8A7F6B" stroke-width="4" stroke-linecap="round"/>' +
+      '<rect x="52" y="66" width="5" height="54" fill="#1F2740"/>' +
+      '<circle cx="54" cy="62" r="16" fill="#FFE08A" opacity=".16"/>' +
+      '<circle cx="54" cy="62" r="7" fill="#FFE08A" stroke="#1F2740" stroke-width="2.5"/>' +
+      '</svg>';
+  };
+
+  ART.blackboard = function () {
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="寫滿工整粉筆字的黑板">' +
+      '<rect width="200" height="150" fill="#E9F5E9"/>' +
+      '<rect x="12" y="16" width="176" height="104" rx="8" fill="#C89B6A" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="20" y="24" width="160" height="88" rx="4" fill="#3E6B4F"/>' +
+      '<path d="M34 46h92M34 62h120M34 78h74M34 94h100" stroke="#F2F7EC" stroke-width="3.4" stroke-linecap="round" opacity=".92"/>' +
+      '<rect x="24" y="120" width="152" height="8" rx="3" fill="#C89B6A" stroke="#4A3B32" stroke-width="2.5"/>' +
+      '<rect x="40" y="111" width="22" height="7" rx="3" fill="#FFFDF2" stroke="#4A3B32" stroke-width="2"/>' +
+      '<rect x="132" y="110" width="26" height="10" rx="2" fill="#8A7F6B" stroke="#4A3B32" stroke-width="2"/>' +
+      '</svg>';
+  };
+
+  ART.banyan = function () {
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="枝葉又濃又密、像綠色大傘的老榕樹">' +
+      '<rect width="200" height="150" fill="#E8F7E4"/>' +
+      '<path d="M0 118h200v32H0z" fill="#A8DC9E"/>' +
+      '<path d="M0 118h200" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M86 118V82h28v36z" fill="#B5835A" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M64 92q-8 18-2 26M136 92q8 18 2 26M78 96q-6 14-2 22M122 96q6 14 2 22" stroke="#B5835A" stroke-width="3.4" fill="none" stroke-linecap="round"/>' +
+      '<circle cx="52" cy="62" r="30" fill="#7BC96F" stroke="#4A3B32" stroke-width="3"/>' +
+      '<circle cx="100" cy="44" r="36" fill="#8FD683" stroke="#4A3B32" stroke-width="3"/>' +
+      '<circle cx="148" cy="62" r="30" fill="#7BC96F" stroke="#4A3B32" stroke-width="3"/>' +
+      '<circle cx="76" cy="76" r="26" fill="#8FD683" stroke="#4A3B32" stroke-width="3"/>' +
+      '<circle cx="124" cy="76" r="26" fill="#7BC96F" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M52 90q-6 16-2 24M100 84q-4 18 0 26M148 90q6 16 2 24" stroke="#B5835A" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+      '</svg>';
+  };
+
+  ART.cactus = function () {
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="沙漠中的仙人掌">' +
+      '<rect width="200" height="150" fill="#FFF1D6"/>' +
+      '<circle cx="160" cy="30" r="13" fill="#FFD166" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M0 112q40-16 80 0t120 0v38H0z" fill="#F5D59A" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="56" y="52" width="14" height="30" rx="7" fill="#7BC96F" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="56" y="68" width="30" height="14" rx="7" fill="#7BC96F" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="128" y="60" width="14" height="30" rx="7" fill="#7BC96F" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="114" y="76" width="28" height="14" rx="7" fill="#7BC96F" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="84" y="46" width="30" height="72" rx="15" fill="#7BC96F" stroke="#4A3B32" stroke-width="3"/>' +
+      '<circle cx="99" cy="46" r="7" fill="#FFC7D9" stroke="#4A3B32" stroke-width="2.6"/>' +
+      '<path d="M94 70v6M104 82v6M94 94v6" stroke="#4A3B32" stroke-width="2" opacity=".5" stroke-linecap="round"/>' +
+      '</svg>';
+  };
+
+  ART.cherry = function () {
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="開滿粉色花朵的櫻花樹">' +
+      '<rect width="200" height="150" fill="#FFF0F5"/>' +
+      '<path d="M0 120h200v30H0z" fill="#BFE8B4"/>' +
+      '<path d="M0 120h200" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M92 120V76h16v44z" fill="#B5835A" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M100 78V56M100 84l-18-10M100 88l18-12" stroke="#B5835A" stroke-width="4" stroke-linecap="round"/>' +
+      '<circle cx="66" cy="58" r="22" fill="#FFC7D9" stroke="#4A3B32" stroke-width="3"/>' +
+      '<circle cx="100" cy="44" r="26" fill="#FFD6E4" stroke="#4A3B32" stroke-width="3"/>' +
+      '<circle cx="136" cy="58" r="22" fill="#FFC7D9" stroke="#4A3B32" stroke-width="3"/>' +
+      '<circle cx="40" cy="92" r="4" fill="#FFC7D9"/><circle cx="162" cy="80" r="4" fill="#FFC7D9"/>' +
+      '<circle cx="120" cy="104" r="3.4" fill="#FFC7D9"/>' +
+      '</svg>';
+  };
+
+  ART.tv = function () {
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="開著的電視機">' +
+      '<rect width="200" height="150" fill="#F3E9FF"/>' +
+      '<rect x="16" y="30" width="168" height="92" rx="12" fill="#7E6AA8" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="28" y="42" width="144" height="68" rx="6" fill="#DFF4FF" stroke="#4A3B32" stroke-width="2.6"/>' +
+      '<path d="M44 58h70M44 72h96M44 86h60" stroke="#9CC6DB" stroke-width="4" stroke-linecap="round"/>' +
+      '<path d="M86 30l-8-14M114 30l8-14" stroke="#4A3B32" stroke-width="3" stroke-linecap="round"/>' +
+      '<rect x="76" y="122" width="48" height="7" rx="3" fill="#5F4F86" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<rect x="60" y="128" width="80" height="6" rx="3" fill="#8E7BB8"/>' +
+      '</svg>';
+  };
+
+  ART.bus = function () {
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="擠滿乘客的巴士">' +
+      '<rect width="200" height="150" fill="#E8F1FB"/>' +
+      '<rect y="116" width="200" height="34" fill="#D9D4CB"/>' +
+      '<rect x="18" y="34" width="164" height="82" rx="14" fill="#FFD166" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="30" y="48" width="34" height="28" rx="5" fill="#BFE3FF" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<rect x="72" y="48" width="34" height="28" rx="5" fill="#BFE3FF" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<rect x="114" y="48" width="34" height="28" rx="5" fill="#BFE3FF" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<rect x="156" y="48" width="16" height="28" rx="5" fill="#BFE3FF" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<circle cx="47" cy="62" r="5" fill="#FFD9A8" stroke="#4A3B32" stroke-width="2"/>' +
+      '<circle cx="89" cy="62" r="5" fill="#FFD9A8" stroke="#4A3B32" stroke-width="2"/>' +
+      '<circle cx="131" cy="62" r="5" fill="#FFD9A8" stroke="#4A3B32" stroke-width="2"/>' +
+      '<rect x="18" y="88" width="164" height="9" fill="#FF8A65" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<circle cx="56" cy="118" r="13" fill="#4A3B32"/><circle cx="56" cy="118" r="5" fill="#E6E1D8"/>' +
+      '<circle cx="146" cy="118" r="13" fill="#4A3B32"/><circle cx="146" cy="118" r="5" fill="#E6E1D8"/>' +
+      '</svg>';
+  };
+
+  ART.maple = function () {
+    var leaf = function (x, y, r, c) {
+      return '<g transform="translate(' + x + ' ' + y + ') rotate(' + r + ')">' +
+        '<path d="M0 -26 7 -10 22 -14 18 0 30 6 16 10 20 24 6 16 0 28 -6 16 -20 24 -16 10 -30 6 -18 0 -22 -14 -7 -10Z" fill="' + c + '" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/>' +
+        '<path d="M0 24V-16M0 -2l-11-7M0 2l11-7M0 8l-10 8M0 9l10 8" stroke="#8E3B24" stroke-width="2.2" stroke-linecap="round" fill="none"/>' +
+        '</g>';
+    };
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="枝頭上紅得像一團團小火球的楓葉">' +
+      '<rect width="200" height="150" fill="#FFF3E8"/>' +
+      '<path d="M-4 132C34 122 60 106 86 86" fill="none" stroke="#A9714E" stroke-width="8" stroke-linecap="round"/>' +
+      '<path d="M78 92 60 74M96 80l6-22" stroke="#A9714E" stroke-width="5" stroke-linecap="round"/>' +
+      leaf(66, 62, -18, '#FF7043') +
+      leaf(104, 50, 12, '#E8603C') +
+      leaf(132, 82, 34, '#FF8A65') +
+      '<path d="M52 36l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#FFD166"/>' +
+      '<circle cx="120" cy="24" r="3" fill="#FFD166"/><circle cx="152" cy="46" r="2.4" fill="#FFB36B"/>' +
+      '</svg>';
+  };
+
+  ART.pond = function (dynamic) {
+    var base = '<rect width="200" height="150" fill="#E8F7FF"/>' +
+      '<rect y="38" width="200" height="48" fill="#CFEFFC"/>' +
+      '<rect y="86" width="200" height="64" fill="#8FD4F0"/>' +
+      '<path d="M0 86h200" stroke="#4A3B32" stroke-width="3"/>' +
+      '<ellipse cx="58" cy="108" rx="30" ry="12" fill="#8FD08A" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M58 108V96" stroke="#4A3B32" stroke-width="3"/>' +
+      '<ellipse cx="126" cy="122" rx="22" ry="9" fill="#A8DC9E" stroke="#4A3B32" stroke-width="3"/>' +
+      '<circle cx="152" cy="96" r="9" fill="#FFC7D9" stroke="#4A3B32" stroke-width="3"/>' +
+      '<circle cx="152" cy="96" r="3" fill="#FFD166"/>' +
+      '<path d="M22 132h40M96 136h44" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".85"/>';
+    var motion = '<path d="M38 96q28-36 54-8" fill="none" stroke="#4A3B32" stroke-width="3" stroke-dasharray="4 5" opacity=".45"/>' +
+      '<g transform="rotate(-30 70 64)">' +
+      '<ellipse cx="70" cy="64" rx="17" ry="9" fill="#FFB36B" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M54 64l-11 6 1-13z" fill="#FFB36B" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/>' +
+      '<circle cx="79" cy="61" r="1.9" fill="#4A3B32"/>' +
+      '<path d="M74 69q4 3 7 0" stroke="#4A3B32" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+      '</g>' +
+      '<ellipse cx="72" cy="90" rx="20" ry="5" fill="#FFFFFF" opacity=".9"/>' +
+      '<ellipse cx="72" cy="90" rx="27" ry="8" fill="none" stroke="#FFFFFF" stroke-width="2.6" opacity=".8"/>' +
+      '<circle cx="54" cy="84" r="3" fill="#FFFFFF"/><circle cx="90" cy="84" r="2.6" fill="#FFFFFF"/><circle cx="79" cy="76" r="2.2" fill="#FFFFFF"/>' +
+      '<path d="M48 92q-4 8 0 12M98 92q-4 8 0 12" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" opacity=".8"/>';
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="' + (dynamic ? '池塘裏小魚跳起來，水花四濺' : '平靜的池塘和荷葉') + '">' + base + (dynamic ? motion : '') + '</svg>';
+  };
+
+  /* ---------- 看句子選畫面：六組專用插畫 ---------- */
+
+  ART.waterfall = function () {
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="水嘩嘩往下流的瀑布">' +
+      '<rect width="200" height="150" fill="#E4F3FB"/>' +
+      '<circle cx="30" cy="26" r="11" fill="#FFD166" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M0 18h50l12 22v72H0z" fill="#A7927B" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M132 34h68v78h-56l-12-20z" fill="#BFAE96" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M62 44h34v68H62z" fill="#7FD3F0" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M62 44q9-9 17 0t17 0" fill="none" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M70 52v48M79 50v52M88 52v48" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".85"/>' +
+      '<rect y="112" width="200" height="38" fill="#8FD4F0"/>' +
+      '<path d="M0 112h200" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M54 112q22-14 50 0z" fill="#FFFFFF" opacity=".85"/>' +
+      '<path d="M50 112q-9-9-18-4M108 112q9-9 18-4" stroke="#4A3B32" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+      '<circle cx="58" cy="98" r="3" fill="#FFFFFF"/><circle cx="100" cy="92" r="2.6" fill="#FFFFFF"/><circle cx="104" cy="102" r="2" fill="#FFFFFF"/>' +
+      '<path d="M14 128h30M148 134h30" stroke="#FFFFFF" stroke-width="3.4" stroke-linecap="round" opacity=".8"/>' +
+      '</svg>';
+  };
+
+  ART.wave = function () {
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="翻起白色浪花的大海">' +
+      '<rect width="200" height="150" fill="#FFF1DC"/>' +
+      '<circle cx="34" cy="26" r="12" fill="#FFD166" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect y="76" width="200" height="74" fill="#3E8FBF"/>' +
+      '<path d="M0 76h200" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M0 96q22-26 46-6 8 7 14 6v54H0z" fill="#2F7FA8" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M60 100q22-30 48-6 9 8 16 6v50H60z" fill="#2F7FA8" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M128 102q20-26 44-6 9 7 16 4v50h-60z" fill="#2F7FA8" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M0 96q22-26 46-6M60 100q22-30 48-6M128 102q20-26 44-6" fill="none" stroke="#EAF9FF" stroke-width="6" stroke-linecap="round"/>' +
+      '<path d="M44 88q-4 10 0 16M104 92q-4 10 0 16M170 94q-4 10 0 16" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity=".85"/>' +
+      '<circle cx="52" cy="82" r="3.2" fill="#FFFFFF"/><circle cx="112" cy="86" r="3" fill="#FFFFFF"/><circle cx="178" cy="88" r="2.6" fill="#FFFFFF"/>' +
+      '</svg>';
+  };
+
+  ART.ginkgo = function () {
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="葉子金黃色的銀杏樹">' +
+      '<rect width="200" height="150" fill="#FFF9E8"/>' +
+      '<path d="M0 120h200v30H0z" fill="#F3D6B8"/>' +
+      '<path d="M0 120h200" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M96 120V66h9v54z" fill="#A9714E" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M100 74 80 54M100 80l20-26" stroke="#A9714E" stroke-width="4" stroke-linecap="round"/>' +
+      '<circle cx="74" cy="50" r="24" fill="#FFD166" stroke="#4A3B32" stroke-width="3"/>' +
+      '<circle cx="104" cy="38" r="27" fill="#FFE08A" stroke="#4A3B32" stroke-width="3"/>' +
+      '<circle cx="136" cy="54" r="23" fill="#FFD166" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M44 108q5-12 11 0zM148 112q5-12 11 0z" fill="#FFD166" stroke="#4A3B32" stroke-width="2.4" stroke-linejoin="round"/>' +
+      '<path d="M66 120q5-10 10 0z" fill="#FFE08A" stroke="#4A3B32" stroke-width="2.4" stroke-linejoin="round"/>' +
+      '</svg>';
+  };
+
+  ART.messyDesk = function () {
+    var pencil = function (x, y, r, c) {
+      return '<g transform="translate(' + x + ' ' + y + ') rotate(' + r + ')">' +
+        '<rect x="-5" y="-26" width="10" height="34" rx="3" fill="' + c + '" stroke="#4A3B32" stroke-width="2.6"/>' +
+        '<path d="M-5 8 0 18 5 8Z" fill="#FFE0B2" stroke="#4A3B32" stroke-width="2.6" stroke-linejoin="round"/>' +
+        '<path d="M-2 11h4" stroke="#4A3B32" stroke-width="2"/></g>';
+    };
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="鉛筆東倒西歪、紙張散亂的書桌">' +
+      '<rect width="200" height="150" fill="#FFF6E6"/>' +
+      '<rect x="8" y="92" width="184" height="14" rx="6" fill="#D9A56B" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="24" y="106" width="11" height="32" rx="3" fill="#C08D57" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="165" y="106" width="11" height="32" rx="3" fill="#C08D57" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M112 86l44-10 6 22-44 10z" fill="#FFFFFF" stroke="#4A3B32" stroke-width="2.6"/>' +
+      '<path d="M120 92l30-7M122 98l30-7" stroke="#BFD8E8" stroke-width="2.4" stroke-linecap="round"/>' +
+      '<circle cx="152" cy="118" r="8" fill="#FF9FB2" stroke="#4A3B32" stroke-width="2.6"/>' +
+      pencil(46, 76, -28, '#FF8A65') +
+      pencil(70, 74, 16, '#4FC3F7') +
+      pencil(92, 78, -8, '#FFD166') +
+      pencil(64, 96, 74, '#7BC96F') +
+      pencil(126, 100, -52, '#B39DDB') +
+      '</svg>';
+  };
+
+  ART.emptyDesk = function () {
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="沒有文具、空空的書桌">' +
+      '<rect width="200" height="150" fill="#FFF6E6"/>' +
+      '<rect x="8" y="92" width="184" height="14" rx="6" fill="#D9A56B" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="24" y="106" width="11" height="32" rx="3" fill="#C08D57" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="165" y="106" width="11" height="32" rx="3" fill="#C08D57" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M126 92V66h26v26z" fill="#FFFFFF" stroke="#4A3B32" stroke-width="2.6"/>' +
+      '<path d="M139 66q-18-14-8-28 12 4 8 28z" fill="#FFE0A3" stroke="#4A3B32" stroke-width="2.6" stroke-linejoin="round"/>' +
+      '<path d="M139 64V40" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M28 88h44" stroke="#E8D3B8" stroke-width="4" stroke-linecap="round"/>' +
+      '</svg>';
+  };
+
+  ART.dayStreet = function () {
+    var person = function (x, c) {
+      return '<circle cx="' + x + '" cy="82" r="7" fill="#FFD9A8" stroke="#4A3B32" stroke-width="2.4"/>' +
+        '<path d="M' + x + ' 89v14" stroke="#4A3B32" stroke-width="5" stroke-linecap="round"/>' +
+        '<path d="M' + x + ' 93l-7 6M' + x + ' 93l7 6M' + x + ' 103l-5 9M' + x + ' 103l5 9" stroke="' + c + '" stroke-width="4.6" stroke-linecap="round"/>';
+    };
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="白天人來人往的熱鬧街道">' +
+      '<rect width="200" height="150" fill="#DFF1FA"/>' +
+      '<circle cx="170" cy="24" r="12" fill="#FFD166" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="8" y="46" width="52" height="60" rx="4" fill="#FFC2B4" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="68" y="30" width="52" height="76" rx="4" fill="#FFE0A3" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="128" y="52" width="64" height="54" rx="4" fill="#C7E6FF" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M4 46h60l-6 14H10zM64 30h60l-6 14H70zM124 52h72l-6 14h-60z" fill="#FF8A65" stroke="#4A3B32" stroke-width="2.6" stroke-linejoin="round"/>' +
+      '<rect x="18" y="66" width="10" height="10" fill="#FFF7E9"/><rect x="36" y="66" width="10" height="10" fill="#FFF7E9"/>' +
+      '<rect x="80" y="50" width="10" height="10" fill="#FFF7E9"/><rect x="98" y="50" width="10" height="10" fill="#FFF7E9"/>' +
+      '<rect x="140" y="70" width="10" height="10" fill="#FFF7E9"/><rect x="160" y="70" width="10" height="10" fill="#FFF7E9"/>' +
+      '<rect y="106" width="200" height="44" fill="#E7D8C3"/>' +
+      '<path d="M0 106h200" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M0 128h200" stroke="#FFFFFF" stroke-width="4" stroke-dasharray="14 12" opacity=".9"/>' +
+      person(46, '#4FC3F7') + person(86, '#FF8A65') + person(126, '#7BC96F') +
+      '<path d="M158 106V78" stroke="#4A3B32" stroke-width="4"/><circle cx="158" cy="70" r="12" fill="#7BC96F" stroke="#4A3B32" stroke-width="2.6"/>' +
+      '</svg>';
+  };
+
+  ART.bareTree = function () {
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="冬天光禿禿、沒有葉子的樹">' +
+      '<rect width="200" height="150" fill="#E8F0F6"/>' +
+      '<path d="M0 118h200v32H0z" fill="#F7FBFF"/>' +
+      '<path d="M0 118h200" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M96 118V60h12v58z" fill="#A9714E" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M102 70 74 44M102 76 130 42M102 60V28M82 52 62 30M122 50l18-20M92 56 80 38M112 58l14-16" stroke="#A9714E" stroke-width="5" stroke-linecap="round"/>' +
+      '<path d="M74 44l-10-4M130 42l10-6M62 30h-8M140 30h8" stroke="#A9714E" stroke-width="4" stroke-linecap="round"/>' +
+      '<path d="M16 128h30M150 134h30" stroke="#D6E6F2" stroke-width="4" stroke-linecap="round"/>' +
+      '</svg>';
+  };
+
+  ART.messyBoard = function () {
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="畫得亂七八糟的黑板">' +
+      '<rect width="200" height="150" fill="#E9F5E9"/>' +
+      '<rect x="12" y="16" width="176" height="104" rx="8" fill="#C89B6A" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="20" y="24" width="160" height="88" rx="4" fill="#3E6B4F"/>' +
+      '<path d="M32 40q18-12 30 4t26-2 22 12M34 62q22 14 40-2t28 10 24-6M40 92q16-16 34 0t30-8" fill="none" stroke="#F2F7EC" stroke-width="3.4" stroke-linecap="round" opacity=".9"/>' +
+      '<path d="M120 34l26 22M150 34l-30 24M36 104l40-8" stroke="#F2F7EC" stroke-width="3.2" stroke-linecap="round" opacity=".8"/>' +
+      '<circle cx="150" cy="92" r="8" fill="none" stroke="#F2F7EC" stroke-width="3"/>' +
+      '<circle cx="60" cy="76" r="2" fill="#F2F7EC"/><circle cx="92" cy="48" r="2" fill="#F2F7EC"/><circle cx="160" cy="66" r="2" fill="#F2F7EC"/>' +
+      '<rect x="24" y="120" width="152" height="8" rx="3" fill="#C89B6A" stroke="#4A3B32" stroke-width="2.5"/>' +
+      '<rect x="132" y="110" width="26" height="10" rx="2" fill="#8A7F6B" stroke="#4A3B32" stroke-width="2"/>' +
+      '</svg>';
+  };
+
+  /* ---------- 挑戰二：看圖選句插畫 ---------- */
+
+  ART.dogBall = function () {
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="小狗拔腿追著前面滾動的皮球">' +
+      '<rect width="200" height="150" fill="#EAF7E4"/>' +
+      '<circle cx="26" cy="26" r="12" fill="#FFD166" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M0 112h200v38H0z" fill="#9FDD8F"/>' +
+      '<path d="M0 112h200" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M20 132h22M58 138h16M104 134h20" stroke="#FFFFFF" stroke-width="3.4" stroke-linecap="round" opacity=".7"/>' +
+      '<circle cx="170" cy="104" r="10" fill="#FF8A65" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M164 98q6 6 0 12M176 98q-6 6 0 12" stroke="#FFF7E9" stroke-width="2.6" fill="none"/>' +
+      '<path d="M146 98h10M144 108h8" stroke="#4A3B32" stroke-width="3" stroke-linecap="round" opacity=".45"/>' +
+      '<path d="M52 84q-16-2-20-18" fill="none" stroke="#4A3B32" stroke-width="9" stroke-linecap="round"/>' +
+      '<path d="M52 84q-16-2-20-18" fill="none" stroke="#E8B27A" stroke-width="4.6" stroke-linecap="round"/>' +
+      '<ellipse cx="84" cy="88" rx="31" ry="17" fill="#E8B27A" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M104 76q10-4 16 4" stroke="#E8B27A" stroke-width="0" fill="none"/>' +
+      '<circle cx="116" cy="72" r="17" fill="#E8B27A" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M106 58q-8 2-8 13 6 2 10-4z" fill="#C98B55" stroke="#4A3B32" stroke-width="2.8" stroke-linejoin="round"/>' +
+      '<path d="M126 58q8 2 8 13-6 2-10-4z" fill="#C98B55" stroke="#4A3B32" stroke-width="2.8" stroke-linejoin="round"/>' +
+      '<circle cx="112" cy="69" r="2.6" fill="#4A3B32"/>' +
+      '<circle cx="120" cy="84" r="9" fill="#FFF1E0" stroke="#4A3B32" stroke-width="2.6"/>' +
+      '<ellipse cx="129" cy="80" rx="4" ry="3" fill="#4A3B32"/>' +
+      '<path d="M122 88q4 4 8 0" stroke="#4A3B32" stroke-width="2.4" fill="none" stroke-linecap="round"/>' +
+      '<path d="M100 96l-13 16M92 96l-8 18M70 100l-16 12M62 100l-6 16" stroke="#4A3B32" stroke-width="6.4" stroke-linecap="round"/>' +
+      '<path d="M88 96l-14 12M78 100l-10 8" stroke="#E8B27A" stroke-width="0" fill="none"/>' +
+      '<path d="M6 82h16M2 94h12" stroke="#4A3B32" stroke-width="3" stroke-linecap="round" opacity=".35"/>' +
+      '<circle cx="44" cy="118" r="6" fill="#FFFFFF" opacity=".8"/><circle cx="120" cy="120" r="5" fill="#FFFFFF" opacity=".75"/>' +
+      '</svg>';
+  };
+
+  ART.snowMountain = function () {
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="藍天下靜靜站著的雪山">' +
+      '<rect width="200" height="150" fill="#E4F2FB"/>' +
+      '<circle cx="164" cy="26" r="11" fill="#FFE08A" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M0 118 46 52 92 118z" fill="#B9CFE0" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M72 118 126 34 186 118z" fill="#C9DDEA" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M32 76 46 52 60 76q-7 6-14 0-7 6-14 0z" fill="#FFFFFF" stroke="#4A3B32" stroke-width="2.6" stroke-linejoin="round"/>' +
+      '<path d="M104 66 126 34 148 66q-11 8-22 0-11 8-22 0z" fill="#FFFFFF" stroke="#4A3B32" stroke-width="2.6" stroke-linejoin="round"/>' +
+      '<rect y="118" width="200" height="32" fill="#FFFFFF"/>' +
+      '<path d="M0 118h200" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M14 164h0M24 132h30M86 140h24M142 134h34" stroke="#D6E6F2" stroke-width="4" stroke-linecap="round"/>' +
+      '<path d="M22 118l-7-16h14zM170 118l-8-18h16z" fill="#7BC96F" stroke="#4A3B32" stroke-width="2.6" stroke-linejoin="round"/>' +
+      '</svg>';
+  };
+
+  ART.rainWindow = function () {
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="雨點打在窗玻璃上，水珠往下流">' +
+      '<rect width="200" height="150" fill="#5C7089"/>' +
+      '<rect x="6" y="4" width="188" height="136" rx="8" fill="#EFDCC0" stroke="#4A3B32" stroke-width="3"/>' +
+      '<rect x="18" y="16" width="78" height="48" fill="#8299B0" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<rect x="104" y="16" width="78" height="48" fill="#8299B0" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<rect x="18" y="72" width="78" height="50" fill="#8299B0" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<rect x="104" y="72" width="78" height="50" fill="#8299B0" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<path d="M26 22l-8 22M44 20l-10 26M62 24l-8 20M84 18l-10 28M112 22l-8 22M132 20l-10 26M152 24l-8 20M172 18l-10 28M28 78l-8 22M48 76l-10 26M68 80l-8 20M88 74l-10 28M114 78l-8 22M134 76l-10 26M154 80l-8 20M174 74l-10 28" stroke="#DCEFFA" stroke-width="2.6" stroke-linecap="round" opacity=".9"/>' +
+      '<path d="M34 30v14M74 42v12M122 34v18M158 48v12M42 92v18M96 98v16M146 90v20" stroke="#FFFFFF" stroke-width="3.4" stroke-linecap="round" opacity=".85"/>' +
+      '<ellipse cx="52" cy="58" rx="4" ry="6" fill="#FFFFFF" opacity=".9"/>' +
+      '<ellipse cx="140" cy="60" rx="4" ry="6" fill="#FFFFFF" opacity=".9"/>' +
+      '<ellipse cx="78" cy="108" rx="4" ry="6" fill="#FFFFFF" opacity=".9"/>' +
+      '<ellipse cx="166" cy="110" rx="4" ry="6" fill="#FFFFFF" opacity=".9"/>' +
+      '<rect x="6" y="124" width="188" height="18" rx="4" fill="#D9A56B" stroke="#4A3B32" stroke-width="3"/>' +
+      '<ellipse cx="70" cy="133" rx="12" ry="4" fill="#8FD4F0" stroke="#4A3B32" stroke-width="2"/>' +
+      '<ellipse cx="126" cy="136" rx="9" ry="3.4" fill="#8FD4F0" stroke="#4A3B32" stroke-width="2"/>' +
+      '</svg>';
+  };
+
+  ART.catSleep = function () {
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="小貓蜷成一團，在墊子上睡著了">' +
+      '<rect width="200" height="150" fill="#FFF1E2"/>' +
+      '<ellipse cx="104" cy="118" rx="56" ry="15" fill="#B39DDB" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M142 104q22 2 16-18-3-9-12-9" fill="none" stroke="#4A3B32" stroke-width="9" stroke-linecap="round"/>' +
+      '<path d="M142 104q22 2 16-18-3-9-12-9" fill="none" stroke="#FFD9A8" stroke-width="4.6" stroke-linecap="round"/>' +
+      '<ellipse cx="104" cy="100" rx="39" ry="22" fill="#FFD9A8" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M92 84q6 6 0 12M110 82q6 6 0 12M124 88q6 6 0 12" stroke="#E8B27A" stroke-width="3.4" fill="none" stroke-linecap="round"/>' +
+      '<circle cx="68" cy="88" r="20" fill="#FFD9A8" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M54 74 50 58l14 7z" fill="#FFD9A8" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M82 74 86 58l-14 7z" fill="#FFD9A8" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M57 90q5 4 10 0M72 90q5 4 10 0" stroke="#4A3B32" stroke-width="2.6" fill="none" stroke-linecap="round"/>' +
+      '<path d="M66 98l4 3 4-3" fill="#FF8A65" stroke="#4A3B32" stroke-width="2.2" stroke-linejoin="round"/>' +
+      '<path d="M70 101q-4 4-8 1M70 101q4 4 8 1" stroke="#4A3B32" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+      '<ellipse cx="104" cy="116" rx="16" ry="5" fill="#FFF1E0" stroke="#4A3B32" stroke-width="2.4"/>' +
+      '<path d="M58 112h6M74 114h6" stroke="#4A3B32" stroke-width="3" stroke-linecap="round" opacity=".55"/>' +
+      '</svg>';
+  };
+
+  ART.leavesFall = function () {
+    var leaf = function (x, y, r, c) {
+      return '<g transform="translate(' + x + ' ' + y + ') rotate(' + r + ')">' +
+        '<path d="M0 -13 4 -5 11 -7 9 0 15 3 8 5 10 12 3 8 0 14 -3 8 -10 12 -8 5 -15 3 -9 0 -11 -7 -4 -5Z" fill="' + c + '" stroke="#4A3B32" stroke-width="2.2" stroke-linejoin="round"/>' +
+        '<path d="M0 -14V12" stroke="#8E3B24" stroke-width="1.6" stroke-linecap="round"/></g>';
+    };
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="秋風把落葉吹得在空中打轉">' +
+      '<rect width="200" height="150" fill="#FFF3E0"/>' +
+      '<path d="M0 120h200v30H0z" fill="#F3D6B8"/>' +
+      '<path d="M0 120h200" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M18 120V76h10v44z" fill="#A9714E" stroke="#4A3B32" stroke-width="3"/>' +
+      '<circle cx="22" cy="66" r="26" fill="#FFB36B" stroke="#4A3B32" stroke-width="3"/>' +
+      '<circle cx="0" cy="52" r="22" fill="#FF8A65" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M34 96q26-20 46-6t34-14 40-4" fill="none" stroke="#4A3B32" stroke-width="3" stroke-linecap="round" opacity=".4"/>' +
+      '<path d="M40 108q28-14 44 0t32-8 38 2" fill="none" stroke="#4A3B32" stroke-width="3" stroke-linecap="round" opacity=".28"/>' +
+      leaf(82, 44, -24, '#FF8A65') + leaf(112, 74, 40, '#FFB36B') + leaf(142, 38, 12, '#E8603C') +
+      leaf(166, 86, -36, '#FF8A65') + leaf(102, 104, 22, '#FFB36B') +
+      '<path d="M72 56h8M96 88h8M152 60h8M118 34h8" stroke="#4A3B32" stroke-width="2.6" stroke-linecap="round" opacity=".45"/>' +
+      '<path d="M56 126q5-9 10 0zM138 128q5-9 10 0z" fill="#FFB36B" stroke="#4A3B32" stroke-width="2.2"/>' +
+      '</svg>';
+  };
+
+  ART.plantPot = function () {
+    return '<svg viewBox="0 0 200 150" role="img" aria-label="窗臺上的綠色小盆栽，葉子向上伸展">' +
+      '<rect width="200" height="150" fill="#EAF7FF"/>' +
+      '<rect x="8" y="6" width="184" height="112" rx="6" fill="#CFEFFC" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M100 6v112M8 62h184" stroke="#4A3B32" stroke-width="3"/>' +
+      '<circle cx="44" cy="32" r="10" fill="#FFD166" stroke="#4A3B32" stroke-width="2.6"/>' +
+      '<rect y="118" width="200" height="32" fill="#EFDCC0"/>' +
+      '<path d="M0 118h200" stroke="#4A3B32" stroke-width="3"/>' +
+      '<path d="M82 118h36l-5 24H87z" fill="#E88C6A" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M82 112h36v8H82z" fill="#F4A284" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M100 112V72" stroke="#4A7C3F" stroke-width="4" stroke-linecap="round"/>' +
+      '<path d="M100 100q-22 2-26-20 22-2 26 20z" fill="#7BC96F" stroke="#4A3B32" stroke-width="2.8" stroke-linejoin="round"/>' +
+      '<path d="M100 88q22 0 24-22-22 0-24 22z" fill="#8FD683" stroke="#4A3B32" stroke-width="2.8" stroke-linejoin="round"/>' +
+      '<path d="M100 74q-16-2-16-22 16 2 16 22z" fill="#7BC96F" stroke="#4A3B32" stroke-width="2.8" stroke-linejoin="round"/>' +
+      '<path d="M100 70q14-6 12-24-14 4-12 24z" fill="#8FD683" stroke="#4A3B32" stroke-width="2.8" stroke-linejoin="round"/>' +
+      '<path d="M100 62V46" stroke="#4A7C3F" stroke-width="3.4" stroke-linecap="round"/>' +
+      '<circle cx="100" cy="44" r="6" fill="#FFC7D9" stroke="#4A3B32" stroke-width="2.6"/>' +
+      '<path d="M150 118q10-18 22-8" stroke="#FFD166" stroke-width="4" fill="none" opacity=".5"/>' +
+      '</svg>';
+  };
+
+  /* =========================================================
+     Questions
+  ========================================================= */
+  var QUESTIONS = {
+    find: [
+      {
+        id: 'f1',
+        tokens: [{ id: 'a', text: '小貓' }, { id: 'b', text: '輕輕地' }, { id: 'c', text: '跳上' }, { id: 'd', text: '窗臺' }],
+        answer: 'c',
+        explain: '「跳上」是小貓從地面跳到窗臺的動作，句子把動作的過程寫了出來，畫面會動，所以是動態描寫。',
+        tip: '「小貓」「窗臺」是名詞，「輕輕地」只說明怎樣做，都不是動作本身。'
+      },
+      {
+        id: 'f2',
+        tokens: [{ id: 'a', text: '春風' }, { id: 'b', text: '吹過' }, { id: 'c', text: '綠綠的' }, { id: 'd', text: '草地' }],
+        answer: 'b',
+        explain: '「吹過」寫出風從草地上吹過的過程。風雖然看不見，但這個動作讓畫面移動起來，是動態描寫。',
+        tip: '留意「吹過」「飄過」「流過」這類表示移動的詞語。'
+      },
+      {
+        id: 'f3',
+        tokens: [{ id: 'a', text: '爺爺' }, { id: 'b', text: '慢慢地' }, { id: 'c', text: '把茶杯' }, { id: 'd', text: '端起來' }],
+        answer: 'd',
+        explain: '「端起來」寫出爺爺用手把茶杯拿起的動作，是一個看得見的動作，所以是動態描寫。',
+        tip: '「慢慢地」是速度，不是動作；動作要看「做了什麼」。'
+      },
+      {
+        id: 'f4',
+        tokens: [{ id: 'a', text: '雨點' }, { id: 'b', text: '嘩啦嘩啦地' }, { id: 'c', text: '打在' }, { id: 'd', text: '屋簷上' }],
+        answer: 'b',
+        explain: '「打在」寫出雨點落下的動作，配合「嘩啦嘩啦」的聲音，畫面又動又響，是動態描寫。',
+        tip: '句子裏有聲音詞，很多時候都在寫動態。'
+      },
+      {
+        id: 'f5',
+        tokens: [{ id: 'a', text: '小狗' }, { id: 'b', text: '在公園裏' }, { id: 'c', text: '追著' }, { id: 'd', text: '皮球' }],
+        answer: 'c',
+        explain: '「追著」是連續不斷的動作：皮球滾、小狗跑，畫面一直在動，所以是動態描寫。',
+        tip: '「追著」「跑著」「跳著」都有「著」，表示動作正在進行。'
+      },
+      {
+        id: 'f6',
+        tokens: [{ id: 'a', text: '一片片落葉' }, { id: 'b', text: '靜靜地' }, { id: 'c', text: '飄落' }, { id: 'd', text: '在湖面上' }],
+        answer: 'c',
+        explain: '「飄落」寫出葉子一片片隨風落下來的過程，有方向、有變化，是動態描寫。',
+        tip: '「靜靜地」只說明怎樣落下；「飄落」才是動作本身。'
+      }
+    ],
+    picture: [
+      {
+        id: 'p1',
+        sentence: '湖面平靜得像一面大鏡子，倒映著藍天和白雲。',
+        options: [{ id: 'lake', label: '平靜的湖面' }, { id: 'waterfall', label: '嘩嘩的瀑布' }, { id: 'wave', label: '翻滾的海浪' }],
+        answer: 'lake',
+        explain: '句子寫湖面「平靜得像鏡子」，還倒映著藍天白雲，畫面是定格的。圖中湖水沒有波紋，山和雲清清楚楚倒映在水裏；瀑布的水一直往下衝，海浪一朵接一朵翻起來，都跟「平靜」相反。',
+        tip: '靜態描寫像拍照：寫顏色、形狀、位置和倒影。'
+      },
+      {
+        id: 'p2',
+        sentence: '秋天的楓葉紅得像一團團小火球。',
+        options: [{ id: 'maple', label: '紅紅的楓葉' }, { id: 'ginkgo', label: '金黃的銀杏' }, { id: 'pond', label: '碧綠的荷葉' }],
+        answer: 'maple',
+        explain: '句子寫楓葉的「紅」，還把它比作小火球。圖中的葉子紅中帶橙，一片片長在枝條上，正合這句話；銀杏葉是金黃色，荷葉是綠色，顏色都不對。',
+        tip: '先抓顏色詞「紅」，再找形狀像小火球的葉子。'
+      },
+      {
+        id: 'p3',
+        sentence: '書桌上整整齊齊地排著一排彩色鉛筆。',
+        options: [{ id: 'desk', label: '整齊的書桌' }, { id: 'messyDesk', label: '散亂的書桌' }, { id: 'emptyDesk', label: '空空的書桌' }],
+        answer: 'desk',
+        explain: '「整整齊齊」和「一排」是關鍵。圖中的鉛筆一支支排好，筆尖朝向一致；散亂的桌面鉛筆東倒西歪，空桌面則根本沒有鉛筆。',
+        tip: '看到「整整齊齊」「排成一排」，就要找排列有序的畫面。'
+      },
+      {
+        id: 'p4',
+        sentence: '深夜的街道空無一人，只有路燈靜靜地亮著。',
+        options: [{ id: 'street', label: '深夜的街道' }, { id: 'dayStreet', label: '白天的街道' }, { id: 'playground', label: '熱鬧的操場' }],
+        answer: 'street',
+        explain: '句子給了三個線索：「深夜」「空無一人」「路燈亮著」。圖中天色深藍，街上一個人也沒有，只有一盞路燈照著；白天街道有人來來往往，操場上有小朋友在跑。',
+        tip: '把句子裏的線索逐個對一對，符合最多線索的就是答案。'
+      },
+      {
+        id: 'p5',
+        sentence: '老榕樹的枝葉又濃又密，像一把綠色的大傘。',
+        options: [{ id: 'banyan', label: '濃密的大榕樹' }, { id: 'bareTree', label: '光禿禿的樹' }, { id: 'cherry', label: '開花的櫻花樹' }],
+        answer: 'banyan',
+        explain: '「又濃又密」寫葉子多，「像一把大傘」寫樹冠又寬又圓。圖中的樹冠張得開開的，還有長長的氣根垂下來；枯樹一片葉子也沒有，櫻花樹開的是粉紅色的花。',
+        tip: '比喻句要找出「像甚麼」，再對照圖中的形狀。'
+      },
+      {
+        id: 'p6',
+        sentence: '黑板上寫滿了工整的粉筆字，一行一行排得筆直。',
+        options: [{ id: 'blackboard', label: '工整的黑板' }, { id: 'messyBoard', label: '塗鴉的黑板' }, { id: 'tv', label: '電視畫面' }],
+        answer: 'blackboard',
+        explain: '「工整」和「一行一行排得筆直」是關鍵。圖中的字一行一行，橫平豎直；塗鴉的黑板線條東歪西倒，電視畫面根本不是黑板。',
+        tip: '「一行一行」是整齊的線索，先看畫面有沒有排列整齊的文字。'
+      }
+    ],
+    classify: [
+      {
+        id: 'c1',
+        text: '蝴蝶在花叢中翩翩起舞。',
+        answer: 'dynamic',
+        explain: '「翩翩起舞」是蝴蝶拍著翅膀飛的連續動作，畫面一直在動，所以是動態描寫。',
+        tip: '連續的動作，就是動態描寫。'
+      },
+      {
+        id: 'c2',
+        text: '遠處的山峰披著一層薄薄的白雪。',
+        answer: 'static',
+        explain: '「披著」是比喻的說法，把山寫成穿上白衣，但山其實沒有動，只寫了它的樣子，所以是靜態描寫。',
+        tip: '有動詞不等於動態描寫，要問一問：這個動作真的在發生嗎？'
+      },
+      {
+        id: 'c3',
+        text: '小河嘩嘩地流向遠方。',
+        answer: 'dynamic',
+        explain: '「流向」寫出河水一直向前流動的過程，還有「嘩嘩」的水聲，畫面在動。',
+        tip: '動作加上聲音，畫面更熱鬧，是典型的動態描寫。'
+      },
+      {
+        id: 'c4',
+        text: '牆角的老鐘靜靜地掛著，一動也不動。',
+        answer: 'static',
+        explain: '句子明說「一動也不動」，只寫老鐘的位置和靜止的狀態，所以是靜態描寫。',
+        tip: '「掛著」只是一種狀態，不是正在發生的動作。'
+      },
+      {
+        id: 'c5',
+        text: '弟弟一口氣把整杯牛奶喝光了。',
+        answer: 'dynamic',
+        explain: '「喝光」是一個完整、連續的動作過程，畫面由滿杯變成空杯，是動態描寫。',
+        tip: '動作帶來改變，例如喝光、跑遠、吹倒，都是動態。'
+      },
+      {
+        id: 'c6',
+        text: '花園裏的玫瑰紅得像燃燒的火焰。',
+        answer: 'static',
+        explain: '「燃燒」是比喻，玫瑰其實沒有動，句子只寫了玫瑰的顏色，所以是靜態描寫。',
+        tip: '比喻詞很會騙人，要分辨是真的在動，還是只是「像」。'
+      }
+    ],
+    seesay: [
+      {
+        id: 's1',
+        art: 'dogBall',
+        options: [
+          { id: 'a', text: '小狗後腿一蹬，飛快地追著滾動的皮球。' },
+          { id: 'b', text: '小狗趴在草地上，閉著眼睛曬太陽。' },
+          { id: 'c', text: '小貓跳上窗臺，把花盆碰倒了。' }
+        ],
+        answer: 'a',
+        type: 'dynamic',
+        explain: '圖中小狗後腿向後蹬、身體向前衝，尾巴翹得高高的，前面的皮球帶着速度線滾動，滿畫面都是動作。句子 A 用「一蹬」「追著」把正在發生的動作寫出來，是動態描寫。B 說趴著不動，和圖不符；C 寫的是小貓，圖中沒有貓。',
+        tip: '先看圖中有沒有「正在發生」的動作，再找句子裏的動詞。'
+      },
+      {
+        id: 's2',
+        art: 'snowMountain',
+        options: [
+          { id: 'a', text: '雪山披著厚厚的白雪，靜靜地站在藍天下。' },
+          { id: 'b', text: '大風捲起雪粒，滿山飄著白茫茫的雪霧。' },
+          { id: 'c', text: '小河嘩嘩地流向遠方。' }
+        ],
+        answer: 'a',
+        type: 'static',
+        explain: '圖中的雪山一動也不動，天空乾淨，沒有風也沒有雪霧。句子 A 用「披著」「靜靜地站著」寫外形和狀態，是靜態描寫。B 說大風捲雪，圖中看不到；C 寫的是小河，圖中沒有河。',
+        tip: '「披著」是比喻，山沒有真的穿衣，仍然是靜態描寫。'
+      },
+      {
+        id: 's3',
+        art: 'rainWindow',
+        options: [
+          { id: 'a', text: '雨點啪嗒啪嗒打在窗上，水珠一路往下滑。' },
+          { id: 'b', text: '窗玻璃上結著一層薄薄的白霧，安安靜靜。' },
+          { id: 'c', text: '陽光把窗臺曬得暖烘烘的。' }
+        ],
+        answer: 'a',
+        type: 'dynamic',
+        explain: '圖中玻璃上滿是雨痕，一顆顆水珠往下流，窗外灰濛濛的。句子 A 有聲音「啪嗒啪嗒」，又有動作「往下滑」，是動態描寫。B 說白霧，圖中卻是水珠；C 說陽光，圖中正在下雨。',
+        tip: '聲音詞加上動作詞，是動態描寫的好幫手。'
+      },
+      {
+        id: 's4',
+        art: 'catSleep',
+        options: [
+          { id: 'a', text: '小貓蜷成一團，睡得又香又甜。' },
+          { id: 'b', text: '小貓一躍而起，撲向滾動的毛線球。' },
+          { id: 'c', text: '風把窗簾吹得鼓起來。' }
+        ],
+        answer: 'a',
+        type: 'static',
+        explain: '圖中小貓把身體縮成圓圓一團，眼睛閉著，趴在墊子上一動也不動。句子 A 寫「蜷成」「睡著」的樣子，是靜態描寫。B 說跳起來撲毛線球，圖中沒有毛線球；C 寫風吹窗簾，圖中沒有窗簾。',
+        tip: '睡著、坐著、掛著，多半是定格的樣子。'
+      },
+      {
+        id: 's5',
+        art: 'leavesFall',
+        options: [
+          { id: 'a', text: '秋風一吹，落葉打著轉飄下來。' },
+          { id: 'b', text: '滿地落葉鋪成一張金黃的地毯。' },
+          { id: 'c', text: '池塘的水面平靜得像一面鏡子。' }
+        ],
+        answer: 'a',
+        type: 'dynamic',
+        explain: '圖中葉子離開樹枝，在半空中打轉，還有風走過的線條。句子 A 的「吹」「打著轉」「飄下來」都是動作，是動態描寫。B 只寫地上的落葉，圖的重點是半空中的葉子；C 寫池塘，圖中沒有池塘。',
+        tip: '「飄」「轉」「飛」都是位置在改變的動詞。'
+      },
+      {
+        id: 's6',
+        art: 'plantPot',
+        options: [
+          { id: 'a', text: '窗臺上的小盆栽綠油油的，葉子一片片向上伸。' },
+          { id: 'b', text: '媽媽提起水壺，嘩啦嘩啦地給花澆水。' },
+          { id: 'c', text: '小鳥拍著翅膀，從窗前一掠而過。' }
+        ],
+        answer: 'a',
+        type: 'static',
+        explain: '圖中的小盆栽靜靜放在窗臺上，葉子一片片向上展開，沒有風也沒有動作。句子 A 寫顏色和形狀，是靜態描寫。B 說提水壺澆花，圖中沒有水壺；C 說小鳥飛過，圖中沒有小鳥。',
+        tip: '寫顏色、形狀和位置，通常就是靜態描寫。'
+      }
+    ]
+  };
+
+  /* =========================================================
+     Teaching cards
+  ========================================================= */
+  var TEACH = [
+    {
+      kicker: '第 1 站 · 認識描寫',
+      title: '描寫，就是用文字畫畫',
+      text: [
+        '描寫，就是把看到的東西寫清楚，讓讀者好像親眼看見。',
+        '同一個畫面，可以寫成「定格的相片」，也可以寫成「會動的影片」。'
+      ],
+      chips: [{ ic: 'eye', label: '用眼睛看' }, { ic: 'pencil', label: '用文字畫' }, { ic: 'star', label: '讓人有感覺' }],
+      art: function () { return ART.cat(); }
+    },
+    {
+      kicker: '第 2 站 · 靜態描寫',
+      title: '寫「不會動」的樣子',
+      text: [
+        '靜態描寫像按一下相機，把畫面定格。',
+        '可以寫顏色、形狀、大小、位置和光線。'
+      ],
+      example: '荷葉圓圓的，綠得像一把小傘。',
+      chips: [{ ic: 'palette', label: '顏色' }, { ic: 'shape', label: '形狀' }, { ic: 'ruler', label: '大小' }, { ic: 'pin', label: '位置' }, { ic: 'sun', label: '光線' }],
+      art: function () { return ART.pond(false); }
+    },
+    {
+      kicker: '第 3 站 · 動態描寫',
+      title: '寫「會動」的過程',
+      text: [
+        '動態描寫像拍一段影片，把動作連續寫下來。',
+        '可以寫動作、聲音和變化。'
+      ],
+      example: '小魚一甩尾巴，鑽進荷葉底下。',
+      chips: [{ ic: 'run', label: '動作' }, { ic: 'note', label: '聲音' }, { ic: 'refresh', label: '變化' }],
+      art: function () { return ART.pond(true); }
+    },
+    {
+      kicker: '第 4 站 · 比一比',
+      title: '同一個池塘，兩種寫法',
+      text: [
+        '左邊只寫荷葉靜靜貼在水面的樣子，是靜態描寫。',
+        '右邊寫小魚跳起、水花四濺，是動態描寫。'
+      ],
+      art: function () {
+        return '<div class="compare">' +
+          '<figure><figcaption class="lbl-a">靜態 · 定格</figcaption>' + ART.pond(false) + '</figure>' +
+          '<figure><figcaption class="lbl-b">動態 · 會動</figcaption>' + ART.pond(true) + '</figure>' +
+          '</div>';
+      }
+    },
+    {
+      kicker: '第 5 站 · 判斷三步法',
+      title: '三步找出答案',
+      text: ['遇到一句話，先別急著選，跟著三步走。'],
+      steps: [
+        '找一找：句子裏有沒有表示動作的詞語？',
+        '問一問：這個動作是不是真的正在發生？',
+        '看一看：整句在寫「會動的過程」，還是「定格的樣子」？'
+      ],
+      example: '「山峰披著白雪」有「披著」，但山沒有動，所以是靜態描寫。',
+      art: function () { return ART.blackboard(); }
+    },
+    {
+      kicker: '第 6 站 · 小偵探口訣',
+      title: '記住這四句',
+      text: ['做完練習，記得用這句口訣檢查自己的作文。'],
+      motto: '不動寫樣子，<br>會動寫動作；<br><span>找到動詞，</span><br><span>畫面就動起來！</span>',
+      art: function () { return ART.cat(); }
+    }
+  ];
+
+  /* =========================================================
+     Modes
+  ========================================================= */
+  var MODES = {
+    find: { id: 'find', area: 'practice', name: '動詞尋寶', tag: '動態描寫', desc: '點出句子中表示動作的詞語', icon: 'run', color: '#FF8A65', soft: '#FFD9C9' },
+    picture: { id: 'picture', area: 'practice', name: '看句子選畫面', tag: '靜態描寫', desc: '讀句子，選出最符合句子的一幅圖', icon: 'search', color: '#4FC3F7', soft: '#D6F0FF' },
+    classify: { id: 'classify', area: 'challenge', name: '動靜分類站', tag: '挑戰一', desc: '把句子分進「動態」或「靜態」', icon: 'trophy', color: '#B39DDB', soft: '#E7DFF7' },
+    seesay: { id: 'seesay', area: 'challenge', name: '看圖選句', tag: '挑戰二', desc: '看圖，選出最貼切的描寫句子', icon: 'eye', color: '#7BC96F', soft: '#CFF3C8' }
+  };
+
+  var RESULT_TEXT = {
+    find: {
+      3: '六個動作詞全部找到了！你已經懂得從句子裏抓出「會動」的畫面。',
+      2: '大部分動作詞都找到了。再看看那些「怎樣做」的詞，它們不是動作本身。',
+      1: '動作詞就是句子裏的動詞，例如「跳上」「端起」。再玩一次，先讀整句，再找動詞。',
+      0: '別灰心，先回教學區看第 3 張卡，認識動作、聲音和變化，再回來挑戰。'
+    },
+    picture: {
+      3: '六張畫面全部配對成功！你已經看得懂靜態描寫的顏色、形狀和位置。',
+      2: '大部分畫面都配對了。留意句子有沒有寫「動作」，有的話就不是靜態描寫。',
+      1: '先找句子裏的關鍵詞：顏色、形狀、位置，通常都是靜態描寫的線索。',
+      0: '回教學區看第 2 張卡，認識靜態描寫的五個觀察角度，再來一次。'
+    },
+    classify: {
+      3: '六句全對！連「披著白雪」「燃燒的火焰」這些陷阱句都難不倒你。',
+      2: '很接近了！記住：有動詞不代表在動，要看動作是否真的發生。',
+      1: '先問自己：這句話在寫「正在動」，還是「定格的樣子」？再選一次。',
+      0: '建議先回教學區看第 5 張卡，學會判斷三步法，再回來挑戰。'
+    },
+    seesay: {
+      3: '六道題都選對了句子，還能分清動態和靜態，觀察力滿分！',
+      2: '大部分都配對了。再看看圖中有沒有動作，句子要能和圖完全對得上。',
+      1: '先看圖：圖裏的東西在動，就找有動作的句子；一動也不動，就找寫樣子的句子。',
+      0: '回教學區看第 2、3 張卡，分清「定格」和「會動」，再來挑戰。'
+    }
+  };
+
+  /* =========================================================
+     State & storage
+  ========================================================= */
+  var state = {
+    screen: 'home',
+    area: 'practice',
+    mode: null,
+    qIndex: 0,
+    answers: [],
+    locked: false,
+    score: 0,
+    teachIndex: 0,
+    sound: true,
+    best: {}
+  };
+
+  var STORE_BEST = 'djxx-best-v1';
+  var STORE_SOUND = 'djxx-sound-v1';
+
+  function loadBest() {
+    try {
+      var raw = localStorage.getItem(STORE_BEST);
+      if (!raw) return;
+      var data = JSON.parse(raw);
+      if (data && typeof data === 'object') state.best = data;
+    } catch (e) { state.best = {}; }
+  }
+  function saveBest() {
+    try { localStorage.setItem(STORE_BEST, JSON.stringify(state.best)); } catch (e) { }
+  }
+  function loadSound() {
+    try {
+      var raw = localStorage.getItem(STORE_SOUND);
+      if (raw === '0') state.sound = false;
+    } catch (e) { }
+  }
+  function saveSound() {
+    try { localStorage.setItem(STORE_SOUND, state.sound ? '1' : '0'); } catch (e) { }
+  }
+
+  /* =========================================================
+     Audio (Web Audio, no files)
+  ========================================================= */
+  var AudioKit = {
+    ctx: null,
+    ensure: function () {
+      if (!state.sound) return null;
+      try {
+        var C = window.AudioContext || window.webkitAudioContext;
+        if (!C) return null;
+        if (!this.ctx) this.ctx = new C();
+        if (this.ctx.state === 'suspended' && this.ctx.resume) this.ctx.resume();
+        return this.ctx;
+      } catch (e) { return null; }
+    },
+    play: function (notes) {
+      var ctx = this.ensure();
+      if (!ctx) return;
+      try {
+        for (var i = 0; i < notes.length; i++) {
+          var n = notes[i];
+          var osc = ctx.createOscillator();
+          var gain = ctx.createGain();
+          var t0 = ctx.currentTime + n[1];
+          osc.type = n[3] || 'sine';
+          osc.frequency.setValueAtTime(n[0], t0);
+          gain.gain.setValueAtTime(0.0001, t0);
+          gain.gain.exponentialRampToValueAtTime(n[4] || 0.16, t0 + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, t0 + n[2]);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(t0);
+          osc.stop(t0 + n[2] + 0.05);
+        }
+      } catch (e) { }
+    },
+    click: function () { this.play([[880, 0, 0.09, 'triangle', 0.1]]); },
+    correct: function () { this.play([[659, 0, 0.14, 'sine', 0.16], [880, 0.1, 0.14, 'sine', 0.16], [1175, 0.2, 0.26, 'sine', 0.15]]); },
+    wrong: function () { this.play([[294, 0, 0.16, 'triangle', 0.14], [220, 0.14, 0.26, 'triangle', 0.14]]); },
+    win: function () { this.play([[523, 0, 0.14, 'sine', 0.15], [659, 0.12, 0.14, 'sine', 0.15], [784, 0.24, 0.14, 'sine', 0.15], [1047, 0.36, 0.42, 'sine', 0.15]]); }
+  };
+
+  /* =========================================================
+     DOM helpers
+  ========================================================= */
+  var homeEl = document.getElementById('screen-home');
+  var teachEl = document.getElementById('screen-teach');
+  var menuEl = document.getElementById('screen-menu');
+  var gameEl = document.getElementById('screen-game');
+  var hostEl = document.getElementById('gameHost');
+  var resultEl = document.getElementById('screen-result');
+  var sheetEl = document.getElementById('sheet');
+  var confettiEl = document.getElementById('confetti');
+  var liveEl = document.getElementById('live');
+  var backBtn = document.getElementById('backBtn');
+  var soundBtn = document.getElementById('soundBtn');
+  var reduceMotion = false;
+  try { reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { }
+
+  function currentQ() { return QUESTIONS[state.mode][state.qIndex]; }
+  function modeList() { return Object.keys(MODES).map(function (k) { return MODES[k]; }); }
+  function totalStars() {
+    var n = 0;
+    Object.keys(MODES).forEach(function (k) {
+      var b = state.best[k];
+      if (b && typeof b.stars === 'number') n += b.stars;
+    });
+    return n;
+  }
+
+  /* =========================================================
+     Render: home
+  ========================================================= */
+  function renderHome() {
+    homeEl.innerHTML =
+      '<div class="home-hero">' +
+        '<div class="hero-art">' + ART.cat() + '</div>' +
+        '<h1 class="hero-title">動靜描寫<em>小偵探</em></h1>' +
+        '<p class="hero-sub">看一看、點一點，找出會動的句子和定格的句子</p>' +
+        '<div class="tag-row">' +
+          '<span class="tag">小學語文</span>' +
+          '<span class="tag">24 道題目</span>' +
+          '<span class="tag">每題都有講解</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="entries">' +
+        entryBtn('teach', '#4FC3F7', '#D6F0FF', 'book', '教學區', '6 張圖文卡 · 3 分鐘') +
+        entryBtn('practice', '#FF8A65', '#FFD9C9', 'pencil', '練習區', '動詞尋寶 · 看句子選畫面') +
+        entryBtn('challenge', '#B39DDB', '#E7DFF7', 'trophy', '挑戰區', '動靜分類 · 看圖選句') +
+      '</div>' +
+      '<div class="best-row">' +
+        '<span class="best-pill">' + icon('star') + '已收集星星 ' + totalStars() + ' / 12</span>' +
+        '<span class="best-pill">' + icon('check') + '進度自動保存在這部裝置</span>' +
+      '</div>' +
+      '<p class="home-note">建議老師用投影機或大屏開啟：<b>字大、圖大、按鈕大</b>，後排同學也看得清楚。</p>';
+  }
+
+  function entryBtn(area, color, soft, ic, name, desc) {
+    return '<button class="entry" type="button" data-area="' + area + '" style="--c:' + color + ';--soft:' + soft + '">' +
+      '<span class="entry-icon">' + icon(ic) + '</span>' +
+      '<span class="entry-body"><span class="entry-name">' + name + '</span><span class="entry-desc">' + desc + '</span></span>' +
+      '<span class="entry-go">' + icon('right') + '</span>' +
+      '</button>';
+  }
+
+  /* =========================================================
+     Render: teaching
+  ========================================================= */
+  function renderTeach() {
+    var c = TEACH[state.teachIndex];
+    var last = state.teachIndex === TEACH.length - 1;
+    var body = '';
+    body += '<div class="teach-art">' + c.art() + '</div>';
+    body += '<div class="teach-card">';
+    body += '<span class="kicker"><span class="pin"></span>' + c.kicker + '</span>';
+    body += '<h3 class="teach-title">' + c.title + '</h3>';
+    body += '<div class="teach-text">' + c.text.map(function (t) { return '<p>' + t + '</p>'; }).join('') + '</div>';
+    if (c.steps) {
+      body += '<div class="teach-steps">' + c.steps.map(function (s, i) {
+        return '<div class="step-row"><span class="step-no">' + (i + 1) + '</span><p>' + s + '</p></div>';
+      }).join('') + '</div>';
+    }
+    if (c.motto) body += '<div class="motto">' + c.motto + '</div>';
+    if (c.example) body += '<div class="teach-example"><span>例句</span>' + c.example + '</div>';
+    if (c.chips) body += '<div class="chip-row">' + c.chips.map(function (ch) {
+      return '<span class="mini-chip">' + icon(ch.ic) + ch.label + '</span>';
+    }).join('') + '</div>';
+    body += '</div>';
+
+    teachEl.innerHTML =
+      '<div class="section-head">' +
+        '<h2 class="section-title">教學區</h2>' +
+        '<span class="section-sub">第 ' + (state.teachIndex + 1) + ' / ' + TEACH.length + ' 張</span>' +
+      '</div>' +
+      '<div class="teach-wrap">' + body + '</div>' +
+      '<div class="teach-nav">' +
+        '<button class="btn btn-ghost" type="button" data-act="prev"' + (state.teachIndex === 0 ? ' disabled' : '') + '>' + icon('left') + '上一張</button>' +
+        '<div class="dots">' + TEACH.map(function (_, i) {
+          return '<i class="' + (i === state.teachIndex ? 'on' : '') + '"></i>';
+        }).join('') + '</div>' +
+        (last
+          ? '<button class="btn btn-primary" type="button" data-act="toPractice">去練習' + icon('right') + '</button>'
+          : '<button class="btn btn-primary" type="button" data-act="next">下一張' + icon('right') + '</button>') +
+      '</div>';
+  }
+
+  /* =========================================================
+     Render: mode menu
+  ========================================================= */
+  function renderMenu() {
+    var isPractice = state.area === 'practice';
+    var modes = modeList().filter(function (m) { return m.area === state.area; });
+    menuEl.innerHTML =
+      '<div class="section-head">' +
+        '<h2 class="section-title">' + (isPractice ? '練習區' : '挑戰區') + '</h2>' +
+        '<span class="section-sub">' + (isPractice ? '每種模式 6 題 · 答完有講解' : '兩種模式 · 每種 6 題') + '</span>' +
+      '</div>' +
+      (isPractice ? '' : '<p class="menu-tip">挑戰區把動態和靜態混在一起：一句話要分進正確的籃子，一幅圖要找出最貼切的句子。</p>') +
+      '<div class="mode-list">' + modes.map(function (m) {
+        return '<button class="mode-card" type="button" data-mode="' + m.id + '" style="--soft:' + m.soft + ';--c:' + m.color + '">' +
+          '<span class="mode-icon">' + icon(m.icon) + '</span>' +
+          '<span class="mode-body">' +
+            '<span class="mode-name">' + m.name + '</span>' +
+            '<span class="mode-desc">' + m.desc + '</span>' +
+            '<span class="mode-meta"><span>' + m.tag + '</span><span>6 題</span><span>答後講解</span></span>' +
+          '</span>' +
+          '</button>';
+      }).join('') + '</div>' +
+      '<p class="menu-tip">答錯不要緊，每一題都會告訴你答案和原因。可以重複玩，直到全部答對。</p>';
+  }
+
+  /* =========================================================
+     Render: question
+  ========================================================= */
+  function orderOptions(q) {
+    var arr = q.options.slice();
+    var k = (state.qIndex + (state.mode === 'seesay' ? 1 : 0)) % arr.length;
+    return arr.slice(k).concat(arr.slice(0, k));
+  }
+
+  function renderQuestion() {
+    var mode = MODES[state.mode];
+    var q = currentQ();
+    var total = QUESTIONS[state.mode].length;
+    var body = '';
+
+    if (state.mode === 'find') {
+      body = '<div class="q-head">' + icon('run') + '任務：點出句子中表示動作的詞語</div>' +
+        '<div class="tokens">' + q.tokens.map(function (t) {
+          return '<button class="token" type="button" data-act="token" data-id="' + t.id + '">' + t.text + '</button>';
+        }).join('') + '</div>' +
+        '<p class="menu-tip">小提示：動作詞會讓畫面「動起來」；名詞和「怎樣做」的詞都不是動作。</p>';
+    } else if (state.mode === 'picture') {
+      body = '<div class="q-head">' + icon('search') + '讀一讀，選出最符合句子的一幅圖</div>' +
+        '<div class="q-sentence">' + q.sentence + '</div>' +
+        '<div class="pic-grid">' + orderOptions(q).map(function (o, i) {
+          return '<button class="pic" type="button" data-act="pic" data-id="' + o.id + '" aria-label="選項' + '一二三'.charAt(i) + '">' +
+            '<span class="pic-no" aria-hidden="true">' + 'ABC'.charAt(i) + '</span>' +
+            '<span class="pic-art">' + ART[o.id]() + '</span>' +
+            '</button>';
+        }).join('') + '</div>';
+    } else if (state.mode === 'classify') {
+      body = '<div class="q-head">' + icon('trophy') + '挑戰一：這句話屬於哪一種描寫？</div>' +
+        '<div class="q-sentence">' + q.text + '</div>' +
+        judgeButtons();
+    } else if (state.mode === 'seesay') {
+      body = '<div class="q-head">' + icon('eye') + '挑戰二：看圖，選出最貼切的描寫句子</div>' +
+        '<div class="see-art">' + ART[q.art]() + '</div>' +
+        '<div class="say-list">' + orderOptions(q).map(function (o, i) {
+          return '<button class="say" type="button" data-act="say" data-id="' + o.id + '" aria-label="句子' + '一二三'.charAt(i) + '">' +
+            '<span class="say-no" aria-hidden="true">' + 'ABC'.charAt(i) + '</span>' +
+            '<span class="say-text">' + o.text + '</span>' +
+            '</button>';
+        }).join('') + '</div>';
+    }
+
+    hostEl.innerHTML =
+      '<div class="game-top">' +
+        '<span class="chip" style="--c:' + mode.color + '"><span class="dot"></span>' + mode.name + '</span>' +
+        '<div class="progress" style="--c:' + mode.color + '"><i style="width:' + (((state.qIndex + 1) / total) * 100) + '%"></i></div>' +
+        '<span class="counter">第 ' + (state.qIndex + 1) + ' / ' + total + ' 題</span>' +
+      '</div>' +
+      '<div class="qcard">' + body + '</div>';
+
+  }
+
+  function judgeButtons() {
+    return '<div class="choices">' +
+      '<button class="choice dyn" type="button" data-act="judge" data-val="dynamic">' + icon('run') + '動態描寫<span class="sub">畫面會動</span></button>' +
+      '<button class="choice sta" type="button" data-act="judge" data-val="static">' + icon('shape') + '靜態描寫<span class="sub">畫面定格</span></button>' +
+      '</div>';
+  }
+
+  /* =========================================================
+     Answering
+  ========================================================= */
+  function answerText(q) {
+    if (state.mode === 'find') {
+      for (var i = 0; i < q.tokens.length; i++) if (q.tokens[i].id === q.answer) return q.tokens[i].text;
+      return '';
+    }
+    if (state.mode === 'picture') {
+      for (var j = 0; j < q.options.length; j++) if (q.options[j].id === q.answer) return q.options[j].label;
+      return '';
+    }
+    if (state.mode === 'seesay') {
+      for (var k = 0; k < q.options.length; k++) if (q.options[k].id === q.answer) return q.options[k].text;
+      return '';
+    }
+    return q.answer === 'dynamic' ? '動態描寫' : '靜態描寫';
+  }
+
+  function handleAnswer(choiceId) {
+    if (state.locked) return;
+    var q = currentQ();
+    if (!q) return;
+    state.locked = true;
+    var correct = choiceId === q.answer;
+    state.answers.push({ id: q.id, correct: correct });
+    if (correct) state.score += 10;
+
+    paintAnswer(choiceId, q);
+    if (correct) AudioKit.correct(); else AudioKit.wrong();
+    liveEl.textContent = correct ? '答對了，答案是' + answerText(q) : '答錯了，正確答案是' + answerText(q);
+    showSheet(correct, q);
+  }
+
+  function paintAnswer(choiceId, q) {
+    var sel = state.mode === 'find' ? '[data-act="token"]' : (state.mode === 'picture' ? '[data-act="pic"]' : (state.mode === 'seesay' ? '[data-act="say"]' : '[data-act="judge"]'));
+    var nodes = hostEl.querySelectorAll(sel);
+    for (var i = 0; i < nodes.length; i++) {
+      var btn = nodes[i];
+      var val = btn.getAttribute('data-id') || btn.getAttribute('data-val');
+      if (val === q.answer) btn.classList.add('correct');
+      else if (val === choiceId) btn.classList.add('wrong');
+    }
+  }
+
+  function showSheet(correct, q) {
+    var isLast = state.qIndex >= QUESTIONS[state.mode].length - 1;
+    sheetEl.innerHTML =
+      '<div class="sheet-grab"></div>' +
+      '<div class="sheet-head">' +
+        '<div class="sheet-badge ' + (correct ? 'ok' : 'no') + '">' + icon(correct ? 'check' : 'x') + '</div>' +
+        '<div><div class="sheet-title">' + (correct ? '答對了！' : '再想想～') + '</div>' +
+        '<div class="sheet-sub">' + (correct ? '你的眼睛真利' : '看看正確答案，再讀一次句子') + '</div></div>' +
+      '</div>' +
+      '<div class="answer-box"><b>答案</b><span>' + answerText(q) + '</span></div>' +
+      (state.mode === 'seesay' && q.type ? '<div class="type-tag ' + (q.type === 'dynamic' ? 'dyn' : 'sta') + '">' + (q.type === 'dynamic' ? '這一句是動態描寫' : '這一句是靜態描寫') + '</div>' : '') +
+      '<p class="why-text">' + q.explain + '</p>' +
+      '<div class="tip-box"><b>小提示：</b>' + q.tip + '</div>' +
+      '<button class="btn btn-primary btn-block" type="button" data-act="sheetNext">' + (isLast ? '看成績' : '下一題') + '</button>';
+    sheetEl.hidden = false;
+    document.body.classList.add('sheet-open');
+    window.setTimeout(scrollToAnswer, reduceMotion ? 30 : 340);
+    var nextBtn = sheetEl.querySelector('[data-act="sheetNext"]');
+    if (nextBtn) { try { nextBtn.focus({ preventScroll: true }); } catch (e) { } }
+  }
+
+  function scrollToAnswer() {
+    var target = hostEl.querySelector('.correct');
+    if (!target || sheetEl.hidden) return;
+    var sheetTop = sheetEl.getBoundingClientRect().top;
+    var rect = target.getBoundingClientRect();
+    var pad = 14;
+    if (rect.bottom > sheetTop - pad) {
+      if (window.scrollBy) window.scrollBy({ top: rect.bottom - sheetTop + pad, behavior: reduceMotion ? 'auto' : 'smooth' });
+      else window.scrollBy(0, rect.bottom - sheetTop + pad);
+    }
+  }
+
+  function closeSheet() {
+    sheetEl.hidden = true;
+    sheetEl.innerHTML = '';
+    document.body.classList.remove('sheet-open');
+  }
+
+  function nextQuestion() {
+    closeSheet();
+    if (state.qIndex < QUESTIONS[state.mode].length - 1) {
+      state.qIndex += 1;
+      state.locked = false;
+      renderQuestion();
+      window.scrollTo(0, 0);
+    } else {
+      go('result');
+    }
+  }
+
+  /* =========================================================
+     Round lifecycle
+  ========================================================= */
+  function startRound(modeId) {
+    state.mode = modeId;
+    state.qIndex = 0;
+    state.answers = [];
+    state.score = 0;
+    state.locked = false;
+    closeSheet();
+    go('game');
+  }
+
+  function finishRound() {
+    closeSheet();
+    go('result');
+  }
+
+  function renderResult() {
+    var mode = MODES[state.mode];
+    var total = QUESTIONS[state.mode].length;
+    var correct = state.answers.filter(function (a) { return a.correct; }).length;
+    var stars = correct >= total ? 3 : (correct >= 4 ? 2 : (correct >= 2 ? 1 : 0));
+
+    var prev = state.best[state.mode];
+    if (!prev || state.score > (prev.score || 0)) {
+      state.best[state.mode] = { score: state.score, correct: correct, stars: stars };
+      saveBest();
+    }
+
+    var starHtml = [0, 1, 2].map(function (i) {
+      return '<span class="st ' + (i < stars ? 'on' : '') + (i === 1 ? ' mid' : '') + '">' + icon('star') + '</span>';
+    }).join('');
+
+    var msg = (RESULT_TEXT[state.mode] || {})[stars] || '';
+
+    resultEl.innerHTML =
+      '<div class="result-card">' +
+        '<span class="chip" style="--c:' + mode.color + '"><span class="dot"></span>' + mode.name + '</span>' +
+        '<div class="stars" aria-label="獲得 ' + stars + ' 顆星">' + starHtml + '</div>' +
+        '<h2 class="result-title">' + (stars === 3 ? '全部答對，太棒了！' : (stars === 2 ? '表現不錯！' : (stars === 1 ? '繼續努力！' : '再試一次吧！'))) + '</h2>' +
+        '<p class="result-score">答對 <b>' + correct + '</b> / ' + total + ' 題 · 得分 ' + state.score + ' 分</p>' +
+        '<p class="result-msg">' + msg + '</p>' +
+        '<div class="result-actions">' +
+          '<button class="btn btn-primary" type="button" data-act="again">' + icon('refresh') + '再玩一次</button>' +
+          '<button class="btn" type="button" data-act="toMenu">' + icon('left') + '返回' + (mode.area === 'practice' ? '練習區' : '挑戰區') + '</button>' +
+        '</div>' +
+        '<p class="result-note">' + icon('star') + ' 已收集星星 ' + totalStars() + ' / 12</p>' +
+      '</div>';
+
+    if (stars >= 2) {
+      AudioKit.win();
+      popConfetti();
+    }
+  }
+
+  function popConfetti() {
+    if (reduceMotion) return;
+    confettiEl.innerHTML = '';
+    var colors = ['#FF8A65', '#4FC3F7', '#FFD166', '#7BC96F', '#B39DDB'];
+    for (var i = 0; i < 34; i++) {
+      var bit = document.createElement('i');
+      bit.style.left = (Math.random() * 100) + '%';
+      bit.style.background = colors[i % colors.length];
+      bit.style.animationDuration = (1.7 + Math.random() * 1.3) + 's';
+      bit.style.animationDelay = (Math.random() * 0.45) + 's';
+      bit.style.opacity = '0.9';
+      confettiEl.appendChild(bit);
+    }
+    window.setTimeout(function () { confettiEl.innerHTML = ''; }, 3400);
+  }
+
+  /* =========================================================
+     Router
+  ========================================================= */
+  function go(screen) {
+    closeSheet();
+    if (screen !== 'result') confettiEl.innerHTML = '';
+    state.screen = screen;
+    ['home', 'teach', 'menu', 'game', 'result'].forEach(function (n) {
+      var el = document.getElementById('screen-' + n);
+      if (el) el.hidden = (n !== screen);
+    });
+    backBtn.hidden = (screen === 'home');
+    if (screen === 'home') renderHome();
+    else if (screen === 'teach') renderTeach();
+    else if (screen === 'menu') renderMenu();
+    else if (screen === 'game') renderQuestion();
+    else if (screen === 'result') renderResult();
+    window.scrollTo(0, 0);
+  }
+
+  function openArea(area) {
+    if (area === 'teach') {
+      state.teachIndex = 0;
+      go('teach');
+    } else {
+      state.area = area;
+      go('menu');
+    }
+  }
+
+  function onBack() {
+    if (state.screen === 'teach') go('home');
+    else if (state.screen === 'menu') go('home');
+    else if (state.screen === 'game') go('menu');
+    else if (state.screen === 'result') go('menu');
+    else go('home');
+  }
+
+  /* =========================================================
+     Sound toggle
+  ========================================================= */
+  function applySoundUI() {
+    soundBtn.innerHTML = icon(state.sound ? 'speaker' : 'speakerOff');
+    soundBtn.setAttribute('aria-pressed', state.sound ? 'true' : 'false');
+    soundBtn.setAttribute('aria-label', state.sound ? '關閉音效' : '開啟音效');
+    soundBtn.classList.toggle('off', !state.sound);
+  }
+
+  soundBtn.addEventListener('click', function () {
+    state.sound = !state.sound;
+    saveSound();
+    applySoundUI();
+    if (state.sound) AudioKit.click();
+  });
+
+  /* =========================================================
+     Global click routing
+  ========================================================= */
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest ? e.target.closest('[data-act],[data-area],[data-mode]') : null;
+    if (!el) return;
+    if (el.hasAttribute('disabled')) return;
+
+    if (el.hasAttribute('data-area')) { AudioKit.click(); openArea(el.getAttribute('data-area')); return; }
+    if (el.hasAttribute('data-mode')) { AudioKit.click(); startRound(el.getAttribute('data-mode')); return; }
+
+    var act = el.getAttribute('data-act');
+    if (act === 'back') { AudioKit.click(); onBack(); }
+    else if (act === 'prev') { AudioKit.click(); if (state.teachIndex > 0) { state.teachIndex -= 1; renderTeach(); } }
+    else if (act === 'next') { AudioKit.click(); if (state.teachIndex < TEACH.length - 1) { state.teachIndex += 1; renderTeach(); } }
+    else if (act === 'toPractice') { AudioKit.click(); state.area = 'practice'; go('menu'); }
+    else if (act === 'token' || act === 'pic' || act === 'say') { handleAnswer(el.getAttribute('data-id')); }
+    else if (act === 'judge') { handleAnswer(el.getAttribute('data-val')); }
+    else if (act === 'sheetNext') { AudioKit.click(); nextQuestion(); }
+    else if (act === 'again') { AudioKit.click(); startRound(state.mode); }
+    else if (act === 'toMenu') { AudioKit.click(); go('menu'); }
+  });
+
+  backBtn.addEventListener('click', function () { AudioKit.click(); onBack(); });
+
+  document.addEventListener('pointerdown', function () { if (state.sound) AudioKit.ensure(); }, { once: true });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && state.screen !== 'home') { onBack(); }
+  });
+
+  /* =========================================================
+     Init
+  ========================================================= */
+  loadBest();
+  loadSound();
+  applySoundUI();
+  go('home');
+})();
+</script>
+</body>
+</html>

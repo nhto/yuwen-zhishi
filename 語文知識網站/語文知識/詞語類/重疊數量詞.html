@@ -1,0 +1,2393 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>量詞大冒險｜小學量詞重疊互動課件</title>
+<meta name="description" content="初小與高小兩版、教學四課與雙模式遊戲，看圖選量詞、句子偵探，每題附三層解析與粵語朗讀，可離線使用。">
+<style>
+/* ===== tokens ===== */
+:root{
+  --ink:#33403F; --ink-soft:#5C6B6A;
+  --cream:#FFF7EC; --card:#FFFFFF;
+  --orange:#FF8B3D; --yellow:#FFC94A; --teal:#2FA98C;
+  --blue:#62B6E8; --pink:#FF8FA3; --warn:#E8833A;
+  --accent:#FF8B3D; --accent-soft:#FFF0E2;
+  --shadow:0 .35rem 0 rgba(51,64,63,.16);
+  --radius:1.5rem;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{font-size:18px;-webkit-text-size-adjust:100%}
+@media(min-width:600px){html{font-size:20px}}
+@media(min-width:1024px){html{font-size:22px}}
+html.stage{font-size:26px}
+html.stage .deco{display:none!important}
+html.stage .art-frame{max-height:none}
+body{
+  margin:0;font-family:"Noto Sans TC","Source Han Sans TC","PingFang HK","Microsoft JhengHei","Heiti TC",system-ui,sans-serif;
+  color:var(--ink);background:var(--cream);line-height:1.5;overflow-x:hidden;
+  -webkit-tap-highlight-color:transparent;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(circle at 10% 4%, #FFE6C8 0 16%, transparent 42%),
+    radial-gradient(circle at 92% 12%, #D8F1E7 0 12%, transparent 38%),
+    radial-gradient(circle at 50% 104%, #FFEFD4 0 28%, transparent 62%),
+    var(--cream);
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.45;
+  background-image:radial-gradient(rgba(51,64,63,.13) 1.3px, transparent 1.4px);
+  background-size:1.7rem 1.7rem;
+}
+img,svg{max-width:100%}
+button{font:inherit;color:inherit}
+:focus-visible{outline:.25rem solid #2F86C9;outline-offset:.18rem}
+
+/* ===== shell ===== */
+.app{min-height:100dvh;display:flex;flex-direction:column}
+.topbar{
+  position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:.45rem;
+  padding:.5rem max(.8rem,env(safe-area-inset-left)) .5rem max(.8rem,env(safe-area-inset-right));
+  background:rgba(255,247,236,.92);backdrop-filter:blur(10px);
+  border-bottom:2px dashed rgba(51,64,63,.16);
+}
+.topbar .t-title{flex:1;text-align:center;font-weight:900;font-size:1.02rem;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.icon-btn{
+  flex:0 0 auto;width:3rem;height:3rem;display:grid;place-items:center;padding:0;
+  background:#fff;border:2.5px solid var(--ink);border-radius:1rem;
+  box-shadow:0 .18rem 0 rgba(51,64,63,.28);cursor:pointer;transition:transform .12s,box-shadow .12s;
+}
+.icon-btn:active{transform:translateY(.16rem);box-shadow:none}
+.icon-btn svg{width:1.45rem;height:1.45rem;display:block}
+.icon-btn[hidden]{display:none}
+.main{flex:1;width:100%;max-width:72rem;margin:0 auto;padding:.9rem max(.9rem,env(safe-area-inset-left)) 3rem max(.9rem,env(safe-area-inset-right))}
+.view{display:none}
+.view.active{display:block;animation:viewIn .32s ease-out both}
+@keyframes viewIn{from{opacity:0;transform:translateY(.6rem)}to{opacity:1;transform:none}}
+
+/* ===== typography ===== */
+h1,h2,h3,h4,p{margin:0}
+.page-title{font-size:1.62rem;font-weight:900;letter-spacing:.04em;line-height:1.25}
+.page-sub{font-size:.98rem;color:var(--ink-soft);margin-top:.3rem;line-height:1.55}
+.kicker{display:inline-flex;align-items:center;gap:.35rem;font-size:.82rem;font-weight:800;letter-spacing:.12em;color:var(--ink-soft)}
+.lead{font-size:1.45rem;font-weight:900;line-height:1.35;letter-spacing:.02em}
+.small{font-size:.85rem;color:var(--ink-soft)}
+
+/* ===== generic ===== */
+.card{
+  background:var(--card);border:3px solid var(--ink);border-radius:var(--radius);
+  box-shadow:0 .35rem 0 rgba(51,64,63,.18);
+}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  min-height:3.6rem;padding:.6rem 1.3rem;font-size:1.08rem;font-weight:900;letter-spacing:.04em;
+  background:#fff;border:3px solid var(--ink);border-radius:1.15rem;
+  box-shadow:0 .3rem 0 var(--ink);cursor:pointer;transition:transform .12s,box-shadow .12s,background .2s;
+  touch-action:manipulation;
+}
+.btn:active{transform:translateY(.24rem);box-shadow:0 .05rem 0 var(--ink)}
+.btn.primary{background:var(--accent);color:var(--ink)}
+.btn.ghost{background:#fff}
+.btn.block{width:100%}
+.btn.big{min-height:4.2rem;font-size:1.2rem;border-radius:1.3rem}
+.btn:disabled{opacity:.55;cursor:not-allowed;box-shadow:0 .3rem 0 rgba(51,64,63,.35)}
+.btn svg{width:1.25rem;height:1.25rem;flex:0 0 auto}
+.row{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.between{justify-content:space-between}
+.stack{display:grid;gap:.85rem}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ===== splash ===== */
+#view-splash{display:none}
+#view-splash.active{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;min-height:calc(100dvh - 5rem);text-align:center;padding:1rem 0 2rem}
+.splash-mascot{width:min(48vw,13rem);filter:drop-shadow(0 .6rem 0 rgba(51,64,63,.12))}
+.title-big{font-size:clamp(2.1rem,9.5vw,3.4rem);font-weight:900;letter-spacing:.1em;line-height:1.12}
+.title-big em{font-style:normal;color:var(--orange)}
+.title-en{font-size:.72rem;letter-spacing:.22em;color:var(--ink-soft);font-weight:700;white-space:nowrap}
+.splash-tags{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center}
+.tag{font-size:.82rem;font-weight:800;padding:.3rem .7rem;border:2px solid var(--ink);border-radius:2rem;background:#fff}
+
+/* ===== version ===== */
+.version-grid{display:grid;gap:.9rem;margin-top:1rem}
+@media(min-width:720px){.version-grid{grid-template-columns:1fr 1fr;gap:1.2rem}}
+.version-card{
+  display:flex;flex-direction:column;align-items:flex-start;gap:.5rem;text-align:left;
+  padding:1.15rem 1.2rem;cursor:pointer;position:relative;overflow:hidden;
+}
+.version-card:hover{transform:translateY(-.15rem)}
+.version-card .v-badge{font-size:.78rem;font-weight:900;letter-spacing:.1em;padding:.2rem .6rem;border-radius:2rem;border:2px solid var(--ink);background:var(--accent-soft)}
+.version-card h3{font-size:1.65rem;font-weight:900;letter-spacing:.06em}
+.version-card p{font-size:.95rem;color:var(--ink-soft);line-height:1.6}
+.version-card .v-top{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem;width:100%}
+.version-card .v-art{width:4.8rem;flex:0 0 auto;margin:-.2rem -.2rem 0 0}
+.version-card .v-go{font-weight:900;font-size:.95rem;margin-top:.15rem;display:inline-flex;align-items:center;gap:.35rem}
+.version-card .v-go svg{width:1.05rem;height:1.05rem}
+
+/* ===== menu ===== */
+.hero{display:flex;align-items:center;gap:.7rem;margin:.2rem 0 1rem}
+.hero .h-mascot{width:5.2rem;flex:0 0 auto}
+.hero .h-text{flex:1;min-width:0}
+.hero .h-title{font-size:1.75rem;font-weight:900;letter-spacing:.06em;line-height:1.2}
+.hero .h-sub{font-size:.9rem;color:var(--ink-soft);margin-top:.2rem}
+.version-chip{
+  display:inline-flex;align-items:center;gap:.35rem;font-size:.82rem;font-weight:900;
+  padding:.28rem .65rem;border:2px solid var(--ink);border-radius:2rem;background:#fff;cursor:pointer;
+}
+.version-chip svg{width:.95rem;height:.95rem}
+.progress-row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1rem}
+.pcard{padding:.8rem .9rem;display:flex;align-items:center;gap:.7rem;min-width:0}
+.pcard .ring{width:3.3rem;height:3.3rem;flex:0 0 auto;position:relative;display:grid;place-items:center}
+.pcard .ring svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.pcard .ring b{font-size:.8rem;font-weight:900}
+.pcard .p-info{min-width:0}
+.pcard .p-info strong{display:block;font-size:.95rem;font-weight:900;white-space:nowrap}
+.pcard .p-info span{font-size:.74rem;color:var(--ink-soft);display:block;line-height:1.35}
+.entry-grid{display:grid;gap:.85rem}
+.entry{
+  display:grid;grid-template-columns:auto 1fr auto;gap:.85rem;align-items:center;
+  padding:1rem;cursor:pointer;text-align:left;width:100%;
+}
+.entry .e-icon{
+  width:4rem;height:4rem;border-radius:1.1rem;border:2.5px solid var(--ink);
+  display:grid;place-items:center;background:var(--accent-soft);flex:0 0 auto;
+}
+.entry .e-icon svg{width:2.4rem;height:2.4rem}
+.entry h3{font-size:1.3rem;font-weight:900;letter-spacing:.05em}
+.entry p{font-size:.86rem;color:var(--ink-soft);margin-top:.15rem;line-height:1.45}
+.entry .e-arrow{width:1.6rem;height:1.6rem;color:var(--ink-soft)}
+.entry:hover{transform:translateY(-.12rem)}
+.mini-row{display:flex;gap:.6rem;margin-top:.9rem;flex-wrap:wrap}
+.mini-row .btn{flex:1;min-height:3.2rem;font-size:.95rem}
+
+/* ===== lessons ===== */
+.lesson-grid{display:grid;gap:.75rem;margin-top:1rem}
+@media(min-width:760px){.lesson-grid{grid-template-columns:1fr 1fr}}
+.lesson-card{display:grid;grid-template-columns:auto 1fr auto;gap:.8rem;align-items:center;padding:.85rem .95rem;cursor:pointer;width:100%;text-align:left}
+.lesson-card .l-no{width:2.9rem;height:2.9rem;border-radius:50%;border:2.5px solid var(--ink);display:grid;place-items:center;font-weight:900;font-size:1.15rem;background:#fff;flex:0 0 auto}
+.lesson-card.done .l-no{background:var(--teal);color:#fff}
+.lesson-card h3{font-size:1.14rem;font-weight:900}
+.lesson-card p{font-size:.83rem;color:var(--ink-soft);margin-top:.1rem}
+.lesson-card .l-stamp{font-size:.7rem;font-weight:900;padding:.16rem .45rem;border-radius:2rem;background:var(--yellow);border:2px solid var(--ink);transform:rotate(-6deg)}
+.lesson-card .l-stamp[hidden]{display:none}
+
+/* ===== lesson stage ===== */
+.lesson-stage{display:grid;gap:.85rem}
+.lesson-art{height:clamp(11rem,34vh,20rem);overflow:hidden}
+.lesson-line{font-size:1.55rem;font-weight:900;line-height:1.4;text-align:center;letter-spacing:.02em}
+.lesson-sub{font-size:.95rem;color:var(--ink-soft);text-align:center;line-height:1.5}
+.tap-grid{display:grid;gap:.7rem}
+.tap-grid.three{grid-template-columns:repeat(3,1fr)}
+@media(min-width:640px){.tap-grid.three{gap:.9rem}}
+.tap-card{padding:.6rem;display:flex;flex-direction:column;align-items:center;gap:.35rem;cursor:pointer;background:#fff;border:3px solid var(--ink);border-radius:1.2rem;box-shadow:var(--shadow)}
+.tap-card .t-art{width:100%;aspect-ratio:4/3;display:grid;place-items:center}
+.tap-card.mini{min-height:3.6rem;justify-content:center;padding:.5rem .35rem}
+.tap-card .t-label{font-size:.95rem;font-weight:900;text-align:center;line-height:1.3}
+.tap-card.found{background:#E9F8F2;border-color:var(--teal)}
+.tap-card.found .t-label{color:#1B7A63}
+.pick-grid{display:grid;gap:.8rem}
+@media(min-width:640px){.pick-grid{grid-template-columns:1fr 1fr}}
+.pick-card{padding:.7rem;display:grid;grid-template-columns:auto 1fr;gap:.6rem;align-items:center;background:#fff;border:3px solid var(--ink);border-radius:1.2rem;cursor:pointer;text-align:left}
+.pick-card .p-art{width:5.2rem}
+.pick-card .p-word{font-size:1.45rem;font-weight:900}
+.pick-card .p-mark{font-size:1.4rem;font-weight:900;margin-left:.3rem}
+.pick-card.good{background:#E9F8F2;border-color:var(--teal)}
+.pick-card.bad{background:#FFF1E4;border-color:var(--warn)}
+.kid-row{display:flex;justify-content:center;gap:.3rem;flex-wrap:wrap;padding:.4rem 0}
+.kid-btn{background:none;border:none;padding:0;width:min(4.2rem,17vw);cursor:pointer;opacity:.45;filter:grayscale(.6);transition:opacity .25s,filter .25s,transform .25s}
+.kid-btn.lit{opacity:1;filter:none;transform:translateY(-.2rem)}
+.kid-btn svg{width:100%;display:block}
+.kid-labels{display:flex;gap:.4rem;justify-content:center;flex-wrap:wrap;min-height:2rem}
+.kid-label{font-size:.95rem;font-weight:900;padding:.2rem .55rem;border:2px solid var(--teal);border-radius:2rem;background:#E9F8F2}
+.stage-wrap{position:relative;border:3px solid var(--ink);border-radius:1.4rem;overflow:hidden;background:#fff}
+.stage-wrap svg{display:block;width:100%}
+.hotspot{
+  position:absolute;transform:translate(-50%,-50%);min-width:2.6rem;min-height:2.6rem;padding:0 .45rem;
+  display:grid;place-items:center;font-size:.82rem;font-weight:900;color:var(--ink);white-space:nowrap;max-width:42%;
+  background:#fff;border:2.5px solid var(--ink);border-radius:2rem;box-shadow:0 .2rem 0 rgba(51,64,63,.25);cursor:pointer;
+}
+.hotspot.found{background:var(--teal);color:#fff;border-color:var(--ink)}
+.hotspot.found::after{content:" ✓";font-size:.8rem}
+.timeline{display:flex;gap:.4rem;flex-wrap:wrap}
+.timeline button{flex:1;min-width:5.5rem}
+.timeline button.on{background:var(--accent);color:var(--ink)}
+.night-scene{position:relative;border:3px solid var(--ink);border-radius:1.4rem;overflow:hidden;background:#2C3A57}
+.night-scene svg{display:block;width:100%}
+.win{position:absolute;width:8.5%;height:11%;border-radius:.25rem;border:2px solid #1F2A40;background:#46597C;cursor:pointer;padding:0;transition:background .3s,box-shadow .3s}
+.win.lit{background:var(--yellow);box-shadow:0 0 1rem rgba(255,201,74,.95)}
+.win:focus-visible{outline:.2rem solid #fff}
+.phrase-big{text-align:center;font-size:1.8rem;font-weight:900;letter-spacing:.15em;color:var(--teal)}
+
+/* ===== modes ===== */
+.mode-grid{display:grid;gap:.9rem;margin-top:1rem}
+@media(min-width:720px){.mode-grid{grid-template-columns:1fr 1fr}}
+.mode-card{display:grid;gap:.5rem;padding:1.1rem;cursor:pointer;text-align:left;position:relative;overflow:hidden}
+.mode-card h3{font-size:1.45rem;font-weight:900;letter-spacing:.05em}
+.mode-card p{font-size:.9rem;color:var(--ink-soft);line-height:1.55}
+.mode-card .m-meta{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.2rem}
+.mode-card .m-art{height:7rem;display:grid;place-items:center}
+.mode-card .m-art svg{height:100%;width:auto}
+.stars-line{display:inline-flex;align-items:center;gap:.15rem;font-size:.9rem;font-weight:900}
+.stars-line svg{width:1rem;height:1rem}
+.mode-card .m-best{position:absolute;top:.9rem;right:.9rem;font-size:.78rem;font-weight:900;background:#fff;border:2px solid var(--ink);border-radius:2rem;padding:.15rem .5rem}
+
+/* ===== game ===== */
+.game-top{display:flex;align-items:center;gap:.6rem;margin-bottom:.7rem}
+.game-top .q-count{font-size:.88rem;font-weight:900;white-space:nowrap}
+.game-top .progress-bar{flex:1;height:.65rem;border:2px solid var(--ink);border-radius:1rem;background:#fff;overflow:hidden}
+.game-top .progress-bar i{display:block;height:100%;background:var(--accent);transition:width .35s}
+.q-stars{display:flex;gap:.12rem}
+.q-stars svg{width:1.05rem;height:1.05rem}
+.prompt-chip{display:inline-flex;align-items:center;gap:.35rem;font-size:.82rem;font-weight:800;padding:.25rem .6rem;border:2px solid var(--ink);border-radius:2rem;background:#fff;margin-bottom:.5rem}
+.match-art{height:clamp(9.5rem,28vh,17rem);overflow:hidden;margin-bottom:.6rem}
+.noun-row{display:flex;align-items:center;gap:.6rem;justify-content:center;margin:.2rem 0 .6rem;flex-wrap:wrap}
+.noun{font-size:1.85rem;font-weight:900;letter-spacing:.08em}
+.drop-slot{
+  min-width:6.6rem;min-height:4rem;display:grid;place-items:center;padding:.3rem .8rem;
+  border:3px dashed rgba(51,64,63,.55);border-radius:1rem;background:rgba(255,255,255,.8);
+  font-size:1.35rem;font-weight:900;color:var(--ink-soft);
+}
+.drop-slot.over{border-color:var(--teal);background:#E9F8F2;border-style:solid}
+.drop-slot.filled{border-style:solid;border-color:var(--teal);color:var(--ink);background:#E9F8F2}
+.sentence-card{padding:1rem;margin-bottom:.8rem;background:#FFFDF8;border:3px solid var(--ink);border-radius:1.3rem;box-shadow:var(--shadow)}
+.sentence-card p{font-size:1.32rem;font-weight:800;line-height:1.75;letter-spacing:.03em}
+.blank{display:inline-block;min-width:4.4rem;border-bottom:.25rem solid var(--accent);color:var(--warn);text-align:center}
+.blank.filled{color:var(--teal);border-color:var(--teal)}
+.sent-art{height:clamp(7rem,18vh,11rem);margin-bottom:.7rem;overflow:hidden}
+.options{display:grid;gap:.6rem}
+@media(min-width:720px){.options.three{grid-template-columns:repeat(3,1fr)}}
+.opt{
+  position:relative;display:flex;align-items:center;justify-content:center;gap:.4rem;
+  min-height:4.6rem;padding:.5rem .8rem;font-size:1.4rem;font-weight:900;letter-spacing:.06em;
+  background:#fff;border:3px solid var(--ink);border-radius:1.1rem;box-shadow:0 .28rem 0 rgba(51,64,63,.28);
+  cursor:pointer;user-select:none;-webkit-user-select:none;transition:transform .12s,box-shadow .12s,background .2s,border-color .2s;
+}
+.opt:active{transform:translateY(.15rem);box-shadow:0 .08rem 0 rgba(51,64,63,.28)}
+.opt.draggable{touch-action:none;cursor:grab}
+.opt.correct{background:#E4F7EF;border-color:var(--teal);box-shadow:0 .28rem 0 rgba(47,169,140,.55)}
+.opt.wrong{background:#FFF0E2;border-color:var(--warn);color:#8A4A16}
+.opt.faded{opacity:.45}
+.opt.drag-src{opacity:.3}
+.opt .mark{font-size:1.25rem;font-weight:900}
+.opt:disabled{cursor:default}
+.opt[data-moved="1"]{cursor:grab}
+.ghost-card{
+  position:fixed;z-index:120;pointer-events:none;display:flex;align-items:center;justify-content:center;
+  background:#fff;border:3px solid var(--teal);border-radius:1.1rem;font-weight:900;font-size:1.4rem;
+  box-shadow:0 .6rem 1.4rem rgba(51,64,63,.3);transform:rotate(-2deg);opacity:.95;
+}
+.hint-line{font-size:.85rem;color:var(--ink-soft);text-align:center;margin-top:.6rem;min-height:1.3rem}
+.hint-line.alert{color:#A4551B;font-weight:800}
+.match-hint{font-size:.95rem;font-weight:800;color:#A4551B;text-align:center;min-height:1.4rem;margin-top:.4rem}
+
+/* ===== overlay sheet ===== */
+.overlay{position:fixed;inset:0;z-index:80;display:none;align-items:flex-end;justify-content:center;background:rgba(30,40,39,.48);padding:0}
+.overlay.show{display:flex;animation:fade .2s}
+.sheet{
+  width:min(48rem,100%);max-height:90dvh;overflow:auto;-webkit-overflow-scrolling:touch;
+  background:#fff;border:3px solid var(--ink);border-radius:1.8rem 1.8rem 0 0;
+  padding:1rem 1rem calc(1rem + env(safe-area-inset-bottom));animation:sheetUp .3s ease-out;
+}
+@media(min-width:760px){
+  .overlay{align-items:center;padding:2rem}
+  .sheet{border-radius:1.8rem;max-height:86dvh}
+}
+@keyframes sheetUp{from{transform:translateY(2rem);opacity:.6}to{transform:none;opacity:1}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
+.verdict{display:inline-flex;align-items:center;gap:.35rem;font-size:1.05rem;font-weight:900;padding:.25rem .65rem;border:2.5px solid var(--ink);border-radius:2rem;background:#E4F7EF}
+.verdict.miss{background:#FFF0E2}
+.verdict svg{width:1.1rem;height:1.1rem}
+.sheet .q-no{font-size:.8rem;font-weight:800;color:var(--ink-soft)}
+.answer-big{font-size:clamp(2.4rem,12vw,3.4rem);font-weight:900;letter-spacing:.16em;text-align:center;line-height:1.15;color:#1B7A63;margin:.3rem 0 .2rem}
+.answer-sub{text-align:center;font-size:.85rem;color:var(--ink-soft);margin-bottom:.7rem}
+.layer{border-radius:1rem;padding:.7rem .85rem;margin-bottom:.55rem;border:2px solid rgba(51,64,63,.16);background:#FFFDF8}
+.layer h4{display:flex;align-items:center;gap:.35rem;font-size:.88rem;font-weight:900;letter-spacing:.1em;color:var(--ink-soft);margin-bottom:.2rem}
+.layer p{font-size:1.02rem;line-height:1.65}
+.layer.why{background:#F1FAF7;border-color:rgba(47,169,140,.45)}
+.layer.why h4{color:#1B7A63}
+.layer.trap{background:#FFF6EC;border-color:rgba(232,131,58,.45)}
+.layer.trap h4{color:#A4551B}
+.layer .num-badge{width:1.3rem;height:1.3rem;border-radius:50%;display:inline-grid;place-items:center;background:var(--ink);color:#fff;font-size:.72rem}
+.followup{margin-top:.4rem;padding:.75rem .85rem;border:2.5px dashed var(--teal);border-radius:1rem;background:#F1FAF7}
+.followup h4{font-size:.98rem;font-weight:900;margin-bottom:.45rem;line-height:1.5}
+.followup h4 .tag{display:inline-block;margin:.25rem 0 0;font-size:.72rem}
+.fu-opts{display:grid;gap:.45rem}
+.fu-opt{text-align:left;font-size:.95rem;font-weight:800;padding:.55rem .7rem;border:2px solid var(--ink);border-radius:.8rem;background:#fff;cursor:pointer;line-height:1.45}
+.fu-opt.good{background:#DDF5EA;border-color:var(--teal)}
+.fu-opt.bad{background:#FFF0E2;border-color:var(--warn)}
+.fu-note{font-size:.88rem;margin-top:.4rem;line-height:1.55;color:#1B7A63;font-weight:700}
+.sheet-actions{display:flex;gap:.6rem;margin-top:.8rem;position:sticky;bottom:0;background:linear-gradient(transparent,#fff 30%);padding-top:.5rem}
+.sheet-actions .btn{flex:1}
+
+/* ===== result ===== */
+.result-hero{text-align:center;padding:1.2rem .8rem;display:grid;gap:.4rem;justify-items:center}
+.result-hero .r-mascot{width:9rem}
+.result-hero .r-title{font-size:1.9rem;font-weight:900;letter-spacing:.1em}
+.result-hero .r-stars{display:flex;align-items:center;gap:.3rem;font-size:2.2rem;font-weight:900}
+.result-hero .r-stars svg{width:2rem;height:2rem}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.5rem;width:100%;max-width:32rem}
+.result-grid div{background:#FFFDF8;border:2px solid rgba(51,64,63,.16);border-radius:.9rem;padding:.5rem .3rem}
+.result-grid b{display:block;font-size:1.3rem}
+.result-grid span{font-size:.76rem;color:var(--ink-soft)}
+.result-actions{display:grid;gap:.6rem;margin-top:1rem}
+@media(min-width:640px){.result-actions{grid-template-columns:1fr 1fr}}
+.wrong-list{display:grid;gap:.55rem;margin-top:.6rem}
+.wrong-item{padding:.7rem .8rem;border:2px solid rgba(51,64,63,.16);border-radius:.9rem;background:#FFFDF8}
+.wrong-item .w-top{display:flex;justify-content:space-between;gap:.5rem;font-size:.82rem;color:var(--ink-soft);font-weight:700}
+.wrong-item .w-main{font-size:1.02rem;font-weight:900;margin:.15rem 0}
+.wrong-item .w-main em{font-style:normal;color:#1B7A63}
+.wrong-item .w-main s{color:#A4551B;text-decoration-thickness:2px}
+.wrong-item p{font-size:.86rem;line-height:1.55;color:var(--ink-soft)}
+
+/* ===== guide ===== */
+.guide-grid{display:grid;gap:.6rem;grid-template-columns:repeat(auto-fill,minmax(8.2rem,1fr));margin-top:.9rem}
+.word-card{padding:.5rem;display:flex;flex-direction:column;align-items:center;gap:.2rem;cursor:pointer;background:#fff;border:2.5px solid var(--ink);border-radius:1.1rem;box-shadow:0 .25rem 0 rgba(51,64,63,.16)}
+.word-card .w-art{width:100%;aspect-ratio:4/3;display:grid;place-items:center}
+.word-card .w-zi{font-size:1.7rem;font-weight:900;line-height:1.1}
+.word-card .w-py{font-size:.74rem;color:var(--teal);letter-spacing:.06em;font-weight:800}
+.word-card .w-ex{font-size:.78rem;font-weight:800;color:#1B7A63}
+.guide-sheet-art{height:9rem;display:grid;place-items:center;margin-bottom:.4rem}
+
+/* ===== info ===== */
+.info-block{padding:1rem;margin-bottom:.8rem}
+.info-block h3{font-size:1.15rem;font-weight:900;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.info-block h3 svg{width:1.2rem;height:1.2rem}
+.info-block p,.info-block li{font-size:.92rem;line-height:1.7;color:var(--ink-soft)}
+.info-block ul{padding-left:1.2rem;margin:.3rem 0}
+.setting-row{display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:.6rem 0;border-bottom:1px dashed rgba(51,64,63,.18)}
+.setting-row:last-child{border-bottom:none}
+.setting-row .s-label{font-weight:800;font-size:.98rem}
+.setting-row .s-desc{font-size:.78rem;color:var(--ink-soft)}
+.switch{position:relative;width:3.6rem;height:2rem;flex:0 0 auto;border-radius:2rem;border:2.5px solid var(--ink);background:#D9D3C7;cursor:pointer;padding:0;transition:background .2s}
+.switch::after{content:"";position:absolute;top:.15rem;left:.16rem;width:1.3rem;height:1.3rem;border-radius:50%;background:#fff;border:2px solid var(--ink);transition:transform .2s}
+.switch[aria-checked="true"]{background:var(--teal)}
+.switch[aria-checked="true"]::after{transform:translateX(1.55rem)}
+
+/* ===== toast ===== */
+.toast{
+  position:fixed;left:50%;top:calc(4.5rem + env(safe-area-inset-top));transform:translate(-50%,-.8rem);
+  background:var(--ink);color:#fff;font-size:.9rem;font-weight:700;padding:.6rem 1rem;border-radius:2rem;
+  opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:140;max-width:90vw;text-align:center;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ===== decor ===== */
+.deco{position:fixed;pointer-events:none;z-index:-1;opacity:.85}
+.deco.d1{left:-2rem;bottom:8%;width:9rem;transform:rotate(-12deg)}
+.deco.d2{right:-2.5rem;top:26%;width:8rem;transform:rotate(14deg)}
+@media(max-width:720px){.deco{display:none}}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
+}
+</style>
+</head>
+<body>
+<div class="app" id="app" data-generated-by="vibe-coding-frontend-design">
+  <header class="topbar">
+    <button class="icon-btn" id="btnBack" type="button" aria-label="返回" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12l7 7"/></svg>
+    </button>
+    <div class="t-title" id="topTitle">量詞大冒險</div>
+    <button class="icon-btn" id="btnSound" type="button" aria-label="音效開關" aria-pressed="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.2L12 5.6v12.8L7.2 14.5H4z"/><path d="M16 8.6a5 5 0 0 1 0 6.8"/><path d="M18.8 6a8.4 8.4 0 0 1 0 12"/></svg>
+    </button>
+    <button class="icon-btn" id="btnHome" type="button" aria-label="回到主選單" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.2 12 4l8 7.2"/><path d="M6.5 9.8V20h11V9.8"/></svg>
+    </button>
+  </header>
+
+  <main class="main" id="main">
+    <section class="view" id="view-splash">
+      <div class="splash-mascot" id="splashMascot"></div>
+      <div class="title-en">L I A N G &nbsp; C I &nbsp; A D V E N T U R E</div>
+      <h1 class="title-big">量詞<em>大冒險</em></h1>
+      <p class="page-sub" style="max-width:24rem">跟着小量，把「一朵花」說成「一朵朵花」。<br>四課教學、兩種遊戲，每題都告訴你為甚麼。</p>
+      <div class="splash-tags">
+        <span class="tag">初小 · 高小</span>
+        <span class="tag">40 道題</span>
+        <span class="tag">粵語朗讀</span>
+        <span class="tag">離線可用</span>
+      </div>
+      <button class="btn primary big" id="btnStart" type="button" style="margin-top:.6rem;min-width:13rem">
+        開始冒險
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"/><path d="m13 6 6 6-6 6"/></svg>
+      </button>
+      <p class="small">支援手機、平板與電腦 · 可加入主畫面離線使用</p>
+    </section>
+
+    <section class="view" id="view-version"></section>
+    <section class="view" id="view-menu"></section>
+    <section class="view" id="view-lessons"></section>
+    <section class="view" id="view-lesson"></section>
+    <section class="view" id="view-modes"></section>
+    <section class="view" id="view-game"></section>
+    <section class="view" id="view-result"></section>
+    <section class="view" id="view-guide"></section>
+    <section class="view" id="view-info"></section>
+    <section class="view" id="view-report"></section>
+  </main>
+
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="答案與說明">
+    <div class="sheet" id="sheet"></div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+<script>
+"use strict";
+/* 下載用：在畫面被改動前先保存原始文件 */
+const SOURCE_HTML="<!DOCTYPE html>\n"+document.documentElement.outerHTML;
+/* ================= 插畫庫：統一 240×170 畫布、粗描邊 Q 版 ================= */
+const K="#33403F", OR="#FF8B3D", YL="#FFC94A", TE="#2FA98C", BL="#62B6E8",
+      PK="#FF8FA3", BR="#C08552", LF="#7BC47F", WH="#FFFFFF", CR="#FFF7EC",
+      SKY="#E4F4FF", SAND="#FBE7C6", GOLD="#E7B84B", DARK="#2C3A57";
+const R=n=>Math.round(n*10)/10;
+const polar=(cx,cy,r,deg)=>{const a=(deg-90)*Math.PI/180;return [cx+Math.cos(a)*r,cy+Math.sin(a)*r];};
+const eye=(x,y,r=2.6)=>`<circle cx="${R(x)}" cy="${R(y)}" r="${r}" fill="${K}" stroke="none"/>`;
+const eyes=(x,y,gap=8,r=2.6)=>eye(x-gap,y,r)+eye(x+gap,y,r);
+const smile=(x,y,w=6)=>`<path d="M${R(x-w)} ${R(y)} q${w} ${R(w*0.85)} ${R(2*w)} 0" fill="none" stroke-width="3"/>`;
+const blush=(x,y,gap=13)=>`<ellipse cx="${R(x-gap)}" cy="${R(y)}" rx="5" ry="2.8" fill="${PK}" stroke="none" opacity=".7"/><ellipse cx="${R(x+gap)}" cy="${R(y)}" rx="5" ry="2.8" fill="${PK}" stroke="none" opacity=".7"/>`;
+const ground=(y=152,f="#EAF6DF")=>`<ellipse cx="120" cy="${y}" rx="108" ry="14" fill="${f}" stroke="none"/>`;
+const sky=()=>`<rect x="4" y="6" width="232" height="156" rx="26" fill="${SKY}" stroke="none"/>`;
+const spark=(x,y,r,c=YL)=>`<path d="M${x} ${y-r} L${x+r*0.3} ${y-r*0.3} L${x+r} ${y} L${x+r*0.3} ${y+r*0.3} L${x} ${y+r} L${x-r*0.3} ${y+r*0.3} L${x-r} ${y} L${x-r*0.3} ${y-r*0.3} Z" fill="${c}" stroke-width="2"/>`;
+const cloud=(x,y,s,f=WH)=>`<g transform="translate(${x} ${y}) scale(${s})"><circle cx="-24" cy="2" r="16" fill="${f}" stroke-width="3.5"/><circle cx="0" cy="-8" r="22" fill="${f}" stroke-width="3.5"/><circle cx="26" cy="4" r="15" fill="${f}" stroke-width="3.5"/><rect x="-36" y="0" width="72" height="18" rx="9" fill="${f}" stroke-width="3.5"/></g>`;
+
+/* ---------- 單件小圖 ---------- */
+function flower(x,base,s,c,rot=0){
+  let petals="";
+  for(let i=0;i<5;i++){const [px,py]=polar(0,0,14,i*72+rot);petals+=`<circle cx="${R(px)}" cy="${R(py)}" r="11" fill="${c}" stroke-width="3"/>`;}
+  return `<g transform="translate(${x} ${base}) scale(${s})">
+    <path d="M-2 0 C-7 -22 -2 -48 0 -66" fill="none"/>
+    <path d="M-4 -32 q-16 -2 -20 -16 q16 -2 20 12" fill="${LF}"/>
+    <path d="M2 -26 q16 -3 20 -17 q-16 -1 -20 13" fill="${LF}"/>
+    <g transform="translate(0 -82)">${petals}<circle r="12" fill="${YL}"/>${eyes(0,-2,5.2,2.1)}${smile(0,4,4.2)}${blush(0,3,10)}</g>
+  </g>`;
+}
+function fish(x,y,s,c,flip){
+  return `<g transform="translate(${x} ${y}) scale(${s*0.9}) ${flip?"scale(-1,1)":""}">
+    <path d="M-38 0 q20 -23 40 0 q-20 23 -40 0z" fill="${c}" stroke-width="3.5"/>
+    <path d="M-33 0 l-17 -14 v28z" fill="${c}" stroke-width="3.5"/>
+    <path d="M-2 -12 q11 6 0 12" fill="none" stroke-width="2.4"/>
+    <path d="M-16 -16 q12 -6 14 4" fill="none" stroke-width="2.2" opacity=".6"/>
+    ${eye(21,-4,2.4)}
+  </g>`;
+}
+function bird(x,y,s,c){
+  return `<g transform="translate(${x} ${y}) scale(${s})">
+    <path d="M-18 14 v9 M4 14 v9" fill="none" stroke-width="3"/>
+    <ellipse cx="0" cy="0" rx="22" ry="17" fill="${c}" stroke-width="3.5"/>
+    <circle cx="17" cy="-14" r="12" fill="${c}" stroke-width="3.5"/>
+    <path d="M27 -15 l11 4 -11 4z" fill="${YL}" stroke-width="2.5"/>
+    <path d="M-20 -3 q-13 -9 -20 -3 q11 7 20 7" fill="${c}" stroke-width="3"/>
+    <path d="M-6 -3 q11 -8 16 3 q-10 6 -16 -3" fill="${WH}" stroke-width="2.2" opacity=".92"/>
+    <circle cx="21" cy="-16" r="2.2" fill="${K}" stroke="none"/>
+  </g>`;
+}
+function tree(x,base,s,c){
+  c=c||"#4FB98A";
+  return `<g transform="translate(${x} ${base}) scale(${s})">
+    <path d="M-7 0 v-56 q0 -7 7 -7 q7 0 7 7 v56z" fill="${BR}" stroke-width="3.5"/>
+    <circle cx="-16" cy="-72" r="21" fill="${c}" stroke-width="3.5"/>
+    <circle cx="16" cy="-74" r="19" fill="${c}" stroke-width="3.5"/>
+    <circle cx="0" cy="-94" r="23" fill="${c}" stroke-width="3.5"/>
+  </g>`;
+}
+function bookUpright(x,y,w,h,c){
+  return `<g transform="translate(${x} ${y})">
+    <rect width="${w}" height="${h}" rx="4" fill="${c}" stroke-width="3.2"/>
+    <path d="M${R(w*0.26)} 8 v${h-16} M${R(w*0.72)} 8 v${h-16}" fill="none" stroke-width="2.2"/>
+    <path d="M${R(w*0.26)} ${R(h*0.3)} h${R(w*0.46)}" fill="none" stroke-width="2.2" opacity=".55"/>
+  </g>`;
+}
+function chairUnit(x,base,s,c){
+  return `<g transform="translate(${x} ${base}) scale(${s})">
+    <path d="M-20 -44 v-30 q0 -5 5 -5 h30 q5 0 5 5 v30" fill="${c}" stroke-width="3.4"/>
+    <rect x="-24" y="-46" width="48" height="10" rx="4" fill="${c}" stroke-width="3.4"/>
+    <path d="M-20 -36 v36 M20 -36 v36 M-20 -18 h40" fill="none" stroke-width="3.4"/>
+  </g>`;
+}
+function shoeUnit(x,y,s,c){
+  return `<g transform="translate(${x} ${y}) scale(${s})">
+    <path d="M-28 0 h40 q9 0 11 7 q2 8 -11 8 h-40 q-7 0 -7 -7 q0 -8 7 -8z" fill="${c}" stroke-width="3.2"/>
+    <path d="M-22 -4 q7 -6 13 0" fill="none" stroke-width="2.2"/>
+  </g>`;
+}
+function crabUnit(x,y,s,c){
+  return `<g transform="translate(${x} ${y}) scale(${s})">
+    <path d="M-22 20 l-12 12 M-8 24 l-4 14 M8 24 l4 14 M22 20 l12 12" fill="none" stroke-width="3.2"/>
+    <ellipse cx="0" cy="0" rx="24" ry="18" fill="${c}" stroke-width="3.5"/>
+    <path d="M-22 -6 q-14 -12 -20 -2 q10 8 20 4z" fill="${c}" stroke-width="3.2"/>
+    <path d="M22 -6 q14 -12 20 -2 q-10 8 -20 4z" fill="${c}" stroke-width="3.2"/>
+    <path d="M-9 -14 v-10 M9 -14 v-10" fill="none" stroke-width="3"/>
+    <circle cx="-9" cy="-27" r="5.5" fill="${WH}" stroke-width="2.6"/><circle cx="9" cy="-27" r="5.5" fill="${WH}" stroke-width="2.6"/>
+    ${eye(-9,-27,2)}${eye(9,-27,2)}
+    ${smile(0,4,4)}
+  </g>`;
+}
+function sheepUnit(x,y,s){
+  return `<g transform="translate(${x} ${y}) scale(${s})">
+    <path d="M-16 8 v16 M14 8 v16" fill="none" stroke-width="3.4"/>
+    <circle cx="-14" cy="0" r="15" fill="${WH}" stroke-width="3.4"/>
+    <circle cx="12" cy="-2" r="15" fill="${WH}" stroke-width="3.4"/>
+    <circle cx="0" cy="-14" r="14" fill="${WH}" stroke-width="3.4"/>
+    <ellipse cx="26" cy="2" rx="11" ry="10" fill="${CR}" stroke-width="3.2"/>
+    <path d="M34 -4 q6 -4 7 2 q-2 5 -7 3" fill="${CR}" stroke-width="2.6"/>
+    ${eye(30,0,1.8)}
+  </g>`;
+}
+function strawberryUnit(x,y,s,rot){
+  return `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})">
+    <path d="M0 -16 C17 -16 21 2 0 22 C-21 2 -17 -16 0 -16z" fill="#F0554B" stroke-width="3.2"/>
+    <path d="M-14 -18 q6 -8 14 0 q8 -8 14 0 q-14 8 -28 0z" fill="${LF}" stroke-width="3"/>
+    <path d="M0 -18 v-6" fill="none" stroke-width="2.6"/>
+    <g fill="${YL}" stroke="none"><circle cx="-6" cy="-2" r="1.5"/><circle cx="7" cy="0" r="1.5"/><circle cx="-2" cy="9" r="1.5"/><circle cx="4" cy="14" r="1.4"/><circle cx="-9" cy="11" r="1.3"/></g>
+    ${eye(-4,3,2)}${eye(4,3,2)}
+  </g>`;
+}
+function butterflyUnit(x,y,s,c1,c2){
+  return `<g transform="translate(${x} ${y}) scale(${s})">
+    <ellipse cx="-12" cy="-8" rx="13" ry="10" fill="${c1}" stroke-width="2.8" transform="rotate(-18 -12 -8)"/>
+    <ellipse cx="12" cy="-8" rx="13" ry="10" fill="${c1}" stroke-width="2.8" transform="rotate(18 12 -8)"/>
+    <ellipse cx="-9" cy="8" rx="9" ry="8" fill="${c2}" stroke-width="2.8"/>
+    <ellipse cx="9" cy="8" rx="9" ry="8" fill="${c2}" stroke-width="2.8"/>
+    <ellipse cx="0" cy="2" rx="4" ry="14" fill="${K}" stroke="none"/>
+    <path d="M-2 -12 q-8 -10 -12 -12 M2 -12 q8 -10 12 -12" fill="none" stroke-width="2.2"/>
+  </g>`;
+}
+function footprint(x,y,s,rot){
+  return `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})" fill="#D9B98C" stroke="#B08A57" stroke-width="1.6">
+    <ellipse cx="0" cy="6" rx="9" ry="13"/>
+    <circle cx="-7" cy="-10" r="3.2"/><circle cx="-2" cy="-13" r="3.2"/><circle cx="3" cy="-13" r="3.2"/><circle cx="7" cy="-10" r="3"/><circle cx="9" cy="-5" r="2.6"/>
+  </g>`;
+}
+function kidUnit(x,base,s,shirt,skin){
+  skin=skin||"#F8CFAE";
+  return `<g transform="translate(${x} ${base}) scale(${s})">
+    <path d="M-9 0 v-16 M9 0 v-16" fill="none" stroke-width="6"/>
+    <path d="M-15 -14 v-28 q0 -8 8 -8 h14 q8 0 8 8 v28z" fill="${shirt}" stroke-width="3"/>
+    <path d="M-15 -38 q-12 8 -12 18 M15 -38 q12 8 12 18" fill="none" stroke-width="6"/>
+    <circle cx="0" cy="-60" r="17" fill="${skin}" stroke-width="3"/>
+    <path d="M-17 -64 q2 -20 17 -20 q15 0 17 20 q-8 -8 -17 -8 q-9 0 -17 8z" fill="${K}" stroke-width="3"/>
+    ${eyes(0,-58,6,2.1)}${smile(0,-51,4)}${blush(0,-53,9)}
+  </g>`;
+}
+
+const ART={};
+
+ART.flower=ground()+
+  `<path d="M40 158 q26 -6 44 0 M150 158 q26 -6 44 0" fill="none" stroke-width="3" opacity=".5"/>`+
+  flower(58,152,.95,PK)+flower(120,154,1.05,OR)+flower(182,152,.95,PK);
+
+ART.fish=`<rect x="6" y="10" width="228" height="150" rx="28" fill="#DBF3FF" stroke="none"/>
+  <path d="M18 34 q22 -10 40 0 M120 22 q20 -8 36 0" fill="none" stroke="${WH}" stroke-width="3" opacity=".9"/>
+  <path d="M10 130 q30 -12 60 0 t60 0 t60 0 t40 0" fill="none" stroke="${BL}" stroke-width="3" opacity=".6"/>
+  <path d="M18 146 q30 -10 60 0 t60 0 t60 0" fill="none" stroke="${BL}" stroke-width="3" opacity=".45"/>`+
+  fish(62,88,1.05,OR,false)+fish(132,58,.8,YL,true)+fish(176,112,1.0,PK,false)+
+  `<circle cx="84" cy="52" r="4" fill="${WH}" stroke="none" opacity=".9"/><circle cx="94" cy="42" r="2.5" fill="${WH}" stroke="none" opacity=".8"/>`;
+
+ART.bird=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#EAF8FF" stroke="none"/>
+  <circle cx="196" cy="40" r="18" fill="${YL}" stroke-width="3"/>
+  <path d="M14 122 q60 -22 212 -6" fill="none" stroke="${BR}" stroke-width="7"/>
+  <path d="M38 112 q4 -14 16 -16 M92 108 q-2 -14 -14 -18 M150 104 q6 -12 18 -14" fill="none" stroke-width="3"/>
+  <g fill="${LF}" stroke-width="2.6"><ellipse cx="50" cy="104" rx="10" ry="5" transform="rotate(-20 50 104)"/><ellipse cx="104" cy="100" rx="10" ry="5" transform="rotate(16 104 100)"/><ellipse cx="166" cy="98" rx="10" ry="5" transform="rotate(-14 166 98)"/></g>`+
+  bird(64,92,.9,OR)+bird(138,80,.78,BL)+bird(190,104,.68,PK);
+
+ART.tree=ground(150)+
+  `<path d="M26 152 q40 -8 62 0 M158 152 q34 -6 56 0" fill="none" stroke-width="3" opacity=".5"/>`+
+  tree(52,152,.95)+tree(120,154,1.12)+tree(188,152,.95);
+
+ART.cookie=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#FFF6E6" stroke="none"/>
+  <ellipse cx="120" cy="126" rx="86" ry="20" fill="${WH}" stroke-width="3.4"/>
+  <ellipse cx="120" cy="122" rx="70" ry="14" fill="#EAF1F5" stroke="none"/>`+
+  [0,1,2].map(i=>{const x=64+i*56,y=96-Math.abs(1-i)*6;
+    return `<g transform="translate(${x} ${y})"><circle r="27" fill="#E3B274" stroke-width="3.4"/>
+      <g fill="#8B5A2B" stroke="none"><circle cx="-8" cy="-6" r="4"/><circle cx="8" cy="2" r="4"/><circle cx="-2" cy="10" r="3.4"/><circle cx="11" cy="-11" r="3"/></g>
+      <path d="M-16 10 q6 -4 12 0" fill="none" stroke-width="2.2" opacity=".5"/></g>`;}).join("")+
+  `<circle cx="98" cy="140" r="3" fill="#D9A96B" stroke="none"/><circle cx="146" cy="142" r="2.4" fill="#D9A96B" stroke="none"/>`;
+
+ART.book=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#F4F1FF" stroke="none"/>
+  <rect x="24" y="118" width="192" height="12" rx="4" fill="${BR}" stroke-width="3.2"/>
+  <rect x="24" y="66" width="192" height="10" rx="4" fill="${BR}" stroke-width="3.2"/>`+
+  bookUpright(34,74,22,44,"#F2755E")+bookUpright(58,74,20,44,"#5AA9E6")+bookUpright(80,74,26,44,"#F6C453")+
+  bookUpright(108,74,20,44,"#7BC47F")+bookUpright(130,74,24,44,"#B49BE8")+
+  `<g transform="translate(158 118) rotate(-12)"><rect width="22" height="46" rx="4" fill="#F08FA0" stroke-width="3.2"/><path d="M6 8 v30 M16 8 v30" fill="none" stroke-width="2"/></g>`+
+  bookUpright(176,74,20,44,"#5ABFB0");
+
+ART.chair=ground(146,"#F3EEE4")+
+  `<path d="M18 146 h204" fill="none" stroke-width="3" opacity=".4"/>`+
+  chairUnit(58,146,.9,OR)+chairUnit(120,146,.95,YL)+chairUnit(182,146,.9,BL);
+
+ART.candy=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#FFF3F6" stroke="none"/>
+  <g transform="translate(120 92)">
+    <path d="M-44 -32 h88 q8 0 8 8 v66 q0 12 -12 12 h-80 q-12 0 -12 -12 v-66 q0 -8 8 -8z" fill="#E8F7FF" stroke-width="3.6"/>
+    <rect x="-50" y="-44" width="100" height="16" rx="8" fill="${PK}" stroke-width="3.4"/>
+    <path d="M-34 -20 q6 40 0 62" fill="none" stroke="${WH}" stroke-width="4" opacity=".8"/>
+  </g>`+
+  [[-30,34,OR],[0,44,YL],[30,30,PK],[-16,66,BL],[18,68,LF]].map(([dx,dy,c])=>
+    `<g transform="translate(${120+dx} ${92+dy})"><circle r="11" fill="${c}" stroke-width="3"/>
+     <path d="M-11 0 l-9 -6 v12z M11 0 l9 -6 v12z" fill="${c}" stroke-width="2.6"/></g>`).join("");
+
+ART.umbrella=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#EFF8F4" stroke="none"/>
+  <ellipse cx="120" cy="148" rx="80" ry="12" fill="#DFEDE3" stroke="none"/>
+  <path d="M62 104 h116 l-8 44 h-100z" fill="#E7C79A" stroke-width="3.6"/>
+  <path d="M62 104 h116" fill="none" stroke-width="3.6"/>`+
+  [[92,OR,-8],[122,YL,0],[150,BL,9]].map(([x,c,rot])=>
+   `<g transform="translate(${x} 100) rotate(${rot})">
+     <path d="M-32 0 q32 -40 64 0 q-10 -8 -16 0 q-8 -8 -16 0 q-8 -8 -16 0 q-8 -8 -16 0z" fill="${c}" stroke-width="3.2"/>
+     <path d="M0 -30 v-4" fill="none" stroke-width="3"/>
+     <path d="M0 0 v40 q0 10 -12 10" fill="none" stroke-width="3.4"/>
+   </g>`).join("");
+
+ART.cloud=sky()+
+  `<circle cx="196" cy="46" r="20" fill="${YL}" stroke-width="3.2"/>
+   <g stroke-width="3"><path d="M196 16 v-8 M196 84 v-8 M166 46 h-8 M234 46 h-8 M175 25 l-6 -6 M217 67 l6 6 M217 25 l6 -6 M175 67 l-6 6" stroke="${YL}"/></g>`+
+  cloud(76,64,1.0)+cloud(166,104,.8)+cloud(84,126,.62)+
+  `<path d="M188 136 q10 -8 20 -2" fill="none" stroke-width="3" opacity=".7"/>`;
+
+ART.leaf=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#F3FBEE" stroke="none"/>
+  <path d="M6 34 q70 26 140 4 q40 -12 88 6" fill="none" stroke="${BR}" stroke-width="6"/>
+  <g fill="${LF}" stroke-width="2.6"><ellipse cx="52" cy="40" rx="16" ry="8" transform="rotate(22 52 40)"/><ellipse cx="96" cy="46" rx="15" ry="7" transform="rotate(-14 96 46)"/><ellipse cx="146" cy="38" rx="15" ry="7" transform="rotate(26 146 38)"/></g>`+
+  [[70,92,-25,OR],[118,110,18,YL],[164,84,-12,"#F08A4B"],[96,136,35,"#E8A23C"],[186,132,-30,"#EFA24A"]].map(([x,y,r,c])=>
+   `<g transform="translate(${x} ${y}) rotate(${r})"><path d="M0 -22 q18 22 0 44 q-18 -22 0 -44z" fill="${c}" stroke-width="3"/><path d="M0 -18 v36" fill="none" stroke-width="2"/></g>`).join("");
+
+ART.crab=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#FFF3DC" stroke="none"/>
+  <path d="M6 30 q60 -10 120 4 q60 14 108 -2 v-24 h-228z" fill="#CDEFFF" stroke="none"/>
+  <path d="M6 30 q60 -10 120 4 q60 14 108 -2" fill="none" stroke="${BL}" stroke-width="3"/>`+
+  crabUnit(66,104,.9,OR)+crabUnit(132,132,.75,"#F4703F")+crabUnit(190,100,.62,PK)+
+  `<path d="M40 148 q18 -8 36 0 M150 156 q16 -6 32 0" fill="none" stroke="#E0C79A" stroke-width="3"/>`;
+
+ART.star=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#31415F" stroke="none"/>
+  <path d="M186 46 a20 20 0 1 0 16 32 a16 16 0 1 1 -16 -32z" fill="${YL}" stroke-width="3"/>
+  ${spark(62,44,13)}${spark(110,30,9,WH)}${spark(150,66,11)}${spark(86,88,8,WH)}${spark(196,104,9)}${spark(44,108,7)}${spark(132,124,8,WH)}
+  <g fill="${WH}" stroke="none" opacity=".8"><circle cx="76" cy="66" r="2"/><circle cx="160" cy="112" r="2"/><circle cx="108" cy="102" r="1.6"/><circle cx="52" cy="82" r="1.6"/></g>`;
+
+ART.sheep=ground(148)+
+  `<path d="M18 148 h204" fill="none" stroke-width="3" opacity=".35"/>
+   <path d="M20 100 v46 M52 100 v46 M36 100 h32 M36 118 h32" fill="none" stroke="${BR}" stroke-width="3"/>`+
+  sheepUnit(96,126,1.0)+sheepUnit(158,132,.85)+sheepUnit(60,138,.7)+
+  `<path d="M176 150 q10 -8 20 -2" fill="none" stroke-width="3" opacity=".6"/>`;
+
+ART.rice=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#FFF8EC" stroke="none"/>
+  <rect x="6" y="118" width="228" height="44" fill="#E9C79B" stroke="none"/>
+  <path d="M6 118 h228" fill="none" stroke-width="3.4"/>`+
+  [62,120,178].map((x,i)=>
+   `<g transform="translate(${x} 118)">
+     <path d="M-30 0 q4 28 30 28 q26 0 30 -28z" fill="${WH}" stroke-width="3.4"/>
+     <ellipse cx="0" cy="0" rx="30" ry="7" fill="#EAF6FF" stroke-width="3.2"/>
+     <path d="M-25 -2 q25 -20 50 0z" fill="${CR}" stroke-width="2.6"/>
+     <path d="M-12 -14 q10 -10 22 -2" fill="none" stroke="${WH}" stroke-width="2"/>
+     <path d="M-8 -30 q-8 -10 2 -16 M8 -30 q8 -10 -2 -16" fill="none" stroke="${WH}" stroke-width="2.6" opacity=".9"/>
+   </g>`).join("")+
+  `<g transform="translate(120 92) rotate(-16)"><path d="M-40 0 h80" stroke="${BR}" stroke-width="4"/><path d="M-40 8 h80" stroke="${BR}" stroke-width="4"/></g>`;
+
+ART.shoes=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#F2F7FF" stroke="none"/>
+  <rect x="16" y="126" width="208" height="26" rx="6" fill="#D9C7A8" stroke-width="3"/>
+  <path d="M24 132 h192 M24 144 h192" fill="none" stroke="#C4AE8A" stroke-width="2" stroke-dasharray="6 6"/>`+
+  [0,1,2].map(i=>{const x=58+i*62,y=118,c=[OR,BL,TE][i];
+    return shoeUnit(x-11,y,.78,c)+shoeUnit(x+13,y-2,.78,c);}).join("");
+
+ART.banana=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#FFFBE8" stroke="none"/>
+  <ellipse cx="120" cy="142" rx="82" ry="16" fill="${WH}" stroke-width="3.2"/>`+
+  [[0,0,0],[0,0,0],[0,0,0]].map((_,i)=>{
+    const dx=(i-1)*14, rot=(i-1)*12;
+    return `<g transform="translate(${120+dx} 96) rotate(${rot})">
+      <path d="M-52 4 C-40 34 4 44 40 26 C40 44 4 56 -34 40 C-52 32 -58 16 -52 4z" fill="${YL}" stroke-width="3.2"/>
+      <path d="M40 26 q6 -2 8 2" fill="none" stroke-width="3"/>
+      <path d="M-46 8 C-32 28 0 36 28 24" fill="none" stroke="#E0A93A" stroke-width="2"/>
+    </g>`;}).join("")+
+  `<path d="M120 96 q0 -20 18 -26" fill="none" stroke="${BR}" stroke-width="5"/>`;
+
+ART.desk=ground(148,"#F1ECE0")+
+  `<path d="M14 148 h212" fill="none" stroke-width="3" opacity=".35"/>`+
+  [58,120,182].map((x,i)=>
+   `<g transform="translate(${x} 118)">
+     <rect x="-32" y="-12" width="64" height="12" rx="4" fill="${[OR,YL,BL][i]}" stroke-width="3.2"/>
+     <path d="M-26 0 v34 M26 0 v34 M-26 24 h52" fill="none" stroke-width="3.4"/>
+     <rect x="-12" y="-24" width="24" height="12" rx="3" fill="${WH}" stroke-width="2.4" transform="rotate(-6)"/>
+   </g>`).join("");
+
+ART.butterfly=ground(146,"#EAF8E4")+
+  `<g fill="${PK}" stroke-width="2.6"><circle cx="34" cy="140" r="6"/><circle cx="206" cy="142" r="5"/><circle cx="188" cy="136" r="4"/></g>
+   <path d="M30 146 v-16 M206 148 v-14" fill="none" stroke="${LF}" stroke-width="3"/>`+
+  butterflyUnit(74,78,1.05,OR,YL)+butterflyUnit(140,56,.8,PK,"#FFC2CE")+butterflyUnit(184,104,.9,BL,"#A9DBF5")+
+  `<path d="M96 122 q18 -12 34 -4" fill="none" stroke-width="2.6" opacity=".5"/>`;
+
+ART.strawberry=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#FFF2F3" stroke="none"/>
+  <ellipse cx="120" cy="134" rx="80" ry="18" fill="${WH}" stroke-width="3.2"/>
+  <path d="M92 122 q28 10 56 0" fill="none" stroke="#E4E9EC" stroke-width="3"/>`+
+  strawberryUnit(82,104,.95,-8)+strawberryUnit(140,96,1.1,6)+strawberryUnit(186,112,.8,-4);
+
+/* ---------- 高小 ---------- */
+ART.pearl=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#F6EEFF" stroke="none"/>
+  <rect x="34" y="112" width="172" height="34" rx="12" fill="#7B5AA6" stroke-width="3.4"/>
+  <rect x="34" y="112" width="172" height="12" rx="6" fill="#9A79C4" stroke-width="3"/>`+
+  (()=>{let s='<path d="M56 104 q64 66 128 0" fill="none" stroke="'+GOLD+'" stroke-width="2.4"/>';
+    for(let i=0;i<=9;i++){const t=i/9, x=56+128*t, y=104+Math.sin(Math.PI*t)*44;
+      s+=`<circle cx="${R(x)}" cy="${R(y-8)}" r="8.5" fill="#FBF6FF" stroke-width="2.6"/><circle cx="${R(x-2)}" cy="${R(y-11)}" r="2" fill="${WH}" stroke="none"/>`;}
+    return s;})()+
+  `<path d="M120 114 l6 10 -6 8 -6 -8z" fill="${GOLD}" stroke-width="2.4"/>`;
+
+ART.bouquet=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#FFF3F6" stroke="none"/>`+
+  `<g transform="translate(120 108)">
+     <path d="M-34 -6 h68 l-14 52 h-40z" fill="#F7E3C8" stroke-width="3.4"/>
+     <path d="M-34 -6 l10 46 M34 -6 l-10 46" fill="none" stroke-width="2.4" opacity=".6"/>
+     <path d="M-12 6 q12 12 24 0 q-12 22 -24 0z" fill="${PK}" stroke-width="2.6"/>
+   </g>`+
+  [[-34,-40,PK],[-4,-54,OR],[28,-42,YL],[0,-30,PK],[-22,-24,BL]].map(([dx,dy,c])=>
+   `<g transform="translate(${120+dx} ${108+dy})"><g>${
+     [0,72,144,216,288].map(a=>{const [px,py]=polar(0,0,8,a);return `<circle cx="${R(px)}" cy="${R(py)}" r="6.5" fill="${c}" stroke-width="2.2"/>`;}).join("")
+   }</g><circle r="6" fill="${YL}" stroke-width="2.4"/></g>`).join("")+
+  `<path d="M86 74 q-12 14 -14 26 M158 76 q14 12 16 24" fill="none" stroke="${LF}" stroke-width="3"/>`;
+
+ART.streetlamp=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#31415F" stroke="none"/>
+  <rect x="6" y="130" width="228" height="32" fill="#3C4B63" stroke="none"/>
+  <path d="M6 130 h228" fill="none" stroke="${YL}" stroke-width="2" opacity=".5"/>`+
+  [56,120,184].map((x,i)=>
+   `<g transform="translate(${x} 132)">
+     <path d="M0 0 v-84 q0 -10 12 -10 h14" fill="none" stroke="#8FA3BF" stroke-width="3.4"/>
+     <path d="M24 -94 h18 l-5 16 h-8z" fill="${YL}" stroke-width="3"/>
+     <circle cx="33" cy="-86" r="12" fill="${YL}" stroke="none" opacity=".35"/>
+     <path d="M33 -78 L16 0 M33 -78 L50 0" fill="none" stroke="${YL}" stroke-width="2" opacity=".22"/>
+   </g>`).join("")+
+  `<g fill="${WH}" stroke="none" opacity=".8"><circle cx="40" cy="34" r="2"/><circle cx="150" cy="26" r="1.6"/><circle cx="204" cy="52" r="1.8"/><circle cx="88" cy="20" r="1.4"/></g>`;
+
+ART.building=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#DCEFFF" stroke="none"/>
+  <circle cx="196" cy="40" r="14" fill="${YL}" stroke-width="3"/>`+
+  [[46,64,44,86],[104,40,46,110],[162,58,40,92]].map(([x,y,w,h],bi)=>
+   `<g transform="translate(${x} ${y})">
+     <rect width="${w}" height="${h}" rx="4" fill="${["#F2C6A0","#CFE6F7","#F5D9A8"][bi]}" stroke-width="3.4"/>
+     ${[...Array(4)].map((_,r)=>[...Array(2)].map((_,c)=>
+       `<rect x="${8+c*(w/2)}" y="${10+r*(h/5)}" width="${w/2-14}" height="${h/9}" rx="2" fill="${r%2?"#7FB6D6":"#FFE9A8"}" stroke-width="1.8"/>`).join("")).join("")}
+   </g>`).join("")+
+  `<path d="M6 150 h228" fill="none" stroke="#B7D4E8" stroke-width="3"/>`;
+
+ART.sailboat=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#DFF4FF" stroke="none"/>
+  <rect x="6" y="104" width="228" height="58" fill="#8FD3F2" stroke="none"/>
+  <path d="M6 104 h228" fill="none" stroke="#5EB7DE" stroke-width="3"/>
+  <path d="M6 124 q30 -10 60 0 t60 0 t60 0 t48 0" fill="none" stroke="${WH}" stroke-width="3" opacity=".8"/>
+  <path d="M6 144 q30 -10 60 0 t60 0 t60 0 t48 0" fill="none" stroke="${WH}" stroke-width="3" opacity=".6"/>`+
+  [[86,100,.9],[158,96,.7],[206,110,.55]].map(([x,y,s],i)=>
+   `<g transform="translate(${x} ${y}) scale(${s})">
+     <path d="M0 -70 v70" stroke-width="3.4" fill="none"/>
+     <path d="M4 -66 L40 -8 H4z" fill="${i===1?PK:WH}" stroke-width="3"/>
+     <path d="M-4 -56 L-32 -8 H-4z" fill="${i===1?YL:BL}" stroke-width="3"/>
+     <path d="M-44 0 h88 l-12 16 h-64z" fill="${i===1?OR:BR}" stroke-width="3.4"/>
+   </g>`).join("")+
+  `<circle cx="42" cy="40" r="16" fill="${YL}" stroke-width="3"/>`;
+
+ART.horse=ground(146)+
+  `<path d="M10 148 h220" fill="none" stroke-width="3" opacity=".3"/>`+
+  [[92,130,1.0,BR],[172,132,.8,"#8C5A3C"]].map(([x,y,s,c])=>
+   `<g transform="translate(${x} ${y}) scale(${s})">
+     <path d="M-30 6 v26 M-14 6 v26 M18 6 v26 M32 6 v26" fill="none" stroke="${c}" stroke-width="7"/>
+     <path d="M-38 -8 q-16 -4 -18 -22 q10 6 20 10z" fill="${c}" stroke-width="3"/>
+     <ellipse cx="0" cy="-14" rx="35" ry="20" fill="${c}" stroke-width="3.4"/>
+     <path d="M22 -26 q10 -26 18 -34 q10 -10 14 2 l-6 34z" fill="${c}" stroke-width="3.4"/>
+     <path d="M46 -60 q18 -10 26 2 q6 12 -8 20 q-10 6 -22 2z" fill="${c}" stroke-width="3.4"/>
+     <path d="M44 -66 l-6 -14 l12 6z M60 -68 l8 -12 l-2 14z" fill="${c}" stroke-width="3"/>
+     <path d="M26 -34 q-6 18 4 30" fill="none" stroke="#2C2621" stroke-width="6"/>
+     ${eye(58,-50,2.6)}<circle cx="70" cy="-40" r="2" fill="${K}" stroke="none"/>
+     <path d="M-34 -22 q-14 10 -10 24" fill="none" stroke="${c}" stroke-width="6"/>
+     <path d="M-20 -8 q14 6 26 0" fill="none" stroke="${WH}" stroke-width="2.2" opacity=".5"/>
+   </g>`).join("");
+
+ART.hair=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#F3F0FF" stroke="none"/>
+  <path d="M20 40 q20 -16 40 0 M186 34 q18 -14 34 0" fill="none" stroke="${BL}" stroke-width="3" opacity=".45"/>
+  <g transform="translate(120 96)">
+    <path d="M-8 -66 q-44 4 -50 52 q-4 34 8 58 q-16 -18 -14 -62 q4 -52 56 -60z" fill="#5B4636" stroke-width="3"/>
+    <path d="M10 -66 q46 6 50 54 q2 34 -8 56 q16 -20 12 -60 q-6 -50 -54 -56z" fill="#5B4636" stroke-width="3"/>
+    <circle cx="0" cy="-34" r="36" fill="#F8CFAE" stroke-width="3.4"/>
+    <path d="M-36 -40 q2 -30 36 -32 q34 2 36 32 q-14 -18 -36 -18 q-22 0 -36 18z" fill="#5B4636" stroke-width="3.4"/>
+    <path d="M-34 -30 q-8 26 6 42 M34 -30 q8 26 -6 42" fill="none" stroke="#5B4636" stroke-width="7"/>
+    ${eyes(0,-32,14,2.8)}${smile(0,-18,7)}${blush(0,-20,22)}
+    <path d="M-20 20 q20 12 40 0" fill="none" stroke="${K}" stroke-width="6" opacity=".8"/>
+  </g>`;
+
+ART.mountain=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#E9F7FF" stroke="none"/>
+  <circle cx="192" cy="46" r="17" fill="${YL}" stroke-width="3"/>
+  <path d="M6 140 L64 54 L120 140z" fill="#B7DCC6" stroke-width="3.4"/>
+  <path d="M84 140 L146 46 L214 140z" fill="#8FC9A8" stroke-width="3.4"/>
+  <path d="M6 148 L54 92 L104 148z" fill="#6FB98C" stroke-width="3.2"/>
+  <path d="M118 148 L168 96 L228 148z" fill="#5AA979" stroke-width="3.2"/>
+  <path d="M54 92 l10 8 10 -8" fill="none" stroke-width="2.6" opacity=".5"/>
+  ${cloud(64,40,.5)}${cloud(148,28,.4)}`;
+
+ART.painting=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#F6F1E7" stroke="none"/>
+  <rect x="6" y="120" width="228" height="42" fill="#E7DCC8" stroke="none"/>
+  <path d="M6 120 h228" fill="none" stroke-width="3"/>
+  <g transform="translate(40 40)"><rect width="66" height="70" rx="3" fill="${WH}" stroke-width="3.4"/><rect x="7" y="7" width="52" height="56" fill="#FFE3B8" stroke-width="2"/><circle cx="26" cy="26" r="8" fill="${YL}" stroke="none"/><path d="M12 56 l16 -18 l12 12 l8 -8 l12 14z" fill="${LF}" stroke="none"/></g>
+  <g transform="translate(120 30) rotate(-4)"><rect width="60" height="76" rx="3" fill="${WH}" stroke-width="3.4"/><rect x="6" y="6" width="48" height="64" fill="#D9EEF9" stroke-width="2"/><path d="M12 54 q12 -26 24 -8 q8 12 16 8" fill="none" stroke="${BL}" stroke-width="4"/><circle cx="38" cy="22" r="7" fill="${PK}" stroke="none"/></g>
+  <g transform="translate(190 44) rotate(3)"><rect width="34" height="62" rx="3" fill="${WH}" stroke-width="3.4"/><rect x="5" y="5" width="24" height="52" fill="#F4E3FF" stroke-width="2"/><circle cx="17" cy="26" r="9" fill="${PK}" stroke="none"/><path d="M10 44 q8 -8 16 0" fill="none" stroke="${TE}" stroke-width="3"/></g>`;
+
+
+ART.lightning=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#2C3A57" stroke="none"/>
+  <circle cx="204" cy="38" r="13" fill="${YL}" stroke="none" opacity=".75"/>
+  <g fill="#4A5C7E" stroke-width="3"><ellipse cx="62" cy="48" rx="30" ry="16"/><ellipse cx="94" cy="42" rx="26" ry="18"/><ellipse cx="120" cy="52" rx="30" ry="14"/><ellipse cx="168" cy="46" rx="26" ry="15"/></g>
+  <path d="M132 62 L104 118 L128 118 L112 158 L158 104 L132 104 L146 62 Z" fill="${YL}" stroke-width="4"/>
+  <path d="M44 132 q22 -6 40 0 M176 136 q20 -6 36 0" fill="none" stroke="#8FA6C9" stroke-width="3" opacity=".7"/>`;
+ART.rainbow=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#E8F7FF" stroke="none"/>
+  <g fill="none" stroke-linecap="round">
+    <path d="M38 142 a82 82 0 0 1 164 0" stroke="#F07E6E" stroke-width="11"/>
+    <path d="M50 142 a70 70 0 0 1 140 0" stroke="${OR}" stroke-width="11"/>
+    <path d="M62 142 a58 58 0 0 1 116 0" stroke="${YL}" stroke-width="11"/>
+    <path d="M74 142 a46 46 0 0 1 92 0" stroke="${LF}" stroke-width="11"/>
+    <path d="M86 142 a34 34 0 0 1 68 0" stroke="${BL}" stroke-width="11"/>
+  </g>`+cloud(52,138,.8)+cloud(190,138,.8)+
+  `<circle cx="204" cy="40" r="15" fill="${YL}" stroke-width="3"/>`;
+
+ART.flag=ground(150,"#E8F4E7")+
+  [56,120,184].map((x,i)=>
+   `<g transform="translate(${x} 148)">
+     <path d="M0 0 v-92" fill="none" stroke="#9A8F7E" stroke-width="4"/>
+     <path d="M2 -90 q26 -12 44 0 q-14 10 0 20 q-20 12 -44 0z" fill="${[OR,PK,BL][i]}" stroke-width="3.2"/>
+     <circle cx="0" cy="-96" r="4.5" fill="${YL}" stroke-width="2.4"/>
+   </g>`).join("")+
+  `<path d="M20 152 q100 -8 200 0" fill="none" stroke-width="3" opacity=".4"/>`;
+
+ART.footprint=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#FFF4DC" stroke="none"/>
+  <path d="M6 34 q60 -12 120 2 q60 12 108 -4 v-24 h-228z" fill="#BFE9FA" stroke="none"/>
+  <path d="M6 34 q60 -12 120 2 q60 12 108 -4" fill="none" stroke="${BL}" stroke-width="3"/>`+
+  [[60,142,1,-8],[92,126,1,4],[124,110,.9,-6],[152,94,.8,6],[176,80,.7,-4],[196,68,.6,4]].map(([x,y,s,r])=>
+    footprint(x,y,s,r)).join("")+
+  `<path d="M30 156 q18 -8 36 0" fill="none" stroke="#E8D3AC" stroke-width="3"/>`;
+
+ART.applause=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#FFF6E8" stroke="none"/>
+  <g stroke="${YL}" fill="none" stroke-width="3" opacity=".9">
+    <path d="M120 40 q-16 -14 -32 -8 M120 40 q16 -14 32 -8"/>
+    <path d="M120 48 q-24 -6 -38 6 M120 48 q24 -6 38 6"/>
+  </g>`+
+  `<g transform="translate(84 104) rotate(-16)">
+     <path d="M-10 20 q-16 0 -16 -16 v-30 q0 -8 7 -8 q7 0 7 8v22" fill="#F8CFAE" stroke-width="3.2"/>
+     <path d="M-2 16 q-14 0 -14 -16 v-38 q0 -8 7 -8 q7 0 7 8v34" fill="#F8CFAE" stroke-width="3.2"/>
+     <path d="M6 14 q-12 0 -12 -14 v-40 q0 -8 7 -8 q7 0 7 8v36" fill="#F8CFAE" stroke-width="3.2"/>
+     <path d="M14 16 q-10 0 -10 -12 v-34 q0 -8 7 -8 q7 0 7 8v30" fill="#F8CFAE" stroke-width="3.2"/>
+     <rect x="-10" y="10" width="30" height="26" rx="10" fill="#F8CFAE" stroke-width="3.2"/>
+   </g>
+   <g transform="translate(158 104) scale(-1,1) rotate(-16)">
+     <path d="M-10 20 q-16 0 -16 -16 v-30 q0 -8 7 -8 q7 0 7 8v22" fill="#F8CFAE" stroke-width="3.2"/>
+     <path d="M-2 16 q-14 0 -14 -16 v-38 q0 -8 7 -8 q7 0 7 8v34" fill="#F8CFAE" stroke-width="3.2"/>
+     <path d="M6 14 q-12 0 -12 -14 v-40 q0 -8 7 -8 q7 0 7 8v36" fill="#F8CFAE" stroke-width="3.2"/>
+     <path d="M14 16 q-10 0 -10 -12 v-34 q0 -8 7 -8 q7 0 7 8v30" fill="#F8CFAE" stroke-width="3.2"/>
+     <rect x="-10" y="10" width="30" height="26" rx="10" fill="#F8CFAE" stroke-width="3.2"/>
+   </g>
+   <g stroke="none"><circle cx="58" cy="50" r="4" fill="${PK}"/><circle cx="186" cy="44" r="4" fill="${TE}"/><circle cx="64" cy="70" r="3" fill="${YL}"/><circle cx="180" cy="70" r="3.4" fill="${OR}"/></g>`;
+
+ART.wheat=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#FFF8DE" stroke="none"/>
+  <circle cx="198" cy="42" r="16" fill="${YL}" stroke-width="3"/>
+  <path d="M6 100 q60 -12 120 0 q60 12 108 -4 v66 h-228z" fill="#F5E3A8" stroke="none"/>
+  <path d="M6 120 q60 -12 120 0 q60 12 108 -4" fill="none" stroke="#E5CE8A" stroke-width="3"/>`+
+  (()=>{let s="";for(let r=0;r<3;r++){for(let i=0;i<5;i++){
+      const x=26+i*46+(r%2)*12, y=150-r*22, h=44-r*6;
+      s+=`<g transform="translate(${x} ${y})"><path d="M0 0 q-4 -${h} 2 -${h+10}" fill="none" stroke="${BR}" stroke-width="2.6"/>`+
+        [0,1,2,3].map(j=>`<ellipse cx="-4" cy="${-12-j*9}" rx="5" ry="7" fill="${YL}" stroke-width="1.8" transform="rotate(-18 -4 ${-12-j*9})"/><ellipse cx="5" cy="${-16-j*9}" rx="5" ry="7" fill="${YL}" stroke-width="1.8" transform="rotate(18 5 ${-16-j*9})"/>`).join("")+
+        `</g>`;}}return s;})()+
+  `<path d="M30 34 q16 -8 32 0 M120 24 q16 -8 32 0" fill="none" stroke="${WH}" stroke-width="3" opacity=".8"/>`;
+
+ART.classicbook=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#F5F2E9" stroke="none"/>`+
+  `<g transform="translate(120 104)">
+     <rect x="-70" y="22" width="140" height="22" rx="4" fill="#7A5A3A" stroke-width="3.2"/>
+     <rect x="-62" y="0" width="130" height="24" rx="4" fill="#2F6B5E" stroke-width="3.2"/>
+     <rect x="-54" y="-26" width="118" height="26" rx="4" fill="#A8493C" stroke-width="3.2"/>
+     <g stroke="${GOLD}" stroke-width="2.4" fill="none"><path d="M-44 26 h14 M-18 26 h14 M8 26 h14 M34 26 h14"/><path d="M-36 4 h12 M-12 4 h12 M12 4 h12 M36 4 h12"/><path d="M-30 -14 h12 M-6 -14 h12 M18 -14 h12 M42 -14 h12"/></g>
+     <path d="M34 -26 v-16 l10 6 10 -6 v16z" fill="${YL}" stroke-width="2.6"/>
+   </g>
+   <ellipse cx="120" cy="140" rx="76" ry="8" fill="#E4DCCB" stroke="none"/>`;
+
+ART.mooncake=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#FFF1E4" stroke="none"/>
+  <rect x="46" y="86" width="148" height="56" rx="8" fill="#B5483C" stroke-width="3.4"/>
+  <rect x="40" y="74" width="160" height="16" rx="8" fill="#8E3329" stroke-width="3.2"/>`+
+  [82,124,166].map((x,i)=>
+    `<g transform="translate(${x} ${i===1?68:74})"><circle r="22" fill="#D9A24E" stroke-width="3.4"/><circle r="14" fill="#C98C3C" stroke="none"/>
+     <path d="M0 -10 q8 6 0 16 q-8 -10 0 -16z" fill="#A86A28" stroke="none"/>
+     <g stroke="#A86A28" stroke-width="2" fill="none"><path d="M-12 -4 q6 4 0 8 M12 -4 q-6 4 0 8"/></g></g>`).join("")+
+  `<g transform="translate(196 40)"><path d="M0 -18 v-8" stroke-width="3" fill="none"/><rect x="-14" y="-16" width="28" height="32" rx="8" fill="${PK}" stroke-width="3"/><path d="M-8 -16 v32 M8 -16 v32" stroke-width="2" fill="none"/><path d="M0 16 v6" stroke-width="3" fill="none"/></g>`;
+
+ART.pine=ground(150)+
+  `<path d="M10 152 h220" fill="none" stroke-width="3" opacity=".3"/>`+
+  [56,120,184].map((x,i)=>
+   `<g transform="translate(${x} 150) scale(${i===1?1.08:.92})">
+     <path d="M0 0 v-24" fill="none" stroke="${BR}" stroke-width="6"/>
+     <path d="M-30 -24 L0 -66 L30 -24z" fill="#2F8B67" stroke-width="3.2"/>
+     <path d="M-24 -48 L0 -84 L24 -48z" fill="#37A075" stroke-width="3.2"/>
+     <path d="M-17 -70 L0 -100 L17 -70z" fill="#46B486" stroke-width="3.2"/>
+   </g>`).join("");
+
+ART.train=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#E9F2FA" stroke="none"/>
+  <rect x="6" y="16" width="228" height="40" fill="#D6E7F5" stroke="none"/>
+  <rect x="6" y="126" width="228" height="36" fill="#C9BCA6" stroke="none"/>
+  <path d="M6 126 h228" fill="none" stroke-width="3"/>
+  <path d="M10 138 h220 M10 150 h220" fill="none" stroke="#8D8371" stroke-width="3"/>`+
+  `<g transform="translate(38 96)">
+     <rect x="0" y="0" width="58" height="30" rx="6" fill="${OR}" stroke-width="3.4"/>
+     <rect x="8" y="6" width="24" height="16" rx="3" fill="#FFF1D6" stroke-width="2.4"/>
+     <rect x="58" y="8" width="46" height="22" rx="4" fill="${YL}" stroke-width="3.2"/>
+     <rect x="66" y="13" width="12" height="10" rx="2" fill="${WH}" stroke-width="2"/>
+     <rect x="84" y="13" width="12" height="10" rx="2" fill="${WH}" stroke-width="2"/>
+     <rect x="104" y="4" width="46" height="26" rx="4" fill="${TE}" stroke-width="3.2"/>
+     <rect x="112" y="10" width="12" height="10" rx="2" fill="${WH}" stroke-width="2"/>
+     <rect x="130" y="10" width="12" height="10" rx="2" fill="${WH}" stroke-width="2"/>
+     <rect x="150" y="10" width="40" height="20" rx="4" fill="${BL}" stroke-width="3.2"/>
+     <rect x="158" y="15" width="10" height="9" rx="2" fill="${WH}" stroke-width="2"/>
+     <rect x="174" y="15" width="10" height="9" rx="2" fill="${WH}" stroke-width="2"/>
+     <g fill="${K}"><circle cx="14" cy="32" r="6"/><circle cx="46" cy="32" r="6"/><circle cx="112" cy="32" r="6"/><circle cx="160" cy="32" r="6"/></g>
+   </g>`;
+
+ART.smoke=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#EAF5FF" stroke="none"/>
+  <circle cx="196" cy="44" r="15" fill="${YL}" stroke-width="3"/>
+  <path d="M6 132 h228" fill="none" stroke="#D3E3EE" stroke-width="3"/>
+  <path d="M18 132 v-44 l34 -22 l34 22 v44z" fill="#F4DCC0" stroke-width="3.4"/>
+  <path d="M40 132 v-30 h24 v30" fill="${BR}" stroke-width="3"/>
+  <rect x="62" y="62" width="16" height="26" rx="2" fill="#C97B5A" stroke-width="3"/>
+  <g fill="none" stroke="#AFC3D4" stroke-width="6" stroke-linecap="round" opacity=".95">
+    <path d="M70 58 q-16 -14 0 -26 q16 -12 2 -24"/>
+    <path d="M84 52 q14 -14 0 -26 q-12 -10 0 -20"/>
+    <path d="M62 46 q-12 -10 0 -22"/>
+  </g>
+  <path d="M130 132 q14 -55 62 -70" fill="none" stroke="#C9D6E1" stroke-width="3" opacity=".5"/>`;
+
+ART.apple=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#FFF4EF" stroke="none"/>
+  <ellipse cx="120" cy="146" rx="70" ry="10" fill="#F7E3DA" stroke="none"/>
+  <g transform="translate(120 96)">
+    <path d="M0 -30 q-10 -8 -14 -22 q14 2 18 14" fill="${LF}" stroke-width="3"/>
+    <path d="M-2 -28 q-4 -16 6 -24" fill="none" stroke="${BR}" stroke-width="4"/>
+    <path d="M-6 -26 C-40 -34 -52 -4 -36 18 C-22 38 2 40 2 40 C2 40 26 38 40 18 C56 -4 40 -34 8 -26 C4 -25 0 -26 -6 -26z" fill="#F0554B" stroke-width="3.6"/>
+    <path d="M-30 -8 q-8 10 0 22" fill="none" stroke="${WH}" stroke-width="4" opacity=".65"/>
+    ${eyes(0,2,13,2.6)}${smile(0,14,6)}${blush(0,12,20)}
+  </g>`;
+
+ART.cup=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#F0FAFF" stroke="none"/>
+  <ellipse cx="120" cy="140" rx="56" ry="9" fill="#DCEFF7" stroke="none"/>
+  <g transform="translate(112 82)">
+    <path d="M-30 -22 h60 l-6 56 q-1 10 -12 10 h-24 q-11 0 -12 -10z" fill="${WH}" stroke-width="3.4"/>
+    <path d="M-26 -6 h52 l-4 36 q-1 6 -8 6 h-28 q-7 0 -8 -6z" fill="#FFE3B8" stroke="none"/>
+    <path d="M-30 -22 h60" fill="none" stroke-width="3.4"/>
+    <path d="M30 -8 q22 0 22 18 q0 18 -22 18" fill="none" stroke-width="3.4"/>
+    <path d="M-14 -34 q-8 -10 2 -16 M4 -34 q8 -10 -2 -16" fill="none" stroke="#C9DDE8" stroke-width="2.6"/>
+  </g>`;
+
+ART.cat=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#FFF6EA" stroke="none"/>
+  <ellipse cx="120" cy="148" rx="66" ry="10" fill="#F2E3CE" stroke="none"/>
+  <g transform="translate(120 114)">
+    <ellipse cx="0" cy="4" rx="34" ry="30" fill="${OR}" stroke-width="3.6"/>
+    <path d="M-20 22 q-46 6 -38 -34" fill="none" stroke="${OR}" stroke-width="11" stroke-linecap="round"/>
+    <path d="M-20 22 q-46 6 -38 -34" fill="none" stroke="${K}" stroke-width="3" stroke-linecap="round" opacity=".35"/>
+    <circle cx="-18" cy="-30" r="25" fill="${OR}" stroke-width="3.6"/>
+    <path d="M-40 -44 l-6 -24 l22 10z M4 -50 l14 -20 l6 24z" fill="${OR}" stroke-width="3.4"/>
+    <path d="M-36 -46 l-2 -12 l10 5z M9 -50 l8 -10 l2 12z" fill="${PK}" stroke="none"/>
+    ${eyes(-18,-32,8,3)}<path d="M-24 -24 q6 6 12 0" fill="none" stroke-width="2.4"/>
+    <path d="M-40 -28 q-14 -2 -16 6 M4 -28 q14 -2 16 6" fill="none" stroke-width="2.2"/>
+    <path d="M-30 -36 h-18 M-30 -32 h-18 M6 -36 h18 M6 -32 h18" fill="none" stroke-width="2"/>
+    <ellipse cx="-30" cy="-20" rx="6" ry="3.4" fill="${PK}" stroke="none" opacity=".7"/>
+    <ellipse cx="-6" cy="-20" rx="6" ry="3.4" fill="${PK}" stroke="none" opacity=".7"/>
+  </g>`;
+
+ART.kid=ground(146,"#EAF4FF")+
+  `<path d="M20 152 h200" fill="none" stroke-width="3" opacity=".3"/>`+
+  kidUnit(80,146,1.0,OR)+kidUnit(160,146,1.0,TE);
+
+ART.flowerfield=`<rect x="6" y="8" width="228" height="154" rx="28" fill="#E9F7FF" stroke="none"/>
+  <circle cx="198" cy="40" r="16" fill="${YL}" stroke-width="3"/>
+  <path d="M6 96 q60 -16 120 0 q60 16 108 -6 v68 h-228z" fill="#BFE4A6" stroke="none"/>
+  <path d="M6 118 q60 -14 120 0 q60 14 108 -4" fill="none" stroke="#A4D68A" stroke-width="3"/>`+
+  (()=>{let s="";const rows=[[132,14,5],[148,20,6],[162,17,7]];rows.forEach(([y,step,n],ri)=>{
+    for(let i=0;i<n;i++){const x=22+i*step+(ri%2)*8;
+      s+=`<g transform="translate(${x} ${y}) scale(${0.42+ri*0.1})">${flower(0,0,1,[PK,OR,YL][(i+ri)%3])}</g>`;}});return s;})();
+
+/* ---------- 教學場景 ---------- */
+ART.campus=`<rect x="0" y="0" width="240" height="170" fill="#E8F7FF" stroke="none"/>
+  <circle cx="206" cy="30" r="14" fill="${YL}" stroke-width="3"/>
+  <rect x="0" y="120" width="240" height="50" fill="#CFE8B8" stroke="none"/>
+  <path d="M0 120 h240" fill="none" stroke="#B2D79A" stroke-width="3"/>
+  <g transform="translate(96 28)">
+    <rect x="0" y="24" width="92" height="62" rx="4" fill="#F6D9B8" stroke-width="3"/>
+    <path d="M-6 26 L46 -8 L98 26z" fill="#E07A5F" stroke-width="3"/>
+    <rect x="38" y="52" width="20" height="34" rx="2" fill="${BR}" stroke-width="2.4"/>
+    <g fill="#9CD3EE" stroke-width="2"><rect x="10" y="40" width="16" height="14" rx="2"/><rect x="70" y="40" width="16" height="14" rx="2"/><rect x="10" y="62" width="16" height="14" rx="2"/><rect x="70" y="62" width="16" height="14" rx="2"/></g>
+  </g>
+  <ellipse cx="46" cy="144" rx="34" ry="12" fill="#A9D6F2" stroke-width="2.6"/>
+  <g transform="translate(14 104) scale(0.34)">${flower(0,0,1,PK)}${flower(60,0,1,OR)}</g>
+  <g transform="translate(176 118) scale(0.5)">${tree(0,0,1)}</g>
+  <g transform="translate(28 126)"><path d="M0 0 h40 v18 h-40z" fill="#E7C79A" stroke-width="2.4"/><path d="M6 -10 h28 M6 -10 v10 M34 -10 v10" fill="none" stroke-width="2.2"/></g>
+  <g transform="translate(196 136)"><path d="M-12 0 h24 l-3 20 h-18z" fill="${TE}" stroke-width="2.4"/><path d="M-8 -18 l4 18 M4 -20 l0 20" fill="none" stroke="${OR}" stroke-width="3"/></g>
+  <g transform="translate(150 142)"><rect x="-14" y="-10" width="28" height="10" rx="2" fill="#D9A066" stroke-width="2.4"/><path d="M-12 -10 v-6 M12 -10 v-6" fill="none" stroke-width="2.2"/><rect x="-8" y="-18" width="8" height="8" fill="${BL}" stroke-width="1.8"/><rect x="1" y="-20" width="8" height="10" fill="${PK}" stroke-width="1.8"/></g>`;
+
+ART.street=`<rect x="0" y="0" width="240" height="170" fill="#2C3A57" stroke="none"/>
+  <g fill="#3E5273" stroke="none"><rect x="0" y="46" width="56" height="90"/><rect x="62" y="26" width="52" height="110"/><rect x="120" y="54" width="48" height="82"/><rect x="174" y="34" width="66" height="102"/></g>
+  <g stroke="#2C3A57" stroke-width="2" fill="#4C6183">
+    <rect x="8" y="58" width="14" height="16"/><rect x="30" y="58" width="14" height="16"/><rect x="8" y="84" width="14" height="16"/><rect x="30" y="84" width="14" height="16"/>
+    <rect x="70" y="38" width="14" height="16"/><rect x="92" y="38" width="14" height="16"/><rect x="70" y="64" width="14" height="16"/><rect x="92" y="64" width="14" height="16"/>
+    <rect x="128" y="66" width="14" height="16"/><rect x="150" y="66" width="14" height="16"/><rect x="128" y="92" width="14" height="16"/><rect x="150" y="92" width="14" height="16"/>
+    <rect x="182" y="46" width="16" height="16"/><rect x="206" y="46" width="16" height="16"/><rect x="182" y="72" width="16" height="16"/><rect x="206" y="72" width="16" height="16"/>
+  </g>
+  <rect x="0" y="136" width="240" height="34" fill="#3B4A63" stroke="none"/>
+  <path d="M0 136 h240" stroke="#5A6E8C" stroke-width="3" fill="none"/>
+  <circle cx="212" cy="26" r="13" fill="#FFE9A8" stroke="none"/>`;
+
+ART.queue=`<rect x="0" y="0" width="240" height="170" rx="20" fill="#FFF6E6" stroke="none"/>
+  <path d="M0 138 h240" fill="none" stroke="#E8D6B8" stroke-width="3"/>
+  <g opacity=".6"><path d="M18 60 h30 M18 72 h22" stroke="#D8C6A8" stroke-width="3" fill="none"/></g>`+
+  [[52,OR],[86,TE],[120,YL],[154,BL],[188,PK]].map(([x,c])=>
+    kidUnit(x,140,.6,c)).join("")+
+  `<path d="M30 150 q-8 -6 0 -12" fill="none" stroke="${BR}" stroke-width="3"/>`;
+
+/* 角色：小量 */
+function mascot(mood){
+  mood=mood||"happy";
+  const eyeS = mood==="think" ? `<path d="M-16 -12 q6 -8 12 0" fill="none" stroke="${K}" stroke-width="3"/><path d="M4 -12 q6 -8 12 0" fill="none" stroke="${K}" stroke-width="3"/>`
+    : mood==="surprise" ? `<circle cx="-10" cy="-10" r="6.4" fill="${WH}" stroke-width="2.6"/><circle cx="12" cy="-10" r="6.4" fill="${WH}" stroke-width="2.6"/>${eye(-10,-10,2.8)}${eye(12,-10,2.8)}`
+    : `${eye(-10,-10,3.4)}${eye(12,-10,3.4)}`;
+  const mouthS = mood==="surprise" ? `<ellipse cx="1" cy="12" rx="6" ry="7" fill="#C25A4A" stroke-width="2.6"/>`
+    : mood==="cheer" ? `<path d="M-8 10 q9 12 18 0 q-9 4 -18 0z" fill="#C25A4A" stroke-width="2.6"/>`
+    : `<path d="M-7 8 q8 9 16 0" fill="none" stroke="${K}" stroke-width="3.2"/>`;
+  const armD = mood==="cheer" ? "M-30 6 q-18 -16 -22 -28 M30 6 q18 -16 22 -28"
+    : mood==="think" ? "M-28 12 q-14 8 -16 18 M28 12 q10 2 14 -8"
+    : "M-30 10 q-12 8 -14 16 M30 10 q12 8 14 16";
+  const arms = `<path d="${armD}" fill="none" stroke="${K}" stroke-width="10" stroke-linecap="round"/><path d="${armD}" fill="none" stroke="${OR}" stroke-width="6" stroke-linecap="round"/>`;
+  const extra = mood==="think" ? `<g><circle cx="34" cy="-46" r="4" fill="${BL}" stroke="none"/><circle cx="42" cy="-56" r="6" fill="${BL}" stroke="none"/><path d="M50 -74 a12 12 0 1 0 12 14 a9 9 0 1 1 -12 -14z" fill="${WH}" stroke-width="2.6"/><path d="M56 -62 q6 -2 4 -8" fill="none" stroke="${K}" stroke-width="2"/></g>` : "";
+  return `<svg viewBox="0 0 140 140" role="img" aria-label="小量">
+    <g stroke="${K}" stroke-width="3.4" stroke-linejoin="round">
+      <ellipse cx="70" cy="128" rx="30" ry="6" fill="rgba(51,64,63,.12)" stroke="none"/>
+      <path d="M56 104 q-4 12 -10 18 M84 104 q4 12 10 18" fill="none" stroke-width="7" stroke-linecap="round"/>
+      <ellipse cx="70" cy="66" rx="40" ry="38" fill="${OR}"/>
+      <ellipse cx="70" cy="70" rx="28" ry="26" fill="#FFE0C2" stroke="none"/>
+      <g transform="translate(70 62)">
+        ${eyeS}
+        ${blush(0,6,22)}
+        ${mouthS}
+      </g>
+      ${arms}
+      <path d="M70 20 q-4 -12 6 -14" fill="none" stroke="${BR}" stroke-width="3.4"/>
+      <path d="M82 8 q10 -6 16 2 q-10 4 -16 -2z" fill="${LF}" stroke-width="3"/>
+      ${extra}
+    </g>
+  </svg>`;
+}
+
+/* ================= 內容資料 ================= */
+const DATA = {
+junior:{
+  label:"初小版", grade:"小一至小三", tagline:"看圖認量詞，建立搭配直覺",
+  lessons:[
+    {id:"j1", no:1, title:"認識量詞", type:"tap",
+     lead:"數東西，要用量詞。", sub:"點一點每一張圖，聽聽它的量詞。",
+     items:[{art:"cat",label:"一隻貓",say:"一隻貓"},{art:"fish",label:"一條魚",say:"一條魚"},{art:"flower",label:"一朵花",say:"一朵花"}],
+     done:"你已經認識三個量詞了！"},
+    {id:"j2", no:2, title:"量詞要配對", type:"pick",
+     lead:"不同東西，有自己的量詞。", sub:"哪一張說得對？點一點。",
+     items:[{art:"cat",label:"一條貓",ok:false,hint:"貓不是長條形的，所以不能說「一條貓」。"},
+            {art:"cat",label:"一隻貓",ok:true,hint:"動物用「隻」，所以是「一隻貓」。"}],
+     done:"記住了：貓是動物，用「隻」。"},
+    {id:"j3", no:3, title:"一 AA 式", type:"kids",
+     lead:"「一個個」，就是一個接一個，逐個逐個。", sub:"點一點小朋友，看看他們逐個亮起。",
+     word:"一個個", done:"五個小朋友逐個亮起，一個接一個，就是「一個個」。"},
+    {id:"j4", no:4, title:"校園找一找", type:"find",
+     lead:"校園裏藏着很多量詞，找出來！", sub:"找出 5 處，點中就會讀出重疊量詞。",
+     spots:[{x:20,y:72,label:"花圃",say:"一朵朵花"},{x:36,y:88,label:"魚池",say:"一條條魚"},
+            {x:80,y:70,label:"大樹",say:"一棵棵大樹"},{x:72,y:82,label:"書架",say:"一本本書"},
+            {x:88,y:86,label:"傘架",say:"一把把雨傘"}],
+     done:"你找到了五組重疊量詞！"}
+  ],
+  match:[
+    {noun:"花", image:"flower", answer:"一朵朵", options:["一朵朵","一條條","一隻隻"],
+     why:"「朵」是花的量詞。很多朵花、一朵接一朵，就是「一朵朵」。",
+     trap:"花不是長條形，也不是動物，所以不用「一條條」「一隻隻」。"},
+    {noun:"魚", image:"fish", answer:"一條條", options:["一條條","一朵朵","一塊塊"],
+     why:"魚是長條形的，用「條」；「一條條」表示有很多條魚。",
+     trap:"「朵」用於花和雲，「塊」用於餅乾這類塊狀物，都不適合魚。"},
+    {noun:"小鳥", image:"bird", answer:"一隻隻", options:["一隻隻","一本本","一棵棵"],
+     why:"動物用「隻」；「一隻隻」表示樹枝上有很多隻小鳥。",
+     trap:"「本」用於書，「棵」用於植物，都不是小鳥的量詞。"},
+    {noun:"大樹", image:"tree", answer:"一棵棵", options:["一棵棵","一張張","一隻隻"],
+     why:"植物用「棵」；「一棵棵」寫出樹木一棵接一棵。",
+     trap:"「張」用於平面的紙和家具，「隻」用於動物，所以不用在樹上。"},
+    {noun:"餅乾", image:"cookie", answer:"一塊塊", options:["一塊塊","一條條","一粒粒"],
+     why:"餅乾是塊狀的，用「塊」；「一塊塊」寫出餅乾一片片排在碟上。",
+     trap:"「粒」用於糖或米這種細小顆粒，「條」用於長條形的東西。"},
+    {noun:"圖書", image:"book", answer:"一本本", options:["一本本","一幅幅","一把把"],
+     why:"書冊用「本」；「一本本」把書一本一本看過去。",
+     trap:"「幅」用於畫作，「把」用於有柄的東西，都不是書的量詞。"},
+    {noun:"椅子", image:"chair", answer:"一張張", options:["一張張","一雙雙","一顆顆"],
+     why:"家具用「張」；「一張張」寫出椅子整齊排列。",
+     trap:"「雙」用於成對的鞋和筷子，「顆」用於圓而小的東西。"},
+    {noun:"糖果", image:"candy", answer:"一粒粒", options:["一粒粒","一棵棵","一艘艘"],
+     why:"細小的糖果用「粒」；「一粒粒」寫出糖果一顆接一顆。",
+     trap:"「棵」用於植物，「艘」用於船，糖果兩者都不是。"},
+    {noun:"雨傘", image:"umbrella", answer:"一把把", options:["一把把","一隻隻","一塊塊"],
+     why:"有柄、可以握住的東西用「把」；傘有柄，所以是「一把把雨傘」。",
+     trap:"「隻」用於動物，「塊」用於塊狀物，雨傘不是這兩類。"},
+    {noun:"白雲", image:"cloud", answer:"一片片", options:["一片片","一顆顆","一本本"],
+     why:"連成一片的雲用「片」；「一片片」寫出天上的雲一大片一大片。",
+     trap:"「朵」也可以用於雲，但圖中的雲連成一整片，所以用「片」；「顆」用於星星，「本」用於書。"}
+  ],
+  sentence:[
+    {sentence:"秋天到了，＿＿樹葉從樹上飄下來。", image:"leaf", answer:"一片片", options:["一片片","一條條","一隻隻"],
+     why:"樹葉薄而平，用「片」；「一片片」寫出落葉又多又輕。",
+     trap:"「條」用於長條形，「隻」用於動物，樹葉都不合用。"},
+    {sentence:"沙灘上，＿＿螃蟹橫着走。", image:"crab", answer:"一隻隻", options:["一隻隻","一朵朵","一本本"],
+     why:"螃蟹是動物，用「隻」；「一隻隻」表示沙灘上有很多隻螃蟹。",
+     trap:"「朵」用於花和雲，「本」用於書，都不能數螃蟹。"},
+    {sentence:"夜空中，＿＿星星閃閃發亮。", image:"star", answer:"一顆顆", options:["一顆顆","一把把","一棵棵"],
+     why:"星星圓而小，用「顆」；「一顆顆」寫出星星又多又亮。",
+     trap:"「把」用於有柄的東西，「棵」用於植物，星星都不是。"},
+    {sentence:"草原上，＿＿綿羊在吃草。", image:"sheep", answer:"一群群", options:["一群群","一張張","一塊塊"],
+     why:"聚在一起的人或動物用「群」；「一群群」表示很多群羊散在草原上。",
+     trap:"「張」用於平面家具，「塊」用於塊狀物，都不是羊群的量詞。"},
+    {sentence:"桌上放着＿＿熱騰騰的米飯。", image:"rice", answer:"一碗碗", options:["一碗碗","一隻隻","一本本"],
+     why:"飯盛在碗裏，用「碗」；「一碗碗」寫出飯一碗接一碗端上桌。",
+     trap:"「隻」用於動物，「本」用於書，米飯不會用這兩個量詞。"},
+    {sentence:"家門口擺着＿＿鞋子。", image:"shoes", answer:"一雙雙", options:["一雙雙","一粒粒","一幅幅"],
+     why:"鞋是成對的，用「雙」；「一雙雙」強調一對一對排好。",
+     trap:"「粒」用於細小顆粒，「幅」用於畫作，都不適合鞋子。"},
+    {sentence:"媽媽買了＿＿香蕉。", image:"banana", answer:"一把把", options:["一把把","一顆顆","一雙雙"],
+     why:"香蕉有柄、成串可握，用「把」；「一把把」寫出香蕉一串串挂着。",
+     trap:"「顆」用於圓而小的東西，「雙」用於成對的鞋，香蕉都不合用。"},
+    {sentence:"課室裏排着＿＿桌子。", image:"desk", answer:"一張張", options:["一張張","一條條","一朵朵"],
+     why:"桌子是平面家具，用「張」；「一張張」寫出桌子整齊排列。",
+     trap:"「條」用於長條形，「朵」用於花和雲，桌子都不是。"},
+    {sentence:"花園裏，＿＿蝴蝶飛來飛去。", image:"butterfly", answer:"一隻隻", options:["一隻隻","一棵棵","一塊塊"],
+     why:"蝴蝶是動物，用「隻」；「一隻隻」寫出蝴蝶多得數不清。",
+     trap:"「棵」用於植物，「塊」用於塊狀物，蝴蝶都不是。"},
+    {sentence:"盤子裏放着＿＿草莓。", image:"strawberry", answer:"一顆顆", options:["一顆顆","一條條","一本本"],
+     why:"草莓圓而小，用「顆」；「一顆顆」寫出草莓飽滿、一顆接一顆。",
+     trap:"「條」用於長條形，「本」用於書，草莓都不合用。"}
+  ],
+  words:[
+    {zi:"個",form:"一個個",ex:"一個個蘋果",art:"apple",tip:"最通用的量詞，但有專用量詞時要換。"},
+    {zi:"隻",form:"一隻隻",ex:"一隻隻小鳥",art:"bird",tip:"動物多用「隻」；香港也說「一隻船」。"},
+    {zi:"條",form:"一條條",ex:"一條條魚",art:"fish",tip:"長條形的東西用「條」。"},
+    {zi:"朵",form:"一朵朵",ex:"一朵朵花",art:"flower",tip:"「朵」專門用於花和雲。"},
+    {zi:"片",form:"一片片",ex:"一片片樹葉",art:"leaf",tip:"薄而平、成片的東西。"},
+    {zi:"棵",form:"一棵棵",ex:"一棵棵大樹",art:"tree",tip:"植物用「棵」，不要用「條」。"},
+    {zi:"張",form:"一張張",ex:"一張張桌子",art:"desk",tip:"平面的事物或家具。"},
+    {zi:"本",form:"一本本",ex:"一本本書",art:"book",tip:"書冊專用。"},
+    {zi:"把",form:"一把把",ex:"一把把雨傘",art:"umbrella",tip:"有柄、可以握住的東西。"},
+    {zi:"塊",form:"一塊塊",ex:"一塊塊餅乾",art:"cookie",tip:"塊狀、有一定厚度。"},
+    {zi:"粒",form:"一粒粒",ex:"一粒粒糖果",art:"candy",tip:"細小顆粒；「一粒糖」很常用。"},
+    {zi:"杯",form:"一杯杯",ex:"一杯杯水",art:"cup",tip:"容器同時是量詞。"},
+    {zi:"碗",form:"一碗碗",ex:"一碗碗飯",art:"rice",tip:"同上，注意與「杯」的分工。"},
+    {zi:"雙",form:"一雙雙",ex:"一雙雙鞋子",art:"shoes",tip:"成對出現的東西。"},
+    {zi:"群",form:"一群群",ex:"一群群綿羊",art:"sheep",tip:"聚集在一起的人或動物。"},
+    {zi:"顆",form:"一顆顆",ex:"一顆顆星星",art:"star",tip:"圓而小的東西。"}
+  ]
+},
+senior:{
+  label:"高小版", grade:"小四至小六", tagline:"辨析近義量詞，說得出理由",
+  lessons:[
+    {id:"s1", no:1, title:"量詞的分工", type:"slider",
+     lead:"同一個東西，換個量詞，畫面就不同。", sub:"點一點三種說法，看看畫面怎樣變。",
+     frames:[{art:"flower",word:"一朵花",say:"一朵花。花園裏只有一朵。"},
+             {art:"bouquet",word:"一束花",say:"一束花。花被紮在一起，捧在手裏。"},
+             {art:"flowerfield",word:"一片花海",say:"一片花海。花開滿整個山坡。"}],
+     done:"量詞不同，畫面的大小就不同。"},
+    {id:"s2", no:2, title:"AA 式", type:"windows",
+     lead:"「個個」是每一個；「家家戶戶」是每一家、每一戶。", sub:"點亮每扇窗，一起讀「家家戶戶」。",
+     word:"家家戶戶", done:"家家戶戶都亮了燈，就是每一家、每一戶。"},
+    {id:"s3", no:3, title:"一 AA 式", type:"trio",
+     lead:"「一陣陣」是一陣接一陣，沒完沒了。", sub:"點一點三張圖，感受接連不斷。",
+     items:[{art:"wheat",word:"一層層麥浪",say:"一層層麥浪，隨風起伏。"},
+            {art:"applause",word:"一陣陣掌聲",say:"一陣陣掌聲，響完又響。"},
+            {art:"rainbow",word:"一道道彩虹",say:"一道道彩虹，一道接一道。"}],
+     done:"重疊之後，畫面就有了「接連」的感覺。"},
+    {id:"s4", no:4, title:"辨析小測", type:"quiz",
+     lead:"選量詞，其實是選畫面。", sub:"三題小測，答對就解鎖「量詞偵探」徽章。",
+     items:[{art:"smoke",q:"山邊的炊煙，該說哪一個？",answer:"一縷縷",options:["一縷縷","一串串","一陣陣"],
+             why:"炊煙細長、輕柔、隱約，用「縷」；「一縷縷炊煙」寫出煙絲一線一線升起。"},
+            {art:"pearl",q:"頸上的珍珠，該說哪一個？",answer:"一串串",options:["一串串","一縷縷","一陣陣"],
+             why:"珍珠串連在一起，用「串」；「一串串珍珠」有縱向連續的感覺。"},
+            {art:"applause",q:"禮堂的掌聲，該說哪一個？",answer:"一陣陣",options:["一陣陣","一縷縷","一串串"],
+             why:"掌聲是一陣接一陣的聲音，用「陣」；「一陣陣掌聲」強調聲音持續不斷。"}],
+     done:"你已經能用畫面感來選量詞了！"}
+  ],
+  match:[
+    {noun:"珍珠", image:"pearl", answer:"一串串", options:["一串串","一幢幢","一匹匹"],
+     why:"珍珠串連在一起，用「串」；「一串串」寫出珍珠一顆接一顆。",
+     trap:"「幢」用於樓房，「匹」用於馬，珍珠都不是。"},
+    {noun:"鮮花", image:"bouquet", answer:"一束束", options:["一束束","一艘艘","一盞盞"],
+     why:"綑紮在一起的花用「束」；「一束束」寫出花束一紮接一紮。",
+     trap:"「艘」用於船，「盞」用於燈具，都不能數花束。"},
+    {noun:"路燈", image:"streetlamp", answer:"一盞盞", options:["一盞盞","一匹匹","一束束"],
+     why:"燈具用「盞」；「一盞盞」寫出燈一盞接一盞亮起，向遠處延伸。",
+     trap:"「匹」用於馬，「束」用於綑紮的花，都不是燈的量詞。"},
+    {noun:"大廈", image:"building", answer:"一幢幢", options:["一幢幢","一縷縷","一串串"],
+     why:"整棟建築用「幢」；「一幢幢」寫出樓房一棟接一棟。",
+     trap:"「縷」用於細長的煙和髮絲，「串」用於連成一串的東西，大廈都不是。"},
+    {noun:"帆船", image:"sailboat", answer:"一艘艘", options:["一艘艘","一盞盞","一幢幢"],
+     why:"船用「艘」，是書面語的說法；「一艘艘」寫出海面船隻眾多。",
+     trap:"「盞」用於燈，「幢」用於樓房，帆船都不合用。"},
+    {noun:"駿馬", image:"horse", answer:"一匹匹", options:["一匹匹","一束束","一縷縷"],
+     why:"「匹」是馬的專用量詞，不能換成「隻」；「一匹匹」寫出馬群奔跑。",
+     trap:"「束」用於綑紮的花，「縷」用於細長的煙和髮絲，都不能數馬。"},
+    {noun:"頭髮", image:"hair", answer:"一縷縷", options:["一縷縷","一幢幢","一艘艘"],
+     why:"細長、輕柔的頭髮用「縷」；「一縷縷」寫出髮絲細而分明。",
+     trap:"「幢」用於樓房，「艘」用於船，頭髮都不合用。"},
+    {noun:"青山", image:"mountain", answer:"一座座", options:["一座座","一串串","一匹匹"],
+     why:"體積大、位置固定的山用「座」；「一座座」寫出山巒起伏。",
+     trap:"「串」用於連成一串的東西，「匹」用於馬，山都不是。"},
+    {noun:"畫作", image:"painting", answer:"一幅幅", options:["一幅幅","一盞盞","一縷縷"],
+     why:"平面作品用「幅」；「一幅幅」寫出畫作一幅接一幅掛滿牆。",
+     trap:"「盞」用於燈，「縷」用於細長的煙和髮絲，畫作都不是。"},
+    {noun:"彩虹", image:"rainbow", answer:"一道道", options:["一道道","一幢幢","一束束"],
+     why:"彩虹是細長的線狀，用「道」；「一道道」可指一道接一道出現。",
+     trap:"「幢」用於樓房，「束」用於綑紮的花，彩虹都不是。"}
+  ],
+  sentence:[
+    {sentence:"廣場上，＿＿旗幟迎風飄揚。", image:"flag", answer:"一面面", options:["一面面","一縷縷","一幢幢"],
+     why:"旗是扁平、有正面的，用「面」；「一面面」寫出旗幟一片連一片。",
+     trap:"「縷」用於細長的煙和髮絲，「幢」用於樓房，旗幟都不是。",
+     follow:{q:"為甚麼不是「一縷縷」？",opts:["旗幟是扁平的一整面，不是細長的煙或髮絲。","旗幟不可以重疊。"],note:"「縷」只適合細長、輕柔、隱約的東西，例如一縷縷炊煙。"}},
+    {sentence:"沙灘上留下＿＿腳印。", image:"footprint", answer:"一串串", options:["一串串","一盞盞","一匹匹"],
+     why:"腳印一個接一個連着走，用「串」；「一串串」寫出沿着海岸走過的痕跡。",
+     trap:"「盞」用於燈，「匹」用於馬，腳印都不是。",
+     follow:{q:"為甚麼不是「一盞盞」？",opts:["「盞」是燈具的量詞，腳印不是燈。","腳印太小，看不見。"],note:"選量詞先看東西的類別：腳印是走過的痕跡，連着走就用「串」。"}},
+    {sentence:"雷雨夜，天空劃過＿＿閃電。", image:"lightning", answer:"一道道", options:["一道道","一束束","一艘艘"],
+     why:"閃電是細長的線狀光，用「道」；「一道道」寫出閃電一劃接一劃。",
+     trap:"「束」用於綑紮的花，「艘」用於船，閃電都不是。",
+     follow:{q:"為甚麼不是「一束束」？",opts:["「束」是綑紮起來的一紮，閃電是劃過天空的線狀光。","閃電不可以重疊。"],note:"「束」要有「紮起來」的動作，閃電沒有被紮住，所以用「道」。"}},
+    {sentence:"禮堂裏響起＿＿掌聲。", image:"applause", answer:"一陣陣", options:["一陣陣","一幅幅","一座座"],
+     why:"掌聲一陣接一陣，用「陣」；「一陣陣」強調聲音持續不斷。",
+     trap:"「幅」用於畫作，「座」用於山和建築，掌聲都不是。",
+     follow:{q:"為甚麼不是「一幅幅」？",opts:["「幅」用於畫作，掌聲是聲音，一陣接一陣。","掌聲沒有形狀。"],note:"聲音看不到，但可以「一陣陣」地傳來；「幅」只留給平面的畫作。"}},
+    {sentence:"田野上，＿＿麥浪隨風起伏。", image:"wheat", answer:"一層層", options:["一層層","一盞盞","一匹匹"],
+     why:"麥浪一層疊一層，用「層」；「一層層」寫出起伏的層次。",
+     trap:"「盞」用於燈，「匹」用於馬，麥浪都不是。",
+     follow:{q:"為甚麼不是「一盞盞」？",opts:["「盞」用於燈，麥浪是一層疊一層的起伏。","麥浪不可以重疊。"],note:"麥浪的重點是「層次」，一層蓋過一層，所以用「層」。"}},
+    {sentence:"書架上擺着＿＿經典名著。", image:"classicbook", answer:"一冊冊", options:["一冊冊","一道道","一縷縷"],
+     why:"「冊」是「本」的雅稱，用於成套的書；「一冊冊」帶着收藏的意味。",
+     trap:"「道」用於彩虹、門這類線狀物，「縷」用於細長的煙，名著都不是。",
+     follow:{q:"為甚麼不是「一道道」？",opts:["「道」用於彩虹、門這類線狀物，書要用「冊」。","名著不是書。"],note:"「冊」和「本」都是書的量詞；「冊」更書面，適合成套、收藏的名著。"}},
+    {sentence:"桌上放着＿＿月餅。", image:"mooncake", answer:"一盒盒", options:["一盒盒","一匹匹","一幢幢"],
+     why:"月餅裝在盒子裏，用「盒」；「一盒盒」寫出送禮時堆疊的場面。",
+     trap:"「匹」用於馬，「幢」用於樓房，月餅都不是。",
+     follow:{q:"為甚麼不是「一匹匹」？",opts:["「匹」是馬的量詞，月餅裝在盒子裏。","月餅不可以重疊。"],note:"「匹」幾乎只留給馬和布；月餅一盒盒裝好，就用「盒」。"}},
+    {sentence:"山坡上種着＿＿松樹。", image:"pine", answer:"一排排", options:["一排排","一串串","一盞盞"],
+     why:"樹木整齊橫向排列，用「排」；「一排排」寫出人工種植的整齊。",
+     trap:"「串」用於連成一串的東西，「盞」用於燈，松樹都不是。",
+     follow:{q:"為甚麼不是「一串串」？",opts:["「串」是連成一串，松樹是橫向整齊排列。","松樹不是植物。"],note:"「排」強調橫向整齊；「串」要一個個連起來，松樹不會串在一起。"}},
+    {sentence:"天空中飄着＿＿白雲。", image:"cloud", answer:"一團團", options:["一團團","一匹匹","一冊冊"],
+     why:"白雲圓而蓬鬆，用「團」；「一團團」寫出雲的形狀和厚度。",
+     trap:"「匹」用於馬，「冊」用於書，白雲都不是。",
+     follow:{q:"為甚麼不是「一冊冊」？",opts:["「冊」用於書，白雲是圓而蓬鬆的一團。","白雲不可以重疊。"],note:"「團」寫出圓而蓬鬆的形狀，正好用來畫白雲。"}},
+    {sentence:"月台上停着＿＿列車。", image:"train", answer:"一列列", options:["一列列","一縷縷","一幅幅"],
+     why:"車廂一節接一節，用「列」；「一列列」寫出月台上車龍延綿。",
+     trap:"「縷」用於細長的煙和髮絲，「幅」用於畫作，列車都不是。",
+     follow:{q:"為甚麼不是「一縷縷」？",opts:["「縷」用於細長的煙和髮絲，車廂是一節接一節。","列車不可以重疊。"],note:"「列」強調一節接一節的長度，跟「縷」的細長輕柔完全不同。"}}
+  ],
+  words:[
+    {zi:"串",form:"一串串",ex:"一串串珍珠",art:"pearl",tip:"連成一串，有縱向連續感。"},
+    {zi:"束",form:"一束束",ex:"一束束鮮花",art:"bouquet",tip:"綑紮在一起，體積集中。"},
+    {zi:"盞",form:"一盞盞",ex:"一盞盞路燈",art:"streetlamp",tip:"燈具專用，帶「一點光」的畫面。"},
+    {zi:"幢",form:"一幢幢",ex:"一幢幢大廈",art:"building",tip:"整棟建築，比「座」更具體。"},
+    {zi:"艘",form:"一艘艘",ex:"一艘艘帆船",art:"sailboat",tip:"大型船隻的書面量詞。"},
+    {zi:"匹",form:"一匹匹",ex:"一匹匹駿馬",art:"horse",tip:"馬的專用量詞，不可替換。"},
+    {zi:"縷",form:"一縷縷",ex:"一縷縷炊煙",art:"smoke",tip:"細長、輕柔、隱約。"},
+    {zi:"座",form:"一座座",ex:"一座座青山",art:"mountain",tip:"體積大、位置固定的東西。"},
+    {zi:"幅",form:"一幅幅",ex:"一幅幅畫作",art:"painting",tip:"平面作品，強調畫面完整。"},
+    {zi:"道",form:"一道道",ex:"一道道彩虹",art:"rainbow",tip:"細長的線狀痕跡。"},
+    {zi:"面",form:"一面面",ex:"一面面旗幟",art:"flag",tip:"扁平、有正面。"},
+    {zi:"陣",form:"一陣陣",ex:"一陣陣掌聲",art:"applause",tip:"短時間內持續出現。"},
+    {zi:"層",form:"一層層",ex:"一層層麥浪",art:"wheat",tip:"重疊的層次感。"},
+    {zi:"冊",form:"一冊冊",ex:"一冊冊名著",art:"classicbook",tip:"「本」的雅稱，用於成套書籍。"},
+    {zi:"盒",form:"一盒盒",ex:"一盒盒月餅",art:"mooncake",tip:"盒裝，帶節日或送禮畫面。"},
+    {zi:"排",form:"一排排",ex:"一排排松樹",art:"pine",tip:"橫向整齊排列。"},
+    {zi:"團",form:"一團團",ex:"一團團白雲",art:"cloud",tip:"圓而蓬鬆、邊界模糊。"},
+    {zi:"列",form:"一列列",ex:"一列列列車",art:"train",tip:"縱向排列，強調長度。"}
+  ]
+}
+};
+
+/* ================= 小工具 ================= */
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const shuffle=a=>{const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;};
+
+function load(key,fallback){
+  try{const raw=localStorage.getItem(key);return raw==null?fallback:JSON.parse(raw);}catch(e){return fallback;}
+}
+function save(key,val){try{localStorage.setItem(key,JSON.stringify(val));}catch(e){}}
+
+const app={
+  version:load("lq_version",null),
+  sound:load("lq_sound",true),
+  voice:load("lq_voice",true),
+  stage:load("lq_stage",false),
+  lessons:load("lq_lessons",{junior:[],senior:[]}),
+  best:load("lq_best",{junior:{match:0,sentence:0},senior:{match:0,sentence:0}}),
+  played:load("lq_played",{junior:{match:0,sentence:0},senior:{match:0,sentence:0}})
+};
+if(!DATA[app.version]) app.version=null;
+if(!app.lessons||!app.lessons.junior||!app.lessons.senior) app.lessons={junior:[],senior:[]};
+if(!app.best||!app.best.junior||!app.best.senior) app.best={junior:{match:0,sentence:0},senior:{match:0,sentence:0}};
+if(!app.played||!app.played.junior||!app.played.senior) app.played={junior:{match:0,sentence:0},senior:{match:0,sentence:0}};
+
+function persist(){
+  save("lq_version",app.version); save("lq_sound",app.sound); save("lq_voice",app.voice);
+  save("lq_stage",app.stage); save("lq_lessons",app.lessons);
+  save("lq_best",app.best); save("lq_played",app.played);
+}
+function applyTheme(){
+  const junior=app.version!=="senior";
+  document.documentElement.style.setProperty("--accent",junior?"#FF8B3D":"#2FA98C");
+  document.documentElement.style.setProperty("--accent-soft",junior?"#FFF0E2":"#E7F7F1");
+  document.documentElement.classList.toggle("stage",!!app.stage);
+}
+
+/* ================= 音效 ================= */
+const Sound={
+  ctx:null,
+  unlock(){
+    try{
+      if(!this.ctx){
+        const AC=window.AudioContext||window.webkitAudioContext;
+        if(!AC) return false;
+        this.ctx=new AC();
+      }
+      if(this.ctx.state==="suspended") this.ctx.resume();
+      return true;
+    }catch(e){return false;}
+  },
+  tone(freq,dur,type,vol,delay,slide){
+    if(!app.sound) return;
+    if(!this.unlock()||!this.ctx) return;
+    const c=this.ctx, t0=c.currentTime+(delay||0);
+    const osc=c.createOscillator(), g=c.createGain();
+    osc.type=type||"triangle";
+    osc.frequency.setValueAtTime(freq,t0);
+    if(slide) osc.frequency.exponentialRampToValueAtTime(slide,t0+dur);
+    g.gain.setValueAtTime(0.0001,t0);
+    g.gain.exponentialRampToValueAtTime(vol||0.16,t0+0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+    osc.connect(g); g.connect(c.destination);
+    osc.start(t0); osc.stop(t0+dur+0.05);
+  },
+  noise(dur,vol){
+    if(!app.sound) return;
+    if(!this.unlock()||!this.ctx) return;
+    const c=this.ctx, len=Math.floor(c.sampleRate*dur);
+    const buf=c.createBuffer(1,len,c.sampleRate), d=buf.getChannelData(0);
+    for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*(1-i/len);
+    const src=c.createBufferSource(); src.buffer=buf;
+    const f=c.createBiquadFilter(); f.type="bandpass"; f.frequency.value=1600; f.Q.value=0.8;
+    const g=c.createGain(); g.gain.value=vol||0.09;
+    src.connect(f); f.connect(g); g.connect(c.destination);
+    src.start();
+  },
+  tap(){ this.tone(760,0.08,"triangle",0.09); },
+  pick(){ this.tone(520,0.12,"sine",0.1,0,760); },
+  correct(){ [523.25,659.25,783.99].forEach((f,i)=>this.tone(f,0.32,"triangle",0.15,i*0.09)); },
+  wrong(){ this.tone(392,0.22,"sine",0.09,0); this.tone(311,0.3,"sine",0.08,0.14); },
+  reveal(){ this.noise(0.22,0.07); this.tone(660,0.16,"sine",0.07,0.02); },
+  star(){ [1046,1318,1568].forEach((f,i)=>this.tone(f,0.18,"sine",0.09,i*0.06)); },
+  fanfare(){
+    [523.25,659.25,783.99,1046.5].forEach((f,i)=>this.tone(f,0.5,"triangle",0.13,i*0.1));
+    this.noise(0.5,0.05);
+  }
+};
+
+/* ================= 語音 ================= */
+let voiceList=[];
+function loadVoices(){
+  if(!("speechSynthesis" in window)) return;
+  try{voiceList=window.speechSynthesis.getVoices()||[];}catch(e){voiceList=[];}
+}
+if("speechSynthesis" in window){
+  loadVoices();
+  window.speechSynthesis.addEventListener("voiceschanged",loadVoices);
+}
+function pickVoice(){
+  if(!voiceList.length) loadVoices();
+  const hk=voiceList.find(v=>/zh[-_]HK/i.test(v.lang));
+  if(hk) return hk;
+  const tw=voiceList.find(v=>/zh[-_]TW/i.test(v.lang));
+  if(tw) return tw;
+  return voiceList.find(v=>/^zh/i.test(v.lang))||null;
+}
+let lastSpoken="",voiceWarned=false;
+function speak(text){
+  if(!text) return;
+  if(!app.voice){ if(!voiceWarned){voiceWarned=true;toast("語音朗讀已關閉，可在「說明」開啟");} return;}
+  if(!("speechSynthesis" in window)){ if(!voiceWarned){voiceWarned=true;toast("此裝置不支援語音朗讀，可看文字說明");} return;}
+  try{
+    window.speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang="zh-HK"; u.rate=0.92; u.pitch=1.03;
+    const v=pickVoice(); if(v) u.voice=v;
+    u.onerror=()=>{ if(!voiceWarned){voiceWarned=true;toast("此裝置暫無粵語語音，可看文字說明");} };
+    window.speechSynthesis.speak(u);
+    lastSpoken=text;
+  }catch(e){toast("語音未能播放，可看文字說明");}
+}
+
+/* ================= 提示條 ================= */
+let toastTimer=null;
+function toast(msg){
+  const t=$("#toast");
+  t.textContent=msg; t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove("show"),2400);
+}
+
+/* ================= 圖形小元件 ================= */
+function artSVG(key,label){
+  const body=ART[key]||ART.flower;
+  return `<svg viewBox="0 0 240 170" role="img" aria-label="${esc(label||"插圖")}" preserveAspectRatio="xMidYMid meet"><g stroke="${K}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${body}</g></svg>`;
+}
+const starSVG=(fill)=>`<svg viewBox="0 0 24 24" fill="${fill}" stroke="#33403F" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.4l2.7 5.4 6 .9-4.3 4.2 1 5.9-5.4-2.8-5.4 2.8 1-5.9L3.3 9.7l6-.9z"/></svg>`;
+const arrowSVG=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m13 6 6 6-6 6"/></svg>`;
+function ring(done,total,color){
+  const c=2*Math.PI*18, p=total?Math.min(1,done/total):0;
+  return `<div class="ring"><svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(51,64,63,.14)" stroke-width="5"/><circle cx="22" cy="22" r="18" fill="none" stroke="${color}" stroke-width="5" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${(c*(1-p)).toFixed(1)}"/></svg><b>${done}/${total}</b></div>`;
+}
+
+/* ================= 視圖切換 ================= */
+let current="splash", stack=[];
+const TITLES={splash:"量詞大冒險",version:"選擇版本",menu:"量詞大冒險",lessons:"學習篇",lesson:"教學卡",modes:"遊戲篇",game:"遊戲進行中",result:"本輪成績",guide:"量詞圖鑑",info:"說明與設定",report:"本輪報告"};
+function show(view,push=true){
+  if(push&&current&&current!==view) stack.push(current);
+  if(view!=="lesson"&&view!=="game"){/* keep */}
+  current=view;
+  const el=$("#view-"+view);
+  if(!el) return;
+  $$(".view").forEach(v=>v.classList.remove("active"));
+  renderView(view,el);
+  if(current===view) el.classList.add("active");
+  updateChrome();
+  window.scrollTo(0,0);
+}
+function back(){
+  if(current==="game"){ G=null; closeSheet(); const prev=stack.pop()||"modes"; show(prev,false); return; }
+  if(current==="lesson"){ closeSheet(); const prev=stack.pop()||"lessons"; show(prev,false); return; }
+  const prev=stack.pop()||"menu";
+  closeSheet();
+  show(prev,false);
+}
+function home(){
+  closeSheet(); G=null; stack=[];
+  show("menu",false);
+}
+function updateChrome(){
+  $("#topTitle").textContent=TITLES[current]||"量詞大冒險";
+  $("#btnBack").hidden=!(stack.length>0||["game","lesson","report"].includes(current));
+  $("#btnHome").hidden=["splash","version","menu"].includes(current);
+  const on=!!app.sound;
+  $("#btnSound").setAttribute("aria-pressed",on?"true":"false");
+  $("#btnSound").setAttribute("aria-label",on?"音效已開啟，點擊靜音":"音效已關閉，點擊開啟");
+  $("#btnSound").innerHTML=on
+    ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.2L12 5.6v12.8L7.2 14.5H4z"/><path d="M16 8.6a5 5 0 0 1 0 6.8"/><path d="M18.8 6a8.4 8.4 0 0 1 0 12"/></svg>`
+    : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.2L12 5.6v12.8L7.2 14.5H4z"/><path d="m16 9 5 6M21 9l-5 6"/></svg>`;
+}
+
+/* ================= 各頁渲染 ================= */
+function renderView(view,el){
+  switch(view){
+    case "splash": break;
+    case "version": renderVersion(el); break;
+    case "menu": renderMenu(el); break;
+    case "lessons": renderLessons(el); break;
+    case "lesson": renderLesson(el); break;
+    case "modes": renderModes(el); break;
+    case "game": renderGame(el); break;
+    case "result": renderResult(el); break;
+    case "guide": renderGuide(el); break;
+    case "info": renderInfo(el); break;
+    case "report": renderReport(el); break;
+  }
+}
+
+function renderVersion(el){
+  const cards=["junior","senior"].map(v=>{
+    const d=DATA[v];
+    const c=v==="junior"?"#FF8B3D":"#2FA98C", soft=v==="junior"?"#FFF0E2":"#E7F7F1";
+    return `<button class="card version-card" data-act="set-version" data-v="${v}" type="button" style="--accent:${c};--accent-soft:${soft}">
+      <div class="v-top">
+        <div><span class="v-badge">${d.grade}</span><h3>${d.label}</h3></div>
+        <div class="v-art">${artSVG(v==="junior"?"flower":"rainbow",v)}</div>
+      </div>
+      <p>${d.tagline}。<br>4 課教學 · 20 道題 · ${d.words.length} 個量詞</p>
+      <span class="v-go">選這個版本 ${arrowSVG}</span>
+    </button>`;
+  }).join("");
+  el.innerHTML=`<div class="stack" style="gap:.35rem">
+      <span class="kicker">STEP 1 · 選擇程度</span>
+      <h2 class="page-title">你讀幾年級？</h2>
+      <p class="page-sub">兩個版本各有四課教學、兩種遊戲。之後可在主選單隨時切換。</p>
+    </div>
+    <div class="version-grid">${cards}</div>
+    <p class="small" style="margin-top:1rem;text-align:center">用字依《香港小學學習字詞表》，全篇繁體。</p>`;
+}
+
+function renderMenu(el){
+  if(!app.version){ show("version",false); return; }
+  const v=app.version, d=DATA[v];
+  const lDone=(app.lessons[v]||[]).length;
+  const gDone=(app.played[v].match||0)+(app.played[v].sentence||0);
+  el.innerHTML=`
+  <div class="hero">
+    <div class="h-mascot">${mascot("happy")}</div>
+    <div class="h-text">
+      <div class="h-title">量詞大冒險</div>
+      <div class="h-sub">${d.label} · ${d.grade} · ${d.tagline}</div>
+      <button class="version-chip" data-act="go" data-view="version" type="button" style="margin-top:.35rem">切換版本 ${arrowSVG}</button>
+    </div>
+  </div>
+  <div class="progress-row">
+    <div class="card pcard">${ring(lDone,4,v==="junior"?"#FF8B3D":"#2FA98C")}<div class="p-info"><strong>學習篇</strong><span>已完成 ${lDone} / 4 課</span></div></div>
+    <div class="card pcard">${ring(gDone,20,"#62B6E8")}<div class="p-info"><strong>遊戲篇</strong><span>已完成 ${gDone} / 20 題</span></div></div>
+  </div>
+  <div class="entry-grid">
+    <button class="card entry" data-act="go" data-view="lessons" type="button">
+      <span class="e-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#33403F" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2 2 0 0 1 6 3.5h5v16H6a2 2 0 0 0-2 2z"/><path d="M20 5.5a2 2 0 0 0-2-2h-5v16h5a2 2 0 0 1 2 2z"/></svg></span>
+      <span><h3>學習篇</h3><p>四課圖卡：看大圖、讀一句話、動手試一次</p></span>
+      <span class="e-arrow">${arrowSVG}</span>
+    </button>
+    <button class="card entry" data-act="go" data-view="modes" type="button">
+      <span class="e-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#33403F" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h10a4 4 0 0 1 4 4v3a3 3 0 0 1-5 2l-1.5-1.5h-5L8 17a3 3 0 0 1-5-2v-3a4 4 0 0 1 4-4z"/><path d="M8 11v4M6 13h4"/><circle cx="16" cy="12.4" r="1"/><circle cx="18" cy="14.8" r="1"/></svg></span>
+      <span><h3>遊戲篇</h3><p>配一配、句子偵探，每種模式十道題</p></span>
+      <span class="e-arrow">${arrowSVG}</span>
+    </button>
+  </div>
+  <div class="mini-row">
+    <button class="btn ghost" data-act="go" data-view="guide" type="button">量詞圖鑑（${d.words.length}）</button>
+    <button class="btn ghost" data-act="go" data-view="info" type="button">說明與設定</button>
+  </div>
+  <p class="small" style="margin-top:1.2rem;text-align:center">進度只存在這部裝置，不會上傳。</p>`;
+}
+
+function renderLessons(el){
+  const v=app.version, d=DATA[v], done=app.lessons[v]||[];
+  el.innerHTML=`
+  <span class="kicker">學習篇 · ${d.label}</span>
+  <h2 class="page-title" style="margin-top:.25rem">四課，四個問題</h2>
+  <p class="page-sub">每課一張大圖、一句話，加一次動手。完成後會蓋上印章。</p>
+  <div class="lesson-grid">
+    ${d.lessons.map(l=>`<button class="card lesson-card${done.includes(l.id)?" done":""}" data-act="lesson" data-id="${l.id}" type="button">
+      <span class="l-no">${done.includes(l.id)?"✓":l.no}</span>
+      <span><h3>${l.title}</h3><p>${l.lead}</p></span>
+      <span class="l-stamp" ${done.includes(l.id)?"":"hidden"}>完成</span>
+    </button>`).join("")}
+  </div>
+  <div class="card" style="padding:.9rem;margin-top:1rem;display:flex;gap:.7rem;align-items:center">
+    <div style="width:3.2rem;flex:0 0 auto">${mascot("think")}</div>
+    <p class="small" style="flex:1">小提示：教學卡上的句子都可以按「聽一次」，用粵語跟着讀。</p>
+  </div>`;
+}
+
+/* ---------- 教學卡 ---------- */
+let L=null;
+function openLesson(id){
+  const les=DATA[app.version].lessons.find(x=>x.id===id);
+  if(!les) return;
+  L={les,found:new Set(),frame:0,qi:0,answered:false,pickFb:{},feedback:"",complete:(app.lessons[app.version]||[]).includes(les.id)};
+  show("lesson");
+}
+function markLessonDone(){
+  const v=app.version, id=L.les.id;
+  if(!app.lessons[v]) app.lessons[v]=[];
+  if(!app.lessons[v].includes(id)){ app.lessons[v].push(id); persist(); }
+  L.complete=true;
+}
+function lessonShell(les,stageHTML){
+  return `<div class="lesson-stage">
+    <div class="row between"><span class="kicker">${app.version==="junior"?"初小":"高小"} · 第 ${les.no} 課</span><span class="small">${les.no} / 4</span></div>
+    <h2 class="page-title" style="margin:.1rem 0 .2rem">${les.title}</h2>
+    ${stageHTML}
+  </div>`;
+}
+function lessonArtBlock(key,label,cls){
+  return `<div class="art-frame lesson-art ${cls||""}">${artSVG(key,label)}</div>`;
+}
+function lessonDoneBlock(les){
+  if(!L.complete) return "";
+  return `<div class="card" style="padding:.85rem;background:#E9F8F2;border-color:#2FA98C;display:grid;gap:.6rem;text-align:center">
+    <p style="font-weight:900;font-size:1.05rem">✓ ${les.done}</p>
+    <button class="btn primary block" data-act="lesson-next" type="button">繼續下一課 ${arrowSVG}</button>
+  </div>`;
+}
+function renderLesson(el){
+  if(!L){ show("lessons",false); return; }
+  const les=L.les;
+  let stage="";
+  if(les.type==="tap"){
+    const cur=les.items[L.frame]||les.items[0];
+    stage=`<p class="lesson-line">${les.lead}</p>
+      <p class="lesson-sub">${les.sub}</p>
+      <div class="art-frame lesson-art">${artSVG(cur.art,cur.label)}</div>
+      <div class="tap-grid three">
+        ${les.items.map((it,i)=>`<button class="tap-card mini${L.found.has(i)?" found":""}" data-tap="${i}" type="button">
+          <span class="t-label">${L.found.has(i)?"✓ ":""}${it.label}</span>
+        </button>`).join("")}
+      </div>
+      <p class="hint-line" role="status">${L.found.size?`已認識 ${L.found.size} / ${les.items.length} 個量詞`:"點一點下面的量詞，聽聽讀音。"}</p>
+      ${lessonDoneBlock(les)}`;
+  }else if(les.type==="pick"){
+    stage=`<p class="lesson-line">${les.lead}</p>
+      <p class="lesson-sub">${les.sub}</p>
+      <div class="pick-grid">
+        ${les.items.map((it,i)=>`<button class="pick-card" data-pick="${i}" type="button">
+          <span class="p-art">${artSVG(it.art,it.label)}</span>
+          <span><span class="p-word">${it.label}</span><br><span class="small" data-fb="${i}">${esc(L.pickFb[i]||"")}</span></span>
+        </button>`).join("")}
+      </div>
+      ${lessonDoneBlock(les)}`;
+  }else if(les.type==="kids"){
+    const colors=["#FF8B3D","#2FA98C","#FFC94A","#62B6E8","#FF8FA3"];
+    stage=`<p class="lesson-line">${les.lead}</p>
+      <p class="lesson-sub">${les.sub}</p>
+      <div class="kid-row">
+        ${[0,1,2,3,4].map(i=>`<button class="kid-btn${L.found.has(i)?" lit":""}" data-kid="${i}" type="button" aria-label="小朋友 ${i+1}">
+          <svg viewBox="0 25 100 105" aria-hidden="true"><g stroke="${K}" stroke-width="3.2" stroke-linejoin="round">${kidUnit(50,122,1,colors[i])}</g></svg>
+        </button>`).join("")}
+      </div>
+      <p class="hint-line" role="status">${L.found.size?`已亮起 ${L.found.size} / 5 個小朋友`:"逐個點一點，讓他們亮起來。"}</p>
+      <div class="kid-labels">${L.found.size===5?`<span class="kid-label">一個個 · 很多個，一個接一個</span>`:""}</div>
+      ${lessonDoneBlock(les)}`;
+  }else if(les.type==="find"){
+    stage=`<p class="lesson-line">${les.lead}</p>
+      <p class="lesson-sub">${les.sub}</p>
+      <div class="stage-wrap">
+        ${artSVG("campus","校園場景")}
+        ${les.spots.map((s,i)=>`<button class="hotspot${L.found.has(i)?" found":""}" data-spot="${i}" type="button" style="left:${s.x}%;top:${s.y}%">${L.found.has(i)?"✓ ":""}${s.label}</button>`).join("")}
+      </div>
+      <div class="kid-labels">${les.spots.filter((_,i)=>L.found.has(i)).map(s=>`<span class="kid-label">${s.say}</span>`).join("")}</div>
+      <p class="hint-line" role="status">${L.found.size?`已找到 ${L.found.size} / 5 處`:"五個小圓點，就是五個藏起來的量詞。"}</p>
+      ${lessonDoneBlock(les)}`;
+  }else if(les.type==="slider"){
+    const f=les.frames[L.frame];
+    stage=`<p class="lesson-line">${les.lead}</p>
+      <p class="lesson-sub">${les.sub}</p>
+      <div class="art-frame lesson-art">${artSVG(f.art,f.word)}</div>
+      <p class="phrase-big" style="color:var(--accent)">${f.word}</p>
+      <div class="timeline">
+        ${les.frames.map((fr,i)=>`<button class="btn ${L.frame===i?"on":""}" data-frame="${i}" type="button">${fr.word}</button>`).join("")}
+      </div>
+      <p class="hint-line" role="status">${L.found.size?`已看過 ${L.found.size} / 3 種說法`:"點一點三種說法，看看畫面怎樣變。"}</p>
+      ${lessonDoneBlock(les)}`;
+  }else if(les.type==="windows"){
+    stage=`<p class="lesson-line">${les.lead}</p>
+      <p class="lesson-sub">${les.sub}</p>
+      <div class="night-scene">
+        ${artSVG("street","夜晚街道")}
+        ${[[7,25],[16,25],[30,17],[39,17],[54,27],[63,27],[76,19],[85,19]].map((w,i)=>
+          `<button class="win${L.found.has(i)?" lit":""}" data-win="${i}" type="button" aria-label="第 ${i+1} 扇窗" style="left:${w[0]}%;top:${w[1]}%"></button>`).join("")}
+      </div>
+      <p class="phrase-big" style="color:${L.found.size===8?"#2FA98C":"var(--ink-soft)"}">${L.found.size===8?"家家戶戶":"已亮起 "+L.found.size+" / 8 扇窗"}</p>
+      ${lessonDoneBlock(les)}`;
+  }else if(les.type==="trio"){
+    stage=`<p class="lesson-line">${les.lead}</p>
+      <p class="lesson-sub">${les.sub}</p>
+      <div class="tap-grid three">
+        ${les.items.map((it,i)=>`<button class="tap-card${L.found.has(i)?" found":""}" data-trio="${i}" type="button">
+          <span class="t-art">${artSVG(it.art,it.word)}</span>
+          <span class="t-label">${L.found.has(i)?it.word:"點一點"}</span>
+        </button>`).join("")}
+      </div>
+      <p class="hint-line" role="status">${L.found.size?`已感受 ${L.found.size} / 3 幅畫面`:"三幅圖，三種「接連不斷」。"}</p>
+      ${lessonDoneBlock(les)}`;
+  }else if(les.type==="quiz"){
+    const it=les.items[L.qi];
+    stage=`<p class="lesson-line">${les.lead}</p>
+      <p class="lesson-sub">${les.sub}</p>
+      <div class="row" style="justify-content:center;gap:.4rem">${les.items.map((_,i)=>`<span class="tag" style="background:${i<L.qi?"#E9F8F2":i===L.qi?"var(--accent-soft)":"#fff"}">${i+1}</span>`).join("")}</div>
+      <div class="art-frame" style="height:clamp(9rem,26vh,15rem)">${artSVG(it.art,it.q)}</div>
+      <p class="lesson-line" style="font-size:1.3rem">${it.q}</p>
+      <div class="options three" id="quizOpts">
+        ${shuffle(it.options).map(o=>`<button class="opt" data-quiz="${o}" type="button">${o}</button>`).join("")}
+      </div>
+      <p class="hint-line" id="quizHint" role="status">${L.answered?"✓ "+esc(L.feedback):""}</p>
+      ${L.answered?`<button class="btn primary block" data-act="quiz-next" type="button">${L.qi===2?"完成這一課":"下一題"} ${arrowSVG}</button>`:""}
+      ${lessonDoneBlock(les)}`;
+  }
+  el.innerHTML=lessonShell(les,stage);
+  bindLesson(les);
+}
+
+function bindLesson(les){
+  const el=$("#view-lesson");
+  if(les.type==="tap"){
+    $$("[data-tap]",el).forEach(b=>b.addEventListener("click",()=>{
+      const i=+b.dataset.tap;
+      L.frame=i;
+      Sound.tap();
+      if(!L.found.has(i)) L.found.add(i);
+      speak(les.items[i].label);
+      if(L.found.size===les.items.length){ markLessonDone(); setTimeout(()=>speak(les.done),900); }
+      renderLesson(el);
+    }));
+  }
+  if(les.type==="pick"){
+    $$("[data-pick]",el).forEach(b=>b.addEventListener("click",()=>{
+      const i=+b.dataset.pick, it=les.items[i];
+      if(it.ok){
+        Sound.correct(); b.classList.add("good");
+        L.pickFb[i]="✓ "+it.hint;
+        speak(it.label+"。"+it.hint);
+        markLessonDone(); renderLesson(el);
+      }else{
+        Sound.wrong(); b.classList.add("bad","shake");
+        L.pickFb[i]=it.hint;
+        const fb=b.querySelector("[data-fb]"); if(fb) fb.textContent=it.hint;
+        speak(it.hint);
+        setTimeout(()=>b.classList.remove("shake"),450);
+      }
+    }));
+  }
+  if(les.type==="kids"){
+    $$("[data-kid]",el).forEach(b=>b.addEventListener("click",()=>{
+      const i=+b.dataset.kid;
+      if(L.found.has(i)) return;
+      L.found.add(i); Sound.tap(); b.classList.add("lit");
+      speak("一個");
+      if(L.found.size===5){ markLessonDone(); Sound.star(); setTimeout(()=>speak("一個個，就是很多個，一個接一個。"),700); }
+      renderLesson(el);
+    }));
+  }
+  if(les.type==="find"){
+    $$("[data-spot]",el).forEach(b=>b.addEventListener("click",()=>{
+      const i=+b.dataset.spot, s=les.spots[i];
+      if(L.found.has(i)){ speak(s.say); return; }
+      L.found.add(i); Sound.tap(); Sound.star(); speak(s.say);
+      if(L.found.size===les.spots.length){ markLessonDone(); setTimeout(()=>speak(les.done),900); }
+      renderLesson(el);
+    }));
+  }
+  if(les.type==="slider"){
+    $$("[data-frame]",el).forEach(b=>b.addEventListener("click",()=>{
+      const i=+b.dataset.frame;
+      L.frame=i; L.found.add(i); Sound.pick();
+      speak(les.frames[i].say);
+      if(L.found.size===3){ markLessonDone(); }
+      renderLesson(el);
+    }));
+  }
+  if(les.type==="windows"){
+    $$("[data-win]",el).forEach(b=>b.addEventListener("click",()=>{
+      const i=+b.dataset.win;
+      if(L.found.has(i)) return;
+      L.found.add(i);
+      Sound.tone(520+i*45,0.22,"sine",0.1);
+      b.classList.add("lit");
+      if(L.found.size===8){
+        markLessonDone(); Sound.star();
+        setTimeout(()=>speak("家家戶戶都亮了燈，一個也不漏。"),400);
+      }
+      renderLesson(el);
+    }));
+  }
+  if(les.type==="trio"){
+    $$("[data-trio]",el).forEach(b=>b.addEventListener("click",()=>{
+      const i=+b.dataset.trio;
+      if(L.found.has(i)){ speak(les.items[i].say); return; }
+      L.found.add(i); Sound.tap(); speak(les.items[i].say);
+      if(L.found.size===3){ markLessonDone(); }
+      renderLesson(el);
+    }));
+  }
+  if(les.type==="quiz"){
+    const it=les.items[L.qi];
+    $$("[data-quiz]",el).forEach(b=>b.addEventListener("click",()=>{
+      if(L.answered) return;
+      const val=b.dataset.quiz;
+      if(val===it.answer){
+        L.answered=true; Sound.correct(); b.classList.add("correct");
+        L.feedback=it.why;
+        speak(it.answer+"。"+it.why);
+        $$("[data-quiz]",el).forEach(x=>{x.disabled=true;});
+        if(L.qi===2) markLessonDone();
+        renderLesson(el);
+      }else{
+        Sound.wrong(); b.classList.add("wrong"); b.disabled=true;
+        const hint=$("#quizHint"); if(hint){ hint.className="hint-line alert"; hint.textContent="再想想：先看看圖中是甚麼東西，再想它的量詞。"; }
+        b.classList.add("shake");
+        setTimeout(()=>b.classList.remove("shake"),450);
+      }
+    }));
+  }
+}
+
+/* ---------- 模式選擇 ---------- */
+function renderModes(el){
+  const v=app.version, d=DATA[v];
+  const best=app.best[v]||{match:0,sentence:0};
+  const art1=v==="junior"?"flower":"pearl", art2=v==="junior"?"crab":"footprint";
+  el.innerHTML=`
+  <span class="kicker">遊戲篇 · ${d.label}</span>
+  <h2 class="page-title" style="margin-top:.25rem">選一種玩法</h2>
+  <p class="page-sub">每種模式十道題，題目由淺入深；每題揭曉時都有三層解析。</p>
+  <div class="mode-grid">
+    <button class="card mode-card" data-act="start-game" data-mode="match" type="button">
+      <span class="m-best">最佳 ${best.match} / 30 ★</span>
+      <div class="m-art">${artSVG(art1,"配一配")}</div>
+      <h3>配一配</h3>
+      <p>看一張大圖，把正確的重疊量詞卡放進框裏。練的是「名詞—量詞」的搭配直覺。</p>
+      <div class="m-meta"><span class="tag">10 題</span><span class="tag">拖放或點選</span></div>
+    </button>
+    <button class="card mode-card" data-act="start-game" data-mode="sentence" type="button">
+      <span class="m-best">最佳 ${best.sentence} / 30 ★</span>
+      <div class="m-art">${artSVG(art2,"句子偵探")}</div>
+      <h3>句子偵探</h3>
+      <p>讀一句帶空格的句子，選出最順的重疊量詞。練的是語境判斷。</p>
+      <div class="m-meta"><span class="tag">10 題</span><span class="tag">${v==="senior"?"加問理由":"三個選項"}</span></div>
+    </button>
+  </div>
+  <div class="card" style="padding:.85rem;margin-top:1rem;display:flex;gap:.7rem;align-items:center">
+    <div style="width:3rem;flex:0 0 auto">${mascot("happy")}</div>
+    <p class="small" style="flex:1">答錯不要緊：第一次錯了可以再試一次；第二次仍錯，會直接給你答案和解釋，不扣分也不記「失敗」。</p>
+  </div>`;
+}
+
+/* ================= 遊戲 ================= */
+let G=null;
+function startGame(mode){
+  const v=app.version;
+  if(!v){ show("version",false); return; }
+  const bank=DATA[v][mode];
+  G={
+    version:v, mode, queue:bank.map((q,i)=>({...q,no:i+1})),
+    index:0, attempts:0, stars:0, reasons:0, lock:false, revealed:false,
+    chosen:null, answers:[], wrong:[], followDone:false, startedAt:Date.now()
+  };
+  show("game");
+}
+function currentQ(){ return G?G.queue[G.index]:null; }
+function starsForAttempts(a){ return a===0?3:a===1?1:0; }
+
+function renderGame(el){
+  if(!G){ show("modes",false); return; }
+  const q=currentQ();
+  if(!q){ show("modes",false); return; }
+  const idx=G.index, total=G.queue.length;
+  const perStar=starsForAttempts(G.attempts);
+  const starBar=[0,1,2].map(i=>starSVG(i<perStar?"#FFC94A":"#E7E0D2")).join("");
+  const head=`<div class="game-top">
+      <span class="q-count">第 ${idx+1} / ${total} 題</span>
+      <div class="progress-bar"><i style="width:${(idx/total*100).toFixed(1)}%"></i></div>
+      <div class="q-stars" aria-label="本題可得 ${perStar} 星">${starBar}</div>
+    </div>`;
+  if(G.mode==="match"){
+    el.innerHTML=`${head}
+      <div class="prompt-chip">配一配 · 看圖選量詞</div>
+      <div class="art-frame match-art">${artSVG(q.image,q.noun)}</div>
+      <div class="noun-row"><span class="noun">${q.noun}</span><span class="drop-slot" id="dropSlot" aria-label="量詞放置框">？</span></div>
+      <div class="options three" id="options">
+        ${shuffle(q.options).map(o=>`<button class="opt draggable" data-val="${esc(o)}" type="button">${esc(o)}</button>`).join("")}
+      </div>
+      <p class="match-hint" id="matchHint" role="status">把量詞卡拖到框裏，也可以直接點一下。</p>
+      <p class="hint-line">${q.noun} 應該用哪一個重疊量詞？</p>`;
+    bindMatchOptions();
+  }else{
+    const parts=q.sentence.split("＿＿");
+    el.innerHTML=`${head}
+      <div class="prompt-chip">句子偵探 · 選出最順的一句</div>
+      <div class="sentence-card"><p>${esc(parts[0])}<span class="blank" id="blank">＿＿</span>${esc(parts[1]||"")}</p></div>
+      <div class="art-frame sent-art">${artSVG(q.image,"題目插圖")}</div>
+      <div class="options three" id="options">
+        ${shuffle(q.options).map(o=>`<button class="opt" data-val="${esc(o)}" type="button">${esc(o)}</button>`).join("")}
+      </div>
+      <p class="hint-line" id="matchHint" role="status">讀一讀整句，哪個最順？</p>`;
+    $$("#options .opt",el).forEach(b=>b.addEventListener("click",()=>choose(b.dataset.val,b)));
+  }
+}
+
+function bindMatchOptions(){
+  const slot=$("#dropSlot");
+  $$("#options .opt").forEach(btn=>{
+    let st=null;
+    btn.addEventListener("pointerdown",e=>{
+      if(G.lock) return;
+      if(e.pointerType==="mouse"&&e.button!==0) return;
+      const r=btn.getBoundingClientRect();
+      st={x:e.clientX,y:e.clientY,rect:r,ghost:null,moved:false,offsetX:e.clientX-r.left,offsetY:e.clientY-r.top,id:e.pointerId};
+      btn.setPointerCapture(e.pointerId);
+      Sound.pick();
+      e.preventDefault();
+    });
+    btn.addEventListener("pointermove",e=>{
+      if(!st) return;
+      const dx=e.clientX-st.x, dy=e.clientY-st.y;
+      if(!st.moved&&Math.abs(dx)+Math.abs(dy)>7){
+        st.moved=true;
+        const g=document.createElement("div");
+        g.className="ghost-card";
+        g.textContent=btn.dataset.val;
+        g.style.width=st.rect.width+"px"; g.style.height=st.rect.height+"px";
+        g.style.left=(e.clientX-st.offsetX)+"px"; g.style.top=(e.clientY-st.offsetY)+"px";
+        document.body.appendChild(g);
+        st.ghost=g;
+        btn.classList.add("drag-src");
+      }
+      if(st.ghost){
+        st.ghost.style.left=(e.clientX-st.offsetX)+"px";
+        st.ghost.style.top=(e.clientY-st.offsetY)+"px";
+        const sr=slot?slot.getBoundingClientRect():null;
+        const over=sr&&e.clientX>=sr.left&&e.clientX<=sr.right&&e.clientY>=sr.top&&e.clientY<=sr.bottom;
+        if(slot) slot.classList.toggle("over",!!over);
+      }
+    });
+    const end=e=>{
+      if(!st) return;
+      let over=false;
+      if(slot&&st.moved){
+        const sr=slot.getBoundingClientRect();
+        over=e.clientX>=sr.left&&e.clientX<=sr.right&&e.clientY>=sr.top&&e.clientY<=sr.bottom;
+      }
+      if(st.ghost) st.ghost.remove();
+      btn.classList.remove("drag-src");
+      if(slot) slot.classList.remove("over");
+      const tapped=!st.moved;
+      st=null;
+      if(tapped||over) choose(btn.dataset.val,btn);
+    };
+    btn.addEventListener("pointerup",end);
+    btn.addEventListener("pointercancel",()=>{
+      if(st&&st.ghost) st.ghost.remove();
+      btn.classList.remove("drag-src");
+      if(slot) slot.classList.remove("over");
+      st=null;
+    });
+    btn.addEventListener("click",e=>{ if(e.detail===0) choose(btn.dataset.val,btn); });
+  });
+}
+
+function choose(val,btn){
+  if(!G||G.lock) return;
+  const q=currentQ();
+  if(!q||!btn) return;
+  if(val===q.answer){
+    G.lock=true; G.chosen=val;
+    btn.classList.add("correct");
+    const m=document.createElement("span"); m.className="mark"; m.textContent="✓"; btn.appendChild(m);
+    $$("#options .opt").forEach(x=>{x.disabled=true;});
+    if(G.mode==="match"){
+      const slot=$("#dropSlot");
+      if(slot){slot.textContent=q.answer;slot.classList.add("filled");}
+    }else{
+      const blank=$("#blank");
+      if(blank){blank.textContent=q.answer;blank.classList.add("filled");}
+    }
+    Sound.correct();
+    setTimeout(()=>{Sound.star();},260);
+    const reason=G.attempts===0?"first":"second";
+    setTimeout(()=>showAnswer(reason),760);
+  }else{
+    G.attempts++;
+    G.chosen=val;
+    Sound.wrong();
+    btn.classList.add("wrong","shake");
+    btn.disabled=true;
+    setTimeout(()=>btn.classList.remove("shake"),460);
+    const hint=$("#matchHint");
+    if(hint){
+      hint.classList.add("alert");
+      hint.textContent=G.mode==="match"?"再看看圖，是一朵一朵的嗎？再試一次。":"讀一讀整句，哪個最順？再試一次。";
+    }
+    if(G.attempts>=2){
+      G.lock=true;
+      $$("#options .opt").forEach(x=>{x.disabled=true;});
+      setTimeout(()=>showAnswer("reveal"),850);
+    }
+  }
+}
+
+function showAnswer(reason){
+  if(!G||G.revealed) return;
+  G.revealed=true;
+  G.lock=true;
+  const q=currentQ();
+  const ok=reason==="first";
+  const stars=starsForAttempts(reason==="first"?0:reason==="second"?1:2);
+  G.stars+=stars;
+  G.answers.push({no:q.no,answer:q.answer,stars,ok,attempts:G.attempts,chosen:G.chosen});
+  if(!ok) G.wrong.push({...q,chosen:G.chosen,mode:G.mode});
+  const icon=ok
+    ? `<svg viewBox="0 0 24 24" fill="none" stroke="#1B7A63" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7"/></svg>`
+    : `<svg viewBox="0 0 24 24" fill="none" stroke="#A4551B" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6v8"/><circle cx="12" cy="18" r="1.2" fill="#A4551B"/></svg>`;
+  const follow=(G.mode==="sentence"&&G.version==="senior"&&ok&&q.follow)?`
+    <div class="followup" id="followup">
+      <h4>說得出理由：${esc(q.follow.q)}<span class="tag" style="margin-left:.4rem">答對 +1 理由星</span></h4>
+      <div class="fu-opts" id="fuOpts">
+        ${shuffle(q.follow.opts).map(o=>`<button class="fu-opt" data-fu="${esc(o)}" type="button">${esc(o)}</button>`).join("")}
+      </div>
+      <p class="fu-note" id="fuNote" hidden></p>
+    </div>`:"";
+  $("#sheet").innerHTML=`
+    <div class="sheet-head">
+      <span class="verdict ${ok?"":"miss"}">${icon}${ok?"答對了":"一起看看答案"}</span>
+      <span class="q-no">第 ${G.index+1} / ${G.queue.length} 題 · ${"★".repeat(stars)}${"☆".repeat(3-stars)}</span>
+    </div>
+    <div class="answer-big">${esc(q.answer)}</div>
+    <p class="answer-sub">${G.mode==="match"?"「"+esc(q.noun)+"」的正確重疊量詞":"填進句子裏的重疊量詞"}${ok?"":"（已試 " + G.attempts + " 次，一齊看答案）"}</p>
+    <div class="layer why"><h4><span class="num-badge">1</span>為甚麼</h4><p>${esc(q.why)}</p></div>
+    <div class="layer trap"><h4><span class="num-badge">2</span>易錯提醒</h4><p>${esc(q.trap)}</p></div>
+    ${follow}
+    <div class="sheet-actions">
+      <button class="btn ghost" data-act="speak-answer" type="button">聽一次</button>
+      <button class="btn primary" data-act="next-q" type="button">${G.index===G.queue.length-1?"看成績":"下一題"} ${arrowSVG}</button>
+    </div>`;
+  openSheet(false);
+  Sound.reveal();
+  if(follow) bindFollow();
+  setTimeout(()=>{const b=$("#followup")||$("[data-act='next-q']"); if(b) b.focus({preventScroll:true});},120);
+}
+
+function bindFollow(){
+  const q=currentQ();
+  const correct=q.follow.opts[0];
+  $$("#fuOpts .fu-opt").forEach(b=>b.addEventListener("click",()=>{
+    if(G.followDone) return;
+    G.followDone=true;
+    const val=b.dataset.fu;
+    $$("#fuOpts .fu-opt").forEach(x=>{
+      x.disabled=true;
+      if(x.dataset.fu===correct) x.classList.add("good");
+    });
+    const note=$("#fuNote");
+    if(val===correct){
+      G.reasons++;
+      Sound.star();
+      if(note){note.hidden=false;note.textContent="＋1 理由星！"+q.follow.note;}
+      speak("答對了。"+q.follow.note);
+    }else{
+      b.classList.add("bad");
+      Sound.wrong();
+      if(note){note.hidden=false;note.textContent="再想一次："+q.follow.note;}
+      speak(q.follow.note);
+    }
+  }));
+}
+
+function nextQuestion(){
+  if(!G) return;
+  closeSheet();
+  G.index++;
+  G.attempts=0; G.lock=false; G.revealed=false; G.chosen=null; G.followDone=false;
+  if(G.index>=G.queue.length){ finishGame(); return; }
+  renderGame($("#view-game"));
+  window.scrollTo(0,0);
+}
+function finishGame(){
+  closeSheet();
+  const v=G.version, mode=G.mode;
+  app.played[v][mode]=G.queue.length;
+  app.best[v][mode]=Math.max(app.best[v][mode]||0,G.stars);
+  persist();
+  Sound.fanfare();
+  show("result",false);
+  stack=[];
+}
+
+function titleFor(stars,mode){
+  const reason=mode==="sentence"&&G&&G.version==="senior";
+  if(stars>=27) return {name:"量詞大師",line:reason?"每一題都答對，還說得出理由，了不起！":"幾乎每一題都一次答對，眼力和語感都很好！",mood:"cheer"};
+  if(stars>=19) return {name:"量詞小達人",line:"配對和語境都掌握了，再練一次就滿分。",mood:"happy"};
+  return {name:"量詞學徒",line:"看完每題的解釋，再玩一次一定進步。",mood:"think"};
+}
+
+function renderResult(el){
+  if(!G){ show("modes",false); return; }
+  const t=titleFor(G.stars,G.mode);
+  const total=G.queue.length*3;
+  const okCount=G.answers.filter(a=>a.ok).length;
+  const mins=Math.max(1,Math.round((Date.now()-G.startedAt)/60000));
+  const modeName=G.mode==="match"?"配一配":"句子偵探";
+  el.innerHTML=`
+  <div class="card" style="padding:1rem">
+    <div class="result-hero">
+      <div class="r-mascot">${mascot(t.mood)}</div>
+      <span class="kicker">${DATA[G.version].label} · ${modeName}</span>
+      <div class="r-title">${t.name}</div>
+      <div class="r-stars">${starSVG("#FFC94A")}<span>${G.stars}</span><span style="font-size:1rem;color:var(--ink-soft)">/ ${total}</span></div>
+      <p class="page-sub" style="text-align:center">${t.line}</p>
+      <div class="result-grid">
+        <div><b>${okCount}/10</b><span>一次答對</span></div>
+        <div><b>${G.wrong.length}</b><span>要看解析</span></div>
+        <div><b>${G.reasons}</b><span>理由星</span></div>
+      </div>
+      <p class="small">本輪用時約 ${mins} 分鐘 · 進度已儲存在本機</p>
+    </div>
+  </div>
+  <div class="result-actions">
+    <button class="btn primary" data-act="again" type="button">再玩一次</button>
+    <button class="btn" data-act="go" data-view="modes" type="button">換一種模式</button>
+    ${G.wrong.length?`<button class="btn" data-act="go" data-view="report" type="button">看錯題報告</button>`:`<button class="btn" data-act="go" data-view="guide" type="button">看量詞圖鑑</button>`}
+    <button class="btn" data-act="home" type="button">回主選單</button>
+  </div>
+  <p class="small" style="margin-top:1rem;text-align:center">星星只加不減：答錯不扣星，看完解釋也算完成。</p>`;
+}
+
+function renderReport(el){
+  if(!G){ el.innerHTML=`<p class="page-sub">還沒有本輪紀錄。先玩一輪吧。</p><button class="btn primary" data-act="go" data-view="modes" type="button">去遊戲篇</button>`; return; }
+  const modeName=G.mode==="match"?"配一配":"句子偵探";
+  el.innerHTML=`
+  <span class="kicker">給家長與教師</span>
+  <h2 class="page-title" style="margin-top:.25rem">本輪報告</h2>
+  <p class="page-sub">${DATA[G.version].label} · ${modeName} · 用時約 ${Math.max(1,Math.round((Date.now()-G.startedAt)/60000))} 分鐘 · 星星 ${G.stars} / 30</p>
+  ${G.wrong.length?`<div class="wrong-list">
+    ${G.wrong.map(w=>`<div class="wrong-item">
+      <div class="w-top"><span>第 ${w.no} 題${w.mode==="match"?" · "+esc(w.noun):""}</span><span>當時選了「${esc(w.chosen||"未選")}」</span></div>
+      <div class="w-main">正確答案：<em>${esc(w.answer)}</em>　<s>${esc(w.chosen||"")}</s></div>
+      ${w.mode==="sentence"?`<p style="color:var(--ink);font-weight:700;margin-bottom:.2rem">${esc(w.sentence)}</p>`:""}
+      <p>${esc(w.why)}</p>
+      <p style="margin-top:.2rem">${esc(w.trap)}</p>
+    </div>`).join("")}
+  </div>`:`<div class="card" style="padding:1rem;background:#E9F8F2;border-color:#2FA98C"><p style="font-weight:900">這一輪沒有需要重看的題目。</p><p class="small">可以試試另一種模式，或挑戰高小版。</p></div>`}
+  <div class="result-actions">
+    <button class="btn primary" data-act="go" data-view="modes" type="button">回到遊戲篇</button>
+    <button class="btn" data-act="home" type="button">回主選單</button>
+  </div>`;
+}
+
+/* ---------- 圖鑑 ---------- */
+function renderGuide(el){
+  const v=app.version, d=DATA[v];
+  el.innerHTML=`
+  <span class="kicker">量詞圖鑑 · ${d.label}</span>
+  <h2 class="page-title" style="margin-top:.25rem">${d.words.length} 個量詞</h2>
+  <p class="page-sub">點一張卡，看圖、聽讀音，再讀一句例子。</p>
+  <div class="guide-grid">
+    ${d.words.map((w,i)=>`<button class="word-card" data-word="${i}" type="button">
+      <span class="w-art">${artSVG(w.art,w.zi)}</span>
+      <span class="w-zi">${w.zi}</span>
+      <span class="w-py">${w.form}</span>
+      <span class="w-ex">${w.ex}</span>
+    </button>`).join("")}
+  </div>`;
+  $$("[data-word]",el).forEach(b=>b.addEventListener("click",()=>{
+    const w=d.words[+b.dataset.word];
+    Sound.tap();
+    openGuideWord(w);
+  }));
+}
+function openGuideWord(w){
+  $("#sheet").innerHTML=`
+    <div class="sheet-head"><span class="verdict">${w.zi}</span><span class="q-no">${app.version==="junior"?"初小版":"高小版"}</span></div>
+    <div class="guide-sheet-art">${artSVG(w.art,w.ex)}</div>
+    <div class="answer-big" style="font-size:clamp(2rem,9vw,2.8rem);letter-spacing:.1em">${w.form}</div>
+    <p class="answer-sub">${w.ex}</p>
+    <div class="layer why"><h4><span class="num-badge">1</span>怎麼用</h4><p>${w.tip}</p></div>
+    <div class="sheet-actions">
+      <button class="btn ghost" data-act="speak-word" data-word-key="${esc(w.zi)}" type="button">聽一次</button>
+      <button class="btn primary" data-act="close-sheet" type="button">知道了</button>
+    </div>`;
+  openSheet(true);
+  speak(w.form+"。"+w.ex+"。");
+}
+
+/* ---------- 說明與設定 ---------- */
+function renderInfo(el){
+  const d=DATA[app.version]||DATA.junior;
+  el.innerHTML=`
+  <span class="kicker">說明</span>
+  <h2 class="page-title" style="margin-top:.25rem">怎樣用這份課件</h2>
+  <p class="page-sub">一個檔案，三種裝置，斷網也能用。</p>
+
+  <div class="card info-block" style="margin-top:1rem">
+    <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>課堂與自學</h3>
+    <ul>
+      <li><b>教師投影：</b>在「設定」開啟投影模式，字級放大，裝飾背景會隱藏。</li>
+      <li><b>學生自學：</b>手機或平板直向使用，選項卡高 88px 以上，單手可按。</li>
+      <li><b>家長陪讀：</b>每題解析有「為甚麼」與「易錯提醒」，可照讀給孩子聽。</li>
+      <li><b>進度：</b>存在這部裝置的瀏覽器，不上傳；清除瀏覽資料會一併清除。</li>
+    </ul>
+  </div>
+
+  <div class="card info-block">
+    <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 7 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 2.6 15H2.5a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 7"/></svg>設定</h3>
+    <div class="setting-row">
+      <div><div class="s-label">音效</div><div class="s-desc">點擊、答對、答錯、揭曉提示音</div></div>
+      <button class="switch" role="switch" aria-checked="${app.sound}" data-setting="sound" aria-label="音效開關" type="button"></button>
+    </div>
+    <div class="setting-row">
+      <div><div class="s-label">粵語朗讀</div><div class="s-desc">使用裝置內置語音，讀例句與解析</div></div>
+      <button class="switch" role="switch" aria-checked="${app.voice}" data-setting="voice" aria-label="朗讀開關" type="button"></button>
+    </div>
+    <div class="setting-row">
+      <div><div class="s-label">投影模式</div><div class="s-desc">字級放大、隱藏裝飾，適合課室大屏</div></div>
+      <button class="switch" role="switch" aria-checked="${app.stage}" data-setting="stage" aria-label="投影模式" type="button"></button>
+    </div>
+  </div>
+
+  <div class="card info-block">
+    <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2 2 0 0 1 6 3.5h5v16H6a2 2 0 0 0-2 2z"/><path d="M20 5.5a2 2 0 0 0-2-2h-5v16h5a2 2 0 0 1 2 2z"/></svg>內容與用字</h3>
+    <p>用字依《香港小學學習字詞表》所收字形，全篇繁體；異體字統一取正字（「裏」不用「裡」、「着」不用「著」）。</p>
+    <p style="margin-top:.4rem">題庫共 40 題：初小版 20 題（配一配 10、句子偵探 10）、高小版 20 題，名詞與答案組合互不重複。初小考核 14 個量詞，高小 18 個；教學篇另設 16 與 18 個量詞的圖鑑。</p>
+    <p style="margin-top:.4rem">每個干擾項都與名詞類別明顯不合，避免出現兩個都說得通的答案。</p>
+  </div>
+
+  <div class="card info-block">
+    <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>帶走這個課件</h3>
+    <p>下載後雙擊即可開啟，不需網絡、不需安裝。也可以直接在瀏覽器把這個頁面「另存新檔」。</p>
+    <div class="row" style="margin-top:.6rem">
+      <button class="btn primary" data-act="download" type="button">下載 HTML 檔</button>
+      <button class="btn ghost" data-act="reset" type="button">清除學習紀錄</button>
+    </div>
+    <p class="small" style="margin-top:.5rem">目前版本：${d.label} · 版本 V1.0</p>
+  </div>
+
+  <p class="small" style="text-align:center;margin-top:1rem">量詞大冒險 · 為香港小學語文課堂而做</p>`;
+
+  $$("[data-setting]",el).forEach(b=>b.addEventListener("click",()=>{
+    const key=b.dataset.setting;
+    if(key==="sound"){
+      app.sound=!app.sound;
+      b.setAttribute("aria-checked",String(app.sound));
+      if(app.sound){Sound.unlock();Sound.tap();}
+      updateChrome();
+    }else if(key==="voice"){
+      app.voice=!app.voice;
+      b.setAttribute("aria-checked",String(app.voice));
+      if(!app.voice&&"speechSynthesis" in window){try{window.speechSynthesis.cancel();}catch(e){}}
+      if(app.voice) speak("朗讀已開啟。");
+    }else if(key==="stage"){
+      app.stage=!app.stage;
+      b.setAttribute("aria-checked",String(app.stage));
+      applyTheme();
+      toast(app.stage?"投影模式：字更大、背景更乾淨":"已回到一般模式");
+    }
+    persist();
+  }));
+}
+
+/* ================= Sheet ================= */
+function openSheet(closable){
+  const ov=$("#overlay");
+  ov.classList.add("show");
+  ov.dataset.closable=closable?"1":"0";
+  document.body.style.overflow="hidden";
+}
+function closeSheet(){
+  const ov=$("#overlay");
+  ov.classList.remove("show");
+  ov.dataset.closable="0";
+  document.body.style.overflow="";
+  $("#sheet").innerHTML="";
+}
+
+/* ================= 事件 ================= */
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-act]");
+  if(!t) return;
+  const act=t.dataset.act;
+  if(act==="start"){ Sound.unlock(); Sound.tap(); show(app.version?"menu":"version"); }
+  else if(act==="set-version"){
+    Sound.tap();
+    app.version=t.dataset.v; persist(); applyTheme();
+    show("menu",false); stack=[];
+  }
+  else if(act==="go"){ Sound.tap(); show(t.dataset.view); }
+  else if(act==="lesson"){ Sound.tap(); openLesson(t.dataset.id); }
+  else if(act==="lesson-next"){
+    Sound.tap();
+    const v=app.version, done=app.lessons[v]||[];
+    const idx=DATA[v].lessons.findIndex(l=>l.id===L.les.id);
+    const next=DATA[v].lessons[idx+1];
+    if(next&&!done.includes(next.id)) openLesson(next.id);
+    else show("lessons",false);
+  }
+  else if(act==="quiz-next"){
+    Sound.tap();
+    if(L.qi>=2){ markLessonDone(); show("lessons",false); toast("第 4 課已完成，可重溫或去玩遊戲"); }
+    else { L.qi++; L.answered=false; renderLesson($("#view-lesson")); }
+  }
+  else if(act==="start-game"){ Sound.unlock(); startGame(t.dataset.mode); }
+  else if(act==="next-q"){ nextQuestion(); }
+  else if(act==="speak-answer"){
+    const q=currentQ();
+    if(q) speak(q.answer+"。"+q.why+q.trap);
+  }
+  else if(act==="again"){ startGame(G?G.mode:"match"); }
+  else if(act==="home"){ home(); }
+  else if(act==="close-sheet"){ closeSheet(); }
+  else if(act==="speak-word"){
+    const v=app.version, d=DATA[v];
+    const w=d.words.find(x=>x.zi===t.dataset.wordKey);
+    if(w) speak(w.form+"。"+w.ex+"。");
+  }
+  else if(act==="download"){ downloadSelf(); }
+  else if(act==="reset"){ confirmReset(); }
+  else if(act==="reset-yes"){
+    app.lessons={junior:[],senior:[]};
+    app.best={junior:{match:0,sentence:0},senior:{match:0,sentence:0}};
+    app.played={junior:{match:0,sentence:0},senior:{match:0,sentence:0}};
+    persist(); closeSheet(); toast("學習紀錄已清除"); renderView("info",$("#view-info"));
+  }
+  else if(act==="reset-no"){ closeSheet(); }
+});
+
+$("#btnSound").addEventListener("click",()=>{
+  app.sound=!app.sound; persist(); updateChrome();
+  if(app.sound){Sound.unlock();Sound.tap();toast("音效已開啟");}
+  else toast("音效已靜音");
+});
+$("#btnBack").addEventListener("click",back);
+$("#btnHome").addEventListener("click",home);
+$("#btnStart").addEventListener("click",()=>{
+  Sound.unlock(); Sound.tap();
+  show(app.version?"menu":"version");
+  stack=[];
+});
+$("#overlay").addEventListener("click",e=>{
+  if(e.target.id==="overlay"&&$("#overlay").dataset.closable==="1") closeSheet();
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"&&$("#overlay").classList.contains("show")){
+    if($("#overlay").dataset.closable==="1") closeSheet();
+    return;
+  }
+  if($("#overlay").classList.contains("show")){
+    if(e.key==="Enter"&&!(e.target instanceof HTMLButtonElement)){
+      const next=$("[data-act='next-q']");
+      if(next){e.preventDefault();next.click();}
+    }
+    return;
+  }
+  if(current==="game"&&G&&!G.lock&&!G.revealed&&/^[1-3]$/.test(e.key)){
+    const opts=$$("#options .opt:not(:disabled)");
+    const b=opts[+e.key-1];
+    if(b){e.preventDefault();b.click();}
+  }
+});
+
+function confirmReset(){
+  $("#sheet").innerHTML=`
+    <div class="sheet-head"><span class="verdict miss">清除紀錄</span></div>
+    <h3 style="font-size:1.2rem;font-weight:900;margin:.4rem 0">確定要清除學習進度嗎？</h3>
+    <p class="page-sub">四課的完成印章、兩種模式的最佳星星都會歸零。題庫與設定不受影響。</p>
+    <div class="sheet-actions">
+      <button class="btn ghost" data-act="reset-no" type="button">先不清除</button>
+      <button class="btn primary" data-act="reset-yes" type="button">確定清除</button>
+    </div>`;
+  openSheet(true);
+}
+
+function downloadSelf(){
+  try{
+    const blob=new Blob([SOURCE_HTML],{type:"text/html;charset=utf-8"});
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download="量詞大冒險.html";
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);
+    toast("已開始下載，可離線使用");
+    Sound.tap();
+  }catch(e){ toast("此瀏覽器不支援直接下載，請用「另存新檔」"); }
+}
+
+/* ================= 啟動 ================= */
+function init(){
+  $("#splashMascot").innerHTML=mascot("happy");
+  applyTheme();
+  updateChrome();
+  show(app.version?"menu":"splash",false);
+  if(app.version) stack=[];
+  // 首次互動解鎖音效
+  const unlock=()=>{Sound.unlock();document.removeEventListener("pointerdown",unlock);};
+  document.addEventListener("pointerdown",unlock);
+}
+init();
+
+</script>
+</body>
+</html>

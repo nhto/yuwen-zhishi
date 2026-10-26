@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>「其」字大冒險｜小學文言文虛字互動遊戲</title>
+<meta name="description" content="用卡通繪本風格學文言文「其」字的三種用法，再玩兩個互動遊戲各 6 題，適合小學階段，手機、平板、電腦均可使用。">
+<style>
+  :root{
+    --paper:#FDF4E1;
+    --paper-deep:#F7E6C4;
+    --card:#FFFBF0;
+    --ink:#3A3026;
+    --ink-soft:#7A6952;
+    --red:#D4553F;
+    --red-soft:#F8DCD4;
+    --green:#3F8F70;
+    --green-soft:#D8EEE2;
+    --gold:#EAB44D;
+    --gold-soft:#FBEBC7;
+    --blue:#6FA8C9;
+    --blue-soft:#DCEBF4;
+    --pink:#F0A9A0;
+    --line:rgba(58,48,38,.16);
+    --radius-xl:34px;
+    --radius-lg:24px;
+    --radius-md:18px;
+    --font-title:"Kaiti TC","DFKai-SB","BiauKai","STKaiti","KaiTi","TW-Kai","Noto Serif TC",serif;
+    --font-body:"PingFang TC","Microsoft JhengHei","Noto Sans TC","Heiti TC","Hiragino Sans GB",system-ui,-apple-system,sans-serif;
+    --shadow-hard:0 8px 0 rgba(58,48,38,.14);
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+  [hidden]{display:none!important}
+  html{-webkit-text-size-adjust:100%;font-size:clamp(17px,.55vw + 15.6px,20px)}
+  body{
+    margin:0;
+    min-height:100vh;
+    min-height:100dvh;
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.7;
+    background:
+      radial-gradient(circle at 10% 4%,#FFF9EC 0,rgba(255,249,236,0) 44%),
+      radial-gradient(circle at 92% 96%,#F6E1BC 0,rgba(246,225,188,0) 48%),
+      var(--paper);
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:0;
+    opacity:.55;
+    background-image:radial-gradient(rgba(58,48,38,.075) 1px,transparent 1px);
+    background-size:20px 20px;
+  }
+  button{font:inherit;color:inherit}
+  button:focus-visible{outline:4px solid var(--blue);outline-offset:3px}
+
+  /* ============ 頂欄 ============ */
+  .topbar{
+    position:sticky;
+    top:0;
+    z-index:30;
+    display:flex;
+    align-items:center;
+    gap:clamp(8px,1.6vw,16px);
+    padding:calc(9px + env(safe-area-inset-top)) clamp(12px,3vw,28px) 9px;
+    background:rgba(253,244,225,.9);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-bottom:2.5px solid rgba(58,48,38,.12);
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-family:var(--font-title);
+    font-weight:700;
+    font-size:clamp(1rem,1.4vw,1.2rem);
+    letter-spacing:.02em;
+    white-space:nowrap;
+  }
+  .brand-dot{
+    width:14px;height:14px;border-radius:50%;
+    background:var(--red);
+    border:2.5px solid var(--ink);
+    flex:none;
+  }
+  .topbar-spacer{flex:1}
+
+  .icon-btn{
+    flex:none;
+    width:clamp(46px,6vw,52px);
+    height:clamp(46px,6vw,52px);
+    display:grid;
+    place-items:center;
+    border:2.5px solid var(--ink);
+    border-radius:16px;
+    background:var(--card);
+    cursor:pointer;
+    box-shadow:0 4px 0 rgba(58,48,38,.22);
+    transition:transform .12s,box-shadow .12s,background .2s;
+    padding:0;
+  }
+  .icon-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(58,48,38,.22)}
+  .icon-btn svg{width:24px;height:24px;fill:none;stroke:var(--ink);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+  .icon-btn .ico-off{display:none}
+  .icon-btn.muted .ico-on{display:none}
+  .icon-btn.muted .ico-off{display:block}
+
+  .progress{
+    flex:1;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    max-width:420px;
+    margin:0 auto;
+  }
+  .progress-track{
+    flex:1;
+    height:12px;
+    border-radius:99px;
+    background:rgba(58,48,38,.13);
+    border:2px solid rgba(58,48,38,.18);
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    width:0%;
+    border-radius:99px;
+    background:linear-gradient(90deg,var(--gold),var(--red));
+    transition:width .35s ease;
+  }
+  .progress-num{
+    font-size:.82rem;
+    font-weight:800;
+    color:var(--ink-soft);
+    white-space:nowrap;
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ============ 版面 ============ */
+  .stage{
+    position:relative;
+    z-index:1;
+    width:100%;
+    max-width:1120px;
+    margin:0 auto;
+    padding:clamp(16px,2.6vw,32px) clamp(14px,3vw,32px) calc(40px + env(safe-area-inset-bottom));
+  }
+  .view{animation:rise .38s cubic-bezier(.22,1,.36,1)}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes pop{0%{transform:scale(.94);opacity:0}60%{transform:scale(1.015)}100%{transform:scale(1);opacity:1}}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+  @keyframes shine{0%,100%{opacity:.35}50%{opacity:.9}}
+
+  /* ============ 按鈕 ============ */
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    font-family:var(--font-body);
+    font-weight:800;
+    font-size:clamp(1rem,1.35vw,1.15rem);
+    line-height:1.2;
+    min-height:clamp(52px,6vw,58px);
+    padding:12px clamp(20px,3vw,34px);
+    border:3px solid var(--ink);
+    border-radius:99px;
+    background:var(--card);
+    color:var(--ink);
+    cursor:pointer;
+    box-shadow:0 5px 0 rgba(58,48,38,.9);
+    transition:transform .12s,box-shadow .12s,background .2s;
+    text-decoration:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .btn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(58,48,38,.9)}
+  .btn-primary{background:var(--gold)}
+  .btn-primary:hover{background:#F0BE60}
+  .btn-ghost{background:var(--card)}
+  .btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:0 5px 0 rgba(58,48,38,.4)}
+  .btn-sm{
+    min-height:46px;
+    padding:9px 20px;
+    font-size:.95rem;
+    border-width:2.5px;
+  }
+
+  /* ============ 首頁 ============ */
+  .home-hero{
+    display:grid;
+    gap:clamp(18px,3vw,34px);
+    align-items:center;
+    background:var(--card);
+    border:3px solid var(--ink);
+    border-radius:var(--radius-xl);
+    box-shadow:var(--shadow-hard);
+    padding:clamp(22px,4vw,52px);
+    position:relative;
+    overflow:hidden;
+  }
+  .home-hero::after{
+    content:"";
+    position:absolute;
+    right:-70px;top:-70px;
+    width:220px;height:220px;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(234,180,77,.28),rgba(234,180,77,0) 68%);
+    pointer-events:none;
+  }
+  @media (min-width:860px){
+    .home-hero{grid-template-columns:minmax(280px,1fr) 1.15fr;gap:clamp(24px,4vw,56px)}
+  }
+  .hero-art{display:grid;place-items:center;position:relative}
+  .hero-art svg{width:min(100%,340px);height:auto;animation:floaty 5.5s ease-in-out infinite}
+  .hero-copy{min-width:0}
+  .kicker{
+    display:inline-block;
+    margin:0 0 12px;
+    padding:5px 16px;
+    font-size:.82rem;
+    font-weight:800;
+    letter-spacing:.08em;
+    color:var(--ink);
+    background:var(--gold-soft);
+    border:2.5px solid var(--ink);
+    border-radius:99px;
+  }
+  .hero-title{
+    margin:0 0 14px;
+    font-family:var(--font-title);
+    font-size:clamp(2.3rem,6.4vw,4rem);
+    line-height:1.12;
+    letter-spacing:.02em;
+  }
+  .hero-title .hl{
+    position:relative;
+    z-index:0;
+    color:var(--red);
+    white-space:nowrap;
+  }
+  .hero-title .hl::after{
+    content:"";
+    position:absolute;
+    left:-2%;right:-2%;bottom:.04em;
+    height:.16em;
+    background:var(--gold);
+    border-radius:99px;
+    z-index:-1;
+    opacity:.7;
+  }
+  .hero-sub{
+    margin:0 0 clamp(18px,2.6vw,28px);
+    font-size:clamp(1.02rem,1.35vw,1.16rem);
+    line-height:1.9;
+    color:var(--ink-soft);
+  }
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+  .hero-tags{
+    display:flex;flex-wrap:wrap;gap:8px;
+    margin-top:clamp(16px,2.4vw,24px);
+  }
+  .hero-tags span{
+    font-size:.84rem;
+    font-weight:700;
+    padding:5px 14px;
+    border-radius:99px;
+    background:rgba(58,48,38,.06);
+    border:1.5px solid rgba(58,48,38,.14);
+    color:var(--ink-soft);
+  }
+
+  /* ============ 教學 ============ */
+  .teach-card{
+    display:grid;
+    gap:clamp(18px,3vw,36px);
+    align-items:center;
+    background:var(--card);
+    border:3px solid var(--ink);
+    border-radius:var(--radius-xl);
+    box-shadow:var(--shadow-hard);
+    padding:clamp(20px,3.6vw,48px);
+    position:relative;
+  }
+  @media (min-width:880px){
+    .teach-card{grid-template-columns:minmax(270px,.88fr) 1.12fr;gap:clamp(26px,4vw,52px)}
+  }
+  .teach-art{
+    display:grid;
+    place-items:center;
+    background:linear-gradient(155deg,#FFF3D9,#FBE4C0);
+    border:3px dashed rgba(58,48,38,.26);
+    border-radius:var(--radius-lg);
+    padding:clamp(12px,2.4vw,24px);
+    min-height:clamp(190px,26vw,320px);
+  }
+  .teach-art svg{width:min(100%,330px);height:auto;max-height:340px}
+  .teach-copy{min-width:0}
+  .teach-copy .kicker{margin-bottom:14px}
+  .teach-title{
+    margin:0 0 16px;
+    font-family:var(--font-title);
+    font-size:clamp(1.75rem,3.8vw,2.7rem);
+    line-height:1.28;
+  }
+  .teach-lead{
+    margin:0 0 14px;
+    font-size:clamp(1.1rem,1.6vw,1.32rem);
+    font-weight:800;
+    line-height:1.7;
+  }
+  .teach-body{
+    margin:0 0 18px;
+    font-size:clamp(1rem,1.3vw,1.12rem);
+    line-height:1.95;
+    color:var(--ink-soft);
+  }
+  .formula{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:8px;
+    margin:0 0 18px;
+    padding:13px 16px;
+    border:2.5px solid var(--ink);
+    border-radius:var(--radius-md);
+    background:var(--gold-soft);
+    font-weight:800;
+    font-size:clamp(.98rem,1.3vw,1.1rem);
+  }
+  .formula .chip{
+    padding:3px 12px;
+    border-radius:10px;
+    background:var(--card);
+    border:2px solid var(--ink);
+  }
+  .formula .eq{color:var(--red);font-weight:900}
+  .example{
+    border-left:9px solid var(--gold);
+    background:#FFF7E6;
+    border-radius:0 var(--radius-md) var(--radius-md) 0;
+    padding:14px 20px;
+  }
+  .ex-verse{
+    font-family:var(--font-title);
+    font-size:clamp(1.3rem,2.4vw,1.75rem);
+    line-height:1.65;
+    font-weight:700;
+  }
+  .ex-source{font-size:.85rem;color:var(--ink-soft);margin-top:2px}
+  .ex-trans{margin:10px 0 0;font-size:clamp(.96rem,1.2vw,1.05rem);line-height:1.8}
+  .ex-note{
+    display:inline-block;
+    margin-top:10px;
+    padding:4px 12px;
+    border-radius:9px;
+    background:var(--green-soft);
+    font-size:.9rem;
+    font-weight:700;
+  }
+  .teach-nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-top:clamp(16px,2.6vw,26px);
+  }
+  .dots{display:flex;gap:8px;align-items:center}
+  .dot{
+    width:9px;height:9px;border-radius:50%;
+    background:rgba(58,48,38,.2);
+    transition:all .25s;
+  }
+  .dot.on{background:var(--red);transform:scale(1.4)}
+
+  .summary-list{
+    display:grid;
+    gap:10px;
+    margin:0;
+    padding:0;
+    list-style:none;
+  }
+  .summary-list li{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 16px;
+    border-radius:14px;
+    border:2.5px solid var(--ink);
+    font-weight:800;
+    font-size:clamp(.98rem,1.3vw,1.08rem);
+  }
+  .summary-list li:nth-child(1){background:var(--blue-soft)}
+  .summary-list li:nth-child(2){background:var(--green-soft)}
+  .summary-list li:nth-child(3){background:var(--red-soft)}
+  .summary-list .tag{
+    flex:none;
+    display:grid;place-items:center;
+    min-width:44px;height:38px;
+    border-radius:10px;
+    background:var(--card);
+    border:2px solid var(--ink);
+    font-family:var(--font-title);
+    font-size:1.05rem;
+  }
+
+  /* ============ 模式選單 ============ */
+  .menu-head{text-align:center;margin:clamp(8px,2vw,20px) 0 clamp(20px,3vw,32px)}
+  .menu-head h2{
+    margin:0 0 8px;
+    font-family:var(--font-title);
+    font-size:clamp(1.8rem,4.2vw,2.9rem);
+  }
+  .menu-head p{margin:0;color:var(--ink-soft);font-size:clamp(.98rem,1.3vw,1.1rem)}
+  .mode-grid{
+    display:grid;
+    gap:clamp(16px,3vw,28px);
+    grid-template-columns:1fr;
+  }
+  @media (min-width:800px){
+    .mode-grid{grid-template-columns:1fr 1fr}
+  }
+  .mode-card{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+    text-align:left;
+    padding:clamp(20px,3vw,34px);
+    background:var(--card);
+    border:3px solid var(--ink);
+    border-radius:var(--radius-xl);
+    box-shadow:0 8px 0 rgba(58,48,38,.16);
+    cursor:pointer;
+    transition:transform .16s,box-shadow .16s;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .mode-card:hover{transform:translateY(-5px);box-shadow:0 13px 0 rgba(58,48,38,.16)}
+  .mode-card:active{transform:translateY(4px);box-shadow:0 4px 0 rgba(58,48,38,.16)}
+  .mode-badge{
+    position:absolute;
+    top:-15px;left:26px;
+    padding:3px 15px;
+    border-radius:99px;
+    border:2.5px solid var(--ink);
+    background:var(--gold);
+    font-size:.8rem;
+    font-weight:900;
+    letter-spacing:.06em;
+  }
+  .mode-card[data-mode="b"] .mode-badge{background:var(--blue-soft)}
+  .mode-art{width:100%;display:grid;place-items:center;padding:4px 0 8px}
+  .mode-art svg{width:min(100%,210px);height:auto}
+  .mode-card h3{
+    margin:0;
+    font-family:var(--font-title);
+    font-size:clamp(1.4rem,2.4vw,1.85rem);
+  }
+  .mode-card p{
+    margin:0;
+    color:var(--ink-soft);
+    font-size:clamp(.95rem,1.2vw,1.05rem);
+    line-height:1.75;
+  }
+  .mode-cta{
+    margin-top:6px;
+    font-weight:900;
+    color:var(--red);
+    font-size:1rem;
+  }
+
+  /* ============ 遊戲 ============ */
+  .game-shell{max-width:820px;margin:0 auto}
+  .game-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:clamp(12px,2vw,18px);
+  }
+  .game-mode{
+    padding:4px 15px;
+    border-radius:99px;
+    background:var(--gold-soft);
+    border:2.5px solid var(--ink);
+    font-size:.85rem;
+    font-weight:900;
+  }
+  .game-score{
+    font-size:.9rem;
+    font-weight:800;
+    color:var(--ink-soft);
+  }
+  .q-card{
+    background:var(--card);
+    border:3px solid var(--ink);
+    border-radius:var(--radius-xl);
+    box-shadow:var(--shadow-hard);
+    padding:clamp(20px,3.4vw,40px);
+  }
+  .q-index{
+    display:inline-block;
+    margin-bottom:clamp(12px,2vw,18px);
+    padding:3px 14px;
+    border-radius:99px;
+    background:rgba(58,48,38,.07);
+    font-size:.82rem;
+    font-weight:800;
+    color:var(--ink-soft);
+  }
+  .verse{
+    font-family:var(--font-title);
+    font-size:clamp(1.65rem,4.2vw,2.65rem);
+    line-height:1.72;
+    font-weight:700;
+    letter-spacing:.03em;
+    margin:0 0 8px;
+    word-break:break-word;
+  }
+  .verse.sm{font-size:clamp(1.3rem,2.6vw,1.85rem);line-height:1.66;margin:0}
+  .qi{
+    font-style:normal;
+    color:var(--red);
+    font-weight:900;
+    text-decoration:underline wavy var(--gold);
+    text-decoration-thickness:3px;
+    text-underline-offset:8px;
+  }
+  .q-source{
+    font-size:.86rem;
+    color:var(--ink-soft);
+    margin:0 0 clamp(16px,2.4vw,24px);
+  }
+  .q-ask{
+    margin:0 0 clamp(14px,2.2vw,20px);
+    font-size:clamp(1.02rem,1.4vw,1.15rem);
+    font-weight:800;
+  }
+  .options{
+    display:grid;
+    gap:clamp(10px,1.6vw,15px);
+    grid-template-columns:1fr;
+  }
+  @media (min-width:560px){
+    .options{grid-template-columns:repeat(3,1fr)}
+    .options.two{grid-template-columns:repeat(2,1fr)}
+  }
+  .option{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    min-height:clamp(62px,7vw,76px);
+    padding:10px 14px;
+    font-family:var(--font-body);
+    font-size:clamp(1.04rem,1.5vw,1.22rem);
+    font-weight:800;
+    line-height:1.4;
+    color:var(--ink);
+    background:#FFFDF7;
+    border:3px solid var(--ink);
+    border-radius:20px;
+    box-shadow:0 5px 0 rgba(58,48,38,.28);
+    cursor:pointer;
+    transition:transform .12s,box-shadow .12s,background .25s,border-color .25s;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .option:hover:not(:disabled){background:var(--gold-soft)}
+  .option:active:not(:disabled){transform:translateY(4px);box-shadow:0 1px 0 rgba(58,48,38,.28)}
+  .option:disabled{cursor:default}
+  .option.correct{background:var(--green-soft);border-color:var(--green);box-shadow:0 5px 0 var(--green)}
+  .option.wrong{background:var(--red-soft);border-color:var(--red);box-shadow:0 5px 0 var(--red)}
+  .option.dim{opacity:.5}
+
+  .duel{
+    display:grid;
+    gap:clamp(10px,2vw,18px);
+    align-items:stretch;
+    margin-bottom:clamp(16px,2.4vw,22px);
+  }
+  @media (min-width:760px){
+    .duel{grid-template-columns:1fr auto 1fr}
+  }
+  .duel-side{
+    padding:clamp(14px,2.2vw,22px);
+    border-radius:var(--radius-md);
+    border:2.5px solid var(--ink);
+    background:#FFF8E9;
+    min-width:0;
+  }
+  .duel-side:first-child{background:var(--blue-soft)}
+  .duel-side:last-child{background:var(--green-soft)}
+  .duel-vs{
+    display:grid;
+    place-items:center;
+    font-family:var(--font-title);
+    font-weight:900;
+    font-size:1.1rem;
+    color:var(--ink-soft);
+    padding:2px 0;
+  }
+  .duel-side .q-source{margin:6px 0 0}
+
+  .feedback{
+    margin-top:clamp(14px,2.2vw,22px);
+    border:3px solid var(--ink);
+    border-radius:var(--radius-lg);
+    padding:clamp(16px,2.6vw,26px);
+    background:#FFFBF0;
+    animation:pop .3s cubic-bezier(.22,1,.36,1);
+  }
+  .feedback.ok{border-color:var(--green);background:#F3FBF6}
+  .feedback.no{border-color:var(--red);background:#FFF6F3}
+  .fb-head{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:10px;
+    font-size:clamp(1.05rem,1.5vw,1.22rem);
+    font-weight:900;
+  }
+  .fb-icon{
+    flex:none;
+    width:34px;height:34px;
+    display:grid;place-items:center;
+    border-radius:50%;
+    border:2.5px solid var(--ink);
+    background:var(--card);
+  }
+  .fb-icon svg{width:20px;height:20px;fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+  .feedback.ok .fb-icon{background:var(--green-soft)}
+  .feedback.no .fb-icon{background:var(--red-soft)}
+  .fb-label{
+    display:inline-block;
+    margin-bottom:6px;
+    padding:2px 11px;
+    border-radius:8px;
+    background:rgba(58,48,38,.07);
+    font-size:.85rem;
+    font-weight:800;
+    color:var(--ink-soft);
+  }
+  .fb-main{
+    margin:0 0 8px;
+    font-size:clamp(1rem,1.3vw,1.12rem);
+    font-weight:800;
+    line-height:1.75;
+  }
+  .fb-text{
+    margin:0;
+    font-size:clamp(.96rem,1.25vw,1.08rem);
+    line-height:1.9;
+    color:var(--ink-soft);
+  }
+  .fb-text + .fb-text{margin-top:8px}
+  .fb-actions{display:flex;justify-content:flex-end;margin-top:18px}
+  .fb-actions .btn{min-width:160px}
+
+  /* ============ 結果 ============ */
+  .result-card{
+    max-width:640px;
+    margin:clamp(10px,3vw,40px) auto 0;
+    text-align:center;
+    background:var(--card);
+    border:3px solid var(--ink);
+    border-radius:var(--radius-xl);
+    box-shadow:var(--shadow-hard);
+    padding:clamp(26px,4.5vw,52px) clamp(20px,4vw,44px);
+  }
+  .stars{display:flex;justify-content:center;gap:10px;margin-bottom:16px}
+  .stars svg{width:clamp(48px,9vw,64px);height:auto}
+  .stars .off{opacity:.18}
+  .result-card h2{
+    margin:0 0 10px;
+    font-family:var(--font-title);
+    font-size:clamp(1.6rem,3.8vw,2.4rem);
+    line-height:1.35;
+  }
+  .result-card p{margin:0 0 18px;color:var(--ink-soft);font-size:clamp(1rem,1.3vw,1.1rem)}
+  .result-score{
+    display:inline-flex;
+    align-items:baseline;
+    gap:6px;
+    padding:10px 26px;
+    margin-bottom:clamp(20px,3vw,28px);
+    border-radius:99px;
+    border:3px solid var(--ink);
+    background:var(--gold-soft);
+  }
+  .result-score strong{font-size:clamp(1.9rem,4.5vw,2.6rem);line-height:1;color:var(--red)}
+  .result-score span{font-weight:800;color:var(--ink-soft)}
+  .result-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+
+  /* ============ 對齊與錯題回顧 ============ */
+  .q-card,.feedback,.teach-card{scroll-margin-top:86px}
+  .menu-teach{margin-top:14px}
+  .review{text-align:left;margin:2px 0 clamp(18px,2.6vw,24px)}
+  .review h3{margin:0 0 10px;font-size:clamp(.98rem,1.3vw,1.08rem);font-weight:900}
+  .review ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+  .review li{display:flex;flex-direction:column;gap:4px;padding:10px 14px;border:2px solid rgba(58,48,38,.16);border-radius:14px;background:rgba(212,85,63,.07)}
+  .rv-verse{font-family:var(--font-title);font-weight:700;font-size:clamp(1rem,1.3vw,1.12rem);line-height:1.55}
+  .rv-ans{font-size:.87rem;font-weight:700;color:var(--ink-soft);line-height:1.7}
+
+  /* ============ 小螢幕微調 ============ */
+  @media (max-width:520px){
+    .brand{font-size:.92rem;gap:6px}
+    .brand-dot{width:11px;height:11px;border-width:2px}
+    .app[data-tight="1"] .brand{display:none}
+    .teach-nav{gap:8px}
+    .teach-nav .btn{padding:10px 18px;font-size:.92rem;min-height:48px}
+    .dots{gap:6px}
+    .dot{width:7px;height:7px}
+    .dtd{display:none}
+    .fb-actions .btn{width:100%}
+  }
+  @media (max-width:380px){
+    .hero-actions .btn{width:100%}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+      animation-duration:.001ms!important;
+      animation-iteration-count:1!important;
+      transition-duration:.001ms!important;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="app" data-generated-by="vibe-coding-frontend-design">
+
+  <header class="topbar" id="topbar">
+    <button class="icon-btn" id="btnBack" aria-label="返回上一頁" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 L8 12 L15 19"/></svg>
+    </button>
+    <div class="brand">
+      <span class="brand-dot" aria-hidden="true"></span>
+      <span class="brand-text">「其」字大冒險</span>
+    </div>
+    <div class="topbar-spacer" id="topbarSpacer"></div>
+    <div class="progress" id="progress" hidden>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <span class="progress-num" id="progressNum">1 / 6</span>
+    </div>
+    <button class="icon-btn" id="btnSound" aria-label="關閉音效" aria-pressed="true">
+      <svg class="ico-on" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 9 L8 9 L13 5 L13 19 L8 15 L4 15 Z"/>
+        <path d="M16.5 8.5 A5 5 0 0 1 16.5 15.5"/>
+        <path d="M19 6 A8.5 8.5 0 0 1 19 18"/>
+      </svg>
+      <svg class="ico-off" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 9 L8 9 L13 5 L13 19 L8 15 L4 15 Z"/>
+        <path d="M16.5 9.5 L21 14.5"/>
+        <path d="M21 9.5 L16.5 14.5"/>
+      </svg>
+    </button>
+  </header>
+
+  <main class="stage" id="stage">
+
+    <!-- 首頁 -->
+    <section class="view" id="view-home">
+      <div class="home-hero">
+        <div class="hero-art" id="heroArt" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <p class="kicker">小學文言文 ‧ 虛字入門</p>
+          <h1 class="hero-title">「其」字<br><span class="hl">大冒險</span></h1>
+          <p class="hero-sub">看懂一個「其」，讀通半句古文。<br>先學三招小秘訣，再挑戰兩個遊戲！</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" id="btnStartTeach">開始學習</button>
+            <button class="btn btn-ghost" id="btnSkipToMenu">直接玩遊戲</button>
+          </div>
+          <div class="hero-tags">
+            <span>3 種用法</span>
+            <span>2 個遊戲</span>
+            <span>12 道題目</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 教學 -->
+    <section class="view" id="view-teach" hidden>
+      <div class="teach-wrap">
+        <article class="teach-card" id="teachCard"></article>
+        <nav class="teach-nav">
+          <button class="btn btn-ghost btn-sm" id="btnTeachPrev">上一頁</button>
+          <div class="dots" id="teachDots"></div>
+          <button class="btn btn-primary btn-sm" id="btnTeachNext">下一頁</button>
+        </nav>
+      </div>
+    </section>
+
+    <!-- 遊戲選單 -->
+    <section class="view" id="view-menu" hidden>
+      <div class="menu-head">
+        <h2>選一個遊戲</h2>
+        <p>兩種玩法，各 6 題，全部答完就有星星！</p>
+        <button class="btn btn-ghost btn-sm menu-teach" id="btnReviewTeach" type="button">重看教學</button>
+      </div>
+      <div class="mode-grid">
+        <button class="mode-card" data-mode="a" type="button">
+          <span class="mode-badge">模式一</span>
+          <div class="mode-art" id="artModeA" aria-hidden="true"></div>
+          <h3>「其」字翻譯機</h3>
+          <p>看一句古文，選出「其」在句中的意思。</p>
+          <span class="mode-cta">開始挑戰 →</span>
+        </button>
+        <button class="mode-card" data-mode="b" type="button">
+          <span class="mode-badge">模式二</span>
+          <div class="mode-art" id="artModeB" aria-hidden="true"></div>
+          <h3>雙句對決</h3>
+          <p>兩句古文比一比，它們的「其」意思相同嗎？</p>
+          <span class="mode-cta">開始挑戰 →</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 遊戲 -->
+    <section class="view" id="view-game" hidden>
+      <div class="game-shell">
+        <div class="game-head">
+          <span class="game-mode" id="gameModeLabel">模式一</span>
+          <span class="game-score" id="gameScore">答對 0 題</span>
+        </div>
+        <div id="gameBody"></div>
+      </div>
+    </section>
+
+    <!-- 結果 -->
+    <section class="view" id="view-result" hidden>
+      <div class="result-card">
+        <div class="stars" id="resultStars" aria-hidden="true"></div>
+        <h2 id="resultTitle"></h2>
+        <p id="resultDesc"></p>
+        <div class="result-score"><strong id="resultScore">0</strong><span>/ 6 題</span></div>
+        <div id="resultReview"></div>
+        <div class="result-actions">
+          <button class="btn btn-primary" id="btnRetry">再玩一次</button>
+          <button class="btn btn-ghost" id="btnMenu">返回目錄</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  var $ = function(id){ return document.getElementById(id); };
+
+  /* =========================================================
+     一、音效（Web Audio 即時合成，不需外部音檔）
+     ========================================================= */
+  var Sound = {
+    ctx: null,
+    enabled: true,
+    ready: false,
+    init: function(){
+      if(this.ready) return;
+      try{
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if(!AC) return;
+        this.ctx = new AC();
+        this.ready = true;
+      }catch(e){
+        this.ctx = null;
+      }
+    },
+    unlock: function(){
+      if(!this.ctx) return;
+      try{
+        if(this.ctx.state === 'suspended'){ this.ctx.resume(); }
+      }catch(e){}
+    },
+    tone: function(freq, start, dur, type, vol){
+      if(!this.enabled || !this.ctx) return;
+      try{
+        var t0 = this.ctx.currentTime + start;
+        var osc = this.ctx.createOscillator();
+        var gain = this.ctx.createGain();
+        osc.type = type || 'sine';
+        osc.frequency.setValueAtTime(freq, t0);
+        gain.gain.setValueAtTime(0.0001, t0);
+        gain.gain.exponentialRampToValueAtTime(vol || 0.13, t0 + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(t0);
+        osc.stop(t0 + dur + 0.04);
+      }catch(e){}
+    },
+    click: function(){ this.tone(720, 0, 0.07, 'triangle', 0.07); },
+    page: function(){
+      this.tone(523.25, 0, 0.09, 'sine', 0.06);
+      this.tone(659.25, 0.06, 0.11, 'sine', 0.05);
+    },
+    correct: function(){
+      this.tone(523.25, 0, 0.13, 'sine', 0.12);
+      this.tone(659.25, 0.09, 0.13, 'sine', 0.11);
+      this.tone(783.99, 0.18, 0.22, 'sine', 0.11);
+    },
+    wrong: function(){
+      this.tone(311.13, 0, 0.15, 'triangle', 0.09);
+      this.tone(246.94, 0.12, 0.22, 'triangle', 0.08);
+    },
+    win: function(){
+      var notes = [523.25, 659.25, 783.99, 1046.5];
+      for(var i = 0; i < notes.length; i++){
+        this.tone(notes[i], i * 0.11, 0.28, 'sine', 0.12);
+      }
+    }
+  };
+
+  /* =========================================================
+     二、繪本插畫（內嵌 SVG）
+     ========================================================= */
+  function starShape(cx, cy, r, fill){
+    return '<path d="M' + cx + ' ' + (cy - r) +
+      ' L' + (cx + r * 0.32) + ' ' + (cy - r * 0.34) +
+      ' L' + (cx + r) + ' ' + (cy - r * 0.28) +
+      ' L' + (cx + r * 0.52) + ' ' + (cy + r * 0.16) +
+      ' L' + (cx + r * 0.66) + ' ' + (cy + r * 0.82) +
+      ' L' + cx + ' ' + (cy + r * 0.48) +
+      ' L' + (cx - r * 0.66) + ' ' + (cy + r * 0.82) +
+      ' L' + (cx - r * 0.52) + ' ' + (cy + r * 0.16) +
+      ' L' + (cx - r) + ' ' + (cy - r * 0.28) +
+      ' L' + (cx - r * 0.32) + ' ' + (cy - r * 0.34) + ' Z" fill="' + fill + '"/>';
+  }
+
+  /* 首頁：小書僮 */
+  function artScholar(){
+    return `<svg viewBox="0 0 320 340" role="img" aria-label="拿着毛筆的卡通小書僮">
+      <ellipse cx="152" cy="320" rx="94" ry="13" fill="#3A3026" opacity=".1"/>
+      <g transform="rotate(-7 250 90)">
+        <rect x="204" y="24" width="94" height="118" rx="16" fill="#FFF9EC" stroke="#3A3026" stroke-width="4"/>
+        <text x="251" y="110" text-anchor="middle" font-size="72" font-weight="700" fill="#D4553F" font-family="Kaiti TC, DFKai-SB, serif">其</text>
+      </g>
+      ${starShape(300, 168, 12, '#EAB44D')}
+      ${starShape(196, 66, 9, '#6FA8C9')}
+      <path d="M96 186 Q150 164 204 186 L216 296 Q150 318 84 296 Z" fill="#6FA8C9" stroke="#3A3026" stroke-width="4.5" stroke-linejoin="round"/>
+      <path d="M124 188 L150 220 L176 188" fill="none" stroke="#3A3026" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M90 252 Q150 268 210 252" fill="none" stroke="#EAB44D" stroke-width="11" stroke-linecap="round"/>
+      <rect x="136" y="164" width="28" height="28" rx="11" fill="#F7CBA6" stroke="#3A3026" stroke-width="4"/>
+      <path d="M94 206 Q68 200 60 178" fill="none" stroke="#3A3026" stroke-width="23" stroke-linecap="round"/>
+      <path d="M94 206 Q68 200 60 178" fill="none" stroke="#6FA8C9" stroke-width="14" stroke-linecap="round"/>
+      <circle cx="57" cy="173" r="11" fill="#FFE0C2" stroke="#3A3026" stroke-width="4"/>
+      <path d="M54 164 L36 110" stroke="#8B5E3C" stroke-width="8" stroke-linecap="round"/>
+      <path d="M36 110 L29 88 L48 100 Z" fill="#3A3026" stroke="#3A3026" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M206 208 Q226 216 232 232" fill="none" stroke="#3A3026" stroke-width="20" stroke-linecap="round"/>
+      <path d="M206 208 Q226 216 232 232" fill="none" stroke="#6FA8C9" stroke-width="12" stroke-linecap="round"/>
+      <circle cx="234" cy="236" r="11" fill="#FFE0C2" stroke="#3A3026" stroke-width="4"/>
+      <circle cx="80" cy="132" r="11" fill="#FFE0C2" stroke="#3A3026" stroke-width="4"/>
+      <circle cx="220" cy="132" r="11" fill="#FFE0C2" stroke="#3A3026" stroke-width="4"/>
+      <circle cx="150" cy="126" r="58" fill="#FFE0C2" stroke="#3A3026" stroke-width="4.5"/>
+      <path d="M92 122 A58 58 0 0 1 208 122 Q196 88 150 84 Q104 88 92 122 Z" fill="#3A3026"/>
+      <circle cx="150" cy="62" r="18" fill="#3A3026"/>
+      <circle cx="150" cy="62" r="8" fill="#5B4A38"/>
+      <ellipse cx="128" cy="130" rx="6.6" ry="9" fill="#3A3026"/>
+      <ellipse cx="172" cy="130" rx="6.6" ry="9" fill="#3A3026"/>
+      <circle cx="130" cy="126" r="2.4" fill="#fff"/>
+      <circle cx="174" cy="126" r="2.4" fill="#fff"/>
+      <ellipse cx="111" cy="148" rx="10" ry="6" fill="#F0A9A0" opacity=".62"/>
+      <ellipse cx="189" cy="148" rx="10" ry="6" fill="#F0A9A0" opacity=".62"/>
+      <path d="M140 150 Q150 159 160 150" fill="none" stroke="#3A3026" stroke-width="3.6" stroke-linecap="round"/>
+    </svg>`;
+  }
+
+  /* 教學一：放大鏡看「其」 */
+  function artPointer(){
+    return `<svg viewBox="0 0 300 260" role="img" aria-label="用放大鏡觀察其字">
+      <circle cx="150" cy="130" r="108" fill="#FBEBC7" opacity=".75"/>
+      <text x="150" y="182" text-anchor="middle" font-size="126" font-weight="700" fill="#3A3026" font-family="Kaiti TC, DFKai-SB, serif">其</text>
+      <circle cx="196" cy="96" r="46" fill="rgba(255,255,255,.55)" stroke="#3A3026" stroke-width="7"/>
+      <path d="M228 130 L258 162" stroke="#3A3026" stroke-width="13" stroke-linecap="round"/>
+      <path d="M212 66 A34 34 0 0 1 226 86" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" opacity=".8"/>
+      <text x="44" y="76" font-size="42" font-weight="800" fill="#D4553F">?</text>
+      <text x="238" y="206" font-size="34" font-weight="800" fill="#3F8F70">?</text>
+      ${starShape(250, 40, 10, '#EAB44D')}
+    </svg>`;
+  }
+
+  /* 教學二：其＋名詞 */
+  function artHis(){
+    return `<svg viewBox="0 0 320 250" role="img" aria-label="其杖表示他的手杖">
+      <g transform="translate(232 40)">
+        <path d="M18 176 L18 44 Q18 14 46 14 Q72 14 72 38" fill="none" stroke="#8B5E3C" stroke-width="16" stroke-linecap="round"/>
+        <path d="M18 176 L18 44 Q18 14 46 14 Q72 14 72 38" fill="none" stroke="#C89B6A" stroke-width="6" stroke-linecap="round"/>
+      </g>
+      <rect x="24" y="46" width="172" height="100" rx="20" fill="#FFF9EC" stroke="#3A3026" stroke-width="4.5"/>
+      <text x="54" y="116" font-size="56" font-weight="700" fill="#D4553F" font-family="Kaiti TC, DFKai-SB, serif">其</text>
+      <text x="118" y="116" font-size="56" font-weight="700" fill="#3A3026" font-family="Kaiti TC, DFKai-SB, serif">杖</text>
+      <path d="M196 132 Q224 150 234 146" fill="none" stroke="#3F8F70" stroke-width="5" stroke-linecap="round" stroke-dasharray="10 9"/>
+      <path d="M224 136 L238 145 L222 154" fill="none" stroke="#3F8F70" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <g transform="translate(28 176)">
+        <rect width="146" height="50" rx="25" fill="#D8EEE2" stroke="#3A3026" stroke-width="4"/>
+        <text x="73" y="35" text-anchor="middle" font-size="26" font-weight="700" fill="#3A3026" font-family="Kaiti TC, serif">他的</text>
+      </g>
+    </svg>`;
+  }
+
+  /* 教學三：一羣人中的一個 */
+  function artAmong(){
+    var person = function(x, y, s, bodyFill, faded){
+      return `<g transform="translate(${x} ${y}) scale(${s})" opacity="${faded ? '.45' : '1'}">
+        <circle cx="0" cy="0" r="24" fill="#FFE0C2" stroke="#3A3026" stroke-width="4"/>
+        <path d="M-27 76 Q-25 30 0 30 Q25 30 27 76 Z" fill="${bodyFill}" stroke="#3A3026" stroke-width="4" stroke-linejoin="round"/>
+        <circle cx="-8" cy="-1" r="3.1" fill="#3A3026"/>
+        <circle cx="8" cy="-1" r="3.1" fill="#3A3026"/>
+        <path d="M-6 11 Q0 16 6 11" fill="none" stroke="#3A3026" stroke-width="2.6" stroke-linecap="round"/>
+      </g>`;
+    };
+    return `<svg viewBox="0 0 320 250" role="img" aria-label="三個人之中指出其中一個">
+      <circle cx="160" cy="126" r="112" fill="#FBEBC7" opacity=".55"/>
+      <ellipse cx="160" cy="212" rx="112" ry="12" fill="#3A3026" opacity=".08"/>
+      ${person(56, 104, 1, '#D8CFC0', true)}
+      ${person(160, 76, 1.16, '#EAB44D', false)}
+      ${person(264, 104, 1, '#D8CFC0', true)}
+      <circle cx="160" cy="120" r="74" fill="none" stroke="#D4553F" stroke-width="4" stroke-dasharray="10 10" opacity=".75"/>
+      ${starShape(160, 26, 13, '#D4553F')}
+      <g transform="translate(182 190)">
+        <rect width="126" height="44" rx="22" fill="#FFF9EC" stroke="#3A3026" stroke-width="4"/>
+        <text x="63" y="30" text-anchor="middle" font-size="21" font-weight="700" fill="#3A3026" font-family="Kaiti TC, serif">其中一個</text>
+      </g>
+    </svg>`;
+  }
+
+  /* 教學四：指着遠方的那一個 */
+  function artThat(){
+    return `<svg viewBox="0 0 320 250" role="img" aria-label="其字指向遠處的山">
+      <circle cx="272" cy="42" r="22" fill="#EAB44D" stroke="#3A3026" stroke-width="4"/>
+      <path d="M164 192 L216 96 L268 192 Z" fill="#8FBBA3" stroke="#3A3026" stroke-width="4.5" stroke-linejoin="round"/>
+      <path d="M206 118 L216 96 L226 118 Q216 127 206 118 Z" fill="#FFF9EC" stroke="#3A3026" stroke-width="2.6"/>
+      <path d="M84 192 L134 104 L184 192 Z" fill="#6FA8C9" stroke="#3A3026" stroke-width="4.5" stroke-linejoin="round"/>
+      <path d="M122 126 L134 104 L146 126 Q134 136 122 126 Z" fill="#FFF9EC" stroke="#3A3026" stroke-width="3"/>
+      <path d="M16 192 H304" stroke="#3A3026" stroke-width="5" stroke-linecap="round"/>
+      <g transform="translate(14 34)">
+        <rect width="78" height="58" rx="16" fill="#FFF9EC" stroke="#3A3026" stroke-width="4"/>
+        <text x="39" y="44" text-anchor="middle" font-size="40" font-weight="700" fill="#D4553F" font-family="Kaiti TC, DFKai-SB, serif">其</text>
+      </g>
+      <path d="M96 64 Q160 66 226 108" fill="none" stroke="#D4553F" stroke-width="4.5" stroke-dasharray="9 8" stroke-linecap="round"/>
+      <path d="M214 100 L228 109 L212 118" fill="none" stroke="#D4553F" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <g transform="translate(196 202)">
+        <rect width="98" height="40" rx="20" fill="#F8DCD4" stroke="#3A3026" stroke-width="4"/>
+        <text x="49" y="28" text-anchor="middle" font-size="22" font-weight="700" fill="#3A3026" font-family="Kaiti TC, serif">那個</text>
+      </g>
+    </svg>`;
+  }
+
+  /* 教學五：三招小錦囊 */
+  function artSummary(){
+    return `<svg viewBox="0 0 300 250" role="img" aria-label="三招小錦囊">
+      <rect x="44" y="24" width="212" height="152" rx="22" fill="#FFF9EC" stroke="#3A3026" stroke-width="4.5"/>
+      <text x="150" y="148" text-anchor="middle" font-size="112" font-weight="700" fill="#D4553F" font-family="Kaiti TC, DFKai-SB, serif">其</text>
+      ${starShape(262, 44, 11, '#EAB44D')}
+      <g transform="translate(74 186)">
+        <circle cx="24" cy="24" r="24" fill="#DCEBF4" stroke="#3A3026" stroke-width="4"/>
+        <text x="24" y="33" text-anchor="middle" font-size="22" font-weight="800" fill="#3A3026">1</text>
+      </g>
+      <g transform="translate(126 186)">
+        <circle cx="24" cy="24" r="24" fill="#D8EEE2" stroke="#3A3026" stroke-width="4"/>
+        <text x="24" y="33" text-anchor="middle" font-size="22" font-weight="800" fill="#3A3026">2</text>
+      </g>
+      <g transform="translate(178 186)">
+        <circle cx="24" cy="24" r="24" fill="#F8DCD4" stroke="#3A3026" stroke-width="4"/>
+        <text x="24" y="33" text-anchor="middle" font-size="22" font-weight="800" fill="#3A3026">3</text>
+      </g>
+    </svg>`;
+  }
+
+  /* 模式卡插畫 */
+  function artModeA(){
+    return `<svg viewBox="0 0 240 170" role="img" aria-label="其字翻譯機">
+      <rect x="26" y="32" width="100" height="106" rx="18" fill="#FFF9EC" stroke="#3A3026" stroke-width="4.5"/>
+      <text x="76" y="113" text-anchor="middle" font-size="60" font-weight="700" fill="#D4553F" font-family="Kaiti TC, DFKai-SB, serif">其</text>
+      <path d="M134 86 H166" stroke="#3A3026" stroke-width="4" stroke-linecap="round"/>
+      <path d="M156 77 L168 86 L156 95" fill="none" stroke="#3A3026" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="176" y="36" width="52" height="30" rx="10" fill="#DCEBF4" stroke="#3A3026" stroke-width="3.4"/>
+      <rect x="176" y="70" width="52" height="30" rx="10" fill="#D8EEE2" stroke="#3A3026" stroke-width="3.4"/>
+      <rect x="176" y="104" width="52" height="30" rx="10" fill="#F8DCD4" stroke="#3A3026" stroke-width="3.4"/>
+    </svg>`;
+  }
+
+  function artModeB(){
+    return `<svg viewBox="0 0 240 170" role="img" aria-label="雙句對決">
+      <g transform="rotate(-6 68 84)">
+        <rect x="12" y="40" width="88" height="88" rx="16" fill="#DCEBF4" stroke="#3A3026" stroke-width="4"/>
+        <text x="56" y="104" text-anchor="middle" font-size="44" font-weight="700" fill="#3A3026" font-family="Kaiti TC, serif">其</text>
+      </g>
+      <g transform="rotate(6 172 84)">
+        <rect x="140" y="40" width="88" height="88" rx="16" fill="#D8EEE2" stroke="#3A3026" stroke-width="4"/>
+        <text x="184" y="104" text-anchor="middle" font-size="44" font-weight="700" fill="#3A3026" font-family="Kaiti TC, serif">其</text>
+      </g>
+      <circle cx="120" cy="84" r="26" fill="#EAB44D" stroke="#3A3026" stroke-width="4"/>
+      <text x="120" y="92" text-anchor="middle" font-size="18" font-weight="800" fill="#3A3026" font-family="sans-serif">VS</text>
+    </svg>`;
+  }
+
+  /* =========================================================
+     三、教學內容
+     ========================================================= */
+  var TEACH = [
+    {
+      kicker: '第一站',
+      title: '「其」是誰？',
+      lead: '「其」是文言文裏的「小指針」。',
+      body: '它自己沒有固定的意思，要看它指着誰、指着甚麼。同一個「其」字，可以是「他的」，可以是「其中的」，也可以是「那個」。',
+      formula: '',
+      example: null,
+      extra: '',
+      art: artPointer()
+    },
+    {
+      kicker: '第二站 ‧ 用法一',
+      title: '他的／她的／牠的',
+      lead: '「其」後面跟着一件「屬於誰」的東西。',
+      body: '試一試：把「他的」放進去讀。讀得通，就是這一招。',
+      formula: '<span class="chip">其</span> ＋ <span class="chip">名詞</span> <span class="eq">＝</span> <span class="chip">他的</span> ＋ <span class="chip">名詞</span>',
+      example: {
+        text: '棄其杖，化為鄧林。',
+        source: '《夸父逐日》',
+        trans: '夸父丟掉他的手杖，手杖變成了桃林。',
+        note: '「其杖」＝他的手杖（手杖是夸父的）'
+      },
+      extra: '',
+      art: artHis()
+    },
+    {
+      kicker: '第三站 ‧ 用法二',
+      title: '其中的',
+      lead: '「其一」＝其中的一個。',
+      body: '先有一羣人、一堆東西，再用「其」指出當中的一個。「其中」就是「裏面、當中」。',
+      formula: '<span class="chip">其一</span> <span class="eq">＝</span> <span class="chip">其中的一個</span>',
+      example: {
+        text: '其一人專心致志，惟弈秋之為聽。',
+        source: '《學弈》',
+        trans: '其中一個人專心致志，只聽弈秋的教導。',
+        note: '「其一人」＝其中一個人'
+      },
+      extra: '',
+      art: artAmong()
+    },
+    {
+      kicker: '第四站 ‧ 用法三',
+      title: '那／那個',
+      lead: '「其」指着前面說過的地方或事物。',
+      body: '把「他的」放進去讀，如果讀不通，就換成「那個」試試。',
+      formula: '<span class="chip">其</span> ＋ <span class="chip">名詞</span> <span class="eq">＝</span> <span class="chip">那個</span> ＋ <span class="chip">名詞</span>',
+      example: {
+        text: '其岸勢犬牙差互。',
+        source: '《小石潭記》',
+        trans: '那潭岸的形勢像狗牙一樣交錯。',
+        note: '「其岸」＝那個潭的岸（不是「他的岸」）'
+      },
+      extra: '',
+      art: artThat()
+    },
+    {
+      kicker: '第五站 ‧ 小錦囊',
+      title: '三步分得清',
+      lead: '遇到「其」，照這三步做。',
+      body: '',
+      formula: '',
+      example: null,
+      extra: '<ul class="summary-list">' +
+        '<li><span class="tag">1</span><span>見到「其一」「其中」→ 其中的</span></li>' +
+        '<li><span class="tag">2</span><span>把「他的」放進去讀，通順 → 他的／她的／牠的</span></li>' +
+        '<li><span class="tag">3</span><span>讀不通，換「那個」試試 → 那／那個</span></li>' +
+        '</ul>' +
+        '<p class="teach-body" style="margin:16px 0 0">試一試：「其岸勢犬牙差互」——「他的岸」讀不通，所以是「那個岸」。</p>',
+      art: artSummary()
+    }
+  ];
+
+  /* =========================================================
+     四、題庫
+     ========================================================= */
+  var OPTIONS = [
+    { key: 'his',   label: '他的／她的／牠的' },
+    { key: 'among', label: '其中的' },
+    { key: 'that',  label: '那／那個' }
+  ];
+
+  var MODE_A = [
+    {
+      verse: '因釋其耒而守株',
+      source: '《守株待兔》',
+      answer: 'his',
+      trans: '於是放下他的農具，守在樹樁旁邊。',
+      explain: '「其」後面跟着「耒」，也就是農具。這件農具是屬於農夫的，所以「其」是「他的」。'
+    },
+    {
+      verse: '其狀如烏，文首，白喙，赤足',
+      source: '《精衛填海》',
+      answer: 'his',
+      trans: '牠的形狀像烏鴉，頭上有花紋，白色的嘴，紅色的腳。',
+      explain: '「其」後面跟着「狀」，也就是形狀。這是精衛鳥的形狀，所以是「牠的」；動物用「牠」。'
+    },
+    {
+      verse: '其一人專心致志',
+      source: '《學弈》',
+      answer: 'among',
+      trans: '其中一個人專心致志。',
+      explain: '「其一人」就是「其中一個人」。弈秋教兩個人下棋，這句話從兩個人裏指出其中一個。'
+    },
+    {
+      verse: '其人曰：「奈地壞何？」',
+      source: '《杞人憂天》',
+      answer: 'that',
+      trans: '那個人說：「地壞了怎麼辦？」',
+      explain: '「其人」等於「那個人」，指着前面提到的那位憂天的杞國人。'
+    },
+    {
+      verse: '屠自後斷其股',
+      source: '《狼》',
+      answer: 'his',
+      trans: '屠夫從後面砍斷牠的大腿。',
+      explain: '「其」後面跟着「股」，也就是大腿。這條腿是那隻狼的，所以是「牠的」；動物用「牠」。'
+    },
+    {
+      verse: '其岸勢犬牙差互',
+      source: '《小石潭記》',
+      answer: 'that',
+      trans: '那潭岸的形勢像狗牙一樣交錯。',
+      explain: '「其」指着前面提到的石潭，「其岸」就是那個潭的岸。把「他的岸」放進去讀不通，所以是「那個」。'
+    }
+  ];
+
+  var MODE_B = [
+    {
+      a: { verse: '孔君平詣其父', source: '《楊氏之子》' },
+      b: { verse: '棄其杖，化為鄧林', source: '《夸父逐日》' },
+      answer: 'same',
+      aMeaning: '他的父親',
+      bMeaning: '他的手杖',
+      explain: '兩句的「其」後面都跟着名詞，都表示「他的」：一個是楊氏子的父親，一個是夸父的手杖。'
+    },
+    {
+      a: { verse: '其一貧，其一富', source: '《為學》' },
+      b: { verse: '其一犬坐於前', source: '《狼》' },
+      answer: 'same',
+      aMeaning: '其中一個貧窮',
+      bMeaning: '其中一隻狼像狗一樣蹲坐着',
+      explain: '兩句的「其一」都是「其中一個」，都是從一羣裏指出當中的一個。'
+    },
+    {
+      a: { verse: '帝感其誠', source: '《愚公移山》' },
+      b: { verse: '其鳴自詨', source: '《精衛填海》' },
+      answer: 'same',
+      aMeaning: '天帝被他的誠心感動',
+      bMeaning: '牠的叫聲像在呼喚自己',
+      explain: 'A 的「其」指愚公，「其誠」＝他的誠心；B 的「其」指精衛鳥，「其鳴」＝牠的叫聲。兩者都是「他的／牠的」，意思相同。'
+    },
+    {
+      a: { verse: '問其故', source: '《兩小兒辯日》' },
+      b: { verse: '其中往來種作', source: '《桃花源記》' },
+      answer: 'diff',
+      aMeaning: '問他們原因',
+      bMeaning: '那裏面往來耕作',
+      explain: 'A 的「其」指兩個小孩，「其故」＝他們爭辯的原因；B 的「其中」＝那裏面，指桃花源裏面。一個是「他們的」，一個是「那」，意思不同。'
+    },
+    {
+      a: { verse: '太白感其意', source: '《鐵杵成針》' },
+      b: { verse: '其西南諸峰', source: '《醉翁亭記》' },
+      answer: 'diff',
+      aMeaning: '被她的心意感動',
+      bMeaning: '那西南方的山峰',
+      explain: 'A 的「其」指磨杵的老婦人，「其意」＝她的心意；B 的「其」指着滁州城，「其西南」＝那西南方。兩者不同。'
+    },
+    {
+      a: { verse: '恐前後受其敵', source: '《狼》' },
+      b: { verse: '其西南諸峰', source: '《醉翁亭記》' },
+      answer: 'diff',
+      aMeaning: '怕前後受到牠們的攻擊',
+      bMeaning: '那西南方的山峰',
+      explain: 'A 的「其」指兩隻狼，「其敵」＝牠們的攻擊；B 的「其」指滁州城，「其西南」＝那西南方。一個是「牠們的」，一個是「那」，意思不同。'
+    }
+  ];
+
+  /* =========================================================
+     五、狀態與工具
+     ========================================================= */
+  var state = {
+    view: 'home',
+    teach: 0,
+    mode: null,
+    qi: 0,
+    score: 0,
+    answered: false,
+    results: []
+  };
+
+  function esc(s){
+    return String(s).replace(/[&<>"]/g, function(c){
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  function verseHTML(str){
+    return esc(str).replace(/其/g, '<em class="qi">其</em>');
+  }
+
+  function shuffle(list){
+    var arr = list.slice();
+    for(var i = arr.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+
+  function labelOf(key){
+    for(var i = 0; i < OPTIONS.length; i++){
+      if(OPTIONS[i].key === key) return OPTIONS[i].label;
+    }
+    return '';
+  }
+
+  /* =========================================================
+     六、視圖切換
+     ========================================================= */
+  function setProgress(cur, total){
+    var pct = Math.round(cur / total * 100);
+    $('progressFill').style.width = pct + '%';
+    $('progressNum').textContent = cur + ' / ' + total;
+  }
+
+  function updateChrome(){
+    var v = state.view;
+    $('btnBack').hidden = (v === 'home');
+    var showProgress = (v === 'teach' || v === 'game');
+    $('progress').hidden = !showProgress;
+    $('topbarSpacer').hidden = showProgress;
+    var appEl = document.querySelector('.app');
+    if(appEl){ appEl.setAttribute('data-tight', showProgress ? '1' : '0'); }
+    if(v === 'teach') setProgress(state.teach + 1, TEACH.length);
+    if(v === 'game') setProgress(Math.min(state.qi + 1, 6), 6);
+  }
+
+  function showView(name){
+    state.view = name;
+    var views = ['home', 'teach', 'menu', 'game', 'result'];
+    for(var i = 0; i < views.length; i++){
+      var el = $('view-' + views[i]);
+      if(el) el.hidden = (views[i] !== name);
+    }
+    updateChrome();
+    try{ window.scrollTo({ top: 0, behavior: 'auto' }); }catch(e){ window.scrollTo(0, 0); }
+  }
+
+  /* =========================================================
+     七、教學頁
+     ========================================================= */
+  function renderTeach(){
+    var p = TEACH[state.teach];
+    var html = '';
+
+    html += '<div class="teach-art">' + p.art + '</div>';
+    html += '<div class="teach-copy">';
+    html += '<p class="kicker">' + p.kicker + '</p>';
+    html += '<h2 class="teach-title">' + p.title + '</h2>';
+    html += '<p class="teach-lead">' + p.lead + '</p>';
+    if(p.body) html += '<p class="teach-body">' + p.body + '</p>';
+    if(p.formula) html += '<div class="formula">' + p.formula + '</div>';
+    if(p.example){
+      html += '<div class="example">';
+      html += '<div class="ex-verse">' + verseHTML(p.example.text) + '</div>';
+      html += '<div class="ex-source">' + p.example.source + '</div>';
+      html += '<p class="ex-trans">' + p.example.trans + '</p>';
+      html += '<span class="ex-note">' + p.example.note + '</span>';
+      html += '</div>';
+    }
+    if(p.extra) html += p.extra;
+    html += '</div>';
+
+    $('teachCard').innerHTML = html;
+
+    var dots = '';
+    for(var i = 0; i < TEACH.length; i++){
+      dots += '<span class="dot' + (i === state.teach ? ' on' : '') + '"></span>';
+    }
+    $('teachDots').innerHTML = dots;
+
+    var isLast = state.teach === TEACH.length - 1;
+    $('btnTeachNext').textContent = isLast ? '進入遊戲' : '下一頁';
+    $('btnTeachPrev').disabled = false;
+    $('btnTeachPrev').textContent = state.teach === 0 ? '返回首頁' : '上一頁';
+
+    updateChrome();
+  }
+
+  function goTeach(delta){
+    var next = state.teach + delta;
+    if(next < 0){ showView('home'); return; }
+    if(next >= TEACH.length){ showView('menu'); return; }
+    state.teach = next;
+    Sound.page();
+    renderTeach();
+    try{ window.scrollTo({ top: 0, behavior: 'auto' }); }catch(e){ window.scrollTo(0, 0); }
+  }
+
+  /* =========================================================
+     八、遊戲
+     ========================================================= */
+  function currentQ(){
+    return state.mode === 'a' ? MODE_A[state.qi] : MODE_B[state.qi];
+  }
+
+  function startMode(mode){
+    state.mode = mode;
+    state.qi = 0;
+    state.score = 0;
+    state.answered = false;
+    state.results = [];
+    $('gameModeLabel').textContent = mode === 'a' ? '模式一 ‧ 翻譯機' : '模式二 ‧ 雙句對決';
+    $('gameScore').textContent = '答對 0 題';
+    showView('game');
+    renderQuestion();
+  }
+
+  function renderQuestion(){
+    if(state.qi >= 6){ showResult(); return; }
+    state.answered = false;
+
+    var q = currentQ();
+    var html = '<div class="q-card">';
+    html += '<span class="q-index">第 ' + (state.qi + 1) + ' 題 ‧ 共 6 題</span>';
+
+    if(state.mode === 'a'){
+      html += '<p class="verse">' + verseHTML(q.verse) + '</p>';
+      html += '<p class="q-source">' + q.source + '</p>';
+      html += '<p class="q-ask">句中的「其」是甚麼意思？</p>';
+      html += '<div class="options">';
+      var shuffled = shuffle(OPTIONS);
+      for(var i = 0; i < shuffled.length; i++){
+        html += '<button class="option" type="button" data-key="' + shuffled[i].key + '">' + shuffled[i].label + '</button>';
+      }
+      html += '</div>';
+    }else{
+      html += '<p class="q-ask" style="margin-bottom:16px">兩句的「其」意思相同嗎？</p>';
+      html += '<div class="duel">';
+      html += '<div class="duel-side"><p class="verse sm">' + verseHTML(q.a.verse) + '</p><p class="q-source">' + q.a.source + '</p></div>';
+      html += '<div class="duel-vs">VS</div>';
+      html += '<div class="duel-side"><p class="verse sm">' + verseHTML(q.b.verse) + '</p><p class="q-source">' + q.b.source + '</p></div>';
+      html += '</div>';
+      html += '<div class="options two">';
+      html += '<button class="option" type="button" data-key="same">意思相同</button>';
+      html += '<button class="option" type="button" data-key="diff">意思不同</button>';
+      html += '</div>';
+    }
+
+    html += '</div><div id="fbSlot" aria-live="polite"></div>';
+    $('gameBody').innerHTML = html;
+    updateChrome();
+  }
+
+  function choose(key){
+    if(state.answered || state.view !== 'game') return;
+    var q = currentQ();
+    state.answered = true;
+
+    var ok = (key === q.answer);
+    if(ok){ state.score++; Sound.correct(); }
+    else{ Sound.wrong(); }
+    state.results.push({ correct: ok, key: key });
+
+    $('gameScore').textContent = '答對 ' + state.score + ' 題';
+
+    var btns = document.querySelectorAll('#gameBody .option');
+    for(var i = 0; i < btns.length; i++){
+      var b = btns[i];
+      var k = b.getAttribute('data-key');
+      b.disabled = true;
+      if(k === q.answer){ b.classList.add('correct'); }
+      else if(k === key){ b.classList.add('wrong'); }
+      else{ b.classList.add('dim'); }
+    }
+
+    renderFeedback(ok, key);
+  }
+
+  function renderFeedback(ok, key){
+    var q = currentQ();
+    var isLast = state.qi >= 5;
+    var icon = ok
+      ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 L10 17.5 L19 7"/></svg>'
+      : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7 L17 17"/><path d="M17 7 L7 17"/></svg>';
+    var html = '<div class="feedback ' + (ok ? 'ok' : 'no') + '">';
+    html += '<div class="fb-head"><span class="fb-icon">' + icon + '</span>' + (ok ? '答對了！' : '差一點！') + '</div>';
+
+    if(state.mode === 'a'){
+      html += '<span class="fb-label">正確答案：' + labelOf(q.answer) + '</span>';
+      html += '<p class="fb-main">' + q.trans + '</p>';
+      html += '<p class="fb-text">' + q.explain + '</p>';
+      if(!ok){
+        html += '<p class="fb-text">你選了「' + labelOf(key) + '」。小提示：先看是不是「其一」「其中」，再把「他的」放進句子讀一讀。</p>';
+      }
+    }else{
+      html += '<span class="fb-label">正確答案：' + (q.answer === 'same' ? '意思相同' : '意思不同') + '</span>';
+      html += '<p class="fb-main">A　' + q.aMeaning + '<br>B　' + q.bMeaning + '</p>';
+      html += '<p class="fb-text">' + q.explain + '</p>';
+      if(!ok){
+        html += '<p class="fb-text">小提示：先看「其」後面是不是「一」或「中」，再把「他的」放進句子讀一讀。</p>';
+      }
+    }
+
+    html += '<div class="fb-actions"><button class="btn btn-primary" type="button" data-act="next">' +
+      (isLast ? '看成績' : '下一題') + '</button></div>';
+    html += '</div>';
+
+    $('fbSlot').innerHTML = html;
+
+    var nextBtn = $('fbSlot').querySelector('[data-act="next"]');
+    if(nextBtn){ try{ nextBtn.focus({ preventScroll: true }); }catch(e){ nextBtn.focus(); } }
+
+    try{
+      var fbRect = $('fbSlot').getBoundingClientRect();
+      if(fbRect.bottom > window.innerHeight - 8){
+        var cardEl = document.querySelector('.q-card');
+        var barEl = $('topbar');
+        var offset = (barEl ? barEl.offsetHeight : 70) + 12;
+        var topPos = cardEl.getBoundingClientRect().top + (window.pageYOffset || 0) - offset;
+        if(topPos < 0) topPos = 0;
+        window.scrollTo({ top: topPos, behavior: 'smooth' });
+      }
+    }catch(e){}
+  }
+
+  function nextQuestion(){
+    state.qi++;
+    if(state.qi >= 6){ showResult(); return; }
+    renderQuestion();
+    try{ window.scrollTo({ top: 0, behavior: 'auto' }); }catch(e){ window.scrollTo(0, 0); }
+  }
+
+  /* =========================================================
+     九、結果頁
+     ========================================================= */
+  function starSVG(on){
+    return '<svg viewBox="0 0 24 24" class="' + (on ? '' : 'off') + '" aria-hidden="true">' +
+      '<path d="M12 2.4 L15.1 8.9 L22.1 9.8 L16.9 14.5 L18.3 21.4 L12 18 L5.7 21.4 L7.1 14.5 L1.9 9.8 L8.9 8.9 Z" ' +
+      'fill="#EAB44D" stroke="#3A3026" stroke-width="1.7" stroke-linejoin="round"/></svg>';
+  }
+
+  function showResult(){
+    var s = state.score;
+    var stars = s >= 6 ? 3 : (s >= 4 ? 2 : 1);
+    var title, desc;
+
+    if(s >= 6){
+      title = '滿分！你是「其」字小博士';
+      desc = '三種用法都分得清清楚楚，快去挑戰另一個模式吧！';
+    }else if(s >= 4){
+      title = '很棒！只差一點點';
+      desc = '你已經掌握大部分用法，回去看看答錯的題目，再來一次就滿分了。';
+    }else if(s >= 2){
+      title = '不錯的開始';
+      desc = '「其」的三步還未記牢，先重看教學，再挑戰一次。';
+    }else{
+      title = '別灰心，再來一次';
+      desc = '先記住三步：見到「其一」「其中」就是「其中的」；把「他的」放進去讀得通，就是「他的」；讀不通，就是「那個」。';
+    }
+
+    var starsHTML = '';
+    for(var i = 0; i < 3; i++) starsHTML += starSVG(i < stars);
+
+    $('resultStars').innerHTML = starsHTML;
+    $('resultTitle').textContent = title;
+    $('resultDesc').textContent = desc;
+    $('resultScore').textContent = s;
+
+    var wrong = [];
+    for(var w = 0; w < state.results.length; w++){
+      if(!state.results[w].correct) wrong.push(w);
+    }
+    var reviewHTML = '';
+    if(wrong.length){
+      reviewHTML = '<div class="review"><h3>再看一次答錯的 ' + wrong.length + ' 題</h3><ul>';
+      for(var k = 0; k < wrong.length; k++){
+        var idx = wrong[k];
+        reviewHTML += '<li>';
+        if(state.mode === 'a'){
+          var qa = MODE_A[idx];
+          reviewHTML += '<span class="rv-verse">' + verseHTML(qa.verse) + '</span>';
+          reviewHTML += '<span class="rv-ans">「其」＝' + labelOf(qa.answer) + '　' + qa.trans + '</span>';
+        }else{
+          var qb = MODE_B[idx];
+          reviewHTML += '<span class="rv-verse">' + verseHTML(qb.a.verse) + '　／　' + verseHTML(qb.b.verse) + '</span>';
+          reviewHTML += '<span class="rv-ans">' + (qb.answer === 'same' ? '意思相同' : '意思不同') + '：A ' + qb.aMeaning + '；B ' + qb.bMeaning + '</span>';
+        }
+        reviewHTML += '</li>';
+      }
+      reviewHTML += '</ul></div>';
+    }
+    $('resultReview').innerHTML = reviewHTML;
+
+    showView('result');
+    if(stars === 3){ Sound.win(); }
+  }
+
+  /* =========================================================
+     十、事件綁定
+     ========================================================= */
+  function bind(){
+    $('btnStartTeach').addEventListener('click', function(){
+      Sound.click();
+      state.teach = 0;
+      showView('teach');
+      renderTeach();
+    });
+
+    $('btnSkipToMenu').addEventListener('click', function(){
+      Sound.click();
+      showView('menu');
+    });
+
+    var rvTeach = $('btnReviewTeach');
+    if(rvTeach){
+      rvTeach.addEventListener('click', function(){
+        Sound.click();
+        state.teach = 0;
+        showView('teach');
+        renderTeach();
+      });
+    }
+
+    $('btnTeachPrev').addEventListener('click', function(){ goTeach(-1); });
+    $('btnTeachNext').addEventListener('click', function(){ goTeach(1); });
+
+    $('btnBack').addEventListener('click', function(){
+      Sound.click();
+      if(state.view === 'teach'){ showView('home'); }
+      else if(state.view === 'menu'){ showView('home'); }
+      else if(state.view === 'game'){ showView('menu'); }
+      else if(state.view === 'result'){ showView('menu'); }
+    });
+
+    var cards = document.querySelectorAll('.mode-card');
+    for(var i = 0; i < cards.length; i++){
+      cards[i].addEventListener('click', function(){
+        Sound.click();
+        startMode(this.getAttribute('data-mode'));
+      });
+    }
+
+    $('gameBody').addEventListener('click', function(e){
+      var t = e.target;
+      var opt = t.closest ? t.closest('.option') : null;
+      if(opt && !opt.disabled){
+        choose(opt.getAttribute('data-key'));
+        return;
+      }
+      var act = t.closest ? t.closest('[data-act="next"]') : null;
+      if(act){ nextQuestion(); }
+    });
+
+    $('btnRetry').addEventListener('click', function(){
+      Sound.click();
+      if(state.mode) startMode(state.mode);
+      else showView('menu');
+    });
+
+    $('btnMenu').addEventListener('click', function(){
+      Sound.click();
+      showView('menu');
+    });
+
+    $('btnSound').addEventListener('click', function(){
+      Sound.enabled = !Sound.enabled;
+      this.classList.toggle('muted', !Sound.enabled);
+      this.setAttribute('aria-pressed', String(Sound.enabled));
+      this.setAttribute('aria-label', Sound.enabled ? '關閉音效' : '開啟音效');
+      if(Sound.enabled){
+        Sound.init();
+        Sound.unlock();
+        Sound.click();
+      }
+    });
+
+    document.addEventListener('pointerdown', function once(){
+      Sound.init();
+      Sound.unlock();
+      document.removeEventListener('pointerdown', once);
+    }, { passive: true });
+
+    document.addEventListener('keydown', function(e){
+      Sound.init();
+      Sound.unlock();
+      if(e.key === 'Escape'){
+        if(state.view !== 'home'){ $('btnBack').click(); }
+        return;
+      }
+      if(state.view === 'teach'){
+        if(e.key === 'ArrowRight'){ goTeach(1); }
+        if(e.key === 'ArrowLeft'){ goTeach(-1); }
+        return;
+      }
+      if(state.view === 'game' && !state.answered){
+        var n = parseInt(e.key, 10);
+        if(n >= 1 && n <= 3){
+          var opts = document.querySelectorAll('#gameBody .option');
+          if(opts[n - 1]){ opts[n - 1].click(); }
+        }
+      }
+    });
+  }
+
+  /* =========================================================
+     十一、啟動
+     ========================================================= */
+  function init(){
+    $('heroArt').innerHTML = artScholar();
+    $('artModeA').innerHTML = artModeA();
+    $('artModeB').innerHTML = artModeB();
+    bind();
+    showView('home');
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  }else{
+    init();
+  }
+})();
+
+</script>
+</body>
+</html>

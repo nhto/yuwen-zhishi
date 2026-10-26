@@ -1,0 +1,2385 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>議論小達人｜小學議論手法互動教室</title>
+<meta name="description" content="小學議論手法互動遊戲：五種議論手法教學、五個互動練習模式與兩個辨析挑戰區，繁體字、卡通Q版、附音效。">
+<style>
+:root{
+  --ink:#22344A; --ink-2:#3C5269; --soft:#6B7C90;
+  --cream:#FFF7EA; --paper:#FFFFFF;
+  --sun:#FFC93C; --coral:#FF8A5B; --mint:#2FBF9B; --sky:#459DF5; --violet:#8877E0; --pink:#FF8FA8;
+  --line:rgba(34,52,74,.12);
+  --r-lg:30px; --r-md:20px; --r-sm:14px;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --hard:0 6px 0 var(--ink);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;color:var(--ink);background:var(--cream);
+  font-family:"Noto Sans HK","Noto Sans TC","PingFang HK","PingFang TC","Microsoft JhengHei","Heiti TC","LiHei Pro",sans-serif;
+  font-size:17px;line-height:1.65;letter-spacing:.01em;
+  background-image:radial-gradient(circle at 1px 1px, rgba(34,52,74,.06) 1px, transparent 0);
+  background-size:24px 24px;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(620px 420px at 8% 3%, #FFEBC9 0%, rgba(255,235,201,0) 62%),
+    radial-gradient(720px 520px at 96% 16%, #D6EEFF 0%, rgba(214,238,255,0) 62%),
+    radial-gradient(680px 520px at 62% 104%, #FFE1EB 0%, rgba(255,225,235,0) 66%);
+  opacity:.85;
+}
+h1,h2,h3,h4,p,ul,ol{margin:0}
+button{font-family:inherit}
+:focus-visible{outline:4px solid rgba(69,157,245,.5);outline-offset:3px;border-radius:12px}
+.shell{max-width:1140px;margin:0 auto;padding:0 clamp(14px,3.2vw,30px) 130px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ---------- 頂欄 ---------- */
+.topbar{
+  position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:8px 0;margin-bottom:4px;
+  background:linear-gradient(180deg, rgba(255,247,234,.96) 60%, rgba(255,247,234,0));
+  backdrop-filter:blur(8px);
+}
+.brand{display:flex;align-items:center;gap:10px;background:none;border:0;padding:6px 8px 6px 4px;border-radius:18px;cursor:pointer;color:inherit;text-align:left}
+.brand svg{width:46px;height:46px;flex:none}
+.brand-name{display:block;font-size:1.02rem;font-weight:900;line-height:1.15;letter-spacing:.02em}
+.brand-sub{display:block;font-size:.7rem;font-weight:700;color:var(--soft);letter-spacing:.06em}
+.top-actions{display:flex;align-items:center;gap:8px}
+.icon-btn{
+  width:50px;height:50px;flex:none;display:inline-flex;align-items:center;justify-content:center;
+  border-radius:16px;border:2px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;
+  box-shadow:0 3px 0 rgba(34,52,74,.08);transition:transform .15s var(--ease), background .2s;
+}
+.icon-btn:hover{transform:translateY(-2px)}
+.icon-btn:active{transform:translateY(1px)}
+.icon-btn svg{width:24px;height:24px}
+.icon-btn[aria-pressed="true"]{background:#FFF1D6}
+
+/* ---------- 按鈕 ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-height:58px;padding:12px 26px;border-radius:18px;border:2.5px solid var(--ink);
+  background:#fff;color:var(--ink);font-size:1.02rem;font-weight:900;letter-spacing:.02em;
+  cursor:pointer;box-shadow:var(--hard);transition:transform .12s var(--ease), box-shadow .12s var(--ease), filter .2s;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 0 var(--ink)}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--ink)}
+.btn svg{width:22px;height:22px;flex:none}
+.btn-sun{background:var(--sun)}
+.btn-mint{background:#BFF3E5}
+.btn-ghost{box-shadow:0 4px 0 rgba(34,52,74,.14);border-color:var(--line);background:#fff}
+.btn-ghost:active{box-shadow:0 1px 0 rgba(34,52,74,.14)}
+.btn-block{width:100%}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none!important;box-shadow:0 3px 0 rgba(34,52,74,.15)!important}
+
+/* ---------- 畫面切換 ---------- */
+.screen{display:none}
+.screen.is-active{display:block;animation:screenIn .42s var(--ease) both}
+@keyframes screenIn{from{opacity:.001;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ---------- 首頁 ---------- */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(10px,3vw,40px);align-items:center;padding:clamp(10px,2vw,22px) 0 clamp(18px,3vw,30px)}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:900;letter-spacing:.16em;
+  color:var(--ink-2);background:#fff;border:2px solid var(--line);border-radius:999px;padding:7px 16px;box-shadow:0 3px 0 rgba(34,52,74,.06)
+}
+.eyebrow i{width:9px;height:9px;border-radius:50%;background:var(--coral);display:block}
+.hero h1{font-size:clamp(2.5rem,7.2vw,4.6rem);line-height:1.04;font-weight:900;margin:14px 0 10px;letter-spacing:.01em}
+.hl{position:relative;display:inline-block;z-index:0}
+.hl::after{content:"";position:absolute;left:-2%;right:-2%;bottom:6%;height:36%;background:#FFE08A;border-radius:8px;z-index:-1;transform:rotate(-1.2deg)}
+.hero p.lead{font-size:clamp(1.02rem,2vw,1.22rem);color:var(--ink-2);font-weight:600;max-width:30em;line-height:1.75}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.hero-note{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:800;color:var(--ink-2);background:rgba(255,255,255,.8);border:1.5px solid var(--line);border-radius:999px;padding:5px 12px}
+.pill svg{width:15px;height:15px;flex:none}
+.hero-art{position:relative;display:flex;justify-content:center}
+.hero-art .owl-wrap{width:min(100%,340px);animation:floaty 6s ease-in-out infinite}
+.hero-art svg{width:100%;height:auto;display:block;filter:drop-shadow(0 18px 24px rgba(34,52,74,.14))}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.bubble{
+  position:absolute;background:#fff;border:2.5px solid var(--ink);border-radius:18px;padding:8px 14px;
+  font-size:.9rem;font-weight:900;box-shadow:0 4px 0 rgba(34,52,74,.14);white-space:nowrap;
+}
+.bubble::after{content:"";position:absolute;width:12px;height:12px;background:#fff;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);bottom:-8px;left:26px;transform:rotate(45deg)}
+.b1{top:6%;left:-2%;transform:rotate(-4deg);color:#C75B32}
+.b2{top:34%;right:-3%;transform:rotate(3deg);color:#2F8FB8}
+.b3{bottom:12%;left:2%;transform:rotate(-2deg);color:#3E9E7E}
+
+/* ---------- 首頁三個入口 ---------- */
+.modules{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(12px,2vw,20px);margin-top:8px}
+.mod{
+  position:relative;overflow:hidden;text-align:left;border:2.5px solid var(--ink);border-radius:var(--r-lg);
+  padding:clamp(20px,3vw,30px);background:#fff;cursor:pointer;color:inherit;font-family:inherit;
+  box-shadow:0 8px 0 rgba(34,52,74,.9);transition:transform .16s var(--ease), box-shadow .16s var(--ease);
+}
+.mod:hover{transform:translateY(-4px);box-shadow:0 12px 0 rgba(34,52,74,.9)}
+.mod:active{transform:translateY(4px);box-shadow:0 4px 0 rgba(34,52,74,.9)}
+.mod-a{grid-column:span 12;background:linear-gradient(135deg,#FFF3D9,#FFE6C7 70%)}
+.mod-b{grid-column:span 7;background:linear-gradient(135deg,#E4F7F1,#D2F2E8 80%)}
+.mod-c{grid-column:span 5;background:linear-gradient(135deg,#E8F1FF,#DCE9FF 80%)}
+.mod-no{font-size:.74rem;font-weight:900;letter-spacing:.2em;color:var(--ink-2);opacity:.7}
+.mod h2{font-size:clamp(1.5rem,3.2vw,2.1rem);font-weight:900;margin:6px 0 6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.mod p{font-size:1rem;color:var(--ink-2);font-weight:600;max-width:34em}
+.mod-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:800;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.86);border:1.5px solid rgba(34,52,74,.14)}
+.chip i{width:9px;height:9px;border-radius:50%;display:block}
+.mod-go{display:inline-flex;align-items:center;gap:6px;margin-top:18px;font-weight:900;font-size:.95rem}
+.mod-go svg{width:18px;height:18px;transition:transform .2s}
+.mod:hover .mod-go svg{transform:translateX(4px)}
+.mod-art{position:absolute;right:14px;bottom:-6px;width:clamp(90px,17vw,150px);opacity:.95;pointer-events:none}
+.mod-art svg{width:100%;height:auto;display:block}
+.mod-b .mod-art{width:clamp(80px,14vw,124px);bottom:-10px;right:8px}
+.mod-c .mod-art{width:clamp(80px,14vw,124px);bottom:-10px;right:8px}
+
+/* ---------- 學習路線 ---------- */
+.road{margin-top:clamp(24px,4vw,40px)}
+.road-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.road-head h2{font-size:clamp(1.25rem,2.6vw,1.6rem);font-weight:900}
+.road-head span{font-size:.85rem;color:var(--soft);font-weight:700}
+.road-list{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
+.road-item{background:#fff;border:2px solid var(--line);border-radius:18px;padding:12px 10px;text-align:center;box-shadow:0 4px 0 rgba(34,52,74,.05)}
+.road-item b{display:block;font-size:.78rem;color:var(--soft);letter-spacing:.1em}
+.road-item span{display:block;font-size:.88rem;font-weight:900;margin-top:2px;line-height:1.3}
+.road-item em{display:block;font-style:normal;font-size:.72rem;color:var(--soft);font-weight:700;margin-top:2px}
+.road-item .dot{width:10px;height:10px;border-radius:50%;margin:0 auto 6px;display:block}
+
+/* ---------- 教學館 ---------- */
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:clamp(10px,2vw,20px) 0 18px}
+.page-head h1{font-size:clamp(1.8rem,4.4vw,2.7rem);font-weight:900;line-height:1.15}
+.page-head p{color:var(--ink-2);font-weight:600;margin-top:4px}
+.teach-wrap{display:grid;grid-template-columns:236px 1fr;gap:clamp(14px,2.4vw,26px);align-items:start}
+.rail{position:sticky;top:80px;display:flex;flex-direction:column;gap:8px}
+.rail-btn{
+  display:flex;align-items:center;gap:10px;text-align:left;padding:11px 13px;border-radius:16px;border:2px solid transparent;
+  background:rgba(255,255,255,.65);color:var(--ink);cursor:pointer;font-family:inherit;font-size:.92rem;font-weight:800;
+  transition:transform .15s var(--ease), background .2s, border-color .2s;
+}
+.rail-btn:hover{transform:translateX(3px);background:#fff}
+.rail-btn i{width:12px;height:12px;border-radius:4px;flex:none;display:block;background:var(--c)}
+.rail-btn small{display:block;font-size:.68rem;font-weight:700;color:var(--soft);letter-spacing:.04em}
+.rail-btn[aria-current="true"]{background:#fff;border-color:var(--ink);box-shadow:0 4px 0 rgba(34,52,74,.14)}
+.rail-btn.all i{background:linear-gradient(135deg,var(--coral),var(--violet))}
+
+.teach-card{background:#fff;border:2.5px solid var(--ink);border-radius:var(--r-lg);box-shadow:0 9px 0 rgba(34,52,74,.10);overflow:hidden}
+.teach-top{display:grid;grid-template-columns:auto 1fr;gap:clamp(14px,2.6vw,26px);align-items:center;padding:clamp(18px,3vw,30px);background:var(--tint)}
+.teach-illu{width:clamp(110px,17vw,180px);flex:none}
+.teach-illu svg{width:100%;height:auto;display:block}
+.teach-kicker{font-size:.76rem;font-weight:900;letter-spacing:.18em;color:var(--tc-ink);opacity:.8}
+.teach-title{font-size:clamp(1.55rem,3.6vw,2.25rem);font-weight:900;line-height:1.2;margin:4px 0 6px;color:var(--tc-ink)}
+.teach-title small{font-size:.72em;font-weight:800;opacity:.72;margin-left:8px}
+.teach-def{font-size:clamp(1rem,1.9vw,1.16rem);font-weight:700;line-height:1.7;color:var(--ink-2);max-width:34em}
+.teach-kou{display:flex;align-items:flex-start;gap:8px;margin-top:12px;background:#fff;border:2px solid var(--tc-ink);border-radius:16px;padding:8px 14px;font-weight:900;font-size:.92rem;line-height:1.5;color:var(--tc-ink);max-width:34em}
+.teach-kou svg{width:18px;height:18px;flex:none;margin-top:2px}
+.teach-body{padding:clamp(18px,3vw,30px);display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.tbox{border:2px solid var(--line);border-radius:18px;padding:14px 16px;background:#FFFDF8}
+.tbox h3{font-size:.82rem;font-weight:900;letter-spacing:.12em;color:var(--soft);display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.tbox h3 svg{width:16px;height:16px;flex:none}
+.tbox p{font-size:1rem;font-weight:600;color:var(--ink-2);line-height:1.7}
+.tbox ul{margin:0;padding-left:1.1em;font-size:.98rem;color:var(--ink-2);font-weight:600}
+.tbox li{margin:3px 0}
+.tbox code{font-family:inherit;background:#FFF0CF;border-radius:6px;padding:1px 6px;font-weight:800;color:#8A5A12}
+.fchip{display:inline-block;background:#FFF0CF;border-radius:9px;padding:3px 10px;margin:2px 5px 2px 0;font-weight:800;color:#8A5A12;font-size:.9rem;white-space:nowrap}
+.tbox.wide{grid-column:1/-1}
+.example-box{grid-column:1/-1;border:2.5px solid var(--tc-ink);border-radius:20px;padding:clamp(14px,2.4vw,22px);background:#fff;position:relative;overflow:hidden}
+.example-box::before{content:"“";position:absolute;right:10px;top:-16px;font-size:8rem;line-height:1;color:var(--tint-strong);font-family:Georgia,serif;opacity:.7}
+.example-box h3{font-size:.8rem;font-weight:900;letter-spacing:.14em;color:var(--tc-ink);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.example-box h3 svg{width:16px;height:16px;flex:none}
+.example-text{position:relative;font-size:clamp(1.02rem,2vw,1.2rem);font-weight:700;line-height:1.85;color:var(--ink);z-index:1}
+mark{background:linear-gradient(transparent 52%, var(--mark) 52%);padding:0 2px;font-weight:900;color:inherit}
+.teach-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:0 clamp(18px,3vw,30px) clamp(18px,3vw,26px)}
+.teach-nav{display:flex;gap:8px}
+.teach-nav .btn{min-height:50px;padding:10px 18px;font-size:.92rem}
+.teach-cta{display:flex;gap:8px;flex-wrap:wrap}
+
+/* 總覽頁 */
+.overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.ov-card{border:2px solid var(--line);border-radius:22px;padding:18px;background:#FFFDF8;text-align:left;cursor:pointer;font-family:inherit;color:inherit;transition:transform .16s var(--ease), border-color .2s}
+.ov-card:hover{transform:translateY(-3px);border-color:var(--ink)}
+.ov-card .ov-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.ov-card .ov-top svg{width:46px;height:46px;flex:none}
+.ov-card h3{font-size:1.06rem;font-weight:900}
+.ov-card p{font-size:.92rem;font-weight:600;color:var(--ink-2);line-height:1.6}
+.ov-card .ov-tag{display:inline-block;margin-top:10px;font-size:.76rem;font-weight:900;color:var(--soft);letter-spacing:.08em}
+.structure{margin-top:18px;border:2.5px dashed rgba(34,52,74,.22);border-radius:22px;padding:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;background:#FFFDF8}
+.structure .st{text-align:center;padding:10px;border-radius:14px;background:#fff;border:2px solid var(--line)}
+.structure b{display:block;font-size:1rem;font-weight:900}
+.structure span{font-size:.82rem;color:var(--soft);font-weight:700}
+
+/* ---------- 練習場 ---------- */
+.mode-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:16px}
+.mode-card{
+  position:relative;display:flex;flex-direction:column;gap:6px;text-align:left;padding:clamp(16px,2.4vw,22px);
+  border:2.5px solid var(--ink);border-radius:26px;background:#fff;cursor:pointer;color:inherit;font-family:inherit;
+  box-shadow:0 7px 0 rgba(34,52,74,.85);transition:transform .16s var(--ease), box-shadow .16s var(--ease);
+  overflow:hidden;
+}
+.mode-card:hover{transform:translateY(-4px);box-shadow:0 11px 0 rgba(34,52,74,.85)}
+.mode-card:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(34,52,74,.85)}
+.mode-card .MC-art{position:absolute;right:-8px;top:-6px;width:104px;opacity:.9;pointer-events:none}
+.mode-card .MC-art svg{width:100%;height:auto;display:block}
+.mode-card .MC-tag{font-size:.72rem;font-weight:900;letter-spacing:.14em;color:#fff;background:var(--mc);display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;align-self:flex-start;border:2px solid var(--ink)}
+.mode-card h3{font-size:clamp(1.2rem,2.4vw,1.45rem);font-weight:900;margin-top:8px;line-height:1.25;padding-right:70px}
+.mode-card .MC-sub{font-size:.8rem;font-weight:800;color:var(--mc-deep);letter-spacing:.04em}
+.mode-card p{font-size:.94rem;font-weight:600;color:var(--ink-2);line-height:1.6;margin-top:4px}
+.mode-card .MC-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px;padding-top:10px;border-top:1.5px dashed var(--line)}
+.stars{display:inline-flex;gap:3px}
+.stars svg{width:20px;height:20px}
+.stars .off{opacity:.22}
+.MC-go{display:inline-flex;align-items:center;gap:4px;font-weight:900;font-size:.9rem;color:var(--mc-deep)}
+.MC-go svg{width:16px;height:16px}
+.badge-done{position:absolute;right:14px;bottom:14px;font-size:.72rem;font-weight:900;color:var(--mc-deep);background:#fff;border:1.5px solid var(--mc);border-radius:999px;padding:2px 8px}
+
+/* ---------- 遊戲 ---------- */
+.game{max-width:860px;margin:0 auto}
+.game-head{display:flex;align-items:center;gap:10px;margin:6px 0 12px}
+.game-head .gtitle{flex:1;min-width:0}
+.game-head h1{font-size:clamp(1.15rem,2.6vw,1.5rem);font-weight:900;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.game-head small{display:block;font-size:.76rem;font-weight:800;color:var(--soft);letter-spacing:.04em}
+.score-pill{display:inline-flex;align-items:center;gap:6px;background:#fff;border:2px solid var(--line);border-radius:999px;padding:6px 12px;font-weight:900;font-size:.88rem;flex:none}
+.score-pill svg{width:17px;height:17px}
+.progress{height:14px;border-radius:999px;background:rgba(34,52,74,.09);overflow:hidden;margin-bottom:16px;border:2px solid rgba(34,52,74,.06)}
+.progress span{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--mc-light),var(--mc));transition:width .45s var(--ease)}
+.q-card{background:#fff;border:2.5px solid var(--ink);border-radius:26px;padding:clamp(18px,3vw,28px);box-shadow:0 8px 0 rgba(34,52,74,.10)}
+.q-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.q-index{font-size:.76rem;font-weight:900;letter-spacing:.14em;color:var(--mc-deep);background:var(--mc-soft);border-radius:999px;padding:4px 11px}
+.q-kind{font-size:.74rem;font-weight:800;color:var(--soft);letter-spacing:.06em}
+.q-stem{font-size:clamp(1.08rem,2.3vw,1.36rem);font-weight:900;line-height:1.66;color:var(--ink)}
+.q-sub{font-size:.96rem;font-weight:700;color:var(--ink-2);margin-top:8px}
+.q-extra{margin-top:10px;font-size:.92rem;font-weight:700;color:var(--soft)}
+.opts{display:flex;flex-direction:column;gap:11px;margin-top:16px}
+.opt{
+  position:relative;display:flex;align-items:flex-start;gap:12px;width:100%;text-align:left;
+  padding:15px 16px;border:2.5px solid rgba(34,52,74,.16);border-radius:18px;background:#FFFDF8;color:var(--ink);
+  font-family:inherit;font-size:clamp(.98rem,2vw,1.1rem);font-weight:700;line-height:1.6;cursor:pointer;
+  transition:transform .14s var(--ease), border-color .18s, background .18s, box-shadow .18s;
+  box-shadow:0 4px 0 rgba(34,52,74,.07);
+}
+.opt:hover{transform:translateY(-2px);border-color:var(--mc);box-shadow:0 6px 0 rgba(34,52,74,.10)}
+.opt .tick{
+  flex:none;width:34px;height:34px;border-radius:11px;display:inline-flex;align-items:center;justify-content:center;
+  background:var(--mc-soft);color:var(--mc-deep);font-weight:900;font-size:.92rem;border:2px solid rgba(34,52,74,.10);
+}
+.opt .label{flex:1;min-width:0}
+.opt.correct{border-color:#2FBF9B;background:#E9FBF4;box-shadow:0 4px 0 rgba(47,191,155,.35)}
+.opt.correct .tick{background:#2FBF9B;color:#fff;border-color:#1B8F72}
+.opt.wrong{border-color:#F26A5A;background:#FFEFEC;box-shadow:0 4px 0 rgba(242,106,90,.3)}
+.opt.wrong .tick{background:#F26A5A;color:#fff;border-color:#C94B3D}
+.opt[disabled]{cursor:default}
+.opt.dim{opacity:.55}
+.opt .mark{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:22px;height:22px;display:none}
+.opt.correct .mark,.opt.wrong .mark{display:block}
+
+/* 選項變體 */
+.opts.v-case .opt{border-radius:20px 20px 20px 6px}
+.opts.v-puzzle{gap:14px}
+.opts.v-puzzle .opt{border-radius:14px;border-style:dashed}
+.opts.v-puzzle .opt::after{content:"";position:absolute;left:-11px;top:50%;width:20px;height:20px;margin-top:-10px;border-radius:50%;background:var(--cream);border:2.5px dashed rgba(34,52,74,.3)}
+.opts.v-quote .opt{border-left-width:10px;border-left-color:var(--mc)}
+.opts.v-detect{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opts.v-detect .opt{padding:12px 13px;font-size:.98rem;border-radius:16px}
+.opts.v-detect .opt .tick{width:30px;height:30px;font-size:.8rem;border-radius:9px}
+
+/* 天平 */
+.balance-stage{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:10px}
+.scale{width:min(100%,420px);height:auto;display:block}
+.scale .beam-g{transform-origin:160px 84px;transition:transform .55s var(--ease)}
+.scale.tilt-left .beam-g{transform:rotate(-11deg)}
+.scale.tilt-right .beam-g{transform:rotate(11deg)}
+.scale.tilt-left .pan-l{transform:translateY(18px)}
+.scale.tilt-right .pan-r{transform:translateY(18px)}
+.scale .pan-l,.scale .pan-r{transition:transform .55s var(--ease)}
+.pan-choices{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;margin-top:6px}
+.pan-btn{
+  display:flex;flex-direction:column;align-items:center;gap:3px;padding:14px 8px;border-radius:20px;border:2.5px solid var(--ink);
+  background:#fff;cursor:pointer;font-family:inherit;font-weight:900;font-size:1.02rem;color:var(--ink);box-shadow:0 5px 0 var(--ink);
+  transition:transform .14s var(--ease), box-shadow .14s var(--ease);
+}
+.pan-btn:hover{transform:translateY(-2px)}
+.pan-btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+.pan-btn small{font-size:.76rem;font-weight:700;color:var(--soft)}
+.pan-btn.pro{background:#EAF9F3}
+.pan-btn.con{background:#FFF0EC}
+.pan-btn[disabled]{opacity:.55;cursor:default;transform:none}
+
+/* 分類 */
+.sort-hint{font-size:.88rem;font-weight:800;color:var(--soft);margin-top:10px;display:flex;align-items:center;gap:6px}
+.sort-hint svg{width:16px;height:16px;flex:none}
+.pool{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px;min-height:0}
+.sort-card{
+  border:2.5px solid var(--ink);border-radius:16px;background:#fff;padding:11px 14px;font-family:inherit;
+  font-size:.95rem;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;line-height:1.5;
+  box-shadow:0 4px 0 rgba(34,52,74,.12);transition:transform .14s var(--ease), box-shadow .14s, background .2s;
+  flex:1 1 100%;
+}
+.sort-card:hover{transform:translateY(-2px)}
+.sort-card.sel{background:#FFF2CE;border-color:#C98A00;box-shadow:0 4px 0 #E0A200;transform:translateY(-3px)}
+.sort-card.done{display:none}
+.bins{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px}
+.bin{
+  border:2.5px dashed rgba(34,52,74,.3);border-radius:16px;background:#FFFDF8;padding:10px 8px;min-height:96px;
+  display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;font-family:inherit;color:var(--ink);
+  transition:transform .15s var(--ease), background .2s, border-color .2s;
+}
+.bin:hover{background:#fff;border-color:var(--ink)}
+.bin .bin-ico{width:30px;height:30px;flex:none}
+.bin .bin-ico svg{width:100%;height:100%;display:block}
+.bin b{font-size:.8rem;font-weight:900;line-height:1.25;text-align:center}
+.bin .bin-items{display:flex;flex-direction:column;gap:4px;width:100%}
+.bin .bin-tag{font-size:.7rem;font-weight:800;background:var(--mc-soft);border-radius:8px;padding:3px 6px;line-height:1.35;color:var(--ink-2)}
+.bin.shake{animation:shake .42s}
+.bin.good{background:#EAFBF4;border-color:#2FBF9B;border-style:solid}
+
+/* 類比搭橋 */
+.bridge-stage{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:stretch;margin-top:16px}
+.bank{
+  border:2.5px solid var(--ink);border-radius:18px;background:#FFFDF8;padding:13px 15px;
+  display:flex;flex-direction:column;justify-content:center;gap:5px;min-width:0;
+  box-shadow:0 5px 0 rgba(34,52,74,.10);
+}
+.bank small{font-size:.72rem;font-weight:900;color:var(--soft);letter-spacing:.1em}
+.bank b{font-size:clamp(.98rem,2.2vw,1.12rem);font-weight:900;line-height:1.55;color:var(--ink);overflow-wrap:anywhere}
+.bank-right{border-style:dashed;border-color:rgba(34,52,74,.3);background:#FFFBF0;align-items:center;text-align:center}
+.bank-right b{color:var(--soft);font-size:1.5rem;line-height:1.3}
+.bank-right.filled{border-style:solid;border-color:var(--ink);background:#fff}
+.bank-right.filled b{color:var(--ink);font-size:clamp(.98rem,2.2vw,1.12rem);line-height:1.55}
+.bridge-mid{display:flex;align-items:center;justify-content:center}
+.bridge-mid .eq{
+  width:48px;height:48px;border-radius:50%;background:var(--mc-soft);border:2.5px solid var(--ink);
+  display:grid;place-items:center;box-shadow:0 4px 0 rgba(34,52,74,.14);
+}
+.bridge-mid .eq svg{width:26px;height:26px;display:block}
+.bridge-ask{margin-top:18px;display:flex;align-items:center;gap:6px;font-size:.96rem;font-weight:900;line-height:1.5;color:var(--mc-deep)}
+.bridge-hint{
+  display:flex;gap:8px;align-items:flex-start;margin-top:12px;padding:11px 14px;border-radius:14px;
+  font-size:.92rem;font-weight:700;line-height:1.6;border:2px solid #F5C57E;background:#FFF8E8;color:#7A5200;
+}
+.bridge-hint[hidden]{display:none}
+.bridge-hint svg{width:18px;height:18px;flex:none;margin-top:3px}
+@media(max-width:560px){
+  .bridge-stage{grid-template-columns:1fr;gap:8px}
+  .bridge-mid .eq{width:42px;height:42px}
+  .bank{padding:11px 13px}
+}
+
+/* 回饋 */
+.sheet{position:fixed;inset:0;z-index:70;display:flex;align-items:flex-end;justify-content:center;padding:0 10px;background:rgba(34,52,74,.22);animation:fadeIn .2s both}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.sheet .sheet-in{
+  width:100%;max-width:860px;pointer-events:auto;background:#fff;border:2.5px solid var(--ink);border-bottom:0;
+  border-radius:24px 24px 0 0;padding:16px clamp(16px,3vw,24px) calc(16px + env(safe-area-inset-bottom));
+  box-shadow:0 -14px 40px rgba(34,52,74,.18);animation:sheetUp .38s var(--ease) both;
+  max-height:64vh;overflow:auto;overscroll-behavior:contain;
+}
+@keyframes sheetUp{from{transform:translateY(110%)}to{transform:none}}
+.sheet-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.sheet-badge{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:900;padding:4px 11px;border-radius:999px;border:2px solid}
+.sheet-badge.ok{background:#E9FBF4;color:#167A5E;border-color:#67D7B9}
+.sheet-badge.no{background:#FFEFEC;color:#B33E2E;border-color:#F5A79B}
+.sheet-badge svg{width:15px;height:15px}
+.sheet h3{font-size:1.08rem;font-weight:900}
+.sheet-text{font-size:1rem;font-weight:600;color:var(--ink-2);line-height:1.72;margin:4px 0 12px}
+.sheet-text b{color:var(--ink);font-weight:900}
+.sheet .btn{min-height:52px;width:100%}
+
+/* ---------- 結算 ---------- */
+.summary{max-width:760px;margin:0 auto;text-align:center}
+.summary-card{background:#fff;border:2.5px solid var(--ink);border-radius:30px;padding:clamp(22px,4vw,36px);box-shadow:0 10px 0 rgba(34,52,74,.12)}
+.summary .trophy{width:clamp(110px,22vw,160px);margin:0 auto 6px}
+.summary .trophy svg{width:100%;height:auto;display:block}
+.summary h2{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:900;line-height:1.25}
+.summary .verdict{font-size:1rem;font-weight:700;color:var(--ink-2);margin-top:6px}
+.ring{width:150px;height:150px;margin:16px auto 6px;border-radius:50%;display:grid;place-items:center;position:relative;background:conic-gradient(var(--mc) var(--p), rgba(34,52,74,.09) 0)}
+.ring::before{content:"";position:absolute;inset:12px;border-radius:50%;background:#fff}
+.ring b{position:relative;font-size:2rem;font-weight:900;line-height:1}
+.ring span{position:relative;display:block;font-size:.78rem;color:var(--soft);font-weight:800;letter-spacing:.08em}
+.big-stars{display:flex;justify-content:center;gap:8px;margin:8px 0 4px}
+.big-stars svg{width:44px;height:44px}
+.big-stars .off{opacity:.2}
+.review{text-align:left;margin-top:20px;border-top:2px dashed var(--line);padding-top:16px}
+.review h3{font-size:1rem;font-weight:900;display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.review h3 svg{width:20px;height:20px;flex:none}
+.review-item{background:#FFF9F0;border:2px solid var(--line);border-radius:16px;padding:12px 14px;margin-bottom:9px}
+.review-item .ri-q{font-size:.9rem;font-weight:700;color:var(--ink-2);line-height:1.6}
+.review-item .ri-a{font-size:.9rem;font-weight:900;color:#167A5E;margin-top:4px}
+.review-item .ri-e{font-size:.86rem;font-weight:600;color:var(--soft);margin-top:3px;line-height:1.6}
+.sum-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:20px}
+.sum-actions .btn{flex:1 1 180px}
+
+/* ---------- 補充狀態 ---------- */
+.pan-btn.correct{border-color:#2FBF9B;background:#E9FBF4}
+.pan-btn.wrong{border-color:#F26A5A;background:#FFEFEC}
+.sort-fb{display:flex;gap:8px;align-items:flex-start;margin-top:12px;padding:11px 14px;border-radius:14px;font-size:.93rem;font-weight:700;line-height:1.6;border:2px solid}
+.sort-fb.ok{background:#E9FBF4;border-color:#8FE0C8;color:#12664E}
+.sort-fb.no{background:#FFEFEC;border-color:#F5A79B;color:#9E3628}
+.sort-fb svg{width:18px;height:18px;flex:none;margin-top:3px}
+.ring>div{position:relative;text-align:center}
+.sheet[hidden]{display:none}
+.opt .label{word-break:break-word}
+.bin-tag{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ---------- 其他 ---------- */
+.toast{
+  position:fixed;left:50%;bottom:24px;transform:translate(-50%,120%);z-index:90;background:var(--ink);color:#fff;
+  padding:10px 20px;border-radius:999px;font-weight:800;font-size:.9rem;transition:transform .35s var(--ease);pointer-events:none;
+}
+.toast.show{transform:translate(-50%,0)}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+/* ---------- 響應式 ---------- */
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr}
+  .hero-art{order:-1;max-width:300px;margin:0 auto}
+  .hero-art .owl-wrap{width:min(100%,260px)}
+  .bubble{font-size:.8rem;padding:6px 11px}
+  .mod-b,.mod-c{grid-column:span 12}
+  .mod-art{opacity:.55}
+  .teach-wrap{grid-template-columns:1fr}
+  .rail{position:static;flex-direction:row;overflow-x:auto;padding-bottom:6px;gap:8px;-webkit-overflow-scrolling:touch}
+  .rail-btn{flex:none;white-space:nowrap;padding:9px 12px}
+  .rail-btn small{display:none}
+  .road-list{grid-template-columns:repeat(4,1fr)}
+  .bins{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:680px){
+  body{font-size:16.5px}
+  .shell{padding-bottom:150px}
+  .hero h1{font-size:2.45rem}
+  .hero-actions .btn{flex:1 1 100%}
+  .teach-top{grid-template-columns:1fr;text-align:center;justify-items:center}
+  .teach-def{text-align:center}
+  .teach-body{grid-template-columns:1fr}
+  .teach-illu{width:130px}
+  .opts.v-detect{grid-template-columns:1fr}
+  .road-list{grid-template-columns:repeat(2,1fr)}
+  .structure{grid-template-columns:1fr}
+  .bins{grid-template-columns:repeat(2,1fr)}
+  .bin{min-height:82px}
+  .game-head h1{font-size:1.05rem;white-space:normal}
+  .score-pill{font-size:.8rem;padding:5px 10px}
+  .summary-card{padding:20px 16px}
+  .big-stars svg{width:36px;height:36px}
+  .sheet .sheet-in{max-height:70vh;border-radius:20px 20px 0 0}
+}
+@media (max-width:380px){
+  .brand-sub{display:none}
+  .brand svg{width:40px;height:40px}
+  .bins{grid-template-columns:1fr 1fr}
+}
+@media (min-width:1280px){
+  body{font-size:18px}
+  .shell{max-width:1200px}
+}
+</style>
+</head>
+<body>
+<div class="shell" data-generated-by="aurora-frontend-design">
+<header class="topbar">
+  <button class="brand" id="brandHome" aria-label="回到首頁">
+    <svg viewBox="0 0 240 250" aria-hidden="true">
+      <circle cx="120" cy="102" r="66" fill="#FFF3D6" stroke="#22344A" stroke-width="9"/>
+      <path d="M68 58l-8-28 28 12z" fill="#F8DCA8" stroke="#22344A" stroke-width="8" stroke-linejoin="round"/>
+      <path d="M172 58l8-28-28 12z" fill="#F8DCA8" stroke="#22344A" stroke-width="8" stroke-linejoin="round"/>
+      <circle cx="97" cy="104" r="24" fill="#fff" stroke="#22344A" stroke-width="7"/>
+      <circle cx="143" cy="104" r="24" fill="#fff" stroke="#22344A" stroke-width="7"/>
+      <circle cx="99" cy="106" r="9" fill="#22344A"/>
+      <circle cx="145" cy="106" r="9" fill="#22344A"/>
+      <path d="M120 118l12 16-12 10-12-10z" fill="#FFC93C" stroke="#22344A" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M120 34l50 18-50 18-50-18z" fill="#22344A"/>
+      <rect x="90" y="62" width="60" height="12" rx="5" fill="#2E4A67"/>
+      <path d="M164 54v30" stroke="#FFC93C" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="164" cy="88" r="7" fill="#FFC93C" stroke="#22344A" stroke-width="3"/>
+    </svg>
+    <span>
+      <span class="brand-name">議論小達人</span>
+      <span class="brand-sub">小學議論文互動教室</span>
+    </span>
+  </button>
+  <div class="top-actions">
+    <button class="icon-btn" id="soundBtn" aria-pressed="false" aria-label="關閉音效" title="音效開關">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 9.2v5.6h3.6L13 18.4V5.6L7.6 9.2H4z" fill="currentColor" stroke="none"/>
+        <path d="M16.4 8.8a4.6 4.6 0 010 6.4" class="wave1"/>
+        <path d="M19.2 6.4a8.2 8.2 0 010 11.2" class="wave2"/>
+        <path d="M2.6 2.6l18.8 18.8" class="mute-x" style="display:none"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ 首頁 ============ -->
+<section class="screen is-active" id="s-home">
+  <div class="hero">
+    <div>
+      <span class="eyebrow"><i></i>小學中文 · 議論文入門</span>
+      <h1>議論<span class="hl">小達人</span></h1>
+      <p class="lead">五種議論手法、七個學習站。看完圖解就馬上動手玩，你會發現——說理，也可以很好玩。</p>
+      <div class="hero-actions">
+        <button class="btn btn-sun" data-nav="teach">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 016.5 3H19v15H6.5A2.5 2.5 0 004 20.5V5.5z"/><path d="M8 7.5h7M8 11h5"/></svg>
+          開始學習
+        </button>
+        <button class="btn" data-nav="play">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4.5l12 7.5-12 7.5z"/></svg>
+          直接玩遊戲
+        </button>
+      </div>
+      <div class="hero-note">
+        <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 3v18M3 12h18"/></svg>70 道題目</span>
+        <span class="pill">5 種議論手法</span>
+        <span class="pill">2 個辨析挑戰</span>
+        <span class="pill">附互動音效</span>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="bubble b1">我認為……</div>
+      <div class="bubble b2">例如……</div>
+      <div class="bubble b3">所以說……</div>
+      <div class="owl-wrap">
+        <svg viewBox="0 0 240 250" role="img" aria-label="貓頭鷹博士">
+          <ellipse cx="120" cy="236" rx="64" ry="8" fill="#22344A" opacity=".10"/>
+          <path d="M120 88c-48 0-76 38-76 84 0 42 32 66 76 66s76-24 76-66c0-46-28-84-76-84z" fill="#FFF3D6" stroke="#22344A" stroke-width="7"/>
+          <ellipse cx="120" cy="190" rx="38" ry="44" fill="#FFE4B0"/>
+          <path d="M48 140c-10 20-12 46-3 64 4 8 14 6 16-4 3-17 4-36 9-50z" fill="#F8DCA8" stroke="#22344A" stroke-width="6.5" stroke-linejoin="round"/>
+          <path d="M192 140c10 20 12 46 3 64-4 8-14 6-16-4-3-17-4-36-9-50z" fill="#F8DCA8" stroke="#22344A" stroke-width="6.5" stroke-linejoin="round"/>
+          <path d="M66 58l-9-28 29 11z" fill="#F8DCA8" stroke="#22344A" stroke-width="6.5" stroke-linejoin="round"/>
+          <path d="M174 58l9-28-29 11z" fill="#F8DCA8" stroke="#22344A" stroke-width="6.5" stroke-linejoin="round"/>
+          <circle cx="120" cy="104" r="66" fill="#FFF3D6" stroke="#22344A" stroke-width="7"/>
+          <circle cx="96" cy="106" r="26" fill="#fff" stroke="#22344A" stroke-width="6"/>
+          <circle cx="144" cy="106" r="26" fill="#fff" stroke="#22344A" stroke-width="6"/>
+          <circle cx="99" cy="108" r="10" fill="#22344A"/>
+          <circle cx="147" cy="108" r="10" fill="#22344A"/>
+          <circle cx="102.5" cy="104" r="3.4" fill="#fff"/>
+          <circle cx="150.5" cy="104" r="3.4" fill="#fff"/>
+          <ellipse cx="72" cy="132" rx="10" ry="6" fill="#FFB3A0" opacity=".9"/>
+          <ellipse cx="168" cy="132" rx="10" ry="6" fill="#FFB3A0" opacity=".9"/>
+          <path d="M120 122l13 17-13 11-13-11z" fill="#FFC93C" stroke="#22344A" stroke-width="5.5" stroke-linejoin="round"/>
+          <path d="M120 30l52 19-52 19-52-19z" fill="#22344A"/>
+          <rect x="88" y="60" width="64" height="13" rx="6" fill="#2E4A67"/>
+          <path d="M166 52v32" stroke="#FFC93C" stroke-width="5.5" stroke-linecap="round"/>
+          <circle cx="166" cy="88" r="7.5" fill="#FFC93C" stroke="#22344A" stroke-width="3"/>
+          <path d="M104 224h14M122 224h14" stroke="#FFB020" stroke-width="7" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="modules">
+    <button class="mod mod-a" data-nav="teach">
+      <div class="mod-no">STEP 01</div>
+      <h2>教學館
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+      </h2>
+      <p>五張圖解卡，每張一個手法：是甚麼、怎麼寫、看例子、別踩雷。字大圖大，適合課堂一起看。</p>
+      <div class="mod-chips" id="homeChips"></div>
+      <div class="mod-go">進入教學館
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+      </div>
+      <div class="mod-art" id="homeArt1"></div>
+    </button>
+
+    <button class="mod mod-b" data-nav="play">
+      <div class="mod-no">STEP 02</div>
+      <h2>練習場</h2>
+      <p>每種手法一個專屬玩法，各 10 題。答完立即揭曉答案，並告訴你為甚麼。</p>
+      <div class="mod-chips">
+        <span class="chip"><i style="background:#FF8A5B"></i>論據配對台</span>
+        <span class="chip"><i style="background:#8877E0"></i>名言印章</span>
+        <span class="chip"><i style="background:#2FBF9B"></i>比喻拼圖</span>
+        <span class="chip"><i style="background:#459DF5"></i>正反天平</span>
+        <span class="chip"><i style="background:#E8A317"></i>類比搭橋</span>
+      </div>
+      <div class="mod-go">挑一個模式
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+      </div>
+    </button>
+
+    <button class="mod mod-c" data-nav="challenge">
+      <div class="mod-no">STEP 03</div>
+      <h2>挑戰區</h2>
+      <p>五種手法混合出題，兩種模式：逐題偵測與分類挑戰，考考你的眼力。</p>
+      <div class="mod-go">接受挑戰
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+      </div>
+      <div class="mod-art" id="homeArt2"></div>
+    </button>
+  </div>
+
+  <div class="road">
+    <div class="road-head">
+      <h2>七個學習站</h2>
+      <span>由淺入深，一站一站收集星星</span>
+    </div>
+    <div class="road-list" id="roadList"></div>
+  </div>
+</section>
+
+<!-- ============ 教學館 ============ -->
+<section class="screen" id="s-teach">
+  <div class="page-head">
+    <div>
+      <h1>教學館</h1>
+      <p>先看懂，再動手。每一張卡都有一個手法、一句口訣、一個例子。</p>
+    </div>
+    <button class="btn btn-ghost" data-nav="home">回到首頁</button>
+  </div>
+  <div class="teach-wrap">
+    <nav class="rail" id="teachRail" aria-label="議論手法選單"></nav>
+    <div id="teachCard"></div>
+  </div>
+</section>
+
+<!-- ============ 練習場 ============ -->
+<section class="screen" id="s-play">
+  <div class="page-head">
+    <div>
+      <h1>練習場</h1>
+      <p>五種手法，五種玩法。每個模式 10 題，答錯也會有解說。</p>
+    </div>
+    <button class="btn btn-ghost" data-nav="home">回到首頁</button>
+  </div>
+  <div class="mode-grid" id="modeGrid"></div>
+</section>
+
+<!-- ============ 挑戰區 ============ -->
+<section class="screen" id="s-challenge">
+  <div class="page-head">
+    <div>
+      <h1>辨析挑戰區</h1>
+      <p>五種手法混合出題，不再提示屬於哪一類。兩種模式，各 10 題。</p>
+    </div>
+    <button class="btn btn-ghost" data-nav="home">回到首頁</button>
+  </div>
+  <div class="mode-grid" id="challengeGrid"></div>
+</section>
+
+<!-- ============ 遊戲 ============ -->
+<section class="screen" id="s-game">
+  <div class="game" id="gameRoot"></div>
+</section>
+
+<!-- ============ 結算 ============ -->
+<section class="screen" id="s-summary">
+  <div class="summary" id="summaryRoot"></div>
+</section>
+
+</main>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="答題回饋" hidden><div class="sheet-in" id="sheetIn" aria-live="polite"></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+/* =========================================================
+   議論小達人 — 小學議論手法互動教室
+   單檔自包含：所有圖形為內嵌 SVG，音效由 Web Audio 即時合成
+   ========================================================= */
+(function () {
+"use strict";
+
+/* ---------------- 音效 ---------------- */
+var SFX = (function () {
+  var ctx = null, muted = false;
+  function ac() {
+    if (muted) return null;
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    if (!ctx) ctx = new AC();
+    if (ctx.state === "suspended") ctx.resume();
+    return ctx;
+  }
+  function beep(freq, delay, dur, type, vol) {
+    var c = ac(); if (!c) return;
+    var t0 = c.currentTime + delay;
+    var o = c.createOscillator(), g = c.createGain();
+    o.type = type || "sine";
+    o.frequency.setValueAtTime(freq, t0);
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(vol || 0.1, t0 + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g); g.connect(c.destination);
+    o.start(t0); o.stop(t0 + dur + 0.03);
+  }
+  return {
+    tap: function () { beep(480, 0, 0.07, "triangle", 0.05); },
+    pick: function () { beep(680, 0, 0.09, "sine", 0.08); },
+    correct: function () {
+      [523.25, 659.25, 783.99].forEach(function (f, i) { beep(f, i * 0.075, 0.19, "triangle", 0.1); });
+    },
+    wrong: function () {
+      beep(200, 0, 0.15, "sawtooth", 0.055);
+      beep(152, 0.13, 0.22, "sawtooth", 0.045);
+    },
+    win: function () {
+      [523.25, 659.25, 783.99, 1046.5].forEach(function (f, i) { beep(f, i * 0.11, 0.32, "triangle", 0.1); });
+    },
+    toggle: function () {
+      muted = !muted;
+      if (!muted) beep(660, 0, 0.1, "sine", 0.08);
+      return muted;
+    }
+  };
+})();
+
+/* ---------------- 圖示 ---------------- */
+var ICON = {
+  back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>',
+  arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.6l5 5 10-11"/></svg>',
+  cross: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v8a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M9.5 20v-6h5v6"/></svg>',
+  refresh: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 10-2.5 6"/><path d="M20 4v7h-7"/></svg>',
+  star: '<svg viewBox="0 0 24 24" fill="#FFC93C" stroke="#22344A" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l2.85 5.9 6.45.92-4.68 4.55 1.12 6.43L12 17.55 6.26 20.6l1.12-6.43L2.7 9.62l6.45-.92z"/></svg>',
+  book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.4A2.4 2.4 0 016.4 3H19v15H6.4A2.4 2.4 0 004 20.4V5.4z"/><path d="M8 7.6h7M8 11h5"/></svg>',
+  target: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/></svg>',
+  clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5.4l3.4 2"/></svg>',
+  layers: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg>',
+  bulb: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 00-3.5 10.9c.6.5 1 1.2 1 2h5c0-.8.4-1.5 1-2A6 6 0 0012 3z"/></svg>',
+  trophy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 01-10 0z"/><path d="M7 5H4v2a3 3 0 003 3M17 5h3v2a3 3 0 01-3 3"/><path d="M12 14v3M8.5 20h7"/><path d="M10 17h4l.6 3H9.4z"/></svg>',
+  sparkle: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M18.5 15.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/></svg>',
+  info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.4M12 7.7v.1"/></svg>',
+  play: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.6l12 7.4-12 7.4z"/></svg>',
+  warn: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l9 16H3z"/><path d="M12 9.5v4.2M12 16.6v.1"/></svg>'
+};
+
+/* ---------------- 插畫 ---------------- */
+var ART = {
+  example: '<svg viewBox="0 0 200 160" aria-hidden="true">' +
+    '<ellipse cx="100" cy="148" rx="62" ry="7" fill="#22344A" opacity=".08"/>' +
+    '<rect x="26" y="98" width="64" height="42" rx="12" fill="#FFD9C7" stroke="#22344A" stroke-width="6"/>' +
+    '<rect x="60" y="66" width="62" height="40" rx="12" fill="#FFC0A6" stroke="#22344A" stroke-width="6"/>' +
+    '<rect x="40" y="112" width="18" height="10" rx="5" fill="#fff" opacity=".75"/>' +
+    '<circle cx="130" cy="62" r="36" fill="#fff" stroke="#22344A" stroke-width="6.5"/>' +
+    '<circle cx="130" cy="62" r="23" fill="#D9F0FF" stroke="#22344A" stroke-width="4"/>' +
+    '<path d="M136 56a10 10 0 00-11-4" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+    '<path d="M156 87l24 29" stroke="#22344A" stroke-width="13" stroke-linecap="round"/>' +
+    '<path d="M156 87l24 29" stroke="#FF8A5B" stroke-width="7" stroke-linecap="round"/>' +
+    '<path d="M26 38l5 11 11 5-11 5-5 11-5-11-11-5 11-5z" fill="#FFC93C"/>' +
+    '</svg>',
+  quote: '<svg viewBox="0 0 200 160" aria-hidden="true">' +
+    '<ellipse cx="100" cy="150" rx="60" ry="7" fill="#22344A" opacity=".08"/>' +
+    '<path d="M48 34h104a14 14 0 0114 14v70a14 14 0 01-14 14H48z" fill="#fff" stroke="#22344A" stroke-width="6" stroke-linejoin="round"/>' +
+    '<path d="M48 34c-9 0-15 6-15 15v69c0 9 6 15 15 15" fill="#EFE9FF" stroke="#22344A" stroke-width="6"/>' +
+    '<path d="M48 34v98" stroke="#22344A" stroke-width="4" opacity=".3"/>' +
+    '<text x="66" y="92" font-family="Georgia, \'Times New Roman\', serif" font-size="60" fill="#8877E0">\u201C</text>' +
+    '<path d="M76 104h56M76 118h36" stroke="#22344A" stroke-width="6" stroke-linecap="round" opacity=".32"/>' +
+    '<circle cx="152" cy="112" r="16" fill="#FFC93C" stroke="#22344A" stroke-width="5"/>' +
+    '<path d="M146 112l4 4 7-8" stroke="#22344A" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '</svg>',
+  metaphor: '<svg viewBox="0 0 200 160" aria-hidden="true">' +
+    '<ellipse cx="100" cy="150" rx="60" ry="7" fill="#22344A" opacity=".08"/>' +
+    '<path d="M22 84a21 21 0 0139-11 19 19 0 0133 9 17 17 0 019 32H33A19 19 0 0122 84z" fill="#D9F7EE" stroke="#22344A" stroke-width="5.5" stroke-linejoin="round"/>' +
+    '<path d="M150 34a27 27 0 0127 27 27 27 0 01-54 0 27 27 0 0127-27z" fill="#FFD9E2" stroke="#22344A" stroke-width="5.5"/>' +
+    '<path d="M139 56a13 13 0 0113-9 11 11 0 0110 7" stroke="#fff" stroke-width="4.6" fill="none" stroke-linecap="round"/>' +
+    '<path d="M150 88v30" stroke="#22344A" stroke-width="6" stroke-linecap="round"/>' +
+    '<path d="M104 58c6-6 12-6 18 0M104 76c6-6 12-6 18 0" stroke="#2FBF9B" stroke-width="6" stroke-linecap="round" fill="none"/>' +
+    '</svg>',
+  contrast: '<svg viewBox="0 0 200 160" aria-hidden="true">' +
+    '<ellipse cx="100" cy="150" rx="58" ry="7" fill="#22344A" opacity=".08"/>' +
+    '<path d="M100 40v96" stroke="#22344A" stroke-width="8" stroke-linecap="round"/>' +
+    '<path d="M66 146h68" stroke="#22344A" stroke-width="8" stroke-linecap="round"/>' +
+    '<path d="M38 62h124" stroke="#22344A" stroke-width="8" stroke-linecap="round"/>' +
+    '<circle cx="100" cy="62" r="11" fill="#FFC93C" stroke="#22344A" stroke-width="5"/>' +
+    '<path d="M38 62v12M162 62v12" stroke="#22344A" stroke-width="4"/>' +
+    '<path d="M38 74l-18 26h36z" fill="#EAF9F3" stroke="#22344A" stroke-width="5" stroke-linejoin="round"/>' +
+    '<path d="M162 74l-18 26h36z" fill="#FFF0EC" stroke="#22344A" stroke-width="5" stroke-linejoin="round"/>' +
+    '<path d="M20 100h36M144 100h36" stroke="#22344A" stroke-width="5" stroke-linecap="round"/>' +
+    '<circle cx="100" cy="62" r="3" fill="#fff"/>' +
+    '</svg>',
+  analogy: '<svg viewBox="0 0 200 160" aria-hidden="true">' +
+    '<ellipse cx="40" cy="138" rx="17" ry="3.4" fill="#22344A" opacity=".1"/>' +
+    '<ellipse cx="158" cy="140" rx="19" ry="3.4" fill="#22344A" opacity=".1"/>' +
+    '<circle cx="40" cy="36" r="16" fill="#DDF7EF" stroke="#22344A" stroke-width="5"/>' +
+    '<circle cx="34" cy="31" r="6" fill="#A9EBD9" opacity=".7"/>' +
+    '<path d="M40 70V52" stroke="#22344A" stroke-width="7" stroke-linecap="round"/>' +
+    '<path d="M40 62l-8-7M40 64l8-8" stroke="#22344A" stroke-width="4.2" stroke-linecap="round"/>' +
+    '<path d="M40 134v-16" stroke="#22344A" stroke-width="5" stroke-linecap="round"/>' +
+    '<path d="M40 118c-9-2-13-8-13-14 7-1 12 3 13 9" fill="#A9EBD9" stroke="#22344A" stroke-width="4" stroke-linejoin="round"/>' +
+    '<path d="M40 112c8-3 12-8 12-14-7-1-11 3-12 8" fill="#DDF7EF" stroke="#22344A" stroke-width="4" stroke-linejoin="round"/>' +
+    '<path d="M66 120V92" stroke="#E8A317" stroke-width="4.4" stroke-linecap="round" stroke-dasharray="2 8"/>' +
+    '<path d="M59 100l7-8 7 8" stroke="#E8A317" stroke-width="4.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<path d="M74 120q26-16 52 0" stroke="#22344A" stroke-width="4" fill="none" stroke-linecap="round" stroke-dasharray="1 8" opacity=".45"/>' +
+    '<circle cx="100" cy="84" r="21" fill="#FFF0C9" stroke="#22344A" stroke-width="5"/>' +
+    '<path d="M89 78c4-4 8-4 11 0s7 4 11 0" stroke="#8A5A00" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+    '<path d="M89 90c4-4 8-4 11 0s7 4 11 0" stroke="#8A5A00" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+    '<circle cx="158" cy="44" r="14" fill="#FFE9A8" stroke="#22344A" stroke-width="5"/>' +
+    '<path d="M153 57h10v6h-10z" fill="#FFE9A8" stroke="#22344A" stroke-width="4" stroke-linejoin="round"/>' +
+    '<path d="M152 67h12" stroke="#22344A" stroke-width="4.4" stroke-linecap="round"/>' +
+    '<path d="M158 112V84" stroke="#E8A317" stroke-width="4.4" stroke-linecap="round" stroke-dasharray="2 8"/>' +
+    '<path d="M151 92l7-8 7 8" stroke="#E8A317" stroke-width="4.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<path d="M142 118c6-4 11-4 16 0v18c-5-4-10-4-16 0z" fill="#fff" stroke="#22344A" stroke-width="4.4" stroke-linejoin="round"/>' +
+    '<path d="M174 118c-6-4-11-4-16 0v18c5-4 10-4 16 0z" fill="#DFF0FF" stroke="#22344A" stroke-width="4.4" stroke-linejoin="round"/>' +
+    '</svg>',
+  trophy: '<svg viewBox="0 0 120 120" aria-hidden="true">' +
+    '<ellipse cx="60" cy="110" rx="34" ry="5" fill="#22344A" opacity=".1"/>' +
+    '<path d="M38 22h44v22a22 22 0 01-44 0z" fill="#FFD24D" stroke="#22344A" stroke-width="5" stroke-linejoin="round"/>' +
+    '<path d="M38 28H26v6a14 14 0 0014 14M82 28h12v6a14 14 0 01-14 14" fill="none" stroke="#22344A" stroke-width="5" stroke-linecap="round"/>' +
+    '<path d="M60 66v14" stroke="#22344A" stroke-width="6"/>' +
+    '<path d="M44 94h32l-3-14H47z" fill="#E8B93B" stroke="#22344A" stroke-width="5" stroke-linejoin="round"/>' +
+    '<path d="M52 32l4 10 10 2-8 8 2 10-8-5-8 5 2-10-8-8 10-2z" fill="#fff" opacity=".55"/>' +
+    '</svg>'
+};
+
+var ART_SMALL = {
+  example: '<svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="20" width="14" height="14" rx="4" fill="#FFD9C7" stroke="#22344A" stroke-width="2.6"/><rect x="15" y="11" width="14" height="14" rx="4" fill="#FFC0A6" stroke="#22344A" stroke-width="2.6"/><circle cx="30" cy="14" r="7" fill="#fff" stroke="#22344A" stroke-width="2.6"/></svg>',
+  quote: '<svg viewBox="0 0 40 40" aria-hidden="true"><text x="4" y="30" font-family="Georgia, serif" font-size="34" fill="#8877E0">\u201C</text><path d="M24 14h9M24 22h6" stroke="#22344A" stroke-width="2.6" stroke-linecap="round" opacity=".5"/></svg>',
+  metaphor: '<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="13" cy="20" r="9" fill="#D9F7EE" stroke="#22344A" stroke-width="2.6"/><circle cx="30" cy="20" r="7" fill="#FFD9E2" stroke="#22344A" stroke-width="2.6"/><path d="M18 16c2-2 4-2 6 0M18 24c2-2 4-2 6 0" stroke="#2FBF9B" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg>',
+  contrast: '<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 7v24" stroke="#22344A" stroke-width="3"/><path d="M8 13h24" stroke="#22344A" stroke-width="3" stroke-linecap="round"/><path d="M8 13l-5 8h10zM32 13l-5 8h10z" fill="#EAF9F3" stroke="#22344A" stroke-width="2.4" stroke-linejoin="round"/><path d="M13 34h14" stroke="#22344A" stroke-width="3" stroke-linecap="round"/></svg>',
+  analogy: '<svg viewBox="0 0 40 40" aria-hidden="true"><rect x="2.5" y="12" width="10" height="16" rx="3" fill="#FFF0C9" stroke="#22344A" stroke-width="2.4"/><rect x="27.5" y="12" width="10" height="16" rx="3" fill="#DDF7EF" stroke="#22344A" stroke-width="2.4"/><path d="M12.5 23q7.5-9 15 0" stroke="#E8A317" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-dasharray="1 3.6"/><path d="M16 16h8M16 19h8" stroke="#8A5A00" stroke-width="1.7" stroke-linecap="round" opacity=".6"/></svg>'
+};
+
+/* ---------------- 教學內容 ---------------- */
+var TECH = [
+  {
+    key: "example", name: "舉例論證", short: "舉例", alias: "例證法",
+    color: "#FF8A5B", deep: "#A8481F", soft: "#FFE7DC", tint: "#FFF3EC", strong: "#FFD3BF", mark: "#FFD9C7",
+    icon: "example",
+    def: "用真實、有代表性的具體事例，證明自己的觀點。",
+    kou: "一觀點，一事例，例子要貼題。",
+    forms: ["例如……", "好像……", "以……為例", "有一次……"],
+    example: "運動有益身心。<mark>例如，志明每天放學後跳繩十五分鐘，半年後不但精神好了，上課也專心得多。</mark>",
+    tips: ["例子要與觀點直接相關", "用真實、有人物有細節的例子", "一個好例子，勝過十句空話"],
+    trap: "例子與觀點無關，或只說「很多人都這樣」，太空泛。",
+    modeId: "example", modeName: "論據配對台"
+  },
+  {
+    key: "quote", name: "引用論證", short: "引用", alias: "引證法",
+    color: "#8877E0", deep: "#5344A8", soft: "#ECE8FF", tint: "#F4F1FF", strong: "#D8D0FF", mark: "#DCD5FF",
+    icon: "quote",
+    def: "引用名言、諺語、古語或數據，加強說服力。",
+    kou: "引名言，講出處，接一句解釋。",
+    forms: ["古人說……", "所謂……", "俗語有云……", "有調查顯示……"],
+    example: "<mark>所謂「一寸光陰一寸金」</mark>，時間一去不返，我們實在應該好好珍惜。",
+    tips: ["引用要準確，不可亂改字句", "出處要說清楚，增加可信度", "引完要用一句話連回觀點"],
+    trap: "張冠李戴、引完不解釋，名言和觀點變成「兩張皮」。",
+    modeId: "quote", modeName: "名言印章"
+  },
+  {
+    key: "metaphor", name: "比喻論證", short: "比喻", alias: "喻證法",
+    color: "#2FBF9B", deep: "#137A60", soft: "#DDF7EF", tint: "#EEFBF7", strong: "#A9EBD9", mark: "#B9EFDF",
+    icon: "metaphor",
+    def: "用相似的事物打比方，把抽象的道理變得具體、好懂。",
+    kou: "找相似，比得貼，抽象變具體。",
+    forms: ["就像……一樣", "好比……", "彷彿……", "如同……"],
+    example: "好書<mark>就像一盞燈</mark>，照亮我們看不清的角落。",
+    tips: ["喻體要淺顯，讀者一聽就懂", "本體和喻體要有真正的相似點", "比喻只求說得生動，不必硬推結論"],
+    trap: "喻體和本體沒有相似點，例如「學習就像一隻鞋」，讀者一頭霧水；只寫「就像……」而說不出相似點，也不算好的比喻。要由另一件事推出結論，那是類比，不是比喻。",
+    modeId: "metaphor", modeName: "比喻拼圖"
+  },
+  {
+    key: "contrast", name: "對比論證", short: "對比", alias: "正反論證",
+    color: "#459DF5", deep: "#1B5FA8", soft: "#DFF0FF", tint: "#EFF7FF", strong: "#B6DDFF", mark: "#C4E4FF",
+    icon: "contrast",
+    def: "把正面和反面的情況並列比較，突出自己要肯定的觀點。",
+    kou: "一正一反，同一把尺，比完要點題。",
+    forms: ["……然而……", "相比之下……", "有人……也有人……", "以前……現在……"],
+    example: "同樣是週末，<mark>有人用來溫習和運動，有人卻整天躺着看手機</mark>；日子久了，兩類人的差距就顯出來了。",
+    tips: ["兩邊要用同一個標準比較", "一正一反，次序要清楚", "比完要點明結論"],
+    trap: "拿自己的強項比別人的弱項，標準不一致，說服力就弱。",
+    modeId: "contrast", modeName: "正反天平"
+  },
+  {
+    key: "analogy", name: "類比論證", short: "類比", alias: "類推法",
+    color: "#E8A317", deep: "#8A5A00", soft: "#FFF0C9", tint: "#FFF8E6", strong: "#FFE1A0", mark: "#FFE6AE",
+    icon: "analogy",
+    def: "用一件大家熟悉、道理相同的事來相比，由這件事推出結論，證明自己的觀點。",
+    kou: "找相同，講道理，推結論。",
+    forms: ["同樣道理……", "……也是一樣", "正如……一樣", "這就跟……一樣"],
+    example: "<mark>種樹要天天澆水，不能一天澆十桶、十天不澆</mark>；<mark>學習也一樣</mark>，每天溫習半小時，比考試前熬夜更有用。",
+    tips: ["兩件事要在「道理」上相同，不是外表相似", "先講熟悉的事，再推到要說明的事", "推完要補一句「所以……」，點回自己的觀點", "比喻只求說得像；類比要由熟悉的事推出結論"],
+    trap: "兩件事只是外表相似，道理其實不同；或者只寫「就像……」，說不出相同點，也沒有推到結論，那就只是比喻，不是論證。",
+    modeId: "analogy", modeName: "類比搭橋"
+  }
+];
+
+var TECH_BY_KEY = {};
+TECH.forEach(function (t, i) { t.index = i; TECH_BY_KEY[t.key] = t; });
+
+/* ---------------- 練習模式一：舉例（論據配對台） ---------------- */
+var MODES = {};
+
+MODES.example = {
+  id: "example", type: "choice", variant: "case", tech: 0,
+  title: "論據配對台", label: "舉例論證", kind: "選出最有力的事例",
+  desc: "看清觀點，從三張事例卡中選出最能支持它的一張。",
+  cta: "開始配對",
+  questions: [
+    {
+      stem: "觀點：早睡早起對身體好。",
+      sub: "哪一張事例卡最能支持這個觀點？",
+      options: [
+        { text: "小美每天九時睡覺、六時起床，上學時精神飽滿，也很少生病。", ok: true },
+        { text: "小美很喜歡吃雪糕，每天放學都要買一杯。", ok: false },
+        { text: "小美昨天買了一個新書包，顏色很漂亮。", ok: false }
+      ],
+      explain: "「早睡早起」要見到「睡得早、起得早」，也要見到「身體好」的結果。A 兩樣都有；B、C 只是生活小事，跟作息與健康無關。"
+    },
+    {
+      stem: "觀點：做運動能令人心情愉快。",
+      sub: "哪一張事例卡最能支持這個觀點？",
+      options: [
+        { text: "表哥昨天因為感冒，整天留在床上休息。", ok: false },
+        { text: "志強每天放學後跑步二十分鐘，他說跑完之後煩惱都少了。", ok: true },
+        { text: "志強家裏養了一隻小狗，名字叫豆豆。", ok: false }
+      ],
+      explain: "B 既有「做運動」，也有「心情變好」，直接支持觀點。A 講的是生病，C 講的是寵物，都與運動無關。"
+    },
+    {
+      stem: "觀點：凡事要親手嘗試，才知道難在哪裏。",
+      sub: "哪一張事例卡最能支持這個觀點？",
+      options: [
+        { text: "妹妹說做蛋糕很難，所以她一直不敢試。", ok: false },
+        { text: "妹妹第一次做蛋糕，雖然烤焦了，但她終於明白控制爐溫有多重要。", ok: true },
+        { text: "鄰居的蛋糕店每天賣出很多蛋糕。", ok: false }
+      ],
+      explain: "B 有「親自做」和「明白難處」兩個要素，正好證明觀點。A 是沒有嘗試，C 是別人的生意，都不能說明「親手試過才明白」。"
+    },
+    {
+      stem: "觀點：閱讀課外書能擴闊視野。",
+      sub: "哪一張事例卡最能支持這個觀點？",
+      options: [
+        { text: "浩然家裏有一個很大的書櫃，上面放滿了書。", ok: false },
+        { text: "浩然每天花半小時看科普書，現在能說出很多動物的習性。", ok: true },
+        { text: "浩然買了一本很厚的百科全書，放在書架上一直沒翻開。", ok: false }
+      ],
+      explain: "「擴闊視野」要看讀書之後認識了甚麼。B 有具體的收穫；A 只說明家裏有書；C 更是買了卻沒有讀，不能證明閱讀有用。"
+    },
+    {
+      stem: "觀點：分工合作能提高效率。",
+      sub: "哪一張事例卡最能支持這個觀點？",
+      options: [
+        { text: "全班同學一起佈置課室，有人剪紙、有人貼畫，半小時就完成了。", ok: true },
+        { text: "班長一個人佈置課室，由放學做到天黑。", ok: false },
+        { text: "老師說佈置課室是一件辛苦的事。", ok: false }
+      ],
+      explain: "A 有「分工」也有「快完成」的結果。B 剛好相反，是單打獨鬥的例子；C 只是別人的感想，沒有事例。"
+    },
+    {
+      stem: "觀點：堅持練習才會進步。",
+      sub: "哪一張事例卡最能支持這個觀點？",
+      options: [
+        { text: "小琪學游泳學了兩個月，覺得辛苦就沒有再學。", ok: false },
+        { text: "小琪每星期練琴五天，一年後在比賽中取得亞軍。", ok: true },
+        { text: "小琪的鋼琴老師是學校裏最有名的老師。", ok: false }
+      ],
+      explain: "「堅持」要見到長時間的練習。B 有練習的過程，也有進步的成果；A 是半途而廢，C 只講老師的名氣。"
+    },
+    {
+      stem: "觀點：垃圾分類可以減少污染。",
+      sub: "哪一張事例卡最能支持這個觀點？",
+      options: [
+        { text: "學校設置了分類回收箱，同學跟着分類，校園裏的廢紙明顯少了。", ok: true },
+        { text: "地球的污染問題十分嚴重，海洋裏有很多垃圾。", ok: false },
+        { text: "我昨天在網上看到一則關於海洋垃圾的新聞。", ok: false }
+      ],
+      explain: "A 是「做了分類」之後「廢紙減少」的實例。B、C 只指出污染嚴重，沒有證明分類真的有用。"
+    },
+    {
+      stem: "觀點：禮貌能令人與人相處更融洽。",
+      sub: "哪一張事例卡最能支持這個觀點？",
+      options: [
+        { text: "子欣每次借東西都會說「謝謝」，同學都樂意跟她合作。", ok: true },
+        { text: "子欣的考試成績很好，常常拿到九十分以上。", ok: false },
+        { text: "禮貌是一種美德，人人都應該有禮貌。", ok: false }
+      ],
+      explain: "A 有禮貌的行為，也有「同學樂意合作」的結果。C 只是把觀點重說一次，沒有事例；B 講的是成績。"
+    },
+    {
+      stem: "觀點：電子產品用得太久會傷害眼睛。",
+      sub: "哪一張事例卡最能支持這個觀點？",
+      options: [
+        { text: "醫生說眼睛是靈魂之窗，十分重要。", ok: false },
+        { text: "表哥每天玩手機四小時，半年後近視加深了一百五十度。", ok: true },
+        { text: "表哥買了一副新眼鏡，鏡框是藍色的。", ok: false }
+      ],
+      explain: "B 有「長時間使用」和「視力變差」的具體結果。A 只是提醒，C 只講眼鏡款式，都沒有證明傷害。"
+    },
+    {
+      stem: "觀點：學會時間管理，功課就不會堆到深夜。",
+      sub: "哪一張事例卡最能支持這個觀點？",
+      options: [
+        { text: "允行把功課分成小份，先做最難的，晚上九時前就完成了。", ok: true },
+        { text: "允行的書桌很整齊，文具都分類放好。", ok: false },
+        { text: "允行說他很喜歡上學，每天都準時回校。", ok: false }
+      ],
+      explain: "A 有「管理時間的方法」和「提早完成」的結果。B 整齊不等於懂得分配時間；C 只講喜歡上學，與功課安排無關。"
+    }
+  ]
+};
+
+/* ---------------- 練習模式二：引用（名言印章） ---------------- */
+MODES.quote = {
+  id: "quote", type: "choice", variant: "quote", tech: 1,
+  title: "名言印章", label: "引用論證", kind: "為名言蓋上合適的觀點",
+  desc: "讀一句名言，選出它最適合印證的觀點，把印章蓋下去。",
+  cta: "開始蓋章",
+  questions: [
+    {
+      stem: "「一寸光陰一寸金，寸金難買寸光陰。」",
+      sub: "這句話最適合用來支持哪一個觀點？",
+      options: [
+        { text: "我們要珍惜時間，不要白白浪費。", ok: true },
+        { text: "金錢是世上最重要的東西。", ok: false },
+        { text: "黃金價格每年都會上升。", ok: false }
+      ],
+      explain: "這句話把時間比作黃金，還說「寸金難買寸光陰」，重點是時間比金錢更寶貴，所以支持「珍惜時間」。"
+    },
+    {
+      stem: "「失敗乃成功之母。」",
+      sub: "這句話最適合用來支持哪一個觀點？",
+      options: [
+        { text: "比賽一定要拿到第一名才算成功。", ok: false },
+        { text: "面對失敗不應灰心，要從中檢討再嘗試。", ok: true },
+        { text: "失敗的人永遠不會成功。", ok: false }
+      ],
+      explain: "「失敗是成功之母」是說失敗能孕育成功，重點在於從失敗中學習。它不保證一定成功，也不是叫人放棄。"
+    },
+    {
+      stem: "「三人行，必有我師焉。」",
+      sub: "這句話最適合用來支持哪一個觀點？",
+      options: [
+        { text: "每個人都有值得我們學習的地方。", ok: true },
+        { text: "三個人一起走路會比較安全。", ok: false },
+        { text: "老師一定比學生懂得多。", ok: false }
+      ],
+      explain: "孔子這句話是說，身邊的人各有長處，都可以做自己的老師，所以支持「人人都有可學之處」。"
+    },
+    {
+      stem: "「書到用時方恨少。」",
+      sub: "這句話最適合用來支持哪一個觀點？",
+      options: [
+        { text: "書本又厚又重，攜帶不方便。", ok: false },
+        { text: "平時要多讀書，免得到了要用時才後悔。", ok: true },
+        { text: "買書一定要買最貴的。", ok: false }
+      ],
+      explain: "「恨少」是後悔讀得太少。這句話提醒我們平日要累積知識，不是講書本的重量或價錢。"
+    },
+    {
+      stem: "「己所不欲，勿施於人。」",
+      sub: "這句話最適合用來支持哪一個觀點？",
+      options: [
+        { text: "自己不喜歡的事，不要加在別人身上。", ok: true },
+        { text: "自己想要的東西，一定要想辦法得到。", ok: false },
+        { text: "不要隨便送東西給別人。", ok: false }
+      ],
+      explain: "這句出自《論語》，意思是將心比心：自己不願接受的對待，就不要那樣對待別人。"
+    },
+    {
+      stem: "「團結就是力量。」",
+      sub: "這句話最適合用來支持哪一個觀點？",
+      options: [
+        { text: "做事最好一個人做，免得意見不合。", ok: false },
+        { text: "大家齊心合作，比一個人單打獨鬥更有力量。", ok: true },
+        { text: "力量大的人說的話一定對。", ok: false }
+      ],
+      explain: "這句話強調合作的力量，所以支持「齊心合作勝過單打獨鬥」。第一個選項正好相反。"
+    },
+    {
+      stem: "「冰凍三尺，非一日之寒。」",
+      sub: "這句話最適合用來支持哪一個觀點？",
+      options: [
+        { text: "冬天的天氣十分寒冷。", ok: false },
+        { text: "問題的出現往往是長期累積的，要及早正視。", ok: true },
+        { text: "冰塊要放在冰箱裏才會結冰。", ok: false }
+      ],
+      explain: "三尺厚的冰不是一天凍成，比喻事情發展到嚴重的地步，是長時間累積的結果，所以用來提醒人要及早處理問題。"
+    },
+    {
+      stem: "「讀萬卷書，不如行萬里路。」",
+      sub: "這句話最適合用來支持哪一個觀點？",
+      options: [
+        { text: "讀書完全沒有用，不如不讀。", ok: false },
+        { text: "親身經歷和實踐，與讀書同樣重要。", ok: true },
+        { text: "走路比坐車更健康。", ok: false }
+      ],
+      explain: "這句話不是否定讀書，而是強調實踐的重要：書本知識要配合親身體驗，才算真正明白。"
+    },
+    {
+      stem: "「少壯不努力，老大徒傷悲。」",
+      sub: "這句話最適合用來支持哪一個觀點？",
+      options: [
+        { text: "年輕時要努力，否則長大後後悔也來不及。", ok: true },
+        { text: "年紀大的人一定很悲傷。", ok: false },
+        { text: "小孩子不需要努力，長大再說。", ok: false }
+      ],
+      explain: "「少壯」指年輕力壯的時候，「老大」指年老。這句話勸人及時努力，不要等到年老才後悔。"
+    },
+    {
+      stem: "「近朱者赤，近墨者黑。」",
+      sub: "這句話最適合用來支持哪一個觀點？",
+      options: [
+        { text: "紅色和黑色是很好看的顏色。", ok: false },
+        { text: "朋友對我們的影響很大，要慎選朋友。", ok: true },
+        { text: "我們不應該交任何朋友。", ok: false }
+      ],
+      explain: "靠近硃砂會變紅，靠近墨會變黑，比喻經常接觸甚麼人，就會受甚麼影響。"
+    }
+  ]
+};
+
+/* ---------------- 練習模式三：比喻（比喻拼圖） ---------------- */
+MODES.metaphor = {
+  id: "metaphor", type: "choice", variant: "puzzle", tech: 2,
+  title: "比喻拼圖", label: "比喻論證", kind: "拼上最貼切的喻體",
+  desc: "句子缺了一塊拼圖，選出最貼切的喻體，把比喻接好。",
+  cta: "開始拼圖",
+  questions: [
+    {
+      stem: "家人的關心就像＿＿＿＿，寒冷時給你溫暖。",
+      sub: "選出最貼切的喻體，把句子拼好。",
+      options: [
+        { text: "一件棉衣", ok: true },
+        { text: "一把風扇", ok: false },
+        { text: "一支鉛筆", ok: false },
+        { text: "一個水杯", ok: false }
+      ],
+      explain: "「寒冷」提示要選能保暖的東西。棉衣穿在身上會暖，跟家人的關心給人溫暖很相似，所以選「一件棉衣」。"
+    },
+    {
+      stem: "好朋友就像＿＿＿＿，下雨時替你擋一擋。",
+      sub: "選出最貼切的喻體，把句子拼好。",
+      options: [
+        { text: "一把傘", ok: true },
+        { text: "一本書", ok: false },
+        { text: "一雙鞋子", ok: false },
+        { text: "一個水杯", ok: false }
+      ],
+      explain: "「下雨」時最需要的是傘，本體和喻體在「遮風擋雨」這一點上相似。"
+    },
+    {
+      stem: "時間就像＿＿＿＿，一去不回頭。",
+      sub: "選出最貼切的喻體，把句子拼好。",
+      options: [
+        { text: "流水", ok: true },
+        { text: "石頭", ok: false },
+        { text: "課本", ok: false },
+        { text: "椅子", ok: false }
+      ],
+      explain: "流水向東流，不會倒流，正好比喻時間一去不返。"
+    },
+    {
+      stem: "謠言就像＿＿＿＿，一旦放出去就收不回來。",
+      sub: "選出最貼切的喻體，把句子拼好。",
+      options: [
+        { text: "射出去的箭", ok: true },
+        { text: "一粒種子", ok: false },
+        { text: "一個氣球", ok: false },
+        { text: "一盞燈", ok: false }
+      ],
+      explain: "箭一射出去便無法收回，最切合「收不回來」的意思。"
+    },
+    {
+      stem: "閱讀好比＿＿＿＿，帶我們去未曾到過的地方。",
+      sub: "選出最貼切的喻體，把句子拼好。",
+      options: [
+        { text: "一雙翅膀", ok: true },
+        { text: "一個鬧鐘", ok: false },
+        { text: "一把尺子", ok: false },
+        { text: "一個錢包", ok: false }
+      ],
+      explain: "翅膀能帶人飛翔，比喻書本讓我們去到現實去不到的地方。"
+    },
+    {
+      stem: "壞習慣就像＿＿＿＿，起初不覺，越長越大。",
+      sub: "選出最貼切的喻體，把句子拼好。",
+      options: [
+        { text: "一粒種子", ok: true },
+        { text: "一塊石頭", ok: false },
+        { text: "一扇窗", ok: false },
+        { text: "一條繩子", ok: false }
+      ],
+      explain: "種子會慢慢長大，比喻壞習慣起初很小，後來越來越難改。"
+    },
+    {
+      stem: "友誼就像＿＿＿＿，需要用心澆灌。",
+      sub: "選出最貼切的喻體，把句子拼好。",
+      options: [
+        { text: "一棵小樹", ok: true },
+        { text: "一盞路燈", ok: false },
+        { text: "一張椅子", ok: false },
+        { text: "一個書包", ok: false }
+      ],
+      explain: "只有植物才需要澆灌，這個動作提示喻體是小樹，也呼應友誼要用心維繫。"
+    },
+    {
+      stem: "我們的大腦就像＿＿＿＿，不用就會生鏽。",
+      sub: "選出最貼切的喻體，把句子拼好。",
+      options: [
+        { text: "機器", ok: true },
+        { text: "水池", ok: false },
+        { text: "書架", ok: false },
+        { text: "窗戶", ok: false }
+      ],
+      explain: "機器放久不用會生鏽，比喻腦袋不思考就會變得遲鈍。"
+    },
+    {
+      stem: "誠信就像＿＿＿＿，一旦打破，再修也有裂痕。",
+      sub: "選出最貼切的喻體，把句子拼好。",
+      options: [
+        { text: "玻璃杯", ok: true },
+        { text: "皮球", ok: false },
+        { text: "木桌", ok: false },
+        { text: "毛巾", ok: false }
+      ],
+      explain: "玻璃一打破就有裂痕，修好也看得見，比喻誠信受損後難以完全復原。"
+    },
+    {
+      stem: "好書就像＿＿＿＿，值得慢慢品嘗。",
+      sub: "選出最貼切的喻體，把句子拼好。",
+      options: [
+        { text: "一杯好茶", ok: true },
+        { text: "一支鉛筆", ok: false },
+        { text: "一雙襪子", ok: false },
+        { text: "一把雨傘", ok: false }
+      ],
+      explain: "茶要慢慢品嘗，比喻好書要細細閱讀，才能讀出味道。"
+    }
+  ]
+};
+
+/* ---------------- 練習模式四：對比（正反天平） ---------------- */
+MODES.contrast = {
+  id: "contrast", type: "balance", variant: "balance", tech: 3,
+  title: "正反天平", label: "對比論證", kind: "分辨正面例子與反面例子",
+  desc: "判斷一句話是符合觀點的正面例子，還是違背觀點的反面例子，把它放上天平的一邊。",
+  cta: "開始稱重",
+  questions: [
+    {
+      stem: "多做運動有益身心。",
+      quote: "志明每天跳繩十五分鐘，半年後精神好了，上課也專心得多。",
+      answer: "pro",
+      explain: "這句話寫出運動帶來的好處，符合觀點，是正面例子，應放在「正」的一邊。對比時，反面可以寫：終日坐着不動，精神反而更差。"
+    },
+    {
+      stem: "勤儉節約值得提倡。",
+      quote: "有同學一餐飯吃不完，就把整盒飯丟掉，十分浪費。",
+      answer: "con",
+      explain: "這句話寫的是浪費，與「節約」相反，屬反面例子。對比時，正面可以寫：有同學把飯菜吃光，不隨便丟掉。"
+    },
+    {
+      stem: "網上學習需要自律。",
+      quote: "有同學一邊上課一邊打遊戲，結果功課全部落後。",
+      answer: "con",
+      explain: "這句話寫的是不自律的後果，屬反面例子。正面可以寫：有同學按時上課、抄好筆記，成績反而進步了。"
+    },
+    {
+      stem: "主動發問能學得更好。",
+      quote: "小晴遇到不明白的地方就舉手，老師一解釋她就懂了。",
+      answer: "pro",
+      explain: "這句話寫主動發問帶來的理解，屬正面例子。反面可以寫：有同學不敢問，問題越積越多。"
+    },
+    {
+      stem: "愛護公物是每個人的責任。",
+      quote: "有人在圖書館的書上亂畫，後來的讀者看不到內容。",
+      answer: "con",
+      explain: "這句話寫的是破壞公物，屬反面例子。正面可以寫：有同學看完書會放回原位，還會提醒別人小心。"
+    },
+    {
+      stem: "守時是尊重別人。",
+      quote: "子軒提早五分鐘到校，從不讓同學等他。",
+      answer: "pro",
+      explain: "提早到校、不讓人等，是尊重別人的表現，屬正面例子。反面可以寫：有人每次都遲到十分鐘，全班要等他一個。"
+    },
+    {
+      stem: "持續練習才有成果。",
+      quote: "詠恩練了三天書法就放下筆，字跡始終沒有改善。",
+      answer: "con",
+      explain: "這句話寫的是半途而廢的結果，屬反面例子。正面可以寫：有同學每天練字十五分鐘，一年後字體工整多了。"
+    },
+    {
+      stem: "幫助別人會令自己快樂。",
+      quote: "美玲每週到老人中心講故事，她說看到長者笑，自己也開心。",
+      answer: "pro",
+      explain: "這句話寫幫助別人之後自己開心，直接符合觀點，屬正面例子。反面可以寫：有人只顧自己，反而常覺得孤單。"
+    },
+    {
+      stem: "沉迷手機影響家人溝通。",
+      quote: "一家人吃飯時各看各的手機，一頓飯說不到三句話。",
+      answer: "con",
+      explain: "這句話寫的是沉迷手機的壞處，屬反面例子。正面可以寫：有家庭吃飯時會放下手機，聊聊今天發生的事。"
+    },
+    {
+      stem: "勇於認錯能贏得信任。",
+      quote: "家寶打破花瓶後主動告訴媽媽，媽媽反而讚他誠實。",
+      answer: "pro",
+      explain: "主動認錯換來讚賞和信任，是正面例子。反面可以寫：有人打破東西後推卸責任，結果沒有人再相信他。"
+    }
+  ]
+};
+
+/* ---------------- 練習模式五：類比（類比搭橋） ---------------- */
+MODES.analogy = {
+  id: "analogy", type: "bridge", variant: "bridge", tech: 4,
+  title: "類比搭橋", label: "類比論證", kind: "為觀點搭一條類比橋",
+  desc: "看清觀點，先選出道理相同的熟悉事物，再找出兩者的相同點，把橋搭好。",
+  cta: "開始搭橋",
+  questions: [
+    {
+      stem: "學習要一步一步打好基礎。",
+      sub: "先選出「道理相同」的事，再找出兩者的相同點。",
+      options: [
+        { text: "建房子要先打地基，再一層一層往上建。", ok: true },
+        { text: "房子蓋好之後，外牆可以漆成自己喜歡的顏色。", why: "只是裝修的外觀，跟「打好基礎」無關" },
+        { text: "有些房子建在山上，可以看到很遠的風景。", why: "只是房子的位置，跟學習的次序無關" }
+      ],
+      points: [
+        { text: "兩件事都要先做好最根本的部分，上面才站得穩。", ok: true },
+        { text: "兩件事都要花很多錢。", why: "「花錢」不是這裏要說的道理" },
+        { text: "兩件事都會令人很累。", why: "「很累」是感受，不是「先後次序」的道理" }
+      ],
+      explain: "「建房子先打地基」是我們熟悉的事：地基不穩，樓建得再高也會倒。學習也一樣，基本的字詞、算式沒學好，後面的內容就越來越難明白。兩件事共同的道理是「先做好根本，上面才站得穩」，由建房子推到學習，就是類比論證。"
+    },
+    {
+      stem: "壞習慣要及早改。",
+      sub: "先選出「道理相同」的事，再找出兩者的相同點。",
+      options: [
+        { text: "小樹苗長歪了，要趁幼小時扶正；長成大樹就扳不動了。", ok: true },
+        { text: "大樹的葉子到了秋天會變黃。", why: "只是季節的變化，跟「及早改正」無關" },
+        { text: "種樹要選一個陽光充足的地方。", why: "只是選位置，不是講時間的先後" }
+      ],
+      points: [
+        { text: "兩件事都是小時候容易改，長大了就難。", ok: true },
+        { text: "兩件事都要花很多時間。", why: "「時間長」不是這裏的重點" },
+        { text: "兩件事都會令人生氣。", why: "「生氣」是心情，跟「及早」沒有關係" }
+      ],
+      explain: "樹苗小的時候，一枝竹就可以扶正；長成大樹，用機器也未必扳得直。壞習慣也一樣：起初只是小事，日子久了就變成難改的習慣。「小時候容易改，長大了就難」是兩件事共同的道理，所以可以拿種樹來推論改習慣要及早，這就是類比論證。"
+    },
+    {
+      stem: "讀書要慢慢細讀，才有得着。",
+      sub: "先選出「道理相同」的事，再找出兩者的相同點。",
+      options: [
+        { text: "吃飯要細嚼慢嚥，狼吞虎嚥會噎着，也吸收不到營養。", ok: true },
+        { text: "有些人喜歡一邊吃飯一邊看電視。", why: "只是吃飯的習慣，跟「細讀」的道理無關" },
+        { text: "學校的飯盒每天都有不同的菜。", why: "只是菜式不同，扯不上讀書" }
+      ],
+      points: [
+        { text: "兩件事都要慢慢來，才吸收得好。", ok: true },
+        { text: "兩件事都要用嘴巴。", why: "只是外表相似（都用口），道理並不相同——這正是類比要小心的地方" },
+        { text: "兩件事每天都要做。", why: "「每天做」不等於「要慢慢做」" }
+      ],
+      explain: "飯要一口一口嚼碎，身體才吸收得到營養；書要一頁一頁細讀，內容才入腦。兩件事共同的道理是「慢慢來，吸收得好」，所以用吃飯來說明讀書，就是類比論證。如果只寫「讀書就像吃飯」，卻說不出這個相同點，就只是比喻，還未算論證。"
+    },
+    {
+      stem: "球隊裏人人都要合作。",
+      sub: "先選出「道理相同」的事，再找出兩者的相同點。",
+      options: [
+        { text: "划龍舟時，全船人跟着同一個鼓聲划，船才向前。", ok: true },
+        { text: "龍舟的船頭畫了一隻很威武的龍。", why: "只是船身的裝飾，跟合作無關" },
+        { text: "端午節很多人會到海邊看龍舟比賽。", why: "只是節日的活動，不是合作" }
+      ],
+      points: [
+        { text: "兩件事都要大家向同一方向使力，才前進。", ok: true },
+        { text: "兩件事都要很多人一起做。", why: "人多不等於合作；各人亂做，人越多越亂" },
+        { text: "兩件事都很好玩。", why: "「好玩」與否，跟合作的道理無關" }
+      ],
+      explain: "龍舟上只要有一個人亂划，船就會打轉，去不到終點。球隊也一樣：各人只顧自己表現，不肯傳球，就很難取勝。「大家向同一方向使力，才前進」是兩件事共同的道理，用龍舟來說明球隊要合作，就是類比論證。"
+    },
+    {
+      stem: "說話前要想清楚，不要傷害別人。",
+      sub: "先選出「道理相同」的事，再找出兩者的相同點。",
+      options: [
+        { text: "釘子釘進木板，就算拔出來，木板上仍留着一個洞。", ok: true },
+        { text: "木匠用的錘子有木柄和鐵頭。", why: "只是工具的樣子，跟說話的傷害無關" },
+        { text: "有些舊木桌可以用很多年。", why: "只是家具耐用，跟傷人無關" }
+      ],
+      points: [
+        { text: "兩件事造成的傷害，就算補救也留下痕跡。", ok: true },
+        { text: "兩件事都會發出很大的聲音。", why: "聲音相似只是外表，不是道理" },
+        { text: "兩件事都要用很大的力氣。", why: "力氣大小不是重點" }
+      ],
+      explain: "一句傷人的話說了出去，就算馬上道歉，對方心裏仍會留下一道痕，就像木板上的釘孔，釘子拔走了，洞仍在。兩件事共同的道理是「傷害造成了，補救也留痕」，所以用釘子來說明說話要小心，就是類比論證。"
+    },
+    {
+      stem: "做事之前要有計劃。",
+      sub: "先選出「道理相同」的事，再找出兩者的相同點。",
+      options: [
+        { text: "出門旅行要先看清楚地圖、收拾好行李，才不會走冤枉路。", ok: true },
+        { text: "旅行時很多人都會拍照留念。", why: "只是旅行的活動，跟計劃無關" },
+        { text: "有些地方的風景在冬天特別美。", why: "只是風景，不是做事的方法" }
+      ],
+      points: [
+        { text: "兩件事都要先想清楚步驟，才不會白費氣力。", ok: true },
+        { text: "兩件事都會令人很期待。", why: "「期待」是心情，不是「先想清楚」" },
+        { text: "兩件事都要花錢。", why: "「花錢」與計劃無關" }
+      ],
+      explain: "去旅行不先看地圖，可能繞一大圈才到目的地；做事不先計劃，也會做做停停、白費時間。「先想清楚步驟，才不白費氣力」是兩件事共同的道理，所以用旅行來說明做事要有計劃，就是類比論證。"
+    },
+    {
+      stem: "每天一點點努力，也會有成果。",
+      sub: "先選出「道理相同」的事，再找出兩者的相同點。",
+      options: [
+        { text: "水一滴一滴落在石頭上，日子久了，石頭也會穿出一個洞。", ok: true },
+        { text: "雨水會流進河裏，最後流出大海。", why: "只是水的流向，跟「累積」無關" },
+        { text: "有些石頭摸上去很冰涼。", why: "只是觸感，跟努力累積無關" }
+      ],
+      points: [
+        { text: "兩件事都是每次很少，但天天做，就會有大改變。", ok: true },
+        { text: "兩件事都要很久才看到。", why: "「久」只講時間長，未講到「一點一點累積」" },
+        { text: "兩件事都很沉悶。", why: "「沉悶」與否不是道理" }
+      ],
+      explain: "一滴水的力量很小，但天天滴在同一個地方，石頭也會被滴穿。每天溫習十分鐘、每天練字一頁，看起來很少，累積起來就很可觀。「每次很少，天天做就有大改變」是兩件事共同的道理，這就是類比論證。"
+    },
+    {
+      stem: "我們要愛護公物。",
+      sub: "先選出「道理相同」的事，再找出兩者的相同點。",
+      options: [
+        { text: "向同學借來的擦膠，我們會小心使用，用完好好還給他。", ok: true },
+        { text: "擦膠可以用來擦掉鉛筆字。", why: "只是擦膠的用途，跟愛護無關" },
+        { text: "有些擦膠的形狀像小動物。", why: "只是外形，跟珍惜別人的東西無關" }
+      ],
+      points: [
+        { text: "兩件事都不是自己的東西，更要小心珍惜。", ok: true },
+        { text: "兩件事都要用完就還。", why: "公物不用還，這一句只說對了一半，講不到「珍惜」" },
+        { text: "兩件事都與學校有關。", why: "同在學校，不代表道理相同" }
+      ],
+      explain: "借來的擦膠不是自己的，我們自然會小心，怕弄壞了賠不起，也怕同學不高興。學校的桌椅、圖書也不是自己的，是大家的，所以更要愛護。「不是自己的東西，更要珍惜」是兩件事共同的道理，用借擦膠來說明愛護公物，就是類比論證。"
+    },
+    {
+      stem: "人人都要守規則。",
+      sub: "先選出「道理相同」的事，再找出兩者的相同點。",
+      options: [
+        { text: "過馬路要等綠燈；人人搶着過，大家都危險。", ok: true },
+        { text: "馬路兩旁種了很多大樹。", why: "只是街道的環境，跟規則無關" },
+        { text: "有些路口設有行人天橋。", why: "只是過路的設施，不是守規則的道理" }
+      ],
+      points: [
+        { text: "兩件事都要人人守同一個規矩，大家才安全。", ok: true },
+        { text: "兩件事都有人在旁邊看着。", why: "有人看着才守，不算明白規則的重要" },
+        { text: "兩件事都在戶外發生。", why: "地點相同，不是道理相同" }
+      ],
+      explain: "過馬路時只要有一個人衝紅燈，後面的人就會跟着走，結果人人危險。課室、球場也一樣：人人守同一個規矩，大家才安全，才玩得公平。用過馬路來說明守規則，就是類比論證。"
+    },
+    {
+      stem: "失敗了不要灰心，要再嘗試。",
+      sub: "先選出「道理相同」的事，再找出兩者的相同點。",
+      options: [
+        { text: "學踏單車一定會跌倒，跌過幾次才懂得平衡。", ok: true },
+        { text: "單車的車輪要打氣才跑得快。", why: "只是保養單車，跟失敗無關" },
+        { text: "有些單車的顏色很鮮艷。", why: "只是顏色，跟再嘗試無關" }
+      ],
+      points: [
+        { text: "兩件事都要在失敗之後再試，才慢慢學會。", ok: true },
+        { text: "兩件事都會弄髒衣服。", why: "「弄髒衣服」只是結果之一，不是學習的道理" },
+        { text: "兩件事都需要別人幫忙。", why: "有人幫，不等於自己再試" }
+      ],
+      explain: "學踏單車的人，沒有一個是不跌倒的；跌過之後知道怎樣平衡，才會越踏越穩。做功課、做實驗也一樣：錯了再試，才找到對的方法。「失敗之後再試，才慢慢學會」是兩件事共同的道理，所以用學單車來說明不怕失敗，就是類比論證。"
+    }
+  ]
+};
+
+/* ---------------- 挑戰模式一：手法偵測器 ---------------- */
+function dOpts(key, shift) {
+  var arr = TECH.map(function (t) { return { text: t.name, ok: t.key === key }; });
+  var n = shift % arr.length;
+  return arr.slice(n).concat(arr.slice(0, n));
+}
+
+var CHALLENGES = {};
+
+CHALLENGES.detect = {
+  id: "detect", type: "choice", variant: "detect", tech: -1,
+  title: "手法偵測器", label: "辨析挑戰 · 模式一", kind: "判斷主要議論手法",
+  desc: "五種手法混合出題，讀完一段話，判斷它主要用了哪一種手法。",
+  cta: "開始偵測",
+  questions: [
+    {
+      stem: "「所謂『一寸光陰一寸金』，我們實在不應把時間浪費在無意義的事情上。」",
+      sub: "這段話主要用了哪一種議論手法？",
+      options: dOpts("quote", 1),
+      explain: "句子開頭直接引用「一寸光陰一寸金」這句名言，再連到自己的觀點，是引用論證。"
+    },
+    {
+      stem: "「學習就像爬樓梯，一步一步，急不得。」",
+      sub: "這段話主要用了哪一種議論手法？",
+      options: dOpts("metaphor", 3),
+      explain: "用「爬樓梯」來形容學習要一步一步，句子停在「像」，沒有由爬樓梯推出新的結論，所以是比喻論證。如果把句子寫成「爬樓梯要一級一級上，所以學習也要先打好基礎」，由一件事推出另一件事，就變成類比論證。"
+    },
+    {
+      stem: "「同樣是週末，有人用來溫習和運動，有人整天躺在沙發上；一年之後，兩人的差距就顯出來了。」",
+      sub: "這段話主要用了哪一種議論手法？",
+      options: dOpts("contrast", 0),
+      explain: "把兩種週末過法並列比較，突出「善用時間」的重要，是對比論證。"
+    },
+    {
+      stem: "「種樹要天天澆水，不可以一天澆十桶、十天不澆；溫習也一樣，每天半小時，比考試前熬夜有用。」",
+      sub: "這段話主要用了哪一種議論手法？",
+      options: dOpts("analogy", 2),
+      explain: "「種樹」是大家熟悉的事，「溫習」是要說明的事，兩者的道理相同：都要天天做一點。由種樹推到溫習，就是類比論證。它和比喻不同：比喻只求說得生動，類比要由一件事推出另一件事的結論。"
+    },
+    {
+      stem: "「例如，每天早睡半小時，一星期後上課就不再打瞌睡了。」",
+      sub: "這段話主要用了哪一種議論手法？",
+      options: dOpts("example", 4),
+      explain: "開頭用「例如」引出一個具體事例，支持「早睡有用」的看法，是舉例論證。"
+    },
+    {
+      stem: "「古人說：『三人行，必有我師焉。』連孔子也認為，到處都有值得我們學習的人。」",
+      sub: "這段話主要用了哪一種議論手法？",
+      options: dOpts("quote", 2),
+      explain: "引用古人的話，再加以解釋，是引用論證。留意引用之後有解說，這一點做得很好。"
+    },
+    {
+      stem: "「憂慮就像一個背包，越背越重。」",
+      sub: "這段話主要用了哪一種議論手法？",
+      options: dOpts("metaphor", 0),
+      explain: "用背包比喻憂慮越積越重，把抽象的心情說得具體，是比喻論證；句子只把憂慮說得具體，沒有由背包推出結論。"
+    },
+    {
+      stem: "「有同學每天練習朗誦十分鐘，三個月後在比賽中奪冠；也有同學只在比賽前一晚練習，結果忘詞。」",
+      sub: "這段話主要用了哪一種議論手法？",
+      options: dOpts("contrast", 3),
+      explain: "兩種練習態度、兩種結果並列，形成強烈對比，是對比論證。"
+    },
+    {
+      stem: "「學游水一定要下水，只看書永遠學不懂；學做人也是一樣，只聽道理而不去實踐，不會真正明白。」",
+      sub: "這段話主要用了哪一種議論手法？",
+      options: dOpts("analogy", 1),
+      explain: "由「學游水要下水」這件熟悉的事，推到「學做人要實踐」，兩件事的道理相同：做過才學會。用一件事的道理推出另一件事，是類比論證。"
+    },
+    {
+      stem: "「以本校的『一人一職』計劃為例，同學負責不同崗位後，校園明顯整潔了。」",
+      sub: "這段話主要用了哪一種議論手法？",
+      options: dOpts("example", 4),
+      explain: "「以……為例」是舉例論證的標誌，用校內真實例子支持觀點。"
+    }
+  ]
+};
+
+/* ---------------- 挑戰模式二：手法分類站 ---------------- */
+CHALLENGES.sort = {
+  id: "sort", type: "sort", variant: "sort", tech: -1,
+  title: "手法分類站", label: "辨析挑戰 · 模式二", kind: "把句子放進正確的手法箱",
+  desc: "每回合五句，五種手法各一句。先點句子，再點分類箱。",
+  cta: "開始分類",
+  rounds: [
+    [
+      { text: "例如班長每天提早回校，幫同學收功課。", tech: "example", why: "「例如」引出一個具體事例，是舉例論證。" },
+      { text: "俗語說：「失敗乃成功之母。」", tech: "quote", why: "引用俗語，是引用論證。" },
+      { text: "壓力就像氣球，吹得太滿就會爆。", tech: "metaphor", why: "用氣球比喻壓力，是比喻論證。" },
+      { text: "有人失敗後檢討再試，有人失敗後只會埋怨，結果完全不同。", tech: "contrast", why: "兩種人的做法與結果並列比較，是對比論證。" },
+      { text: "練琴要每天練一點；讀書也一樣，天天讀幾頁，比考試前狂讀有用。", tech: "analogy", why: "由種樹推到溫習，兩件事道理相同，是類比論證。" }
+    ],
+    [
+      { text: "以上次的科學實驗為例，我們試了三次才成功。", tech: "example", why: "「以……為例」引出真實經歷，是舉例論證。" },
+      { text: "孫子說：「知己知彼，百戰不殆。」", tech: "quote", why: "引用兵書名言，是引用論證。" },
+      { text: "心情就像天氣，有時晴，有時雨。", tech: "metaphor", why: "用天氣比喻心情的變化，是比喻論證。" },
+      { text: "以前我做事拖拉，現在我先計劃再動手，效率高了很多。", tech: "contrast", why: "「以前……現在……」前後對比，是對比論證。" },
+      { text: "學踏單車一定會跌倒，跌過才懂得平衡；做實驗也一樣，失敗幾次不必灰心。", tech: "analogy", why: "由學單車推到做實驗，兩件事道理相同，是類比論證。" }
+    ]
+  ]
+};
+
+var ALL_MODES = {};
+["example", "quote", "metaphor", "contrast", "analogy"].forEach(function (k) { ALL_MODES[k] = MODES[k]; });
+ALL_MODES.detect = CHALLENGES.detect;
+ALL_MODES.sort = CHALLENGES.sort;
+
+/* ---------------- 狀態與工具 ---------------- */
+var S = { screen: "home", teach: -1, sound: true, progress: {}, game: null, lastResult: null };
+function $(sel, root) { return (root || document).querySelector(sel); }
+function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+var LETTERS = "ABCDE";
+
+function starsHTML(n) {
+  var out = "";
+  for (var i = 0; i < 3; i++) {
+    out += '<svg viewBox="0 0 24 24" class="' + (i < n ? "" : "off") + '" aria-hidden="true"><path d="M12 2.8l2.85 5.9 6.45.92-4.68 4.55 1.12 6.43L12 17.55 6.26 20.6l1.12-6.43L2.7 9.62l6.45-.92z" fill="#FFC93C" stroke="#22344A" stroke-width="1.7" stroke-linejoin="round"/></svg>';
+  }
+  return '<span class="stars" aria-label="' + n + ' 星">' + out + '</span>';
+}
+
+var toastTimer = null;
+function toast(msg) {
+  var el = $("#toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function () { el.classList.remove("show"); }, 1700);
+}
+
+function closeSheet() { $("#sheet").hidden = true; }
+
+function show(id) {
+  S.screen = id;
+  $$(".screen").forEach(function (s) { s.classList.toggle("is-active", s.id === "s-" + id); });
+  closeSheet();
+  window.scrollTo(0, 0);
+}
+
+/* ---------------- 首頁 ---------------- */
+var STATIONS = [
+  { id: "example", label: "舉例", color: "#FF8A5B" },
+  { id: "quote", label: "引用", color: "#8877E0" },
+  { id: "metaphor", label: "比喻", color: "#2FBF9B" },
+  { id: "contrast", label: "對比", color: "#459DF5" },
+  { id: "analogy", label: "類比", color: "#E8A317" },
+  { id: "detect", label: "偵測", color: "#FF8A5B" },
+  { id: "sort", label: "分類", color: "#459DF5" }
+];
+
+function renderRoad() {
+  $("#roadList").innerHTML = STATIONS.map(function (st, i) {
+    var p = S.progress[st.id];
+    return '<div class="road-item">' +
+      '<span class="dot" style="background:' + st.color + '"></span>' +
+      '<b>第 ' + (i + 1) + ' 站</b>' +
+      '<span>' + st.label + '</span>' +
+      '<em>' + (p ? '答對 ' + p.correct + ' / ' + p.total : '未挑戰') + '</em>' +
+      '</div>';
+  }).join("");
+}
+
+/* ---------------- 教學館 ---------------- */
+function renderTeach(idx) {
+  S.teach = idx;
+  var rail = $("#teachRail");
+  var railHTML = '<button class="rail-btn all" data-tech="-1" aria-current="' + (idx === -1) + '" style="--c:#FF8A5B"><i></i><span>五種手法一覽<small>先看全貌</small></span></button>';
+  railHTML += TECH.map(function (t, i) {
+    return '<button class="rail-btn" data-tech="' + i + '" aria-current="' + (i === idx) + '" style="--c:' + t.color + '">' +
+      '<i></i><span>' + t.name + '<small>' + t.alias + '</small></span></button>';
+  }).join("");
+  rail.innerHTML = railHTML;
+
+  var box = $("#teachCard");
+  if (idx === -1) { box.innerHTML = overviewHTML(); return; }
+
+  var t = TECH[idx];
+  box.innerHTML =
+    '<article class="teach-card" style="--tint:' + t.tint + ';--tint-strong:' + t.strong + ';--tc-ink:' + t.deep + ';--mark:' + t.mark + '">' +
+      '<div class="teach-top">' +
+        '<div class="teach-illu">' + ART[t.icon] + '</div>' +
+        '<div>' +
+          '<div class="teach-kicker">議論手法 0' + (idx + 1) + ' · ' + t.alias + '</div>' +
+          '<h2 class="teach-title">' + t.name + '</h2>' +
+          '<p class="teach-def">' + t.def + '</p>' +
+          '<div class="teach-kou">' + ICON.sparkle + '口訣：' + t.kou + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="teach-body">' +
+        '<div class="tbox"><h3>' + ICON.target + '一眼認出：標誌詞</h3><p>' +
+          t.forms.map(function (f) { return '<span class="fchip">' + f + '</span>'; }).join("") + '</p></div>' +
+        '<div class="tbox"><h3>' + ICON.bulb + '寫作貼士</h3><ul>' +
+          t.tips.map(function (x) { return '<li>' + x + '</li>'; }).join("") + '</ul></div>' +
+        '<div class="tbox wide"><h3>' + ICON.warn + '小心踩雷</h3><p>' + t.trap + '</p></div>' +
+        '<div class="example-box"><h3>' + ICON.book + '課堂例子</h3><p class="example-text">' + t.example + '</p></div>' +
+      '</div>' +
+      '<div class="teach-foot">' +
+        '<div class="teach-nav">' +
+          '<button class="btn btn-ghost" data-tech="' + (idx === 0 ? -1 : idx - 1) + '">' + ICON.back + '上一個</button>' +
+          '<button class="btn btn-ghost" data-tech="' + (idx === TECH.length - 1 ? -1 : idx + 1) + '">下一個' + ICON.arrow + '</button>' +
+        '</div>' +
+        '<div class="teach-cta"><button class="btn btn-sun" data-mode="' + t.modeId + '">' + ICON.play + '去玩「' + t.modeName + '」</button></div>' +
+      '</div>' +
+    '</article>';
+}
+
+function overviewHTML() {
+  var cards = TECH.map(function (t, i) {
+    return '<button class="ov-card" data-tech="' + i + '">' +
+      '<div class="ov-top">' + ART[t.icon] + '<h3>' + t.name + '</h3></div>' +
+      '<p>' + t.def + '</p>' +
+      '<span class="ov-tag">' + t.kou + '</span>' +
+      '</button>';
+  }).join("");
+  return '<article class="teach-card" style="--tint:#FFF7EA;--tint-strong:#FFE0AE;--tc-ink:#22344A;--mark:#FFE6AE">' +
+    '<div class="teach-top">' +
+      '<div class="teach-illu">' + ART.analogy + '</div>' +
+      '<div>' +
+        '<div class="teach-kicker">開始之前 · 先看全貌</div>' +
+        '<h2 class="teach-title">五種議論手法</h2>' +
+        '<p class="teach-def">議論文的骨幹是：<b>論點</b>（我的主張）、<b>論據</b>（支持的材料）、<b>論證</b>（用甚麼手法把材料連到主張）。下面五種，就是最常用的論證手法。</p>' +
+      '</div>' +
+    '</div>' +
+    '<div class="teach-body">' +
+      '<div class="overview-grid" style="grid-column:1/-1">' + cards + '</div>' +
+      '<div class="structure" style="grid-column:1/-1">' +
+        '<div class="st"><b>論點</b><span>一句話說清主張</span></div>' +
+        '<div class="st"><b>論據</b><span>事例、名言、數據</span></div>' +
+        '<div class="st"><b>論證</b><span>把論據連到論點</span></div>' +
+      '</div>' +
+    '</div>' +
+  '</article>';
+}
+
+/* ---------------- 練習場 / 挑戰區 ---------------- */
+function modeCard(m, color, deep, soft, art) {
+  var p = S.progress[m.id];
+  return '<button class="mode-card" data-mode="' + m.id + '" style="--mc:' + color + ';--mc-deep:' + deep + ';--mc-soft:' + soft + ';--mc-light:' + soft + '">' +
+    '<div class="MC-art">' + art + '</div>' +
+    '<span class="MC-tag">' + m.label + '</span>' +
+    '<h3>' + m.title + '</h3>' +
+    '<div class="MC-sub">' + m.kind + '</div>' +
+    '<p>' + m.desc + '</p>' +
+    '<div class="MC-foot">' +
+      (p ? starsHTML(p.stars) + '<span class="MC-go">再玩一次' + ICON.arrow + '</span>'
+         : '<span class="MC-sub" style="color:#6B7C90">10 組題目 · 未挑戰</span><span class="MC-go">' + m.cta + ICON.arrow + '</span>') +
+    '</div>' +
+  '</button>';
+}
+
+function renderPlay() {
+  var ids = ["example", "quote", "metaphor", "contrast", "analogy"];
+  $("#modeGrid").innerHTML = ids.map(function (k) {
+    var m = MODES[k], t = TECH[m.tech];
+    return modeCard(m, t.color, t.deep, t.soft, ART[t.icon]);
+  }).join("");
+}
+
+function renderChallenge() {
+  var cfg = [
+    { m: CHALLENGES.detect, color: "#FF8A5B", deep: "#A8481F", soft: "#FFE7DC", art: ART.quote },
+    { m: CHALLENGES.sort, color: "#459DF5", deep: "#1B5FA8", soft: "#DFF0FF", art: ART.example }
+  ];
+  $("#challengeGrid").innerHTML = cfg.map(function (c) {
+    return modeCard(c.m, c.color, c.deep, c.soft, c.art);
+  }).join("");
+}
+
+/* ---------------- 遊戲 ---------------- */
+function colorOf(m) {
+  if (m.tech >= 0) return TECH[m.tech];
+  if (m.id === "detect") return { color: "#FF8A5B", deep: "#A8481F", soft: "#FFE7DC" };
+  return { color: "#459DF5", deep: "#1B5FA8", soft: "#DFF0FF" };
+}
+
+function startMode(id) {
+  var m = ALL_MODES[id];
+  if (!m) return;
+  S.game = {
+    id: id, mode: m, q: 0, correct: 0, wrongs: [], answered: false,
+    placed: 0, selected: null, round: 0, pool: [], done: [], history: {},
+    roundCorrect: 0, lastFb: null, tags: {},
+    bridgeQ: -1, step: 1, mistakes: 0, vehicle: "", point: "", hint: ""
+  };
+  show("game");
+  var c = colorOf(m);
+  var root = $("#gameRoot");
+  root.style.setProperty("--mc", c.color);
+  root.style.setProperty("--mc-deep", c.deep);
+  root.style.setProperty("--mc-soft", c.soft);
+  root.style.setProperty("--mc-light", c.soft);
+  root.innerHTML =
+    '<div class="game-head">' +
+      '<button class="icon-btn" data-action="quit" aria-label="退出並返回">' + ICON.back + '</button>' +
+      '<div class="gtitle"><h1>' + m.title + '</h1><small>' + m.label + ' · ' + m.kind + '</small></div>' +
+      '<div class="score-pill">' + ICON.check + '<span id="scoreNum">0</span>/10</div>' +
+    '</div>' +
+    '<div class="progress"><span id="progBar"></span></div>' +
+    '<div id="qArea"></div>';
+
+  if (m.type === "sort") { buildRound(); return; }
+  renderQuestion();
+}
+
+function updateScore() { var n = $("#scoreNum"); if (n) n.textContent = S.game.correct; }
+function updateBar() {
+  var g = S.game;
+  if (!g) return;
+  var m = g.mode;
+  var total = m.type === "sort" ? 10 : m.questions.length;
+  var done = m.type === "sort" ? g.placed : g.q;
+  if (m.type === "bridge") {
+    done = g.q + (g.answered ? 1 : 0);
+  }
+  var bar = $("#progBar");
+  if (bar) bar.style.width = Math.min(100, (done / total) * 100) + "%";
+}
+
+/* ---- 選擇題 ---- */
+function renderQuestion() {
+  var g = S.game, m = g.mode;
+  if (m.type === "balance") { renderBalance(); return; }
+  if (m.type === "bridge") { renderBridge(); return; }
+  var q = m.questions[g.q];
+  g.answered = false;
+  var letters = q.options.length > 5 ? "ABCDEF" : LETTERS;
+  var opts = q.options.map(function (o, i) {
+    return '<button class="opt" data-i="' + i + '">' +
+      '<span class="tick">' + letters[i] + '</span>' +
+      '<span class="label">' + o.text + '</span>' +
+      '</button>';
+  }).join("");
+  $("#qArea").innerHTML =
+    '<div class="q-card">' +
+      '<div class="q-top">' +
+        '<span class="q-index">第 ' + (g.q + 1) + ' 題 / ' + m.questions.length + '</span>' +
+        '<span class="q-kind">' + m.kind + '</span>' +
+      '</div>' +
+      '<p class="q-stem">' + q.stem + '</p>' +
+      (q.sub ? '<p class="q-sub">' + q.sub + '</p>' : '') +
+      '<div class="opts ' + (m.variant ? "v-" + m.variant : "") + '" id="opts">' + opts + '</div>' +
+    '</div>';
+
+  $$("#opts .opt").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      answer(parseInt(btn.getAttribute("data-i"), 10));
+    });
+  });
+  updateBar();
+  updateScore();
+}
+
+function answer(i) {
+  var g = S.game, m = g.mode, q = m.questions[g.q];
+  if (g.answered) return;
+  if (!q.options[i]) return;
+  g.answered = true;
+  var ok = !!q.options[i].ok;
+  var right = 0;
+  q.options.forEach(function (o, idx) { if (o.ok) right = idx; });
+
+  $$("#qArea .opt").forEach(function (el, idx) {
+    el.disabled = true;
+    if (q.options[idx].ok) el.classList.add("correct");
+    if (idx === i && !ok) el.classList.add("wrong");
+    if (idx !== i && !q.options[idx].ok) el.classList.add("dim");
+  });
+
+  if (ok) {
+    g.correct++;
+    SFX.correct();
+  } else {
+    SFX.wrong();
+    g.wrongs.push({
+      stem: q.stem,
+      picked: (LETTERS[i] || "?") + ". " + q.options[i].text,
+      right: (LETTERS[right] || "?") + ". " + q.options[right].text,
+      explain: q.explain
+    });
+  }
+  updateScore();
+
+  var isLast = g.q + 1 >= m.questions.length;
+  showSheet(ok, ok ? "答對了，很會找重點！" : "差一點，看看解說",
+    (ok ? "" : '<b>正確答案：' + (LETTERS[right] || "?") + ". " + q.options[right].text + "</b><br>") + q.explain,
+    isLast ? "查看成績" : "下一題", function () {
+      if (isLast) { finish(); return; }
+      closeSheet();
+      g.q++;
+      renderQuestion();
+      window.scrollTo(0, 0);
+    });
+}
+
+/* ---- 天平題 ---- */
+function renderBalance() {
+  var g = S.game, m = g.mode, q = m.questions[g.q];
+  g.answered = false;
+  $("#qArea").innerHTML =
+    '<div class="q-card">' +
+      '<div class="q-top"><span class="q-index">第 ' + (g.q + 1) + ' 題 / ' + m.questions.length + '</span>' +
+      '<span class="q-kind">' + m.kind + '</span></div>' +
+      '<p class="q-stem">觀點：' + q.stem + '</p>' +
+      '<p class="q-sub">「' + q.quote + '」</p>' +
+      '<div class="balance-stage">' +
+        '<svg class="scale" id="scale" viewBox="0 0 320 200" aria-hidden="true">' +
+          '<ellipse cx="160" cy="188" rx="72" ry="8" fill="#22344A" opacity=".08"/>' +
+          '<path d="M160 44v126" stroke="#22344A" stroke-width="10" stroke-linecap="round"/>' +
+          '<path d="M112 176h96" stroke="#22344A" stroke-width="10" stroke-linecap="round"/>' +
+          '<path d="M160 176l-22-34h44z" fill="#FFE4B0" stroke="#22344A" stroke-width="6" stroke-linejoin="round"/>' +
+          '<g class="beam-g">' +
+            '<path d="M44 84h232" stroke="#22344A" stroke-width="10" stroke-linecap="round"/>' +
+            '<circle cx="160" cy="84" r="12" fill="#FFC93C" stroke="#22344A" stroke-width="5"/>' +
+            '<g class="pan-l">' +
+              '<path d="M44 84v18" stroke="#22344A" stroke-width="5"/>' +
+              '<path d="M14 102h60l-10 26H24z" fill="#EAF9F3" stroke="#22344A" stroke-width="6" stroke-linejoin="round"/>' +
+            '</g>' +
+            '<g class="pan-r">' +
+              '<path d="M276 84v18" stroke="#22344A" stroke-width="5"/>' +
+              '<path d="M246 102h60l-10 26h-40z" fill="#FFF0EC" stroke="#22344A" stroke-width="6" stroke-linejoin="round"/>' +
+            '</g>' +
+          '</g>' +
+        '</svg>' +
+        '<p class="q-extra">這句話是正面例子，還是反面例子？</p>' +
+        '<div class="pan-choices">' +
+          '<button class="pan-btn pro" data-side="pro">正面例子<small>符合觀點的做法或結果</small></button>' +
+          '<button class="pan-btn con" data-side="con">反面例子<small>違背觀點的做法或結果</small></button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+
+  $$("#qArea .pan-btn").forEach(function (b) {
+    b.addEventListener("click", function () { answerBalance(b.getAttribute("data-side")); });
+  });
+  updateBar();
+  updateScore();
+}
+
+function answerBalance(side) {
+  var g = S.game, m = g.mode, q = m.questions[g.q];
+  if (g.answered) return;
+  g.answered = true;
+  var ok = side === q.answer;
+  var scale = $("#scale");
+  if (scale) scale.classList.add(q.answer === "pro" ? "tilt-left" : "tilt-right");
+
+  $$("#qArea .pan-btn").forEach(function (b) {
+    b.disabled = true;
+    if (b.getAttribute("data-side") === q.answer) b.classList.add("correct");
+    if (b.getAttribute("data-side") === side && !ok) b.classList.add("wrong");
+  });
+
+  if (ok) { g.correct++; SFX.correct(); }
+  else {
+    SFX.wrong();
+    g.wrongs.push({
+      stem: "觀點：" + q.stem + "　「" + q.quote + "」",
+      picked: side === "pro" ? "放進正面" : "放進反面",
+      right: q.answer === "pro" ? "正面例子（符合觀點）" : "反面例子（違背觀點）",
+      explain: q.explain
+    });
+  }
+  updateScore();
+
+  var isLast = g.q + 1 >= m.questions.length;
+  setTimeout(function () {
+    showSheet(ok, ok ? "放對了！" : "再看一次天平",
+      (ok ? "" : "<b>正確位置：" + (q.answer === "pro" ? "正面" : "反面") + "</b><br>") + q.explain,
+      isLast ? "查看成績" : "下一題", function () {
+        if (isLast) { finish(); return; }
+        closeSheet();
+        g.q++;
+        renderBalance();
+        window.scrollTo(0, 0);
+      });
+  }, 420);
+}
+
+/* ---- 類比題：兩步搭橋 ---- */
+function shuffleIdx(n, seed) {
+  var arr = [], i, j, t, s = seed * 9301 + 49297;
+  for (i = 0; i < n; i++) arr.push(i);
+  for (i = n - 1; i > 0; i--) {
+    s = (s * 9301 + 49297) % 233280;
+    j = Math.floor((s / 233280) * (i + 1));
+    t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+  }
+  return arr;
+}
+
+var EQ_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9c2.7-3 5.3-3 8 0s5.3 3 8 0M4 15c2.7-3 5.3-3 8 0s5.3 3 8 0" stroke="#8A5A00" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg>';
+
+function renderBridge() {
+  var g = S.game, m = g.mode, q = m.questions[g.q];
+  if (g.bridgeQ !== g.q) {
+    g.bridgeQ = g.q; g.step = 1; g.mistakes = 0;
+    g.vehicle = ""; g.point = ""; g.hint = ""; g.answered = false;
+    g.vOrder = shuffleIdx(q.options.length, g.q * 2 + 3);
+    g.pOrder = shuffleIdx(q.points.length, g.q * 2 + 8);
+  }
+  var step1 = g.step === 1;
+  var src = step1 ? q.options : q.points;
+  var order = step1 ? g.vOrder : g.pOrder;
+  var opts = order.map(function (oi, pos) {
+    var o = src[oi];
+    var cls = "opt";
+    if (g.answered && o.ok) cls += " correct";
+    return '<button class="' + cls + '" data-i="' + oi + '"' + (g.answered ? " disabled" : "") + '>' +
+      '<span class="tick">' + "ABC".charAt(pos) + '</span>' +
+      '<span class="label">' + o.text + '</span></button>';
+  }).join("");
+
+  $("#qArea").innerHTML =
+    '<div class="q-card">' +
+      '<div class="q-top">' +
+        '<span class="q-index">第 ' + (g.q + 1) + ' 題 / ' + m.questions.length + '</span>' +
+        '<span class="q-kind">' + (step1 ? "第 1 步 · 選類比物" : "第 2 步 · 找相同點") + '</span>' +
+      '</div>' +
+      (q.sub ? '<p class="q-sub">' + q.sub + '</p>' : '') +
+      '<div class="bridge-stage">' +
+        '<div class="bank bank-left"><small>要說明的觀點</small><b>' + q.stem + '</b></div>' +
+        '<div class="bridge-mid"><span class="eq">' + EQ_SVG + '</span></div>' +
+        '<div class="bank bank-right' + (g.vehicle ? " filled" : "") + '"><small>熟悉的事</small><b>' + (g.vehicle || "？") + '</b></div>' +
+      '</div>' +
+      '<p class="bridge-ask">' + (step1 ? "第一步：哪一件事的道理和它相同？" : "第二步：兩件事的相同點是甚麼？") + '</p>' +
+      '<div class="opts" id="bridgeOpts">' + opts + '</div>' +
+      '<div class="bridge-hint"' + (g.hint ? "" : " hidden") + '>' + ICON.info + '<span id="bridgeHint">' + (g.hint || "") + '</span></div>' +
+    '</div>';
+
+  $$("#bridgeOpts .opt").forEach(function (btn) {
+    btn.addEventListener("click", function () { pickBridge(parseInt(btn.getAttribute("data-i"), 10)); });
+  });
+  updateBar();
+  updateScore();
+}
+
+function pickBridge(i) {
+  var g = S.game, q = g.mode.questions[g.q];
+  if (g.answered) return;
+  var step1 = g.step === 1;
+  var list = step1 ? q.options : q.points;
+  var o = list[i];
+  if (!o) return;
+  var btn = $('#bridgeOpts .opt[data-i="' + i + '"]');
+  if (!btn || !document.contains(btn)) return;
+
+  if (!o.ok) {
+    g.mistakes++;
+    SFX.wrong();
+    g.hint = (step1 ? "再想想：這一句" : "再想想：這個說法") + (o.why || "跟觀點的道理不同") + "。";
+    var box = $("#bridgeHint"), wrap = $("#qArea .bridge-hint");
+    if (box) box.textContent = g.hint;
+    if (wrap) {
+      wrap.hidden = false;
+      if (wrap.scrollIntoView) wrap.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
+    if (btn) {
+      btn.classList.add("wrong");
+      setTimeout(function () { if (btn) btn.classList.remove("wrong"); }, 900);
+    }
+    return;
+  }
+
+  SFX.correct();
+  if (step1) {
+    g.vehicle = o.text;
+    g.step = 2;
+    g.hint = "";
+    renderBridge();
+  } else {
+    g.point = o.text;
+    finishBridge();
+  }
+}
+
+function finishBridge() {
+  var g = S.game, m = g.mode, q = m.questions[g.q];
+  var ok = g.mistakes === 0;
+  var rightVeh = "", rightPt = "";
+  q.options.forEach(function (o) { if (o.ok) rightVeh = o.text; });
+  q.points.forEach(function (o) { if (o.ok) rightPt = o.text; });
+
+  if (ok) {
+    g.correct++;
+  } else {
+    g.wrongs.push({
+      stem: "觀點：" + q.stem,
+      picked: "錯了 " + g.mistakes + " 次",
+      right: "「" + rightVeh + "」＋「" + rightPt + "」",
+      explain: q.explain
+    });
+  }
+
+  g.answered = true;
+  g.hint = "";
+  renderBridge();
+  updateScore();
+
+  var isLast = g.q + 1 >= m.questions.length;
+  showSheet(ok, ok ? "橋搭好了，道理也通了！" : "橋搭好了，看看道理",
+    (ok ? "" : "<b>正確的類比：「" + rightVeh + "」；相同點是「" + rightPt + "」。</b><br>") + q.explain,
+    isLast ? "查看成績" : "下一題", function () {
+      if (isLast) { finish(); return; }
+      closeSheet();
+      g.q++;
+      g.bridgeQ = -1;
+      renderBridge();
+      window.scrollTo(0, 0);
+    });
+}
+
+/* ---- 分類題 ---- */
+function buildRound() {
+  var g = S.game, m = g.mode;
+  g.pool = m.rounds[g.round].map(function (it, i) {
+    return { text: it.text, tech: it.tech, why: it.why, uid: g.round + "-" + i };
+  });
+  g.done = [];
+  g.selected = null;
+  g.roundCorrect = 0;
+  g.lastFb = null;
+  renderSort();
+}
+
+function renderSort() {
+  var g = S.game, m = g.mode;
+  var totalPlaced = g.round * 5 + g.done.length;
+  var poolHTML = g.pool.map(function (it, i) {
+    return '<button class="sort-card" data-item="' + i + '">' + it.text + '</button>';
+  }).join("");
+
+  var binsHTML = TECH.map(function (t) {
+    var tags = (g.history[t.key] || []).map(function (txt) {
+      var short = txt.length > 11 ? txt.slice(0, 11) + "…" : txt;
+      return '<span class="bin-tag" title="' + txt.replace(/"/g, "&quot;") + '">' + short + '</span>';
+    }).join("");
+    return '<button class="bin" data-bin="' + t.key + '" style="--mc-soft:' + t.soft + '">' +
+      '<span class="bin-ico">' + ART_SMALL[t.key] + '</span>' +
+      '<b>' + t.short + '</b>' +
+      '<span class="bin-items">' + tags + '</span>' +
+      '</button>';
+  }).join("");
+
+  $("#qArea").innerHTML =
+    '<div class="q-card">' +
+      '<div class="q-top">' +
+        '<span class="q-index">第 ' + Math.min(totalPlaced + 1, 10) + ' 句 / 10</span>' +
+        '<span class="q-kind">第 ' + (g.round + 1) + ' 回合 · 共 2 回合</span>' +
+      '</div>' +
+      '<p class="q-stem">把句子放進正確的手法箱</p>' +
+      '<p class="sort-hint">' + ICON.info + '先點一句句子，再點下面的分類箱。</p>' +
+      '<div class="pool" id="sortPool">' + poolHTML + '</div>' +
+      '<div class="bins" id="bins">' + binsHTML + '</div>' +
+      (g.lastFb ? '<div class="sort-fb ' + (g.lastFb.ok ? "ok" : "no") + '">' +
+        (g.lastFb.ok ? ICON.check : ICON.cross) + '<span>' + g.lastFb.text + '</span></div>' : '') +
+    '</div>';
+
+  $$("#sortPool .sort-card").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      g.selected = parseInt(btn.getAttribute("data-item"), 10);
+      $$("#sortPool .sort-card").forEach(function (b) { b.classList.remove("sel"); });
+      btn.classList.add("sel");
+      SFX.pick();
+    });
+  });
+
+  $$("#bins .bin").forEach(function (bin) {
+    bin.addEventListener("click", function () { placeInto(bin.getAttribute("data-bin"), bin); });
+  });
+
+  updateBar();
+  updateScore();
+}
+
+function placeInto(techKey, binEl) {
+  var g = S.game;
+  if (g.selected === null) { toast("先點一句句子，再點分類箱"); SFX.tap(); return; }
+  var idx = g.selected;
+  var item = g.pool[idx];
+  if (!item) return;
+
+  var ok = item.tech === techKey;
+  g.history[item.tech] = g.history[item.tech] || [];
+  g.history[item.tech].push(item.text);
+  g.pool.splice(idx, 1);
+  g.done.push(item);
+  g.placed++;
+  g.selected = null;
+
+  if (ok) {
+    g.correct++;
+    g.roundCorrect++;
+    SFX.correct();
+  } else {
+    SFX.wrong();
+    g.wrongs.push({
+      stem: item.text,
+      picked: TECH_BY_KEY[techKey].name,
+      right: TECH_BY_KEY[item.tech].name,
+      explain: item.why
+    });
+  }
+
+  g.lastFb = {
+    ok: ok,
+    text: (ok ? "放對了！" : "這句其實是「" + TECH_BY_KEY[item.tech].name + "」。") + item.why
+  };
+
+  var roundDone = g.done.length >= 5;
+  renderSort();
+  if (roundDone) {
+    setTimeout(function () {
+      if (g.round === 0) {
+        showSheet(g.roundCorrect === 5, "第一回合完成",
+          "這一回合你放對了 <b>" + g.roundCorrect + " / 5</b> 句。<br>下一回合會換上另外五句，五種手法同樣各佔一句。",
+          "進入第二回合", function () {
+            closeSheet();
+            g.round = 1;
+            buildRound();
+            window.scrollTo(0, 0);
+          });
+      } else {
+        finish();
+      }
+    }, 700);
+  }
+}
+
+/* ---- 回饋面板 ---- */
+function showSheet(ok, title, html, btnLabel, onNext) {
+  var sheet = $("#sheet"), inn = $("#sheetIn");
+  inn.innerHTML =
+    '<div class="sheet-head">' +
+      '<span class="sheet-badge ' + (ok ? "ok" : "no") + '">' + (ok ? ICON.check : ICON.cross) + (ok ? "答對了" : "看解說") + '</span>' +
+      '<h3>' + title + '</h3>' +
+    '</div>' +
+    '<p class="sheet-text">' + html + '</p>' +
+    '<button class="btn btn-sun" id="sheetNext">' + btnLabel + ICON.arrow + '</button>';
+  sheet.hidden = false;
+  inn.style.animation = "none";
+  void inn.offsetWidth;
+  inn.style.animation = "";
+  $("#sheetNext").addEventListener("click", function () { if (this.disabled) return; this.disabled = true; SFX.tap(); onNext(); });
+  setTimeout(function () {
+    var b = $("#sheetNext");
+    if (b) { try { b.focus({ preventScroll: true }); } catch (err) { b.focus(); } }
+  }, 80);
+}
+
+/* ---------------- 結算 ---------------- */
+function finish() {
+  var g = S.game, m = g.mode;
+  closeSheet();
+  var total = m.type === "sort" ? 10 : m.questions.length;
+  var correct = g.correct;
+  var stars = correct >= 9 ? 3 : correct >= 7 ? 2 : correct >= 5 ? 1 : 0;
+  var prev = S.progress[m.id];
+  if (!prev || correct > prev.correct) S.progress[m.id] = { correct: correct, total: total, stars: stars };
+  S.lastResult = { id: m.id, mode: m, correct: correct, total: total, stars: stars, wrongs: g.wrongs.slice() };
+  renderSummary();
+  show("summary");
+  if (stars >= 2) SFX.win(); else if (stars === 1) SFX.correct();
+}
+
+function renderSummary() {
+  var r = S.lastResult;
+  if (!r) return;
+  var pct = Math.round((r.correct / r.total) * 100);
+  var msg = r.stars === 3 ? "議論小博士，就是你了！"
+    : r.stars === 2 ? "很不錯！再練一次就滿分。"
+    : r.stars === 1 ? "基礎打好了，再挑戰一次吧。"
+    : "別灰心，先回教學館看圖解，再來一次。";
+  var title = r.stars === 3 ? "太精彩了！" : r.stars === 2 ? "做得好！" : r.stars === 1 ? "繼續加油！" : "再試一次！";
+
+  var review = "";
+  if (r.wrongs.length) {
+    review = '<div class="review"><h3>' + ICON.book + '這幾題要記住（' + r.wrongs.length + ' 題）</h3>' +
+      r.wrongs.map(function (w) {
+        return '<div class="review-item">' +
+          '<div class="ri-q">' + w.stem + '</div>' +
+          '<div class="ri-a">正確答案：' + w.right + '</div>' +
+          '<div class="ri-e">' + w.explain + '</div>' +
+          '</div>';
+      }).join("") + '</div>';
+  } else {
+    review = '<div class="review"><h3>' + ICON.sparkle + '全部答對</h3><p style="font-weight:700;color:#3C5269">沒有任何要補救的題目，可以挑戰下一個模式了。</p></div>';
+  }
+
+  var isChallenge = (r.id === "detect" || r.id === "sort");
+  var backLabel = isChallenge ? "返回挑戰區" : "返回練習場";
+  var backPage = isChallenge ? "challenge" : "play";
+
+  $("#summaryRoot").innerHTML =
+    '<div class="summary-card" style="--mc:' + colorOf(r.mode).color + '">' +
+      '<div class="trophy">' + ART.trophy + '</div>' +
+      '<h2>' + title + '</h2>' +
+      '<p class="verdict">' + msg + '</p>' +
+      '<div class="ring" style="--p:' + pct + '%"><div><b>' + r.correct + '/' + r.total + '</b><span>答對題數</span></div></div>' +
+      '<div class="big-stars">' +
+        [0, 1, 2].map(function (i) {
+          return '<svg viewBox="0 0 24 24" class="' + (i < r.stars ? "" : "off") + '" aria-hidden="true"><path d="M12 2.8l2.85 5.9 6.45.92-4.68 4.55 1.12 6.43L12 17.55 6.26 20.6l1.12-6.43L2.7 9.62l6.45-.92z" fill="#FFC93C" stroke="#22344A" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+        }).join("") +
+      '</div>' +
+      '<p class="verdict" style="font-size:.86rem;color:#6B7C90">' + r.mode.title + ' · ' + r.mode.label + '</p>' +
+      review +
+      '<div class="sum-actions">' +
+        '<button class="btn btn-sun" data-mode="' + r.id + '">' + ICON.refresh + '再玩一次</button>' +
+        '<button class="btn btn-ghost" data-nav="' + backPage + '">' + ICON.layers + backLabel + '</button>' +
+        '<button class="btn btn-ghost" data-nav="home">' + ICON.home + '回到首頁</button>' +
+      '</div>' +
+    '</div>';
+}
+
+function quitGame() {
+  var g = S.game;
+  closeSheet();
+  if (!g) { go("home"); return; }
+  go(g.mode.type === "sort" || g.mode.id === "detect" ? "challenge" : "play");
+}
+
+/* ---------------- 路由 ---------------- */
+function go(page) {
+  if (page === "home") { renderRoad(); show("home"); return; }
+  if (page === "teach") { show("teach"); return; }
+  if (page === "play") { renderPlay(); show("play"); return; }
+  if (page === "challenge") { renderChallenge(); show("challenge"); return; }
+}
+
+/* ---------------- 事件 ---------------- */
+document.addEventListener("click", function (e) {
+  var t = e.target;
+  if (!t || !t.closest) return;
+
+  var nav = t.closest("[data-nav]");
+  if (nav) { SFX.tap(); go(nav.getAttribute("data-nav")); return; }
+
+  var mode = t.closest("[data-mode]");
+  if (mode) { SFX.pick(); startMode(mode.getAttribute("data-mode")); return; }
+
+  var tech = t.closest("[data-tech]");
+  if (tech) {
+    SFX.tap();
+    var i = parseInt(tech.getAttribute("data-tech"), 10);
+    renderTeach(i);
+    var card = $("#teachCard");
+    if (card && S.screen === "teach") {
+      var top = card.getBoundingClientRect().top + window.pageYOffset - 80;
+      window.scrollTo({ top: top, behavior: "smooth" });
+    }
+    return;
+  }
+
+  var act = t.closest("[data-action]");
+  if (act && act.getAttribute("data-action") === "quit") { SFX.tap(); quitGame(); return; }
+});
+
+document.addEventListener("keydown", function (e) {
+  if (S.screen !== "game") return;
+  var g = S.game;
+  if (!g) return;
+  if (e.key === "Escape") { quitGame(); return; }
+  if (!g.answered && g.mode.type === "bridge" && /^[1-3]$/.test(e.key)) {
+    var bopts = $$("#bridgeOpts .opt");
+    var bi = parseInt(e.key, 10) - 1;
+    if (bopts[bi]) { e.preventDefault(); bopts[bi].click(); }
+  }
+  if (!g.answered && g.mode.type === "choice" && /^[1-5]$/.test(e.key)) {
+    var i = parseInt(e.key, 10) - 1;
+    if (g.mode.questions[g.q].options[i]) { e.preventDefault(); answer(i); }
+  }
+  if (g.answered && (e.key === "Enter" || e.key === " ")) {
+    var b = $("#sheetNext");
+    if (b && document.activeElement !== b) { e.preventDefault(); b.click(); }
+  }
+});
+
+/* ---------------- 初始化 ---------------- */
+function init() {
+  $("#homeChips").innerHTML = TECH.map(function (t) {
+    return '<span class="chip"><i style="background:' + t.color + '"></i>' + t.name + '</span>';
+  }).join("");
+  $("#homeArt1").innerHTML = ART.example;
+  $("#homeArt2").innerHTML = ART.contrast;
+
+  $("#brandHome").addEventListener("click", function () { SFX.tap(); go("home"); });
+
+  var soundBtn = $("#soundBtn");
+  soundBtn.addEventListener("click", function () {
+    var muted = SFX.toggle();
+    soundBtn.setAttribute("aria-pressed", muted ? "true" : "false");
+    soundBtn.setAttribute("aria-label", muted ? "開啟音效" : "關閉音效");
+    var w1 = soundBtn.querySelector(".wave1"), w2 = soundBtn.querySelector(".wave2"), mx = soundBtn.querySelector(".mute-x");
+    if (w1) w1.style.display = muted ? "none" : "";
+    if (w2) w2.style.display = muted ? "none" : "";
+    if (mx) mx.style.display = muted ? "" : "none";
+    if (!muted) toast("音效已開啟");
+  });
+
+  renderTeach(-1);
+  renderPlay();
+  renderChallenge();
+  renderRoad();
+}
+
+init();
+})();
+</script>
+</body>
+</html>

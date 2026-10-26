@@ -1,0 +1,3396 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>量詞小達人｜小學量詞繪本・互動遊戲</title>
+<meta name="description" content="一本可以玩的量詞繪本：初小、高小兩個程度，圖文教學卡、看圖選量詞、量詞分類站，每題附解釋與音效，手機、平板、電腦均可使用。">
+<style>
+  :root{
+    --paper:#FAF2E0;
+    --paper-deep:#F3E7CF;
+    --cream:#FFFCF3;
+    --ink:#5B4636;
+    --ink-soft:#8A7260;
+    --ink-faint:rgba(91,70,54,.16);
+    --sage:#8FBE9B;
+    --sage-deep:#6E9E7C;
+    --sky:#97C8DF;
+    --sky-deep:#6FA8C4;
+    --butter:#F2CB7C;
+    --coral:#E9967C;
+    --rose:#EFA9B5;
+    --lilac:#C0AFDA;
+    --seal:#B4553F;
+    --shadow-soft:0 14px 30px rgba(91,70,54,.10), 0 2px 0 rgba(91,70,54,.05);
+    --shadow-card:0 10px 22px rgba(91,70,54,.09);
+    --font-body:"Noto Sans TC","Noto Sans CJK TC","PingFang TC","PingFang HK","Microsoft JhengHei","Heiti TC",system-ui,-apple-system,sans-serif;
+    --font-kai:"Kaiti TC","BiauKai","DFKai-SB","Noto Serif TC","Songti TC","LiSong Pro",serif;
+    --r-lg:30px;
+    --r-md:22px;
+  }
+  *{box-sizing:border-box;}
+  html{font-size:16px;-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+  @media (min-width:480px){html{font-size:17px;}}
+  @media (min-width:900px){html{font-size:18px;}}
+  @media (min-width:1440px){html{font-size:19px;}}
+
+  body{
+    margin:0;
+    min-height:100vh;
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.65;
+    background-color:var(--paper);
+    background-image:
+      radial-gradient(circle at 10% 2%, rgba(242,203,124,.34), rgba(242,203,124,0) 34%),
+      radial-gradient(circle at 92% 6%, rgba(151,200,223,.28), rgba(151,200,223,0) 36%),
+      radial-gradient(circle at 4% 80%, rgba(239,169,181,.20), rgba(239,169,181,0) 38%),
+      radial-gradient(rgba(91,70,54,.055) .8px, rgba(91,70,54,0) 1.1px);
+    background-size:auto, auto, auto, 5px 5px;
+    background-attachment:fixed;
+  }
+  button{font-family:inherit;color:inherit;}
+  button,input{font-size:inherit;}
+  [hidden]{display:none !important;}
+  .sr-only{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+    overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+  }
+  .svg-defs{position:absolute;width:0;height:0;overflow:hidden;}
+
+  /* ---------------- 頂欄 ---------------- */
+  .topbar{
+    position:sticky;top:0;z-index:50;
+    display:flex;align-items:center;gap:.55rem;
+    padding:calc(.42rem + env(safe-area-inset-top)) clamp(.8rem,3vw,1.4rem) .42rem;
+    background:rgba(250,242,224,.88);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--ink-faint);
+  }
+  .topbar-inner{
+    display:flex;align-items:center;gap:.55rem;
+    width:100%;max-width:1080px;margin:0 auto;
+  }
+  .icon-btn{
+    flex:0 0 auto;
+    width:2.7rem;height:2.7rem;
+    display:grid;place-items:center;
+    border-radius:50%;
+    border:1px solid var(--ink-faint);
+    background:var(--cream);
+    box-shadow:0 2px 0 rgba(91,70,54,.10);
+    cursor:pointer;
+    transition:transform .15s ease, background .15s ease;
+  }
+  .icon-btn svg{width:1.25rem;height:1.25rem;}
+  .icon-btn:active{transform:scale(.94);}
+  .icon-btn[hidden]{display:none;}
+  .brand{
+    flex:1 1 auto;min-width:0;
+    display:flex;align-items:center;gap:.5rem;
+  }
+  .brand-mark{width:2.1rem;height:2.1rem;flex:0 0 auto;display:block;}
+  .brand-text{min-width:0;}
+  .brand-title{
+    display:block;font-family:var(--font-kai);font-weight:700;
+    font-size:1.05rem;letter-spacing:.08em;line-height:1.25;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .brand-sub{
+    display:block;font-size:.68rem;letter-spacing:.16em;
+    color:var(--ink-soft);line-height:1.2;
+  }
+  .chip{
+    display:inline-flex;align-items:center;gap:.28rem;
+    padding:.16rem .58rem;border-radius:99px;
+    font-size:.74rem;font-weight:700;letter-spacing:.04em;
+    background:rgba(143,190,155,.22);
+    border:1px solid rgba(110,158,124,.35);
+    color:#4F7A5C;white-space:nowrap;
+  }
+  .chip.sky{background:rgba(151,200,223,.24);border-color:rgba(111,168,196,.38);color:#3F7189;}
+
+  /* ---------------- 版面 ---------------- */
+  .app{max-width:1080px;margin:0 auto;padding:0 clamp(.8rem,3vw,1.4rem) 3.2rem;}
+  .screen{display:none;}
+  .screen.is-active{display:block;animation:pageIn .42s cubic-bezier(.2,.7,.3,1) both;}
+  @keyframes pageIn{from{opacity:0;transform:translateY(.7rem);}to{opacity:1;transform:none;}}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    .screen.is-active{animation:none;}
+    *{transition:none !important;animation:none !important;}
+  }
+
+  /* ---------------- 首頁繪本封面 ---------------- */
+  .cover{max-width:940px;margin:0 auto;padding-top:.5rem;}
+  .cover-art{
+    position:relative;overflow:hidden;
+    border:1px solid var(--ink-faint);
+    border-radius:var(--r-lg);
+    background:#EDF5EE;
+    box-shadow:var(--shadow-soft);
+  }
+  .cover-art svg{display:block;width:100%;height:auto;}
+  .cover-title-wrap{position:relative;text-align:center;margin-top:.9rem;}
+  .cover-kicker{
+    display:inline-block;font-size:.76rem;letter-spacing:.28em;
+    color:var(--ink-soft);padding-left:.28em;
+  }
+  .cover-title{
+    font-family:var(--font-kai);
+    font-size:clamp(2.1rem,7.4vw,3.15rem);
+    line-height:1.2;letter-spacing:.14em;margin:.1rem 0 .1rem;
+    text-indent:.14em;
+  }
+  .cover-title .dot{color:var(--coral);}
+  .cover-lead{
+    margin:.1rem auto 0;max-width:32rem;
+    font-size:1rem;color:var(--ink-soft);
+  }
+  .brush-line{width:9rem;height:.7rem;display:block;margin:.35rem auto 0;}
+
+  .ver-grid{display:grid;grid-template-columns:1fr;gap:.9rem;margin-top:1.4rem;}
+  @media (min-width:620px){.ver-grid{grid-template-columns:1fr 1fr;gap:1.1rem;}}
+  .book-card{
+    position:relative;
+    display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:.8rem;
+    padding:.95rem 1rem .95rem 1.1rem;
+    text-align:left;
+    background:var(--cream);
+    border:1px solid var(--ink-faint);
+    border-left:9px solid var(--sage);
+    border-radius:8px var(--r-md) var(--r-md) 8px;
+    box-shadow:var(--shadow-card);
+    cursor:pointer;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .book-card.high{border-left-color:var(--sky);}
+  .book-card:hover{transform:translateY(-.2rem);box-shadow:0 16px 26px rgba(91,70,54,.13);}
+  .book-card:active{transform:translateY(.05rem) scale(.995);}
+  .book-art{width:5rem;height:5rem;flex:0 0 auto;}
+  .book-art svg{width:100%;height:100%;display:block;}
+  .book-card h2{
+    margin:0;font-family:var(--font-kai);
+    font-size:1.45rem;letter-spacing:.06em;line-height:1.3;
+  }
+  .book-card .book-meta{line-height:1.5;}
+  .book-meta{font-size:.8rem;color:var(--ink-soft);font-weight:600;letter-spacing:.04em;}
+  .book-tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.3rem;}
+  .tag{
+    font-size:.7rem;font-weight:700;padding:.1rem .45rem;border-radius:99px;
+    background:rgba(242,203,124,.28);border:1px solid rgba(91,70,54,.14);
+    color:#7A6034;
+  }
+  .book-go{
+    width:2rem;height:2rem;border-radius:50%;
+    display:grid;place-items:center;flex:0 0 auto;
+    background:rgba(91,70,54,.06);
+  }
+  .book-go svg{width:1rem;height:1rem;}
+
+  .home-note{
+    display:flex;gap:.55rem;align-items:flex-start;
+    margin:1.5rem auto 0;padding:.85rem 1rem;
+    font-size:.84rem;line-height:1.75;color:var(--ink-soft);
+    background:rgba(255,252,243,.72);
+    border:1px dashed rgba(91,70,54,.24);
+    border-radius:18px;
+  }
+  .home-note svg{width:1.05rem;height:1.05rem;flex:0 0 auto;margin-top:.22rem;}
+
+  /* ---------------- 目錄 ---------------- */
+  .page-head{padding:1.2rem .2rem .9rem;}
+  .page-head .kicker{font-size:.74rem;letter-spacing:.24em;color:var(--ink-soft);}
+  .page-head h2{
+    font-family:var(--font-kai);
+    font-size:clamp(1.6rem,5vw,2.1rem);
+    margin:.1rem 0 .1rem;letter-spacing:.06em;
+  }
+  .page-head p{margin:0;font-size:.92rem;color:var(--ink-soft);}
+  .page-head .head-row{display:flex;align-items:flex-end;justify-content:space-between;gap:.8rem;flex-wrap:wrap;}
+
+  .menu-list{display:grid;gap:.8rem;margin-top:.4rem;}
+  .menu-item{
+    display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:.85rem;
+    padding:.9rem 1rem;text-align:left;
+    background:var(--cream);
+    border:1px solid var(--ink-faint);
+    border-radius:var(--r-md);
+    box-shadow:var(--shadow-card);
+    cursor:pointer;
+    transition:transform .16s ease, box-shadow .16s ease;
+  }
+  .menu-item:hover{transform:translateY(-.16rem);box-shadow:0 15px 25px rgba(91,70,54,.13);}
+  .menu-item:active{transform:translateY(.06rem);}
+  .menu-art{
+    width:4.2rem;height:4.2rem;border-radius:16px;
+    display:grid;place-items:center;
+    background:rgba(143,190,155,.18);
+  }
+  .menu-art.a{background:rgba(242,203,124,.26);}
+  .menu-art.b{background:rgba(151,200,223,.24);}
+  .menu-art svg{width:3.3rem;height:3.3rem;}
+  .menu-item h3{margin:0;font-size:1.18rem;letter-spacing:.03em;}
+  .menu-item p{margin:.12rem 0 0;font-size:.83rem;color:var(--ink-soft);line-height:1.55;}
+  .menu-side{display:flex;flex-direction:column;align-items:flex-end;gap:.35rem;}
+  .stars-mini{display:flex;gap:.12rem;}
+  .stars-mini svg{width:.85rem;height:.85rem;}
+  .menu-go{width:1.6rem;height:1.6rem;opacity:.55;}
+  .menu-go svg{width:100%;height:100%;}
+
+  .note-strip{
+    display:flex;align-items:center;gap:.5rem;
+    margin-top:1.1rem;padding:.7rem .9rem;
+    border-radius:16px;background:rgba(143,190,155,.14);
+    font-size:.82rem;color:#55704F;
+  }
+  .note-strip svg{width:1rem;height:1rem;flex:0 0 auto;}
+
+  /* ---------------- 教學跨頁 ---------------- */
+  .spread{
+    display:grid;gap:.85rem;
+    margin-top:.2rem;
+  }
+  @media (min-width:860px){
+    .spread{grid-template-columns:1fr 1.06fr;gap:1.2rem;align-items:stretch;}
+  }
+  .page{
+    position:relative;
+    background:var(--cream);
+    border:1px solid var(--ink-faint);
+    border-radius:var(--r-lg);
+    box-shadow:var(--shadow-soft);
+    padding:1rem;
+  }
+  .art-page{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(242,203,124,.20), rgba(242,203,124,0) 55%),
+      linear-gradient(180deg,#FFFDF7,#FBF3E1);
+    min-height:16rem;
+    overflow:hidden;
+  }
+  .art-page::before{
+    content:"";
+    position:absolute;inset:.55rem;
+    border:1.5px dashed rgba(91,70,54,.18);
+    border-radius:22px;
+    pointer-events:none;
+  }
+  .frame-art{width:100%;max-width:24rem;aspect-ratio:4/3.2;display:grid;place-items:center;position:relative;z-index:1;}
+  .frame-art svg{width:100%;height:100%;display:block;}
+  .frame-cap{
+    position:relative;z-index:1;
+    font-size:.82rem;color:var(--ink-soft);
+    letter-spacing:.06em;margin-top:.1rem;
+  }
+  .text-page{display:flex;flex-direction:column;gap:.7rem;}
+  .teach-meta{display:flex;align-items:center;justify-content:space-between;gap:.6rem;}
+  .teach-meta .idx{font-size:.78rem;letter-spacing:.1em;color:var(--ink-soft);}
+  .teach-main{display:flex;align-items:center;gap:1rem;}
+  .hanzi-card{
+    position:relative;flex:0 0 auto;
+    width:6.4rem;height:6.4rem;
+    display:grid;place-items:center;
+    background:#FFF9EC;
+    border:1.5px solid rgba(180,85,63,.4);
+    border-radius:12px;
+    background-image:
+      linear-gradient(to right, rgba(180,85,63,.16) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(180,85,63,.16) 1px, transparent 1px);
+    background-size:50% 50%;
+    background-position:center;
+    box-shadow:inset 0 0 0 4px rgba(255,252,243,.7);
+  }
+  .hanzi{
+    font-family:var(--font-kai);
+    font-size:4rem;line-height:1;
+    color:var(--seal);
+    transform:translateY(-.04em);
+  }
+  .teach-use{min-width:0;}
+  .teach-use .label{
+    display:inline-block;font-size:.68rem;letter-spacing:.2em;
+    color:var(--ink-soft);font-weight:700;
+  }
+  .teach-use p{
+    margin:.15rem 0 0;font-size:1rem;line-height:1.75;
+  }
+  .ex-title{
+    display:flex;align-items:center;gap:.4rem;
+    font-size:.72rem;letter-spacing:.18em;color:var(--ink-soft);font-weight:700;
+    margin-top:.1rem;
+  }
+  .ex-title::after{content:"";flex:1;height:1px;background:var(--ink-faint);}
+  .examples{display:flex;flex-wrap:wrap;gap:.45rem;}
+  .ex{
+    display:inline-flex;align-items:center;gap:.35rem;
+    padding:.22rem .6rem .22rem .28rem;
+    background:#FFFAEE;border:1px solid rgba(91,70,54,.16);
+    border-radius:99px;font-size:.92rem;font-weight:700;
+  }
+  .ex svg{width:2.5rem;height:2.5rem;flex:0 0 auto;}
+  .ex .q{color:var(--seal);font-family:var(--font-kai);font-size:1.1em;margin:0 .04em;}
+  .tip-note{
+    position:relative;
+    margin-top:auto;
+    padding:.8rem .9rem .8rem 1rem;
+    background:rgba(242,203,124,.24);
+    border:1px solid rgba(196,152,62,.28);
+    border-radius:6px 16px 16px 16px;
+    font-size:.88rem;line-height:1.7;
+    transform:rotate(-.35deg);
+  }
+  .tip-note::before{
+    content:"";
+    position:absolute;top:-.42rem;left:1.1rem;
+    width:2.4rem;height:.8rem;
+    background:rgba(255,252,243,.75);
+    border:1px solid rgba(91,70,54,.12);
+    transform:rotate(-4deg);
+  }
+  .tip-note b{
+    display:block;font-size:.66rem;letter-spacing:.2em;
+    color:#8A6A2F;margin-bottom:.12rem;
+  }
+  .careful{
+    display:flex;gap:.4rem;align-items:flex-start;
+    font-size:.8rem;color:var(--ink-soft);line-height:1.65;
+  }
+  .careful svg{width:.95rem;height:.95rem;flex:0 0 auto;margin-top:.2rem;}
+
+  .teach-bar{
+    display:grid;grid-template-columns:auto 1fr auto;gap:.5rem;
+    align-items:center;margin-top:.9rem;
+  }
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
+    min-height:3.1rem;padding:.6rem 1rem;
+    font-size:1rem;font-weight:700;
+    background:var(--cream);
+    border:1px solid rgba(91,70,54,.22);
+    border-radius:16px;
+    box-shadow:0 4px 0 rgba(91,70,54,.12);
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease, background .15s ease;
+  }
+  .btn:hover{background:#FFFDF7;}
+  .btn:active{transform:translateY(.18rem);box-shadow:0 1px 0 rgba(91,70,54,.12);}
+  .btn[disabled]{opacity:.4;cursor:default;box-shadow:0 4px 0 rgba(91,70,54,.08);}
+  .btn svg{width:1.1rem;height:1.1rem;}
+  .btn.sage{background:var(--sage);border-color:rgba(91,70,54,.22);color:#2F4A36;}
+  .btn.butter{background:var(--butter);color:#5A4515;}
+  .btn.sky{background:var(--sky);color:#244A5C;}
+  .btn.speak{padding:.55rem .85rem;font-size:.88rem;}
+  .btn.full{width:100%;}
+
+  .pager{display:flex;align-items:center;justify-content:center;gap:.35rem;flex-wrap:wrap;padding:0 .2rem;}
+  .pager button{
+    width:.62rem;height:.62rem;padding:0;border-radius:50%;
+    border:1px solid rgba(91,70,54,.35);background:transparent;cursor:pointer;
+  }
+  .pager button.on{background:var(--coral);border-color:var(--coral);transform:scale(1.25);}
+  .pager button.seen{background:rgba(143,190,155,.7);border-color:rgba(110,158,124,.7);}
+
+  /* ---------------- 遊戲共用 ---------------- */
+  .game{max-width:720px;margin:0 auto;padding-top:.6rem;}
+  .hud{display:flex;align-items:center;justify-content:space-between;gap:.6rem;font-size:.82rem;color:var(--ink-soft);font-weight:700;}
+  .hud .hud-count{color:var(--ink);font-size:.95rem;letter-spacing:.04em;}
+  .hud .hud-score{display:inline-flex;align-items:center;gap:.28rem;}
+  .hud .hud-score svg{width:1rem;height:1rem;}
+  .progress{height:.55rem;border-radius:99px;background:var(--paper-deep);overflow:hidden;margin:.4rem 0 .9rem;}
+  .progress > i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--sage),var(--butter));transition:width .4s ease;}
+
+  .scene{
+    position:relative;
+    height:clamp(11rem,30vh,15.5rem);
+    display:grid;place-items:center;
+    border-radius:26px;
+    border:1px solid var(--ink-faint);
+    background:linear-gradient(180deg,#FFFDF7,#FBF3E2);
+    overflow:hidden;
+    box-shadow:var(--shadow-card);
+  }
+  .scene::before{
+    content:"";position:absolute;inset:.5rem;
+    border:1.5px dashed rgba(91,70,54,.14);border-radius:20px;
+  }
+  .scene svg{height:100%;width:auto;max-width:100%;position:relative;z-index:1;}
+
+  .quiz-card{
+    margin-top:.85rem;padding:1rem 1rem 1.1rem;
+    background:var(--cream);
+    border:1px solid var(--ink-faint);
+    border-radius:26px;
+    box-shadow:var(--shadow-soft);
+    text-align:center;
+  }
+  .q-cap{font-size:.7rem;letter-spacing:.22em;color:var(--ink-soft);}
+  .sentence{
+    margin:.35rem 0 0;
+    font-size:1.24rem;line-height:2.15;font-weight:600;
+  }
+  @media (min-width:600px){.sentence{font-size:1.38rem;}}
+  .blank{
+    display:inline-grid;place-items:center;
+    min-width:1.75em;height:1.55em;padding:0 .1em;
+    margin:0 .18em;vertical-align:-.42em;
+    border:2px dashed rgba(180,85,63,.55);
+    border-radius:10px;
+    background:rgba(255,249,236,.9);
+    color:var(--seal);
+    font-family:var(--font-kai);
+    font-size:1.12em;font-weight:700;
+    line-height:1;
+  }
+  .blank.ok{border-style:solid;border-color:var(--sage-deep);background:#EAF4E6;color:#3C6A4A;}
+  .blank.no{border-style:solid;border-color:var(--coral);background:#FBEAE6;}
+
+  .options{display:grid;grid-template-columns:repeat(2,1fr);gap:.55rem;margin-top:.9rem;}
+  .options[data-cols="3"]{grid-template-columns:repeat(3,1fr);}
+  @media (max-width:359px){
+    .options[data-cols="3"]{grid-template-columns:repeat(3,1fr);}
+    .opt{font-size:1.6rem;}
+  }
+  .opt{
+    position:relative;
+    min-height:4.15rem;
+    padding:.4rem .3rem;
+    display:grid;place-items:center;
+    font-family:var(--font-kai);
+    font-size:1.95rem;line-height:1;
+    background:#FFFDF7;
+    border:1.5px solid rgba(91,70,54,.22);
+    border-radius:18px;
+    box-shadow:0 5px 0 rgba(91,70,54,.12);
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease, background .15s ease, border-color .15s ease;
+  }
+  .opt:hover{background:#FFF9EC;}
+  .opt:active{transform:translateY(.2rem);box-shadow:0 1px 0 rgba(91,70,54,.12);}
+  .opt:disabled{cursor:default;}
+  .opt.is-right{background:#E7F2E1;border-color:var(--sage-deep);box-shadow:0 5px 0 rgba(110,158,124,.35);}
+  .opt.is-wrong{background:#FBEAE6;border-color:var(--coral);box-shadow:0 5px 0 rgba(233,150,124,.32);}
+  .opt.is-dim{opacity:.45;}
+  .opt .mark{
+    position:absolute;top:.3rem;right:.35rem;
+    width:1.15rem;height:1.15rem;display:grid;place-items:center;
+  }
+  .opt .mark svg{width:100%;height:100%;}
+
+  .hint-line{
+    display:flex;align-items:center;gap:.35rem;
+    margin:.75rem .1rem 0;font-size:.8rem;color:var(--ink-soft);
+  }
+  .hint-line svg{width:.95rem;height:.95rem;flex:0 0 auto;}
+
+  /* ---------------- 回饋對話框 ---------------- */
+  .feedback{
+    margin-top:.9rem;
+    display:flex;gap:.55rem;align-items:flex-start;
+    animation:popIn .3s cubic-bezier(.2,.8,.3,1.1) both;
+  }
+  @keyframes popIn{from{opacity:0;transform:translateY(.5rem) scale(.98);}to{opacity:1;transform:none;}}
+  .fox-face{width:3.1rem;height:3.1rem;flex:0 0 auto;margin-top:.2rem;}
+  .bubble{
+    position:relative;flex:1 1 auto;min-width:0;
+    padding:.85rem 1rem .9rem;
+    background:var(--cream);
+    border:1px solid var(--ink-faint);
+    border-radius:6px 22px 22px 22px;
+    box-shadow:var(--shadow-card);
+  }
+  .bubble::before{
+    content:"";position:absolute;left:-.45rem;top:.85rem;
+    width:.8rem;height:.8rem;background:var(--cream);
+    border-left:1px solid var(--ink-faint);border-bottom:1px solid var(--ink-faint);
+    transform:rotate(45deg);
+    border-radius:0 0 0 3px;
+  }
+  .bubble.good{background:#F2F8EE;border-color:rgba(110,158,124,.4);}
+  .bubble.good::before{background:#F2F8EE;border-color:rgba(110,158,124,.4);}
+  .bubble.bad{background:#FDF1EE;border-color:rgba(233,150,124,.45);}
+  .bubble.bad::before{background:#FDF1EE;border-color:rgba(233,150,124,.45);}
+  .bubble h4{
+    margin:0;display:flex;align-items:center;gap:.35rem;
+    font-size:1.05rem;letter-spacing:.02em;
+  }
+  .bubble h4 svg{width:1.15rem;height:1.15rem;}
+  .bubble p{margin:.3rem 0 0;font-size:.93rem;line-height:1.75;}
+  .bubble p.picked{color:#B4553F;font-weight:700;font-size:.88rem;margin-top:.15rem;}
+  .remember{
+    display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;
+    margin-top:.55rem;padding:.42rem .65rem;
+    background:rgba(242,203,124,.26);
+    border-radius:10px;
+    font-size:.85rem;font-weight:700;color:#715527;
+  }
+  .remember .k{font-size:.68rem;letter-spacing:.14em;color:#8A6A2F;font-weight:700;}
+  .remember .v{font-family:var(--font-kai);font-size:1.05rem;color:var(--seal);letter-spacing:.02em;}
+  .bubble-actions{display:flex;gap:.5rem;margin-top:.75rem;flex-wrap:wrap;}
+  .bubble-actions .btn{flex:1 1 8rem;min-height:2.9rem;font-size:.95rem;}
+
+  /* ---------------- 分類站 ---------------- */
+  .tray{
+    display:flex;flex-wrap:wrap;gap:.55rem;justify-content:center;
+    padding:.85rem .6rem;margin-top:.55rem;
+    min-height:6.1rem;
+    background:rgba(255,252,243,.66);
+    border:2px dashed rgba(91,70,54,.22);
+    border-radius:24px;
+  }
+  .tray-empty{font-size:.9rem;color:var(--ink-soft);align-self:center;}
+  .noun{
+    width:5.9rem;
+    padding:.35rem .3rem .45rem;
+    display:flex;flex-direction:column;align-items:center;gap:.1rem;
+    background:var(--cream);
+    border:1.5px solid rgba(91,70,54,.18);
+    border-radius:16px;
+    box-shadow:0 4px 0 rgba(91,70,54,.10);
+    cursor:pointer;
+    transition:transform .14s ease, box-shadow .14s ease, border-color .14s ease, background .14s ease;
+  }
+  .noun svg{width:3.4rem;height:3.4rem;display:block;}
+  .noun .n{font-size:.86rem;font-weight:700;line-height:1.3;text-align:center;}
+  .noun:hover{transform:translateY(-.14rem);}
+  .noun.is-selected{
+    background:#FFF6DE;
+    border-color:rgba(196,152,62,.7);
+    box-shadow:0 0 0 3px rgba(242,203,124,.5), 0 6px 0 rgba(91,70,54,.10);
+    transform:translateY(-.22rem);
+  }
+  .noun.is-locked{opacity:.5;cursor:default;}
+
+  .baskets{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.8rem;}
+  .basket{
+    position:relative;
+    display:flex;flex-direction:column;align-items:center;gap:.35rem;
+    padding:1rem .45rem 1.1rem;
+    min-height:11.5rem;
+    background:
+      repeating-linear-gradient(90deg, rgba(140,100,60,.14) 0 1px, transparent 1px 12px),
+      repeating-linear-gradient(0deg, rgba(140,100,60,.10) 0 1px, transparent 1px 12px),
+      linear-gradient(180deg,#F7E6C9,#EDD3AC);
+    border:2px solid rgba(120,88,56,.36);
+    border-radius:10px 10px 26px 26px;
+    box-shadow:0 7px 0 rgba(91,70,54,.10);
+    cursor:pointer;
+    transition:transform .14s ease, box-shadow .14s ease, background .18s ease;
+  }
+  .basket::before{
+    content:"";position:absolute;top:-.55rem;left:-.35rem;right:-.35rem;height:1.1rem;
+    background:linear-gradient(180deg,#E3C79C,#D3AE7C);
+    border:2px solid rgba(120,88,56,.4);
+    border-radius:99px;
+  }
+  .basket:hover{transform:translateY(-.14rem);}
+  .basket.is-ready{background:
+      repeating-linear-gradient(90deg, rgba(140,100,60,.14) 0 1px, transparent 1px 12px),
+      repeating-linear-gradient(0deg, rgba(140,100,60,.10) 0 1px, transparent 1px 12px),
+      linear-gradient(180deg,#FFF1CF,#F3DDB4);}
+  .basket.shake{animation:shake .38s ease;}
+  @keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-.35rem);}55%{transform:translateX(.35rem);}80%{transform:translateX(-.18rem);}}
+  .basket.bump{animation:bump .35s ease;}
+  @keyframes bump{0%,100%{transform:scale(1);}45%{transform:scale(1.035);}}
+  .basket .b-label{
+    position:relative;z-index:1;
+    display:inline-block;padding:.12rem .55rem;
+    background:var(--cream);
+    border:1px solid rgba(120,88,56,.3);
+    border-radius:99px;
+    font-size:.64rem;letter-spacing:.16em;color:#7A5B39;
+  }
+  .basket .b-q{
+    position:relative;z-index:1;
+    font-family:var(--font-kai);
+    font-size:2.5rem;line-height:1.1;color:var(--seal);
+    text-shadow:0 1px 0 rgba(255,255,255,.7);
+  }
+  .slots{
+    position:relative;z-index:1;
+    display:flex;flex-wrap:wrap;gap:.3rem;justify-content:center;
+    width:100%;margin-top:.15rem;
+  }
+  .slot{
+    display:flex;flex-direction:column;align-items:center;
+    width:3.2rem;padding:.18rem 0;
+    background:rgba(255,252,243,.95);
+    border:1px solid rgba(91,70,54,.21);
+    border-radius:9px;
+    animation:popIn .3s ease both;
+  }
+  .slot svg{width:1.85rem;height:1.85rem;}
+  .slot span{font-size:.58rem;font-weight:700;line-height:1.25;text-align:center;}
+  .round-note{
+    margin-top:.55rem;padding:.65rem .8rem;
+    background:rgba(151,200,223,.18);
+    border-radius:14px;border:1px solid rgba(111,168,196,.25);
+    font-size:.86rem;line-height:1.7;
+  }
+
+  /* ---------------- 成績 ---------------- */
+  .modal{
+    position:fixed;inset:0;z-index:90;
+    display:grid;place-items:center;
+    padding:1rem;
+    background:rgba(91,70,54,.42);
+    backdrop-filter:blur(3px);
+    -webkit-backdrop-filter:blur(3px);
+  }
+  .sheet{
+    width:min(94vw,26rem);
+    max-height:90dvh;overflow:auto;
+    padding:1.35rem 1.2rem 1.2rem;
+    text-align:center;
+    background:var(--cream);
+    border:1px solid rgba(255,255,255,.6);
+    border-radius:28px;
+    box-shadow:0 30px 60px rgba(59,43,32,.28);
+    animation:sheetIn .34s cubic-bezier(.2,.8,.3,1.05) both;
+  }
+  @keyframes sheetIn{from{opacity:0;transform:translateY(1rem) scale(.96);}to{opacity:1;transform:none;}}
+  .sheet .r-art{width:5.4rem;height:5.4rem;margin:0 auto;}
+  .sheet h2{
+    font-family:var(--font-kai);font-size:1.6rem;letter-spacing:.08em;
+    margin:.35rem 0 .1rem;
+  }
+  .stars{display:flex;justify-content:center;gap:.2rem;margin:.15rem 0 .1rem;}
+  .stars svg{width:2rem;height:2rem;}
+  .r-score{
+    font-size:1.02rem;font-weight:700;margin:.25rem 0 0;
+  }
+  .r-score{white-space:nowrap;}
+  .r-score b{font-size:1.4rem;color:var(--seal);font-family:var(--font-kai);}
+  .r-sub{font-size:.86rem;color:var(--ink-soft);margin:.3rem 0 0;line-height:1.7;}
+  .review{
+    margin-top:.85rem;padding:.7rem .75rem;
+    background:rgba(242,203,124,.18);
+    border-radius:14px;text-align:left;
+  }
+  .review b{display:block;font-size:.66rem;letter-spacing:.18em;color:#8A6A2F;margin-bottom:.3rem;}
+  .review-list{display:flex;flex-wrap:wrap;gap:.3rem;}
+  .review-list span{
+    font-size:.8rem;padding:.18rem .5rem;background:var(--cream);
+    border:1px solid rgba(91,70,54,.14);border-radius:99px;
+  }
+  .review-list .q{color:var(--seal);font-family:var(--font-kai);font-size:1.05em;}
+  .sheet-actions{display:grid;gap:.5rem;margin-top:1rem;}
+  .sheet-actions .btn{width:100%;}
+
+  /* ---------------- 進度小提示 ---------------- */
+  .status-line{
+    min-height:1.3rem;margin:.5rem .1rem 0;
+    font-size:.78rem;color:var(--ink-soft);
+  }
+  .status-line.alert{color:#A65A3F;font-weight:700;}
+
+  ::selection{background:rgba(242,203,124,.55);}
+  :focus-visible{outline:3px solid rgba(111,168,196,.85);outline-offset:3px;}
+  body.is-locked{overflow:hidden;}
+  .r-art svg{width:100%;height:100%;display:block;}
+  @media (min-width:640px){
+    .options[data-cols="4"]{grid-template-columns:repeat(4,1fr);}
+  }
+  @media (max-width:359px){
+    .noun{width:5.2rem;}
+    .noun svg{width:3rem;height:3rem;}
+    .basket .b-q{font-size:2.2rem;}
+  }
+</style>
+</head>
+<body>
+
+<svg class="svg-defs" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="i-back"><path d="M15.5 4.5 8 12l7.5 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g id="i-next"><path d="M8.5 4.5 16 12l-7.5 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g id="i-sound"><path d="M5 9.5h3L12 6v12l-4-3.5H5z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.6 7.6 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></g>
+    <g id="i-mute"><path d="M5 9.5h3L12 6v12l-4-3.5H5z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M16 9.5l4.5 5M20.5 9.5 16 14.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></g>
+    <g id="i-star"><path d="M12 3.6l2.5 5.1 5.6.8-4.1 4 1 5.6-5-2.7-5 2.7 1-5.6-4.1-4 5.6-.8z" fill="currentColor"/></g>
+    <g id="i-star-line"><path d="M12 3.6l2.5 5.1 5.6.8-4.1 4 1 5.6-5-2.7-5 2.7 1-5.6-4.1-4 5.6-.8z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></g>
+    <g id="i-check"><circle cx="12" cy="12" r="9.2" fill="currentColor" opacity=".18"/><path d="m7.6 12.3 3 3 5.8-6.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g id="i-cross"><circle cx="12" cy="12" r="9.2" fill="currentColor" opacity=".18"/><path d="m8.6 8.6 6.8 6.8M15.4 8.6l-6.8 6.8" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></g>
+    <g id="i-book"><path d="M4 5.5c2.7-1.1 5.4-1.1 8 .6 2.6-1.7 5.3-1.7 8-.6v12.6c-2.7-1-5.4-1-8 .7-2.6-1.7-5.3-1.7-8-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 6.4v12.4" fill="none" stroke="currentColor" stroke-width="1.6"/></g>
+    <g id="i-speak"><path d="M5 9.5h3L12 6v12l-4-3.5H5z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M15.5 9a4 4 0 0 1 0 6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></g>
+    <g id="i-bulb"><path d="M9 17h6M10 20h4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M12 3.5a6 6 0 0 0-3.4 10.9V17h6.8v-2.6A6 6 0 0 0 12 3.5z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></g>
+    <g id="i-alert"><path d="M12 4.5 21 19.5H3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 9.5v4.6M12 17.2v.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></g>
+    <g id="i-replay"><path d="M4.8 12a7.2 7.2 0 1 0 2.3-5.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4.5 4.6v4.2h4.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g id="i-home"><path d="M4.5 11 12 4.5 19.5 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.5 10v9.5h11V10" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></g>
+    <g id="i-arrow"><path d="M4.5 12h14M13 6.5l5.5 5.5-5.5 5.5" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g id="i-spark"><path d="M12 2.5l1.7 6.3 6.3 1.7-6.3 1.7L12 18.5l-1.7-6.3L4 10.5l6.3-1.7z" fill="currentColor"/></g>
+  </defs>
+</svg>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="icon-btn" id="btnBack" type="button" aria-label="返回上一頁" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-back"/></svg>
+    </button>
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true" id="brandFox"></svg>
+      <span class="brand-text">
+        <span class="brand-title" id="brandTitle">量詞小達人</span>
+        <span class="brand-sub" id="brandSub">小學中文繪本</span>
+      </span>
+    </div>
+    <span class="chip" id="verChip" hidden>初小版</span>
+    <button class="icon-btn" id="btnSound" type="button" aria-label="關閉音效" aria-pressed="true">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sound" id="soundIcon"/></svg>
+    </button>
+  </div>
+</header>
+
+<main class="app" data-generated-by="vibe-coding-frontend-design">
+
+  <!-- ============ 首頁 ============ -->
+  <section class="screen is-active" id="screen-home" aria-label="封面與程度選擇">
+    <div class="cover">
+      <div class="cover-art">
+        <svg viewBox="0 0 720 430" role="img" aria-label="小狐狸坐在書堆上，打開一本畫滿圖畫的書，蝴蝶在旁邊飛">
+          <rect width="720" height="430" fill="#EDF5EE"/>
+          <circle cx="612" cy="82" r="46" fill="#F6D68C" opacity=".9"/>
+          <circle cx="612" cy="82" r="60" fill="#F6D68C" opacity=".25"/>
+          <g stroke="#E0B45C" stroke-width="3" stroke-linecap="round" opacity=".75">
+            <path d="M612 14v12M612 138v12M544 82h12M668 82h12M564 34l8 8M652 122l8 8M660 34l-8 8M572 122l-8 8"/>
+          </g>
+          <g fill="#FFFFFF" opacity=".92">
+            <path d="M96 92c0-13 10-22 23-22 4-13 16-21 29-21 16 0 28 11 30 26 12 1 21 10 21 22 0 12-10 21-23 21H118c-13 0-22-9-22-21z"/>
+            <path d="M424 66c0-9 7-16 16-16 3-9 12-15 21-15 11 0 20 8 22 19 8 1 15 7 15 15 0 8-7 15-16 15h-42c-9 0-16-7-16-15z" opacity=".8"/>
+          </g>
+          <path d="M0 346c92-46 168-52 252-16 78 34 146 16 214-12 68-28 150-22 254 24v88H0z" fill="#CFE4D2"/>
+          <path d="M0 372c120-34 214-24 300 4 92 30 188 12 260-14 62-22 110-16 160 8v60H0z" fill="#B7D6BC"/>
+          <g>
+            <path d="M84 344c0-46 2-92 8-136" stroke="#8A6A4A" stroke-width="14" stroke-linecap="round" fill="none"/>
+            <circle cx="92" cy="196" r="52" fill="#9BC7A3"/>
+            <circle cx="56" cy="222" r="34" fill="#8FBE9B"/>
+            <circle cx="128" cy="224" r="32" fill="#A8D2AF"/>
+            <circle cx="92" cy="176" r="26" fill="#ACD5B2" opacity=".8"/>
+          </g>
+          <g fill="#8FBE9B">
+            <path d="M150 372c4-14 10-24 18-30-2 14-6 24-14 32z"/>
+            <path d="M166 372c1-16 6-26 14-33 0 15-4 26-12 34z"/>
+            <path d="M330 380c3-13 8-22 15-27-1 13-5 22-12 29z"/>
+            <path d="M346 380c2-14 7-23 14-29-1 14-5 24-11 30z"/>
+            <path d="M640 376c3-13 8-22 15-27-1 13-5 22-12 29z"/>
+          </g>
+          <g>
+            <rect x="432" y="330" width="132" height="22" rx="8" fill="#E9A0AE" stroke="#5B4636" stroke-width="3"/>
+            <rect x="422" y="304" width="152" height="24" rx="8" fill="#97C8DF" stroke="#5B4636" stroke-width="3"/>
+            <rect x="440" y="278" width="116" height="24" rx="8" fill="#F2CB7C" stroke="#5B4636" stroke-width="3"/>
+          </g>
+          <g>
+            <!-- 尾巴 -->
+            <path d="M556 306c34-6 58 8 60 30 2 20-14 34-34 34-16 0-30-10-34-24 12 2 22-2 26-10 4-9 0-18-10-24z" fill="#D97F63" stroke="#5B4636" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M576 330c10 2 16 9 15 18" fill="none" stroke="#FFF6EA" stroke-width="6" stroke-linecap="round" opacity=".85"/>
+            <!-- 身體 -->
+            <path d="M512 246c-31 0-52 24-52 52 0 26 17 43 42 46h20c25-3 42-20 42-46 0-28-21-52-52-52z" fill="#E9967C" stroke="#5B4636" stroke-width="3.2" stroke-linejoin="round"/>
+            <!-- 圍巾 -->
+            <path d="M478 274c22 10 46 10 68 0l4 16c-24 11-52 11-76 0z" fill="#8FBE9B" stroke="#5B4636" stroke-width="2.8" stroke-linejoin="round"/>
+            <path d="M540 288l14 20-12 8-10-22z" fill="#8FBE9B" stroke="#5B4636" stroke-width="2.6" stroke-linejoin="round"/>
+            <!-- 耳朵 -->
+            <path d="M486 216l-10-40 30 20z" fill="#E9967C" stroke="#5B4636" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M538 216l10-40-30 20z" fill="#E9967C" stroke="#5B4636" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M484 206l-5-20 15 11z" fill="#F6C6B8"/>
+            <path d="M540 206l5-20-15 11z" fill="#F6C6B8"/>
+            <!-- 頭 -->
+            <circle cx="512" cy="246" r="42" fill="#E9967C" stroke="#5B4636" stroke-width="3.2"/>
+            <path d="M512 214c-20 0-34 12-38 28 14 8 24 8 38 8s24 0 38-8c-4-16-18-28-38-28z" fill="#F2B49E" opacity=".55"/>
+            <ellipse cx="512" cy="262" rx="23" ry="16" fill="#FFF6EA" stroke="#5B4636" stroke-width="2.4"/>
+            <circle cx="497" cy="240" r="4" fill="#5B4636"/>
+            <circle cx="527" cy="240" r="4" fill="#5B4636"/>
+            <path d="M512 254l5 5-5 5-5-5z" fill="#5B4636"/>
+            <path d="M512 264v4M512 268c-4 5-10 5-13 1M512 268c4 5 10 5 13 1" fill="none" stroke="#5B4636" stroke-width="2.2" stroke-linecap="round"/>
+            <circle cx="486" cy="258" r="7" fill="#EFA9B5" opacity=".55"/>
+            <circle cx="538" cy="258" r="7" fill="#EFA9B5" opacity=".55"/>
+            <!-- 打開的繪本 -->
+            <path d="M466 306q24-11 46 1v42q-22-11-46-1z" fill="#FFFCF3" stroke="#5B4636" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M558 306q-24-11-46 1v42q22-11 46-1z" fill="#FFFCF3" stroke="#5B4636" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M512 307v42" stroke="#5B4636" stroke-width="2.6"/>
+            <path d="M474 318h28M474 328h28M522 318h28M522 328h28" stroke="#C9B79C" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M496 340c-4 6-4 12 0 16M528 340c4 6 4 12 0 16" fill="none" stroke="#E9967C" stroke-width="0"/>
+            <!-- 小手掌 -->
+            <ellipse cx="478" cy="348" rx="10" ry="8" fill="#E9967C" stroke="#5B4636" stroke-width="2.6"/>
+            <ellipse cx="546" cy="348" rx="10" ry="8" fill="#E9967C" stroke="#5B4636" stroke-width="2.6"/>
+          </g>
+          <g transform="translate(276 178) scale(.62)">
+            <path d="M0 34c0-12 9-20 20-20 5-12 17-18 29-14 12 4 18 16 15 28 10 3 16 12 14 23-2 12-13 19-25 16-6 10-19 13-30 8-11-5-16-17-13-29-6-4-10-8-10-12z" fill="#EFA9B5" opacity=".9"/>
+            <path d="M18 60c8-14 16-24 26-30" stroke="#5B4636" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <circle cx="10" cy="30" r="4" fill="#5B4636"/>
+          </g>
+          <g transform="translate(356 108) rotate(10)">
+            <rect x="0" y="0" width="58" height="72" rx="8" fill="#FFFCF3" stroke="#5B4636" stroke-width="2.6"/>
+            <text x="29" y="46" font-size="30" font-family="serif" text-anchor="middle" fill="#B4553F">隻</text>
+          </g>
+          <g transform="translate(96 258) rotate(-9)">
+            <rect x="0" y="0" width="52" height="64" rx="7" fill="#FFFCF3" stroke="#5B4636" stroke-width="2.4"/>
+            <text x="26" y="42" font-size="26" font-family="serif" text-anchor="middle" fill="#B4553F">朵</text>
+          </g>
+          <g fill="#E9967C" opacity=".7">
+            <circle cx="196" cy="300" r="5"/><circle cx="208" cy="310" r="3.4"/>
+            <circle cx="620" cy="286" r="4.6"/><circle cx="606" cy="272" r="3"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="cover-title-wrap">
+        <span class="cover-kicker">小學中文・量詞繪本</span>
+        <h1 class="cover-title">量詞小達人<span class="dot">。</span></h1>
+        <p class="cover-lead">翻開繪本，看圖認識量詞；再玩兩個小遊戲，把量詞牢牢記住。</p>
+        <svg class="brush-line" viewBox="0 0 160 14" aria-hidden="true">
+          <path d="M4 9c26-5 54-7 76-4 22 3 44 2 76-4" fill="none" stroke="#E9967C" stroke-width="5" stroke-linecap="round" opacity=".75"/>
+        </svg>
+      </div>
+
+      <div class="ver-grid">
+        <button class="book-card low" type="button" data-version="low">
+          <span class="book-art" id="lowArt" aria-hidden="true"></span>
+          <span>
+            <h2>初小版</h2>
+            <span class="book-meta">小一至小三・最常用的量詞</span>
+            <span class="book-tags"><span class="tag">12 張圖文卡</span><span class="tag">3 個選項</span></span>
+          </span>
+          <span class="book-go" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-next"/></svg></span>
+        </button>
+        <button class="book-card high" type="button" data-version="high">
+          <span class="book-art" id="highArt" aria-hidden="true"></span>
+          <span>
+            <h2>高小版</h2>
+            <span class="book-meta">小四至小六・容易混淆的量詞</span>
+            <span class="book-tags"><span class="tag">12 張圖文卡</span><span class="tag">4 個選項</span></span>
+          </span>
+          <span class="book-go" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-next"/></svg></span>
+        </button>
+      </div>
+
+      <p class="home-note">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-book"/></svg>
+        <span>全書採用繁體字，例詞以《香港小學學生字詞表》的常用詞為依據。每個答案都會說明原因，答錯也可以慢慢看。<br>建議先看「學一學」，再玩「看圖選量詞」和「量詞分類站」。</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 目錄 ============ -->
+  <section class="screen" id="screen-menu" aria-label="學習目錄">
+    <div class="page-head">
+      <div class="head-row">
+        <div>
+          <span class="kicker">目錄</span>
+          <h2 id="menuTitle">初小版</h2>
+          <p id="menuSub">小一至小三・由最常用的量詞開始</p>
+        </div>
+        <button class="btn" type="button" id="btnSwitch" style="min-height:2.5rem;padding:.3rem .7rem;font-size:.8rem;">更換程度</button>
+      </div>
+    </div>
+
+    <div class="menu-list">
+      <button class="menu-item" type="button" id="cardTeach">
+        <span class="menu-art" id="menuArtTeach" aria-hidden="true"></span>
+        <span>
+          <h3>學一學</h3>
+          <p id="menuDescTeach">12 張圖文卡：一個量詞、一句用法、幾個例子，還可以聽讀音。</p>
+        </span>
+        <span class="menu-side">
+          <span class="chip" id="badgeTeach">12 張</span>
+          <span class="menu-go" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-next"/></svg></span>
+        </span>
+      </button>
+
+      <button class="menu-item" type="button" id="cardGameA">
+        <span class="menu-art a" id="menuArtA" aria-hidden="true"></span>
+        <span>
+          <h3>遊戲一：看圖選量詞</h3>
+          <p>看圖和句子，選出正確的量詞。共 10 題，每題即時講解。</p>
+        </span>
+        <span class="menu-side">
+          <span class="stars-mini" id="badgeGameA" aria-label="最佳成績"></span>
+          <span class="menu-go" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-next"/></svg></span>
+        </span>
+      </button>
+
+      <button class="menu-item" type="button" id="cardGameB">
+        <span class="menu-art b" id="menuArtB" aria-hidden="true"></span>
+        <span>
+          <h3>遊戲二：量詞分類站</h3>
+          <p>先點名詞卡，再放進正確的量詞籃。共 10 關，每關有對比小結。</p>
+        </span>
+        <span class="menu-side">
+          <span class="stars-mini" id="badgeGameB" aria-label="最佳成績"></span>
+          <span class="menu-go" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-next"/></svg></span>
+        </span>
+      </button>
+    </div>
+
+    <p class="note-strip" id="menuNote">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-spark"/></svg>
+      <span>建議先看「學一學」，再做遊戲；成績會保存在這部裝置。</span>
+    </p>
+  </section>
+
+  <!-- ============ 教學 ============ -->
+  <section class="screen" id="screen-teach" aria-label="量詞教學">
+    <div class="spread">
+      <article class="page art-page" aria-label="量詞插圖">
+        <div class="frame-art" id="teachArt"></div>
+        <p class="frame-cap" id="teachCap"></p>
+      </article>
+
+      <article class="page text-page">
+        <div class="teach-meta">
+          <span class="idx" id="teachIdx">第 1 ／ 12 張</span>
+          <span class="chip" id="teachTag">初小版</span>
+        </div>
+
+        <div class="teach-main">
+          <div class="hanzi-card" aria-hidden="true"><span class="hanzi" id="teachHanzi">個</span></div>
+          <div class="teach-use">
+            <span class="label">用法</span>
+            <p id="teachUse">用法說明</p>
+          </div>
+        </div>
+
+        <div class="ex-title">例子</div>
+        <div class="examples" id="teachEx"></div>
+
+        <div class="tip-note">
+          <b>記憶小貼士</b>
+          <span id="teachTip"></span>
+        </div>
+
+        <p class="careful">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-alert"/></svg>
+          <span id="teachCareful"></span>
+        </p>
+
+        <button class="btn speak" type="button" id="btnSpeak">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-speak"/></svg>
+          <span>聽一聽讀音</span>
+        </button>
+      </article>
+    </div>
+
+    <div class="teach-bar">
+      <button class="btn" type="button" id="btnPrev">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-back"/></svg>
+        <span>上一張</span>
+      </button>
+      <div class="pager" id="teachDots" role="tablist" aria-label="快速跳到某一張圖文卡"></div>
+      <button class="btn sage" type="button" id="btnNext">
+        <span>下一張</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-next"/></svg>
+      </button>
+    </div>
+    <p class="status-line" id="teachStatus" aria-live="polite"></p>
+  </section>
+
+  <!-- ============ 遊戲一 ============ -->
+  <section class="screen" id="screen-gameA" aria-label="遊戲一 看圖選量詞">
+    <div class="game">
+      <div class="hud">
+        <span class="hud-count" id="aCount">第 1 ／ 10 題</span>
+        <span class="hud-score">
+          <svg viewBox="0 0 24 24" aria-hidden="true" style="color:#6E9E7C"><use href="#i-check"/></svg>
+          <span id="aScore">答對 0 題</span>
+        </span>
+      </div>
+      <div class="progress" aria-hidden="true"><i id="aBar"></i></div>
+
+      <div class="scene" id="aScene" aria-label="題目插圖"></div>
+
+      <div class="quiz-card">
+        <span class="q-cap">看圖選量詞</span>
+        <p class="sentence" id="aSentence"></p>
+        <div class="options" id="aOptions" role="group" aria-label="選擇量詞"></div>
+      </div>
+
+      <div id="aFeedback" aria-live="polite"></div>
+      <p class="hint-line">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-speak"/></svg>
+        <span>可以按鍵盤 1–4 選擇答案，按 Enter 到下一題。</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 遊戲二 ============ -->
+  <section class="screen" id="screen-gameB" aria-label="遊戲二 量詞分類站">
+    <div class="game">
+      <div class="hud">
+        <span class="hud-count" id="bCount">第 1 ／ 10 關</span>
+        <span class="hud-score">
+          <svg viewBox="0 0 24 24" aria-hidden="true" style="color:#6E9E7C"><use href="#i-check"/></svg>
+          <span id="bScore">放對 0 張</span>
+        </span>
+      </div>
+      <div class="progress" aria-hidden="true"><i id="bBar"></i></div>
+
+      <p class="hint-line" id="bHint">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg>
+        <span id="bHintText">先點一張名詞卡，再點下面的量詞籃。</span>
+      </p>
+
+      <div class="tray" id="bPool" aria-label="待分類的名詞卡"></div>
+      <div class="baskets" id="bBaskets"></div>
+      <div id="bFeedback" aria-live="polite"></div>
+      <p class="status-line" id="bStatus" aria-live="polite"></p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ 成績 ============ -->
+<div class="modal" id="resultModal" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="resultTitle" aria-describedby="resultScore">
+    <div class="r-art" id="resultArt" aria-hidden="true"></div>
+    <h2 id="resultTitle">遊戲完成</h2>
+    <div class="stars" id="resultStars" aria-label="星級評分"></div>
+    <p class="r-score" id="resultScore"></p>
+    <p class="r-sub" id="resultSub"></p>
+    <div class="review" id="resultReview" hidden>
+      <b>再溫一次</b>
+      <div class="review-list" id="resultList"></div>
+    </div>
+    <div class="sheet-actions">
+      <button class="btn butter" type="button" id="btnAgain">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-replay"/></svg>
+        <span>再玩一次</span>
+      </button>
+      <button class="btn" type="button" id="btnHome">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-home"/></svg>
+        <span>返回目錄</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   插圖庫（一）：手繪繪本風 SVG
+   所有圖形共用 200 × 200 畫布、同一組線條與色系
+   ========================================================= */
+(function () {
+  'use strict';
+
+  var INK = '#5B4636';
+  var ST = 'stroke="' + INK + '" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"';
+  var ST2 = 'stroke="' + INK + '" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"';
+  var ST3 = 'stroke="' + INK + '" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+
+  function ground(rx, cy, op) {
+    return '<ellipse cx="100" cy="' + (cy || 172) + '" rx="' + (rx || 54) + '" ry="8.5" fill="' + INK + '" opacity="' + (op || 0.1) + '"/>';
+  }
+  function wash(cx, cy, rx, ry, fill, op) {
+    return '<ellipse cx="' + cx + '" cy="' + cy + '" rx="' + rx + '" ry="' + ry + '" fill="' + fill + '" opacity="' + (op || 0.45) + '"/>';
+  }
+  function spark(x, y, s, color) {
+    s = s || 5;
+    return '<path d="M' + x + ' ' + (y - s) + 'L' + (x + s * 0.32) + ' ' + (y - s * 0.32) + 'L' + (x + s) + ' ' + y +
+      'L' + (x + s * 0.32) + ' ' + (y + s * 0.32) + 'L' + x + ' ' + (y + s) + 'L' + (x - s * 0.32) + ' ' + (y + s * 0.32) +
+      'L' + (x - s) + ' ' + y + 'L' + (x - s * 0.32) + ' ' + (y - s * 0.32) + 'Z" fill="' + (color || '#F2CB7C') + '" opacity=".95"/>';
+  }
+  function eyes(x1, x2, y, r) {
+    r = r || 3.2;
+    return '<circle cx="' + x1 + '" cy="' + y + '" r="' + r + '" fill="' + INK + '"/><circle cx="' + x2 + '" cy="' + y + '" r="' + r + '" fill="' + INK + '"/>';
+  }
+  function smile(x, y, w) {
+    w = w || 8;
+    return '<path d="M' + (x - w) + ' ' + y + 'q' + w + ' ' + (w * 0.85) + ' ' + (w * 2) + ' 0" fill="none" stroke="' + INK + '" stroke-width="2.4" stroke-linecap="round"/>';
+  }
+  function cheeks(x1, x2, y) {
+    return '<ellipse cx="' + x1 + '" cy="' + y + '" rx="7" ry="4.2" fill="#EFA9B5" opacity=".55"/><ellipse cx="' + x2 + '" cy="' + y + '" rx="7" ry="4.2" fill="#EFA9B5" opacity=".55"/>';
+  }
+  function petals(cx, cy, rx, ry, n, fill, rot) {
+    var s = '';
+    for (var i = 0; i < n; i++) {
+      var a = (rot || 0) + i * 360 / n;
+      s += '<ellipse cx="' + cx + '" cy="' + (cy - ry) + '" rx="' + rx + '" ry="' + ry + '" transform="rotate(' + a + ' ' + cx + ' ' + cy + ')" fill="' + fill + '" ' + ST2 + '/>';
+    }
+    return s;
+  }
+
+  var ART = {};
+
+  /* ---------- 食物 ---------- */
+  ART.apple = function () {
+    return ground(40) +
+      '<path d="M100 72c-9-9-26-11-36-1-15 15-10 46 5 64 8 9 21 11 31 3 10 8 23 6 31-3 15-18 20-49 5-64-10-10-27-8-36 1z" fill="#E98B78" ' + ST + '/>' +
+      '<path d="M100 72c0-14 3-22 9-28" fill="none" ' + ST + '/>' +
+      '<path d="M108 52c10-12 24-14 30-8-4 12-18 18-30 8z" fill="#8FBE9B" ' + ST + '/>' +
+      '<path d="M78 96c-5 3-8 9-8 15" fill="none" stroke="#FFF6E5" stroke-width="5" stroke-linecap="round" opacity=".6"/>' +
+      spark(142, 78, 5);
+  };
+
+  ART.candy = function () {
+    return ground(40) +
+      '<path d="M64 100l-20-16v32z" fill="#EFA9B5" ' + ST + '/>' +
+      '<path d="M136 100l20-16v32z" fill="#EFA9B5" ' + ST + '/>' +
+      '<circle cx="100" cy="100" r="34" fill="#F2CB7C" ' + ST + '/>' +
+      '<path d="M100 100c0-10 8-16 16-12s6 18-6 20-20-8-16-20 18-14 24-4" fill="none" stroke="#C98B4B" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M76 84c-2 4-3 8-3 12" stroke="#FFF6E5" stroke-width="4" stroke-linecap="round" opacity=".7" fill="none"/>' +
+      spark(146, 72, 5, '#EFA9B5');
+  };
+
+  ART.cake = function () {
+    return ground(46) +
+      '<ellipse cx="100" cy="160" rx="52" ry="9" fill="#FFFCF3" ' + ST2 + '/>' +
+      '<path d="M54 150l46-40 46 40z" fill="#F7DCA6" ' + ST + '/>' +
+      '<path d="M54 150v-14l46-40 46 40v14z" fill="#F2CB7C" ' + ST + '/>' +
+      '<path d="M74 122l26-22 26 22" fill="none" stroke="#E9967C" stroke-width="7" stroke-linejoin="round"/>' +
+      '<circle cx="100" cy="88" r="8" fill="#E05C5C" ' + ST2 + '/>' +
+      '<path d="M100 80c2-6 6-8 9-8" fill="none" ' + ST2 + '/>' +
+      '<path d="M54 136v-8M58 130h8" stroke="#FFF6E5" stroke-width="3" opacity=".7" fill="none"/>' +
+      spark(150, 100, 5);
+  };
+
+  ART.bread = function () {
+    return ground(46) +
+      '<path d="M46 116c0-22 20-38 54-38s54 16 54 38v26c0 12-8 20-20 20H66c-12 0-20-8-20-20z" fill="#E7B87C" ' + ST + '/>' +
+      '<path d="M46 116c0-22 20-38 54-38s54 16 54 38" fill="#F0C994" ' + ST + '/>' +
+      '<path d="M72 96c6 8 6 12 0 18M96 88c6 9 6 14 0 22M120 96c6 8 6 12 0 18" fill="none" stroke="#C99055" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M66 146h68" stroke="#C99055" stroke-width="2" opacity=".6" fill="none"/>';
+  };
+
+  ART.rice = function () {
+    return ground(46) +
+      '<path d="M52 104h96c-2 30-20 48-48 48s-46-18-48-48z" fill="#97C8DF" ' + ST + '/>' +
+      '<path d="M56 112h88" stroke="#6FA8C4" stroke-width="2" opacity=".6" fill="none"/>' +
+      '<path d="M62 104c4-22 18-30 38-30s34 8 38 30z" fill="#FFFCF3" ' + ST + '/>' +
+      '<path d="M78 92l4-8M92 86l2-8M108 86l2-8M122 92l4-8" stroke="#E4D6BE" stroke-width="2.6" stroke-linecap="round"/>' +
+      '<path d="M50 152h100" stroke="#6FA8C4" stroke-width="3" stroke-linecap="round" opacity=".5"/>' +
+      '<path d="M84 66c-3-6 3-8 0-14M116 66c-3-6 3-8 0-14" stroke="#C9B79C" stroke-width="3" stroke-linecap="round" fill="none"/>';
+  };
+
+  ART.watermelon = function () {
+    return ground(48) +
+      '<path d="M42 118a58 58 0 0 0 116 0z" fill="#E86E6E" ' + ST + '/>' +
+      '<path d="M42 118a58 58 0 0 0 116 0" fill="none" stroke="#8FBE9B" stroke-width="10"/>' +
+      '<path d="M38 118h124" stroke="#5B4636" stroke-width="2.6" stroke-linecap="round"/>' +
+      '<g fill="#5B4636"><ellipse cx="76" cy="132" rx="3" ry="5"/><ellipse cx="100" cy="142" rx="3" ry="5"/><ellipse cx="124" cy="132" rx="3" ry="5"/></g>' +
+      '<path d="M62 118c2 6 4 10 8 14" stroke="#FFF6E5" stroke-width="3.4" stroke-linecap="round" opacity=".5" fill="none"/>' +
+      spark(152, 84, 5, '#8FBE9B');
+  };
+
+  ART.grapes = function () {
+    var dots = [[78, 104], [100, 96], [122, 104], [88, 124], [112, 124], [100, 144], [78, 144], [122, 144], [100, 166]];
+    var s = ground(38) + '<path d="M100 58v22" fill="none" ' + ST + '/>' +
+      '<path d="M100 64c-6-16-22-20-32-14 4 14 18 20 32 14z" fill="#8FBE9B" ' + ST + '/>';
+    for (var i = 0; i < dots.length; i++) {
+      s += '<circle cx="' + dots[i][0] + '" cy="' + dots[i][1] + '" r="14" fill="#B79BD0" ' + ST2 + '/>';
+      s += '<circle cx="' + (dots[i][0] - 4) + '" cy="' + (dots[i][1] - 4) + '" r="3" fill="#FFF6E5" opacity=".55"/>';
+    }
+    return s;
+  };
+
+  ART.skewer = function () {
+    return ground(40) +
+      '<path d="M62 156L136 48" stroke="#C9A06A" stroke-width="5" stroke-linecap="round"/>' +
+      '<g ' + ST + '>' +
+      '<circle cx="80" cy="128" r="18" fill="#E7C08A"/>' +
+      '<circle cx="102" cy="102" r="18" fill="#E7C08A"/>' +
+      '<circle cx="124" cy="76" r="18" fill="#E7C08A"/>' +
+      '</g>' +
+      '<path d="M72 122c2-8 8-12 14-12M94 96c2-8 8-12 14-12M116 70c2-8 8-12 14-12" stroke="#B98B55" stroke-width="4" stroke-linecap="round" opacity=".7" fill="none"/>' +
+      '<path d="M70 140c-6 4-8 10-6 16" stroke="#C1553F" stroke-width="4" stroke-linecap="round" fill="none" opacity=".7"/>' +
+      spark(152, 120, 5, '#E9967C');
+  };
+
+  ART.milk = function () {
+    return ground(42) +
+      '<path d="M70 74h60l-5 82c-.4 8-5 12-13 12H88c-8 0-12.6-4-13-12z" fill="#F7F3E8" ' + ST + '/>' +
+      '<path d="M73 108h55l-4 48c-.4 8-5 12-13 12H90c-8 0-12.6-4-13-12z" fill="#FFFDF7" ' + ST2 + '/>' +
+      '<ellipse cx="100" cy="74" rx="30" ry="8" fill="#FFFDF7" ' + ST + '/>' +
+      '<path d="M116 74L128 34" stroke="#EFA9B5" stroke-width="7" stroke-linecap="round"/>' +
+      '<path d="M80 92c-2 4-3 8-3 12" stroke="#D9CBB4" stroke-width="4" stroke-linecap="round" fill="none" opacity=".8"/>' +
+      spark(148, 96, 5);
+  };
+
+  ART.tea = function () {
+    return ground(44) +
+      '<path d="M62 106h72v26c0 14-10 22-24 22H86c-14 0-24-8-24-22z" fill="#FFFCF3" ' + ST + '/>' +
+      '<ellipse cx="98" cy="106" rx="36" ry="8" fill="#C98B4B" ' + ST + '/>' +
+      '<path d="M134 112h8c8 0 12 6 12 12s-4 12-12 12h-8" fill="none" ' + ST + '/>' +
+      '<ellipse cx="98" cy="158" rx="52" ry="9" fill="#F2CB7C" ' + ST2 + '/>' +
+      '<path d="M84 84c-6-8 6-12 0-20M104 84c-6-8 6-12 0-20M124 84c-6-8 6-12 0-20" fill="none" stroke="#C9B79C" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M74 116c6 4 10 5 16 5" stroke="#FFF6E5" stroke-width="3" opacity=".8" fill="none"/>';
+  };
+
+  ART.water = function () {
+    return ground(42) +
+      '<path d="M70 74h60l-5 82c-.4 8-5 12-13 12H88c-8 0-12.6-4-13-12z" fill="#F7F3E8" ' + ST + '/>' +
+      '<path d="M74 104h52l-4 52c-.4 8-5 12-13 12H91c-8 0-12.6-4-13-12z" fill="#BFE0EE" ' + ST2 + '/>' +
+      '<ellipse cx="100" cy="74" rx="30" ry="8" fill="#FFFDF7" ' + ST + '/>' +
+      '<circle cx="90" cy="122" r="3" fill="#FFFDF7" opacity=".8"/><circle cx="108" cy="136" r="2.4" fill="#FFFDF7" opacity=".8"/>' +
+      '<path d="M80 92c-2 4-3 8-3 12" stroke="#D9CBB4" stroke-width="4" stroke-linecap="round" fill="none"/>';
+  };
+
+  ART.juice = function () {
+    return ground(44) +
+      '<path d="M70 76l30-16 30 16v82H70z" fill="#F2CB7C" ' + ST + '/>' +
+      '<path d="M70 76l30 14 30-14" fill="none" ' + ST + '/>' +
+      '<rect x="82" y="96" width="36" height="42" rx="8" fill="#FFFCF3" ' + ST2 + '/>' +
+      '<circle cx="100" cy="116" r="10" fill="#E9967C" ' + ST3 + '/>' +
+      '<path d="M100 106v20M90 116h20" stroke="#E9967C" stroke-width="2" opacity=".6"/>' +
+      '<path d="M124 72L138 34" stroke="#8FBE9B" stroke-width="7" stroke-linecap="round"/>' +
+      '<path d="M78 84v-8" stroke="#D9B87A" stroke-width="3" stroke-linecap="round"/>';
+  };
+
+  /* ---------- 動物 ---------- */
+  ART.puppy = function () {
+    return ground(48) +
+      '<path d="M62 132c-16-2-26-16-24-30 10 1 20 12 24 22" fill="#D99A63" ' + ST + '/>' +
+      '<ellipse cx="92" cy="138" rx="32" ry="21" fill="#E9B57E" ' + ST + '/>' +
+      '<rect x="72" y="148" width="11" height="20" rx="5.5" fill="#E9B57E" ' + ST2 + '/>' +
+      '<rect x="102" y="148" width="11" height="20" rx="5.5" fill="#E9B57E" ' + ST2 + '/>' +
+      '<circle cx="118" cy="104" r="27" fill="#F0C48F" ' + ST + '/>' +
+      '<path d="M98 88c-9-11-20-10-23 2 1 10 9 17 18 17z" fill="#C98B5A" ' + ST + '/>' +
+      '<path d="M138 88c9-11 20-10 23 2-1 10-9 17-18 17z" fill="#C98B5A" ' + ST + '/>' +
+      '<ellipse cx="118" cy="116" rx="15" ry="10" fill="#FFF6E5" ' + ST2 + '/>' +
+      '<ellipse cx="118" cy="110" rx="5" ry="4" fill="' + INK + '"/>' +
+      '<path d="M118 114v4M111 118q7 5 14 0" fill="none" ' + ST2 + '/>' +
+      eyes(107, 129, 99) + cheeks(101, 135, 108) +
+      '<path d="M104 128q14 8 28 0" fill="none" stroke="#E9967C" stroke-width="7" stroke-linecap="round"/>' +
+      '<circle cx="118" cy="136" r="5" fill="#F2CB7C" ' + ST2 + '/>' +
+      spark(154, 82, 5);
+  };
+
+  ART.butterfly = function () {
+    return ground(34, 170, 0.08) +
+      '<ellipse cx="72" cy="94" rx="25" ry="30" transform="rotate(-22 72 94)" fill="#EFA9B5" ' + ST + '/>' +
+      '<ellipse cx="128" cy="94" rx="25" ry="30" transform="rotate(22 128 94)" fill="#EFA9B5" ' + ST + '/>' +
+      '<ellipse cx="82" cy="134" rx="17" ry="21" transform="rotate(16 82 134)" fill="#F2CB7C" ' + ST + '/>' +
+      '<ellipse cx="118" cy="134" rx="17" ry="21" transform="rotate(-16 118 134)" fill="#F2CB7C" ' + ST + '/>' +
+      '<ellipse cx="100" cy="112" rx="7" ry="34" fill="#8A6A4A" ' + ST2 + '/>' +
+      '<circle cx="100" cy="76" r="9" fill="#8A6A4A" ' + ST2 + '/>' +
+      '<path d="M94 68c-6-10-12-12-18-10M106 68c6-10 12-12 18-10" fill="none" ' + ST2 + '/>' +
+      '<circle cx="72" cy="88" r="6" fill="#FFF6E5" opacity=".75"/><circle cx="128" cy="88" r="6" fill="#FFF6E5" opacity=".75"/>' +
+      '<circle cx="86" cy="134" r="4" fill="#FFF6E5" opacity=".7"/><circle cx="114" cy="134" r="4" fill="#FFF6E5" opacity=".7"/>' +
+      '<circle cx="100" cy="76" r="2.6" fill="#FFF6E5"/>';
+  };
+
+  ART.fish = function () {
+    return '<ellipse cx="108" cy="104" rx="42" ry="28" fill="#97C8DF" ' + ST + '/>' +
+      '<path d="M68 104L42 86v36z" fill="#7FB0CB" ' + ST + '/>' +
+      '<path d="M104 78c8-14 20-17 27-11-2 11-10 17-19 19z" fill="#7FB0CB" ' + ST + '/>' +
+      '<path d="M104 130c7 10 16 12 22 8-2-8-8-13-15-15z" fill="#7FB0CB" ' + ST + '/>' +
+      '<circle cx="128" cy="96" r="4.2" fill="' + INK + '"/><circle cx="129.4" cy="94.6" r="1.4" fill="#FFFCF3"/>' +
+      '<path d="M140 108q6 4 0 8" fill="none" ' + ST2 + '/>' +
+      '<path d="M96 88c8 6 8 26 0 32M82 92c7 6 7 20 0 26" fill="none" stroke="#6FA8C4" stroke-width="2.4" stroke-linecap="round" opacity=".7"/>' +
+      '<circle cx="44" cy="72" r="5" fill="#BFE0EE" ' + ST3 + '/><circle cx="56" cy="56" r="3.4" fill="#BFE0EE" ' + ST3 + '/>' +
+      '<path d="M36 118c6-2 10-2 14 0M32 132c5-2 9-2 12 0" stroke="#BFE0EE" stroke-width="3" stroke-linecap="round" fill="none"/>';
+  };
+
+  ART.rooster = function () {
+    return ground(46) +
+      '<ellipse cx="98" cy="128" rx="34" ry="28" fill="#F0C48F" ' + ST + '/>' +
+      '<path d="M68 118c-14-6-24-2-28 8 8 10 22 12 32 6M66 138c-12 4-18 12-16 22 12 2 22-6 26-14" fill="#E9967C" ' + ST + '/>' +
+      '<circle cx="124" cy="94" r="21" fill="#F6D3A2" ' + ST + '/>' +
+      '<path d="M112 78c-2-10 4-14 8-8 2-10 10-10 12-2 6-6 12-2 10 8z" fill="#E05C5C" ' + ST2 + '/>' +
+      '<path d="M138 100l14 6-14 6z" fill="#F2CB7C" ' + ST2 + '/>' +
+      '<path d="M130 112c-3 7 1 11 6 9 4-2 5-6 3-9z" fill="#E05C5C" ' + ST2 + '/>' +
+      eyes(120, 132, 92) +
+      '<path d="M88 150v14M108 152v12M88 164h-6M108 164h-6M88 164h6M108 164h6" fill="none" ' + ST + '/>' +
+      '<path d="M76 110c6-4 12-4 18 0" stroke="#FFF6E5" stroke-width="3.4" opacity=".5" fill="none"/>';
+  };
+
+  ART.sheep = function () {
+    var fluff = [[76, 104, 24], [100, 92, 26], [124, 104, 24], [88, 124, 24], [112, 124, 24], [100, 140, 20]];
+    var s = ground(50) +
+      '<rect x="76" y="150" width="10" height="18" rx="4" fill="#6B5A4A" ' + ST2 + '/>' +
+      '<rect x="114" y="150" width="10" height="18" rx="4" fill="#6B5A4A" ' + ST2 + '/>';
+    for (var i = 0; i < fluff.length; i++) {
+      s += '<circle cx="' + fluff[i][0] + '" cy="' + fluff[i][1] + '" r="' + fluff[i][2] + '" fill="#FFFCF3" ' + ST2 + '/>';
+    }
+    s += '<ellipse cx="100" cy="112" rx="40" ry="34" fill="#FFFCF3" ' + ST + '/>' +
+      '<ellipse cx="146" cy="104" rx="20" ry="17" fill="#E7C3A2" ' + ST + '/>' +
+      '<path d="M136 88c-6-8-14-6-14 4 0 8 8 12 16 8" fill="#E7C3A2" ' + ST2 + '/>' +
+      '<path d="M158 92c7-4 12 0 10 8-1 6-6 8-10 6" fill="#E7C3A2" ' + ST2 + '/>' +
+      eyes(143, 155, 100) +
+      '<path d="M148 110q4 4 8 0" fill="none" ' + ST2 + '/>' +
+      '<path d="M126 128c8 4 14 4 20 0" stroke="#EFA9B5" stroke-width="3" fill="none" opacity=".6"/>';
+    return s;
+  };
+
+  ART.dolphin = function () {
+    return '<path d="M40 150c14-10 34-14 56-10 26 4 48-2 62-18 6 22-4 40-24 48-18 7-38 4-52-4-16 4-32 0-42-16z" fill="#97C8DF" ' + ST + '/>' +
+      '<path d="M96 122c4-14 14-22 26-24-2 14-10 24-22 28z" fill="#7FB0CB" ' + ST2 + '/>' +
+      '<path d="M60 148c-10 6-16 12-18 20 12 2 20-4 26-12" fill="#7FB0CB" ' + ST2 + '/>' +
+      '<circle cx="142" cy="132" r="3.6" fill="' + INK + '"/>' +
+      '<path d="M152 142q6 4 0 8" fill="none" ' + ST2 + '/>' +
+      '<path d="M42 154c10-6 22-8 34-6M58 166c8-4 16-5 24-4" stroke="#BFE0EE" stroke-width="3" stroke-linecap="round" fill="none"/>' +
+      spark(58, 96, 5, '#97C8DF');
+  };
+
+  ART.bird = function () {
+    return '<path d="M38 150c18-6 40-8 62-2M104 152c20-4 38-3 56 2" stroke="#C9A06A" stroke-width="6" stroke-linecap="round" fill="none"/>' +
+      ground(40, 168, 0.07) +
+      '<ellipse cx="100" cy="118" rx="30" ry="27" fill="#97C8DF" ' + ST + '/>' +
+      '<circle cx="112" cy="88" r="21" fill="#A9D3E6" ' + ST + '/>' +
+      '<path d="M130 86l14 5-14 6z" fill="#F2CB7C" ' + ST2 + '/>' +
+      '<path d="M112 67c-4-8 2-14 8-10M118 65c2-8 10-8 12-2" fill="#8FBE9B" ' + ST2 + '/>' +
+      eyes(106, 120, 86) +
+      '<path d="M74 116c-12 2-18-4-18-12 10-2 18 2 22 8" fill="#7FB0CB" ' + ST2 + '/>' +
+      '<path d="M88 142v10M112 142v10" fill="none" ' + ST2 + '/>' +
+      '<path d="M86 152h-8M110 152h8" stroke="' + INK + '" stroke-width="2.4" stroke-linecap="round"/>';
+  };
+
+  ART.ant = function () {
+    return ground(40) +
+      '<ellipse cx="76" cy="118" rx="17" ry="20" fill="#8A6A4A" ' + ST2 + '/>' +
+      '<ellipse cx="104" cy="112" rx="15" ry="17" fill="#8A6A4A" ' + ST2 + '/>' +
+      '<circle cx="130" cy="96" r="15" fill="#8A6A4A" ' + ST2 + '/>' +
+      '<path d="M138 84c6-8 12-10 18-8M140 90c7-4 13-4 18 0" fill="none" ' + ST2 + '/>' +
+      eyes(126, 134, 94, 2.4) + smile(130, 102, 4) +
+      '<g fill="none" ' + ST2 + '><path d="M104 98c-8-12-14-18-24-20M102 116c-10 2-18 8-22 16M108 124c-4 12-2 20 4 26M118 100c2-12 8-18 16-22M118 118c8 4 14 10 16 18M112 128c4 10 2 16-2 22"/></g>' +
+      '<path d="M76 96c-2-8 2-12 8-12" fill="none" ' + ST2 + '/>' +
+      spark(56, 96, 4, '#F2CB7C');
+  };
+
+  ART.crowd = function () {
+    return ground(58, 172, 0.09) +
+      '<g ' + ST + '>' +
+      '<circle cx="66" cy="96" r="17" fill="#F0C48F"/><path d="M42 168c0-20 10-34 24-34s24 14 24 34z" fill="#8FBE9B"/>' +
+      '<circle cx="134" cy="96" r="17" fill="#E7C3A2"/><path d="M110 168c0-20 10-34 24-34s24 14 24 34z" fill="#97C8DF"/>' +
+      '<circle cx="100" cy="80" r="19" fill="#F6D3A2"/><path d="M72 168c0-24 12-40 28-40s28 16 28 40z" fill="#EFA9B5"/>' +
+      '</g>' +
+      '<g fill="' + INK + '"><circle cx="94" cy="78" r="2.6"/><circle cx="106" cy="78" r="2.6"/><circle cx="60" cy="94" r="2.4"/><circle cx="72" cy="94" r="2.4"/><circle cx="128" cy="94" r="2.4"/><circle cx="140" cy="94" r="2.4"/></g>' +
+      '<g fill="none" stroke="' + INK + '" stroke-width="2"><path d="M95 84q5 4 10 0M56 100q4 3 8 0M124 100q4 3 8 0"/></g>' +
+      '<path d="M40 168h120" stroke="' + INK + '" stroke-width="2.4" stroke-linecap="round" opacity=".4"/>' +
+      spark(166, 70, 4, '#F2CB7C') + spark(34, 60, 3.4, '#EFA9B5');
+  };
+
+  ART.hair = function () {
+    return ground(50) +
+      '<path d="M58 128c0-34 18-58 42-58s42 24 42 58c0 22-8 34-8 46H66c0-12-8-24-8-46z" fill="#6B4A36" ' + ST + '/>' +
+      '<ellipse cx="100" cy="118" rx="30" ry="34" fill="#F0C48F" ' + ST2 + '/>' +
+      '<path d="M70 118c0-20 12-34 30-34s30 14 30 34c0 6-2 12-4 16-4-18-14-26-26-26s-22 8-26 26c-2-4-4-10-4-16z" fill="#6B4A36"/>' +
+      '<path d="M128 96c10 6 16 16 18 28" fill="none" stroke="#E9967C" stroke-width="8" stroke-linecap="round"/>' +
+      '<path d="M60 140c-6 12-8 22-6 32M142 140c6 12 8 22 6 32" fill="none" stroke="#6B4A36" stroke-width="9" stroke-linecap="round"/>' +
+      '<circle cx="132" cy="104" r="4" fill="#F2CB7C" ' + ST2 + '/>' +
+      spark(58, 84, 4, '#EFA9B5');
+  };
+
+  /* ---------- 用品 ---------- */
+  ART.pants = function () {
+    return ground(46) +
+      '<path d="M66 58h68v22l-8 78H104l-4-56-4 56H66l-8-78z" fill="#8FB8D6" ' + ST + '/>' +
+      '<path d="M66 72h68" stroke="' + INK + '" stroke-width="2.4" fill="none"/>' +
+      '<path d="M78 82c0 6 0 10-1 14M120 82c0 6 0 10 1 14" stroke="#6E93B0" stroke-width="3" stroke-linecap="round" fill="none"/>' +
+      '<rect x="92" y="60" width="16" height="10" rx="4" fill="#F2CB7C" ' + ST2 + '/>' +
+      '<path d="M74 128h18" stroke="#6E93B0" stroke-width="2.4" stroke-linecap="round" opacity=".7"/>';
+  };
+
+  ART.book = function () {
+    return ground(46) +
+      '<path d="M56 46h78a10 10 0 0 1 10 10v98a10 10 0 0 1-10 10H56z" fill="#8FBE9B" ' + ST + '/>' +
+      '<path d="M56 46h16v118H56z" fill="#6E9E7C" ' + ST + '/>' +
+      '<path d="M80 60h52v60H80z" fill="#FFFCF3" ' + ST2 + '/>' +
+      '<circle cx="106" cy="82" r="12" fill="#F2CB7C" ' + ST2 + '/>' +
+      '<path d="M92 104h28M98 112h16" stroke="#C9B79C" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M130 46v34l8-8 8 8V46z" fill="#E9967C" ' + ST2 + '/>' +
+      '<path d="M64 60v18" stroke="#D7EBDA" stroke-width="3" stroke-linecap="round" opacity=".8"/>';
+  };
+
+  ART.dictionary = function () {
+    return ground(50) +
+      '<path d="M52 52h84a8 8 0 0 1 8 8v94a8 8 0 0 1-8 8H52z" fill="#6E86A8" ' + ST + '/>' +
+      '<path d="M52 52h14v110H52z" fill="#576C8A" ' + ST + '/>' +
+      '<path d="M144 58h8v104h-8" fill="#FFFCF3" ' + ST2 + '/>' +
+      '<path d="M120 52v40l7-7 7 7V52z" fill="#F2CB7C" ' + ST2 + '/>' +
+      '<circle cx="100" cy="92" r="17" fill="#F2CB7C" ' + ST2 + '/>' +
+      '<path d="M94 86h12M94 94h12M100 86v14" stroke="#6E86A8" stroke-width="2.4" stroke-linecap="round"/>' +
+      '<path d="M78 130h44M82 140h36M86 150h28" stroke="#C9D4E2" stroke-width="3" stroke-linecap="round" opacity=".7"/>' +
+      '<path d="M60 66v16" stroke="#8FA2BD" stroke-width="3" stroke-linecap="round"/>';
+  };
+
+  ART.paper = function () {
+    return ground(50, 172, 0.08) +
+      '<path d="M60 44h58l20 20v92H60z" fill="#FFFCF3" ' + ST + '/>' +
+      '<path d="M118 44v20h20" fill="#F3E7CF" ' + ST + '/>' +
+      '<path d="M72 80h54M72 92h54M72 104h40" stroke="#DCCDB6" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M72 128h30" stroke="#DCCDB6" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M108 120c8-4 14 0 14 6s-6 10-14 6" fill="none" stroke="#C0AFDA" stroke-width="4" stroke-linecap="round"/>' +
+      '<path d="M126 60l6-14" stroke="#F2CB7C" stroke-width="4" stroke-linecap="round"/>' +
+      spark(148, 96, 4.5);
+  };
+
+  ART.table = function () {
+    return ground(56) +
+      '<rect x="38" y="92" width="124" height="16" rx="7" fill="#D9AE7A" ' + ST + '/>' +
+      '<path d="M52 108h10v58H52zM138 108h10v58h-10z" fill="#C0925F" ' + ST + '/>' +
+      '<path d="M62 128h76" stroke="#A97C4C" stroke-width="5" stroke-linecap="round"/>' +
+      '<path d="M48 96h40M96 96h24" stroke="#B98B55" stroke-width="2.4" stroke-linecap="round" opacity=".7"/>' +
+      '<path d="M60 116c6 2 10 2 16 0M124 116c6 2 10 2 14 0" stroke="#B98B55" stroke-width="2" stroke-linecap="round" fill="none" opacity=".6"/>' +
+      '<path d="M52 152h10M138 152h10" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/>' +
+      spark(166, 84, 4.5, '#D9AE7A');
+  };
+
+  ART.umbrella = function () {
+    return ground(34, 174, 0.08) +
+      '<path d="M40 102c0-34 26-58 60-58s60 24 60 58c-11-9-22-9-30 0-9-9-20-9-30 0-9-9-20-9-30 0-9-9-20-9-30 0z" fill="#E9967C" ' + ST + '/>' +
+      '<path d="M100 44v106c0 12 8 16 15 12 6-3 8-9 6-15" fill="none" ' + ST + '/>' +
+      '<path d="M100 44v106" stroke="#C97A62" stroke-width="2" opacity=".4"/>' +
+      '<path d="M70 60c8-6 18-8 28-8" stroke="#FFF6E5" stroke-width="4" stroke-linecap="round" opacity=".55" fill="none"/>' +
+      '<g stroke="#97C8DF" stroke-width="3" stroke-linecap="round" fill="none"><path d="M40 128l-4 8M62 142l-4 8M156 128l-4 8M136 146l-4 8"/></g>';
+  };
+
+  ART.scissors = function () {
+    return ground(40, 170, 0.08) +
+      '<path d="M74 58l42 74M126 58l-42 74" stroke="#B9C6CF" stroke-width="11" stroke-linecap="round"/>' +
+      '<path d="M74 58l42 74M126 58l-42 74" stroke="' + INK + '" stroke-width="2" stroke-linecap="round" opacity=".25"/>' +
+      '<circle cx="72" cy="146" r="17" fill="none" stroke="#E9967C" stroke-width="10"/>' +
+      '<circle cx="128" cy="146" r="17" fill="none" stroke="#E9967C" stroke-width="10"/>' +
+      '<circle cx="72" cy="146" r="17" fill="none" ' + ST2 + '/>' +
+      '<circle cx="128" cy="146" r="17" fill="none" ' + ST2 + '/>' +
+      '<circle cx="100" cy="118" r="5" fill="#F2CB7C" ' + ST2 + '/>' +
+      '<path d="M62 50c-4 0-6 4-4 8" stroke="#FFF6E5" stroke-width="3" stroke-linecap="round" fill="none" opacity=".7"/>';
+  };
+
+  ART.shoes = function () {
+    return ground(52) +
+      '<path d="M54 122c0-10 8-16 18-14l14 4 14 20c4 6 0 12-8 12H64c-8 0-10-6-10-12z" fill="#FFFCF3" ' + ST + '/>' +
+      '<path d="M56 134h42" stroke="#97C8DF" stroke-width="5" stroke-linecap="round"/>' +
+      '<path d="M70 110l10 12M78 106l10 12" stroke="' + INK + '" stroke-width="2.4" stroke-linecap="round"/>' +
+      '<path d="M100 132c0-8 8-14 17-12l14 4 14 18c4 6 0 10-7 10h-28c-7 0-10-4-10-10z" fill="#F2CB7C" ' + ST + '/>' +
+      '<path d="M102 140h38" stroke="#FFFCF3" stroke-width="5" stroke-linecap="round"/>' +
+      '<path d="M118 122l9 10M126 118l9 10" stroke="' + INK + '" stroke-width="2.4" stroke-linecap="round"/>' +
+      '<circle cx="62" cy="130" r="3" fill="#E9967C"/><circle cx="72" cy="126" r="3" fill="#E9967C"/>' +
+      '<circle cx="110" cy="128" r="2.6" fill="#E9967C"/><circle cx="120" cy="124" r="2.6" fill="#E9967C"/>';
+  };
+
+  ART.socks = function () {
+    return ground(46) +
+      '<path d="M62 50h34v52c0 12 8 18 18 24 10 6 10 20-4 24-20 6-34-6-44-22-4-8-4-16-4-24z" fill="#EFA9B5" ' + ST + '/>' +
+      '<path d="M62 62h34M62 74h34" stroke="#FFF6E5" stroke-width="5" opacity=".65"/>' +
+      '<path d="M76 96c2 8 6 14 12 18" stroke="#D9808E" stroke-width="2.4" stroke-linecap="round" fill="none" opacity=".7"/>' +
+      '<path d="M106 58h34v50c0 12 8 18 18 24 10 6 10 20-4 24-20 6-34-6-44-22-4-8-4-16-4-24z" fill="#97C8DF" ' + ST + '/>' +
+      '<path d="M106 70h34M106 82h34" stroke="#FFF6E5" stroke-width="5" opacity=".65"/>' +
+      '<path d="M120 104c2 8 6 14 12 18" stroke="#6FA8C4" stroke-width="2.4" stroke-linecap="round" fill="none" opacity=".7"/>';
+  };
+
+  ART.chopsticks = function () {
+    return ground(38) +
+      '<g transform="rotate(-12 100 110)">' +
+      '<rect x="84" y="34" width="9" height="126" rx="4.5" fill="#D9AE7A" ' + ST2 + '/>' +
+      '<rect x="103" y="34" width="9" height="126" rx="4.5" fill="#D9AE7A" ' + ST2 + '/>' +
+      '<rect x="80" y="68" width="36" height="10" rx="4" fill="#E9967C" ' + ST2 + '/>' +
+      '</g>' +
+      '<path d="M70 152c8 6 18 8 28 6M104 158c8 2 16 0 22-4" stroke="#C9B79C" stroke-width="2.4" stroke-linecap="round" fill="none" opacity=".7"/>' +
+      '<path d="M88 44v16M107 44v16" stroke="#B98B55" stroke-width="2" stroke-linecap="round"/>';
+  };
+
+  ART.backpack = function () {
+    return ground(48) +
+      '<path d="M66 70c0-16 12-26 34-26s34 10 34 26v70c0 10-8 18-18 18H84c-10 0-18-8-18-18z" fill="#8FBE9B" ' + ST + '/>' +
+      '<path d="M78 64c0-20 8-30 22-30s22 10 22 30" fill="none" ' + ST + '/>' +
+      '<path d="M66 108h68v34c0 8-6 14-14 14H80c-8 0-14-6-14-14z" fill="#6E9E7C" ' + ST2 + '/>' +
+      '<rect x="88" y="116" width="24" height="8" rx="4" fill="#F2CB7C" ' + ST2 + '/>' +
+      '<path d="M74 78h18v28H74zM110 78h18v28h-18z" fill="#FFFCF3" opacity=".45" ' + ST3 + '/>' +
+      '<path d="M66 90H56v34h10M134 90h10v34h-10" fill="none" ' + ST + '/>' +
+      '<circle cx="100" cy="60" r="4" fill="#F2CB7C" ' + ST2 + '/>' +
+      spark(150, 84, 4.5);
+  };
+
+  ART.window = function () {
+    return ground(54, 172, 0.07) +
+      '<rect x="46" y="42" width="108" height="112" rx="6" fill="#FFFCF3" ' + ST + '/>' +
+      '<rect x="56" y="52" width="88" height="92" fill="#BFE0EE" ' + ST2 + '/>' +
+      '<path d="M100 52v92M56 98h88" stroke="' + INK + '" stroke-width="4"/>' +
+      '<path d="M64 128l28-34 16 18 12-14 16 30z" fill="#FFFCF3" opacity=".45"/>' +
+      '<path d="M64 60l16-8M64 70l26-14" stroke="#FFFCF3" stroke-width="4" stroke-linecap="round" opacity=".8"/>' +
+      '<rect x="40" y="154" width="120" height="10" rx="5" fill="#E3C79C" ' + ST + '/>' +
+      spark(148, 70, 5, '#97C8DF');
+  };
+
+  ART.key = function () {
+    return ground(38) +
+      '<circle cx="70" cy="100" r="26" fill="none" stroke="#D9AE56" stroke-width="12"/>' +
+      '<circle cx="70" cy="100" r="26" fill="none" ' + ST2 + '/>' +
+      '<path d="M94 100h54v14h-10v12h-12v-12h-10v12h-12v-26z" fill="#D9AE56" ' + ST2 + '/>' +
+      '<path d="M96 100h50" stroke="' + INK + '" stroke-width="2.4" stroke-linecap="round"/>' +
+      '<circle cx="70" cy="100" r="6" fill="#FFF6E5" opacity=".7"/>' +
+      spark(140, 68, 5);
+  };
+
+  ART.knife = function () {
+    return ground(40, 168, 0.08) +
+      '<path d="M48 78c0-6 6-10 12-8l84 26c6 2 8 8 6 14l-8 18c-2 6-8 8-14 6L52 96c-6-2-8-8-4-18z" fill="#C9D6DE" ' + ST + '/>' +
+      '<path d="M52 78l92 28" stroke="#FFFCF3" stroke-width="4" stroke-linecap="round" opacity=".7"/>' +
+      '<path d="M48 118l86 26" stroke="' + INK + '" stroke-width="3" stroke-linecap="round" opacity=".4"/>' +
+      '<rect x="108" y="118" width="52" height="24" rx="9" transform="rotate(17 134 130)" fill="#8A6A4A" ' + ST + '/>' +
+      '<circle cx="128" cy="130" r="3" fill="#F2CB7C"/><circle cx="142" cy="134" r="3" fill="#F2CB7C"/>';
+  };
+
+  ART.stone = function () {
+    return ground(52) +
+      '<ellipse cx="78" cy="140" rx="32" ry="24" fill="#B9C2C6" ' + ST + '/>' +
+      '<ellipse cx="124" cy="150" rx="26" ry="18" fill="#A8B3B8" ' + ST + '/>' +
+      '<ellipse cx="108" cy="112" rx="24" ry="18" fill="#C9D0D3" ' + ST + '/>' +
+      '<path d="M64 132c6-6 14-8 22-6M100 106c6-4 12-4 16-2M116 146c4-4 10-5 14-3" stroke="#8E9A9F" stroke-width="2.4" stroke-linecap="round" fill="none"/>' +
+      '<path d="M52 158c8 4 18 6 28 4" stroke="#8FBE9B" stroke-width="4" stroke-linecap="round" fill="none" opacity=".7"/>' +
+      spark(152, 100, 4.5, '#97C8DF');
+  };
+
+  window.ART = ART;
+  window.ART_HELPERS = { ground: ground, wash: wash, spark: spark, eyes: eyes, smile: smile, cheeks: cheeks, petals: petals, ST: ST, ST2: ST2, ST3: ST3, INK: INK };
+})();
+/* =========================================================
+   插圖庫（二）：交通工具、文具、樂器與場景小物
+   ========================================================= */
+(function () {
+  'use strict';
+
+  var H = window.ART_HELPERS;
+  var ground = H.ground, wash = H.wash, spark = H.spark, eyes = H.eyes, smile = H.smile, cheeks = H.cheeks, petals = H.petals;
+  var ST = H.ST, ST2 = H.ST2, ST3 = H.ST3, INK = H.INK;
+  var ART = window.ART;
+
+  /* ---------- 交通 ---------- */
+  ART.car = function () {
+    return ground(58) +
+      '<path d="M32 132c0-12 8-19 21-21l13-21c4-7 11-11 19-11h31c8 0 15 4 19 11l13 21c13 2 21 9 21 21v8c0 6-5 11-11 11H43c-6 0-11-5-11-11z" fill="#E9967C" ' + ST + '/>' +
+      '<path d="M72 110l10-16c2-4 6-6 10-6h14v22zM116 88h14c4 0 8 2 10 6l10 16h-34z" fill="#CFE9F2" ' + ST2 + '/>' +
+      '<circle cx="70" cy="150" r="15" fill="#5B4636"/><circle cx="70" cy="150" r="6" fill="#FFFCF3"/>' +
+      '<circle cx="142" cy="150" r="15" fill="#5B4636"/><circle cx="142" cy="150" r="6" fill="#FFFCF3"/>' +
+      '<circle cx="160" cy="128" r="4.5" fill="#F2CB7C" ' + ST2 + '/>' +
+      '<path d="M40 126h12" stroke="#FFF6E5" stroke-width="4" stroke-linecap="round" opacity=".6"/>';
+  };
+
+  ART.plane = function () {
+    return wash(152, 62, 26, 12, '#FFFCF3', 0.9) + wash(58, 84, 20, 9, '#FFFCF3', 0.8) +
+      '<path d="M34 116l52-14 48-30c6-4 14-2 16 4 2 6-1 12-7 15l-38 21 26 6 20-6 6 10-30 12-8-2-30 18c-6 4-14 2-16-4-2-6 1-12 7-15l18-10-40 2-16 8-6-8z" fill="#FFFCF3" ' + ST + '/>' +
+      '<path d="M92 118l38-22" stroke="#97C8DF" stroke-width="4" stroke-linecap="round"/>' +
+      '<circle cx="118" cy="94" r="2.6" fill="' + INK + '"/><circle cx="126" cy="90" r="2.6" fill="' + INK + '"/><circle cx="134" cy="86" r="2.6" fill="' + INK + '"/>' +
+      '<path d="M44 128c8 6 18 8 28 6" stroke="#97C8DF" stroke-width="3" stroke-linecap="round" fill="none"/>';
+  };
+
+  ART.helicopter = function () {
+    return ground(44, 168, 0.08) +
+      '<path d="M40 58h96" stroke="#8A9AA5" stroke-width="5" stroke-linecap="round"/>' +
+      '<path d="M88 58v14" stroke="' + INK + '" stroke-width="4"/>' +
+      '<path d="M56 86c0-14 12-22 28-22h26c10 0 18 6 22 16l10 22c4 8-2 16-11 16H68c-8 0-12-6-12-14z" fill="#F2CB7C" ' + ST + '/>' +
+      '<path d="M60 100c4-10 12-16 22-16h12v30H64c-4 0-6-6-4-14z" fill="#CFE9F2" ' + ST2 + '/>' +
+      '<path d="M142 92l26-8v10l-26 8z" fill="#F2CB7C" ' + ST2 + '/>' +
+      '<path d="M166 82v-14M158 68h16" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M70 142h52M74 142v-8M118 142v-8M64 150h64" stroke="' + INK + '" stroke-width="4" stroke-linecap="round" fill="none"/>' +
+      '<circle cx="118" cy="100" r="3" fill="' + INK + '"/>';
+  };
+
+  ART.motorbike = function () {
+    return ground(50) +
+      '<circle cx="58" cy="142" r="22" fill="#5B4636"/><circle cx="58" cy="142" r="9" fill="#FFFCF3"/>' +
+      '<circle cx="146" cy="142" r="22" fill="#5B4636"/><circle cx="146" cy="142" r="9" fill="#FFFCF3"/>' +
+      '<path d="M58 142l22-28h26l16 20" fill="none" stroke="#E9967C" stroke-width="8" stroke-linecap="round"/>' +
+      '<path d="M76 114h34c10 0 16 6 18 14h-44z" fill="#97C8DF" ' + ST2 + '/>' +
+      '<path d="M128 126l14 16M136 102l14-6" stroke="' + INK + '" stroke-width="4" stroke-linecap="round" fill="none"/>' +
+      '<path d="M146 96h14" stroke="' + INK + '" stroke-width="4" stroke-linecap="round"/>' +
+      '<circle cx="150" cy="102" r="5" fill="#F2CB7C" ' + ST2 + '/>' +
+      '<path d="M92 108l-6-8" stroke="#8A6A4A" stroke-width="4" stroke-linecap="round"/>';
+  };
+
+  ART.ship = function () {
+    return '<path d="M36 124h128l-14 40c-3 8-10 12-18 12H68c-8 0-15-4-18-12z" fill="#6E86A8" ' + ST + '/>' +
+      '<path d="M56 124V98h34v26M106 124V84h30v40" fill="#FFFCF3" ' + ST + '/>' +
+      '<rect x="64" y="76" width="22" height="22" rx="4" fill="#E9967C" ' + ST2 + '/>' +
+      '<path d="M126 84h16v14h-16z" fill="#F2CB7C" ' + ST2 + '/>' +
+      '<path d="M40 136h120" stroke="#FFFCF3" stroke-width="3" opacity=".5"/>' +
+      '<g fill="#F2CB7C"><circle cx="74" cy="114" r="4"/><circle cx="88" cy="114" r="4"/><circle cx="114" cy="114" r="4"/><circle cx="126" cy="114" r="4"/></g>' +
+      '<path d="M24 176c10-6 20-6 30 0s20 6 30 0 20-6 30 0 20 6 30 0 20-6 30 0" stroke="#97C8DF" stroke-width="5" stroke-linecap="round" fill="none"/>' +
+      '<path d="M150 70v-18M144 58h12" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/>';
+  };
+
+  ART.sailboat = function () {
+    return '<path d="M40 132h120l-16 30c-4 8-12 12-20 12H76c-8 0-16-4-20-12z" fill="#C98B4B" ' + ST + '/>' +
+      '<path d="M96 132V44" stroke="' + INK + '" stroke-width="4" stroke-linecap="round"/>' +
+      '<path d="M100 50l40 62h-40z" fill="#FFFCF3" ' + ST + '/>' +
+      '<path d="M90 58L58 112h32z" fill="#EFA9B5" ' + ST + '/>' +
+      '<path d="M96 44l14 8-14 8z" fill="#E9967C" ' + ST2 + '/>' +
+      '<path d="M24 172c10-6 20-6 30 0s20 6 30 0 20-6 30 0 20 6 30 0 20-6 30 0" stroke="#97C8DF" stroke-width="5" stroke-linecap="round" fill="none"/>';
+  };
+
+  ART.yacht = function () {
+    return '<path d="M40 126h124l-12 34c-3 8-10 12-18 12H70c-8 0-15-4-18-12z" fill="#FFFCF3" ' + ST + '/>' +
+      '<path d="M58 126V98h22v28M92 126V86h30v40" fill="#FFFCF3" ' + ST + '/>' +
+      '<path d="M100 86h44l-6 20H100z" fill="#97C8DF" ' + ST2 + '/>' +
+      '<path d="M58 98h22M92 100h30" stroke="#97C8DF" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M40 140h124" stroke="#97C8DF" stroke-width="4" opacity=".8"/>' +
+      '<path d="M150 86V62" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M24 174c10-6 20-6 30 0s20 6 30 0 20-6 30 0 20 6 30 0 20-6 30 0" stroke="#97C8DF" stroke-width="5" stroke-linecap="round" fill="none"/>';
+  };
+
+  ART.warship = function () {
+    return '<path d="M32 124h136l-12 34c-3 8-10 12-18 12H66c-8 0-15-4-18-12z" fill="#9AA8B2" ' + ST + '/>' +
+      '<path d="M48 124V98h34v26M94 124V86h34v38" fill="#B7C2CA" ' + ST + '/>' +
+      '<rect x="56" y="104" width="18" height="12" rx="2" fill="#6E86A8" ' + ST3 + '/>' +
+      '<path d="M108 86V58M102 64h12" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M146 112h18v10h-18z" fill="#7E8B95" ' + ST2 + '/>' +
+      '<path d="M64 134h96" stroke="#FFFCF3" stroke-width="3" opacity=".5"/>' +
+      '<path d="M24 174c10-6 20-6 30 0s20 6 30 0 20-6 30 0 20 6 30 0 20-6 30 0" stroke="#97C8DF" stroke-width="5" stroke-linecap="round" fill="none"/>';
+  };
+
+  /* ---------- 家居與燈具 ---------- */
+  ART.streetlamp = function () {
+    return ground(26, 172, 0.1) +
+      '<path d="M84 168V70c0-12 8-20 20-20h26" fill="none" ' + ST + '/>' +
+      '<path d="M130 50h20l6 20h-32z" fill="#F2CB7C" ' + ST + '/>' +
+      '<path d="M126 70h28l-4 8h-20z" fill="#D9AE56" ' + ST2 + '/>' +
+      '<ellipse cx="140" cy="86" rx="26" ry="18" fill="#F6D68C" opacity=".38"/>' +
+      '<ellipse cx="140" cy="86" rx="14" ry="10" fill="#F6D68C" opacity=".45"/>' +
+      '<path d="M72 168h30" stroke="' + INK + '" stroke-width="6" stroke-linecap="round"/>' +
+      '<path d="M72 160h28" stroke="' + INK + '" stroke-width="3" stroke-linecap="round" opacity=".6"/>' +
+      spark(50, 70, 4.5, '#F2CB7C');
+  };
+
+  ART.lantern = function () {
+    return ground(30, 172, 0.08) +
+      '<path d="M100 34v14" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/>' +
+      '<rect x="82" y="46" width="36" height="10" rx="4" fill="#C98B4B" ' + ST2 + '/>' +
+      '<ellipse cx="100" cy="100" rx="40" ry="42" fill="#E05C5C" ' + ST + '/>' +
+      '<path d="M82 62c-8 10-12 24-12 38s4 28 12 38M118 62c8 10 12 24 12 38s-4 28-12 38" fill="none" stroke="#B84444" stroke-width="2.4" opacity=".7"/>' +
+      '<path d="M100 58v84" stroke="#B84444" stroke-width="2" opacity=".45"/>' +
+      '<rect x="82" y="138" width="36" height="10" rx="4" fill="#C98B4B" ' + ST2 + '/>' +
+      '<path d="M94 148v14M100 148v20M106 148v14" stroke="#E05C5C" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M76 92c4-6 10-9 16-10" stroke="#FFF6E5" stroke-width="4" stroke-linecap="round" opacity=".55" fill="none"/>' +
+      spark(152, 72, 5, '#F2CB7C') + spark(48, 116, 4, '#EFA9B5');
+  };
+
+  ART.tablelamp = function () {
+    return ground(40) +
+      '<path d="M78 166h44" stroke="' + INK + '" stroke-width="7" stroke-linecap="round"/>' +
+      '<path d="M100 166v-40" stroke="' + INK + '" stroke-width="5" stroke-linecap="round"/>' +
+      '<path d="M64 86h72l-12-34H76z" fill="#F2CB7C" ' + ST + '/>' +
+      '<path d="M64 86h72" stroke="' + INK + '" stroke-width="2.6" stroke-linecap="round"/>' +
+      '<path d="M76 126h48l-6 8H82z" fill="#F6D68C" opacity=".5"/>' +
+      '<ellipse cx="100" cy="96" rx="42" ry="22" fill="#F6D68C" opacity=".22"/>' +
+      '<path d="M84 64c2-4 6-6 10-6" stroke="#FFF6E5" stroke-width="3.4" stroke-linecap="round" opacity=".7" fill="none"/>';
+  };
+
+  ART.oillamp = function () {
+    return ground(40) +
+      '<path d="M74 86h52v34c0 8-6 14-14 14H88c-8 0-14-6-14-14z" fill="#F6D68C" ' + ST + '/>' +
+      '<path d="M74 110h52v10c0 8-6 14-14 14H88c-8 0-14-6-14-14z" fill="#D9AE56" opacity=".55"/>' +
+      '<ellipse cx="100" cy="86" rx="26" ry="7" fill="#FFFCF3" ' + ST2 + '/>' +
+      '<path d="M100 80c-8-8-6-18 2-24 8 8 10 18-2 24z" fill="#E9967C" ' + ST + '/>' +
+      '<path d="M100 74c-3-4-2-8 1-11 3 4 4 8-1 11z" fill="#F2CB7C"/>' +
+      '<path d="M126 124c10-2 16-10 16-20" fill="none" ' + ST2 + '/>' +
+      '<path d="M70 140h60" stroke="' + INK + '" stroke-width="4" stroke-linecap="round"/>' +
+      '<ellipse cx="100" cy="146" rx="38" ry="9" fill="#C98B4B" ' + ST + '/>';
+  };
+
+  ART.bulb = function () {
+    return ground(30, 172, 0.08) +
+      '<path d="M100 36c-22 0-38 16-38 36 0 14 8 24 14 32 4 5 6 9 6 14h36c0-5 2-9 6-14 6-8 14-18 14-32 0-20-16-36-38-36z" fill="#F6D68C" ' + ST + '/>' +
+      '<path d="M78 118h44v10H78z" fill="#C9C2B4" ' + ST2 + '/>' +
+      '<path d="M84 128h32v8H84z" fill="#C9C2B4" ' + ST2 + '/>' +
+      '<path d="M90 138h20v6H90z" fill="#B5AD9E" ' + ST2 + '/>' +
+      '<path d="M92 92c4-6 10-8 16-8" stroke="#FFF6E5" stroke-width="5" stroke-linecap="round" opacity=".8" fill="none"/>' +
+      '<g stroke="#F2CB7C" stroke-width="3.4" stroke-linecap="round" opacity=".8"><path d="M100 16v8M56 34l6 6M144 34l-6 6M44 78h8M148 78h8"/></g>';
+  };
+
+  /* ---------- 文具與樂器 ---------- */
+  ART.piano = function () {
+    return ground(52) +
+      '<path d="M52 52h96a8 8 0 0 1 8 8v54H44V60a8 8 0 0 1 8-8z" fill="#8A6A4A" ' + ST + '/>' +
+      '<path d="M56 114h88v26H56z" fill="#FFFCF3" ' + ST + '/>' +
+      '<g stroke="' + INK + '" stroke-width="1.6"><path d="M64 114v26M72 114v26M80 114v26M88 114v26M96 114v26M104 114v26M112 114v26M120 114v26M128 114v26M136 114v26"/></g>' +
+      '<g fill="' + INK + '"><rect x="68" y="114" width="5" height="15"/><rect x="76" y="114" width="5" height="15"/><rect x="92" y="114" width="5" height="15"/><rect x="100" y="114" width="5" height="15"/><rect x="108" y="114" width="5" height="15"/><rect x="124" y="114" width="5" height="15"/><rect x="132" y="114" width="5" height="15"/></g>' +
+      '<path d="M52 140v22M148 140v22" stroke="' + INK + '" stroke-width="5" stroke-linecap="round"/>' +
+      '<path d="M68 62h64v22H68z" fill="#FFFCF3" ' + ST2 + '/>' +
+      '<path d="M78 72h12M96 72h12M112 72h10" stroke="#C9B79C" stroke-width="2.4" stroke-linecap="round"/>' +
+      '<path d="M58 62v20" stroke="#A98A66" stroke-width="3" stroke-linecap="round"/>';
+  };
+
+  ART.comic = function () {
+    return ground(46) +
+      '<path d="M54 46h82a10 10 0 0 1 10 10v98a10 10 0 0 1-10 10H54z" fill="#F2CB7C" ' + ST + '/>' +
+      '<path d="M54 46h14v118H54z" fill="#D9AE56" ' + ST + '/>' +
+      '<path d="M80 60h46v40H96l-8 10v-10h-8z" fill="#FFFCF3" ' + ST2 + '/>' +
+      '<path d="M92 74h18M92 84h12" stroke="#C9B79C" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M86 116l14-10 10 12 14-16 8 14" fill="none" stroke="#E9967C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<circle cx="130" cy="128" r="7" fill="#97C8DF" ' + ST2 + '/>';
+  };
+
+  ART.notebook = function () {
+    return ground(46) +
+      '<rect x="58" y="42" width="84" height="120" rx="8" fill="#C0AFDA" ' + ST + '/>' +
+      '<rect x="58" y="42" width="18" height="120" fill="#A793C2" ' + ST + '/>' +
+      '<g fill="none" ' + ST2 + '><path d="M64 56h12M64 72h12M64 88h12M64 104h12M64 120h12M64 136h12"/></g>' +
+      '<rect x="88" y="70" width="40" height="52" rx="6" fill="#FFFCF3" ' + ST2 + '/>' +
+      '<path d="M96 84h24M96 94h24M96 104h16" stroke="#C9B79C" stroke-width="2.6" stroke-linecap="round"/>' +
+      '<circle cx="130" cy="146" r="6" fill="#F2CB7C" ' + ST2 + '/>';
+  };
+
+  ART.glasses = function () {
+    return ground(44, 170, 0.08) +
+      '<circle cx="72" cy="100" r="24" fill="#CFE9F2" ' + ST + '/>' +
+      '<circle cx="128" cy="100" r="24" fill="#CFE9F2" ' + ST + '/>' +
+      '<path d="M96 100h8M48 94l-12-6M152 94l12-6" fill="none" ' + ST + '/>' +
+      '<path d="M62 88c-4 4-6 8-6 12M118 88c-4 4-6 8-6 12" stroke="#FFFCF3" stroke-width="4" stroke-linecap="round" opacity=".9" fill="none"/>' +
+      '<path d="M84 124c10 6 22 6 32 0" stroke="' + INK + '" stroke-width="2" fill="none" opacity=".25"/>';
+  };
+
+  ART.chess = function () {
+    return ground(52) +
+      '<rect x="42" y="86" width="116" height="72" rx="6" fill="#F3E3C8" ' + ST + '/>' +
+      '<g fill="#C98B4B" opacity=".65"><rect x="42" y="86" width="29" height="18"/><rect x="100" y="86" width="29" height="18"/><rect x="71" y="104" width="29" height="18"/><rect x="129" y="104" width="29" height="18"/><rect x="42" y="122" width="29" height="18"/><rect x="100" y="122" width="29" height="18"/><rect x="71" y="140" width="29" height="18"/><rect x="129" y="140" width="29" height="18"/></g>' +
+      '<path d="M78 86c-6-10-2-18 8-18s14 8 8 18z" fill="#8A6A4A" ' + ST2 + '/>' +
+      '<rect x="72" y="80" width="28" height="8" rx="3" fill="#8A6A4A" ' + ST2 + '/>' +
+      '<path d="M120 146c-6-10-2-18 8-18s14 8 8 18z" fill="#E05C5C" ' + ST2 + '/>' +
+      '<rect x="114" y="140" width="28" height="8" rx="3" fill="#E05C5C" ' + ST2 + '/>' +
+      '<path d="M42 158h116" stroke="' + INK + '" stroke-width="2.4" opacity=".3"/>';
+  };
+
+  ART.gloves = function () {
+    return ground(46) +
+      '<g transform="rotate(-10 78 116)">' +
+      '<path d="M56 118V88c0-6 8-6 8 0v18h4V74c0-7 8-7 8 0v32h4V70c0-7 8-7 8 0v36h4V82c0-6 8-6 8 0v36c0 14-10 24-24 24s-20-10-20-24z" fill="#EFA9B5" ' + ST + '/>' +
+      '<path d="M56 128h44v14c0 6-4 10-10 10H66c-6 0-10-4-10-10z" fill="#FFFCF3" ' + ST2 + '/>' +
+      '</g>' +
+      '<g transform="rotate(10 128 116)">' +
+      '<path d="M108 120V92c0-6 8-6 8 0v18h4V78c0-7 8-7 8 0v32h4V74c0-7 8-7 8 0v36h4V86c0-6 8-6 8 0v34c0 14-10 24-24 24s-20-10-20-24z" fill="#97C8DF" ' + ST + '/>' +
+      '<path d="M108 130h44v12c0 6-4 10-10 10h-24c-6 0-10-4-10-10z" fill="#FFFCF3" ' + ST2 + '/>' +
+      '</g>' +
+      '<path d="M64 104c-4 4-6 8-6 12M116 106c-4 4-6 8-6 12" stroke="#FFF6E5" stroke-width="3.4" stroke-linecap="round" fill="none" opacity=".7"/>';
+  };
+
+  ART.headphones = function () {
+    return ground(44) +
+      '<path d="M52 118V96c0-26 22-46 48-46s48 20 48 46v22" fill="none" ' + ST + '/>' +
+      '<rect x="40" y="106" width="24" height="38" rx="11" fill="#E9967C" ' + ST + '/>' +
+      '<rect x="136" y="106" width="24" height="38" rx="11" fill="#E9967C" ' + ST + '/>' +
+      '<path d="M52 118v18M148 118v18" stroke="#FFFCF3" stroke-width="3" opacity=".6"/>';
+  };
+
+  /* ---------- 藝術與閱讀 ---------- */
+  ART.painting = function (kind) {
+    var ink = kind === 'ink';
+    return ground(50) +
+      '<rect x="40" y="40" width="120" height="104" rx="4" fill="#C98B4B" ' + ST + '/>' +
+      '<rect x="50" y="50" width="100" height="84" fill="' + (ink ? '#F4EFE2' : '#CFE9F2') + '" ' + ST2 + '/>' +
+      (ink
+        ? '<path d="M56 116c14-16 22-34 30-34 10 0 12 22 24 22 12 0 16-28 32-28v58H56z" fill="#9AA8B2" opacity=".65"/><path d="M56 126c18-8 30-4 44 0s28 2 44-6v14H56z" fill="#7E8B95" opacity=".45"/><rect x="128" y="58" width="10" height="10" fill="#C1553F" opacity=".85"/>'
+        : '<circle cx="126" cy="70" r="10" fill="#F2CB7C"/><path d="M56 118l26-30 16 18 12-12 24 24z" fill="#8FBE9B"/><path d="M56 124c18-8 32-6 46 0s24 2 48-6v12H56z" fill="#6E9E7C"/>') +
+      '<path d="M46 148h108" stroke="#A97C4C" stroke-width="5" stroke-linecap="round"/>' +
+      (ink ? '<path d="M60 62c6 4 12 4 18 0" stroke="#5B4636" stroke-width="2" fill="none" opacity=".4"/>' : '');
+  };
+
+  ART.map = function () {
+    return ground(52, 170, 0.08) +
+      '<path d="M36 58l44-12 40 12 44-12v96l-44 12-40-12-44 12z" fill="#FFFCF3" ' + ST + '/>' +
+      '<path d="M80 46v96M120 58v96" stroke="#DCCDB6" stroke-width="2.4" stroke-dasharray="5 5" fill="none"/>' +
+      '<path d="M48 128c14-22 26-30 38-22 12 8 8 22 22 20 14-2 22-16 34-30" fill="none" stroke="#E9967C" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 6"/>' +
+      '<path d="M116 72c0-7 6-12 12-12s12 5 12 12c0 9-12 20-12 20s-12-11-12-20z" fill="#8FBE9B" ' + ST2 + '/><circle cx="128" cy="72" r="4" fill="#FFFCF3"/>' +
+      '<circle cx="62" cy="108" r="4" fill="#97C8DF"/><path d="M62 88v14M56 96h12" stroke="#97C8DF" stroke-width="2.4" stroke-linecap="round"/>';
+  };
+
+  ART.poster = function () {
+    return ground(50, 170, 0.07) +
+      '<rect x="52" y="36" width="96" height="126" rx="3" fill="#FFFCF3" ' + ST + '/>' +
+      '<rect x="62" y="48" width="76" height="52" fill="#F2CB7C" ' + ST2 + '/>' +
+      '<circle cx="100" cy="74" r="16" fill="#E9967C" ' + ST2 + '/>' +
+      '<path d="M66 110h56M66 122h68M66 134h44" stroke="#C9B79C" stroke-width="4" stroke-linecap="round"/>' +
+      '<circle cx="130" cy="140" r="8" fill="#8FBE9B" ' + ST2 + '/>' +
+      '<path d="M52 36h96" stroke="#E9967C" stroke-width="3"/>';
+  };
+
+  ART.newspaper = function () {
+    return ground(52, 170, 0.08) +
+      '<path d="M40 56h104v104H40z" fill="#FFFCF3" ' + ST + '/>' +
+      '<path d="M40 72h104" stroke="' + INK + '" stroke-width="2.4"/>' +
+      '<path d="M48 52h88" stroke="#C9B79C" stroke-width="4" stroke-linecap="round"/>' +
+      '<rect x="50" y="82" width="40" height="34" fill="#CFE9F2" ' + ST2 + '/>' +
+      '<path d="M54 110l10-12 8 8 8-10 8 14z" fill="#8FBE9B"/>' +
+      '<path d="M98 82h38M98 92h38M98 102h38M98 112h30" stroke="#C9B79C" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M50 126h86M50 136h86M50 146h60" stroke="#DCCDB6" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M128 56h12v8h-12z" fill="#E9967C"/>';
+  };
+
+  ART.diary = function () {
+    return ground(46) +
+      '<rect x="58" y="40" width="84" height="124" rx="8" fill="#8FB8D6" ' + ST + '/>' +
+      '<path d="M58 40h14v124H58z" fill="#6E93B0" ' + ST + '/>' +
+      '<rect x="76" y="60" width="52" height="20" rx="4" fill="#FFFCF3" ' + ST2 + '/>' +
+      '<path d="M82 70h40" stroke="#C9B79C" stroke-width="3" stroke-linecap="round"/>' +
+      '<rect x="96" y="96" width="26" height="24" rx="4" fill="#F2CB7C" ' + ST2 + '/>' +
+      '<circle cx="109" cy="106" r="5" fill="none" ' + ST3 + '/><path d="M109 111v6" stroke="' + INK + '" stroke-width="2"/>' +
+      '<path d="M128 40v34l-6-6-6 6V40z" fill="#EFA9B5" ' + ST2 + '/>' +
+      '<path d="M70 126h34M70 136h24" stroke="#C9D8E4" stroke-width="3" stroke-linecap="round" opacity=".9"/>';
+  };
+
+  ART.essay = function () {
+    return ground(54, 170, 0.07) +
+      '<rect x="52" y="34" width="88" height="128" rx="3" fill="#FFFCF3" ' + ST + '/>' +
+      '<path d="M64 54h64M64 68h64M64 82h64M64 96h64M64 110h44" stroke="#DCCDB6" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M64 124h30" stroke="#E9967C" stroke-width="3" stroke-linecap="round"/>' +
+      '<g transform="rotate(32 140 120)"><rect x="132" y="60" width="12" height="74" rx="3" fill="#F2CB7C" ' + ST2 + '/><path d="M132 134l6 12 6-12z" fill="#E9C9A0" ' + ST2 + '/><path d="M132 60h12v10h-12z" fill="#EFA9B5" ' + ST2 + '/></g>' +
+      '<path d="M56 44h12" stroke="#F2CB7C" stroke-width="4" stroke-linecap="round" opacity=".8"/>';
+  };
+
+  ART.poem = function () {
+    return ground(48, 170, 0.07) +
+      '<rect x="48" y="46" width="104" height="112" rx="4" fill="#F4E9D0" ' + ST + '/>' +
+      '<path d="M48 46c6 6 6 12 0 18M152 46c-6 6-6 12 0 18M48 158c6-6 6-12 0-18M152 158c-6-6-6-12 0-18" fill="#DCC9A8" ' + ST2 + '/>' +
+      '<g stroke="#8A6A4A" stroke-width="2.4" stroke-linecap="round" opacity=".75"><path d="M66 66v76M82 66v76M98 66v76M114 66v76M130 66v76"/></g>' +
+      '<path d="M66 66h8M82 66h12M98 66h8M114 66h10M130 66h6" stroke="#5B4636" stroke-width="5" stroke-linecap="round" opacity=".55"/>' +
+      '<rect x="120" y="128" width="14" height="14" fill="#C1553F" opacity=".8"/>' +
+      '<circle cx="60" cy="140" r="5" fill="#E9967C" opacity=".6"/>';
+  };
+
+  ART.music = function () {
+    return ground(40) +
+      '<g stroke="#C9B79C" stroke-width="2" opacity=".8"><path d="M40 76h120M40 88h120M40 100h120M40 112h120M40 124h120"/></g>' +
+      '<ellipse cx="82" cy="126" rx="13" ry="9" transform="rotate(-18 82 126)" fill="#E9967C" ' + ST2 + '/>' +
+      '<path d="M93 122V62l34-10v52" fill="none" stroke="' + INK + '" stroke-width="4" stroke-linecap="round"/>' +
+      '<ellipse cx="116" cy="104" rx="13" ry="9" transform="rotate(-18 116 104)" fill="#97C8DF" ' + ST2 + '/>' +
+      '<path d="M93 62l34-10" stroke="' + INK + '" stroke-width="6" stroke-linecap="round"/>' +
+      '<g fill="none" stroke="#F2CB7C" stroke-width="3" stroke-linecap="round"><path d="M40 56c-6-6-6-12 0-18M28 64c-8-8-8-18 0-26"/></g>' +
+      spark(150, 52, 5, '#EFA9B5');
+  };
+
+  ART.film = function () {
+    return ground(46) +
+      '<rect x="44" y="80" width="112" height="74" rx="6" fill="#5B4636" ' + ST + '/>' +
+      '<path d="M44 80l14-34h112l-14 34z" fill="#FFFCF3" ' + ST + '/>' +
+      '<g fill="#5B4636"><path d="M68 48l-10 30h12l10-30zM92 48l-10 30h12l10-30zM116 48l-10 30h12l10-30zM140 48l-10 30h12l10-30z"/></g>' +
+      '<path d="M44 96h112" stroke="#FFFCF3" stroke-width="2.4" opacity=".5"/>' +
+      '<g fill="#F2CB7C"><circle cx="58" cy="108" r="4"/><circle cx="74" cy="108" r="4"/><circle cx="90" cy="108" r="4"/><circle cx="106" cy="108" r="4"/><circle cx="122" cy="108" r="4"/><circle cx="138" cy="108" r="4"/></g>' +
+      '<path d="M52 132h96" stroke="#8A6A4A" stroke-width="4" stroke-linecap="round"/>';
+  };
+
+  ART.theatre = function () {
+    return ground(48) +
+      '<path d="M38 66c0-10 8-16 18-14 10 2 16 10 16 20v50c0 16-10 28-24 28S24 138 24 122V84c0-8 6-14 14-14z" fill="#F2CB7C" ' + ST + '/>' +
+      '<path d="M38 82c4-4 10-4 14 0M58 82c4-4 10-4 14 0" fill="none" ' + ST2 + '/>' +
+      '<path d="M38 108c6 8 16 8 22 0" fill="none" ' + ST2 + '/>' +
+      '<path d="M118 66c0-10 8-16 18-14 10 2 16 10 16 20v50c0 16-10 28-24 28s-24-12-24-28V84c0-8 6-14 14-14z" fill="#97C8DF" ' + ST + '/>' +
+      '<path d="M118 82c4-4 10-4 14 0M138 82c4-4 10-4 14 0" fill="none" ' + ST2 + '/>' +
+      '<path d="M118 116c6-10 18-10 24 0" fill="none" ' + ST2 + '/>' +
+      '<path d="M32 66c6-8 14-10 20-10M112 66c6-8 14-10 20-10" stroke="' + INK + '" stroke-width="2" fill="none" opacity=".4"/>';
+  };
+
+  ART.pearls = function () {
+    var pts = [[62, 60], [78, 50], [98, 46], [118, 50], [136, 60], [146, 78], [148, 100], [142, 120], [130, 136], [112, 146], [92, 148], [74, 142]];
+    var s = ground(46, 170, 0.07);
+    s += '<path d="M62 60c22-18 54-18 74 0 16 14 20 42 10 62-12 24-44 34-68 22" fill="none" stroke="#D9CBB4" stroke-width="2" opacity=".55"/>';
+    for (var i = 0; i < pts.length; i++) {
+      s += '<circle cx="' + pts[i][0] + '" cy="' + pts[i][1] + '" r="10" fill="#FFFCF3" ' + ST2 + '/>';
+      s += '<circle cx="' + (pts[i][0] - 3) + '" cy="' + (pts[i][1] - 3) + '" r="3" fill="#E8E1D2"/>';
+    }
+    s += '<circle cx="62" cy="60" r="6" fill="#F2CB7C" ' + ST2 + '/>';
+    return s;
+  };
+
+  ART.plates = function () {
+    return ground(56) +
+      '<ellipse cx="100" cy="142" rx="52" ry="12" fill="#FFFCF3" ' + ST + '/>' +
+      '<ellipse cx="100" cy="126" rx="48" ry="11" fill="#F7F3E8" ' + ST + '/>' +
+      '<ellipse cx="100" cy="110" rx="44" ry="10" fill="#FFFCF3" ' + ST + '/>' +
+      '<ellipse cx="100" cy="110" rx="26" ry="5" fill="#E7DFCE"/>' +
+      '<ellipse cx="100" cy="126" rx="28" ry="5" fill="#E7DFCE"/>' +
+      '<path d="M64 102c4-2 8-2 12 0" stroke="#FFFCF3" stroke-width="3" stroke-linecap="round" opacity=".8" fill="none"/>' +
+      spark(150, 92, 4.5, '#97C8DF');
+  };
+
+  ART.bowls = function () {
+    return ground(54) +
+      '<path d="M50 96h100c-2 22-18 34-50 34S52 118 50 96z" fill="#FFFCF3" ' + ST + '/>' +
+      '<path d="M54 114h92c-6 18-22 26-46 26s-40-8-46-26z" fill="#97C8DF" ' + ST2 + '/>' +
+      '<path d="M48 134h104c-2 20-18 30-52 30S50 154 48 134z" fill="#F2CB7C" ' + ST + '/>' +
+      '<path d="M56 148h88" stroke="#D9AE56" stroke-width="2.4" opacity=".7"/>' +
+      '<path d="M46 96h108" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M62 104c4 2 8 2 12 0" stroke="#FFFCF3" stroke-width="3" stroke-linecap="round" opacity=".7" fill="none"/>';
+  };
+
+  ART.bookstack = function () {
+    return ground(52) +
+      '<rect x="46" y="132" width="108" height="22" rx="5" fill="#97C8DF" ' + ST + '/>' +
+      '<rect x="54" y="110" width="96" height="22" rx="5" fill="#F2CB7C" ' + ST + '/>' +
+      '<rect x="48" y="88" width="104" height="22" rx="5" fill="#EFA9B5" ' + ST + '/>' +
+      '<path d="M56 136h88M64 114h76M58 92h84" stroke="#FFFCF3" stroke-width="3" stroke-linecap="round" opacity=".6"/>' +
+      '<rect x="84" y="72" width="34" height="16" rx="4" fill="#8FBE9B" ' + ST2 + '/>' +
+      '<path d="M90 80h22" stroke="#FFFCF3" stroke-width="2.4" stroke-linecap="round"/>';
+  };
+
+  /* ---------- 植物與自然 ---------- */
+  ART.flower = function () {
+    return ground(34) +
+      '<path d="M100 118v46" stroke="#6E9E7C" stroke-width="6" stroke-linecap="round"/>' +
+      '<path d="M100 142c-12 2-20-4-24-14 12-2 20 2 24 10zM100 132c12 2 20-4 24-14-12-2-20 2-24 10z" fill="#8FBE9B" ' + ST2 + '/>' +
+      petals(100, 78, 16, 24, 6, '#EFA9B5') +
+      '<circle cx="100" cy="78" r="15" fill="#F2CB7C" ' + ST + '/>' +
+      '<circle cx="95" cy="75" r="2.4" fill="' + INK + '"/><circle cx="105" cy="75" r="2.4" fill="' + INK + '"/>' +
+      '<path d="M95 82q5 4 10 0" fill="none" ' + ST2 + '/>' +
+      spark(42, 64, 4.5, '#F2CB7C');
+  };
+
+  ART.sunflower = function () {
+    return ground(34) +
+      '<path d="M100 120v46" stroke="#6E9E7C" stroke-width="7" stroke-linecap="round"/>' +
+      '<path d="M100 146c-14 2-24-6-28-18 14-2 24 4 28 12zM100 136c14 2 24-6 28-18-14-2-24 4-28 12z" fill="#8FBE9B" ' + ST2 + '/>' +
+      petals(100, 76, 12, 22, 12, '#F2CB7C', 15) +
+      '<circle cx="100" cy="76" r="19" fill="#8A6A4A" ' + ST + '/>' +
+      '<g fill="#5B4636"><circle cx="94" cy="70" r="2"/><circle cx="106" cy="70" r="2"/><circle cx="100" cy="80" r="2"/><circle cx="92" cy="82" r="2"/><circle cx="108" cy="82" r="2"/></g>' +
+      '<path d="M94 88q6 4 12 0" fill="none" stroke="#FFF6E5" stroke-width="2" opacity=".7"/>';
+  };
+
+  ART.lotus = function () {
+    return '<ellipse cx="100" cy="150" rx="72" ry="16" fill="#8FBE9B" opacity=".55"/>' +
+      '<path d="M40 146c10-4 22-4 32 0s22 4 32 0 22-4 32 0" stroke="#FFFCF3" stroke-width="3" stroke-linecap="round" fill="none" opacity=".7"/>' +
+      petals(100, 104, 14, 30, 8, '#EFA9B5', 22) +
+      petals(100, 108, 12, 22, 6, '#F6C3CD', 10) +
+      '<path d="M82 118c6-14 12-24 18-30 6 6 12 16 18 30-6 10-12 14-18 14s-12-4-18-14z" fill="#FFF6E5" ' + ST2 + '/>' +
+      '<circle cx="100" cy="112" r="6" fill="#F2CB7C" ' + ST + '/>' +
+      '<path d="M48 160c10-4 22-4 32 0M120 164c10-4 22-4 32 0" stroke="#6E9E7C" stroke-width="3" stroke-linecap="round" fill="none" opacity=".6"/>';
+  };
+
+  ART.rose = function () {
+    return ground(34) +
+      '<path d="M100 110v52" stroke="#6E9E7C" stroke-width="6" stroke-linecap="round"/>' +
+      '<path d="M100 138c-14 2-22-6-24-18 14-2 22 4 24 12z" fill="#8FBE9B" ' + ST2 + '/>' +
+      '<circle cx="100" cy="80" r="30" fill="#E05C5C" ' + ST + '/>' +
+      '<path d="M100 56c12 0 20 8 20 18s-8 16-16 16-14-6-14-12 4-10 8-10 6 2 6 6" fill="none" stroke="#B84444" stroke-width="3.4" stroke-linecap="round"/>' +
+      '<path d="M78 92c6 10 16 16 28 14" fill="none" stroke="#B84444" stroke-width="3" stroke-linecap="round" opacity=".7"/>' +
+      '<path d="M86 62c-6 4-9 10-9 16" stroke="#F2A0A0" stroke-width="4" stroke-linecap="round" fill="none" opacity=".7"/>' +
+      spark(150, 62, 4.5, '#EFA9B5');
+  };
+
+  ART.straw = function () {
+    return ground(46) +
+      '<g stroke="#C9A05A" stroke-width="4" stroke-linecap="round">' +
+      '<path d="M74 168L64 54M92 168V46M108 168V50M126 168l10-112"/>' +
+      '</g>' +
+      '<g fill="#E7C26B" ' + ST2 + '><ellipse cx="64" cy="50" rx="6" ry="13" transform="rotate(-8 64 50)"/><ellipse cx="92" cy="42" rx="6" ry="13"/><ellipse cx="108" cy="46" rx="6" ry="13" transform="rotate(5 108 46)"/><ellipse cx="136" cy="52" rx="6" ry="13" transform="rotate(10 136 52)"/></g>' +
+      '<path d="M66 116c22-6 46-6 68 0" stroke="#C1553F" stroke-width="7" stroke-linecap="round"/>' +
+      '<path d="M100 116v10l-8 14M100 126l8 14" stroke="#C1553F" stroke-width="3" stroke-linecap="round" fill="none"/>';
+  };
+
+  ART.bouquet = function () {
+    return ground(40) +
+      '<path d="M70 104l-8 58h76l-8-58z" fill="#F3E7CF" ' + ST + '/>' +
+      '<path d="M62 104h76" stroke="' + INK + '" stroke-width="2.4"/>' +
+      '<path d="M78 108l-4 44M122 108l4 44" stroke="#DCCDB6" stroke-width="2" opacity=".7"/>' +
+      '<g>' +
+      '<circle cx="100" cy="66" r="17" fill="#E05C5C" ' + ST2 + '/>' +
+      '<circle cx="76" cy="84" r="14" fill="#EFA9B5" ' + ST2 + '/>' +
+      '<circle cx="124" cy="84" r="14" fill="#F2CB7C" ' + ST2 + '/>' +
+      '</g>' +
+      '<circle cx="100" cy="66" r="6" fill="#B84444"/><circle cx="76" cy="84" r="5" fill="#D9808E"/><circle cx="124" cy="84" r="5" fill="#D9AE56"/>' +
+      '<path d="M84 98c4-8 8-14 12-18M116 98c-4-8-8-14-12-18" stroke="#6E9E7C" stroke-width="3" stroke-linecap="round" fill="none"/>' +
+      '<path d="M86 120c-2 12-2 20 0 28M100 118c0 14 0 22-2 30" stroke="#EFA9B5" stroke-width="3" stroke-linecap="round" fill="none" opacity=".8"/>';
+  };
+
+  /* ---------- 其他生活小物 ---------- */
+  ART.joke = function () {
+    return ground(48, 170, 0.08) +
+      '<path d="M40 58h120v70c0 8-6 14-14 14H84l-18 16v-16H54c-8 0-14-6-14-14z" fill="#FFFCF3" ' + ST + '/>' +
+      '<path d="M58 84c4-6 10-6 14 0M128 84c4-6 10-6 14 0" fill="none" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M82 102c10 16 26 16 36 0" fill="#E9967C" ' + ST2 + '/>' +
+      '<path d="M88 106c8 8 16 8 24 0" fill="#B4553F" opacity=".6"/>' +
+      '<path d="M60 76c2-6 8-8 12-6M126 76c2-6 8-8 12-6" stroke="#EFA9B5" stroke-width="5" stroke-linecap="round" opacity=".55" fill="none"/>' +
+      spark(156, 48, 5, '#F2CB7C') + spark(34, 136, 4, '#97C8DF');
+  };
+
+  ART.default = function () {
+    return ground(44) +
+      '<circle cx="100" cy="96" r="40" fill="#F2CB7C" ' + ST + '/>' +
+      '<path d="M88 84c4-4 8-4 12 0M108 84c4-4 8-4 12 0" fill="none" ' + ST2 + '/>' +
+      '<path d="M86 112q14 12 28 0" fill="none" ' + ST2 + '/>';
+  };
+
+  window.ART = ART;
+})();
+/* =========================================================
+   插圖庫（三）：補齊題目會用到的物件
+   ========================================================= */
+(function () {
+  'use strict';
+  var H = window.ART_HELPERS;
+  var ground = H.ground, spark = H.spark, eyes = H.eyes, smile = H.smile, cheeks = H.cheeks, ST = H.ST, ST2 = H.ST2, ST3 = H.ST3, INK = H.INK;
+  var ART = window.ART;
+
+  ART.cloud = function () {
+    return '<path d="M48 128c-12 0-22-10-22-22s10-22 22-22c2-18 17-31 35-31 16 0 29 10 34 24 4-2 8-2 12-2 14 0 25 11 25 25s-11 26-25 26z" fill="#FFFCF3" ' + ST + '/>' +
+      '<path d="M104 128h58c10 0 18-8 18-18s-8-18-18-18" fill="#FFFCF3" ' + ST + '/>' +
+      '<path d="M60 100c2-10 10-18 20-20" stroke="#BFE0EE" stroke-width="5" stroke-linecap="round" fill="none" opacity=".7"/>' +
+      eyes(84, 112, 108, 2.8) + smile(98, 116, 7) + cheeks(74, 122, 116) +
+      '<path d="M34 150c6-4 12-4 18 0M56 158c6-4 12-4 18 0" stroke="#BFE0EE" stroke-width="3" stroke-linecap="round" fill="none"/>' +
+      '<path d="M150 146c8-4 16-4 24 0" stroke="#BFE0EE" stroke-width="3" stroke-linecap="round" fill="none"/>' +
+      spark(160, 64, 5, '#F2CB7C') + spark(40, 78, 4, '#EFA9B5');
+  };
+
+  ART.cards = function () {
+    return ground(44) +
+      '<g transform="rotate(-14 92 108)">' +
+      '<rect x="60" y="58" width="62" height="88" rx="7" fill="#FFFCF3" ' + ST + '/>' +
+      '<path d="M78 92c-6-8-16-4-16 4 0 10 16 18 16 18s16-8 16-18c0-8-10-12-16-4z" fill="#E05C5C"/>' +
+      '<circle cx="70" cy="74" r="4" fill="#E05C5C"/><circle cx="112" cy="74" r="4" fill="#E05C5C"/>' +
+      '</g>' +
+      '<g transform="rotate(12 126 106)">' +
+      '<rect x="96" y="54" width="62" height="88" rx="7" fill="#FFFCF3" ' + ST + '/>' +
+      '<path d="M127 96c-6 0-10-6-10-11s5-9 10-9 10 4 10 9-4 11-10 11z" fill="#5B4636"/>' +
+      '<path d="M127 76v40M120 100h14" stroke="#5B4636" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M116 70h22" stroke="#97C8DF" stroke-width="2.4" stroke-linecap="round"/>' +
+      '</g>' +
+      spark(158, 60, 5, '#F2CB7C');
+  };
+
+  ART.football = function () {
+    return ground(44) +
+      '<circle cx="100" cy="102" r="52" fill="#FFFCF3" ' + ST + '/>' +
+      '<path d="M100 76l17 12-6 20h-22l-6-20z" fill="#5B4636"/>' +
+      '<g fill="none" stroke="#5B4636" stroke-width="2.6" stroke-linecap="round">' +
+      '<path d="M100 76V56M117 88l18-6M111 108l12 16M89 108L77 124M83 88l-18-6"/>' +
+      '</g>' +
+      '<g fill="#5B4636"><path d="M100 50l9 6-9 6-9-6z"/><path d="M140 80l9 6-9 6-9-6z"/><path d="M128 128l9 6-9 6-9-6z"/><path d="M72 128l9 6-9 6-9-6z"/><path d="M60 80l9 6-9 6-9-6z"/></g>' +
+      '<path d="M68 66c6-6 14-10 22-12" stroke="#E4D6BE" stroke-width="4" stroke-linecap="round" fill="none"/>';
+  };
+
+  window.ART = ART;
+})();
+/* =========================================================
+   教材資料：繁體字、書面語，例詞以《香港小學學生字詞表》常用詞為依據
+   ========================================================= */
+(function () {
+  'use strict';
+
+  var DATA = {
+    low: {
+      name: '初小版',
+      stage: '小一至小三',
+      sub: '小一至小三・由最常用的量詞開始',
+      note: '初小版有 12 個常用量詞、10 題看圖選擇和 10 關分類。',
+      teach: [
+        {
+          q: '個', art: 'apple', tone: 'green',
+          use: '最通用的量詞，大多數物件都可以用。',
+          ex: [{ n: '蘋果', art: 'apple' }, { n: '書包', art: 'backpack' }],
+          tip: '不確定用哪個量詞時，可以先用「個」；但如果能找到更準確的量詞，就要用更準確的那個。',
+          careful: '「一個蘋果」正確；「一個小狗」就不及「一隻小狗」準確。'
+        },
+        {
+          q: '隻', art: 'puppy', tone: 'green',
+          use: '用於動物和昆蟲，也可以用於成對物品中的一件。',
+          ex: [{ n: '小狗', art: 'puppy' }, { n: '蝴蝶', art: 'butterfly' }],
+          tip: '會走、會飛的小動物，多數用「隻」。',
+          careful: '「一隻鞋」指其中一隻；一對鞋要說「一雙鞋」。'
+        },
+        {
+          q: '條', art: 'fish', tone: 'sea',
+          use: '用於又長又細的東西。',
+          ex: [{ n: '魚', art: 'fish' }, { n: '長褲', art: 'pants' }],
+          tip: '又長又細，就用「條」。',
+          careful: '「一條魚」正確；「一條小狗」不正確。'
+        },
+        {
+          q: '本', art: 'book', tone: 'sand',
+          use: '用於裝訂成冊的書、簿和字典。',
+          ex: [{ n: '圖書', art: 'book' }, { n: '字典', art: 'dictionary' }],
+          tip: '一頁頁釘在一起，就是「本」。',
+          careful: '「一本書」正確；一張紙不可以說「一本紙」。'
+        },
+        {
+          q: '張', art: 'paper', tone: 'sand',
+          use: '用於薄而平的東西，也可以用於桌子、床。',
+          ex: [{ n: '白紙', art: 'paper' }, { n: '桌子', art: 'table' }],
+          tip: '薄薄一片，或者有平面，用「張」。',
+          careful: '「一張紙」正確；「一張書」不正確。'
+        },
+        {
+          q: '把', art: 'umbrella', tone: 'sky',
+          use: '用於有柄、可以用手拿住的東西。',
+          ex: [{ n: '雨傘', art: 'umbrella' }, { n: '剪刀', art: 'scissors' }],
+          tip: '有手柄可以握住，用「把」。',
+          careful: '「一把雨傘」正確；「一把杯」不正確。'
+        },
+        {
+          q: '杯', art: 'milk', tone: 'rose',
+          use: '用於用杯盛著的飲品。',
+          ex: [{ n: '牛奶', art: 'milk' }, { n: '熱茶', art: 'tea' }],
+          tip: '飲品用「杯」，不要用「個」。',
+          careful: '「一杯牛奶」正確；「一杯蛋糕」不正確。'
+        },
+        {
+          q: '朵', art: 'flower', tone: 'rose',
+          use: '用於花和雲。',
+          ex: [{ n: '鮮花', art: 'flower' }, { n: '白雲', art: 'cloud' }],
+          tip: '一朵朵花，一朵朵雲。',
+          careful: '「一朵花」正確；「一朵樹」不正確。'
+        },
+        {
+          q: '雙', art: 'shoes', tone: 'lilac',
+          use: '用於成對的東西，左右各一。',
+          ex: [{ n: '皮鞋', art: 'shoes' }, { n: '筷子', art: 'chopsticks' }],
+          tip: '一對一對，用「雙」。',
+          careful: '「一雙襪子」正確；「一雙蘋果」不正確。'
+        },
+        {
+          q: '架', art: 'car', tone: 'sky',
+          use: '用於車輛、飛機、鋼琴等大型機器。',
+          ex: [{ n: '汽車', art: 'car' }, { n: '飛機', art: 'plane' }],
+          tip: '會動的大型機器，用「架」。',
+          careful: '「一架汽車」正確；「一架狗」不正確。'
+        },
+        {
+          q: '塊', art: 'cake', tone: 'sand',
+          use: '用於扁平一片的東西，或者切出來的一件。',
+          ex: [{ n: '蛋糕', art: 'cake' }, { n: '玻璃', art: 'window' }],
+          tip: '一片片、一件件，用「塊」。',
+          careful: '「一塊蛋糕」正確；「一塊水」不正確。'
+        },
+        {
+          q: '粒', art: 'candy', tone: 'rose',
+          use: '用於細小、圓圓的東西。',
+          ex: [{ n: '糖果', art: 'candy' }, { n: '米', art: 'rice' }],
+          tip: '細細粒，用「粒」。',
+          careful: '「一粒糖果」正確；「一粒西瓜」不正確。'
+        }
+      ],
+
+      quiz: [
+        {
+          s: '公園裏有一{}小狗在跑。', art: 'puppy', tone: 'green', n: '小狗',
+          a: '隻', opts: ['隻', '條', '張'],
+          why: '小狗是動物，動物用「隻」；「條」用於又長又細的東西，「張」用於薄而平的東西。',
+          remember: '一隻小狗'
+        },
+        {
+          s: '我從圖書館借了一{}字典。', art: 'dictionary', tone: 'sand', n: '字典',
+          a: '本', opts: ['本', '把', '朵'],
+          why: '字典一頁頁裝訂成冊，用「本」；「把」用於有柄可握的東西，「朵」用於花和雲。',
+          remember: '一本字典'
+        },
+        {
+          s: '下雨了，媽媽給了我一{}雨傘。', art: 'umbrella', tone: 'sky', n: '雨傘',
+          a: '把', opts: ['把', '杯', '架'],
+          why: '雨傘有手柄，可以用手握住，所以用「把」；「杯」用於飲品，「架」用於大型機器。',
+          remember: '一把雨傘'
+        },
+        {
+          s: '天空中飄着一{}白雲。', art: 'cloud', tone: 'sky', n: '白雲',
+          a: '朵', opts: ['朵', '粒', '雙'],
+          why: '「朵」用於花和雲，所以是「一朵白雲」；「粒」用於細小圓圓的東西，「雙」用於成對的東西。',
+          remember: '一朵白雲'
+        },
+        {
+          s: '機場停着一{}飛機。', art: 'plane', tone: 'sky', n: '飛機',
+          a: '架', opts: ['架', '隻', '本'],
+          why: '飛機是大型機器，用「架」；「隻」用於動物，「本」用於書簿。',
+          remember: '一架飛機'
+        },
+        {
+          s: '媽媽買了一{}襪子給我。', art: 'socks', tone: 'lilac', n: '襪子',
+          a: '雙', opts: ['雙', '條', '塊'],
+          why: '襪子左右各一隻，成對使用，用「雙」；「條」用於又長又細的東西，「塊」用於扁平一片。',
+          remember: '一雙襪子'
+        },
+        {
+          s: '口袋裏有一{}糖果。', art: 'candy', tone: 'rose', n: '糖果',
+          a: '粒', opts: ['粒', '張', '杯'],
+          why: '糖果細小又圓，用「粒」；「張」用於薄而平的東西，「杯」用於飲品。',
+          remember: '一粒糖果'
+        },
+        {
+          s: '姐姐切了一{}蛋糕給我。', art: 'cake', tone: 'sand', n: '蛋糕',
+          a: '塊', opts: ['塊', '本', '朵'],
+          why: '切出來的一片蛋糕，用「塊」；「本」用於書簿，「朵」用於花和雲。',
+          remember: '一塊蛋糕'
+        },
+        {
+          s: '桌上有一{}白紙。', art: 'paper', tone: 'sand', n: '白紙',
+          a: '張', opts: ['張', '把', '架'],
+          why: '白紙薄而平，用「張」；「把」用於有柄可握的東西，「架」用於大型機器。',
+          remember: '一張白紙'
+        },
+        {
+          s: '祖母倒了一{}熱茶給我。', art: 'tea', tone: 'sand', n: '熱茶',
+          a: '杯', opts: ['杯', '雙', '隻'],
+          why: '熱茶是飲品，用杯盛著，所以用「杯」；「雙」用於成對的東西，「隻」用於動物。',
+          remember: '一杯熱茶'
+        }
+      ],
+
+      sort: [
+        {
+          a: '隻', b: '條',
+          note: '「隻」用於動物和昆蟲；「條」用於又長又細的東西。同樣是動物，魚用「條」，小狗用「隻」。',
+          items: [
+            { n: '小狗', art: 'puppy', q: '隻', why: '小狗是動物，用「隻」。' },
+            { n: '蝴蝶', art: 'butterfly', q: '隻', why: '蝴蝶是昆蟲，用「隻」。' },
+            { n: '魚', art: 'fish', q: '條', why: '魚的身體又長又細，用「條」。' },
+            { n: '長褲', art: 'pants', q: '條', why: '長褲又長又細，用「條」。' }
+          ]
+        },
+        {
+          a: '本', b: '張',
+          note: '「本」用於裝訂成冊的書簿；「張」用於薄而平的一片。',
+          items: [
+            { n: '圖書', art: 'book', q: '本', why: '圖書一頁頁裝訂成冊，用「本」。' },
+            { n: '字典', art: 'dictionary', q: '本', why: '字典是裝訂成冊的書，用「本」。' },
+            { n: '白紙', art: 'paper', q: '張', why: '白紙薄而平，用「張」。' },
+            { n: '桌子', art: 'table', q: '張', why: '桌子有平面，用「張」。' }
+          ]
+        },
+        {
+          a: '把', b: '杯',
+          note: '「把」用於有柄可握的東西；「杯」用於杯中的飲品。',
+          items: [
+            { n: '雨傘', art: 'umbrella', q: '把', why: '雨傘有手柄，用「把」。' },
+            { n: '剪刀', art: 'scissors', q: '把', why: '剪刀有手柄，用「把」。' },
+            { n: '牛奶', art: 'milk', q: '杯', why: '牛奶是飲品，用「杯」。' },
+            { n: '果汁', art: 'juice', q: '杯', why: '果汁是飲品，用「杯」。' }
+          ]
+        },
+        {
+          a: '朵', b: '架',
+          note: '「朵」用於花和雲；「架」用於車輛、飛機、鋼琴等大型機器。',
+          items: [
+            { n: '鮮花', art: 'flower', q: '朵', why: '花用「朵」。' },
+            { n: '白雲', art: 'cloud', q: '朵', why: '雲用「朵」。' },
+            { n: '汽車', art: 'car', q: '架', why: '汽車是大型機器，用「架」。' },
+            { n: '鋼琴', art: 'piano', q: '架', why: '鋼琴是大型樂器，用「架」。' }
+          ]
+        },
+        {
+          a: '雙', b: '個',
+          note: '「雙」用於左右成對的東西；「個」用於一般物件。',
+          items: [
+            { n: '皮鞋', art: 'shoes', q: '雙', why: '皮鞋左右各一隻，用「雙」。' },
+            { n: '筷子', art: 'chopsticks', q: '雙', why: '筷子成對使用，用「雙」。' },
+            { n: '蘋果', art: 'apple', q: '個', why: '蘋果是一般物件，用「個」。' },
+            { n: '書包', art: 'backpack', q: '個', why: '書包是一般物件，用「個」。' }
+          ]
+        },
+        {
+          a: '塊', b: '粒',
+          note: '「塊」用於扁平一片或切出來的一件；「粒」用於細小圓圓的東西。',
+          items: [
+            { n: '蛋糕', art: 'cake', q: '塊', why: '切出來的一件蛋糕，用「塊」。' },
+            { n: '玻璃', art: 'window', q: '塊', why: '玻璃扁平一片，用「塊」。' },
+            { n: '糖果', art: 'candy', q: '粒', why: '糖果細小又圓，用「粒」。' },
+            { n: '米', art: 'rice', q: '粒', why: '米細細粒，用「粒」。' }
+          ]
+        },
+        {
+          a: '個', b: '隻',
+          note: '「個」用於一般物件；「隻」用於動物和昆蟲。',
+          items: [
+            { n: '西瓜', art: 'watermelon', q: '個', why: '西瓜是圓圓大大的物件，用「個」。' },
+            { n: '足球', art: 'football', q: '個', why: '足球是圓圓的一個物件，用「個」。' },
+            { n: '公雞', art: 'rooster', q: '隻', why: '公雞是動物，用「隻」。' },
+            { n: '螞蟻', art: 'ant', q: '隻', why: '螞蟻是昆蟲，用「隻」。' }
+          ]
+        },
+        {
+          a: '本', b: '把',
+          note: '「本」用於書簿；「把」用於有柄可握的東西。',
+          items: [
+            { n: '漫畫', art: 'comic', q: '本', why: '漫畫是裝訂成冊的書，用「本」。' },
+            { n: '筆記簿', art: 'notebook', q: '本', why: '筆記簿是簿，用「本」。' },
+            { n: '鎖匙', art: 'key', q: '把', why: '鎖匙有柄可握，用「把」。' },
+            { n: '菜刀', art: 'knife', q: '把', why: '菜刀有手柄，用「把」。' }
+          ]
+        },
+        {
+          a: '杯', b: '塊',
+          note: '「杯」用於飲品；「塊」用於切出來的一片。',
+          items: [
+            { n: '熱茶', art: 'tea', q: '杯', why: '熱茶是飲品，用「杯」。' },
+            { n: '清水', art: 'water', q: '杯', why: '清水是飲品，用「杯」。' },
+            { n: '麵包', art: 'bread', q: '塊', why: '麵包切出來一件，用「塊」。' },
+            { n: '石頭', art: 'stone', q: '塊', why: '石頭一件件，用「塊」。' }
+          ]
+        },
+        {
+          a: '架', b: '朵',
+          note: '「架」用於大型機器；「朵」用於花和雲。',
+          items: [
+            { n: '直升機', art: 'helicopter', q: '架', why: '直升機是大型機器，用「架」。' },
+            { n: '電單車', art: 'motorbike', q: '架', why: '電單車是車輛，用「架」。' },
+            { n: '太陽花', art: 'sunflower', q: '朵', why: '花用「朵」。' },
+            { n: '蓮花', art: 'lotus', q: '朵', why: '花用「朵」。' }
+          ]
+        }
+      ]
+    },
+
+    high: {
+      name: '高小版',
+      stage: '小四至小六',
+      sub: '小四至小六・挑戰容易混淆的量詞',
+      note: '高小版有 12 個進階量詞、10 題看圖選擇和 10 關分類，特別分辨容易混用的量詞。',
+      teach: [
+        {
+          q: '串', art: 'skewer', tone: 'sand',
+          use: '用於用竹籤或繩子連成一串的東西。',
+          ex: [{ n: '魚蛋', art: 'skewer' }, { n: '葡萄', art: 'grapes' }],
+          tip: '用竹籤或繩子串起來，就是「串」。',
+          careful: '「一串魚蛋」正確；「一串眼鏡」不正確。'
+        },
+        {
+          q: '副', art: 'glasses', tone: 'lilac',
+          use: '用於成對或成套的東西。',
+          ex: [{ n: '眼鏡', art: 'glasses' }, { n: '手套', art: 'gloves' }],
+          tip: '兩件成對、整套齊全，用「副」。',
+          careful: '「一副眼鏡」正確；花要用「朵」或「束」，不說「一副花」。'
+        },
+        {
+          q: '幅', art: 'painting', tone: 'rose',
+          use: '用於平面的作品，例如油畫、海報、地圖。',
+          ex: [{ n: '油畫', art: 'painting' }, { n: '地圖', art: 'map' }],
+          tip: '平平一幅，可以掛在牆上。',
+          careful: '船用「艘」，不要寫「一幅船」。'
+        },
+        {
+          q: '艘', art: 'ship', tone: 'sea',
+          use: '專門用於船隻。',
+          ex: [{ n: '輪船', art: 'ship' }, { n: '漁船', art: 'sailboat' }],
+          tip: '水上行走的船，用「艘」。',
+          careful: '汽車和飛機用「架」，不用「艘」。'
+        },
+        {
+          q: '盞', art: 'streetlamp', tone: 'night',
+          use: '專門用於燈。',
+          ex: [{ n: '路燈', art: 'streetlamp' }, { n: '燈籠', art: 'lantern' }],
+          tip: '燈的固定量詞是「盞」。',
+          careful: '「一盞燈」正確；「一盞花」不正確。'
+        },
+        {
+          q: '束', art: 'bouquet', tone: 'rose',
+          use: '用於紮在一起的東西，例如花、頭髮、稻草。',
+          ex: [{ n: '玫瑰', art: 'rose' }, { n: '頭髮', art: 'hair' }],
+          tip: '用繩子紮成一把，就是「束」。',
+          careful: '單獨一朵花用「朵」，一大把花才用「束」。'
+        },
+        {
+          q: '群', art: 'sheep', tone: 'green',
+          use: '用於聚在一起的人或動物。',
+          ex: [{ n: '綿羊', art: 'sheep' }, { n: '觀眾', art: 'crowd' }],
+          tip: '聚在一起的一大班，用「群」。',
+          careful: '單獨一個人用「位」或「個」，不用「群」。'
+        },
+        {
+          q: '疊', art: 'bowls', tone: 'sand',
+          use: '用於一層層疊起的東西。',
+          ex: [{ n: '碗', art: 'bowls' }, { n: '報紙', art: 'newspaper' }],
+          tip: '一層一層疊高，用「疊」。',
+          careful: '「一疊碗」正確；「一疊魚」不正確。'
+        },
+        {
+          q: '則', art: 'newspaper', tone: 'sand',
+          use: '用於新聞、消息、寓言、笑話等一則則的文字。',
+          ex: [{ n: '新聞', art: 'newspaper' }, { n: '笑話', art: 'joke' }],
+          tip: '一則一則的消息，用「則」。',
+          careful: '文章用「篇」，詩歌用「首」，不要混用。'
+        },
+        {
+          q: '篇', art: 'essay', tone: 'sand',
+          use: '用於文章、作文、日記等成篇的文字。',
+          ex: [{ n: '作文', art: 'essay' }, { n: '日記', art: 'diary' }],
+          tip: '成篇的文字作品，用「篇」。',
+          careful: '新聞多說「一則新聞」，不說「一篇新聞」。'
+        },
+        {
+          q: '首', art: 'music', tone: 'lilac',
+          use: '用於歌曲和詩歌。',
+          ex: [{ n: '兒歌', art: 'music' }, { n: '唐詩', art: 'poem' }],
+          tip: '唱得出來、讀得出來，用「首」。',
+          careful: '「一首電影」不正確，電影用「齣」。'
+        },
+        {
+          q: '齣', art: 'theatre', tone: 'rose',
+          use: '用於戲劇、電影等演出。',
+          ex: [{ n: '話劇', art: 'theatre' }, { n: '電影', art: 'film' }],
+          tip: '一整套演出，用「齣」。',
+          careful: '「一齣歌」不正確，歌用「首」。'
+        }
+      ],
+
+      quiz: [
+        {
+          s: '爺爺看報紙時，鼻樑上架着一{}眼鏡。', art: 'glasses', tone: 'lilac', n: '眼鏡',
+          a: '副', opts: ['副', '幅', '束', '則'],
+          why: '眼鏡左右兩片一起使用，是成套的東西，用「副」；「幅」用於平面的作品，「束」用於紮在一起的東西。',
+          remember: '一副眼鏡'
+        },
+        {
+          s: '客廳牆上掛着一{}油畫，是姐姐畫的。', art: 'painting', tone: 'rose', n: '油畫',
+          a: '幅', opts: ['幅', '艘', '盞', '篇'],
+          why: '油畫是平面的作品，用「幅」；「艘」用於船，「盞」用於燈，「篇」用於文章。',
+          remember: '一幅油畫'
+        },
+        {
+          s: '碼頭停着一{}輪船，準備開往澳門。', art: 'ship', tone: 'sea', n: '輪船',
+          a: '艘', opts: ['艘', '隻', '條', '架'],
+          why: '船隻專用「艘」；「隻」多用於動物，「條」用於長而細的東西，「架」用於飛機和汽車。',
+          remember: '一艘輪船'
+        },
+        {
+          s: '書桌上有一{}枱燈，照亮我的功課。', art: 'tablelamp', tone: 'night', n: '枱燈',
+          a: '盞', opts: ['盞', '把', '條', '塊'],
+          why: '燈的固定量詞是「盞」；「把」用於有柄可握的東西，「條」用於長而細的東西。',
+          remember: '一盞枱燈'
+        },
+        {
+          s: '媽媽生日，我送了一{}玫瑰給她。', art: 'rose', tone: 'rose', n: '玫瑰',
+          a: '束', opts: ['束', '朵', '串', '副'],
+          why: '把花紮成一把，用「束」；單獨一朵花才用「朵」，「串」用於串起的東西。',
+          remember: '一束玫瑰'
+        },
+        {
+          s: '台下有一大{}觀眾，掌聲如雷。', art: 'crowd', tone: 'sand', n: '觀眾',
+          a: '群', opts: ['群', '個', '位', '隻'],
+          why: '「群」表示聚在一起的一大班人；「位」和「個」用於單獨一個人，「隻」用於動物。',
+          remember: '一大群觀眾'
+        },
+        {
+          s: '今天報紙有一{}新聞很感人。', art: 'newspaper', tone: 'sand', n: '新聞',
+          a: '則', opts: ['則', '篇', '首', '幅'],
+          why: '新聞、消息一則一則，用「則」；「篇」用於文章，「首」用於歌曲和詩歌。',
+          remember: '一則新聞'
+        },
+        {
+          s: '我寫了一{}作文交給老師。', art: 'essay', tone: 'sand', n: '作文',
+          a: '篇', opts: ['篇', '則', '首', '齣'],
+          why: '作文是成篇的文字，用「篇」；「則」用於新聞和消息，「首」用於歌曲，「齣」用於戲劇。',
+          remember: '一篇作文'
+        },
+        {
+          s: '音樂課上，我們學了一{}新歌。', art: 'music', tone: 'lilac', n: '新歌',
+          a: '首', opts: ['首', '篇', '則', '幅'],
+          why: '歌曲用「首」；「篇」用於文章，「則」用於消息，「幅」用於平面的作品。',
+          remember: '一首新歌'
+        },
+        {
+          s: '週末，我們看了一{}話劇，十分精彩。', art: 'theatre', tone: 'rose', n: '話劇',
+          a: '齣', opts: ['齣', '篇', '首', '幅'],
+          why: '戲劇、電影等演出用「齣」；「篇」用於文章，「首」用於歌曲，「幅」用於平面的作品。',
+          remember: '一齣話劇'
+        }
+      ],
+
+      sort: [
+        {
+          a: '串', b: '副',
+          note: '「串」用於用竹籤或繩子串起的東西；「副」用於成對或成套的東西。',
+          items: [
+            { n: '魚蛋', art: 'skewer', q: '串', why: '魚蛋用竹籤串起，用「串」。' },
+            { n: '葡萄', art: 'grapes', q: '串', why: '葡萄一串串，用「串」。' },
+            { n: '眼鏡', art: 'glasses', q: '副', why: '眼鏡左右兩片一起使用，用「副」。' },
+            { n: '撲克牌', art: 'cards', q: '副', why: '撲克牌是一整套，用「副」。' }
+          ]
+        },
+        {
+          a: '幅', b: '艘',
+          note: '「幅」用於平面的作品；「艘」用於船隻。',
+          items: [
+            { n: '油畫', art: 'painting', q: '幅', why: '油畫是平面的作品，用「幅」。' },
+            { n: '地圖', art: 'map', q: '幅', why: '地圖是平面的作品，用「幅」。' },
+            { n: '輪船', art: 'ship', q: '艘', why: '輪船是船隻，用「艘」。' },
+            { n: '漁船', art: 'sailboat', q: '艘', why: '漁船是船隻，用「艘」。' }
+          ]
+        },
+        {
+          a: '盞', b: '束',
+          note: '「盞」用於燈；「束」用於紮在一起的東西。',
+          items: [
+            { n: '路燈', art: 'streetlamp', q: '盞', why: '燈用「盞」。' },
+            { n: '燈籠', art: 'lantern', q: '盞', why: '燈籠是燈，用「盞」。' },
+            { n: '玫瑰', art: 'rose', q: '束', why: '玫瑰紮成一把，用「束」。' },
+            { n: '稻草', art: 'straw', q: '束', why: '稻草紮成一把，用「束」。' }
+          ]
+        },
+        {
+          a: '群', b: '疊',
+          note: '「群」用於聚在一起的人或動物；「疊」用於一層層疊起的東西。',
+          items: [
+            { n: '綿羊', art: 'sheep', q: '群', why: '綿羊聚在一起，用「群」。' },
+            { n: '觀眾', art: 'crowd', q: '群', why: '觀眾聚在一起，用「群」。' },
+            { n: '碗', art: 'bowls', q: '疊', why: '碗一層層疊起，用「疊」。' },
+            { n: '報紙', art: 'newspaper', q: '疊', why: '報紙一張張疊起，用「疊」。' }
+          ]
+        },
+        {
+          a: '則', b: '篇',
+          note: '「則」用於新聞、消息、笑話；「篇」用於文章、日記、作文。',
+          items: [
+            { n: '新聞', art: 'newspaper', q: '則', why: '新聞一則一則，用「則」。' },
+            { n: '笑話', art: 'joke', q: '則', why: '笑話一則一則，用「則」。' },
+            { n: '日記', art: 'diary', q: '篇', why: '日記是成篇的文字，用「篇」。' },
+            { n: '作文', art: 'essay', q: '篇', why: '作文是成篇的文字，用「篇」。' }
+          ]
+        },
+        {
+          a: '首', b: '齣',
+          note: '「首」用於歌曲和詩歌；「齣」用於戲劇、電影等演出。',
+          items: [
+            { n: '唐詩', art: 'poem', q: '首', why: '詩用「首」。' },
+            { n: '兒歌', art: 'music', q: '首', why: '歌用「首」。' },
+            { n: '電影', art: 'film', q: '齣', why: '電影是演出，用「齣」。' },
+            { n: '話劇', art: 'theatre', q: '齣', why: '話劇是演出，用「齣」。' }
+          ]
+        },
+        {
+          a: '串', b: '疊',
+          note: '「串」用於串起的東西；「疊」用於一層層疊起的東西。',
+          items: [
+            { n: '珍珠', art: 'pearls', q: '串', why: '珍珠串成一串，用「串」。' },
+            { n: '鎖匙', art: 'key', q: '串', why: '鎖匙串成一串，用「串」。' },
+            { n: '碟', art: 'plates', q: '疊', why: '碟一層層疊起，用「疊」。' },
+            { n: '書', art: 'bookstack', q: '疊', why: '書一本本疊起來，可以說「一疊書」；單獨一本才說「一本書」。' }
+          ]
+        },
+        {
+          a: '副', b: '幅',
+          note: '「副」用於成對或成套的東西；「幅」用於平面的作品。',
+          items: [
+            { n: '象棋', art: 'chess', q: '副', why: '象棋是一整套，用「副」。' },
+            { n: '手套', art: 'gloves', q: '副', why: '手套成對，用「副」。' },
+            { n: '國畫', art: 'painting', q: '幅', why: '國畫是平面的作品，用「幅」。' },
+            { n: '海報', art: 'poster', q: '幅', why: '海報是平面的作品，用「幅」。' }
+          ]
+        },
+        {
+          a: '艘', b: '群',
+          note: '「艘」用於船隻；「群」用於聚在一起的動物。',
+          items: [
+            { n: '遊艇', art: 'yacht', q: '艘', why: '遊艇是船隻，用「艘」。' },
+            { n: '軍艦', art: 'warship', q: '艘', why: '軍艦是船隻，用「艘」。' },
+            { n: '海豚', art: 'dolphin', q: '群', why: '海豚聚在一起，用「群」。' },
+            { n: '雀鳥', art: 'bird', q: '群', why: '雀鳥聚在一起，用「群」。' }
+          ]
+        },
+        {
+          a: '束', b: '盞',
+          note: '「束」用於紮成一把的東西；「盞」用於燈。',
+          items: [
+            { n: '鮮花', art: 'bouquet', q: '束', why: '鮮花紮成一把，用「束」。' },
+            { n: '頭髮', art: 'hair', q: '束', why: '頭髮紮成一把，用「束」。' },
+            { n: '油燈', art: 'oillamp', q: '盞', why: '燈用「盞」。' },
+            { n: '燈', art: 'bulb', q: '盞', why: '燈用「盞」。' }
+          ]
+        }
+      ]
+    }
+  };
+
+  window.DATA = DATA;
+})();
+/* =========================================================
+   應用邏輯：畫面、教學卡、兩個遊戲、音效、語音、成績
+   ========================================================= */
+(function () {
+  'use strict';
+
+  var $ = function (id) { return document.getElementById(id); };
+  var state = {
+    version: 'low',
+    screen: 'home',
+    teach: 0,
+    muted: false,
+    game: null,
+    lastMode: 'A'
+  };
+
+  /* ---------------- 小工具 ---------------- */
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function readStore(key, fallback) {
+    try {
+      var raw = localStorage.getItem(key);
+      return raw === null ? fallback : JSON.parse(raw);
+    } catch (e) { return fallback; }
+  }
+  function writeStore(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { /* 私隱模式可能不支援 */ }
+  }
+  function icon(id, cls) {
+    return '<svg viewBox="0 0 24 24" class="' + (cls || '') + '" aria-hidden="true" focusable="false"><use href="#' + id + '"/></svg>';
+  }
+  function artSVG(key) {
+    var fn = window.ART[key] || window.ART['default'];
+    return '<svg viewBox="0 0 200 200" aria-hidden="true" focusable="false">' + fn() + '</svg>';
+  }
+
+  /* ---------------- 場景插圖 ---------------- */
+  var TONES = {
+    green: { wash: '#CFE4D2', deep: '#8FBE9B' },
+    sky: { wash: '#D6EBF5', deep: '#97C8DF' },
+    sand: { wash: '#F3E3C8', deep: '#D9AE7A' },
+    rose: { wash: '#F7DDE2', deep: '#EFA9B5' },
+    lilac: { wash: '#E4DCF2', deep: '#C0AFDA' },
+    sea: { wash: '#CFE9F2', deep: '#6FA8C4' },
+    night: { wash: '#D8DCF0', deep: '#8A93C0' }
+  };
+
+  function sceneSVG(key, tone) {
+    var t = TONES[tone] || TONES.green;
+    var deco = '';
+    if (tone === 'sea') {
+      deco = '<g stroke="' + t.deep + '" stroke-width="3" stroke-linecap="round" fill="none" opacity=".55">' +
+        '<path d="M14 176c10-6 20-6 30 0s20 6 30 0 20-6 30 0 20 6 30 0 20-6 30 0 20 6 30 0 20-6 30 0"/>' +
+        '<path d="M24 190c10-6 20-6 30 0s20 6 30 0 20-6 30 0 20 6 30 0 20-6 30 0 20 6 30 0"/>' +
+        '</g>';
+    } else if (tone === 'night') {
+      deco = '<circle cx="232" cy="42" r="18" fill="#F6D68C" opacity=".9"/>' +
+        '<circle cx="226" cy="36" r="16" fill="#FFFDF7" opacity=".85"/>' +
+        '<g fill="#F2CB7C" opacity=".8"><path d="M44 34l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/><path d="M186 30l1.5 4.5 4.5 1.5-4.5 1.5-1.5 4.5-1.5-4.5-4.5-1.5 4.5-1.5z"/><path d="M206 78l1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5z"/></g>';
+    } else if (tone === 'sky') {
+      deco = '<g fill="#FFFCF3" opacity=".9"><path d="M30 54c0-8 6-14 14-14 3-8 10-12 18-12 9 0 16 6 17 15 7 1 12 6 12 13 0 7-6 12-13 12H43c-7 0-13-5-13-14z"/><path d="M206 44c0-6 5-10 11-10 2-6 8-9 14-9 7 0 13 5 14 12 5 1 9 5 9 10 0 6-5 10-10 10h-28c-6 0-10-4-10-13z" opacity=".75"/></g>' +
+        '<g stroke="' + t.deep + '" stroke-width="2.4" stroke-linecap="round" fill="none" opacity=".5"><path d="M40 92q6-6 12 0M56 88q6-6 12 0"/></g>';
+    } else if (tone === 'green') {
+      deco = '<g fill="' + t.deep + '" opacity=".55"><path d="M24 188c4-14 10-24 18-30-2 14-6 24-14 32z"/><path d="M40 188c1-16 6-26 14-33 0 15-4 26-12 34z"/><path d="M216 190c4-14 10-24 18-30-2 14-6 24-14 32z"/><path d="M232 190c1-16 6-26 14-33 0 15-4 26-12 34z"/></g>';
+    } else if (tone === 'rose') {
+      deco = '<g fill="' + t.deep + '" opacity=".4"><circle cx="34" cy="60" r="5"/><circle cx="46" cy="72" r="3.4"/><circle cx="244" cy="90" r="4.6"/><circle cx="232" cy="74" r="3"/></g>';
+    } else {
+      deco = '<g fill="' + t.deep + '" opacity=".32"><circle cx="30" cy="70" r="4"/><circle cx="44" cy="58" r="2.6"/><circle cx="246" cy="66" r="3.4"/></g>';
+    }
+    return '<svg viewBox="0 0 280 210" aria-hidden="true" focusable="false">' +
+      '<ellipse cx="140" cy="150" rx="132" ry="64" fill="' + t.wash + '" opacity=".55"/>' +
+      deco +
+      '<g transform="translate(22,-18) scale(1.18)">' + (window.ART[key] || window.ART['default'])() + '</g>' +
+      '</svg>';
+  }
+
+  /* ---------------- 狐狸角色 ---------------- */
+  function foxSVG(cls) {
+    return '<svg viewBox="0 0 64 64" class="' + (cls || '') + '" aria-hidden="true" focusable="false">' +
+      '<path d="M11 9l14 11h14L53 9l-2 22c0 13-8 22-19 22S13 44 13 31z" fill="#E9967C" stroke="#5B4636" stroke-width="2.4" stroke-linejoin="round"/>' +
+      '<path d="M12 10l12 10-8 6z" fill="#EFA9B5"/><path d="M52 10L40 20l8 6z" fill="#EFA9B5"/>' +
+      '<ellipse cx="32" cy="44" rx="11" ry="8" fill="#FFF6E5" stroke="#5B4636" stroke-width="1.8"/>' +
+      '<circle cx="24" cy="34" r="2.5" fill="#5B4636"/><circle cx="40" cy="34" r="2.5" fill="#5B4636"/>' +
+      '<ellipse cx="32" cy="40" rx="3.4" ry="2.6" fill="#5B4636"/>' +
+      '<path d="M32 43v2.6M28 46q4 3.4 8 0" fill="none" stroke="#5B4636" stroke-width="1.8" stroke-linecap="round"/>' +
+      '<ellipse cx="19" cy="40" rx="4" ry="2.4" fill="#EFA9B5" opacity=".6"/><ellipse cx="45" cy="40" rx="4" ry="2.4" fill="#EFA9B5" opacity=".6"/>' +
+      '</svg>';
+  }
+
+  /* ---------------- 音效 ---------------- */
+  var Sound = {
+    ctx: null,
+    master: null,
+    init: function () {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) { return; }
+      if (!this.ctx) {
+        try {
+          this.ctx = new AC();
+          this.master = this.ctx.createGain();
+          this.master.gain.value = 0.9;
+          this.master.connect(this.ctx.destination);
+        } catch (e) { this.ctx = null; }
+      }
+      if (this.ctx && this.ctx.state === 'suspended') { this.ctx.resume().catch(function () {}); }
+    },
+    tone: function (freq, delay, dur, type, vol) {
+      if (state.muted || !this.ctx) { return; }
+      var ctx = this.ctx;
+      var t0 = ctx.currentTime + (delay || 0);
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = type || 'sine';
+      osc.frequency.setValueAtTime(freq, t0);
+      gain.gain.setValueAtTime(0.0001, t0);
+      gain.gain.linearRampToValueAtTime(vol || 0.16, t0 + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+      osc.connect(gain);
+      gain.connect(this.master);
+      osc.start(t0);
+      osc.stop(t0 + dur + 0.04);
+    },
+    play: function (name) {
+      if (name === 'tap') { this.tone(760, 0, 0.06, 'triangle', 0.07); }
+      else if (name === 'turn') { this.tone(520, 0, 0.07, 'sine', 0.09); this.tone(690, 0.06, 0.09, 'sine', 0.07); }
+      else if (name === 'right') { this.tone(784, 0, 0.13, 'sine', 0.16); this.tone(1046, 0.1, 0.2, 'sine', 0.14); }
+      else if (name === 'wrong') { this.tone(300, 0, 0.14, 'triangle', 0.1); this.tone(220, 0.12, 0.2, 'triangle', 0.09); }
+      else if (name === 'win') {
+        var notes = [523, 659, 784, 1046];
+        for (var i = 0; i < notes.length; i++) { this.tone(notes[i], i * 0.11, 0.26, 'sine', 0.13); }
+      }
+    }
+  };
+
+  /* ---------------- 語音 ---------------- */
+  var voices = [];
+  function loadVoices() {
+    if (!('speechSynthesis' in window)) { return; }
+    voices = window.speechSynthesis.getVoices() || [];
+  }
+  if ('speechSynthesis' in window) {
+    loadVoices();
+    if (window.speechSynthesis.addEventListener) { window.speechSynthesis.addEventListener('voiceschanged', loadVoices); }
+  }
+  function speak(text, statusEl) {
+    if (!('speechSynthesis' in window)) {
+      statusEl.textContent = '這個裝置不支援語音朗讀，可以跟著文字讀一次。';
+      return;
+    }
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = 'zh-HK';
+      u.rate = 0.82;
+      u.pitch = 1.05;
+      var pick = null;
+      for (var i = 0; i < voices.length; i++) {
+        if (/zh[-_]HK|yue|Cantonese/i.test(voices[i].lang + ' ' + voices[i].name)) { pick = voices[i]; break; }
+      }
+      if (pick) { u.voice = pick; }
+      u.onstart = function () { statusEl.textContent = '正在朗讀……'; };
+      u.onend = function () { statusEl.textContent = '朗讀完成，可以再聽一次。'; };
+      u.onerror = function () { statusEl.textContent = '語音未能播放，請檢查裝置的語音設定。'; };
+      window.speechSynthesis.speak(u);
+    } catch (e) {
+      statusEl.textContent = '語音未能播放，請檢查裝置的語音設定。';
+    }
+  }
+
+  /* ---------------- 畫面切換 ---------------- */
+  var TITLES = {
+    home: '量詞小達人',
+    menu: '目錄',
+    teach: '學一學',
+    gameA: '遊戲一',
+    gameB: '遊戲二'
+  };
+  function showScreen(name) {
+    state.screen = name;
+    var screens = document.querySelectorAll('.screen');
+    for (var i = 0; i < screens.length; i++) {
+      screens[i].classList.toggle('is-active', screens[i].id === 'screen-' + name);
+    }
+    var d = window.DATA[state.version];
+    $('brandTitle').textContent = '量詞小達人';
+    $('brandSub').textContent = name === 'home' ? '小學中文繪本' : (d.name + '・' + d.stage);
+    $('btnBack').hidden = (name === 'home');
+    $('verChip').hidden = (name === 'home');
+    $('verChip').textContent = TITLES[name] || '';
+    $('verChip').className = 'chip' + (state.version === 'high' ? ' sky' : '');
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+
+  /* ---------------- 目錄 ---------------- */
+  function bestOf(mode) {
+    var v = readStore('mq2_best_' + state.version + '_' + mode, 0);
+    return typeof v === 'number' ? v : 0;
+  }
+  function starsMarkup(n, size) {
+    var out = '';
+    for (var i = 0; i < 3; i++) {
+      out += '<svg viewBox="0 0 24 24" style="width:' + (size || 1) + 'rem;height:' + (size || 1) + 'rem;color:' + (i < n ? '#E2A63C' : 'rgba(91,70,54,.22)') + '" aria-hidden="true"><use href="#' + (i < n ? 'i-star' : 'i-star-line') + '"/></svg>';
+    }
+    return out;
+  }
+  function renderMenu() {
+    var d = window.DATA[state.version];
+    $('menuTitle').textContent = d.name;
+    $('menuSub').textContent = d.sub;
+    $('menuNote').lastElementChild.textContent = d.note + ' 成績會保存在這部裝置。';
+    $('badgeTeach').textContent = d.teach.length + ' 張';
+    $('badgeGameA').innerHTML = starsMarkup(bestOf('A'), 0.85);
+    $('badgeGameA').setAttribute('aria-label', '遊戲一最佳成績：' + bestOf('A') + ' 顆星');
+    $('badgeGameB').innerHTML = starsMarkup(bestOf('B'), 0.85);
+    $('badgeGameB').setAttribute('aria-label', '遊戲二最佳成績：' + bestOf('B') + ' 顆星');
+  }
+
+  /* ---------------- 教學 ---------------- */
+  function renderTeach() {
+    var d = window.DATA[state.version];
+    var card = d.teach[state.teach];
+    $('teachArt').innerHTML = sceneSVG(card.art, card.tone);
+    $('teachCap').textContent = '圖：一' + card.q + card.ex[0].n;
+    $('teachIdx').textContent = '第 ' + (state.teach + 1) + ' ／ ' + d.teach.length + ' 張';
+    $('teachTag').textContent = d.name;
+    $('teachHanzi').textContent = card.q;
+    $('teachUse').textContent = card.use;
+    $('teachTip').textContent = card.tip;
+    $('teachCareful').textContent = card.careful;
+
+    var ex = $('teachEx');
+    ex.innerHTML = '';
+    card.ex.forEach(function (item) {
+      var span = document.createElement('span');
+      span.className = 'ex';
+      span.innerHTML = artSVG(item.art) + '<span>一<span class="q">' + card.q + '</span>' + item.n + '</span>';
+      ex.appendChild(span);
+    });
+
+    var dots = $('teachDots');
+    dots.innerHTML = '';
+    d.teach.forEach(function (item, idx) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = idx === state.teach ? 'on' : (idx < state.teach ? 'seen' : '');
+      b.setAttribute('role', 'tab');
+      b.setAttribute('aria-selected', idx === state.teach ? 'true' : 'false');
+      b.setAttribute('aria-label', '第 ' + (idx + 1) + ' 張：' + item.q);
+      b.addEventListener('click', function () {
+        Sound.play('turn');
+        state.teach = idx;
+        renderTeach();
+      });
+      dots.appendChild(b);
+    });
+
+    $('btnPrev').disabled = state.teach === 0;
+    $('btnNext').querySelector('span').textContent = state.teach === d.teach.length - 1 ? '完成，返回目錄' : '下一張';
+    $('teachStatus').textContent = '';
+    $('btnSpeak').lastElementChild.textContent = '聽一聽：一' + card.q + card.ex[0].n;
+  }
+
+  function speakCurrent() {
+    var d = window.DATA[state.version];
+    var card = d.teach[state.teach];
+    speak('一' + card.q + card.ex[0].n + '。' + card.use, $('teachStatus'));
+  }
+
+  /* ---------------- 遊戲一 ---------------- */
+  function startQuiz() {
+    var d = window.DATA[state.version];
+    state.game = {
+      mode: 'A',
+      list: shuffle(d.quiz).map(function (q) {
+        return {
+          s: q.s, art: q.art, tone: q.tone, n: q.n, a: q.a,
+          opts: shuffle(q.opts), why: q.why, remember: q.remember
+        };
+      }),
+      idx: 0,
+      correct: 0,
+      wrong: [],
+      answered: false
+    };
+    $('aFeedback').innerHTML = '';
+    showScreen('gameA');
+    renderQuiz();
+  }
+
+  function renderQuiz() {
+    var g = state.game;
+    var q = g.list[g.idx];
+    g.answered = false;
+
+    $('aCount').textContent = '第 ' + (g.idx + 1) + ' ／ ' + g.list.length + ' 題';
+    $('aScore').textContent = '答對 ' + g.correct + ' 題';
+    $('aBar').style.width = (g.idx / g.list.length * 100) + '%';
+    $('aScene').innerHTML = sceneSVG(q.art, q.tone);
+
+    var parts = q.s.split('{}');
+    var sentence = $('aSentence');
+    sentence.innerHTML = '';
+    sentence.appendChild(document.createTextNode(parts[0] || ''));
+    var blank = document.createElement('span');
+    blank.className = 'blank';
+    blank.id = 'aBlank';
+    blank.textContent = '？';
+    sentence.appendChild(blank);
+    if (parts[1]) { sentence.appendChild(document.createTextNode(parts[1])); }
+
+    var box = $('aOptions');
+    box.innerHTML = '';
+    box.dataset.cols = String(q.opts.length);
+    q.opts.forEach(function (opt, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'opt';
+      b.dataset.opt = opt;
+      b.textContent = opt;
+      b.setAttribute('aria-label', '第 ' + (i + 1) + ' 個選擇：' + opt);
+      b.addEventListener('click', function () { answerQuiz(opt, b); });
+      box.appendChild(b);
+    });
+
+    var fb = $('aFeedback');
+    fb.innerHTML = '';
+  }
+
+  function answerQuiz(choice, btn) {
+    var g = state.game;
+    if (!g || g.mode !== 'A' || g.answered) { return; }
+    g.answered = true;
+
+    var q = g.list[g.idx];
+    var isRight = choice === q.a;
+    var blank = $('aBlank');
+    blank.textContent = choice;
+    blank.className = 'blank ' + (isRight ? 'ok' : 'no');
+
+    var opts = $('aOptions').querySelectorAll('.opt');
+    for (var i = 0; i < opts.length; i++) {
+      var o = opts[i];
+      if (o.dataset.opt === q.a) {
+        o.classList.add('is-right');
+        o.insertAdjacentHTML('beforeend', '<span class="mark" style="color:#3F7A54">' + icon('i-check') + '</span>');
+      } else if (o === btn) {
+        o.classList.add('is-wrong');
+        o.insertAdjacentHTML('beforeend', '<span class="mark" style="color:#B4553F">' + icon('i-cross') + '</span>');
+      } else {
+        o.classList.add('is-dim');
+      }
+      o.disabled = true;
+    }
+
+    if (isRight) {
+      g.correct += 1;
+      $('aScore').textContent = '答對 ' + g.correct + ' 題';
+      Sound.play('right');
+    } else {
+      Sound.play('wrong');
+      if (!g.wrong.some(function (x) { return x.n === q.n; })) {
+        g.wrong.push({ a: q.a, n: q.n, picked: choice });
+      }
+    }
+    $('aBar').style.width = ((g.idx + 1) / g.list.length * 100) + '%';
+
+    var last = g.idx === g.list.length - 1;
+    var fb = $('aFeedback');
+    fb.innerHTML =
+      '<div class="feedback">' +
+        foxSVG('fox-face') +
+        '<div class="bubble ' + (isRight ? 'good' : 'bad') + '">' +
+          '<h4>' + icon(isRight ? 'i-check' : 'i-bulb') + (isRight ? '答對了！' : '正確答案是「' + q.a + '」') + '</h4>' +
+          (isRight ? '' : '<p class="picked">你選了「' + choice + '」。</p>') +
+          '<p>' + q.why + '</p>' +
+          '<div class="remember"><span class="k">記住</span><span class="v">' + q.remember + '</span></div>' +
+          '<div class="bubble-actions"><button class="btn ' + (isRight ? 'sage' : 'butter') + '" type="button" id="btnNextQ">' +
+            (last ? '看成績' : '下一題') + icon('i-next') + '</button></div>' +
+        '</div>' +
+      '</div>';
+
+    $('btnNextQ').addEventListener('click', nextQuiz);
+    if (window.matchMedia && window.matchMedia('(min-width:600px)').matches) {
+      $('btnNextQ').focus({ preventScroll: true });
+    }
+  }
+
+  function nextQuiz() {
+    var g = state.game;
+    if (!g || g.mode !== 'A') { return; }
+    Sound.play('tap');
+    g.idx += 1;
+    if (g.idx >= g.list.length) {
+      finishGame('A');
+    } else {
+      renderQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  /* ---------------- 遊戲二 ---------------- */
+  function startSort() {
+    var d = window.DATA[state.version];
+    state.game = {
+      mode: 'B',
+      list: shuffle(d.sort).map(function (r) {
+        return { a: r.a, b: r.b, note: r.note, items: shuffle(r.items) };
+      }),
+      idx: 0,
+      correct: 0,
+      total: d.sort.length * 4,
+      selected: null,
+      placed: [],
+      missed: {},
+      wrong: [],
+      done: false
+    };
+    $('bFeedback').innerHTML = '';
+    $('bStatus').textContent = '';
+    showScreen('gameB');
+    renderSort();
+  }
+
+  function currentRound() {
+    return state.game.list[state.game.idx];
+  }
+
+  function renderSort() {
+    var g = state.game;
+    var round = currentRound();
+
+    $('bCount').textContent = '第 ' + (g.idx + 1) + ' ／ ' + g.list.length + ' 關';
+    $('bScore').textContent = '放對 ' + g.correct + ' 張';
+    $('bBar').style.width = ((g.idx * 4 + g.placed.length) / g.total * 100) + '%';
+    $('bHintText').textContent = g.selected
+      ? '已選「' + g.selected.n + '」，現在點下面正確的量詞籃。'
+      : '先點一張名詞卡，再點下面的量詞籃。';
+
+    var pool = $('bPool');
+    pool.innerHTML = '';
+    var remaining = round.items.filter(function (item) { return g.placed.indexOf(item.n) === -1; });
+    if (remaining.length === 0) {
+      var empty = document.createElement('span');
+      empty.className = 'tray-empty';
+      empty.textContent = '全部分類完成！';
+      pool.appendChild(empty);
+    }
+    remaining.forEach(function (item) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'noun' + (g.selected && g.selected.n === item.n ? ' is-selected' : '');
+      b.dataset.noun = item.n;
+      b.setAttribute('aria-pressed', g.selected && g.selected.n === item.n ? 'true' : 'false');
+      b.innerHTML = artSVG(item.art) + '<span class="n">' + item.n + '</span>';
+      b.addEventListener('click', function () {
+        if (state.game !== g || g.done) { return; }
+        Sound.play('tap');
+        g.selected = item;
+        $('bStatus').textContent = '';
+        renderSort();
+        var fresh = document.querySelector('.noun[data-noun="' + item.n + '"]');
+        if (fresh) { fresh.focus({ preventScroll: true }); }
+      });
+      pool.appendChild(b);
+    });
+
+    var baskets = $('bBaskets');
+    baskets.innerHTML = '';
+    [round.a, round.b].forEach(function (q) {
+      var b = document.createElement('div');
+      b.className = 'basket' + (g.selected ? ' is-ready' : '');
+      b.dataset.q = q;
+      b.tabIndex = 0;
+      b.setAttribute('role', 'button');
+      b.setAttribute('aria-label', '量詞籃「' + q + '」，放入已選的名詞卡');
+
+      var label = document.createElement('span');
+      label.className = 'b-label';
+      label.textContent = '量詞籃';
+      var qEl = document.createElement('span');
+      qEl.className = 'b-q';
+      qEl.textContent = q;
+      var slots = document.createElement('div');
+      slots.className = 'slots';
+
+      g.placed.forEach(function (noun) {
+        var found = null;
+        for (var i = 0; i < round.items.length; i++) {
+          if (round.items[i].n === noun) { found = round.items[i]; break; }
+        }
+        if (found && found.q === q) {
+          var slot = document.createElement('span');
+          slot.className = 'slot';
+          slot.innerHTML = artSVG(found.art) + '<span>' + found.n + '</span>';
+          slots.appendChild(slot);
+        }
+      });
+
+      b.appendChild(label);
+      b.appendChild(qEl);
+      b.appendChild(slots);
+      b.addEventListener('click', function () { dropInto(q, b); });
+      b.addEventListener('keydown', function (ev) {
+        if (ev.key === 'Enter' || ev.key === ' ') {
+          ev.preventDefault();
+          dropInto(q, b);
+        }
+      });
+      baskets.appendChild(b);
+    });
+  }
+
+  function dropInto(q, basketEl) {
+    var g = state.game;
+    if (!g || g.mode !== 'B' || g.done) { return; }
+    if (!g.selected) {
+      Sound.play('tap');
+      $('bStatus').textContent = '請先點一張名詞卡，再選量詞籃。';
+      $('bStatus').classList.add('alert');
+      return;
+    }
+    var item = g.selected;
+    var round = currentRound();
+
+    if (item.q === q) {
+      if (!g.missed[item.n]) { g.correct += 1; }
+      g.placed.push(item.n);
+      g.selected = null;
+      Sound.play('right');
+      $('bScore').textContent = '放對 ' + g.correct + ' 張';
+      $('bBar').style.width = ((g.idx * 4 + g.placed.length) / g.total * 100) + '%';
+      $('bStatus').textContent = '';
+      $('bStatus').classList.remove('alert');
+      $('bFeedback').innerHTML = '';
+      renderSort();
+      var freshBasket = $('bBaskets').querySelector('[data-q="' + q + '"]');
+      if (freshBasket) { freshBasket.classList.add('bump'); }
+      if (g.placed.length === round.items.length) {
+        finishRound(round);
+      }
+    } else {
+      g.missed[item.n] = true;
+      if (!g.wrong.some(function (x) { return x.n === item.n; })) {
+        g.wrong.push({ a: item.q, n: item.n });
+      }
+      Sound.play('wrong');
+      basketEl.classList.remove('shake');
+      void basketEl.offsetWidth;
+      basketEl.classList.add('shake');
+      $('bStatus').textContent = '';
+      $('bFeedback').innerHTML =
+        '<div class="feedback">' +
+          foxSVG('fox-face') +
+          '<div class="bubble bad">' +
+            '<h4>' + icon('i-bulb') + '再想一想</h4>' +
+            '<p>' + item.why + '把「' + item.n + '」放進另一個量詞籃試試看。</p>' +
+          '</div>' +
+        '</div>';
+      $('bHintText').textContent = '已選「' + item.n + '」，試試另一個量詞籃。';
+    }
+  }
+
+  function finishRound(round) {
+    var g = state.game;
+    g.done = true;
+    var fb = $('bFeedback');
+    fb.innerHTML =
+      '<div class="feedback">' +
+        foxSVG('fox-face') +
+        '<div class="bubble good">' +
+          '<h4>' + icon('i-check') + '這一關完成了！</h4>' +
+          '<p>' + round.note + '</p>' +
+          '<div class="bubble-actions"><button class="btn sage" type="button" id="btnNextRound">' +
+            (g.idx === g.list.length - 1 ? '看成績' : '下一關') + icon('i-next') + '</button></div>' +
+        '</div>' +
+      '</div>';
+    $('btnNextRound').addEventListener('click', nextRound);
+    Sound.play('win');
+    $('bBar').style.width = (((g.idx + 1) * 4) / g.total * 100) + '%';
+  }
+
+  function nextRound() {
+    var g = state.game;
+    if (!g || g.mode !== 'B') { return; }
+    Sound.play('tap');
+    g.idx += 1;
+    g.placed = [];
+    g.selected = null;
+    g.done = false;
+    $('bFeedback').innerHTML = '';
+    $('bStatus').textContent = '';
+    if (g.idx >= g.list.length) {
+      finishGame('B');
+    } else {
+      renderSort();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  /* ---------------- 成績 ---------------- */
+  function finishGame(mode) {
+    var g = state.game;
+    if (!g) { return; }
+    var total = mode === 'A' ? g.list.length : g.total;
+    var score = g.correct;
+    var rate = score / total;
+    var stars = rate >= 0.9 ? 3 : (rate >= 0.7 ? 2 : 1);
+
+    var key = 'mq2_best_' + state.version + '_' + mode;
+    var best = readStore(key, 0);
+    if (typeof best !== 'number' || stars > best) { writeStore(key, stars); }
+
+    state.lastMode = mode;
+    $('resultTitle').textContent = mode === 'A' ? '遊戲一完成！' : '遊戲二完成！';
+    $('resultArt').innerHTML = foxSVG('');
+    $('resultStars').innerHTML = starsMarkup(stars, 2);
+    $('resultStars').setAttribute('aria-label', '獲得 ' + stars + ' 顆星，共 3 顆');
+    $('resultScore').innerHTML = '答對 <b>' + score + '</b> ／ ' + total + '（' + Math.round(rate * 100) + '%）';
+    $('resultSub').textContent = stars === 3
+      ? '真棒！你已經掌握這些量詞的用法了。'
+      : (stars === 2 ? '表現不錯！再看看解說，挑戰三星。' : '不要着急，多看幾次「學一學」，一定會進步。');
+
+    var review = $('resultReview');
+    var list = $('resultList');
+    list.innerHTML = '';
+    if (g.wrong.length) {
+      review.hidden = false;
+      g.wrong.slice(0, 6).forEach(function (w) {
+        var span = document.createElement('span');
+        span.innerHTML = '一<span class="q">' + w.a + '</span>' + w.n;
+        list.appendChild(span);
+      });
+      if (g.wrong.length > 6) {
+        var more = document.createElement('span');
+        more.textContent = '還有 ' + (g.wrong.length - 6) + ' 個';
+        list.appendChild(more);
+      }
+    } else {
+      review.hidden = true;
+    }
+
+    $('btnAgain').lastElementChild.textContent = mode === 'A' ? '再玩一次遊戲一' : '再玩一次遊戲二';
+    $('resultModal').hidden = false;
+    document.body.classList.add('is-locked');
+    Sound.play('win');
+    setTimeout(function () { $('btnAgain').focus(); }, 60);
+    state.game = null;
+  }
+
+  function closeResult() {
+    $('resultModal').hidden = true;
+    document.body.classList.remove('is-locked');
+  }
+
+  /* ---------------- 事件 ---------------- */
+  document.querySelectorAll('[data-version]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      Sound.init();
+      Sound.play('tap');
+      state.version = btn.dataset.version;
+      state.teach = 0;
+      renderMenu();
+      showScreen('menu');
+    });
+  });
+
+  $('cardTeach').addEventListener('click', function () {
+    Sound.play('tap');
+    state.teach = 0;
+    renderTeach();
+    showScreen('teach');
+  });
+  $('cardGameA').addEventListener('click', function () { Sound.play('tap'); startQuiz(); });
+  $('cardGameB').addEventListener('click', function () { Sound.play('tap'); startSort(); });
+  $('btnSwitch').addEventListener('click', function () { Sound.play('tap'); showScreen('home'); });
+
+  $('btnPrev').addEventListener('click', function () {
+    Sound.play('turn');
+    if (state.teach > 0) { state.teach -= 1; renderTeach(); }
+  });
+  $('btnNext').addEventListener('click', function () {
+    var total = window.DATA[state.version].teach.length;
+    if (state.teach < total - 1) {
+      Sound.play('turn');
+      state.teach += 1;
+      renderTeach();
+    } else {
+      Sound.play('tap');
+      renderMenu();
+      showScreen('menu');
+    }
+  });
+  $('btnSpeak').addEventListener('click', function () { Sound.init(); Sound.play('tap'); speakCurrent(); });
+
+  $('btnBack').addEventListener('click', function () {
+    Sound.play('tap');
+    if (state.screen === 'teach' || state.screen === 'gameA' || state.screen === 'gameB') {
+      state.game = null;
+      closeResult();
+      renderMenu();
+      showScreen('menu');
+      window.speechSynthesis && window.speechSynthesis.cancel();
+    } else {
+      showScreen('home');
+    }
+  });
+
+  $('btnSound').addEventListener('click', function () {
+    state.muted = !state.muted;
+    writeStore('mq2_muted', state.muted);
+    $('btnSound').setAttribute('aria-pressed', state.muted ? 'false' : 'true');
+    $('btnSound').setAttribute('aria-label', state.muted ? '開啟音效' : '關閉音效');
+    $('soundIcon').setAttribute('href', state.muted ? '#i-mute' : '#i-sound');
+    if (!state.muted) { Sound.init(); Sound.play('right'); }
+  });
+
+  $('btnAgain').addEventListener('click', function () {
+    Sound.play('tap');
+    var mode = state.lastMode;
+    closeResult();
+    if (mode === 'A') { startQuiz(); } else { startSort(); }
+  });
+  $('btnHome').addEventListener('click', function () {
+    Sound.play('tap');
+    closeResult();
+    renderMenu();
+    showScreen('menu');
+  });
+
+  document.addEventListener('pointerdown', function once() {
+    Sound.init();
+    document.removeEventListener('pointerdown', once);
+  });
+
+  document.addEventListener('keydown', function (ev) {
+    if (!$('resultModal').hidden) {
+      if (ev.key === 'Escape') {
+        closeResult();
+        renderMenu();
+        showScreen('menu');
+      } else if (ev.key === 'Tab') {
+        var nodes = $('resultModal').querySelectorAll('button');
+        if (!nodes.length) { return; }
+        var first = nodes[0], last = nodes[nodes.length - 1];
+        if (ev.shiftKey && document.activeElement === first) { ev.preventDefault(); last.focus(); }
+        else if (!ev.shiftKey && document.activeElement === last) { ev.preventDefault(); first.focus(); }
+      }
+      return;
+    }
+    var g = state.game;
+    if (state.screen === 'gameA' && g && g.mode === 'A') {
+      if (/^[1-4]$/.test(ev.key) && !g.answered) {
+        var btns = $('aOptions').querySelectorAll('.opt');
+        var i = parseInt(ev.key, 10) - 1;
+        if (btns[i]) { btns[i].click(); }
+      } else if (ev.key === 'Enter' && g.answered) {
+        var next = $('aFeedback').querySelector('.btn');
+        if (next) { ev.preventDefault(); next.click(); }
+      }
+    }
+  });
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden && 'speechSynthesis' in window) { window.speechSynthesis.cancel(); }
+  });
+
+  /* ---------------- 啟動 ---------------- */
+  function bookArt(key) {
+    return '<svg viewBox="22 14 156 156" aria-hidden="true" focusable="false">' +
+      (window.ART[key] || window.ART['default'])() + '</svg>';
+  }
+
+  function menuArtQuiz() {
+    return '<svg viewBox="0 0 200 200" aria-hidden="true" focusable="false">' +
+      '<rect x="40" y="34" width="96" height="120" rx="10" fill="#FFFCF3" stroke="#5B4636" stroke-width="2.6"/>' +
+      '<rect x="54" y="48" width="68" height="52" rx="6" fill="#CFE9F2"/>' +
+      '<path d="M62 92l14-16 10 10 8-8 12 14z" fill="#8FBE9B"/>' +
+      '<text x="88" y="134" font-size="38" font-family="serif" text-anchor="middle" fill="#B4553F">?</text>' +
+      '<circle cx="142" cy="126" r="24" fill="none" stroke="#E9967C" stroke-width="8"/>' +
+      '<path d="M159 143l16 16" stroke="#E9967C" stroke-width="8" stroke-linecap="round"/>' +
+      '<circle cx="142" cy="126" r="16" fill="#FFFCF3" opacity=".35"/>' +
+      '</svg>';
+  }
+  function menuArtBasket() {
+    return '<svg viewBox="0 0 200 200" aria-hidden="true" focusable="false">' +
+      '<rect x="48" y="52" width="44" height="48" rx="6" fill="#FFFCF3" stroke="#5B4636" stroke-width="2.4"/>' +
+      '<rect x="100" y="66" width="44" height="48" rx="6" fill="#F2CB7C" stroke="#5B4636" stroke-width="2.4" transform="rotate(8 122 90)"/>' +
+      '<path d="M40 108h120l-14 46c-3 8-10 12-18 12H72c-8 0-15-4-18-12z" fill="#E3C79C" stroke="#5B4636" stroke-width="2.8" stroke-linejoin="round"/>' +
+      '<path d="M52 122h98M58 138h86" stroke="#B98B55" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M40 108h120" stroke="#5B4636" stroke-width="2.8" stroke-linecap="round"/>' +
+      '</svg>';
+  }
+
+  $('brandFox').outerHTML = foxSVG('brand-mark');
+  $('lowArt').innerHTML = bookArt('apple');
+  $('highArt').innerHTML = bookArt('glasses');
+  $('menuArtTeach').innerHTML = artSVG('book');
+  $('menuArtA').innerHTML = menuArtQuiz();
+  $('menuArtB').innerHTML = menuArtBasket();
+
+  state.muted = readStore('mq2_muted', false) === true;
+  $('btnSound').setAttribute('aria-pressed', state.muted ? 'false' : 'true');
+  $('btnSound').setAttribute('aria-label', state.muted ? '開啟音效' : '關閉音效');
+  $('soundIcon').setAttribute('href', state.muted ? '#i-mute' : '#i-sound');
+
+  renderMenu();
+  renderTeach();
+  showScreen('home');
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1788 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>擬人小劇場｜初小・高小分級擬人互動遊戲</title>
+<meta name="description" content="把萬物當作人來寫！初小版以短句認識擬人，高小版分辨擬人、比喻與借喻；各有五站圖文教學與三種互動遊戲。">
+<style>
+:root{
+  --ink:#2B2440;
+  --ink-soft:#4C4468;
+  --paper:#FFF8EA;
+  --card:#FFFDF7;
+  --coral:#EE6A55;
+  --coral-deep:#C94B38;
+  --coral-soft:#FFE7E1;
+  --gold:#FFC44D;
+  --gold-deep:#E0A21F;
+  --gold-soft:#FFF1CB;
+  --mint:#3FBE9A;
+  --mint-deep:#2A9A7B;
+  --mint-soft:#DDF7EE;
+  --sky:#57B6E6;
+  --sky-soft:#E0F3FF;
+  --violet:#9A85F0;
+  --violet-soft:#EEE8FF;
+  --pink:#FFAFC5;
+  --pink-soft:#FFEBF1;
+  --muted:#6F6885;
+  --stage:#3B2B58;
+  --stage-deep:#241A3B;
+  --shadow:0 4px 0 var(--ink);
+  --shadow-sm:0 3px 0 var(--ink);
+  --radius:18px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  font-family:'Yuanti TC','YuanTi TC','PingFang TC','Hiragino Sans TC','Microsoft JhengHei','Noto Sans TC',sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255,196,77,.36), transparent 38%),
+    radial-gradient(circle at 100% 6%, rgba(87,182,230,.26), transparent 36%),
+    radial-gradient(circle at 46% 102%, rgba(63,190,154,.18), transparent 46%),
+    var(--paper);
+  min-height:100dvh;
+  overflow-x:hidden;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(rgba(43,36,64,.11) 1.2px, transparent 1.2px);
+  background-size:19px 19px;opacity:.4;
+}
+#app{position:relative;z-index:1;max-width:500px;margin:0 auto;padding:14px 16px calc(30px + env(safe-area-inset-bottom));min-height:100dvh}
+button{font-family:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
+h1,h2,h3,h4,p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+b,strong{font-weight:900}
+svg{display:block}
+.screen{animation:rise .38s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:.94;transform:translateY(9px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(.94)}60%{transform:scale(1.03)}100%{transform:scale(1)}}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-5px) rotate(1deg)}}
+@keyframes twinkle{0%,100%{opacity:.35;transform:scale(.85)}50%{opacity:1;transform:scale(1.1)}}
+@keyframes wiggle{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@keyframes fall{0%{transform:translateY(-12px) rotate(0);opacity:0}20%{opacity:1}100%{transform:translateY(300px) rotate(220deg);opacity:0}}
+@keyframes glowpulse{0%,100%{opacity:.55}50%{opacity:.9}}
+
+/* ---------- 共用元件 ---------- */
+.topbar{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.tb-title{flex:1;min-width:0;text-align:center}
+.tb-title b{display:block;font-size:15.5px;font-weight:900;letter-spacing:.4px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-title span{display:block;font-size:11.5px;font-weight:800;color:var(--muted);letter-spacing:.8px;margin-top:1px}
+.icon-btn{width:44px;height:44px;flex:0 0 44px;border:2.5px solid var(--ink);border-radius:14px;background:var(--card);display:grid;place-items:center;box-shadow:var(--shadow-sm);transition:transform .1s,box-shadow .1s}
+.icon-btn:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.icon-btn svg{width:21px;height:21px}
+.icon-btn.ghost{background:transparent;box-shadow:none;border-color:transparent;width:38px;flex-basis:38px}
+.stars{display:inline-flex;align-items:center;gap:2px}
+.stars svg{width:14px;height:14px;flex:0 0 14px}
+.star-total{display:inline-flex;align-items:center;gap:5px;background:var(--gold-soft);border:2px solid var(--ink);border-radius:999px;padding:4px 10px 4px 8px;font-size:12.5px;font-weight:900;box-shadow:0 2px 0 var(--ink);white-space:nowrap}
+.star-total svg{width:15px;height:15px;color:var(--gold)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:2.5px solid var(--ink);border-radius:15px;background:var(--card);font-weight:900;font-size:15px;padding:12px 16px;box-shadow:var(--shadow-sm);transition:transform .1s,box-shadow .1s;min-height:48px}
+.btn:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.btn.primary{background:var(--gold)}
+.btn.mint{background:var(--mint);color:#0E3B2F}
+.btn.ghost{background:transparent;box-shadow:none;border-color:rgba(43,36,64,.22);color:var(--ink-soft)}
+.btn.wide{width:100%}
+.btn svg{width:18px;height:18px;flex:0 0 18px}
+.btn:disabled{opacity:.5;pointer-events:none}
+.pill{display:inline-flex;align-items:center;gap:5px;border:1.8px solid rgba(43,36,64,.16);background:#fff;border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:800;color:var(--ink-soft);white-space:nowrap}
+.section-title{display:flex;align-items:center;gap:8px;margin:20px 2px 10px;font-size:15px;font-weight:900;letter-spacing:.4px}
+.section-title::before{content:'';width:18px;height:4px;border-radius:2px;background:var(--coral)}
+.section-title span{margin-left:auto;font-size:11.5px;color:var(--muted);font-weight:800}
+.tip-note{display:flex;gap:9px;align-items:flex-start;margin-top:16px;padding:12px 13px;border:2px dashed rgba(43,36,64,.3);border-radius:14px;background:rgba(255,241,203,.5);font-size:13.5px;line-height:1.65;color:var(--ink-soft)}
+.tip-note svg{width:19px;height:19px;flex:0 0 19px;margin-top:1px;color:var(--gold-deep)}
+.tip-note b{color:var(--ink)}
+
+/* ---------- 首頁舞台 ---------- */
+.stage{
+  position:relative;border:3px solid var(--ink);border-radius:24px;overflow:hidden;
+  background:linear-gradient(160deg,#4A376C 0%,var(--stage) 45%,var(--stage-deep) 100%);
+  box-shadow:0 6px 0 var(--ink);
+  padding:30px 16px 0;
+  isolation:isolate;
+}
+.valance{position:absolute;top:0;left:0;right:0;height:34px;z-index:4;background:linear-gradient(180deg,#F58A72,#E45E47);border-bottom:3px solid var(--ink)}
+.valance::after{content:'';position:absolute;left:0;right:0;bottom:-14px;height:15px;background-image:radial-gradient(circle at 18px 0,#E45E47 15px,transparent 16px);background-size:36px 15px;background-repeat:repeat-x;filter:drop-shadow(0 3px 0 var(--ink))}
+.curtain{position:absolute;top:0;bottom:0;width:24px;z-index:3;background:repeating-linear-gradient(90deg,#C9452F 0 7px,#EE6A55 7px 13px,#D8503B 13px 19px);border-right:3px solid var(--ink)}
+.curtain.l{left:0}
+.curtain.r{right:0;transform:scaleX(-1)}
+.stage-glow{position:absolute;right:-24px;top:6px;width:220px;height:230px;z-index:0;background:radial-gradient(ellipse at 55% 42%,rgba(255,213,120,.5),rgba(255,213,120,0) 66%);animation:glowpulse 4.5s ease-in-out infinite}
+.stage-body{position:relative;z-index:2;display:flex;align-items:center;gap:6px;min-height:190px;padding-bottom:14px}
+.hero-copy{flex:1;min-width:0;padding-left:4px}
+.brand-chip{display:inline-flex;align-items:center;gap:5px;border:1.6px solid rgba(255,196,77,.65);background:rgba(255,196,77,.13);color:#FFE1A0;border-radius:999px;padding:3px 8px;font-size:10.5px;font-weight:900;letter-spacing:1.6px;white-space:nowrap}
+.hero-copy h1{color:#FFF9EC;font-size:clamp(26px,9vw,36px);line-height:1.12;letter-spacing:1px;margin:9px 0 0;text-shadow:0 3px 0 rgba(15,8,30,.45)}
+.hero-copy h1 em{font-style:normal;color:var(--gold);display:inline-block;position:relative}
+.hero-copy .tagline{color:#E9DFF8;font-size:12.5px;font-weight:700;letter-spacing:2px;margin-top:7px}
+.hero-badges{display:flex;flex-wrap:wrap;gap:5px;margin-top:11px}
+.hero-badges span{font-size:10px;font-weight:900;color:#FFF4D6;background:rgba(255,255,255,.12);border:1.4px solid rgba(255,255,255,.26);border-radius:999px;padding:2px 7px;letter-spacing:.5px}
+.hero-art{flex:0 0 112px;width:112px;position:relative;animation:floaty 5s ease-in-out infinite}
+.hero-art svg{width:100%;height:auto;filter:drop-shadow(0 6px 0 rgba(16,9,30,.3))}
+.stage-star{position:absolute;z-index:1;color:var(--gold);animation:twinkle 3s ease-in-out infinite}
+.stage-star svg{width:100%;height:100%}
+.stage-floor{position:relative;z-index:2;margin:0 -16px;height:24px;border-top:3px solid var(--ink);background:repeating-linear-gradient(90deg,#E8B44C 0 26px,#F4C96D 26px 52px);box-shadow:inset 0 3px 0 rgba(255,255,255,.35)}
+.stage-floor::after{content:'';position:absolute;left:50%;top:-9px;transform:translateX(-50%);width:150px;height:14px;border:2.5px solid var(--ink);border-radius:50%;background:rgba(255,224,150,.35)}
+
+/* ---------- 版本票券 ---------- */
+.home-intro{display:flex;align-items:flex-end;gap:10px;margin:22px 2px 10px}
+.home-intro h2{font-size:19px;font-weight:900;letter-spacing:.5px;line-height:1.2}
+.home-intro p{font-size:12px;color:var(--muted);font-weight:700;margin-top:3px}
+.tickets{display:flex;flex-direction:column;gap:12px}
+.ticket{position:relative;display:flex;align-items:stretch;text-align:left;border:2.5px solid var(--ink);border-radius:20px;background:var(--card);box-shadow:var(--shadow);overflow:hidden;transition:transform .1s,box-shadow .1s}
+.ticket:active{transform:translateY(4px);box-shadow:0 0 0 var(--ink)}
+.ticket-badge{flex:0 0 78px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border-right:2.5px dashed rgba(43,36,64,.38);padding:14px 6px;position:relative}
+.ticket.jr .ticket-badge{background:var(--mint-soft)}
+.ticket.sr .ticket-badge{background:var(--violet-soft)}
+.ticket-badge b{font-size:21px;font-weight:900;line-height:1.1}
+.ticket-badge span{font-size:10px;font-weight:900;color:var(--muted);letter-spacing:.6px}
+.ticket-badge i{font-size:9.5px;font-style:normal;font-weight:800;color:var(--muted);margin-top:4px;letter-spacing:.5px}
+.ticket-badge::before,.ticket-badge::after{content:'';position:absolute;right:-8px;width:14px;height:14px;border-radius:50%;background:var(--paper);border:2.5px solid var(--ink);z-index:2}
+.ticket-badge::before{top:-9px}
+.ticket-badge::after{bottom:-9px}
+.ticket-body{flex:1;min-width:0;padding:13px 6px 13px 14px}
+.ticket-top{display:flex;align-items:center;gap:8px}
+.ticket-top b{font-size:17px;font-weight:900;letter-spacing:.5px}
+.ticket-top .stars{margin-left:auto}
+.ticket-body p{font-size:12px;color:var(--muted);font-weight:700;margin-top:3px;line-height:1.45}
+.ticket-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.ticket-tags i{font-style:normal;font-size:10px;font-weight:900;padding:2px 7px;border-radius:999px;background:rgba(43,36,64,.07);color:var(--ink-soft);letter-spacing:.3px}
+.ticket-go{flex:0 0 30px;display:grid;place-items:center;padding-right:8px;color:var(--ink)}
+.ticket-go svg{width:20px;height:20px}
+.ticket.jr .ticket-go{color:var(--mint-deep)}
+.ticket.sr .ticket-go{color:#6C55C9}
+.home-foot{text-align:center;font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.6px;margin-top:18px}
+
+/* ---------- 版本首頁 ---------- */
+.ver-head{position:relative;border:2.5px solid var(--ink);border-radius:20px;background:var(--card);box-shadow:var(--shadow);padding:15px 15px 14px;overflow:hidden}
+.ver-head.jr{background:linear-gradient(150deg,#F2FCF7,#FFFDF7 62%)}
+.ver-head.sr{background:linear-gradient(150deg,#F7F3FF,#FFFDF7 62%)}
+.ver-head::after{content:'';position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,196,77,.2)}
+.ver-top{display:flex;align-items:center;gap:8px;position:relative;z-index:1}
+.ver-pill{display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:#FFF9EC;border-radius:999px;padding:4px 10px;font-size:11px;font-weight:900;letter-spacing:.8px}
+.ver-head.jr .ver-pill{background:var(--mint-deep)}
+.ver-head.sr .ver-pill{background:#6C55C9}
+.ver-head h2{font-size:21px;font-weight:900;letter-spacing:.5px;margin-top:11px;position:relative;z-index:1}
+.ver-head p{font-size:12.5px;color:var(--muted);font-weight:700;margin-top:3px;position:relative;z-index:1}
+.entry-card{display:flex;align-items:center;gap:12px;width:100%;text-align:left;margin-top:14px;border:2.5px solid var(--ink);border-radius:20px;background:linear-gradient(120deg,#FFF3CF,#FFFDF7);box-shadow:var(--shadow);padding:14px;transition:transform .1s,box-shadow .1s}
+.entry-card:active{transform:translateY(4px);box-shadow:0 0 0 var(--ink)}
+.entry-icon{flex:0 0 52px;width:52px;height:52px;border:2.5px solid var(--ink);border-radius:15px;background:var(--gold);display:grid;place-items:center;box-shadow:0 3px 0 var(--ink)}
+.entry-icon svg{width:26px;height:26px}
+.entry-txt{flex:1;min-width:0}
+.entry-txt b{display:block;font-size:16.5px;font-weight:900;letter-spacing:.4px}
+.entry-txt span{display:block;font-size:11.5px;color:var(--muted);font-weight:700;margin-top:1px}
+.entry-meta{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.entry-meta .seen{font-size:9.5px;font-weight:900;color:var(--mint-deep);background:var(--mint-soft);border-radius:999px;padding:2px 6px;border:1.4px solid rgba(42,154,123,.3)}
+.entry-go{color:var(--ink)}
+.entry-go svg{width:19px;height:19px}
+.mode-list{display:flex;flex-direction:column;gap:10px}
+.mode-card{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:2.5px solid var(--ink);border-radius:17px;background:var(--card);box-shadow:var(--shadow-sm);padding:11px 12px;transition:transform .1s,box-shadow .1s}
+.mode-card:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.mode-ic{flex:0 0 40px;width:40px;height:40px;border:2.3px solid var(--ink);border-radius:12px;display:grid;place-items:center;background:var(--sky-soft)}
+.mode-ic svg{width:21px;height:21px}
+.mode-card:nth-child(2) .mode-ic{background:var(--pink-soft)}
+.mode-card:nth-child(3) .mode-ic{background:var(--violet-soft)}
+.mode-txt{flex:1;min-width:0}
+.mode-txt b{display:block;font-size:15px;font-weight:900;letter-spacing:.3px;line-height:1.3}
+.mode-txt em{display:block;font-style:normal;font-size:11px;color:var(--muted);font-weight:700;margin-top:1px;line-height:1.4}
+.mode-meta{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.mode-meta i{font-style:normal;font-size:9.5px;font-weight:800;color:var(--muted)}
+
+/* ---------- 教學 ---------- */
+.learn-head{margin:2px 2px 10px}
+.lesson-kicker{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:900;letter-spacing:1.6px;color:var(--coral-deep);background:var(--coral-soft);border-radius:999px;padding:3px 9px}
+.lesson-kicker::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--coral)}
+.learn-head h2{font-size:22px;line-height:1.25;font-weight:900;letter-spacing:.5px;margin-top:8px}
+.learn-head .sub{font-size:12.5px;color:var(--muted);font-weight:700;margin-top:3px}
+.dots{display:flex;gap:6px;margin:12px 2px 13px}
+.dots i{flex:1;height:6px;border-radius:3px;background:rgba(43,36,64,.12)}
+.dots i.done{background:var(--coral)}
+.dots i.on{background:var(--ink)}
+.art-frame{position:relative;border:2.5px solid var(--ink);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-sm);height:196px;display:flex;align-items:center;justify-content:center}
+.art-frame svg.art{width:100%;height:100%}
+.art-frame .art-cap{position:absolute;left:9px;bottom:9px;background:rgba(255,253,247,.94);border:1.8px solid var(--ink);border-radius:999px;padding:2px 9px;font-size:10.5px;font-weight:900;letter-spacing:.4px;box-shadow:0 2px 0 rgba(43,36,64,.85)}
+.art-frame.small{height:150px}
+.art-frame.tiny{height:118px}
+.lead{font-size:15.5px;line-height:1.8;font-weight:700;margin-top:13px;color:var(--ink)}
+.lead b{background:linear-gradient(transparent 62%,rgba(255,196,77,.75) 62%);padding:0 1px}
+.body-note{font-size:13.5px;line-height:1.75;color:var(--ink-soft);margin-top:9px}
+.body-note b{color:var(--ink)}
+.keybox{display:flex;gap:10px;margin-top:13px;border:2.5px solid var(--ink);border-radius:15px;background:var(--gold-soft);padding:11px 12px;box-shadow:var(--shadow-sm)}
+.keybox .kb-ic{flex:0 0 30px;width:30px;height:30px;border-radius:9px;background:var(--gold);border:2px solid var(--ink);display:grid;place-items:center}
+.keybox .kb-ic svg{width:17px;height:17px}
+.keybox p{font-size:13px;line-height:1.65;font-weight:700}
+.keybox p b{display:block;font-size:13.5px;margin-bottom:2px}
+.compare{display:flex;flex-direction:column;gap:9px;margin-top:13px}
+.cmp{border:2.5px solid var(--ink);border-radius:16px;background:var(--card);padding:11px 12px;box-shadow:var(--shadow-sm);position:relative}
+.cmp.plain{background:#F7F4EC}
+.cmp.person{background:var(--mint-soft)}
+.cmp .cmp-tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:900;letter-spacing:.8px;border-radius:999px;padding:2px 8px;background:rgba(43,36,64,.08);color:var(--ink-soft)}
+.cmp.person .cmp-tag{background:#BEEBDC;color:#155D49}
+.cmp .cmp-s{font-size:18px;font-weight:900;letter-spacing:.5px;margin-top:7px;line-height:1.5}
+.cmp .cmp-why{font-size:11.5px;color:var(--ink-soft);font-weight:700;margin-top:4px;line-height:1.55}
+.cmp .cmp-why b{color:var(--coral-deep)}
+.act-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.act-tab{display:flex;align-items:center;gap:7px;border:2.3px solid rgba(43,36,64,.24);border-radius:13px;background:var(--card);padding:9px 9px;font-size:12.5px;font-weight:900;color:var(--ink-soft);transition:transform .1s}
+.act-tab .at-ic{flex:0 0 26px;width:26px;height:26px;border-radius:8px;background:rgba(43,36,64,.07);display:grid;place-items:center}
+.act-tab .at-ic svg{width:15px;height:15px}
+.act-tab.on{border-color:var(--ink);background:var(--gold-soft);color:var(--ink);box-shadow:0 3px 0 var(--ink);transform:translateY(-1px)}
+.act-tab.on .at-ic{background:var(--gold)}
+.act-panel{margin-top:10px;border:2.5px solid var(--ink);border-radius:16px;background:#FFFDF7;padding:12px;box-shadow:var(--shadow-sm);animation:pop .25s ease}
+.act-panel .ap-top{display:flex;gap:10px;align-items:center}
+.act-panel .ap-art{flex:0 0 74px;width:74px;height:74px;border:2px solid var(--ink);border-radius:13px;overflow:hidden}
+.act-panel .ap-art svg{width:100%;height:100%}
+.act-panel .ap-body{flex:1;min-width:0}
+.act-panel .ap-s{font-size:16px;font-weight:900;line-height:1.55;letter-spacing:.4px}
+.act-panel .ap-why{font-size:11.5px;color:var(--ink-soft);font-weight:700;line-height:1.6;margin-top:3px}
+.act-panel .ap-why b{color:var(--coral-deep)}
+.wordline{display:flex;flex-wrap:wrap;align-items:center;gap:5px;border:2.5px dashed rgba(43,36,64,.35);border-radius:15px;background:#fff;padding:14px 12px;margin-top:14px}
+.wchip{border:2px solid transparent;border-radius:9px;background:transparent;padding:3px 6px;font-size:18px;font-weight:900;letter-spacing:.5px;line-height:1.45;transition:transform .1s,background .15s}
+.wchip:active{transform:scale(.96)}
+.wchip.found{background:var(--mint-soft);border-color:var(--mint-deep);color:#145A47;animation:pop .3s ease}
+.wchip.miss{animation:shake .35s ease}
+.wchip .dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--coral);margin-left:4px;vertical-align:middle;opacity:.7}
+.wchips-note{font-size:11px;color:var(--muted);font-weight:700;margin-top:7px;text-align:center}
+.found-box{margin-top:10px;border:2.3px solid var(--mint-deep);background:var(--mint-soft);border-radius:14px;padding:10px 12px;font-size:12.5px;line-height:1.7;font-weight:700;color:#145A47;animation:pop .3s ease}
+.found-box b{color:#0C4234}
+.vs-row{display:flex;align-items:stretch;gap:8px;margin-top:13px}
+.vs-card{flex:1;min-width:0;border:2.5px solid var(--ink);border-radius:15px;padding:10px 10px 11px;background:var(--card);box-shadow:var(--shadow-sm)}
+.vs-card.two{background:var(--sky-soft)}
+.vs-card.one{background:var(--pink-soft)}
+.vs-card .vc-tag{font-size:9.5px;font-weight:900;letter-spacing:1px;padding:2px 7px;border-radius:999px;display:inline-block;background:rgba(43,36,64,.08)}
+.vs-card .vc-s{font-size:15.5px;font-weight:900;line-height:1.55;margin-top:7px;letter-spacing:.3px}
+.vs-card .vc-n{font-size:10.5px;color:var(--ink-soft);font-weight:700;margin-top:5px;line-height:1.55}
+.vs-mid{flex:0 0 20px;display:grid;place-items:center;font-size:10px;font-weight:900;color:var(--muted)}
+.formula{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.formula span{border:2px solid var(--ink);border-radius:8px;padding:2px 8px;font-size:11px;font-weight:900;background:#fff}
+.formula span.hl{background:var(--gold-soft)}
+.trap-list{display:flex;flex-direction:column;gap:8px;margin-top:13px}
+.trap{border:2.3px solid rgba(43,36,64,.3);border-radius:14px;background:var(--card);overflow:hidden}
+.trap.open{border-color:var(--ink);box-shadow:0 3px 0 var(--ink)}
+.trap-h{display:flex;align-items:center;gap:9px;width:100%;text-align:left;padding:10px 11px}
+.trap-no{flex:0 0 24px;width:24px;height:24px;border-radius:8px;background:var(--coral-soft);border:1.8px solid var(--coral-deep);display:grid;place-items:center;font-size:11px;font-weight:900;color:var(--coral-deep)}
+.trap-h .th-s{flex:1;min-width:0;font-size:14px;font-weight:900;letter-spacing:.2px}
+.trap-h .th-tag{flex:0 0 auto;font-size:9px;font-weight:900;background:rgba(43,36,64,.07);border-radius:999px;padding:2px 6px;color:var(--ink-soft)}
+.trap-h .th-arrow{flex:0 0 16px;color:var(--muted)}
+.trap-h .th-arrow svg{width:15px;height:15px;transition:transform .2s}
+.trap.open .th-arrow svg{transform:rotate(90deg)}
+.trap-body{padding:0 11px 11px 44px;font-size:12.5px;line-height:1.7;color:var(--ink-soft);font-weight:700;animation:pop .25s ease}
+.trap-body b{color:var(--coral-deep)}
+.lesson-nav{display:flex;gap:9px;margin-top:18px}
+.lesson-nav .btn{flex:1}
+.mnemonic{margin-top:12px;border:2.5px solid var(--ink);border-radius:15px;background:var(--ink);color:#FFF7E4;padding:12px 13px;font-size:13px;font-weight:800;line-height:1.7;letter-spacing:.3px;box-shadow:var(--shadow-sm)}
+.mnemonic b{color:var(--gold)}
+.senior-grid{display:flex;flex-direction:column;gap:8px;margin-top:13px}
+.sg-card{border:2.3px solid rgba(43,36,64,.28);border-radius:14px;background:#fff;padding:10px 11px}
+.sg-card.hl{background:var(--violet-soft);border-color:#6C55C9}
+.sg-card .sg-top{display:flex;align-items:center;gap:6px}
+.sg-card .sg-k{font-size:9.5px;font-weight:900;letter-spacing:.8px;background:rgba(43,36,64,.08);border-radius:999px;padding:2px 7px}
+.sg-card .sg-s{font-size:14.5px;font-weight:900;line-height:1.6;margin-top:5px}
+.sg-card .sg-w{font-size:11.5px;color:var(--ink-soft);font-weight:700;line-height:1.6;margin-top:3px}
+.steps{margin-top:12px;display:flex;flex-direction:column;gap:6px}
+.step{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;line-height:1.6;font-weight:700;color:var(--ink-soft)}
+.step i{flex:0 0 20px;width:20px;height:20px;border-radius:50%;background:var(--gold);border:1.8px solid var(--ink);display:grid;place-items:center;font-style:normal;font-size:10px;font-weight:900;color:var(--ink);margin-top:1px}
+.split{display:flex;flex-direction:column;gap:7px;margin-top:11px}
+.split .sp{display:flex;gap:9px;align-items:flex-start;border:2px dashed rgba(43,36,64,.25);border-radius:12px;padding:9px 10px;background:rgba(255,255,255,.65)}
+.split .sp b{flex:0 0 54px;font-size:10.5px;letter-spacing:.5px;padding:2px 0;color:var(--coral-deep)}
+.split .sp p{flex:1;font-size:12.5px;line-height:1.6;font-weight:700;color:var(--ink-soft)}
+
+/* ---------- 遊戲 ---------- */
+.qbar{display:flex;align-items:center;gap:9px;margin:1px 2px 11px}
+.qbar .qn{font-size:11.5px;font-weight:900;color:var(--ink-soft);letter-spacing:.6px;white-space:nowrap}
+.qbar .qdots{flex:1;display:flex;gap:4px}
+.qbar .qdots i{flex:1;height:6px;border-radius:3px;background:rgba(43,36,64,.12)}
+.qbar .qdots i.on{background:var(--ink)}
+.qbar .qdots i.ok{background:var(--mint)}
+.qbar .qdots i.no{background:var(--coral)}
+.prompt-chip{display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:#FFF8E8;border-radius:999px;padding:4px 11px;font-size:11px;font-weight:900;letter-spacing:.8px;margin-bottom:9px}
+.prompt-chip svg{width:13px;height:13px}
+.sentence-card{position:relative;border:2.5px solid var(--ink);border-radius:16px;background:var(--card);box-shadow:var(--shadow-sm);padding:14px 15px;margin-top:10px}
+.sentence-card .sc-q{position:absolute;right:10px;top:2px;font-family:Georgia,serif;font-size:40px;line-height:1;color:rgba(43,36,64,.13);font-weight:900}
+.sentence-card p{font-size:19px;line-height:1.75;font-weight:900;letter-spacing:.6px;position:relative;z-index:1}
+.sentence-card p .hl{background:linear-gradient(transparent 60%,rgba(255,196,77,.8) 60%);padding:0 1px}
+.sentence-card .sc-cap{font-size:10.5px;color:var(--muted);font-weight:700;margin-top:5px;letter-spacing:.5px}
+.options{display:flex;flex-direction:column;gap:9px;margin-top:12px}
+.choice-row{display:flex;gap:9px}
+.choice{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;border:2.5px solid var(--ink);border-radius:15px;background:var(--card);box-shadow:var(--shadow-sm);padding:13px 8px;font-size:16px;font-weight:900;letter-spacing:.5px;transition:transform .1s,box-shadow .1s,background .2s}
+.choice:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.choice .ci{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--ink)}
+.choice .ci svg{width:14px;height:14px}
+.choice.yes .ci{background:var(--mint-soft);color:var(--mint-deep)}
+.choice.no .ci{background:var(--coral-soft);color:var(--coral-deep)}
+.choice.correct{background:var(--mint-soft);border-color:var(--mint-deep);box-shadow:0 3px 0 var(--mint-deep)}
+.choice.wrong{background:var(--coral-soft);border-color:var(--coral-deep);box-shadow:0 3px 0 var(--coral-deep)}
+.choice.dim{opacity:.5}
+.sent-opt{display:flex;align-items:flex-start;gap:9px;width:100%;text-align:left;border:2.3px solid var(--ink);border-radius:14px;background:var(--card);box-shadow:0 3px 0 rgba(43,36,64,.85);padding:10px 11px;transition:transform .1s,box-shadow .1s}
+.sent-opt:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.sent-opt .so-l{flex:0 0 24px;width:24px;height:24px;border-radius:8px;border:2px solid var(--ink);background:var(--gold-soft);display:grid;place-items:center;font-size:11px;font-weight:900;margin-top:1px}
+.sent-opt .so-t{flex:1;min-width:0;font-size:14.5px;font-weight:800;line-height:1.65;letter-spacing:.2px}
+.sent-opt.correct{background:var(--mint-soft);border-color:var(--mint-deep);box-shadow:0 3px 0 var(--mint-deep)}
+.sent-opt.correct .so-l{background:var(--mint);border-color:var(--mint-deep)}
+.sent-opt.wrong{background:var(--coral-soft);border-color:var(--coral-deep);box-shadow:0 3px 0 var(--coral-deep)}
+.sent-opt.wrong .so-l{background:var(--coral);border-color:var(--coral-deep);color:#fff}
+.sent-opt.dim{opacity:.55}
+.type-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.type-opt{display:flex;align-items:center;gap:7px;border:2.3px solid var(--ink);border-radius:13px;background:var(--card);box-shadow:0 3px 0 rgba(43,36,64,.85);padding:10px 9px;text-align:left;transition:transform .1s,box-shadow .1s;min-height:52px}
+.type-opt:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.type-opt .to-ic{flex:0 0 25px;width:25px;height:25px;border-radius:8px;background:var(--violet-soft);display:grid;place-items:center}
+.type-opt .to-ic svg{width:14px;height:14px}
+.type-opt .to-t{flex:1;min-width:0;font-size:12.5px;font-weight:900;line-height:1.35;letter-spacing:.2px}
+.type-opt.full{grid-column:1 / -1}
+.type-opt.correct{background:var(--mint-soft);border-color:var(--mint-deep);box-shadow:0 3px 0 var(--mint-deep)}
+.type-opt.wrong{background:var(--coral-soft);border-color:var(--coral-deep);box-shadow:0 3px 0 var(--coral-deep)}
+.type-opt.dim{opacity:.55}
+.hint-line{display:flex;align-items:center;gap:5px;font-size:10.5px;color:var(--muted);font-weight:700;margin-top:9px;justify-content:center}
+.hint-line svg{width:13px;height:13px}
+
+/* ---------- 回饋 ---------- */
+.feedback{margin-top:13px;border:2.5px solid var(--ink);border-radius:17px;padding:13px;box-shadow:var(--shadow);animation:pop .3s cubic-bezier(.2,.8,.2,1)}
+.feedback.ok{background:#EDFBF5;border-color:var(--mint-deep)}
+.feedback.no{background:#FFF1ED;border-color:var(--coral-deep)}
+.fb-head{display:flex;align-items:center;gap:8px}
+.fb-ico{flex:0 0 32px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--ink)}
+.feedback.ok .fb-ico{background:var(--mint);color:#0B3D30}
+.feedback.no .fb-ico{background:var(--coral);color:#fff}
+.fb-ico svg{width:18px;height:18px}
+.fb-head b{font-size:16px;font-weight:900;letter-spacing:.5px}
+.feedback.ok .fb-head b{color:#12604A}
+.feedback.no .fb-head b{color:#8F3223}
+.fb-badge{margin-left:auto;font-size:9.5px;font-weight:900;letter-spacing:.4px;border-radius:999px;padding:3px 7px;background:rgba(255,255,255,.8);border:1.6px solid rgba(43,36,64,.18);white-space:nowrap}
+.fb-why{font-size:13px;line-height:1.75;font-weight:700;color:var(--ink-soft);margin-top:8px}
+.fb-why b{color:var(--ink)}
+.fb-list{margin-top:8px;display:flex;flex-direction:column;gap:5px}
+.fb-item{display:flex;gap:6px;align-items:flex-start;font-size:11.5px;line-height:1.55;font-weight:700;color:var(--ink-soft);background:rgba(255,255,255,.64);border-radius:9px;padding:5px 7px}
+.fb-item i{flex:0 0 15px;width:15px;height:15px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:9px;font-weight:900;margin-top:1px;background:rgba(43,36,64,.1)}
+.fb-item.yes i{background:var(--mint);color:#083D2F}
+.fb-item.no i{background:var(--coral);color:#fff}
+.fb-item b{color:var(--ink)}
+.feedback .btn{width:100%;margin-top:11px}
+.fb-tip{display:flex;gap:6px;align-items:flex-start;margin-top:8px;font-size:10.5px;line-height:1.55;color:var(--muted);font-weight:700}
+.fb-tip svg{width:14px;height:14px;flex:0 0 14px;margin-top:1px}
+
+/* ---------- 結果 ---------- */
+.result{text-align:center;padding-top:4px}
+.result-stage{position:relative;border:3px solid var(--ink);border-radius:22px;background:linear-gradient(160deg,#4A376C,#2A1F45);box-shadow:0 6px 0 var(--ink);padding:18px 14px 16px;overflow:hidden}
+.result-stage .rs-glow{position:absolute;left:50%;top:18px;transform:translateX(-50%);width:200px;height:180px;background:radial-gradient(circle,rgba(255,206,95,.45),transparent 65%)}
+.result-stage .rs-art{position:relative;z-index:1;width:132px;margin:0 auto;animation:floaty 4s ease-in-out infinite}
+.result-stage .rs-art svg{width:100%;height:auto}
+.result-stage h2{position:relative;z-index:1;color:#FFF9EC;font-size:24px;font-weight:900;letter-spacing:1px;margin-top:6px;text-shadow:0 3px 0 rgba(10,5,20,.4)}
+.result-stage .rs-score{position:relative;z-index:1;display:inline-flex;align-items:center;gap:6px;margin-top:8px;background:rgba(255,255,255,.14);border:1.8px solid rgba(255,255,255,.32);color:#FFF3D6;border-radius:999px;padding:3px 11px;font-size:11.5px;font-weight:900;letter-spacing:.6px}
+.big-stars{display:flex;justify-content:center;gap:7px;margin:14px 0 4px}
+.big-stars svg{width:44px;height:44px;animation:pop .45s cubic-bezier(.2,.8,.2,1) both}
+.big-stars svg:nth-child(2){animation-delay:.12s}
+.big-stars svg:nth-child(3){animation-delay:.24s}
+.result-note{font-size:13.5px;line-height:1.7;color:var(--ink-soft);font-weight:700;margin:8px auto 0;max-width:320px}
+.result-actions{display:flex;flex-direction:column;gap:9px;margin-top:16px}
+.result-actions .row{display:flex;gap:9px}
+.result-actions .row .btn{flex:1}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:5;overflow:hidden}
+.confetti i{position:absolute;top:-16px;width:8px;height:12px;border-radius:2px;animation:fall 2.8s linear forwards}
+
+/* ---------- 細節與適配 ---------- */
+button:focus-visible,.wchip:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+@media (hover:hover){
+  .ticket:hover,.mode-card:hover,.entry-card:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--ink)}
+  .choice:hover,.sent-opt:hover,.type-opt:hover{border-color:var(--coral-deep)}
+}
+@media (max-width:359px){
+  #app{padding-left:12px;padding-right:12px}
+  .hero-art{flex-basis:96px;width:96px}
+  .hero-copy h1{font-size:25px}
+  .hero-badges span{font-size:9px;padding:2px 5px}
+  .ticket-badge{flex-basis:68px}
+  .ticket-badge b{font-size:19px}
+  .type-opt .to-t{font-size:11.5px}
+  .sentence-card p{font-size:17.5px}
+  .act-panel .ap-s{font-size:14.5px}
+  .vs-card .vc-s{font-size:14px}
+}
+@media (min-width:420px){
+  .hero-art{flex-basis:124px;width:124px}
+  .art-frame{height:216px}
+  .art-frame.small{height:162px}
+  .sentence-card p{font-size:20px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+}
+
+.compare-sep{text-align:center;font-size:10.5px;font-weight:900;color:var(--muted);letter-spacing:.8px;margin:-2px 0}
+.pill svg{width:12px;height:12px;flex:0 0 12px}
+.ticket-top .pill{gap:3px;padding:2px 7px;font-size:10.5px}
+.big-stars span{display:block;line-height:0}
+.fb-item div{flex:1;min-width:0}
+.entry-meta .pill svg{width:11px;height:11px}
+</style>
+</head>
+<body>
+<div id="app" data-generated-by="aurora-frontend-design"></div>
+<script>
+/* =========================================================
+   擬人小劇場 — 初小・高小分級擬人互動遊戲
+   ========================================================= */
+var INK = '#2B2440';
+
+var ART = {
+mascot: `
+<g stroke="#2B2440" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M45 36h32v56H45z" fill="#FFD05A"/>
+  <path d="M45 36h32v9H45z" fill="#F5B62F"/>
+  <path d="M45 92h32l-16 19z" fill="#F1D3AD"/>
+  <path d="M56.5 105.5l4.5 7 4.5-7z" fill="#3A3350"/>
+  <path d="M36 32c0-12 10-19 25-19s25 7 25 19z" fill="#EE6A55"/>
+  <path d="M36 32h50"/>
+  <circle cx="61" cy="9" r="3.4" fill="#FFC44D"/>
+  <circle cx="55" cy="57" r="2.9" fill="#2B2440" stroke="none"/>
+  <circle cx="67" cy="57" r="2.9" fill="#2B2440" stroke="none"/>
+  <path d="M55 66q6 5 12 0" fill="none"/>
+  <circle cx="48" cy="65" r="4.4" fill="#FFA8A8" stroke="none" opacity=".85"/>
+  <circle cx="74" cy="65" r="4.4" fill="#FFA8A8" stroke="none" opacity=".85"/>
+  <path d="M45 62l-11 8M77 62l11-8" fill="none"/>
+  <circle cx="33" cy="71" r="3.2" fill="#F1D3AD"/>
+  <circle cx="89" cy="53" r="3.2" fill="#F1D3AD"/>
+  <path d="M54 94v8M68 94v8" fill="none"/>
+  <path d="M49 102h9M64 102h9" fill="none"/>
+  <path d="M95 20l1.8 5.2L102 27l-5.2 1.8L95 34l-1.8-5.2L88 27l5.2-1.8z" fill="#FFC44D" stroke="none"/>
+</g>`,
+
+grass: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <ellipse cx="60" cy="100" rx="46" ry="8" fill="#CDE9B8"/>
+  <path d="M28 98c2-18 8-31 18-40" fill="none" stroke="#7FD08A" stroke-width="7"/>
+  <path d="M92 98c-2-18-8-31-18-40" fill="none" stroke="#7FD08A" stroke-width="7"/>
+  <path d="M39 98c1-14 5-24 11-31" fill="none" stroke="#A5E3A6" stroke-width="5"/>
+  <path d="M81 98c-1-14-5-24-11-31" fill="none" stroke="#A5E3A6" stroke-width="5"/>
+  <circle cx="60" cy="70" r="21" fill="#8AD693"/>
+  <path d="M52 74c-8-6-12-13-13-20M68 74c8-6 12-13 13-20" fill="none" stroke="#5FAF6B" stroke-width="4"/>
+  <circle cx="53" cy="68" r="2.6" fill="#2B2440" stroke="none"/>
+  <circle cx="67" cy="68" r="2.6" fill="#2B2440" stroke="none"/>
+  <path d="M55 77q5 4 10 0" fill="none"/>
+  <circle cx="47" cy="76" r="4" fill="#FFA8A8" stroke="none" opacity=".85"/>
+  <circle cx="73" cy="76" r="4" fill="#FFA8A8" stroke="none" opacity=".85"/>
+  <path d="M36 44l-4-5M84 44l4-5" stroke="#FFC44D" stroke-width="2.6"/>
+  <circle cx="24" cy="30" r="2" fill="#FFC44D" stroke="none"/>
+  <circle cx="96" cy="34" r="2" fill="#FFC44D" stroke="none"/>
+</g>`,
+
+flower: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M60 98V62" stroke="#5FAF6B" stroke-width="5"/>
+  <path d="M60 86c-9 0-15-5-16-12 10-1 15 4 16 12z" fill="#8AD693"/>
+  <path d="M60 92c9 0 15-5 16-12-10-1-15 4-16 12z" fill="#8AD693"/>
+  <circle cx="60" cy="24" r="13" fill="#FFB3C7"/>
+  <circle cx="79" cy="34" r="13" fill="#FFC9D8"/>
+  <circle cx="79" cy="53" r="13" fill="#FFB3C7"/>
+  <circle cx="60" cy="63" r="13" fill="#FFC9D8"/>
+  <circle cx="41" cy="53" r="13" fill="#FFB3C7"/>
+  <circle cx="41" cy="34" r="13" fill="#FFC9D8"/>
+  <circle cx="60" cy="43" r="16" fill="#FFD05A"/>
+  <circle cx="54" cy="41" r="2.6" fill="#2B2440" stroke="none"/>
+  <circle cx="66" cy="41" r="2.6" fill="#2B2440" stroke="none"/>
+  <path d="M55 50q5 5 10 0" fill="none"/>
+  <circle cx="48" cy="48" r="3.8" fill="#FF9A9A" stroke="none" opacity=".8"/>
+  <circle cx="72" cy="48" r="3.8" fill="#FF9A9A" stroke="none" opacity=".8"/>
+  <path d="M46 62c-6-3-10-8-11-13M74 62c6-3 10-8 11-13" fill="none" stroke="#5FAF6B" stroke-width="4"/>
+  <circle cx="34" cy="48" r="3" fill="#8AD693"/>
+  <circle cx="86" cy="48" r="3" fill="#8AD693"/>
+  <circle cx="24" cy="24" r="2" fill="#FFC44D" stroke="none"/>
+  <circle cx="96" cy="18" r="1.7" fill="#FFC44D" stroke="none"/>
+</g>`,
+
+sun: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M60 12v-7M60 104v-7M12 54H5M115 54h-7M26 20l-5-5M94 20l5-5M26 88l-5 5M94 88l5 5" stroke="#F5B62F" stroke-width="4.5"/>
+  <circle cx="60" cy="54" r="28" fill="#FFD05A"/>
+  <circle cx="51" cy="51" r="8.5" fill="#FFFDF7" opacity=".92"/>
+  <circle cx="69" cy="51" r="8.5" fill="#FFFDF7" opacity=".92"/>
+  <path d="M59.5 51h1" stroke-width="2.4"/>
+  <circle cx="51" cy="51" r="2.4" fill="#2B2440" stroke="none"/>
+  <circle cx="69" cy="51" r="2.4" fill="#2B2440" stroke="none"/>
+  <path d="M45 66q7-6 15 0q8-6 15 0" stroke="#FFFDF7" stroke-width="6" fill="none"/>
+  <path d="M54 77q6 5 12 0" fill="none"/>
+  <path d="M33 60q-4 4-3 9M87 60q4 4 3 9" stroke="#FFFDF7" stroke-width="4" fill="none"/>
+  <circle cx="38" cy="68" r="4" fill="#FFA8A8" stroke="none" opacity=".7"/>
+  <circle cx="82" cy="68" r="4" fill="#FFA8A8" stroke="none" opacity=".7"/>
+  <path d="M22 34l-3 3M98 34l3 3" stroke="#FFC44D" stroke-width="2.4"/>
+</g>`,
+
+cloud: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M20 72c-9 0-15-6-15-14s6-14 15-14c1-12 11-20 22-20 10 0 18 6 21 15 2-1 4-1 6-1 9 0 16 7 16 17s-7 17-16 17z" fill="#FFFFFF"/>
+  <circle cx="47" cy="55" r="2.6" fill="#2B2440" stroke="none"/>
+  <circle cx="61" cy="55" r="2.6" fill="#2B2440" stroke="none"/>
+  <path d="M49 64q5 4 10 0" fill="none"/>
+  <circle cx="39" cy="62" r="4" fill="#FFB3C7" stroke="none" opacity=".75"/>
+  <circle cx="69" cy="62" r="4" fill="#FFB3C7" stroke="none" opacity=".75"/>
+  <path d="M84 58q8-4 12-2" stroke-dasharray="3 4" fill="none"/>
+  <path d="M96 58v30" stroke="#C99A6B" stroke-width="4"/>
+  <circle cx="96" cy="42" r="12" fill="#FFB3C7"/>
+  <circle cx="85" cy="49" r="9" fill="#FFC9D8"/>
+  <circle cx="107" cy="49" r="9" fill="#FFC9D8"/>
+  <path d="M88 40c3-2 5-2 7 0M99 39c3-2 5-2 7 0" stroke-width="2" fill="none"/>
+  <path d="M91 46q4 3 8 0" stroke-width="2" fill="none"/>
+  <circle cx="24" cy="22" r="2" fill="#FFC44D" stroke="none"/>
+  <circle cx="108" cy="80" r="2" fill="#FFC44D" stroke="none"/>
+</g>`,
+
+dog: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <ellipse cx="58" cy="103" rx="36" ry="6" fill="#E8DFCF"/>
+  <path d="M38 96c-8-4-10-12-6-17 3 6 8 8 12 8" fill="#E8C79A"/>
+  <ellipse cx="56" cy="86" rx="22" ry="17" fill="#E8C79A"/>
+  <circle cx="56" cy="58" r="23" fill="#F0D3AC"/>
+  <ellipse cx="35" cy="60" rx="8" ry="14" fill="#C99A6B" transform="rotate(-14 35 60)"/>
+  <ellipse cx="77" cy="60" rx="8" ry="14" fill="#C99A6B" transform="rotate(14 77 60)"/>
+  <circle cx="49" cy="55" r="2.7" fill="#2B2440" stroke="none"/>
+  <circle cx="63" cy="55" r="2.7" fill="#2B2440" stroke="none"/>
+  <ellipse cx="56" cy="66" rx="9" ry="7" fill="#FFF6E8"/>
+  <ellipse cx="56" cy="62.5" rx="3.4" ry="2.6" fill="#2B2440" stroke="none"/>
+  <path d="M56 65v3M52 69q4 3 8 0" fill="none" stroke-width="2.2"/>
+  <path d="M54 71c0 5 4 7 4 7s4-2 4-7" fill="#FF8FA3"/>
+  <path d="M34 84c-6 2-9 6-9 9M78 84c6 2 9 6 9 9" fill="none"/>
+  <path d="M78 99c10 0 14-3 14-3" fill="none"/>
+  <path d="M86 92h20l-3 9H89z" fill="#FF8B6B"/>
+  <path d="M90 92c0-3 3-4 6-4s6 1 6 4" fill="#FFD05A"/>
+  <path d="M95 46c-8-2-12-8-10-14 2-5 8-6 11-2 3-4 9-3 10 2 2 6-3 12-11 14z" fill="#FFFFFF"/>
+  <text x="95" y="43" font-size="12" font-weight="900" fill="#2B2440" text-anchor="middle" font-family="sans-serif" stroke="none">?</text>
+</g>`,
+
+bird: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M8 100h104" stroke="#B57A4E" stroke-width="5"/>
+  <path d="M26 99c-2-8 2-14 8-16M96 99c2-6 0-11-5-14" fill="none" stroke="#8AD693" stroke-width="4"/>
+  <path d="M36 74L20 64l2 16z" fill="#F5B62F"/>
+  <ellipse cx="54" cy="72" rx="21" ry="17" fill="#FFD05A"/>
+  <circle cx="70" cy="52" r="15" fill="#FFD05A"/>
+  <path d="M84 52l10-4-10-5z" fill="#FF8B6B"/>
+  <circle cx="72" cy="48" r="2.6" fill="#2B2440" stroke="none"/>
+  <path d="M46 70c4-6 14-6 16 2-5 5-13 4-16-2z" fill="#F5B62F"/>
+  <path d="M74 63q4 2 6 0" fill="none" stroke-width="2"/>
+  <path d="M48 88v10M62 88v10M44 98h9M58 98h9" fill="none"/>
+  <path d="M88 30v10M91 32v8" stroke="#9A85F0" stroke-width="2.6"/>
+  <circle cx="88" cy="28" r="3" fill="#9A85F0"/>
+  <path d="M100 44v9M103 46v7" stroke="#57B6E6" stroke-width="2.4"/>
+  <circle cx="100" cy="42" r="2.6" fill="#57B6E6"/>
+</g>`,
+
+moon: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="60" cy="48" r="26" fill="#FFD86B"/>
+  <path d="M40 42c4-2 8-2 11 1M69 42c4-2 8-2 11 1" fill="none" stroke-width="2.4"/>
+  <path d="M47 62q6 4 12 0" fill="none"/>
+  <circle cx="44" cy="56" r="4.2" fill="#FFB3C7" stroke="none" opacity=".75"/>
+  <circle cx="76" cy="56" r="4.2" fill="#FFB3C7" stroke="none" opacity=".75"/>
+  <path d="M18 82c-7 0-11-5-11-11s4-10 11-10c1-9 8-15 16-15 7 0 12 4 14 10 1 0 2-1 4-1 7 0 12 5 12 12s-5 15-12 15z" fill="#FFFFFF"/>
+  <path d="M66 82c-5 0-9-4-9-9s4-8 9-8c1-7 6-11 12-11 5 0 9 3 11 7 1 0 2 0 3 0 5 0 9 4 9 9s-4 12-9 12z" fill="#F4FBFF"/>
+  <path d="M84 66q7-2 11 2" stroke-dasharray="3 4" fill="none"/>
+  <path d="M20 26l1.5 4L26 31.5 21.5 33 20 37l-1.5-4L14 31.5 18.5 30z" fill="#FFD86B" stroke="none"/>
+  <circle cx="98" cy="22" r="1.8" fill="#FFD86B" stroke="none"/>
+  <circle cx="30" cy="12" r="1.4" fill="#FFD86B" stroke="none"/>
+</g>`,
+
+clock: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M40 34l-8-9M80 34l8-9" fill="none"/>
+  <circle cx="32" cy="26" r="9" fill="#FFC44D"/>
+  <circle cx="88" cy="26" r="9" fill="#FFC44D"/>
+  <path d="M28 34h64" fill="none"/>
+  <circle cx="60" cy="66" r="30" fill="#E4F5FD"/>
+  <path d="M60 40v4M60 88v4M34 66h4M82 66h4" stroke-width="2.2"/>
+  <circle cx="51" cy="61" r="3" fill="#2B2440" stroke="none"/>
+  <circle cx="69" cy="61" r="3" fill="#2B2440" stroke="none"/>
+  <ellipse cx="60" cy="76" rx="8" ry="10" fill="#2B2440" stroke="none"/>
+  <ellipse cx="60" cy="80" rx="4.5" ry="4" fill="#FF8B9B" stroke="none"/>
+  <path d="M36 74l-10-6M84 74l10-6" fill="none"/>
+  <path d="M44 94l-5 9M76 94l5 9" fill="none"/>
+  <path d="M20 52l-6-3M100 52l6-3M22 82l-6 4M98 82l6 4" stroke="#FF8B6B" stroke-width="2.6"/>
+  <circle cx="24" cy="42" r="2" fill="#FFC44D" stroke="none"/>
+  <circle cx="98" cy="40" r="2" fill="#FFC44D" stroke="none"/>
+</g>`,
+
+stream: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M4 98c14-8 26-8 40 0s26 8 40 0 22-6 32-2v16H4z" fill="#9FDCF5"/>
+  <path d="M4 76c14-8 26-8 40 0s26 8 40 0 22-6 32-2v14c-10-4-20-4-32 2s-26 8-40 0-26-8-40 0z" fill="#6EC8EC"/>
+  <path d="M12 84c10-6 20-6 30 0M78 88c10-4 18-4 26 0" stroke="#DDF5FF" stroke-width="3" fill="none"/>
+  <circle cx="55" cy="80" r="12" fill="#8FD8F2"/>
+  <circle cx="51" cy="78" r="2.2" fill="#2B2440" stroke="none"/>
+  <circle cx="60" cy="78" r="2.2" fill="#2B2440" stroke="none"/>
+  <path d="M53 85q4 3 8 0" fill="none" stroke-width="2.2"/>
+  <path d="M43 88l-3 8M67 88l3 8" fill="none" stroke-width="2.2"/>
+  <path d="M80 48v12M84 50v9" stroke="#9A85F0" stroke-width="2.6"/>
+  <circle cx="80" cy="46" r="3" fill="#9A85F0"/>
+  <path d="M96 30v10M100 32v8" stroke="#57B6E6" stroke-width="2.4"/>
+  <circle cx="96" cy="28" r="2.8" fill="#57B6E6"/>
+  <path d="M30 60l-6-6M26 74l-8-2" stroke="#FFC44D" stroke-width="2.4"/>
+</g>`,
+
+tree: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <ellipse cx="60" cy="104" rx="42" ry="7" fill="#CDE9B8"/>
+  <path d="M52 100V64h16v36z" fill="#B57A4E"/>
+  <path d="M52 96c-8 4-14 6-18 6M68 96c8 4 14 6 18 6" fill="none" stroke="#8E5C36" stroke-width="4"/>
+  <circle cx="60" cy="46" r="26" fill="#7FD08A"/>
+  <circle cx="36" cy="56" r="17" fill="#8AD693"/>
+  <circle cx="84" cy="56" r="17" fill="#8AD693"/>
+  <circle cx="55" cy="48" r="2.7" fill="#2B2440" stroke="none"/>
+  <circle cx="67" cy="48" r="2.7" fill="#2B2440" stroke="none"/>
+  <path d="M55 57q6 4 12 0" fill="none"/>
+  <circle cx="47" cy="56" r="4" fill="#FFA8A8" stroke="none" opacity=".8"/>
+  <circle cx="73" cy="56" r="4" fill="#FFA8A8" stroke="none" opacity=".8"/>
+  <path d="M80 62c8-2 14-7 17-13" fill="none" stroke="#8E5C36" stroke-width="4"/>
+  <path d="M97 49l4-6M97 49l-1-7M97 49l-6-4" fill="none" stroke-width="2"/>
+  <circle cx="28" cy="42" r="5" fill="#FF7A6B"/>
+  <circle cx="86" cy="34" r="5" fill="#FF7A6B"/>
+  <circle cx="44" cy="30" r="4" fill="#FF7A6B"/>
+  <path d="M86 30q2-3 4-2" fill="none" stroke="#5FAF6B" stroke-width="2"/>
+</g>`,
+
+cat: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M82 100c12-2 18-12 14-22" fill="none" stroke-width="7"/>
+  <ellipse cx="60" cy="90" rx="23" ry="19" fill="#F4B36B"/>
+  <circle cx="60" cy="58" r="23" fill="#F8C382"/>
+  <path d="M42 42l-4-14 15 5z" fill="#F4B36B"/>
+  <path d="M78 42l4-14-15 5z" fill="#F4B36B"/>
+  <path d="M44 40l-2-7 7 2z" fill="#FFB3C7"/>
+  <path d="M76 40l2-7-7 2z" fill="#FFB3C7"/>
+  <path d="M48 55q4 3 8 0M64 55q4 3 8 0" fill="none" stroke-width="2.6"/>
+  <circle cx="52" cy="55" r="2.2" fill="#2B2440" stroke="none"/>
+  <circle cx="68" cy="55" r="2.2" fill="#2B2440" stroke="none"/>
+  <path d="M56 68q4-3 8 0" fill="none" stroke-width="2.4"/>
+  <path d="M62 63c0 3 3 4 3 4" fill="none" stroke-width="2"/>
+  <path d="M74 64c2 6 0 11-3 14-4 2-7-1-6-4 2 1 4-1 4-4 1-3 1-5 5-6z" fill="#7FD3F2"/>
+  <path d="M44 84c3 4 8 4 10 0M66 84c3 4 8 4 10 0" fill="none" stroke-width="2.2"/>
+  <path d="M40 72l-10 2M80 72l10 2" fill="none" stroke-width="2.4"/>
+  <circle cx="28" cy="34" r="2" fill="#9A85F0" stroke="none"/>
+  <circle cx="92" cy="30" r="2" fill="#9A85F0" stroke="none"/>
+</g>`
+,
+
+boat: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M4 96q7-5 14 0t14 0 14 0 14 0 14 0 14 0 14 0 14 0" fill="none" stroke="#57B6E6" stroke-width="4"/>
+  <path d="M8 106q7-5 14 0t14 0 14 0 14 0 14 0 14 0 14 0" fill="none" stroke="#9FDCF5" stroke-width="3"/>
+  <path d="M60 78V40" fill="none" stroke="#8E5C36" stroke-width="4"/>
+  <path d="M64 42l24 34H64z" fill="#FFF1CB"/>
+  <path d="M56 42L36 74h20z" fill="#FFB3C7"/>
+  <path d="M62 40l10 3-10 3z" fill="#EE6A55"/>
+  <path d="M28 78h64l-8 15H36z" fill="#EE6A55"/>
+  <circle cx="52" cy="83" r="1.9" fill="#FFF" stroke="none"/>
+  <circle cx="68" cy="83" r="1.9" fill="#FFF" stroke="none"/>
+  <path d="M56 89q4 3 8 0" fill="none" stroke="#FFF" stroke-width="2.2"/>
+  <path d="M30 80l-8-6M90 80l8-6" fill="none"/>
+  <path d="M86 34v11M90 36v8" stroke="#9A85F0" stroke-width="2.4"/>
+  <circle cx="86" cy="32" r="2.8" fill="#9A85F0"/>
+  <path d="M24 48v9M28 50v7" stroke="#FFC44D" stroke-width="2.2"/>
+  <circle cx="24" cy="46" r="2.6" fill="#FFC44D"/>
+</g>`,
+
+windField: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <ellipse cx="60" cy="104" rx="52" ry="9" fill="#CDE9B8"/>
+  <path d="M6 104c8-24 26-34 50-34" fill="none" stroke="#8AD693" stroke-width="5"/>
+  <path d="M62 104c2-18 8-30 18-38" fill="none" stroke="#7FD08A" stroke-width="5"/>
+  <path d="M82 69c3-12 2-22-2-30M88 69c5-12 5-22 2-30M76 70c0-10-2-17-6-23" fill="none" stroke="#5FAF6B" stroke-width="3.2"/>
+  <path d="M10 42c14-16 38-12 42 2 4 15-12 24-23 15-8-6-4-18 6-18 7 0 10 5 10 9" fill="none" stroke="#7FD3F2" stroke-width="4"/>
+  <circle cx="34" cy="47" r="11" fill="#E0F3FF"/>
+  <circle cx="31" cy="45" r="2" fill="#2B2440" stroke="none"/>
+  <circle cx="39" cy="45" r="2" fill="#2B2440" stroke="none"/>
+  <path d="M30 52q4 3 8 0" fill="none" stroke-width="2.2"/>
+  <circle cx="27" cy="51" r="2.8" fill="#FFB3C7" stroke="none" opacity=".8"/>
+  <circle cx="43" cy="51" r="2.8" fill="#FFB3C7" stroke="none" opacity=".8"/>
+  <path d="M50 40c8-6 18-7 26-4M52 54c10-3 18-2 24 2" stroke="#9FDCF5" stroke-width="3" stroke-dasharray="4 5" fill="none"/>
+  <circle cx="98" cy="30" r="2" fill="#FFC44D" stroke="none"/>
+  <circle cx="22" cy="24" r="2" fill="#FFC44D" stroke="none"/>
+  <path d="M92 92l3 6 6 2-6 2-3 6-2-6-6-2 6-2z" fill="#FFC44D" stroke="none"/>
+</g>`,
+
+lake: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="0" y="0" width="120" height="60" fill="#DFF2FF" stroke="none"/>
+  <path d="M8 62L34 30l14 18 12-14 20 28z" fill="#9FB3CE"/>
+  <path d="M50 62l18-26 16 12 12-8 16 22z" fill="#7F97B8"/>
+  <path d="M0 60h120v48H0z" fill="#9FDCF5" stroke="none"/>
+  <path d="M8 74L34 100l14-18 12 14 20-28z" fill="#7F97B8" opacity=".38" stroke="none"/>
+  <path d="M50 74l18 26 16-12 12 8 16-22z" fill="#6E86A8" opacity=".35" stroke="none"/>
+  <path d="M10 68h100" stroke-width="2.4"/>
+  <path d="M22 84h16M56 90h22M88 78h14" stroke="#EAF9FF" stroke-width="3"/>
+  <path d="M30 108q6-4 12 0t12 0 12 0 12 0" fill="none" stroke="#6EC8EC" stroke-width="2.6"/>
+  <circle cx="96" cy="22" r="8" fill="#FFD05A"/>
+  <path d="M96 10v-4M96 38v4M84 22h-4M112 22h4" stroke="#FFC44D" stroke-width="2.4"/>
+  <path d="M18 34l1.4 4 4 1.4-4 1.4L18 45l-1.4-4-4-1.4 4-1.4z" fill="#FFC44D" stroke="none"/>
+</g>`,
+
+lamp: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="60" cy="34" r="26" fill="#FFE9A8" opacity=".45" stroke="none"/>
+  <path d="M44 34c0-10 7-16 16-16s16 6 16 16z" fill="#57B6E6"/>
+  <path d="M42 34h36v26H42z" fill="#FFE9A8"/>
+  <path d="M42 60h36"/>
+  <circle cx="53" cy="45" r="2.4" fill="#2B2440" stroke="none"/>
+  <circle cx="67" cy="45" r="2.4" fill="#2B2440" stroke="none"/>
+  <path d="M54 52q6 4 12 0" fill="none" stroke-width="2.2"/>
+  <circle cx="47" cy="52" r="3.4" fill="#FFB3C7" stroke="none" opacity=".8"/>
+  <circle cx="73" cy="52" r="3.4" fill="#FFB3C7" stroke="none" opacity=".8"/>
+  <path d="M58 60v38" stroke-width="7"/>
+  <path d="M48 100h24" stroke-width="7"/>
+  <path d="M42 64q18 8 36 0" fill="none" stroke="#EE6A55" stroke-width="6"/>
+  <path d="M78 70l8 6-6 5" fill="none" stroke="#EE6A55" stroke-width="5"/>
+  <path d="M24 80l-4-4M96 76l4-4" stroke="#FFC44D" stroke-width="2.2"/>
+  <circle cx="26" cy="36" r="1.8" fill="#FFC44D" stroke="none"/>
+  <circle cx="94" cy="30" r="1.8" fill="#FFC44D" stroke="none"/>
+</g>`,
+
+rainWindow: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="14" y="12" width="92" height="92" rx="8" fill="#BFE6F7"/>
+  <rect x="22" y="20" width="76" height="76" rx="4" fill="#DFF2FF"/>
+  <path d="M60 20v76M22 58h76" stroke-width="4"/>
+  <path d="M36 36c0-5 4-9 8-9s8 4 8 9c0 5-8 12-8 12s-8-7-8-12z" fill="#57B6E6"/>
+  <circle cx="42" cy="35" r="1.6" fill="#FFF" stroke="none"/>
+  <circle cx="46" cy="35" r="1.6" fill="#FFF" stroke="none"/>
+  <path d="M40 39q3 2 6 0" stroke="#FFF" stroke-width="1.6" fill="none"/>
+  <path d="M76 62c0-5 4-9 8-9s8 4 8 9c0 5-8 12-8 12s-8-7-8-12z" fill="#57B6E6"/>
+  <circle cx="82" cy="61" r="1.6" fill="#FFF" stroke="none"/>
+  <circle cx="86" cy="61" r="1.6" fill="#FFF" stroke="none"/>
+  <path d="M80 65q3 2 6 0" stroke="#FFF" stroke-width="1.6" fill="none"/>
+  <path d="M46 70c0-4 3-7 6-7s6 3 6 7c0 4-6 10-6 10s-6-6-6-10z" fill="#57B6E6"/>
+  <circle cx="50" cy="70" r="1.3" fill="#FFF" stroke="none"/>
+  <circle cx="54" cy="70" r="1.3" fill="#FFF" stroke="none"/>
+  <path d="M40 30l-5-4M80 52l-5-4M52 80l-5-4" stroke="#57B6E6" stroke-width="2.2"/>
+  <path d="M24 98q5-4 10 0t10 0 10 0 10 0 10 0 10 0" fill="none" stroke="#57B6E6" stroke-width="3"/>
+</g>`,
+
+dadTea: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="8" y="86" width="104" height="8" rx="4" fill="#B57A4E"/>
+  <path d="M20 94v12M100 94v12" stroke-width="5"/>
+  <path d="M46 86V70c0-8 6-12 14-12s14 4 14 12v16z" fill="#57B6E6"/>
+  <circle cx="60" cy="42" r="17" fill="#FFE3CC"/>
+  <path d="M42 40c0-12 8-19 18-19s18 7 18 19c-4-6-8-8-12-9-5 4-16 5-24 2z" fill="#4A3A32"/>
+  <circle cx="54" cy="43" r="2.2" fill="#2B2440" stroke="none"/>
+  <circle cx="66" cy="43" r="2.2" fill="#2B2440" stroke="none"/>
+  <path d="M55 50q5 4 10 0" fill="none" stroke-width="2.2"/>
+  <path d="M44 62l-12 12M76 62l12 10" fill="none" stroke="#FFE3CC" stroke-width="6"/>
+  <path d="M88 72h14v9H88z" fill="#FFFDF7"/>
+  <path d="M102 74c5 0 5 6 0 6" fill="none"/>
+  <path d="M92 66c-2-3 2-5 0-8M98 66c-2-3 2-5 0-8" stroke="#9FB3CE" stroke-width="2" fill="none"/>
+  <path d="M14 84h34v-6H14z" fill="#FFF1CB"/>
+  <path d="M16 78h30M17 82h26" stroke-width="1.6"/>
+</g>`
+,
+
+leaf: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M14 84c14-16 30-22 44-18" fill="none" stroke="#9FDCF5" stroke-width="3" stroke-dasharray="5 6"/>
+  <path d="M84 22c4 12 2 26-8 36-10 10-24 12-34 8-4-12-2-26 8-36 10-10 24-12 34-8z" fill="#F5A24B"/>
+  <path d="M42 66c10-8 22-18 36-34" fill="none" stroke="#C97A2E" stroke-width="2.6"/>
+  <path d="M52 56l-2-9M60 48l-1-9M68 40l6 6" fill="none" stroke="#C97A2E" stroke-width="2"/>
+  <circle cx="60" cy="50" r="2.4" fill="#2B2440" stroke="none"/>
+  <circle cx="72" cy="42" r="2.4" fill="#2B2440" stroke="none"/>
+  <path d="M64 56q4 3 8 0" fill="none" stroke-width="2.2"/>
+  <circle cx="56" cy="56" r="3.4" fill="#FF9A9A" stroke="none" opacity=".8"/>
+  <circle cx="76" cy="48" r="3.4" fill="#FF9A9A" stroke="none" opacity=".8"/>
+  <path d="M44 68l-8 8M70 62l6 10" fill="none"/>
+  <ellipse cx="33" cy="79" rx="7" ry="4" fill="#57B6E6" transform="rotate(-28 33 79)"/>
+  <ellipse cx="79" cy="75" rx="7" ry="4" fill="#57B6E6" transform="rotate(28 79 75)"/>
+  <path d="M92 62l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#FFC44D" stroke="none"/>
+  <circle cx="24" cy="30" r="2" fill="#FFC44D" stroke="none"/>
+</g>`,
+
+oldHouse: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M20 96V54L60 22l40 32v42z" fill="#F0DCB8"/>
+  <path d="M12 56L60 16l48 40-6 7-42-35-42 35z" fill="#C97A5B"/>
+  <rect x="36" y="62" width="14" height="12" rx="2" fill="#FFF6D8"/>
+  <rect x="70" y="62" width="14" height="12" rx="2" fill="#FFF6D8"/>
+  <path d="M36 68h14M70 68h14" stroke-width="2"/>
+  <circle cx="41" cy="67" r="1.6" fill="#2B2440" stroke="none"/>
+  <circle cx="46" cy="67" r="1.6" fill="#2B2440" stroke="none"/>
+  <circle cx="75" cy="67" r="1.6" fill="#2B2440" stroke="none"/>
+  <circle cx="80" cy="67" r="1.6" fill="#2B2440" stroke="none"/>
+  <path d="M50 94V80c0-6 4-9 10-9s10 3 10 9v14z" fill="#8E5C36"/>
+  <path d="M54 86c2 2 4 2 6 0" fill="none" stroke="#F0DCB8" stroke-width="2.4"/>
+  <path d="M86 70c6-2 8 2 6 5s-8 1-6-2" fill="none" stroke="#B9CBDD" stroke-width="2.4"/>
+  <path d="M94 58c8-2 11 3 8 7s-10 1-8-3" fill="none" stroke="#B9CBDD" stroke-width="2.6"/>
+  <text x="101" y="52" font-size="11" font-weight="900" fill="#2B2440" font-family="sans-serif" stroke="none">咳</text>
+  <path d="M18 18l-3 8M30 12l-2 7M100 20l-2 7" stroke="#57B6E6" stroke-width="2.4"/>
+  <path d="M8 100h104" stroke-width="4"/>
+  <path d="M26 100c2-6 6-8 10-8M82 100c2-6 6-8 10-8" fill="none" stroke="#8AD693" stroke-width="3"/>
+</g>`,
+
+book: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M60 40c-8-8-20-10-32-8v50c12-2 24 0 32 8z" fill="#FFFDF7"/>
+  <path d="M60 40c8-8 20-10 32-8v50c-12-2-24 0-32 8z" fill="#FFF6E0"/>
+  <path d="M60 40v50" stroke-width="2.6"/>
+  <path d="M34 46c6-1 12 0 17 3M34 56c6-1 12 0 17 3M69 49c5-3 11-4 17-3M69 59c5-3 11-4 17-3" fill="none" stroke="#C9BFA8" stroke-width="2"/>
+  <circle cx="49" cy="66" r="2.4" fill="#2B2440" stroke="none"/>
+  <circle cx="71" cy="66" r="2.4" fill="#2B2440" stroke="none"/>
+  <path d="M54 73q6 4 12 0" fill="none"/>
+  <circle cx="42" cy="72" r="4" fill="#FFB3C7" stroke="none" opacity=".8"/>
+  <circle cx="78" cy="72" r="4" fill="#FFB3C7" stroke="none" opacity=".8"/>
+  <path d="M30 78l-6 8M90 78l6 8" fill="none" stroke="#FFD05A" stroke-width="5"/>
+  <circle cx="24" cy="88" r="3" fill="#FFE3CC"/>
+  <circle cx="96" cy="88" r="3" fill="#FFE3CC"/>
+  <path d="M76 22h30a4 4 0 014 4v12a4 4 0 01-4 4H84l-6 6v-6h-2a4 4 0 01-4-4V26a4 4 0 014-4z" fill="#FFFDF7"/>
+  <text x="93" y="35" font-size="8.2" font-weight="900" fill="#2B2440" text-anchor="middle" font-family="sans-serif" stroke="none">快來讀我！</text>
+  <path d="M18 26l1.6 4.4L24 32l-4.4 1.6L18 38l-1.6-4.4L12 32l4.4-1.6z" fill="#FFC44D" stroke="none"/>
+</g>`,
+
+star: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M60 18l10.5 24 26 2.6-19.6 17.6 5.6 25.6L60 74.4 37.5 87.8l5.6-25.6L23.5 44.6l26-2.6z" fill="#FFD05A"/>
+  <circle cx="52" cy="52" r="2.7" fill="#2B2440" stroke="none"/>
+  <path d="M66 49q4 3 0 6" fill="none" stroke-width="2.6"/>
+  <path d="M54 62q6 5 12 0" fill="none"/>
+  <circle cx="45" cy="60" r="4" fill="#FFA8A8" stroke="none" opacity=".8"/>
+  <circle cx="75" cy="60" r="4" fill="#FFA8A8" stroke="none" opacity=".8"/>
+  <path d="M32 68l-9 5M88 68l9 5" fill="none" stroke="#F5B62F" stroke-width="5"/>
+  <circle cx="21" cy="74" r="2.8" fill="#FFD05A"/>
+  <circle cx="99" cy="74" r="2.8" fill="#FFD05A"/>
+  <path d="M18 22l1.6 4.4L24 28l-4.4 1.6L18 34l-1.6-4.4L12 28l4.4-1.6z" fill="#FFC44D" stroke="none"/>
+  <circle cx="100" cy="24" r="2" fill="#FFC44D" stroke="none"/>
+  <circle cx="104" cy="40" r="1.4" fill="#FFC44D" stroke="none"/>
+</g>`,
+
+wind: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M8 34c10-14 32-12 38 2 5 12-8 20-17 14-7-5-4-15 4-15" fill="#DFF2FF"/>
+  <path d="M24 48c-7 0-12-4-12-9" fill="none"/>
+  <circle cx="30" cy="40" r="2.2" fill="#2B2440" stroke="none"/>
+  <circle cx="40" cy="40" r="2.2" fill="#2B2440" stroke="none"/>
+  <path d="M28 32q4-4 8 0M36 32q4-4 8 0" fill="none" stroke-width="2.2"/>
+  <ellipse cx="43" cy="50" rx="4" ry="5" fill="#2B2440" stroke="none"/>
+  <path d="M52 30c12-5 24-3 32 4M54 44c12-3 22 0 28 5M50 58c10-2 18 0 24 4" fill="none" stroke="#7FD3F2" stroke-width="3.2" stroke-dasharray="5 5"/>
+  <rect x="84" y="58" width="28" height="34" rx="3" fill="#BFE6F7"/>
+  <path d="M98 58v34M84 74h28" stroke-width="2.6"/>
+  <path d="M80 50l-4 6M78 66l-5 3M80 84l-4 6" stroke="#FF8B6B" stroke-width="2.6"/>
+  <circle cx="102" cy="20" r="2" fill="#FFC44D" stroke="none"/>
+  <path d="M14 74l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#FFC44D" stroke="none"/>
+</g>`,
+
+sunflower: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M60 102V62" stroke="#5FAF6B" stroke-width="5"/>
+  <path d="M60 88c-10 0-16-5-17-12 10-1 16 4 17 12z" fill="#8AD693"/>
+  <path d="M60 92c9 0 15-4 16-11-9-1-15 3-16 11z" fill="#8AD693"/>
+  <circle cx="60" cy="20" r="10" fill="#FFC44D"/>
+  <circle cx="80" cy="26" r="10" fill="#FFC44D"/>
+  <circle cx="86" cy="46" r="10" fill="#FFC44D"/>
+  <circle cx="72" cy="60" r="10" fill="#FFC44D"/>
+  <circle cx="48" cy="60" r="10" fill="#FFC44D"/>
+  <circle cx="34" cy="46" r="10" fill="#FFC44D"/>
+  <circle cx="40" cy="26" r="10" fill="#FFC44D"/>
+  <circle cx="60" cy="42" r="19" fill="#C98A4B"/>
+  <path d="M50 40q4-3 8 0M66 40q4-3 8 0" fill="none" stroke="#2B2440" stroke-width="2.4"/>
+  <path d="M55 50q5 3 10 0" fill="none" stroke="#2B2440" stroke-width="2.2"/>
+  <circle cx="47" cy="48" r="5" fill="#FF9A9A" stroke="none" opacity=".85"/>
+  <circle cx="73" cy="48" r="5" fill="#FF9A9A" stroke="none" opacity=".85"/>
+  <path d="M42 62c-5-2-8-6-9-10M78 62c5-2 8-6 9-10" fill="none" stroke="#5FAF6B" stroke-width="4"/>
+  <path d="M33 52l-3-2M87 52l3-2" stroke="#5FAF6B" stroke-width="2.6"/>
+</g>`,
+
+windGirl: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M54 96c-12 0-20-8-20-18 0-8 4-12 8-16 1 6 4 9 8 11 0-8 3-12 7-16 3 10 8 14 14 18 7 5 11 10 11 17 0 10-9 16-20 16z" fill="#9A85F0"/>
+  <circle cx="62" cy="44" r="16" fill="#FFE3CC"/>
+  <path d="M46 44c0-12 7-19 17-19 9 0 16 6 17 16-6-4-11-5-17-5-5 0-11 3-17 8z" fill="#6B4F3A"/>
+  <path d="M44 40c-12-2-20 6-20 18 0 8 4 14 10 18-2-10 2-18 10-22z" fill="#6B4F3A"/>
+  <path d="M78 40c10 0 16 8 14 18-1 7-5 11-10 14 2-8 0-16-6-21z" fill="#6B4F3A"/>
+  <path d="M52 44q3-2 6 0M65 44q3-2 6 0" fill="none" stroke-width="2.2"/>
+  <path d="M56 52q5 3 10 0" fill="none" stroke-width="2.2"/>
+  <circle cx="48" cy="50" r="4" fill="#FFA8A8" stroke="none" opacity=".8"/>
+  <circle cx="75" cy="50" r="4" fill="#FFA8A8" stroke="none" opacity=".8"/>
+  <path d="M50 64l-8 12M74 64l8 12" fill="none" stroke="#FFE3CC" stroke-width="5"/>
+  <path d="M18 30c8-6 16-6 22 0M10 48c8-4 14-4 20 0M96 70c6-3 12-2 16 2" fill="none" stroke="#9FDCF5" stroke-width="3" stroke-dasharray="4 5"/>
+  <path d="M22 78l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#FFC44D" stroke="none"/>
+  <circle cx="100" cy="34" r="2" fill="#FFC44D" stroke="none"/>
+</g>`,
+
+lotus: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <ellipse cx="60" cy="102" rx="50" ry="9" fill="#9FDCF5"/>
+  <path d="M10 96q10-5 20 0t20 0 20 0 20 0" fill="none" stroke="#6EC8EC" stroke-width="3"/>
+  <ellipse cx="86" cy="88" rx="20" ry="8" fill="#7FD08A"/>
+  <path d="M86 88l-8-6M86 88l8-5" stroke="#5FAF6B" stroke-width="2"/>
+  <path d="M60 94V62" stroke="#5FAF6B" stroke-width="5"/>
+  <path d="M60 66c-8-10-8-22 0-30 8 8 8 20 0 30z" fill="#FFC9D8"/>
+  <path d="M60 68c-12-4-18-14-16-24 11 2 18 12 16 24z" fill="#FFB3C7"/>
+  <path d="M60 68c12-4 18-14 16-24-11 2-18 12-16 24z" fill="#FFB3C7"/>
+  <path d="M60 70c-14 0-22-8-22-18 12-1 21 7 22 18z" fill="#FFC9D8"/>
+  <path d="M60 70c14 0 22-8 22-18-12-1-21 7-22 18z" fill="#FFC9D8"/>
+  <circle cx="60" cy="62" r="12" fill="#FFE9A8"/>
+  <path d="M55 59q3-2 5 0M65 59q3-2 5 0" fill="none" stroke-width="2"/>
+  <path d="M56 67q4 2 8 0" fill="none" stroke-width="2"/>
+  <circle cx="51" cy="65" r="3" fill="#FF9A9A" stroke="none" opacity=".85"/>
+  <circle cx="69" cy="65" r="3" fill="#FF9A9A" stroke="none" opacity=".85"/>
+  <path d="M52 72c-5 0-8-3-9-6M68 72c5 0 8-3 9-6" fill="none" stroke="#5FAF6B" stroke-width="3"/>
+  <path d="M24 44l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#FFC44D" stroke="none"/>
+  <circle cx="98" cy="30" r="2" fill="#FFC44D" stroke="none"/>
+</g>`,
+
+moonPlate: `
+<g stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="60" cy="52" r="30" fill="#FFF3D0"/>
+  <circle cx="60" cy="52" r="36" fill="none" stroke="#E8D9AE" stroke-width="2"/>
+  <circle cx="50" cy="44" r="5" fill="#EBD9A8" stroke="none"/>
+  <circle cx="70" cy="58" r="7" fill="#EBD9A8" stroke="none"/>
+  <circle cx="56" cy="66" r="3.6" fill="#EBD9A8" stroke="none"/>
+  <circle cx="72" cy="38" r="3" fill="#EBD9A8" stroke="none"/>
+  <path d="M18 24l1.6 4.4L24 30l-4.4 1.6L18 36l-1.6-4.4L12 30l4.4-1.6z" fill="#FFD05A" stroke="none"/>
+  <circle cx="98" cy="26" r="2" fill="#FFD05A" stroke="none"/>
+  <circle cx="26" cy="86" r="1.6" fill="#FFD05A" stroke="none"/>
+  <path d="M8 100h104" stroke="#6E86A8" stroke-width="3"/>
+</g>`
+};
+
+var ART_BG = {
+  mascot:'#FFF1C9', grass:'#EAF8E8', flower:'#FFF1F4', sun:'#FFF4D9',
+  cloud:'#E8F5FF', dog:'#FFF6E8', bird:'#EAF8F1', moon:'#E4F3FF',
+  clock:'#EAF6FF', stream:'#EAF8F5', tree:'#EFF9E8', cat:'#FFF4EA',
+  boat:'#E4F3FF', windField:'#FFF6D9', lake:'#E4F3FF', lamp:'#EDF3FF',
+  rainWindow:'#EAF6FF', dadTea:'#FFF1E8', leaf:'#FFF6E8', oldHouse:'#FFF3E8',
+  book:'#FFF6EA', star:'#2F2E55', wind:'#E0F3FF', sunflower:'#FFF8E0',
+  windGirl:'#EFEAFF', lotus:'#EAF8EE', moonPlate:'#232A4D'
+};
+
+function artSVG(name, noBg){
+  var bg = ART_BG[name] || '#F4FAFF';
+  return '<svg class="art" viewBox="0 0 120 120" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+    (noBg ? '' : '<rect width="120" height="120" fill="' + bg + '"/>') + (ART[name] || '') + '</svg>';
+}
+function art(name, cls, cap){
+  return '<div class="' + (cls || 'art-frame') + '" style="background:' + (ART_BG[name] || '#F4FAFF') + '">' +
+    artSVG(name) + (cap ? '<span class="art-cap">' + cap + '</span>' : '') + '</div>';
+}
+
+/* ---------------- 圖示 ---------------- */
+var ICON = {
+  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
+  arrowR:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>',
+  sound:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.4L13 19V5L7.4 9.5H4z"/><path d="M16.5 9a4.5 4.5 0 010 6"/><path d="M19 6.5a8 8 0 010 11"/></svg>',
+  mute:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.4L13 19V5L7.4 9.5H4z"/><path d="M17 10l4 4M21 10l-4 4"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>',
+  cross:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  bulb:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 00-3.5 10.8c.6.5 1 1.2 1 2h5c0-.8.4-1.5 1-2A6 6 0 0012 3z"/></svg>',
+  book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 016.5 3H20v16H7a3 3 0 00-3 3z"/><path d="M4 5.5V22"/><path d="M8 7h8M8 11h6"/></svg>',
+  play:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.5l12 7.5-12 7.5z"/></svg>',
+  star:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4 6.2 20.4l1.1-6.4L2.6 9.4l6.5-.9z" fill="currentColor" stroke="#2B2440" stroke-width="1.7" stroke-linejoin="round"/></svg>',
+  starEmpty:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.4 6.2 20.4l1.1-6.4L2.6 9.4l6.5-.9z" fill="#E9DFCE" stroke="#2B2440" stroke-width="1.7" stroke-linejoin="round"/></svg>',
+  retry:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10a8 8 0 111.5 6.5"/><path d="M4 4v6h6"/></svg>',
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5L12 4l8 6.5V20a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1z"/></svg>',
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>',
+  run:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="4.5" r="2"/><path d="M12 9l-3 4 3 2 1 5M12 9l4 2 3-1M9 13l-4 1M13 15l-4 4"/></svg>',
+  speak:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5h16v11H9l-5 4z"/><path d="M8 9h8M8 12.5h5"/></svg>',
+  heart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-8-4.8-8-10a4.5 4.5 0 018-2.8A4.5 4.5 0 0120 10c0 5.2-8 10-8 10z"/></svg>',
+  crown:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18h16l1-10-5 3-4-6-4 6-5-3z"/><path d="M4 21h16"/></svg>',
+  mask:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5c3-1.5 6-1.5 9 0v5c0 4-2 7-4.5 7S3 14 3 10z"/><path d="M12 5c3-1.5 6-1.5 9 0v5c0 4-2 7-4.5 7S12 14 12 10z"/><path d="M5.5 8.5h.01M8.5 8.5h.01M15.5 8.5h.01M18.5 8.5h.01"/></svg>',
+  eye:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+  cards:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3" width="13" height="16" rx="2"/><path d="M4 7v12a2 2 0 002 2h9"/><path d="M10 7h7M10 10.5h7"/></svg>',
+  spark:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.2 5.8 5.8 2.2-5.8 2.2L12 18.5l-2.2-5.8L4 10.5l5.8-2.2z"/><path d="M19 16l.9 2.3 2.3.9-2.3.9L19 22.4l-.9-2.3-2.3-.9 2.3-.9z"/></svg>',
+  curtain:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18M5 4c0 6 1 12 3 17M19 4c0 6-1 12-3 17M9 4c0 5 .5 9 1 13M15 4c0 5-.5 9-1 13"/><path d="M3 21h18"/></svg>'
+};
+
+function stars(n){
+  var out = '';
+  for(var i=0;i<3;i++) out += '<span style="color:' + (i<n?'#FFC44D':'#E9DFCE') + '">' + ICON.star + '</span>';
+  return out;
+}
+
+/* ---------------- 版本與題目 ---------------- */
+var VERSIONS = {
+  junior:{
+    key:'junior', name:'初小版', range:'P1–P3', years:'小一至小三', caseNo:'第一幕',
+    desc:'用最短的句子，看懂「物」怎樣做「人」的事。',
+    chips:['短句','生活事物','四種人味'],
+    art:'mascot', learnArt:'flower',
+    note:'小提示：擬人不是比喻。句子裏沒有「喻體」，而是讓事物做出人的動作、說話、表情或擁有人的身份。'
+  },
+  senior:{
+    key:'senior', name:'高小版', range:'P4–P6', years:'小四至小六', caseNo:'第二幕',
+    desc:'讀長句，分辨擬人、比喻與借喻，還要看穿混合句和四個陷阱。',
+    chips:['長句','擬人・比喻・借喻','混合句辨析'],
+    art:'windGirl', learnArt:'lotus',
+    note:'小提示：借喻是「換了名字」，擬人是「給了人性」。兩者都沒有「像」，但走的路完全不同。'
+  }
+};
+
+var MODES = {
+  a:{ key:'a', name:'是擬人嗎？', short:'判斷', desc:'判斷句子有沒有把物當人', icon:'check' },
+  b:{ key:'b', name:'找出擬人句', short:'三選一', desc:'三句中找出唯一用了擬人的一句', icon:'search' },
+  c:{ key:'c', name:'演技大考驗', short:'分類', desc:'看看句子用了哪一種「人味」', icon:'mask' }
+};
+
+var DATA = {
+  junior:{
+    a:[
+      { art:'tree', s:'小樹伸了個懶腰。', ok:true,
+        why:'「伸懶腰」是人的動作。句子把小樹當作人，所以是擬人句。' },
+      { art:'flower', s:'花兒開了。', ok:false,
+        why:'這句只是告訴我們花開了。花沒有做人的動作、說話或表情，所以不是擬人，只是普通描寫。' },
+      { art:'sun', s:'太陽公公在天空微笑。', ok:true,
+        why:'「公公」是人的稱呼，「微笑」是人的表情。句子把太陽當成長輩來寫，所以是擬人句。' },
+      { art:'cloud', s:'白雲像棉花糖。', ok:false,
+        why:'這句是比喻：本體「白雲」＋「像」＋喻體「棉花糖」。它只是把白雲比作棉花糖，沒有把白雲當作人。' },
+      { art:'dog', s:'小狗好像餓了。', ok:false,
+        why:'「好像」只是人在猜想，句中沒有給小狗人的動作、說話或心情，所以不是擬人。' },
+      { art:'bird', s:'小鳥在樹上唱歌。', ok:true,
+        why:'「唱歌」是人的行為。句子把小鳥當作人來寫，所以是擬人句。' }
+    ],
+    b:[
+      { art:'tree', options:[
+        { s:'大樹長得很高。', ok:false, why:'只是描寫大樹的高度，沒有人的動作或心情。' },
+        { s:'大樹向我們點頭。', ok:true, why:'「點頭」是人的動作，把大樹當作人。' },
+        { s:'大樹像一把大傘。', ok:false, why:'這是比喻，有喻體「大傘」。' }
+      ]},
+      { art:'moon', options:[
+        { s:'月亮升起來了。', ok:false, why:'只是描寫月亮升起，沒有把月亮當作人。' },
+        { s:'月亮像小船。', ok:false, why:'這是比喻，有喻體「小船」。' },
+        { s:'月亮躲進雲裏。', ok:true, why:'「躲」是人的動作，把月亮當作人。' }
+      ]},
+      { art:'sunflower', options:[
+        { s:'向日葵向着太陽微笑。', ok:true, why:'「微笑」是人的表情，把向日葵當作人。' },
+        { s:'向日葵長得很高。', ok:false, why:'只是描寫向日葵的高度，沒有人的動作或心情。' },
+        { s:'向日葵像一個小太陽。', ok:false, why:'這是比喻，有喻體「小太陽」。' }
+      ]},
+      { art:'clock', options:[
+        { s:'鬧鐘響了。', ok:false, why:'只是描寫鬧鐘發出聲音，沒有人的動作。' },
+        { s:'鬧鐘像圓圓的臉。', ok:false, why:'這是比喻，有喻體「圓圓的臉」。' },
+        { s:'鬧鐘大聲叫我起床。', ok:true, why:'「大聲叫」是人的說話方式，把鬧鐘當作人。' }
+      ]},
+      { art:'stream', options:[
+        { s:'小溪唱着歌跑下山。', ok:true, why:'「唱歌」和「跑」都是人的行為，把小溪當作人。' },
+        { s:'小溪的水很清。', ok:false, why:'只是描寫溪水清澈，沒有人的動作。' },
+        { s:'小溪像一條藍絲帶。', ok:false, why:'這是比喻，有喻體「藍絲帶」。' }
+      ]},
+      { art:'rainWindow', options:[
+        { s:'雨下得很大。', ok:false, why:'只是描寫雨勢，沒有人的動作或心情。' },
+        { s:'雨點在窗上跳舞。', ok:true, why:'「跳舞」是人的動作，把雨點當作人。' },
+        { s:'雨點像一顆顆珍珠。', ok:false, why:'這是比喻，有喻體「珍珠」。' }
+      ]}
+    ],
+    c:[
+      { art:'bird', s:'小鳥說：「早安！」', ans:1,
+        why:'小鳥像人一樣開口說話，所以這是「會說話」型擬人。' },
+      { art:'star', s:'星星在夜空眨眼睛。', ans:0,
+        why:'「眨眼睛」是人的動作，所以這是「人的動作」型擬人。' },
+      { art:'sun', s:'太陽公公是天空的守護者。', ans:3,
+        why:'「公公」和「守護者」都是人的身份稱呼，句子把太陽當成一位長輩來寫，所以這是「人的身份」型擬人。' },
+      { art:'flower', s:'花兒傷心地哭了。', ans:2,
+        why:'「傷心」是人的心情，「哭」是人的表情，所以這是「表情和心情」型擬人。' },
+      { art:'cloud', s:'白雲說：「帶我去旅行吧！」', ans:1,
+        why:'白雲像人一樣開口說話，所以這是「會說話」型擬人。' },
+      { art:'boat', s:'小船在湖上跳舞。', ans:0,
+        why:'「跳舞」是人的動作，所以這是「人的動作」型擬人。' }
+    ]
+  },
+
+  senior:{
+    a:[
+      { art:'windField', s:'春風輕輕走過田野，替小草梳好了頭髮。', ok:true,
+        why:'「走過」和「梳頭髮」都是人的動作。主體「春風」不是人，卻做了人的事，所以是擬人句。' },
+      { art:'lake', s:'清晨的湖面平靜得像一面鏡子，映着遠處的山影。', ok:false,
+        why:'這是比喻：本體「湖面」＋「像」＋喻體「鏡子」。句子只寫湖面平靜，沒有給湖面人的動作或心情，所以不是擬人。' },
+      { art:'cat', s:'小貓好像肚子餓了，一直望着我。', ok:false,
+        why:'「望着我」是貓真實會做的動作；「好像」只是人在猜牠的狀況。句子沒有讓小貓說話，也沒有給牠人的心情，所以不是擬人。' },
+      { art:'lamp', s:'夜深了，路燈默默地站着，守護晚歸的人。', ok:true,
+        why:'「默默地站着」和「守護」是人的行為和情意。路燈不是人，卻像人一樣堅守，所以是擬人句。' },
+      { art:'rainWindow', s:'雨點在窗上叮叮咚咚地敲門，急着要進來。', ok:true,
+        why:'「敲門」是人的動作，「急着」是人的心情。句子把雨點當作人來寫，所以是擬人句。' },
+      { art:'dadTea', s:'爸爸把報紙放在桌上，喝了一口茶。', ok:false,
+        why:'句子的主體「爸爸」本來就是人，做的事也是人會做的事，沒有把「物」當作人，所以不是擬人。' }
+    ],
+    b:[
+      { art:'leaf', options:[
+        { s:'落葉像一隻隻金色的蝴蝶。', ok:false, why:'這是明喻，有喻體「蝴蝶」，不是擬人。' },
+        { s:'秋風一吹，落葉便穿上金黃的舞衣，在空中轉圈。', ok:true, why:'「穿上舞衣」「轉圈」都是人的動作，把落葉寫成跳舞的人。' },
+        { s:'落葉鋪滿了整條小路。', ok:false, why:'只是描寫落葉的數量，沒有人的動作或心情。' }
+      ]},
+      { art:'oldHouse', options:[
+        { s:'老屋在雨裏咳嗽了幾聲。', ok:true, why:'「咳嗽」是人的動作，把老屋寫成一個會生病的人。' },
+        { s:'老屋的牆上長滿了青苔。', ok:false, why:'只是描寫老屋的樣子，沒有把老屋當作人。' },
+        { s:'老屋是一間用石頭砌成的房子。', ok:false, why:'只是說明老屋的構造，沒有擬人。' }
+      ]},
+      { art:'clock', options:[
+        { s:'時間過得真快。', ok:false, why:'只是說出對時間的感覺，沒有人的動作。' },
+        { s:'時間像流水一樣。', ok:false, why:'這是比喻，有喻體「流水」。' },
+        { s:'時間邁着沉重的腳步往前走。', ok:true, why:'「邁着腳步」是人的動作，把時間寫成一個會走路的人。' }
+      ]},
+      { art:'book', options:[
+        { s:'書本對我說：「快來翻開我吧！」', ok:true, why:'「對我說」是人的說話方式，把書本當作人。' },
+        { s:'書本整齊地排放在書架上。', ok:false, why:'只是描寫書本的擺放，沒有人的動作。' },
+        { s:'書本像一座知識的寶庫。', ok:false, why:'這是比喻，有喻體「寶庫」。' }
+      ]},
+      { art:'star', options:[
+        { s:'星星一閃一閃的。', ok:false, why:'只是描寫星星閃爍，沒有人的動作。' },
+        { s:'星星像一顆顆鑽石。', ok:false, why:'這是比喻，有喻體「鑽石」。' },
+        { s:'星星在夜空中眨着眼睛。', ok:true, why:'「眨眼睛」是人的動作，把星星當作人。' }
+      ]},
+      { art:'wind', options:[
+        { s:'北風很大，吹得樹枝搖來搖去。', ok:false, why:'只是描寫風力和樹枝的擺動，沒有把北風當作人。' },
+        { s:'北風呼呼地吼叫，把窗子拍得啪啪響。', ok:true, why:'「吼叫」和「拍」都是人的動作，把北風寫成一個發脾氣的人。' },
+        { s:'北風像一把鋒利的刀。', ok:false, why:'這是比喻，有喻體「刀」。' }
+      ]}
+    ],
+    c:[
+      { art:'wind', s:'風兒在耳邊輕輕地說着悄悄話。', ans:1,
+        why:'「說着悄悄話」是人的說話方式，所以屬於「人的語言」型擬人。' },
+      { art:'tree', s:'森林裏的老樹是一位慈祥的爺爺。', ans:3,
+        why:'「爺爺」是人的身份，句子把老樹當成一位長輩，所以屬於「人的身份」型擬人。' },
+      { art:'moonPlate', s:'月亮悄悄爬上了樹梢。', ans:0,
+        why:'「悄悄爬上」是人的動作，所以屬於「人的動作」型擬人。' },
+      { art:'cloud', s:'白雲像一團團柔軟的棉花。', ans:4,
+        why:'這句只是把白雲比作棉花，有喻體「棉花」，沒有給白雲人的動作、語言或心情。所以它不是擬人，是比喻。' },
+      { art:'flower', s:'小花為自己開得漂亮而驕傲。', ans:2,
+        why:'「驕傲」是人的心情，句子把小花寫成一個會為自己高興的人，所以屬於「人的心情」型擬人。' },
+      { art:'lotus', s:'荷花在風中翩翩起舞。', ans:0,
+        why:'「翩翩起舞」是人的動作，所以屬於「人的動作」型擬人。' }
+    ]
+  }
+};
+
+var C_OPTS = {
+  junior:['人的動作','會說話','表情和心情','人的身份'],
+  senior:['人的動作','人的語言','人的心情','人的身份','不是擬人']
+};
+var C_ICONS = ['run','speak','heart','crown','cross'];
+
+/* ---------------- 音效 ---------------- */
+var Sfx = {
+  on:true, ctx:null,
+  init:function(){
+    if(this.ctx) { if(this.ctx.state==='suspended') this.ctx.resume(); return this.ctx; }
+    try{
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return null;
+      this.ctx = new AC();
+      return this.ctx;
+    }catch(e){ return null; }
+  },
+  tone:function(freq,dur,type,vol,delay,slideTo){
+    if(!this.on) return;
+    var ctx=this.init(); if(!ctx) return;
+    var t0=ctx.currentTime+(delay||0);
+    var osc=ctx.createOscillator(), g=ctx.createGain();
+    osc.type=type||'sine';
+    osc.frequency.setValueAtTime(freq,t0);
+    if(slideTo) osc.frequency.exponentialRampToValueAtTime(Math.max(30,slideTo),t0+dur);
+    g.gain.setValueAtTime(0.0001,t0);
+    g.gain.exponentialRampToValueAtTime(vol||0.05,t0+0.014);
+    g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+    osc.connect(g); g.connect(ctx.destination);
+    osc.start(t0); osc.stop(t0+dur+0.03);
+  },
+  noiseBuf:function(){
+    var ctx=this.ctx; if(this._nb) return this._nb;
+    var len=Math.floor(ctx.sampleRate*2);
+    var b=ctx.createBuffer(1,len,ctx.sampleRate), d=b.getChannelData(0);
+    for(var i=0;i<len;i++) d[i]=Math.random()*2-1;
+    this._nb=b; return b;
+  },
+  noise:function(dur,vol,filter,freq,delay){
+    if(!this.on) return;
+    var ctx=this.init(); if(!ctx) return;
+    var t0=ctx.currentTime+(delay||0);
+    var src=ctx.createBufferSource(); src.buffer=this.noiseBuf(); src.loop=true;
+    var bp=ctx.createBiquadFilter(); bp.type=filter||'lowpass'; bp.frequency.setValueAtTime(freq||1200,t0);
+    var g=ctx.createGain();
+    g.gain.setValueAtTime(0.0001,t0);
+    g.gain.exponentialRampToValueAtTime(vol||0.05,t0+0.03);
+    g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+    src.connect(bp); bp.connect(g); g.connect(ctx.destination);
+    src.start(t0); src.stop(t0+dur+0.03);
+  },
+  click:function(){ this.tone(560,0.05,'triangle',0.026); },
+  pop:function(){ this.tone(760,0.08,'sine',0.045); },
+  flip:function(){ this.tone(420,0.07,'sine',0.028); this.tone(640,0.09,'sine',0.032,0.05); },
+  curtain:function(){ this.noise(0.45,0.028,'bandpass',900,0); this.tone(180,0.3,'sine',0.03,0,120); },
+  drop:function(){ this.tone(320,0.08,'triangle',0.035); this.tone(620,0.09,'sine',0.035,0.05); },
+  correct:function(){ var s=this; [523,659,784].forEach(function(f,i){ s.tone(f,0.16,'sine',0.05,i*0.075); }); },
+  wrong:function(){ this.tone(320,0.12,'sine',0.04); this.tone(232,0.2,'sine',0.032,0.11); },
+  star:function(i){ this.tone(660+i*140,0.16,'sine',0.04,i*0.06); },
+  win:function(){
+    var s=this; [523,659,784,1047].forEach(function(f,i){ s.tone(f,0.22,'triangle',0.045,i*0.095); });
+    this.noise(0.55,0.018,'highpass',2800,0.1);
+    this.noise(0.35,0.014,'bandpass',1600,0.5);
+  },
+  applause:function(){
+    var s=this;
+    for(var i=0;i<6;i++) s.noise(0.12,0.012,'bandpass',1500+i*180,i*0.07);
+  }
+};
+
+/* ---------------- 儲存 ---------------- */
+var LS_KEY = 'niren-theater-v1';
+var store = { junior:{a:0,b:0,c:0,seen:false}, senior:{a:0,b:0,c:0,seen:false}, mute:false };
+try{
+  var raw = localStorage.getItem(LS_KEY);
+  if(raw){
+    var o = JSON.parse(raw);
+    ['junior','senior'].forEach(function(v){
+      if(o && o[v]){
+        ['a','b','c'].forEach(function(k){
+          if(typeof o[v][k]==='number' && o[v][k]>=0 && o[v][k]<=3) store[v][k]=o[v][k];
+        });
+        store[v].seen = !!o[v].seen;
+      }
+    });
+    store.mute = !!o.mute;
+  }
+}catch(e){}
+Sfx.on = !store.mute;
+
+var S = { screen:'home', ver:null, page:0, mode:null, qi:0, answered:false, choice:null, correct:0,
+  act:0, found:[], msg:'', openTrap:-1, lastStars:0 };
+
+function save(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(store)); }catch(e){} }
+function V(){ return VERSIONS[S.ver] || VERSIONS.junior; }
+function QD(){ return DATA[S.ver] || DATA.junior; }
+function verStars(v){ var s=store[v]; return (s.a||0)+(s.b||0)+(s.c||0); }
+function modeStars(v,m){ return (store[v] && store[v][m]) || 0; }
+function starsFor(n){ return n>=6?3 : n>=4?2 : n>=2?1 : 0; }
+function esc(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+/* ---------------- 共用畫面 ---------------- */
+function topbar(title, sub){
+  return '<div class="topbar">' +
+    '<button class="icon-btn" onclick="backAct()" aria-label="返回">' + ICON.back + '</button>' +
+    '<div class="tb-title"><b>' + title + '</b><span>' + sub + '</span></div>' +
+    '<button class="icon-btn" onclick="toggleMute()" aria-label="' + (Sfx.on?'關閉音效':'開啟音效') + '">' + (Sfx.on?ICON.sound:ICON.mute) + '</button>' +
+    '</div>';
+}
+function starPill(n){ return '<span class="star-total"><span style="color:#FFC44D">' + ICON.star + '</span>' + n + ' / 9</span>'; }
+function muteBtn(){
+  return '<button class="icon-btn" onclick="toggleMute()" aria-label="' + (Sfx.on?'關閉音效':'開啟音效') + '">' + (Sfx.on?ICON.sound:ICON.mute) + '</button>';
+}
+function toggleMute(){
+  store.mute = !store.mute; Sfx.on = !store.mute; save();
+  if(Sfx.on){ Sfx.init(); Sfx.pop(); }
+  render();
+}
+function backAct(){
+  Sfx.click();
+  if(S.screen==='ver'){ S.screen='home'; S.ver=null; }
+  else if(S.screen==='learn' || S.screen==='game' || S.screen==='result'){ S.screen='ver'; }
+  window.scrollTo(0,0); render();
+}
+
+/* ---------------- 首頁 ---------------- */
+function ticketHTML(v){
+  var d=VERSIONS[v], total=verStars(v);
+  return '<button class="ticket ' + (v==='junior'?'jr':'sr') + '" onclick="openVer(\'' + v + '\')">' +
+    '<div class="ticket-badge"><span>' + d.range + '</span><b>' + (v==='junior'?'初小':'高小') + '</b><i>' + (v==='junior'?'小一至小三':'小四至小六') + '</i></div>' +
+    '<div class="ticket-body">' +
+      '<div class="ticket-top"><b>' + d.name + '</b><span class="pill"><span style="color:#FFC44D">' + ICON.star + '</span>' + total + '/9</span></div>' +
+      '<p>' + d.desc + '</p>' +
+      '<div class="ticket-tags"><i>5 站教學</i><i>3 種遊戲</i><i>18 組題目</i></div>' +
+    '</div>' +
+    '<span class="ticket-go">' + ICON.arrowR + '</span>' +
+  '</button>';
+}
+function homeHTML(){
+  return '<div class="screen">' +
+    '<section class="stage">' +
+      '<div class="valance"></div><div class="curtain l"></div><div class="curtain r"></div><div class="stage-glow"></div>' +
+      '<span class="stage-star" style="left:34%;top:20%;width:10px;height:10px;animation-delay:.4s">' + ICON.star + '</span>' +
+      '<span class="stage-star" style="left:22%;top:52%;width:7px;height:7px;animation-delay:1.2s">' + ICON.star + '</span>' +
+      '<span class="stage-star" style="right:16%;top:16%;width:8px;height:8px;animation-delay:.8s">' + ICON.star + '</span>' +
+      '<div class="stage-body">' +
+        '<div class="hero-copy">' +
+          '<div class="brand-chip">修辭小劇場 · 第二幕</div>' +
+          '<h1>擬人<br><em>小劇場</em></h1>' +
+          '<p class="tagline">給萬物一顆人的心</p>' +
+          '<div class="hero-badges"><span>初小 P1–P3</span><span>高小 P4–P6</span><span>36 組題目</span></div>' +
+        '</div>' +
+        '<div class="hero-art">' + artSVG('mascot', true) + '</div>' +
+      '</div>' +
+      '<div class="stage-floor"></div>' +
+    '</section>' +
+    '<div class="home-intro"><div><h2>選一個版本，準備開演</h2><p>兩個版本各有教學與三個遊戲，星星分開儲存。</p></div></div>' +
+    '<div class="tickets">' + ticketHTML('junior') + ticketHTML('senior') + '</div>' +
+    '<div class="tip-note">' + ICON.bulb + '<div><b>第一次玩？</b>先看五站圖文教學，再上台玩遊戲。每一題揭曉答案時，都會告訴你「為什麼」。</div></div>' +
+    '<div class="home-foot">配音效 · 可靜音 · 適合手機直向遊玩</div>' +
+  '</div>';
+}
+
+/* ---------------- 版本首頁 ---------------- */
+function verHTML(){
+  var d=V(), total=verStars(S.ver);
+  var modes=['a','b','c'].map(function(m){
+    var md=MODES[m];
+    return '<button class="mode-card" onclick="startMode(\'' + m + '\')">' +
+      '<span class="mode-ic">' + ICON[md.icon] + '</span>' +
+      '<span class="mode-txt"><b>' + md.name + '</b><em>' + md.desc + '</em></span>' +
+      '<span class="mode-meta"><span class="stars">' + stars(modeStars(S.ver,m)) + '</span><i>6 題</i></span>' +
+    '</button>';
+  }).join('');
+  return '<div class="screen">' +
+    topbar(d.name + ' · 劇場', '五站教學 · 三個遊戲') +
+    '<section class="ver-head ' + (S.ver==='junior'?'jr':'sr') + '">' +
+      '<div class="ver-top"><span class="ver-pill">' + d.range + ' · ' + d.years + '</span><span style="margin-left:auto">' + starPill(total) + '</span></div>' +
+      '<h2>今天想先做哪一樣？</h2>' +
+      '<p>' + d.desc + '</p>' +
+    '</section>' +
+    '<button class="entry-card" onclick="openLearn()">' +
+      '<span class="entry-icon">' + ICON.book + '</span>' +
+      '<span class="entry-txt"><b>五站圖文教學</b><span>擬人是甚麼 · 四種人味 · 分辨比喻 · 小陷阱</span></span>' +
+      '<span class="entry-meta">' + (store[S.ver].seen?'<span class="seen">已看過</span>':'<span class="pill">約 5 分鐘</span>') + '<span class="entry-go">' + ICON.arrowR + '</span></span>' +
+    '</button>' +
+    '<div class="section-title">三個遊戲<span>每種 6 組題目</span></div>' +
+    '<div class="mode-list">' + modes + '</div>' +
+    '<div class="tip-note">' + ICON.bulb + '<div><b>記住：</b>' + d.note + '</div></div>' +
+    '<div class="home-foot">' + (S.ver==='junior'?'初小版':'高小版') + ' · 星星會自動記住最佳成績</div>' +
+  '</div>';
+}
+
+/* ---------------- 教學資料 ---------------- */
+var ACTS = {
+  junior:[
+    { k:'人的動作', ic:'run', s:'小草探出頭來。', art:'grass', w:'「探出頭」是人的動作。小草不會探頭，所以這是擬人。' },
+    { k:'會說話', ic:'speak', s:'大樹說：「早安！」', art:'tree', w:'大樹像人一樣開口說話。會說話，就是擬人。' },
+    { k:'表情和心情', ic:'heart', s:'花兒笑紅了臉。', art:'flower', w:'「笑」和「臉紅」是人的表情，花兒好像有自己的心情。' },
+    { k:'人的身份', ic:'crown', s:'太陽公公出來了。', art:'sun', w:'「公公」是人的稱呼。把太陽當成長輩，就是給了它人的身份。' }
+  ],
+  senior:[
+    { k:'人的動作', ic:'run', s:'時間悄悄地溜走了。', art:'clock', w:'「溜走」是人的動作，寫出時間不知不覺地過去。' },
+    { k:'人的語言', ic:'speak', s:'小溪低聲訴說着山裏的故事。', art:'stream', w:'「低聲訴說」是人的說話方式，小溪好像有自己的故事。' },
+    { k:'人的心情', ic:'heart', s:'向日葵害羞地低下頭。', art:'sunflower', w:'「害羞」是人的心情，「低下頭」配合這份心情。' },
+    { k:'人的身份', ic:'crown', s:'秋風姑娘輕輕拂過稻田。', art:'windGirl', w:'「姑娘」是人的身份，把秋風當作一位女孩。' }
+  ]
+};
+
+var TRAPS = {
+  junior:[
+    { s:'花兒開了。', tag:'普通描寫', why:'花只是開了，沒有人的動作、說話或心情。描寫外形不等於擬人。' },
+    { s:'小狗好像餓了。', tag:'只是猜想', why:'「好像」是人在猜，不是小狗在說話或表達人的心情。' },
+    { s:'白雲像棉花糖。', tag:'比喻', why:'有喻體「棉花糖」，是把白雲比作棉花糖，沒有把白雲當作人。' }
+  ],
+  senior:[
+    { s:'風很大，吹得樹枝搖來搖去。', tag:'普通描寫', why:'只是描寫風力和樹枝擺動。樹枝沒有人的動作或心情，所以不是擬人。' },
+    { s:'小貓好像肚子餓了。', tag:'只是猜想', why:'「好像」表示猜測，沒有把小貓寫成會說話、有人的心情的角色。' },
+    { s:'太陽像一個大火球。', tag:'其實是比喻', why:'有喻體「大火球」，只寫「像」，沒有給太陽人的動作或心情。' },
+    { s:'爸爸把報紙放在桌上。', tag:'人做人的事', why:'主體本來就是人，做的事也是人會做的事，根本不需要「擬」。' }
+  ]
+};
+
+var WORDS = [
+  { t:'小樹', ok:false, hint:'「小樹」是句子的主角，不是人的動作或表情。' },
+  { t:'向我們', ok:false, hint:'「向我們」只是方向，不是人的動作或表情。' },
+  { t:'點頭', ok:true },
+  { t:'微笑', ok:true }
+];
+
+/* ---------------- 教學畫面 ---------------- */
+function openLearn(){
+  S.page=0; S.act=0; S.found=[]; S.msg=''; S.openTrap=-1;
+  S.screen='learn'; Sfx.curtain(); window.scrollTo(0,0); render();
+}
+function resetLesson(){ S.act=0; S.found=[]; S.msg=''; S.openTrap=-1; }
+function setAct(i){ S.act=i; Sfx.pop(); render(); }
+function toggleTrap(i){ S.openTrap = (S.openTrap===i ? -1 : i); Sfx.pop(); render(); }
+function tapWord(i){
+  var w=WORDS[i];
+  if(!w) return;
+  if(!w.ok){
+    S.msg=w.hint || ('「' + w.t + '」不是人的動作或表情。再看看。');
+    Sfx.wrong(); render(); return;
+  }
+  if(S.found.indexOf(i)>=0) return;
+  S.found.push(i);
+  if(S.found.length>=2){ S.msg=''; Sfx.correct(); } else { S.msg='找到一個了，還有一個。'; Sfx.pop(); }
+  render();
+}
+function learnDots(){
+  var out='';
+  for(var i=0;i<5;i++) out += '<i class="' + (i<S.page?'done':(i===S.page?'on':'')) + '"></i>';
+  return '<div class="dots">' + out + '</div>';
+}
+function keybox(title, text){
+  return '<div class="keybox"><span class="kb-ic">' + ICON.bulb + '</span><div><p><b>' + title + '</b>' + text + '</p></div></div>';
+}
+function cmpCard(kind, tag, s, why){
+  return '<div class="cmp ' + kind + '"><span class="cmp-tag">' + tag + '</span><div class="cmp-s">' + s + '</div><div class="cmp-why">' + why + '</div></div>';
+}
+function actPanel(){
+  var list=ACTS[S.ver], a=list[S.act] || list[0];
+  var tabs=list.map(function(x,i){
+    return '<button class="act-tab ' + (i===S.act?'on':'') + '" onclick="setAct(' + i + ')"><span class="at-ic">' + ICON[x.ic] + '</span>' + x.k + '</button>';
+  }).join('');
+  return '<div class="act-tabs">' + tabs + '</div>' +
+    '<div class="act-panel">' +
+      '<div class="ap-top">' +
+        '<div class="ap-art" style="background:' + (ART_BG[a.art]||'#fff') + '">' + artSVG(a.art) + '</div>' +
+        '<div class="ap-body"><div class="ap-s">' + a.s + '</div><div class="ap-why">' + a.w + '</div></div>' +
+      '</div>' +
+    '</div>';
+}
+function wordlineHTML(){
+  var found = S.found.length>=2;
+  var chips = WORDS.map(function(w,i){
+    var on = S.found.indexOf(i)>=0;
+    return '<button class="wchip ' + (on?'found':'') + '" data-w="' + i + '" onclick="tapWord(' + i + ')">' + (w.t || '') + '</button>';
+  }).join('');
+  return '<div class="wordline">' + chips + '<span style="font-size:18px;font-weight:900">。</span></div>' +
+    '<div class="wchips-note">' + (S.msg || '點一點句子中「像人」的詞語，找出這句為什麼是擬人。') + '</div>' +
+    (found ? '<div class="found-box"><b>找到了！</b>「點頭」和「微笑」都是人的動作和表情。小樹不是人，卻會點頭微笑，所以這句是<b>擬人句</b>。</div>' : '');
+}
+function trapHTML(i){
+  var t=TRAPS[S.ver][i], open=S.openTrap===i;
+  return '<div class="trap ' + (open?'open':'') + '">' +
+    '<button class="trap-h" onclick="toggleTrap(' + i + ')" aria-expanded="' + open + '">' +
+      '<span class="trap-no">' + (i+1) + '</span>' +
+      '<span class="th-s">' + t.s + '</span>' +
+      '<span class="th-tag">' + t.tag + '</span>' +
+      '<span class="th-arrow">' + ICON.arrowR + '</span>' +
+    '</button>' +
+    (open ? '<div class="trap-body">' + t.why + '</div>' : '') +
+  '</div>';
+}
+
+function lessonBody(){
+  var v=S.ver, p=S.page;
+  if(v==='junior'){
+    if(p===0){
+      return art('flower','art-frame','花兒笑了') +
+        '<div class="learn-head"><span class="lesson-kicker">第 1 站</span><h2>把「它」當成「人」</h2></div>' +
+        '<p class="lead">擬人，就是把<b>不是人的東西</b>，當作人來寫。</p>' +
+        '<div class="compare">' +
+          cmpCard('plain','普通描寫','花兒開了。','只是告訴我們花開了，<b>沒有人的動作或心情</b>。') +
+          '<div class="compare-sep">↓ 換一種寫法</div>' +
+          cmpCard('person','擬人','花兒笑了。','花像人一樣會<b>笑</b>，好像有自己的心情。') +
+        '</div>' +
+        keybox('判斷小秘訣','看看句子有沒有給「物」人的動作、說話、表情或心情。有，就是擬人。');
+    }
+    if(p===1){
+      return '<div class="learn-head"><span class="lesson-kicker">第 2 站</span><h2>四種「人味」</h2></div>' +
+        '<p class="lead">擬人句裏，藏着人的四種樣子。點一點，看看例子。</p>' +
+        actPanel() +
+        keybox('小提醒','一句擬人句，通常至少有一種「人味」。找到它，就找到擬人了。');
+    }
+    if(p===2){
+      return '<div class="learn-head"><span class="lesson-kicker">第 3 站</span><h2>找出「人味」在哪裏</h2></div>' +
+        '<p class="lead">點一點句子中像人的詞語，找出這句為什麼是擬人。</p>' +
+        wordlineHTML() +
+        keybox('再看一次','「小樹」是主體，「向我們」是方向；真正像人的，是「點頭」和「微笑」這兩個動作。');
+    }
+    if(p===3){
+      return '<div class="learn-head"><span class="lesson-kicker">第 4 站</span><h2>擬人不是比喻</h2></div>' +
+        '<p class="lead">兩句都有「月亮」，寫法卻完全不同。</p>' +
+        '<div class="vs-row">' +
+          '<div class="vs-card two"><span class="vc-tag">比喻</span><div class="vc-s">月亮像小船。</div><div class="vc-n">有喻體「小船」，把月亮<b>比作</b>小船。</div></div>' +
+          '<div class="vs-mid">VS</div>' +
+          '<div class="vs-card one"><span class="vc-tag">擬人</span><div class="vc-s">月亮躲進雲裏。</div><div class="vc-n">沒有喻體，把月亮<b>當作人</b>，會「躲」。</div></div>' +
+        '</div>' +
+        '<div class="formula"><span>比喻＝</span><span class="hl">本體</span><span>＋</span><span class="hl">像</span><span>＋</span><span class="hl">喻體</span></div>' +
+        '<div class="formula"><span>擬人＝</span><span class="hl">物</span><span>＋</span><span class="hl">人的動作、說話、表情心情或身份</span></div>' +
+        keybox('記住這一句','有「像」不一定就是擬人；沒有「像」，也可能是擬人。要看句子有沒有把物當作<b>人</b>。');
+    }
+    return '<div class="learn-head"><span class="lesson-kicker">第 5 站</span><h2>三個小陷阱</h2></div>' +
+      '<p class="lead">這三句「看起來像」，其實都不是擬人。點一下看原因。</p>' +
+      '<div class="trap-list">' + TRAPS.junior.map(function(x,i){ return trapHTML(i); }).join('') + '</div>' +
+      '<div class="mnemonic">口訣：<b>有人的動作、說話、表情心情或身份，才是擬人。</b><br>只有外形描寫、猜想，或者「A 像 B」，都不算。</div>';
+  }
+
+  /* 高小版 */
+  if(p===0){
+    return art('mascot','art-frame','筆筆導演') +
+      '<div class="learn-head"><span class="lesson-kicker">第 1 站</span><h2>把「物」請上台</h2></div>' +
+      '<p class="lead">擬人，就是把<b>物</b>當作<b>人</b>，給它人的動作、語言、思想、感情，甚至人的身份。</p>' +
+      '<div class="senior-grid">' +
+        '<div class="sg-card"><div class="sg-top"><span class="sg-k">淺</span><span style="font-size:10.5px;font-weight:800;color:#6F6885">一個人的動作</span></div><div class="sg-s">樹葉向我們點頭。</div><div class="sg-w">「點頭」是人的動作，點到即止。</div></div>' +
+        '<div class="sg-card"><div class="sg-top"><span class="sg-k">中</span><span style="font-size:10.5px;font-weight:800;color:#6F6885">說話、心情</span></div><div class="sg-s">路燈默默地站着，守護晚歸的人。</div><div class="sg-w">不只有動作，還有「守護」的情意。</div></div>' +
+        '<div class="sg-card hl"><div class="sg-top"><span class="sg-k">深</span><span style="font-size:10.5px;font-weight:800;color:#6C55C9">整段以人的身份出場</span></div><div class="sg-s">秋風姑娘提着裙子，走過金黃的稻田。</div><div class="sg-w">「姑娘」＋「提裙子」＋「走過」，整個角色都像人。</div></div>' +
+      '</div>' +
+      keybox('判斷第一步','先問：主體是不是「物」？它有沒有做「人才會做的事」？兩題都答「是」，才可能是擬人。');
+  }
+  if(p===1){
+    return '<div class="learn-head"><span class="lesson-kicker">第 2 站</span><h2>四種演技，可以疊加</h2></div>' +
+      '<p class="lead">高小的擬人，往往不只一種「人味」。點一點，看看分別。</p>' +
+      actPanel() +
+      '<p class="body-note"><b>演技可以疊加：</b>一句話可以同時有動作和心情，也可以和比喻一起出現。下一站就來看混合句。</p>';
+  }
+  if(p===2){
+    return '<div class="learn-head"><span class="lesson-kicker">第 3 站</span><h2>擬人・明喻・借喻</h2></div>' +
+      '<p class="lead">擬人和借喻都沒有「像」，但走的路完全不同。</p>' +
+      '<div class="senior-grid">' +
+        '<div class="sg-card hl"><div class="sg-top"><span class="sg-k">擬人</span><span style="font-size:10.5px;font-weight:800;color:#6C55C9">給了人性</span></div><div class="sg-s">月亮躲進雲裏。</div><div class="sg-w">沒有喻體；月亮做了人的動作「躲」。</div></div>' +
+        '<div class="sg-card"><div class="sg-top"><span class="sg-k">明喻</span><span style="font-size:10.5px;font-weight:800;color:#6F6885">本體＋像＋喻體</span></div><div class="sg-s">月亮像小船。</div><div class="sg-w">有本體「月亮」、比喻詞「像」、喻體「小船」。</div></div>' +
+        '<div class="sg-card"><div class="sg-top"><span class="sg-k">借喻</span><span style="font-size:10.5px;font-weight:800;color:#6F6885">換了名字</span></div><div class="sg-s">銀盤掛在夜空。</div><div class="sg-w">本體「月亮」不出現，直接用喻體「銀盤」代替。</div></div>' +
+      '</div>' +
+      '<div class="steps">' +
+        '<div class="step"><i>1</i><span>有「像／好像／似」→ 明喻。</span></div>' +
+        '<div class="step"><i>2</i><span>沒有「像」，但用喻體代替本體（如「銀盤」代替月亮）→ 借喻。</span></div>' +
+        '<div class="step"><i>3</i><span>沒有比喻，主體是物卻做了人的事 → 擬人。</span></div>' +
+      '</div>' +
+      keybox('最容易混的一對','借喻是「換了名字」，擬人是「給了人性」。借喻的重點是像不像，擬人的重點是像不像<b>人</b>。');
+  }
+  if(p===3){
+    return art('lotus','art-frame','荷花低着頭') +
+      '<div class="learn-head"><span class="lesson-kicker">第 4 站</span><h2>一句話，兩種修辭</h2></div>' +
+      '<p class="lead">「荷花像一位害羞的小姑娘，低着頭站在池塘裏。」這句話，同時用了兩種修辭。</p>' +
+      '<div class="split">' +
+        '<div class="sp"><b>比喻層</b><p>「荷花像一位小姑娘」：本體「荷花」＋「像」＋喻體「小姑娘」，是<b>明喻</b>。</p></div>' +
+        '<div class="sp"><b>擬人層</b><p>「害羞」、「低着頭站」：句子直接把荷花當作人來寫，這是<b>擬人</b>。</p></div>' +
+      '</div>' +
+      keybox('分開兩層看','一句話可以既有比喻又有擬人。先找「A 像 B」，再找「人有沒有出現在物身上」，就不會混。');
+  }
+  return '<div class="learn-head"><span class="lesson-kicker">第 5 站</span><h2>四個陷阱</h2></div>' +
+    '<p class="lead">這四句都很容易誤判。點一下，看看它到底屬於哪一類。</p>' +
+    '<div class="trap-list">' + TRAPS.senior.map(function(x,i){ return trapHTML(i); }).join('') + '</div>' +
+    '<div class="mnemonic">三步檢查：<b>主體是物？做了人的事？不是「A 像 B」？</b><br>三題都通過，才是擬人。</div>';
+}
+
+function learnHTML(){
+  var d=V();
+  return '<div class="screen">' +
+    topbar('擬人小劇場', d.name + ' · 教學 ' + (S.page+1) + ' / 5') +
+    learnDots() +
+    lessonBody() +
+    '<div class="lesson-nav">' +
+      '<button class="btn ghost" onclick="learnGo(-1)" ' + (S.page===0?'disabled':'') + '>上一頁</button>' +
+      '<button class="btn primary" onclick="learnGo(1)">' + (S.page===4?'完成教學':'下一頁') + ' ' + ICON.arrowR + '</button>' +
+    '</div>' +
+  '</div>';
+}
+function learnGo(d){
+  if(d<0 && S.page===0) return;
+  if(d>0 && S.page===4){
+    store[S.ver].seen = true; save(); Sfx.win();
+    S.screen='ver'; window.scrollTo(0,0); render(); return;
+  }
+  S.page += d;
+  resetLesson();
+  if(S.page===4){ store[S.ver].seen=true; save(); }
+  Sfx.flip(); window.scrollTo(0,0); render();
+}
+
+/* ---------------- 遊戲 ---------------- */
+function questions(){ return QD()[S.mode] || []; }
+function startMode(m){
+  S.mode=m; S.qi=0; S.correct=0; S.answered=false; S.choice=null;
+  S.screen='game'; Sfx.curtain(); window.scrollTo(0,0); render();
+}
+function promptText(){
+  if(S.mode==='a') return '這句是擬人句嗎？';
+  if(S.mode==='b') return '哪一句用了擬人？';
+  return S.ver==='senior' ? '這句最明顯屬於哪一類？' : '這句最明顯用了哪一種「人味」？';
+}
+function sentenceCard(s){
+  return '<div class="sentence-card"><span class="sc-q">”</span><p>「' + s + '」</p></div>';
+}
+function qbarHTML(){
+  var out='';
+  for(var i=0;i<6;i++){
+    var cls = i===S.qi ? 'on' : (i<S.qi ? 'done' : '');
+    out += '<i class="' + cls + '"></i>';
+  }
+  return '<div class="qbar"><span class="qn">第 ' + (S.qi+1) + ' / 6 題</span><div class="qdots">' + out + '</div></div>';
+}
+function choiceCls(isCorrect, chosen){
+  if(!S.answered) return '';
+  if(isCorrect) return 'correct';
+  if(chosen) return 'wrong';
+  return 'dim';
+}
+function optionsA(q){
+  var yc = choiceCls(!!q.ok, S.choice===1);
+  var nc = choiceCls(!q.ok, S.choice===0);
+  return '<div class="options"><div class="choice-row">' +
+    '<button class="choice yes ' + yc + '" onclick="answerA(1)"><span class="ci">' + ICON.check + '</span>是擬人</button>' +
+    '<button class="choice no ' + nc + '" onclick="answerA(0)"><span class="ci">' + ICON.cross + '</span>不是擬人</button>' +
+  '</div></div>';
+}
+function optionsB(q){
+  var letters=['A','B','C'];
+  return '<div class="options">' + q.options.map(function(o,i){
+    return '<button class="sent-opt ' + choiceCls(!!o.ok, S.choice===i) + '" onclick="answerB(' + i + ')">' +
+      '<span class="so-l">' + letters[i] + '</span><span class="so-t">' + o.s + '</span>' +
+    '</button>';
+  }).join('') + '</div>';
+}
+function optionsC(q){
+  var opts=C_OPTS[S.ver];
+  return '<div class="options"><div class="type-grid">' + opts.map(function(t,i){
+    var cls=choiceCls(i===q.ans, S.choice===i) + (i===4?' full':'');
+    return '<button class="type-opt ' + cls + '" onclick="answerC(' + i + ')">' +
+      '<span class="to-ic">' + ICON[C_ICONS[i]] + '</span><span class="to-t">' + t + '</span>' +
+    '</button>';
+  }).join('') + '</div></div>';
+}
+function feedbackHTML(ok, label, why, extra){
+  return '<div class="feedback ' + (ok?'ok':'no') + '" id="feedback" role="status" aria-live="polite">' +
+    '<div class="fb-head">' +
+      '<span class="fb-ico">' + (ok?ICON.check:ICON.cross) + '</span>' +
+      '<b>' + (ok?'答對了！':'差一點！') + '</b>' +
+      '<span class="fb-badge">正確答案：' + label + '</span>' +
+    '</div>' +
+    '<p class="fb-why">' + why + '</p>' +
+    (extra||'') +
+    '<button class="btn ' + (ok?'mint':'primary') + '" onclick="nextQ()">' + (S.qi===5?'看成績':'下一題') + ' ' + ICON.arrowR + '</button>' +
+  '</div>';
+}
+function gameHTML(){
+  var d=V(), md=MODES[S.mode], q=questions()[S.qi];
+  if(!q) return verHTML();
+  var body='';
+  if(S.mode==='b'){
+    body = '<div class="prompt-chip">' + ICON.search + promptText() + '</div>' +
+      art(q.art,'art-frame tiny') +
+      optionsB(q);
+    if(S.answered){
+      var ok = !!q.options[S.choice].ok;
+      var extra = '<div class="fb-list">' + q.options.map(function(o,i){
+        return '<div class="fb-item ' + (o.ok?'yes':'no') + '"><i>' + (o.ok?'✓':'✗') + '</i><div><b>' + ['A','B','C'][i] + '.</b> ' + o.s + '<br>' + o.why + '</div></div>';
+      }).join('') + '</div>';
+      body += feedbackHTML(ok, ['A','B','C'][q.options.findIndex(function(o){return o.ok;})], q.options.filter(function(o){return o.ok;})[0].why, extra);
+    }
+  }else if(S.mode==='a'){
+    body = '<div class="prompt-chip">' + ICON.check + promptText() + '</div>' +
+      art(q.art,'art-frame small') +
+      sentenceCard(q.s) +
+      optionsA(q);
+    if(S.answered){
+      body += feedbackHTML((S.choice===1)===!!q.ok, q.ok?'是擬人':'不是擬人', q.why, '');
+    }
+  }else{
+    body = '<div class="prompt-chip">' + ICON.mask + promptText() + '</div>' +
+      art(q.art,'art-frame small') +
+      sentenceCard(q.s) +
+      optionsC(q) +
+      '<div class="hint-line">' + ICON.bulb + (S.ver==='senior'?'提示：先判斷是不是擬人，再看它用了哪一種「人味」。':'提示：先找句子裏像人的詞語。') + '</div>';
+    if(S.answered){
+      body += feedbackHTML(S.choice===q.ans, C_OPTS[S.ver][q.ans], q.why, '');
+    }
+  }
+  return '<div class="screen">' +
+    topbar(md.name, d.name + ' · ' + md.short) +
+    qbarHTML() +
+    body +
+  '</div>';
+}
+function answerA(v){
+  if(S.answered) return;
+  var q=questions()[S.qi];
+  S.answered=true; S.choice=v;
+  var ok=((v===1)===!!q.ok);
+  if(ok) S.correct++;
+  if(ok) Sfx.correct(); else Sfx.wrong();
+  render(); scrollFeedback();
+}
+function answerB(i){
+  if(S.answered) return;
+  var q=questions()[S.qi];
+  S.answered=true; S.choice=i;
+  var ok=!!q.options[i].ok;
+  if(ok) S.correct++;
+  if(ok) Sfx.correct(); else Sfx.wrong();
+  render(); scrollFeedback();
+}
+function answerC(i){
+  if(S.answered) return;
+  var q=questions()[S.qi];
+  S.answered=true; S.choice=i;
+  var ok=(i===q.ans);
+  if(ok) S.correct++;
+  if(ok) Sfx.correct(); else Sfx.wrong();
+  render(); scrollFeedback();
+}
+function scrollFeedback(){
+  setTimeout(function(){
+    var f=document.getElementById('feedback');
+    if(f && f.scrollIntoView) f.scrollIntoView({behavior:'smooth',block:'nearest'});
+  },80);
+}
+function nextQ(){
+  if(!S.answered) return;
+  if(S.qi<5){
+    S.qi++; S.answered=false; S.choice=null;
+    Sfx.flip(); window.scrollTo(0,0); render();
+  }else{
+    finish();
+  }
+}
+
+/* ---------------- 成績 ---------------- */
+function finish(){
+  var st=starsFor(S.correct);
+  S.lastStars=st;
+  var best=store[S.ver][S.mode]||0;
+  if(st>best){ store[S.ver][S.mode]=st; save(); }
+  S.screen='result';
+  Sfx.win();
+  window.scrollTo(0,0); render();
+  setTimeout(function(){ Sfx.applause(); confetti(); },320);
+}
+function resultNote(n){
+  if(n>=3) return '全部答對！你不只找到「人味」，還說得出原因，是真正的擬人大導演。';
+  if(n>=2) return '演得不錯！已經看懂大部分句子，再練一次就可以拿到三顆星。';
+  if(n>=1) return '已經抓到一點「人味」了。回去看看教學的五站，再上台挑戰吧。';
+  return '別灰心，先看一次圖文教學，認住「動作、說話、心情、身份」四種人味，再來一次。';
+}
+function resultHTML(){
+  var d=V(), md=MODES[S.mode], best=modeStars(S.ver,S.mode);
+  var starHTML='';
+  for(var i=0;i<3;i++) starHTML += '<span style="color:' + (i<S.lastStars?'#FFC44D':'#8C86A0') + '">' + (i<S.lastStars?ICON.star:ICON.starEmpty) + '</span>';
+  return '<div class="screen result">' +
+    topbar('演出結束', d.name + ' · ' + md.name) +
+    '<div class="result-stage">' +
+      '<div class="rs-glow"></div>' +
+      '<div class="rs-art">' + artSVG('mascot', true) + '</div>' +
+      '<h2>' + (S.lastStars>=2?'演出成功！':'演出完成！') + '</h2>' +
+      '<div class="rs-score">答對 ' + S.correct + ' / 6 題</div>' +
+    '</div>' +
+    '<div class="big-stars">' + starHTML + '</div>' +
+    '<p class="result-note">' + resultNote(S.lastStars) + '</p>' +
+    '<p class="result-note" style="font-size:11.5px;color:#6F6885">這個遊戲的最佳成績：' + best + ' 顆星</p>' +
+    '<div class="result-actions">' +
+      '<button class="btn primary wide" onclick="startMode(\'' + S.mode + '\')">' + ICON.retry + ' 再演一次</button>' +
+      '<div class="row">' +
+        '<button class="btn" onclick="goVer()">' + ICON.curtain + ' 返回劇場</button>' +
+        '<button class="btn" onclick="openLearn()">' + ICON.book + ' 看教學</button>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+function goVer(){ S.screen='ver'; window.scrollTo(0,0); render(); }
+function confetti(){
+  var colors=['#EE6A55','#FFC44D','#3FBE9A','#57B6E6','#9A85F0','#FFAFC5'];
+  var box=document.createElement('div');
+  box.className='confetti';
+  var html='';
+  for(var i=0;i<16;i++){
+    var left=Math.round(Math.random()*92)+4;
+    var delay=(Math.random()*0.5).toFixed(2);
+    var dur=(2.1+Math.random()*1.1).toFixed(2);
+    var col=colors[i%colors.length];
+    html += '<i style="left:' + left + '%;background:' + col + ';animation-delay:' + delay + 's;animation-duration:' + dur + 's"></i>';
+  }
+  box.innerHTML=html;
+  document.body.appendChild(box);
+  setTimeout(function(){ if(box.parentNode) box.parentNode.removeChild(box); },3400);
+}
+
+/* ---------------- 主渲染 ---------------- */
+function render(){
+  var app=document.getElementById('app');
+  var html='';
+  if(S.screen==='home') html=homeHTML();
+  else if(S.screen==='ver') html=verHTML();
+  else if(S.screen==='learn') html=learnHTML();
+  else if(S.screen==='game') html=gameHTML();
+  else if(S.screen==='result') html=resultHTML();
+  app.innerHTML=html;
+}
+function openVer(v){
+  S.ver=v; S.screen='ver';
+  Sfx.flip(); window.scrollTo(0,0); render();
+}
+document.addEventListener('pointerdown', function(){ Sfx.init(); }, {once:true});
+render();
+</script>
+</body>
+</html>

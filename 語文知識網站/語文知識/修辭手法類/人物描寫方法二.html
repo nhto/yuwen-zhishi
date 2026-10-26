@@ -1,0 +1,2229 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#fff7e9">
+<title>描寫小偵探｜小學描寫手法互動遊戲</title>
+<meta name="description" content="用小偵探闖關的方式，學會外貌、動作、語言、神態、心理五種描寫手法；42 道題目、每題附解說，手機、平板、電腦均可使用。">
+<style>
+:root{
+  --ink:#2f2a44;
+  --ink-soft:#5d5674;
+  --cream:#fff7e9;
+  --paper:#fffdf8;
+  --coral:#ff8a71;
+  --coral-deep:#e96b52;
+  --teal:#3fb8a8;
+  --teal-soft:#dcf7f1;
+  --yellow:#ffc857;
+  --yellow-soft:#fff2c9;
+  --purple:#9b7bea;
+  --pink:#f78fb3;
+  --blue:#6fb7ff;
+  --green:#7fc98b;
+  --line:3px solid var(--ink);
+  --radius:26px;
+  --shadow:0 .4rem 0 rgba(47,42,68,.13);
+  --shadow-strong:0 .6rem 0 rgba(47,42,68,.18);
+}
+
+*{box-sizing:border-box;}
+html{font-size:16px;-webkit-text-size-adjust:100%;}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--ink);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei","Heiti TC","Noto Sans CJK TC",system-ui,-apple-system,sans-serif;
+  font-size:clamp(18px,1.2vw,20px);
+  line-height:1.65;
+  background:
+    radial-gradient(circle at 8% 4%, #ffe6c9 0 10%, transparent 10.4%),
+    radial-gradient(circle at 92% 10%, #d9f4ee 0 9%, transparent 9.4%),
+    radial-gradient(circle at 86% 92%, #ffe3ec 0 11%, transparent 11.4%),
+    var(--cream);
+  background-attachment:fixed;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:radial-gradient(rgba(47,42,68,.10) 1.6px, transparent 1.7px);
+  background-size:26px 26px;
+  opacity:.45;
+  pointer-events:none;
+  z-index:0;
+}
+button{font-family:inherit;color:inherit;}
+button:focus-visible,a:focus-visible{outline:4px solid #2b7fff;outline-offset:3px;}
+[hidden]{display:none !important;}
+svg{display:block;}
+
+.app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;}
+
+/* ---------- top bar ---------- */
+.topbar{
+  position:sticky;top:0;z-index:30;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:.7rem clamp(1rem,3vw,2.4rem);
+  background:rgba(255,247,233,.92);
+  backdrop-filter:blur(10px);
+  border-bottom:3px solid rgba(47,42,68,.12);
+}
+.brand{display:flex;align-items:center;gap:.65rem;background:none;border:0;padding:.2rem;cursor:pointer;}
+.brand-mark{width:clamp(2.6rem,4.4vw,3.3rem);height:auto;}
+.brand-name{font-size:clamp(1.15rem,1.9vw,1.55rem);font-weight:900;letter-spacing:.04em;}
+.brand-name span{color:var(--coral-deep);}
+.top-actions{display:flex;align-items:center;gap:.65rem;}
+.star-pill{
+  display:flex;align-items:center;gap:.4rem;
+  background:#fff;border:var(--line);border-radius:999px;
+  padding:.35rem .9rem .35rem .55rem;font-weight:900;font-size:1.05rem;
+  box-shadow:0 .22rem 0 rgba(47,42,68,.14);
+}
+.star-pill svg{width:1.5rem;height:1.5rem;}
+.icon-btn{
+  width:3rem;height:3rem;display:grid;place-items:center;
+  background:#fff;border:var(--line);border-radius:1rem;cursor:pointer;
+  box-shadow:0 .22rem 0 rgba(47,42,68,.14);
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.icon-btn:active{transform:translateY(3px);box-shadow:0 0 0 rgba(0,0,0,0);}
+.icon-btn svg{width:1.6rem;height:1.6rem;}
+.icon-btn[aria-pressed="false"]{background:#efe9e1;color:#8b849e;}
+
+main{flex:1;width:100%;}
+.view{
+  width:100%;max-width:1180px;margin:0 auto;
+  padding:clamp(1.1rem,2.4vw,2.2rem) clamp(1rem,3vw,2.6rem) 4.5rem;
+  animation:viewIn .32s ease both;
+}
+@keyframes viewIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+
+/* ---------- shared bits ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.55rem;
+  padding:.85rem 1.5rem;min-height:3.4rem;
+  border:var(--line);border-radius:999px;background:#fff;
+  font-size:clamp(1.02rem,1.6vw,1.18rem);font-weight:900;
+  cursor:pointer;box-shadow:var(--shadow);
+  transition:transform .12s ease,box-shadow .12s ease,background .12s ease;
+}
+.btn:hover{transform:translateY(-2px);}
+.btn:active{transform:translateY(3px);box-shadow:0 .1rem 0 rgba(47,42,68,.14);}
+.btn svg{width:1.35rem;height:1.35rem;flex:0 0 auto;}
+.btn-primary{background:var(--coral);}
+.btn-yellow{background:var(--yellow);}
+.btn-teal{background:var(--teal);}
+.btn-purple{background:var(--purple);color:#fff;}
+.btn-ghost{background:#fff;}
+.btn-sm{padding:.55rem 1rem;min-height:2.7rem;font-size:.98rem;}
+
+.section-head{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.2rem;}
+.section-head h1{font-size:clamp(1.7rem,3.4vw,2.5rem);margin:0;line-height:1.25;font-weight:900;}
+.section-head .sub{color:var(--ink-soft);font-size:1rem;margin:.15rem 0 0;}
+.back-btn{
+  width:3.2rem;height:3.2rem;flex:0 0 auto;display:grid;place-items:center;
+  background:#fff;border:var(--line);border-radius:50%;cursor:pointer;
+  box-shadow:var(--shadow);
+}
+.back-btn svg{width:1.5rem;height:1.5rem;}
+.back-btn:active{transform:translateY(3px);box-shadow:none;}
+
+/* ---------- home ---------- */
+.hero{display:grid;grid-template-columns:1.08fr .92fr;gap:clamp(1rem,3vw,2.4rem);align-items:center;padding:.6rem 0 1.4rem;}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:.45rem;
+  background:var(--yellow-soft);border:2.5px solid var(--ink);border-radius:999px;
+  padding:.28rem .85rem;font-size:.92rem;font-weight:900;letter-spacing:.05em;
+}
+.eyebrow i{width:.65rem;height:.65rem;border-radius:50%;background:var(--coral);display:inline-block;}
+.hero h1{
+  font-size:clamp(2.15rem,4.8vw,3.9rem);line-height:1.18;margin:.7rem 0 .8rem;font-weight:900;
+  letter-spacing:.01em;
+}
+.hero h1 .hl{position:relative;z-index:0;color:var(--coral-deep);white-space:nowrap;}
+.hero h1 .hl::after{
+  content:"";position:absolute;left:0;right:0;bottom:.02em;height:.28em;
+  background:rgba(255,200,87,.55);border-radius:999px;z-index:-1;
+}
+.hero-lead{font-size:clamp(1.05rem,1.7vw,1.25rem);color:var(--ink-soft);max-width:34em;margin:0 0 1.2rem;}
+.hero-cta{display:flex;gap:.8rem;flex-wrap:wrap;}
+.hero-mascot{display:grid;place-items:center;}
+.hero-mascot svg{width:min(100%,420px);height:auto;filter:drop-shadow(0 14px 0 rgba(47,42,68,.10));}
+
+.gates{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:1.1rem;}
+.gate{
+  position:relative;text-align:left;background:var(--paper);border:var(--line);
+  border-radius:28px;padding:1.25rem 1.25rem 1.35rem;cursor:pointer;
+  box-shadow:var(--shadow-strong);transition:transform .15s ease,box-shadow .15s ease;
+}
+.gate:hover{transform:translateY(-5px);box-shadow:0 .8rem 0 rgba(47,42,68,.16);}
+.gate:active{transform:translateY(3px);box-shadow:var(--shadow);}
+.gate .tile{
+  width:5rem;height:5rem;border-radius:1.35rem;border:var(--line);
+  display:grid;place-items:center;margin-bottom:.8rem;
+}
+.gate .tile svg{width:3.2rem;height:3.2rem;}
+.gate h3{margin:0;font-size:clamp(1.25rem,2vw,1.55rem);font-weight:900;}
+.gate p{margin:.25rem 0 0;color:var(--ink-soft);font-size:.98rem;line-height:1.5;}
+.gate .go{
+  position:absolute;right:1.1rem;bottom:1.1rem;width:2.3rem;height:2.3rem;
+  display:grid;place-items:center;border-radius:50%;background:var(--ink);color:#fff;
+}
+.gate .go svg{width:1.15rem;height:1.15rem;}
+.gate.c1 .tile{background:#ffe1d8;}
+.gate.c2 .tile{background:#dff7f2;}
+.gate.c3 .tile{background:#ece2ff;}
+.gate.c1 .go{background:var(--coral-deep);}
+.gate.c2 .go{background:#2c9a8c;}
+.gate.c3 .go{background:#7c5fd3;}
+
+.home-note{
+  display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;justify-content:center;
+  margin-top:1.6rem;color:var(--ink-soft);font-size:.95rem;
+}
+.home-note .chip{background:#fff;border:2px solid rgba(47,42,68,.28);border-radius:999px;padding:.2rem .7rem;font-weight:700;}
+
+/* ---------- learn ---------- */
+.tabs{display:flex;gap:.55rem;overflow-x:auto;padding:.25rem .15rem .9rem;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{
+  flex:0 0 auto;display:flex;align-items:center;gap:.45rem;
+  padding:.6rem 1rem;border-radius:999px;border:var(--line);background:#fff;
+  font-size:1rem;font-weight:900;cursor:pointer;box-shadow:0 .2rem 0 rgba(47,42,68,.12);
+}
+.tab svg{width:1.35rem;height:1.35rem;}
+.tab.active{background:var(--ink);color:#fff;}
+.tab.active svg{color:#fff;}
+.tab:active{transform:translateY(2px);box-shadow:none;}
+
+.learn-grid{display:grid;grid-template-columns:.86fr 1.14fr;gap:clamp(1rem,2.4vw,1.8rem);align-items:start;}
+.learn-art{
+  position:relative;background:#fff;border:var(--line);border-radius:30px;
+  padding:1rem;min-height:300px;display:grid;place-items:center;
+  box-shadow:var(--shadow-strong);overflow:hidden;
+}
+.learn-art::before{
+  content:"";position:absolute;inset:0;
+  background-image:radial-gradient(rgba(47,42,68,.09) 1.5px, transparent 1.6px);
+  background-size:20px 20px;opacity:.7;
+}
+.learn-art svg{position:relative;width:100%;max-width:410px;height:auto;}
+.learn-art .sticker{
+  position:absolute;background:#fff;border:2.5px solid var(--ink);border-radius:999px;
+  padding:.25rem .7rem;font-size:.85rem;font-weight:900;box-shadow:0 .18rem 0 rgba(47,42,68,.14);
+}
+.learn-art .s1{top:1rem;left:1rem;transform:rotate(-5deg);}
+.learn-art .s2{bottom:1rem;right:1rem;transform:rotate(4deg);}
+
+.learn-body h2{font-size:clamp(1.9rem,3.6vw,2.7rem);margin:0 0 .1rem;font-weight:900;line-height:1.2;}
+.learn-body .tagline{color:var(--coral-deep);font-weight:900;margin:0 0 .7rem;font-size:1.05rem;}
+.definition{font-size:clamp(1.05rem,1.7vw,1.2rem);margin:0 0 1rem;}
+.formula{
+  display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;
+  background:var(--yellow-soft);border:2.5px dashed var(--ink);border-radius:18px;
+  padding:.75rem 1rem;margin:0 0 1rem;font-weight:900;
+}
+.formula .label{background:var(--ink);color:#fff;border-radius:999px;padding:.1rem .6rem;font-size:.82rem;letter-spacing:.06em;}
+.formula .eq{font-size:clamp(1.02rem,1.8vw,1.2rem);}
+.points{list-style:none;padding:0;margin:0 0 1rem;display:grid;gap:.65rem;}
+.points li{display:flex;gap:.75rem;align-items:flex-start;background:#fff;border:2.5px solid rgba(47,42,68,.9);border-radius:16px;padding:.66rem .8rem;box-shadow:0 .18rem 0 rgba(47,42,68,.1);}
+.points .num{
+  flex:0 0 auto;width:2rem;height:2rem;border-radius:50%;display:grid;place-items:center;
+  background:var(--yellow);border:2.5px solid var(--ink);font-weight:900;font-size:.98rem;
+}
+.points li:nth-child(2) .num{background:#bfe9ff;}
+.points li:nth-child(3) .num{background:#ffd6e3;}
+.points span{font-size:1.02rem;line-height:1.55;}
+
+.example{background:#fff;border:var(--line);border-radius:20px;padding:.9rem 1rem;margin:0 0 1rem;}
+.example .row{display:flex;gap:.6rem;align-items:flex-start;margin:.25rem 0;}
+.example .badge{flex:0 0 auto;font-size:.78rem;font-weight:900;border-radius:999px;padding:.08rem .55rem;border:2px solid var(--ink);background:#eee;}
+.example .badge.good{background:#c9f3e8;}
+.example .txt{font-size:1.03rem;line-height:1.6;}
+.example mark{background:linear-gradient(transparent 58%,#ffe08a 58%);font-weight:900;padding:0 .1em;}
+.tip{
+  display:flex;gap:.7rem;align-items:flex-start;
+  background:#fff3f6;border:2.5px dashed #d97b9a;border-radius:18px;padding:.8rem .95rem;
+  font-size:.98rem;line-height:1.6;
+}
+.tip .bulb{flex:0 0 auto;width:1.8rem;height:1.8rem;color:#d97b9a;}
+.learn-cta{margin-top:1.1rem;display:flex;gap:.7rem;flex-wrap:wrap;}
+
+/* ---------- practice menu ---------- */
+.mode-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.1rem;}
+.mode-card{
+  text-align:left;background:var(--paper);border:var(--line);border-radius:24px;
+  padding:1.15rem;cursor:pointer;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;gap:.55rem;
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+.mode-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-strong);}
+.mode-card:active{transform:translateY(2px);}
+.mode-card .top{display:flex;align-items:center;gap:.8rem;}
+.mode-card .mode-icon{
+  flex:0 0 auto;width:4.2rem;height:4.2rem;border-radius:1.15rem;border:var(--line);
+  display:grid;place-items:center;
+}
+.mode-card .mode-icon svg{width:2.7rem;height:2.7rem;}
+.mode-card h3{margin:0;font-size:1.2rem;font-weight:900;line-height:1.3;}
+.mode-card .kicker{font-size:.82rem;font-weight:900;color:var(--ink-soft);letter-spacing:.06em;}
+.mode-card p{margin:0;color:var(--ink-soft);font-size:.95rem;line-height:1.5;}
+.mode-card .foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:.35rem;}
+.q-count{font-size:.85rem;font-weight:900;background:#fff;border:2px solid rgba(47,42,68,.3);border-radius:999px;padding:.12rem .6rem;}
+.mini-stars{display:flex;gap:.15rem;}
+.mini-stars svg{width:1.15rem;height:1.15rem;color:#ded7e8;}
+.mini-stars svg.on{color:var(--yellow);}
+.mode-card.c-appearance .mode-icon{background:#ffe1ec;}
+.mode-card.c-action .mode-icon{background:#dff7f2;}
+.mode-card.c-speech .mode-icon{background:#e2efff;}
+.mode-card.c-expression .mode-icon{background:#fff0c9;}
+.mode-card.c-psychology .mode-icon{background:#ece2ff;}
+.mode-card.c-challengeSort .mode-icon,.mode-card.c-challengePick .mode-icon{background:#ffe3d8;}
+
+.challenge-band{
+  margin-top:1.8rem;padding:1.2rem;border:var(--line);border-radius:26px;
+  background:linear-gradient(120deg,#ffe9de,#fff6e2 55%,#e7f8f3);
+  box-shadow:var(--shadow);
+}
+.challenge-band h2{margin:0 0 .2rem;font-size:clamp(1.4rem,2.4vw,1.8rem);display:flex;align-items:center;gap:.5rem;}
+.challenge-band h2 svg{width:1.9rem;height:1.9rem;color:var(--coral-deep);}
+.challenge-band p{margin:0 0 1rem;color:var(--ink-soft);font-size:.98rem;}
+
+/* ---------- game ---------- */
+.game{max-width:940px;margin:0 auto;}
+.game-top{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;}
+.game-top .titles{min-width:0;}
+.game-top .kicker{font-size:.82rem;font-weight:900;letter-spacing:.08em;color:var(--ink-soft);}
+.game-top h2{margin:0;font-size:clamp(1.35rem,2.6vw,1.8rem);line-height:1.25;}
+.game-score{
+  margin-left:auto;display:flex;align-items:center;gap:.45rem;
+  background:#fff;border:var(--line);border-radius:999px;padding:.3rem .85rem;
+  font-weight:900;font-size:1.05rem;box-shadow:0 .2rem 0 rgba(47,42,68,.12);
+}
+.game-score svg{width:1.35rem;height:1.35rem;}
+.progress-row{display:flex;align-items:center;gap:.8rem;margin:.9rem 0 .2rem;flex-wrap:wrap;}
+.dots{display:flex;gap:.42rem;flex-wrap:wrap;}
+.dot{width:.78rem;height:.78rem;border-radius:50%;background:#ded6e9;transition:background .2s,transform .2s;}
+.dot.done{background:var(--teal);}
+.dot.cur{background:var(--yellow);transform:scale(1.25);box-shadow:0 0 0 2.5px var(--ink);}
+.progress-text{font-size:.9rem;font-weight:900;color:var(--ink-soft);}
+.timer-wrap{margin:.6rem 0 0;height:.85rem;border:2.5px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden;}
+.timer-bar{height:100%;width:100%;background:linear-gradient(90deg,var(--teal),var(--yellow));transition:width .1s linear;}
+.timer-bar.low{background:linear-gradient(90deg,#ff9b7d,#e9553d);}
+
+.qcard{
+  background:var(--paper);border:var(--line);border-radius:28px;
+  padding:clamp(1.1rem,2.6vw,1.9rem);box-shadow:var(--shadow-strong);
+  margin-top:.9rem;
+}
+.qhead{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;margin-bottom:.7rem;}
+.qbadge{font-size:.8rem;font-weight:900;letter-spacing:.08em;background:var(--ink);color:#fff;border-radius:999px;padding:.15rem .7rem;}
+.qhint{font-size:.95rem;color:var(--ink-soft);font-weight:700;}
+.qtext{font-size:clamp(1.24rem,2.5vw,1.72rem);font-weight:800;line-height:1.7;margin:0 0 1.1rem;letter-spacing:.01em;}
+.qtext .quote{color:var(--coral-deep);}
+
+.options{display:grid;gap:.8rem;}
+.opt{
+  display:flex;align-items:center;gap:.85rem;text-align:left;
+  padding:.85rem 1rem;min-height:3.7rem;
+  background:#fff;border:var(--line);border-radius:18px;
+  font-size:clamp(1.04rem,2vw,1.22rem);font-weight:700;line-height:1.55;
+  cursor:pointer;box-shadow:0 .2rem 0 rgba(47,42,68,.1);
+  transition:transform .12s,background .12s,box-shadow .12s;
+}
+.opt:hover{transform:translateY(-2px);}
+.opt .badge{
+  flex:0 0 auto;width:2.15rem;height:2.15rem;border-radius:50%;
+  display:grid;place-items:center;border:2.5px solid var(--ink);
+  background:#f3eefb;font-weight:900;font-size:1rem;
+}
+.opt.selected{background:var(--yellow-soft);box-shadow:0 0 0 3px #ffcf5c inset;}
+.opt.correct{background:#d6f6ee;border-color:#1e8a78;}
+.opt.correct .badge{background:#8fe3d3;}
+.opt.wrong{background:#ffe4de;border-color:#c94b3c;}
+.opt.wrong .badge{background:#ffb4a5;}
+.opt:disabled{cursor:default;opacity:1;}
+.opt.dim{opacity:.45;}
+
+.avatar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;}
+.avatar-card{
+  background:#fff;border:var(--line);border-radius:20px;padding:.45rem .45rem .55rem;
+  cursor:pointer;box-shadow:0 .2rem 0 rgba(47,42,68,.1);
+  transition:transform .12s,box-shadow .12s,background .12s;
+}
+.avatar-card:hover{transform:translateY(-3px);}
+.avatar-card svg{width:100%;height:auto;border-radius:14px;}
+.avatar-card .label{
+  display:block;text-align:center;font-weight:900;font-size:1rem;margin-top:.15rem;
+}
+.avatar-card.selected{background:var(--yellow-soft);box-shadow:0 0 0 3px #ffcf5c inset;}
+.avatar-card.correct{background:#d6f6ee;box-shadow:0 0 0 3px #2aa48f inset;}
+.avatar-card.wrong{background:#ffe4de;box-shadow:0 0 0 3px #c94b3c inset;}
+
+.order-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.7rem;}
+.order-card{
+  position:relative;text-align:left;background:#fff;border:var(--line);border-radius:18px;
+  padding:1rem .85rem;min-height:5.2rem;font-size:1.05rem;font-weight:800;line-height:1.45;
+  cursor:pointer;box-shadow:0 .2rem 0 rgba(47,42,68,.1);
+}
+.order-card .idx{
+  position:absolute;top:-.65rem;left:-.45rem;width:1.9rem;height:1.9rem;border-radius:50%;
+  background:var(--yellow);border:2.5px solid var(--ink);display:none;place-items:center;
+  font-weight:900;font-size:.92rem;
+}
+.order-card.picked{background:var(--yellow-soft);}
+.order-card.picked .idx{display:grid;}
+.order-card.correct{background:#d6f6ee;border-color:#1e8a78;}
+.order-card.wrong{background:#ffe4de;border-color:#c94b3c;}
+
+.sentence{
+  font-size:clamp(1.3rem,2.5vw,1.72rem);font-weight:800;
+  line-height:2.25;margin:0 0 1.1rem;letter-spacing:.02em;
+}
+.sentence .plain{display:inline;}
+.sentence .chip{
+  display:inline-block;vertical-align:baseline;
+  background:#fff;border:2.5px solid var(--ink);border-radius:10px;
+  padding:.05em .24em;margin:0 .05em;font:inherit;font-weight:800;line-height:1.35;
+  cursor:pointer;box-shadow:0 .14rem 0 rgba(47,42,68,.1);
+}
+.sentence .chip.selected{background:var(--yellow-soft);}
+.sentence .chip.correct{background:#bff0e5;border-color:#1e8a78;}
+.sentence .chip.missed{background:#fff3c4;border-color:#c99b1a;box-shadow:0 0 0 3px #ffd75e inset;}
+.sentence .chip.wrong{background:#ffd9d1;border-color:#c94b3c;}
+
+.gamecta{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.1rem;align-items:center;}
+.gamecta .note{font-size:.92rem;color:var(--ink-soft);font-weight:700;}
+
+/* ---------- feedback ---------- */
+.feedback{
+  margin-top:1.1rem;border:var(--line);border-radius:24px;padding:1rem 1.15rem 1.15rem;
+  background:#e2faf4;box-shadow:var(--shadow);animation:pop .28s ease both;
+}
+.feedback.bad{background:#fff0ea;}
+.feedback.timed{background:#fff7dd;}
+@keyframes pop{from{opacity:0;transform:translateY(12px) scale(.98);}to{opacity:1;transform:none;}}
+.fb-head{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;}
+.fb-icon{width:2.9rem;height:2.9rem;flex:0 0 auto;}
+.fb-title{font-size:clamp(1.2rem,2.2vw,1.45rem);font-weight:900;}
+.fb-answer{font-size:.98rem;font-weight:900;background:#fff;border:2px solid var(--ink);border-radius:16px;padding:.2rem .7rem;margin-left:auto;max-width:100%;line-height:1.55;text-align:left;}
+.fb-explain{margin:.65rem 0 0;font-size:clamp(1rem,1.7vw,1.12rem);line-height:1.7;}
+.fb-explain strong{color:var(--coral-deep);}
+.feedback .btn{margin-top:.9rem;}
+
+/* ---------- result ---------- */
+.result-wrap{max-width:720px;margin:1rem auto 0;}
+.result-card{
+  background:var(--paper);border:var(--line);border-radius:34px;
+  padding:clamp(1.4rem,4vw,2.6rem);text-align:center;box-shadow:var(--shadow-strong);
+  position:relative;overflow:hidden;
+}
+.result-card::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 10% 0%,#ffe6c9 0 18%,transparent 18.4%),
+             radial-gradient(circle at 92% 8%,#d9f4ee 0 16%,transparent 16.4%);
+  opacity:.9;pointer-events:none;
+}
+.result-card > *{position:relative;}
+.result-mascot{width:clamp(8.6rem,19vw,12rem);margin:0 auto .4rem;}
+.result-card h2{margin:0 0 .2rem;font-size:clamp(1.8rem,3.6vw,2.5rem);}
+.result-sub{color:var(--ink-soft);margin:0 0 1rem;font-size:1.05rem;}
+.stars-row{display:flex;justify-content:center;gap:.7rem;margin:.3rem 0 1rem;}
+.stars-row .star{width:clamp(3.2rem,8vw,4.4rem);height:auto;color:#e2dbe9;}
+.stars-row .star.on{color:var(--yellow);animation:starPop .5s cubic-bezier(.2,1.6,.4,1) both;}
+.stars-row .star.on:nth-child(2){animation-delay:.12s;}
+.stars-row .star.on:nth-child(3){animation-delay:.24s;}
+@keyframes starPop{from{transform:scale(.4) rotate(-18deg);opacity:0;}to{transform:none;opacity:1;}}
+.score-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem;margin:0 auto 1.2rem;max-width:26rem;}
+.score-box{background:#fff;border:2.5px solid var(--ink);border-radius:18px;padding:.65rem .8rem;}
+.score-box .k{font-size:.85rem;color:var(--ink-soft);font-weight:800;}
+.score-box .v{font-size:clamp(1.5rem,3vw,2rem);font-weight:900;line-height:1.2;}
+.result-actions{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap;}
+.result-tip{margin:1rem 0 0;font-size:.95rem;color:var(--ink-soft);}
+
+/* ---------- toast ---------- */
+.toast{
+  position:fixed;left:50%;bottom:1.4rem;transform:translateX(-50%) translateY(200%);
+  background:var(--ink);color:#fff;padding:.7rem 1.2rem;border-radius:999px;
+  font-weight:800;font-size:.95rem;z-index:80;transition:transform .3s ease;
+  box-shadow:0 8px 24px rgba(47,42,68,.28);max-width:calc(100vw - 2rem);text-align:center;
+}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr;text-align:center;padding-top:.2rem;}
+  .hero-copy{order:2;}
+  .hero-mascot{order:1;}
+  .hero-mascot svg{width:min(72vw,330px);}
+  .hero-lead{margin-left:auto;margin-right:auto;}
+  .hero-cta{justify-content:center;}
+  .gates{grid-template-columns:1fr;}
+  .gate{display:grid;grid-template-columns:auto 1fr;gap:0 1rem;align-items:center;padding:1rem 1.1rem;}
+  .gate .tile{grid-row:span 2;margin:0;width:4.4rem;height:4.4rem;}
+  .gate .tile svg{width:2.8rem;height:2.8rem;}
+  .gate .go{display:none;}
+  .learn-grid{grid-template-columns:1fr;}
+  .learn-art{min-height:230px;}
+  .learn-art svg{max-width:300px;}
+  .game-top h2{font-size:1.4rem;}
+  .game-score{font-size:.98rem;}
+}
+@media (max-width:560px){
+  html{font-size:15.5px;}
+  .brand-name{font-size:1.02rem;}
+  .star-pill{padding:.28rem .65rem .28rem .4rem;font-size:.95rem;}
+  .star-pill svg{width:1.25rem;height:1.25rem;}
+  .icon-btn{width:2.7rem;height:2.7rem;border-radius:.85rem;}
+  .topbar{gap:.4rem;padding:.55rem .8rem;}
+  .view{padding-left:.85rem;padding-right:.85rem;}
+  .hero h1{font-size:clamp(1.95rem,9vw,2.6rem);}
+  .hero-lead{font-size:1.02rem;}
+  .hero-cta .btn{width:auto;flex:1 1 44%;padding:.8rem 1rem;}
+  .learn-cta .btn{width:100%;}
+  .tabs{flex-wrap:wrap;overflow:visible;gap:.45rem;padding-bottom:.7rem;}
+  .tab{padding:.5rem .78rem;font-size:.98rem;}
+  .section-head{gap:.7rem;}
+  .back-btn{width:2.8rem;height:2.8rem;}
+  .mode-grid{grid-template-columns:1fr;}
+  .challenge-band{padding:.9rem;}
+  .avatar-grid{gap:.45rem;}
+  .avatar-card{padding:.3rem .3rem .45rem;border-radius:16px;}
+  .avatar-card .label{font-size:.82rem;}
+  .order-grid{grid-template-columns:1fr 1fr;}
+  .order-card{min-height:4.6rem;padding:.75rem .65rem;font-size:.98rem;}
+  .sentence{font-size:1.22rem;line-height:2.15;}
+  .sentence .chip{padding:.04em .2em;}
+  .game-top{gap:.6rem;}
+  .game-top .titles{flex:1 1 60%;}
+  .game-score{margin-left:0;}
+  .qtext{font-size:1.21rem;line-height:1.75;}
+  .opt{font-size:1.02rem;padding:.75rem .8rem;min-height:3.5rem;}
+  .opt .badge{width:1.95rem;height:1.95rem;font-size:.92rem;}
+  .fb-answer{margin-left:0;width:100%;}
+  .score-grid{grid-template-columns:1fr 1fr;}
+  .result-actions .btn{flex:1 1 100%;}
+}
+@media (min-width:561px) and (max-width:900px){
+  .gates{grid-template-columns:repeat(3,1fr);}
+  .gate{display:block;padding:1rem .9rem;}
+  .gate .tile{width:4rem;height:4rem;margin-bottom:.6rem;}
+  .gate h3{font-size:1.1rem;}
+  .gate p{font-size:.9rem;}
+  .gate .go{position:absolute;right:.8rem;bottom:.8rem;}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important;}
+}
+
+/* ---------- 圖示容器校正 ---------- */
+.brand-mark svg{width:100%;height:100%;}
+.opt .badge svg{width:1.4rem;height:1.4rem;}
+.fb-icon svg{width:100%;height:100%;padding:.45rem;border-radius:50%;background:#fff;border:2.5px solid var(--ink);}
+.fb-icon.ok{color:#1e8a78;}
+.fb-icon.no{color:#c94b3c;}
+.result-mascot svg{width:100%;height:auto;}
+.band-icon{display:inline-grid;place-items:center;width:2rem;height:2rem;flex:0 0 auto;}
+.band-icon svg{width:100%;height:100%;}
+
+</style>
+</head>
+<body>
+<div class="app" data-generated-by="vibe-coding-frontend-design">
+  <header class="topbar">
+    <button class="brand" id="brandBtn" aria-label="回到首頁">
+      <span class="brand-mark" id="brandMark"></span>
+      <span class="brand-name">描寫<span>小偵探</span></span>
+    </button>
+    <div class="top-actions">
+      <div class="star-pill" title="累積星星" aria-label="累積星星">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 5l8.2 16.9 18.6 2.6-13.5 13 3.2 18.4L32 47.2 15.5 55.9l3.2-18.4-13.5-13 18.6-2.6z" fill="#ffc857" stroke="#2f2a44" stroke-width="3.4" stroke-linejoin="round"/></svg>
+        <span id="starTotal">0</span>
+      </div>
+      <button class="icon-btn" id="soundBtn" aria-pressed="true" aria-label="關閉音效"></button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ========== 首頁 ========== -->
+    <section class="view" id="view-home">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow"><i></i>小學語文 · 互動學習</span>
+          <h1>五種描寫手法<br><span class="hl">一步一步</span>學會它</h1>
+          <p class="hero-lead">跟著小偵探，先學外貌、動作、語言、神態、心理，再用遊戲闖關。每一題都會告訴你「為什麼」，邊玩邊學會。</p>
+          <div class="hero-cta">
+            <button class="btn btn-primary" data-go="learn">開始學習<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 32h36M36 20l12 12-12 12" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="btn btn-yellow" data-go="practice">直接挑戰<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M16 6v52" stroke="#2f2a44" stroke-width="4" stroke-linecap="round"/><path d="M18 9h30l-6 10 6 10H18z" fill="#ff8a71" stroke="#2f2a44" stroke-width="3" stroke-linejoin="round"/></svg></button>
+          </div>
+        </div>
+        <div class="hero-mascot" id="heroMascot"></div>
+      </div>
+
+      <div class="gates">
+        <button class="gate c1" data-go="learn">
+          <span class="tile">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 10h18c4 0 6 2 6 6v36c0-4-2-6-6-6H8z" fill="#6fb7ff" stroke="#2f2a44" stroke-width="3" stroke-linejoin="round"/><path d="M56 10H38c-4 0-6 2-6 6v36c0-4 2-6 6-6h18z" fill="#9b7bea" stroke="#2f2a44" stroke-width="3" stroke-linejoin="round"/></svg>
+          </span>
+          <h3>教學學堂</h3>
+          <p>五張圖卡、五句口訣，先看懂再玩。</p>
+          <span class="go"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 32h36M36 20l12 12-12 12" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+        <button class="gate c2" data-go="practice">
+          <span class="tile">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="20" width="52" height="28" rx="14" fill="#3fb8a8" stroke="#2f2a44" stroke-width="3"/><path d="M20 34h10M25 29v10" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/><circle cx="43" cy="30" r="3" fill="#fff"/><circle cx="49" cy="37" r="3" fill="#fff"/></svg>
+          </span>
+          <h3>練習樂園</h3>
+          <p>每種描寫一種玩法，六題為一關。</p>
+          <span class="go"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 32h36M36 20l12 12-12 12" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+        <button class="gate c3" data-go="practice">
+          <span class="tile">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M20 10h24v8c0 9-5 15-12 15s-12-6-12-15z" fill="#ffc857" stroke="#2f2a44" stroke-width="3" stroke-linejoin="round"/><path d="M20 14h-8v4c0 6 4 10 10 10M44 14h8v4c0 6-4 10-10 10" fill="none" stroke="#2f2a44" stroke-width="3" stroke-linecap="round"/><path d="M32 33v10M24 52h16M27 44h10l2 8H25z" fill="#ffc857" stroke="#2f2a44" stroke-width="3" stroke-linejoin="round"/></svg>
+          </span>
+          <h3>挑戰擂台</h3>
+          <p>兩種模式，分辨五種描寫手法。</p>
+          <span class="go"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 32h36M36 20l12 12-12 12" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+      </div>
+
+      <div class="home-note">
+        <span class="chip">42 道題目</span>
+        <span class="chip">每題附解說</span>
+        <span class="chip">手機 · 平板 · 電腦</span>
+        <span class="chip">免安裝 · 離線可玩</span>
+      </div>
+    </section>
+
+    <!-- ========== 教學區 ========== -->
+    <section class="view" id="view-learn" hidden>
+      <div class="section-head">
+        <button class="back-btn" data-go="home" aria-label="返回首頁"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M38 12L18 32l20 20" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div>
+          <h1>教學學堂</h1>
+          <p class="sub">先看圖，再讀一句，五類描寫一次分清。</p>
+        </div>
+      </div>
+      <div class="tabs" id="learnTabs" role="tablist" aria-label="五類描寫手法"></div>
+      <div class="learn-grid">
+        <div class="learn-art" id="learnArt"></div>
+        <div class="learn-body" id="learnBody"></div>
+      </div>
+    </section>
+
+    <!-- ========== 練習選單 ========== -->
+    <section class="view" id="view-practice" hidden>
+      <div class="section-head">
+        <button class="back-btn" data-go="home" aria-label="返回首頁"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M38 12L18 32l20 20" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div>
+          <h1>練習樂園</h1>
+          <p class="sub">每一種描寫手法，都有一種專屬玩法。</p>
+        </div>
+      </div>
+      <div class="mode-grid" id="practiceGrid"></div>
+
+      <div class="challenge-band">
+        <h2><span class="band-icon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M20 10h24v8c0 9-5 15-12 15s-12-6-12-15z" fill="#ffc857" stroke="#2f2a44" stroke-width="3" stroke-linejoin="round"/><path d="M20 14h-8v4c0 6 4 10 10 10M44 14h8v4c0 6-4 10-10 10" fill="none" stroke="#2f2a44" stroke-width="3" stroke-linecap="round"/><path d="M32 33v10M24 52h16M27 44h10l2 8H25z" fill="#ffc857" stroke="#2f2a44" stroke-width="3" stroke-linejoin="round"/></svg></span>挑戰擂台</h2>
+        <p>五種手法混在一起，你能一眼分清嗎？兩種模式，各六題。</p>
+        <div class="mode-grid" id="challengeGrid"></div>
+      </div>
+    </section>
+
+    <!-- ========== 遊戲 ========== -->
+    <section class="view" id="view-game" hidden>
+      <div class="game">
+        <div class="game-top">
+          <button class="back-btn" id="gameBack" aria-label="返回練習選單"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M38 12L18 32l20 20" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="titles">
+            <div class="kicker" id="gameKicker"></div>
+            <h2 id="gameTitle"></h2>
+          </div>
+          <div class="game-score" aria-label="得分">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 5l8.2 16.9 18.6 2.6-13.5 13 3.2 18.4L32 47.2 15.5 55.9l3.2-18.4-13.5-13 18.6-2.6z" fill="#ffc857" stroke="#2f2a44" stroke-width="3.4" stroke-linejoin="round"/></svg>
+            <span id="gameScore">0</span>
+          </div>
+        </div>
+        <div class="progress-row">
+          <div class="dots" id="progressDots" aria-hidden="true"></div>
+          <span class="progress-text" id="progressText"></span>
+        </div>
+        <div class="timer-wrap" id="timerWrap" hidden><div class="timer-bar" id="timerBar"></div></div>
+        <div class="qcard" id="qcard"></div>
+        <div id="feedbackHost"></div>
+      </div>
+    </section>
+
+    <!-- ========== 成績 ========== -->
+    <section class="view" id="view-result" hidden>
+      <div class="result-wrap">
+        <div class="result-card">
+          <div class="result-mascot" id="resultMascot"></div>
+          <h2 id="resultTitle">太厲害了！</h2>
+          <p class="result-sub" id="resultSub"></p>
+          <div class="stars-row" id="resultStars" aria-label="獲得星星"></div>
+          <div class="score-grid">
+            <div class="score-box"><div class="k">得分</div><div class="v" id="resultScore">0</div></div>
+            <div class="score-box"><div class="k">答對</div><div class="v" id="resultCorrect">0 / 6</div></div>
+          </div>
+          <div class="result-actions">
+            <button class="btn btn-primary" id="retryBtn">再玩一次<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M52 32a20 20 0 11-6-14" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M52 10v12H40" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="btn btn-ghost" id="resultBackBtn">返回練習選單</button>
+          </div>
+          <p class="result-tip" id="resultTip"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+
+<script>
+/* =========================================================
+   內嵌 SVG 圖示與卡通插畫（不依賴任何外部圖片）
+   ========================================================= */
+const INK = '#2f2a44';
+
+function icon(name, cls) {
+  if (name === 'appearance') name = 'face';
+  const map = {
+    face: '<circle cx="32" cy="31" r="25" fill="#FFE3D6"/>' +
+      '<path d="M7 31c0-14 10-23 25-23s25 9 25 23c-5-7-13-10-25-10S12 24 7 31z" fill="#3A3346"/>' +
+      '<circle cx="24" cy="34" r="2.6" fill="#2f2a44"/><circle cx="41" cy="34" r="2.6" fill="#2f2a44"/>' +
+      '<path d="M25 43c4 3.4 10 3.4 14 0" fill="none" stroke="#2f2a44" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M16 58c2-8 8-11 16-11s14 3 16 11" fill="#F78FB3" stroke="#2f2a44" stroke-width="3" stroke-linejoin="round"/>',
+    action: '<circle cx="32" cy="30" r="25" fill="#DCF7F1"/>' +
+      '<circle cx="40" cy="15" r="6" fill="#FFDCC4" stroke="#2f2a44" stroke-width="3"/>' +
+      '<path d="M37 22l-7 12 9 6" fill="none" stroke="#2f2a44" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M30 34l-9 6M39 40l-3 9M33 26l-9 3" fill="none" stroke="#2f2a44" stroke-width="4.5" stroke-linecap="round"/>' +
+      '<path d="M10 24h8M8 33h7M12 42h7" stroke="#3FB8A8" stroke-width="3" stroke-linecap="round"/>',
+    speech: '<circle cx="32" cy="32" r="25" fill="#E2EFFF"/>' +
+      '<path d="M10 15h30a5 5 0 015 5v13a5 5 0 01-5 5H25l-9 8v-8h-6a5 5 0 01-5-5V20a5 5 0 015-5z" fill="#fff" stroke="#2f2a44" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M16 22h19M16 29h13" stroke="#6FB7FF" stroke-width="3.2" stroke-linecap="round"/>' +
+      '<path d="M38 34h16a4 4 0 014 4v7a4 4 0 01-4 4h-3v6l-7-6h-6a4 4 0 01-4-4v-7a4 4 0 014-4z" fill="#FFC857" stroke="#2f2a44" stroke-width="3" stroke-linejoin="round"/>',
+    expression: '<circle cx="32" cy="31" r="25" fill="#FFF0C9"/>' +
+      '<circle cx="32" cy="31" r="17" fill="#FFDCC4" stroke="#2f2a44" stroke-width="3"/>' +
+      '<path d="M20 26c3-3 7-3 10-1M34 25c3-2 7-2 10 1" fill="none" stroke="#2f2a44" stroke-width="3" stroke-linecap="round"/>' +
+      '<circle cx="26" cy="32" r="2.4" fill="#2f2a44"/><circle cx="38" cy="32" r="2.4" fill="#2f2a44"/>' +
+      '<path d="M25 39c4 3 10 3 14 0" fill="none" stroke="#2f2a44" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M6 14l2.5 5.5L14 22l-5.5 2.5L6 30l-2.5-5.5L-2 22l5.5-2.5z" fill="#FFC857" stroke="#2f2a44" stroke-width="2.2" stroke-linejoin="round" transform="translate(2 0)"/>',
+    psychology: '<circle cx="32" cy="32" r="25" fill="#ECE2FF"/>' +
+      '<path d="M34 9c-11 0-19 8-19 18 0 6 3 10 7 13v8h11v-6h5v-8c4-3 6-7 6-11 0-8-4-12-10-14z" fill="#FFDCC4" stroke="#2f2a44" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M27 48h13" stroke="#2f2a44" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M31 32c0-5 7-5 7 0 0 3-3 4-3 6" fill="none" stroke="#9B7BEA" stroke-width="3" stroke-linecap="round"/>' +
+      '<circle cx="35" cy="42" r="1.8" fill="#9B7BEA"/>' +
+      '<path d="M45 16l1.6 3.4 3.4 1.6-3.4 1.6L45 26l-1.6-3.4L40 21l3.4-1.6z" fill="#FFC857" stroke="#2f2a44" stroke-width="2"/>',
+    trophy: '<path d="M20 10h24v8c0 9-5 15-12 15s-12-6-12-15z" fill="#FFC857" stroke="#2f2a44" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M20 14h-8v4c0 6 4 10 10 10M44 14h8v4c0 6-4 10-10 10" fill="none" stroke="#2f2a44" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M32 33v10M24 52h16M27 44h10l2 8H25z" fill="#FFC857" stroke="#2f2a44" stroke-width="3" stroke-linejoin="round"/>',
+    clock: '<circle cx="32" cy="32" r="23" fill="#fff" stroke="#2f2a44" stroke-width="4"/>' +
+      '<path d="M32 18v14l9 6" fill="none" stroke="#E96B52" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<circle cx="32" cy="32" r="3" fill="#2f2a44"/>',
+    star: '<path d="M32 5l8.2 16.9 18.6 2.6-13.5 13 3.2 18.4L32 47.2 15.5 55.9l3.2-18.4-13.5-13 18.6-2.6z" fill="currentColor" stroke="#2f2a44" stroke-width="3" stroke-linejoin="round"/>',
+    sound: '<path d="M12 25h9l11-9v32l-11-9h-9z" fill="#FFC857" stroke="#2f2a44" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M40 24c4 4 4 12 0 16M46 18c7 7 7 21 0 28" fill="none" stroke="#2f2a44" stroke-width="3.4" stroke-linecap="round"/>',
+    muted: '<path d="M12 25h9l11-9v32l-11-9h-9z" fill="#D9D2E8" stroke="#2f2a44" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M40 25l14 14M54 25L40 39" stroke="#2f2a44" stroke-width="3.6" stroke-linecap="round"/>',
+    back: '<path d="M38 12L18 32l20 20" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>',
+    arrow: '<path d="M12 32h36M36 20l12 12-12 12" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>',
+    check: '<path d="M12 34l12 12 26-28" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>',
+    cross: '<path d="M18 18l28 28M46 18L18 46" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>',
+    bulb: '<path d="M32 6c-11 0-19 8-19 18 0 7 4 12 8 16v6h22v-6c4-4 8-9 8-16 0-10-8-18-19-18z" fill="#FFC857" stroke="#2f2a44" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M26 52h12M28 58h8" stroke="#2f2a44" stroke-width="3.4" stroke-linecap="round"/>',
+    book: '<path d="M8 10h18c4 0 6 2 6 6v36c0-4-2-6-6-6H8z" fill="#6FB7FF" stroke="#2f2a44" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M56 10H38c-4 0-6 2-6 6v36c0-4 2-6 6-6h18z" fill="#9B7BEA" stroke="#2f2a44" stroke-width="3" stroke-linejoin="round"/>',
+    gamepad: '<rect x="6" y="20" width="52" height="28" rx="14" fill="#3FB8A8" stroke="#2f2a44" stroke-width="3"/>' +
+      '<path d="M20 34h10M25 29v10" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/>' +
+      '<circle cx="43" cy="30" r="3" fill="#fff"/><circle cx="49" cy="37" r="3" fill="#fff"/>',
+    flag: '<path d="M16 6v52" stroke="#2f2a44" stroke-width="4" stroke-linecap="round"/>' +
+      '<path d="M18 9h30l-6 10 6 10H18z" fill="#FF8A71" stroke="#2f2a44" stroke-width="3" stroke-linejoin="round"/>',
+    home: '<path d="M8 30L32 9l24 21" fill="none" stroke="currentColor" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M14 28v26h36V28" fill="#fff" stroke="currentColor" stroke-width="4.2" stroke-linejoin="round"/>' +
+      '<path d="M26 54V38h12v16" fill="#FFC857" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round"/>'
+  };
+  return '<svg class="' + (cls || '') + '" viewBox="0 0 64 64" aria-hidden="true">' + (map[name] || map.star) + '</svg>';
+}
+
+/* ---------- 偵探吉祥物 ---------- */
+const MASCOT = '<svg viewBox="0 0 260 260" role="img" aria-label="描寫小偵探吉祥物">' +
+  '<ellipse cx="128" cy="240" rx="86" ry="13" fill="#2f2a44" opacity=".10"/>' +
+  '<path d="M70 240c0-42 20-66 58-66s58 24 58 66z" fill="#6FB7FF" stroke="#2f2a44" stroke-width="6" stroke-linejoin="round"/>' +
+  '<path d="M106 177l22 24 22-24" fill="#FFF7E9" stroke="#2f2a44" stroke-width="6" stroke-linejoin="round"/>' +
+  '<rect x="112" y="146" width="32" height="28" rx="10" fill="#FFDCC4" stroke="#2f2a44" stroke-width="6"/>' +
+  '<circle cx="71" cy="112" r="12" fill="#FFDCC4" stroke="#2f2a44" stroke-width="6"/>' +
+  '<circle cx="185" cy="112" r="12" fill="#FFDCC4" stroke="#2f2a44" stroke-width="6"/>' +
+  '<circle cx="128" cy="106" r="56" fill="#FFDCC4" stroke="#2f2a44" stroke-width="6"/>' +
+  '<path d="M74 104c0-33 24-52 54-52s54 19 54 52c-10-14-24-20-54-20s-44 6-54 20z" fill="#3A3346"/>' +
+  '<path d="M68 82c8-27 28-41 60-41s52 14 60 41z" fill="#E8A33D" stroke="#2f2a44" stroke-width="6" stroke-linejoin="round"/>' +
+  '<path d="M61 84h134" stroke="#2f2a44" stroke-width="9" stroke-linecap="round"/>' +
+  '<circle cx="128" cy="41" r="5" fill="#fff" stroke="#2f2a44" stroke-width="3"/>' +
+  '<path d="M98 99c5-4 12-4 17 0M141 99c5-4 12-4 17 0" fill="none" stroke="#2f2a44" stroke-width="4.5" stroke-linecap="round"/>' +
+  '<circle cx="107" cy="113" r="5.5" fill="#2f2a44"/><circle cx="149" cy="113" r="5.5" fill="#2f2a44"/>' +
+  '<circle cx="109" cy="111" r="1.9" fill="#fff"/><circle cx="151" cy="111" r="1.9" fill="#fff"/>' +
+  '<circle cx="93" cy="128" r="8" fill="#F7A8B8" opacity=".75"/>' +
+  '<circle cx="163" cy="128" r="8" fill="#F7A8B8" opacity=".75"/>' +
+  '<path d="M116 132c7 8 17 8 24 0" fill="none" stroke="#2f2a44" stroke-width="5" stroke-linecap="round"/>' +
+  '<circle cx="205" cy="174" r="30" fill="#CDF0FF" fill-opacity=".55" stroke="#2f2a44" stroke-width="8"/>' +
+  '<path d="M226 196l18 18" stroke="#2f2a44" stroke-width="13" stroke-linecap="round"/>' +
+  '<path d="M172 202c11 1 20-4 25-12" fill="none" stroke="#2f2a44" stroke-width="6" stroke-linecap="round"/>' +
+  '<path d="M206 158l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#FFC857" stroke="#2f2a44" stroke-width="2"/>' +
+  '</svg>';
+
+/* ---------- 教學區大插畫 ---------- */
+const LEARN_ART = {
+  appearance: '<svg viewBox="0 0 320 260" role="img" aria-label="外貌描寫插畫">' +
+    '<circle cx="160" cy="130" r="114" fill="#FFEAF2"/>' +
+    '<rect x="82" y="24" width="156" height="200" rx="78" fill="#FFFDF8" stroke="#2f2a44" stroke-width="6"/>' +
+    '<path d="M110 196c4-26 22-40 50-40s46 14 50 40z" fill="#F78FB3" stroke="#2f2a44" stroke-width="5"/>' +
+    '<rect x="146" y="146" width="28" height="22" rx="9" fill="#FFDCC4" stroke="#2f2a44" stroke-width="4"/>' +
+    '<circle cx="160" cy="112" r="43" fill="#FFDCC4" stroke="#2f2a44" stroke-width="5"/>' +
+    '<circle cx="121" cy="114" r="8" fill="#FFDCC4" stroke="#2f2a44" stroke-width="4"/>' +
+    '<circle cx="199" cy="114" r="8" fill="#FFDCC4" stroke="#2f2a44" stroke-width="4"/>' +
+    '<path d="M117 104c0-28 19-44 43-44s43 16 43 44c-8-11-19-16-43-16s-35 5-43 16z" fill="#3A3346"/>' +
+    '<path d="M127 100c5-10 12-14 20-14s15 4 20 14" fill="#3A3346"/>' +
+    '<circle cx="145" cy="113" r="4" fill="#2f2a44"/><circle cx="175" cy="113" r="4" fill="#2f2a44"/>' +
+    '<circle cx="146" cy="111" r="1.4" fill="#fff"/><circle cx="176" cy="111" r="1.4" fill="#fff"/>' +
+    '<path d="M150 128c5 4 15 4 20 0" fill="none" stroke="#2f2a44" stroke-width="4" stroke-linecap="round"/>' +
+    '<circle cx="133" cy="123" r="5" fill="#F7A8B8" opacity=".8"/><circle cx="187" cy="123" r="5" fill="#F7A8B8" opacity=".8"/>' +
+    '<path d="M232 60l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#FFC857" stroke="#2f2a44" stroke-width="2.4"/>' +
+    '<path d="M66 148l2.5 6 6 2.5-6 2.5-2.5 6-2.5-6-6-2.5 6-2.5z" fill="#FFC857" stroke="#2f2a44" stroke-width="2.2"/>' +
+    '<rect x="40" y="70" width="14" height="52" rx="6" fill="#9B7BEA" stroke="#2f2a44" stroke-width="4" transform="rotate(-18 47 96)"/>' +
+    '<path d="M44 74l6 2M47 83l6 2M50 92l6 2" stroke="#fff" stroke-width="2.4" stroke-linecap="round" transform="rotate(-18 47 96)"/>' +
+    '<path d="M258 168c8-10 22-8 22 4 0 9-12 15-22 21-10-6-22-12-22-21 0-12 14-14 22-4z" fill="#FF8A71" stroke="#2f2a44" stroke-width="3"/>' +
+    '</svg>',
+  action: '<svg viewBox="0 0 320 260" role="img" aria-label="動作描寫插畫">' +
+    '<circle cx="160" cy="132" r="112" fill="#DCF7F1"/>' +
+    '<ellipse cx="150" cy="228" rx="82" ry="10" fill="#2f2a44" opacity=".1"/>' +
+    '<circle cx="186" cy="64" r="26" fill="#FFDCC4" stroke="#2f2a44" stroke-width="5"/>' +
+    '<path d="M180 58c2-10 14-13 20-5 3 4 2 9-1 11-2-6-10-7-19-6z" fill="#3A3346"/>' +
+    '<circle cx="181" cy="64" r="2.6" fill="#2f2a44"/><circle cx="195" cy="64" r="2.6" fill="#2f2a44"/>' +
+    '<path d="M184 74c3 2 7 2 10 0" fill="none" stroke="#2f2a44" stroke-width="3" stroke-linecap="round"/>' +
+    '<path d="M176 92l-14 44 22 24" fill="none" stroke="#2f2a44" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<path d="M162 136l-26 30M184 160l-8 42M170 108l-30 12" fill="none" stroke="#2f2a44" stroke-width="11" stroke-linecap="round"/>' +
+    '<path d="M138 190l-14 6M176 202l-12 8" stroke="#E96B52" stroke-width="9" stroke-linecap="round"/>' +
+    '<path d="M170 108l22-14" stroke="#2f2a44" stroke-width="10" stroke-linecap="round"/>' +
+    '<path d="M88 88h28M76 112h32M84 136h22" stroke="#3FB8A8" stroke-width="7" stroke-linecap="round"/>' +
+    '<circle cx="250" cy="196" r="24" fill="#FFC857" stroke="#2f2a44" stroke-width="5"/>' +
+    '<path d="M232 194c8-10 28-10 36 0M250 174v40" fill="none" stroke="#2f2a44" stroke-width="3.6"/>' +
+    '<path d="M62 178c8-8 18-8 26 0" fill="none" stroke="#FF8A71" stroke-width="6" stroke-linecap="round"/>' +
+    '</svg>',
+  speech: '<svg viewBox="0 0 320 260" role="img" aria-label="語言描寫插畫">' +
+    '<circle cx="160" cy="130" r="112" fill="#E2EFFF"/>' +
+    '<circle cx="100" cy="98" r="30" fill="#FFDCC4" stroke="#2f2a44" stroke-width="5"/>' +
+    '<path d="M72 96c0-20 12-32 28-32s28 12 28 32c-6-9-15-13-28-13s-22 4-28 13z" fill="#3A3346"/>' +
+    '<circle cx="90" cy="100" r="2.8" fill="#2f2a44"/><circle cx="110" cy="100" r="2.8" fill="#2f2a44"/>' +
+    '<path d="M93 110c4 3 10 3 14 0" fill="none" stroke="#2f2a44" stroke-width="3" stroke-linecap="round"/>' +
+    '<path d="M64 158c4-22 17-32 36-32s32 10 36 32z" fill="#3FB8A8" stroke="#2f2a44" stroke-width="5"/>' +
+    '<circle cx="224" cy="112" r="30" fill="#F3C9A2" stroke="#2f2a44" stroke-width="5"/>' +
+    '<path d="M194 110c0-20 13-32 30-32s30 12 30 32c-6-9-16-13-30-13s-24 4-30 13z" fill="#5A3B2E"/>' +
+    '<circle cx="214" cy="114" r="2.8" fill="#2f2a44"/><circle cx="234" cy="114" r="2.8" fill="#2f2a44"/>' +
+    '<path d="M217 124c4 3 10 3 14 0" fill="none" stroke="#2f2a44" stroke-width="3" stroke-linecap="round"/>' +
+    '<path d="M188 170c4-20 17-30 36-30s32 10 36 30z" fill="#9B7BEA" stroke="#2f2a44" stroke-width="5"/>' +
+    '<path d="M42 34h84a10 10 0 0110 10v34a10 10 0 01-10 10H84l-16 14V88H42a10 10 0 01-10-10V44a10 10 0 0110-10z" fill="#fff" stroke="#2f2a44" stroke-width="5" stroke-linejoin="round"/>' +
+    '<path d="M54 54h58M54 68h40" stroke="#6FB7FF" stroke-width="5" stroke-linecap="round"/>' +
+    '<path d="M206 26h68a10 10 0 0110 10v26a10 10 0 01-10 10h-14l-12 12V72h-42a10 10 0 01-10-10V36a10 10 0 0110-10z" fill="#FFC857" stroke="#2f2a44" stroke-width="5" stroke-linejoin="round"/>' +
+    '<path d="M216 44h48M216 57h30" stroke="#2f2a44" stroke-width="4.6" stroke-linecap="round"/>' +
+    '<path d="M148 206l10 10 18-20" fill="none" stroke="#E96B52" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '</svg>',
+  expression: '<svg viewBox="0 0 320 260" role="img" aria-label="神態描寫插畫">' +
+    '<circle cx="160" cy="130" r="112" fill="#FFF0C9"/>' +
+    '<circle cx="158" cy="132" r="66" fill="#FFDCC4" stroke="#2f2a44" stroke-width="6"/>' +
+    '<path d="M96 126c0-40 27-62 62-62s62 22 62 62c-11-16-28-23-62-23s-51 7-62 23z" fill="#3A3346"/>' +
+    '<path d="M118 106c8-8 18-10 26-6M174 100c9-4 19-2 26 6" fill="none" stroke="#2f2a44" stroke-width="6" stroke-linecap="round"/>' +
+    '<circle cx="133" cy="126" r="7" fill="#2f2a44"/><circle cx="184" cy="126" r="7" fill="#2f2a44"/>' +
+    '<circle cx="135" cy="123" r="2.4" fill="#fff"/><circle cx="186" cy="123" r="2.4" fill="#fff"/>' +
+    '<path d="M142 156c10 8 24 8 34 0" fill="none" stroke="#2f2a44" stroke-width="6" stroke-linecap="round"/>' +
+    '<circle cx="112" cy="146" r="9" fill="#F7A8B8" opacity=".85"/><circle cx="205" cy="146" r="9" fill="#F7A8B8" opacity=".85"/>' +
+    '<circle cx="54" cy="60" r="26" fill="#fff" stroke="#2f2a44" stroke-width="4"/>' +
+    '<circle cx="46" cy="57" r="3" fill="#2f2a44"/><circle cx="62" cy="57" r="3" fill="#2f2a44"/>' +
+    '<path d="M45 68c5 4 13 4 18 0" fill="none" stroke="#2f2a44" stroke-width="3.4" stroke-linecap="round"/>' +
+    '<circle cx="268" cy="66" r="26" fill="#fff" stroke="#2f2a44" stroke-width="4"/>' +
+    '<path d="M256 58l7 7M270 58l-7 7" stroke="#2f2a44" stroke-width="3.4" stroke-linecap="round"/>' +
+    '<path d="M258 78c6-4 14-4 20 0" fill="none" stroke="#2f2a44" stroke-width="3.4" stroke-linecap="round"/>' +
+    '<circle cx="60" cy="200" r="24" fill="#fff" stroke="#2f2a44" stroke-width="4"/>' +
+    '<path d="M50 196c3-3 8-3 11 0M70 196c3-3 8-3 11 0" fill="none" stroke="#2f2a44" stroke-width="3.4" stroke-linecap="round"/>' +
+    '<ellipse cx="60" cy="208" rx="6" ry="7" fill="#2f2a44"/>' +
+    '<path d="M262 194c10 0 14 8 14 14s-6 12-14 12-14-6-14-12 4-14 14-14z" fill="#FF8A71" stroke="#2f2a44" stroke-width="3.4"/>' +
+    '<path d="M250 202c3-3 7-3 10 0" fill="none" stroke="#2f2a44" stroke-width="3" stroke-linecap="round"/>' +
+    '</svg>',
+  psychology: '<svg viewBox="0 0 320 260" role="img" aria-label="心理描寫插畫">' +
+    '<circle cx="160" cy="130" r="112" fill="#ECE2FF"/>' +
+    '<path d="M168 40c-46 0-78 34-78 76 0 26 13 45 31 58v26h46v-22h18v-30c16-12 26-30 26-48 0-34-16-52-43-60z" fill="#FFDCC4" stroke="#2f2a44" stroke-width="6" stroke-linejoin="round"/>' +
+    '<path d="M120 178h48M126 196h36" stroke="#2f2a44" stroke-width="5" stroke-linecap="round"/>' +
+    '<path d="M136 106c10-8 22-8 32 0M180 104c6-4 14-4 20 0" fill="none" stroke="#2f2a44" stroke-width="5" stroke-linecap="round"/>' +
+    '<circle cx="148" cy="120" r="4.5" fill="#2f2a44"/><circle cx="190" cy="120" r="4.5" fill="#2f2a44"/>' +
+    '<path d="M160 142c7 5 15 5 22 0" fill="none" stroke="#2f2a44" stroke-width="4.6" stroke-linecap="round"/>' +
+    '<circle cx="234" cy="60" r="8" fill="#fff" stroke="#2f2a44" stroke-width="3.4"/>' +
+    '<circle cx="258" cy="40" r="12" fill="#fff" stroke="#2f2a44" stroke-width="3.4"/>' +
+    '<path d="M246 18h44a10 10 0 0110 10v22a10 10 0 01-10 10h-8l-10 10V60h-26a10 10 0 01-10-10V28a10 10 0 0110-10z" fill="#fff" stroke="#2f2a44" stroke-width="4.4" stroke-linejoin="round"/>' +
+    '<path d="M268 30c8-9 20-4 20 6 0 8-10 12-20 18-10-6-20-10-20-18 0-10 12-15 20-6z" fill="#FF8A71" stroke="#2f2a44" stroke-width="3"/>' +
+    '<path d="M60 92c12-14 26-14 38 0M62 128c8-8 18-8 26 0" fill="none" stroke="#9B7BEA" stroke-width="5" stroke-linecap="round"/>' +
+    '<path d="M78 154l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#FFC857" stroke="#2f2a44" stroke-width="2.4"/>' +
+    '</svg>'
+};
+
+/* ---------- Q 版人物頭像產生器 ---------- */
+function avatarSVG(c) {
+  const hair = c.hair || 'short';
+  const hc = c.hairColor || '#3a3346';
+  const skin = c.skin || '#ffdcc4';
+  const cloth = c.cloth || '#6fb7ff';
+  const extras = c.extras || [];
+  const has = function (x) { return extras.indexOf(x) > -1; };
+  const ink = '#2f2a44';
+  let s = '<svg viewBox="0 0 140 140" role="img" aria-label="人物選項">';
+  s += '<rect width="140" height="140" rx="16" fill="#FFF6EC"/>';
+  s += '<circle cx="70" cy="64" r="50" fill="#FFEAF2"/>';
+
+  /* 身體 */
+  s += '<path d="M26 140c2-26 20-40 44-40s42 14 44 40z" fill="' + cloth + '" stroke="' + ink + '" stroke-width="4" stroke-linejoin="round"/>';
+  if (c.clothType === 'dress') {
+    s += '<path d="M52 108c4 6 12 9 18 9s14-3 18-9" fill="none" stroke="' + ink + '" stroke-width="2.4"/>';
+    s += '<path d="M44 126h52" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".85"/>';
+  } else if (c.clothType === 'changshan') {
+    s += '<path d="M70 100v40M70 106l-11 9M70 106l11 9" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/>';
+    s += '<circle cx="70" cy="114" r="1.8" fill="#fff"/><circle cx="70" cy="126" r="1.8" fill="#fff"/>';
+  } else {
+    s += '<path d="M56 104l14 10 14-10" fill="none" stroke="' + ink + '" stroke-width="2.6" stroke-linejoin="round"/>';
+  }
+
+  /* 頸與耳 */
+  s += '<rect x="61" y="95" width="18" height="20" rx="7" fill="' + skin + '" stroke="' + ink + '" stroke-width="3"/>';
+  s += '<circle cx="38" cy="72" r="7" fill="' + skin + '" stroke="' + ink + '" stroke-width="3"/>';
+  s += '<circle cx="102" cy="72" r="7" fill="' + skin + '" stroke="' + ink + '" stroke-width="3"/>';
+
+  /* 頭 */
+  s += '<ellipse cx="70" cy="67" rx="31" ry="33" fill="' + skin + '" stroke="' + ink + '" stroke-width="4"/>';
+
+  /* 髮型 */
+  if (hair === 'curly') {
+    s += '<g fill="' + hc + '" stroke="' + ink + '" stroke-width="3">';
+    s += '<circle cx="44" cy="47" r="13"/><circle cx="60" cy="37" r="14"/><circle cx="78" cy="37" r="14"/><circle cx="94" cy="47" r="12"/><circle cx="100" cy="60" r="9"/><circle cx="40" cy="60" r="9"/>';
+    s += '</g>';
+    s += '<path d="M46 53c5-7 13-10 24-10s19 3 24 10c-6-4-14-6-24-6s-18 2-24 6z" fill="' + hc + '"/>';
+  } else if (hair === 'pigtail') {
+    s += '<path d="M39 62c0-25 14-39 31-39s31 14 31 39c-7-11-17-16-31-16s-24 5-31 16z" fill="' + hc + '" stroke="' + ink + '" stroke-width="3.2"/>';
+    s += '<circle cx="29" cy="80" r="10" fill="' + hc + '" stroke="' + ink + '" stroke-width="3"/>';
+    s += '<circle cx="111" cy="80" r="10" fill="' + hc + '" stroke="' + ink + '" stroke-width="3"/>';
+    s += '<path d="M24 90l-3 14M32 91l3 14M116 90l3 14M108 91l-3 14" stroke="' + ink + '" stroke-width="2.6" stroke-linecap="round"/>';
+    s += '<rect x="26" y="72" width="7" height="5" rx="2" fill="#FF8A71" stroke="' + ink + '" stroke-width="1.8"/>';
+    s += '<rect x="107" y="72" width="7" height="5" rx="2" fill="#FF8A71" stroke="' + ink + '" stroke-width="1.8"/>';
+  } else if (hair === 'bob') {
+    s += '<path d="M38 66c0-26 14-41 32-41s32 15 32 41v22c-5-2-8-6-10-13-4-9-12-13-22-13s-18 4-22 13c-2 7-5 11-10 13z" fill="' + hc + '" stroke="' + ink + '" stroke-width="3.2"/>';
+  } else if (hair === 'long') {
+    s += '<path d="M38 62c0-25 14-39 32-39s32 14 32 39v45c0 4-3 7-7 7h-6V66c-4-6-11-9-19-9s-15 3-19 9v48h-6c-4 0-7-3-7-7z" fill="' + hc + '" stroke="' + ink + '" stroke-width="3.2"/>';
+    s += '<path d="M42 60c5-10 14-15 28-15s23 5 28 15" fill="' + hc + '"/>';
+  } else if (hair === 'spiky') {
+    s += '<path d="M37 66c0-24 13-40 33-40 0 4 0 8 3 10 3-4 5-8 5-12 5 2 9 6 11 11 4-2 7-5 9-9 8 7 12 20 12 40-8-9-18-14-30-14s-24 5-35 14z" fill="' + hc + '" stroke="' + ink + '" stroke-width="3.2" stroke-linejoin="round"/>';
+  } else if (hair === 'white') {
+    s += '<path d="M39 62c0-25 14-39 31-39s31 14 31 39c-7-11-17-16-31-16s-24 5-31 16z" fill="' + hc + '" stroke="' + ink + '" stroke-width="3.2"/>';
+    s += '<path d="M40 56c-4 6-5 13-3 20M100 56c4 6 5 13 3 20" fill="none" stroke="' + ink + '" stroke-width="2.4" stroke-linecap="round"/>';
+  } else {
+    s += '<path d="M38 62c0-25 14-39 32-39s32 14 32 39c-7-11-17-16-32-16s-25 5-32 16z" fill="' + hc + '" stroke="' + ink + '" stroke-width="3.2"/>';
+  }
+
+  /* 五官 */
+  const browW = has('thickBrow') ? 4.6 : 3;
+  const browColor = has('whiteBrow') ? '#fff' : ink;
+  s += '<path d="M52 58c4-2.6 9-2.6 12 0M76 58c4-2.6 9-2.6 12 0" fill="none" stroke="' + browColor + '" stroke-width="' + browW + '" stroke-linecap="round"/>';
+  s += '<circle cx="58" cy="69" r="3.4" fill="' + ink + '"/><circle cx="82" cy="69" r="3.4" fill="' + ink + '"/>';
+  s += '<circle cx="59.2" cy="67.8" r="1.1" fill="#fff"/><circle cx="83.2" cy="67.8" r="1.1" fill="#fff"/>';
+  s += '<path d="M67 76c1 2 2 2 3 2" fill="none" stroke="' + ink + '" stroke-width="2" stroke-linecap="round"/>';
+
+  if (has('missing')) {
+    s += '<ellipse cx="70" cy="86" rx="9" ry="7" fill="#7a3b3b" stroke="' + ink + '" stroke-width="2.4"/>';
+    s += '<rect x="62" y="81" width="5" height="4.5" fill="#fff"/><rect x="73" y="81" width="5" height="4.5" fill="#fff"/>';
+  } else {
+    s += '<path d="M62 85c4 5 12 5 16 0" fill="none" stroke="' + ink + '" stroke-width="3" stroke-linecap="round"/>';
+    if (has('tooth')) {
+      s += '<path d="M74 87l2.5 4 2.5-3.6z" fill="#fff" stroke="' + ink + '" stroke-width="1.6" stroke-linejoin="round"/>';
+    }
+  }
+
+  /* 特別標記 */
+  if (has('freckles')) {
+    s += '<g fill="#C98D5F">';
+    s += '<circle cx="49" cy="79" r="1.2"/><circle cx="54" cy="82" r="1.2"/><circle cx="49" cy="85" r="1.2"/>';
+    s += '<circle cx="86" cy="79" r="1.2"/><circle cx="91" cy="82" r="1.2"/><circle cx="86" cy="85" r="1.2"/>';
+    s += '</g>';
+  }
+  if (has('rosy')) {
+    s += '<circle cx="50" cy="80" r="5.5" fill="#F79AAE" opacity=".75"/><circle cx="90" cy="80" r="5.5" fill="#F79AAE" opacity=".75"/>';
+  }
+  if (has('dimples')) {
+    s += '<path d="M60 89c1 2 2 3 4 3M80 89c-1 2-2 3-4 3" fill="none" stroke="' + ink + '" stroke-width="1.8" stroke-linecap="round"/>';
+  }
+  if (has('mole')) {
+    s += '<circle cx="50" cy="55" r="2.1" fill="' + ink + '"/>';
+  }
+  if (has('wrinkle')) {
+    s += '<path d="M56 51c4-2 8-2 11 0M75 51c4-2 8-2 11 0M60 44c3-1.6 7-1.6 10 0M77 44c3-1.6 7-1.6 10 0" fill="none" stroke="#C98D5F" stroke-width="1.8" stroke-linecap="round"/>';
+  }
+
+  /* 配件 */
+  if (c.accessory === 'glasses') {
+    s += '<g fill="none" stroke="' + ink + '" stroke-width="2.6">';
+    s += '<circle cx="58" cy="69" r="11" fill="#ffffff" fill-opacity=".28"/>';
+    s += '<circle cx="82" cy="69" r="11" fill="#ffffff" fill-opacity=".28"/>';
+    s += '<path d="M69 69h2M47 68l-8-2M93 68l8-2"/>';
+    s += '</g>';
+  }
+  if (c.accessory === 'cap') {
+    s += '<path d="M36 56c2-20 16-32 34-32s32 12 34 32z" fill="#E05555" stroke="' + ink + '" stroke-width="3.4" stroke-linejoin="round"/>';
+    s += '<path d="M31 56h78" stroke="' + ink + '" stroke-width="6" stroke-linecap="round"/>';
+    s += '<circle cx="70" cy="24" r="3.4" fill="#FFC857" stroke="' + ink + '" stroke-width="1.8"/>';
+  }
+
+  s += '</svg>';
+  return s;
+}
+
+/* ---------- 小星星列 ---------- */
+function starsMarkup(n, cls) {
+  let out = '';
+  for (let i = 1; i <= 3; i++) {
+    out += '<svg class="' + (i <= n ? 'on ' : '') + (cls || '') + '" viewBox="0 0 64 64" aria-hidden="true">' +
+      '<path d="M32 5l8.2 16.9 18.6 2.6-13.5 13 3.2 18.4L32 47.2 15.5 55.9l3.2-18.4-13.5-13 18.6-2.6z" fill="currentColor" stroke="#2f2a44" stroke-width="3" stroke-linejoin="round"/></svg>';
+  }
+  return out;
+}
+
+</script>
+<script>
+/* =========================================================
+   教學內容：五類描寫手法
+   ========================================================= */
+const LEARN = [
+  {
+    key: 'appearance',
+    name: '外貌描寫',
+    tagline: '寫出「看得見」的樣子',
+    intro: '外貌描寫就是寫人物的長相、身材和衣著，讓讀者一讀，就能在腦海裡畫出這個人。',
+    formula: '五官 + 身材 + 衣著 + 特別標記',
+    points: [
+      '按順序寫：先寫整體，再寫局部；先寫上面，再寫下面。',
+      '抓住最特別的一兩處，不要由頭到腳樣樣都寫。',
+      '加上形容詞或比喻，例如「頭髮像小刺蝟」。'
+    ],
+    before: '小明長得很好看。',
+    after: '小明有一雙圓圓的大眼睛，笑起來露出兩顆小虎牙。',
+    highlights: ['圓圓的大眼睛', '兩顆小虎牙'],
+    tip: '外貌是「靜態」的：長相、身材、衣著。如果寫的是表情變化，那就是神態描寫了。'
+  },
+  {
+    key: 'action',
+    name: '動作描寫',
+    tagline: '把「怎樣做」寫清楚',
+    intro: '動作描寫是寫人物做了什麼、怎樣做，用準確的動詞把一連串動作按先後寫出來。',
+    formula: '先後順序 + 準確動詞 + 動作的樣子',
+    points: [
+      '按事情發生的先後順序寫，不能跳來跳去。',
+      '多用連續動詞，例如「拿起、彎腰、掃進」。',
+      '加上速度、力度或聲音，動作就更生動。'
+    ],
+    before: '他捶了一下桌子。',
+    after: '他握緊拳頭，用力捶了一下桌子，杯子也跳了起來。',
+    highlights: ['握緊拳頭', '用力捶', '杯子也跳了起來'],
+    tip: '同一個動作，動詞不同，效果就不同：「走」換成「踱」、「衝」、「溜」，人物性格馬上不一樣。'
+  },
+  {
+    key: 'speech',
+    name: '語言描寫',
+    tagline: '一句話，看出一個人',
+    intro: '語言描寫是寫人物說的話，包括說話的內容和語氣。說得對不對，要看場合和身份。',
+    formula: '說的話 + 怎樣說 + 為什麼說',
+    points: [
+      '說話要符合人物的年齡、身份和當時的情境。',
+      '加上語氣或動作，例如「輕聲說」「拍拍肩膀說」。',
+      '不必每句都寫「他說」，可以用動作或神情代替。'
+    ],
+    before: '他說：「對不起。」',
+    after: '他紅著臉，低聲說：「對不起，是我太不小心了。」',
+    highlights: ['紅著臉', '低聲說', '是我太不小心了'],
+    tip: '「話如其人」：小寶寶不會說「本人認為」，生氣的人也很難輕聲細語。寫對白前，先想想這句話是誰說的。'
+  },
+  {
+    key: 'expression',
+    name: '神態描寫',
+    tagline: '讓心情「看得見」',
+    intro: '神態描寫是寫人物臉上、眼裡的表情變化，例如眉毛、眼睛、嘴巴和臉色。',
+    formula: '眉毛 + 眼睛 + 嘴巴 + 臉色',
+    points: [
+      '先抓眼睛和嘴角，這兩個地方最容易看出心情。',
+      '寫出「變化」：由皺眉變成微笑，比固定不變更生動。',
+      '配合動作一起寫，例如「咬著嘴唇，低下頭」。'
+    ],
+    before: '他很生氣。',
+    after: '他的眉毛越皺越緊，眼睛瞪得圓圓的，嘴唇抿成了一條線。',
+    highlights: ['眉毛越皺越緊', '眼睛瞪得圓圓的', '嘴唇抿成了一條線'],
+    tip: '神態是「看得見」的表情，心理是「心裡想的」。寫「眼眶紅了」是神態；寫「我心裡很難過」才是心理。'
+  },
+  {
+    key: 'psychology',
+    name: '心理描寫',
+    tagline: '走進人物的心裡',
+    intro: '心理描寫是寫人物心裡的想法和感受，讓讀者知道他在想什麼、為什麼這樣想。',
+    formula: '想法 + 心情 + 身體反應',
+    points: [
+      '可以直接寫「我想……」，也可以寫心裡的對話。',
+      '寫身體反應：心跳加快、手心冒汗、雙腳發軟。',
+      '心理要跟事情發展配合，不能突然開心又突然害怕。'
+    ],
+    before: '我很緊張。',
+    after: '我盯著門口，心裡像揣著一隻小兔子，砰砰直跳，手心也冒出了汗。',
+    highlights: ['像揣著一隻小兔子', '砰砰直跳', '手心也冒出了汗'],
+    tip: '不要只寫「我很緊張」。問自己三個問題：為什麼緊張？緊張時想到什麼？身體有什麼反應？'
+  }
+];
+
+/* =========================================================
+   練習題庫：每個模式 6 題，全部不重複
+   ========================================================= */
+
+/* ---------- 1. 外貌：特徵尋人 ---------- */
+const APPEARANCE = [
+  {
+    text: '她有一頭金黃色的鬈髮，鼻樑上架著一副圓圓的眼鏡，笑起來有兩個小酒窩。',
+    options: [
+      { avatar: { hair: 'curly', hairColor: '#f0c04e', accessory: 'glasses', extras: ['dimples'], cloth: '#6fb7ff' } },
+      { avatar: { hair: 'curly', hairColor: '#f0c04e', extras: ['dimples'], cloth: '#6fb7ff' } },
+      { avatar: { hair: 'short', hairColor: '#3a3346', accessory: 'glasses', cloth: '#8fd3a8' } }
+    ],
+    answer: 0,
+    explain: '句子寫了三個特徵：金黃色鬈髮、圓圓的眼鏡、小酒窩。甲三個都有；乙少了眼鏡；丙的髮色和髮型不對，也沒有小酒窩。'
+  },
+  {
+    text: '她紮著兩條長長的麻花辮，頭上戴著一頂紅色小帽子，臉上滿是雀斑。',
+    options: [
+      { avatar: { hair: 'pigtail', hairColor: '#3a3346', accessory: 'cap', extras: ['freckles'], cloth: '#8fd3a8' } },
+      { avatar: { hair: 'pigtail', hairColor: '#3a3346', extras: ['freckles'], cloth: '#8fd3a8' } },
+      { avatar: { hair: 'long', hairColor: '#5a3b2e', accessory: 'cap', cloth: '#f78fb3' } }
+    ],
+    answer: 0,
+    explain: '麻花辮、紅色小帽子、雀斑，三樣都要齊。乙少了紅帽子；丙雖然戴帽子，卻是長直髮，也沒有雀斑。'
+  },
+  {
+    text: '爺爺的頭髮像雪一樣白，額頭上有三道深深的皺紋，穿著一件藍色唐裝。',
+    options: [
+      { avatar: { hair: 'white', hairColor: '#f4f1ea', extras: ['wrinkle', 'whiteBrow'], cloth: '#5b8def', clothType: 'changshan', skin: '#f0c9a8' } },
+      { avatar: { hair: 'white', hairColor: '#f4f1ea', extras: ['whiteBrow'], cloth: '#8b93a8', skin: '#f0c9a8' } },
+      { avatar: { hair: 'short', hairColor: '#3a3346', extras: ['wrinkle'], cloth: '#5b8def', skin: '#e8b98f' } }
+    ],
+    answer: 0,
+    explain: '白髮、三道皺紋、藍色唐裝是關鍵。乙沒有皺紋，衣服也不是藍色唐裝；丙的頭髮是黑色，和白髮不符。'
+  },
+  {
+    text: '弟弟的臉圓圓的，臉蛋紅撲撲，笑起來缺了兩顆門牙，頭髮剪得像小刺蝟。',
+    options: [
+      { avatar: { hair: 'spiky', hairColor: '#3a3346', extras: ['rosy', 'missing'], cloth: '#ffc857', skin: '#ffdcc4' } },
+      { avatar: { hair: 'spiky', hairColor: '#3a3346', extras: ['rosy'], cloth: '#ffc857', skin: '#ffdcc4' } },
+      { avatar: { hair: 'short', hairColor: '#3a3346', extras: ['missing'], cloth: '#7fc98b', skin: '#f0c9a8' } }
+    ],
+    answer: 0,
+    explain: '「小刺蝟」是豎起來的短髮，「紅撲撲」是紅臉蛋，「缺了兩顆門牙」要看嘴巴。乙的牙齒整齊；丙的頭髮不刺，臉也不紅。'
+  },
+  {
+    text: '姐姐留著齊耳的短髮，左邊眉毛上有一顆小痣，喜歡穿黃色連身裙。',
+    options: [
+      { avatar: { hair: 'bob', hairColor: '#3a3346', extras: ['mole'], cloth: '#ffc857', clothType: 'dress' } },
+      { avatar: { hair: 'bob', hairColor: '#3a3346', cloth: '#ffc857', clothType: 'dress' } },
+      { avatar: { hair: 'long', hairColor: '#5a3b2e', extras: ['mole'], cloth: '#9b7bea', clothType: 'dress' } }
+    ],
+    answer: 0,
+    explain: '齊耳短髮、左眉上的小痣、黃色裙子，三樣都要有。乙少了小痣；丙是長頭髮，裙子也不是黃色。'
+  },
+  {
+    text: '哥哥皮膚黝黑，眉毛又粗又濃，笑起來露出一顆小虎牙。',
+    options: [
+      { avatar: { hair: 'short', hairColor: '#2f2a36', extras: ['thickBrow', 'tooth'], cloth: '#e96b52', skin: '#c98d5f' } },
+      { avatar: { hair: 'short', hairColor: '#2f2a36', extras: ['thickBrow', 'tooth'], cloth: '#e96b52', skin: '#ffdcc4' } },
+      { avatar: { hair: 'short', hairColor: '#2f2a36', extras: ['thickBrow'], cloth: '#e96b52', skin: '#c98d5f' } }
+    ],
+    answer: 0,
+    explain: '黝黑的皮膚、又粗又濃的眉毛、小虎牙，是三處特徵。乙的皮膚太白了；丙笑起來沒有小虎牙。'
+  }
+];
+
+/* ---------- 2. 動作：動作排隊 ---------- */
+const ACTION = [
+  {
+    prompt: '早上刷牙，請把四個動作按先後順序排好。',
+    items: ['拿起牙刷', '擠上牙膏', '上下刷動牙齒', '漱口'],
+    explain: '先拿起牙刷，才能擠牙膏；擠好牙膏才刷動牙齒，最後用水漱口。動作按事情發生的先後排列，讀者才看得明白。'
+  },
+  {
+    prompt: '泡一杯熱茶，請把四個動作按先後順序排好。',
+    items: ['燒一壺熱水', '把茶包放進杯子', '倒入熱水', '等三分鐘讓茶出味'],
+    explain: '水要先燒開；茶包放進杯子，才倒得進熱水；倒滿後等三分鐘，茶味才會出來。順序錯了，茶就泡不出味道。'
+  },
+  {
+    prompt: '把洗好的衣服摺好收進衣櫃，請排列正確順序。',
+    items: ['把衣服攤平', '把兩邊袖子向內摺', '把衣服上下對摺', '放進衣櫃'],
+    explain: '先攤平才不會皺；袖子向內摺，衣服才整齊；上下對摺成小方塊；最後才放進衣櫃。'
+  },
+  {
+    prompt: '種一盆綠豆，請把四個步驟按先後順序排好。',
+    items: ['在杯子裡鋪上棉花', '放進幾顆綠豆', '灑一點水', '放在窗邊曬太陽'],
+    explain: '先鋪好棉花當「床」，再把綠豆放上去，灑水保持濕潤，最後放到有陽光的地方。順序亂了，綠豆就不容易發芽。'
+  },
+  {
+    prompt: '早上出門上學，請把四個動作按先後順序排好。',
+    items: ['起床摺好被子', '刷牙洗臉', '換上校服', '背起書包出門'],
+    explain: '起床後先整理床鋪，再清潔自己，然後換衣服，最後背書包出門。按生活順序寫，文章才通順。'
+  },
+  {
+    prompt: '做一張生日賀卡，請把四個動作按先後順序排好。',
+    items: ['在卡紙上畫好圖案', '沿著線剪下來', '在背面塗上膠水', '貼在另一張卡紙上'],
+    explain: '先畫好才能沿線剪；剪好才有完整圖案；塗膠水要塗在背面；最後貼到卡紙上。順序錯了，圖案就會剪壞或貼反。'
+  }
+];
+
+/* ---------- 3. 語言：對白配對 ---------- */
+const SPEECH = [
+  {
+    prompt: '同學不小心踩到你的新鞋，他紅著臉說：「對不起。」',
+    hint: '選出最適合的回應。',
+    options: [
+      '「你走路不長眼睛嗎？」',
+      '「沒關係，擦一擦就好，你也不是故意的。」',
+      '「你要賠我一雙新的！」'
+    ],
+    answer: 1,
+    explain: '語言要符合情境和修養。同學已經道歉，乙先原諒、再安慰，語氣有禮；甲和丙都帶責罵，只會讓氣氛更差。'
+  },
+  {
+    prompt: '運動會接力賽輸了，隊長想鼓勵垂頭喪氣的隊友。',
+    hint: '哪一句最像一個好隊長說的話？',
+    options: [
+      '「都是你跑太慢，我們才輸！」',
+      '「下次我們一起練好交接棒，一定會更好！」',
+      '「輸了就輸了，有什麼好難過。」'
+    ],
+    answer: 1,
+    explain: '隊長要帶領大家。乙既承認結果，又提出下次的做法，能鼓勵隊友；甲責怪別人，丙輕視隊友的感受。'
+  },
+  {
+    prompt: '今天是媽媽的生日，你想向媽媽表達感謝。',
+    hint: '哪一句最適合在生日時說？',
+    options: [
+      '「媽媽，謝謝你每天為我準備早餐，生日快樂！」',
+      '「媽媽，今天是我的生日嗎？」',
+      '「媽媽，早餐呢？」'
+    ],
+    answer: 0,
+    explain: '語言要符合場合和目的。甲有具體的感謝，也有生日祝福；乙、丙只顧自己，完全沒有回應「生日」這個場合。'
+  },
+  {
+    prompt: '在圖書館裡，同學說話太大聲，你想請他小聲一點。',
+    hint: '哪一句最有禮貌又能達到目的？',
+    options: [
+      '「閉嘴！吵死了！」',
+      '「不好意思，這裡是圖書館，我們可以小聲一點嗎？」',
+      '「你再吵，我就告訴老師！」'
+    ],
+    answer: 1,
+    explain: '同一件事，乙用「不好意思」和「我們」提出請求，既達到目的又保留禮貌；甲、丙帶命令和威脅，容易引起爭吵。'
+  },
+  {
+    prompt: '下雨天，同學沒帶傘，站在校門口發愁。',
+    hint: '哪一句最符合樂於助人的性格？',
+    options: [
+      '「我的傘夠大，我們一起走吧！」',
+      '「你怎麼不帶傘？真笨。」',
+      '「再見，我先走了。」'
+    ],
+    answer: 0,
+    explain: '甲主動幫忙，還顧及同學的感受；乙嘲笑同學，丙視而不見，都不符合友善的語言，也解決不了問題。'
+  },
+  {
+    prompt: '老師問你為什麼遲到，你想誠實說明。',
+    hint: '哪一句既誠實又有承擔？',
+    options: [
+      '「路上塞車，不關我的事。」',
+      '「對不起，我今天出門晚了，下次會提早十分鐘。」',
+      '「我也不知道，時鐘壞了。」'
+    ],
+    answer: 1,
+    explain: '乙先道歉，再說出真實原因，並提出改進方法，是負責任的語言；甲推卸責任，丙找藉口，都沒有解決問題。'
+  }
+];
+
+/* ---------- 4. 神態：詞語尋寶 ---------- */
+const EXPRESSION = [
+  {
+    tokens: [
+      { t: '他' },
+      { t: '緊皺眉頭', ok: true },
+      { t: '，' },
+      { t: '嘴角向下撇', ok: true },
+      { t: '，' },
+      { t: '一句話也不說', no: true },
+      { t: '。' }
+    ],
+    mood: '生氣',
+    explain: '「緊皺眉頭」和「嘴角向下撇」都是臉上看得見的表情，寫出他正在生氣。「一句話也不說」是動作和沉默，不是神態。'
+  },
+  {
+    tokens: [
+      { t: '妹妹' },
+      { t: '眼睛亮晶晶', ok: true },
+      { t: '的，' },
+      { t: '嘴角向上彎', ok: true },
+      { t: '，' },
+      { t: '露出兩個小酒窩', no: true },
+      { t: '。' }
+    ],
+    mood: '開心',
+    explain: '「眼睛亮晶晶」寫眼神，「嘴角向上彎」寫笑容，合起來就是開心的神態。「小酒窩」是臉上原本就有的外貌特徵，不是表情變化。'
+  },
+  {
+    tokens: [
+      { t: '小明' },
+      { t: '抿緊嘴巴', ok: true },
+      { t: '，' },
+      { t: '眼眶紅紅', ok: true },
+      { t: '的，' },
+      { t: '手指不停絞著衣角', no: true },
+      { t: '。' }
+    ],
+    mood: '難過',
+    explain: '「抿緊嘴巴」和「眼眶紅紅」是難過時臉上的表情；「手指絞著衣角」是動作，不是神態。'
+  },
+  {
+    tokens: [
+      { t: '爺爺' },
+      { t: '瞇起眼睛', ok: true },
+      { t: '，' },
+      { t: '嘴角慢慢向上彎', ok: true },
+      { t: '，' },
+      { t: '輕輕拍著我的頭', no: true },
+      { t: '。' }
+    ],
+    mood: '慈祥',
+    explain: '「瞇起眼睛」和「嘴角慢慢向上彎」寫出爺爺慈祥的笑容；「輕輕拍著我的頭」是動作，不是神態。'
+  },
+  {
+    tokens: [
+      { t: '他' },
+      { t: '瞪大眼睛', ok: true },
+      { t: '，' },
+      { t: '嘴巴張得圓圓', ok: true },
+      { t: '的，' },
+      { t: '半天說不出話', no: true },
+      { t: '。' }
+    ],
+    mood: '驚訝',
+    explain: '「瞪大眼睛」和「嘴巴張得圓圓」是吃驚時的表情，所以是神態描寫。「半天說不出話」是反應；如果寫「我心裡很震驚」，才是心理描寫。'
+  },
+  {
+    tokens: [
+      { t: '她' },
+      { t: '咬著嘴唇', ok: true },
+      { t: '，' },
+      { t: '眼神飄向窗外', ok: true },
+      { t: '，' },
+      { t: '手指輕輕敲著桌子', no: true },
+      { t: '。' }
+    ],
+    mood: '緊張',
+    explain: '「咬著嘴唇」和「眼神飄向窗外」寫出她心神不寧、緊張的樣子；「手指敲桌子」是動作。神態要看眉毛、眼睛、嘴唇和臉色。'
+  }
+];
+
+/* ---------- 5. 心理：心情解碼 ---------- */
+const PSYCHOLOGY = [
+  {
+    text: '輪到我上台朗讀了，我的雙腿發軟，心裡砰砰直跳。',
+    options: ['緊張', '興奮', '傷心', '生氣'],
+    answer: 0,
+    explain: '「雙腿發軟」「砰砰直跳」是面對眾人時壓力造成的身體反應，所以是緊張。興奮也會心跳加快，但通常是期待好事，不會雙腿發軟。'
+  },
+  {
+    text: '看到試卷上大大的 100 分，我恨不得立刻飛回家告訴媽媽。',
+    options: ['緊張', '興奮', '後悔', '孤單'],
+    answer: 1,
+    explain: '「恨不得立刻飛回家」表現出迫不及待想分享好消息，是興奮和開心，不是緊張或後悔。'
+  },
+  {
+    text: '窗外下著大雨，媽媽還沒回來，我一遍又一遍地看向門口。',
+    options: ['擔心', '生氣', '興奮', '驕傲'],
+    answer: 0,
+    explain: '下大雨、媽媽未回家、反覆看門口，寫出牽掛和擔心。如果是生氣，通常會寫「我氣得跺腳」之類的表現。'
+  },
+  {
+    text: '他把我的模型弄壞了，卻連一句對不起也沒說，我胸口像堵了一塊石頭。',
+    options: ['開心', '委屈', '緊張', '驕傲'],
+    answer: 1,
+    explain: '「堵了一塊石頭」寫出心裡難受又說不出來，最貼切是委屈。雖然也可能生氣，但四個選項中「委屈」最能說出這種又難過又無奈的感覺。'
+  },
+  {
+    text: '如果我當時沒有說那句氣話就好了。',
+    options: ['後悔', '興奮', '害怕', '開心'],
+    answer: 0,
+    explain: '「如果……就好了」是對已經發生的事感到自責，希望可以重來一次，這就是後悔。'
+  },
+  {
+    text: '轉學第一天，下課時大家都三五成群，我一個人坐在操場邊。',
+    options: ['緊張', '孤單', '生氣', '驕傲'],
+    answer: 1,
+    explain: '一個人坐在操場邊，看著別人成群結隊，寫出沒有同伴的孤單。全句沒有寫「我很孤單」，卻讓讀者感受到。'
+  }
+];
+
+/* ---------- 挑戰一：描寫分類王 ---------- */
+const SORT_CATS = [
+  { key: 'appearance', name: '外貌' },
+  { key: 'action', name: '動作' },
+  { key: 'speech', name: '語言' },
+  { key: 'expression', name: '神態' },
+  { key: 'psychology', name: '心理' }
+];
+
+const CHALLENGE_SORT = [
+  {
+    text: '她穿著粉紅色的連身裙，頭上別著一朵小花。',
+    answer: 0,
+    explain: '連身裙、頭上的小花都是衣著打扮，所以是外貌描寫。外貌寫的是長相、身材和衣著。'
+  },
+  {
+    text: '他三步併作兩步衝上樓梯，一把推開門。',
+    answer: 1,
+    explain: '「衝上樓梯」「推開門」是連續動作，寫出他怎樣上樓、開門，所以是動作描寫。'
+  },
+  {
+    text: '「別怕，有我在。」他拍拍我的肩膀說。',
+    answer: 2,
+    explain: '引號裡是人物說的話，所以是語言描寫；「拍拍肩膀」只是配合說話的動作，不是主要描寫對象。'
+  },
+  {
+    text: '他眉毛一挑，嘴角露出得意的笑。',
+    answer: 3,
+    explain: '眉毛和嘴角是臉上的表情，寫出得意的神態，所以是神態描寫。'
+  },
+  {
+    text: '我心裡七上八下，生怕老師叫到我的名字。',
+    answer: 4,
+    explain: '「心裡七上八下」「生怕」是內心的想法和感受，別人是看不見的，所以是心理描寫。'
+  },
+  {
+    text: '她眼眶一紅，淚水在眼睛裡打轉。',
+    answer: 3,
+    explain: '眼眶紅、淚水打轉是看得見的表情，所以是神態描寫。如果寫「我心裡很難過」，才是心理描寫。這是最容易混淆的一組。'
+  }
+];
+
+/* ---------- 挑戰二：限時句子狙擊 ---------- */
+const CHALLENGE_PICK = [
+  {
+    typeName: '外貌描寫',
+    options: [
+      '他跑得像一陣風。',
+      '他有一雙濃濃的眉毛和一張圓圓的臉。',
+      '「等等我！」他大喊。'
+    ],
+    answer: 1,
+    explain: '濃眉、圓臉是長相，屬於外貌描寫。甲寫的是動作速度，丙寫的是人物說的話。'
+  },
+  {
+    typeName: '動作描寫',
+    options: [
+      '她的辮子又長又黑。',
+      '我心裡像吃了蜜一樣甜。',
+      '他彎下腰，把地上的紙屑一片片撿起來。'
+    ],
+    answer: 2,
+    explain: '「彎下腰」「撿起來」是連續動作。甲是外貌，乙是心理，都沒有寫「怎樣做」。'
+  },
+  {
+    typeName: '語言描寫',
+    options: [
+      '「我們一起來想辦法吧！」班長說。',
+      '班長皺著眉頭，一句話也不說。',
+      '班長個子高高的，戴著眼鏡。'
+    ],
+    answer: 0,
+    explain: '引號內是人物說的話，所以是語言描寫。乙是神態，丙是外貌。'
+  },
+  {
+    typeName: '神態描寫',
+    options: [
+      '他每天都最早到校。',
+      '他咬著嘴唇，眼睛紅紅的。',
+      '他告訴我明天要下雨。'
+    ],
+    answer: 1,
+    explain: '咬嘴唇、眼睛紅都是臉上的表情，所以是神態描寫。甲是習慣敘述，丙是語言內容。'
+  },
+  {
+    typeName: '心理描寫',
+    options: [
+      '我盯著時鐘，心裡默默祈禱媽媽快點回來。',
+      '我看了看時鐘。',
+      '時鐘滴答滴答地響。'
+    ],
+    answer: 0,
+    explain: '「心裡默默祈禱」是內心的想法，所以是心理描寫。乙只寫動作，丙只寫環境聲音。'
+  },
+  {
+    typeName: '動作描寫',
+    options: [
+      '妹妹的頭髮卷卷的。',
+      '妹妹把積木一塊一塊疊高，再輕輕放上最後一塊。',
+      '「哥哥，你看！」妹妹說。'
+    ],
+    answer: 1,
+    explain: '「疊高」「放上」是連續動作，還寫出「一塊一塊」「輕輕」的樣子。甲是外貌，丙是語言。'
+  }
+];
+
+/* =========================================================
+   模式設定
+   ========================================================= */
+const MODES = {
+  appearance: {
+    key: 'appearance', cat: 'appearance', kicker: '練習 · 外貌描寫', title: '特徵尋人',
+    desc: '讀句子，從三個人物中找出正確的那一位。', type: 'avatar', icon: 'appearance',
+    bank: APPEARANCE, count: APPEARANCE.length
+  },
+  action: {
+    key: 'action', cat: 'action', kicker: '練習 · 動作描寫', title: '動作排隊',
+    desc: '把打亂的動作卡，按事情先後順序點選排好。', type: 'order', icon: 'action',
+    bank: ACTION, count: ACTION.length
+  },
+  speech: {
+    key: 'speech', cat: 'speech', kicker: '練習 · 語言描寫', title: '對白配對',
+    desc: '看清情境，選出最符合人物身份的一句話。', type: 'choice', icon: 'speech',
+    bank: SPEECH, count: SPEECH.length
+  },
+  expression: {
+    key: 'expression', cat: 'expression', kicker: '練習 · 神態描寫', title: '詞語尋寶',
+    desc: '在句子中點出兩個描寫神態的詞語。', type: 'wordtap', icon: 'expression',
+    bank: EXPRESSION, count: EXPRESSION.length
+  },
+  psychology: {
+    key: 'psychology', cat: 'psychology', kicker: '練習 · 心理描寫', title: '心情解碼',
+    desc: '讀出句子背後的心情，選出最貼切的一個。', type: 'choice', icon: 'psychology',
+    bank: PSYCHOLOGY, count: PSYCHOLOGY.length
+  },
+  challengeSort: {
+    key: 'challengeSort', cat: 'challengeSort', kicker: '挑戰 · 分類擂台', title: '描寫分類王',
+    desc: '判斷句子屬於哪一種描寫手法，考驗你的眼力。', type: 'sortcat', icon: 'trophy',
+    bank: CHALLENGE_SORT, count: CHALLENGE_SORT.length
+  },
+  challengePick: {
+    key: 'challengePick', cat: 'challengePick', kicker: '挑戰 · 限時擂台', title: '句子狙擊手',
+    desc: '20 秒內，從三句中找出指定描寫手法的句子。', type: 'pick', icon: 'clock',
+    bank: CHALLENGE_PICK, count: CHALLENGE_PICK.length, timeLimit: 20
+  }
+};
+
+</script>
+<script>
+/* =========================================================
+   描寫小偵探 · 互動邏輯
+   ========================================================= */
+(function () {
+  'use strict';
+
+  const $ = function (sel, root) { return (root || document).querySelector(sel); };
+  const $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
+
+  const state = {
+    view: 'home',
+    learnKey: 'appearance',
+    modeKey: null,
+    mode: null,
+    index: 0,
+    correct: 0,
+    score: 0,
+    locked: false,
+    picked: [],
+    orderItems: [],
+    timerId: null,
+    deadline: 0,
+    timerActive: false,
+    pausedRemaining: 0
+  };
+
+  /* ---------- 星星紀錄 ---------- */
+  let starData = {};
+  try {
+    const raw = localStorage.getItem('miaoxie-stars');
+    starData = raw ? JSON.parse(raw) : {};
+    if (!starData || typeof starData !== 'object') starData = {};
+  } catch (e) { starData = {}; }
+
+  function totalStars() {
+    return Object.keys(starData).reduce(function (sum, k) {
+      const v = parseInt(starData[k], 10);
+      return sum + (isNaN(v) ? 0 : v);
+    }, 0);
+  }
+  function updateStarPill() {
+    const el = $('#starTotal');
+    if (el) el.textContent = String(totalStars());
+  }
+  function saveStars() {
+    try { localStorage.setItem('miaoxie-stars', JSON.stringify(starData)); } catch (e) { /* 私密模式或空間不足時只保留今次進度 */ }
+  }
+
+  /* ---------- 音效 ---------- */
+  let audioCtx = null;
+  let soundOn = true;
+  try { soundOn = localStorage.getItem('miaoxie-sound') !== '0'; } catch (e) { /* 使用預設開啟 */ }
+
+  function initAudio() {
+    if (audioCtx) {
+      if (audioCtx.state === 'suspended') { audioCtx.resume().catch(function () {}); }
+      return;
+    }
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    try { audioCtx = new AC(); } catch (e) { audioCtx = null; }
+  }
+
+  function tone(freq, dur, type, delay, vol) {
+    if (!soundOn || !audioCtx) return;
+    try {
+      if (audioCtx.state === 'suspended') audioCtx.resume().catch(function () {});
+      const t = audioCtx.currentTime + (delay || 0);
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.type = type || 'sine';
+      o.frequency.setValueAtTime(freq, t);
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(vol || 0.09, t + 0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g);
+      g.connect(audioCtx.destination);
+      o.start(t);
+      o.stop(t + dur + 0.03);
+    } catch (e) { /* 音效失敗不影響遊戲 */ }
+  }
+  function sfxClick() { tone(540, 0.07, 'triangle', 0, 0.05); }
+  function sfxPick() { tone(660, 0.06, 'sine', 0, 0.05); }
+  function sfxCorrect() {
+    tone(523.25, 0.14, 'sine', 0, 0.09);
+    tone(659.25, 0.14, 'sine', 0.09, 0.09);
+    tone(783.99, 0.2, 'sine', 0.18, 0.09);
+  }
+  function sfxWrong() {
+    tone(220, 0.16, 'sawtooth', 0, 0.05);
+    tone(164.81, 0.22, 'sawtooth', 0.15, 0.05);
+  }
+  function sfxWin() {
+    [523.25, 659.25, 783.99, 1046.5].forEach(function (f, i) {
+      tone(f, 0.2, 'triangle', i * 0.11, 0.085);
+    });
+  }
+
+  /* ---------- 通用工具 ---------- */
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function escapeText(t) {
+    return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function highlight(text, words) {
+    let out = escapeText(text);
+    words.forEach(function (w) {
+      out = out.split(escapeText(w)).join('<mark>' + escapeText(w) + '</mark>');
+    });
+    return out;
+  }
+
+  let toastTimer = null;
+  function toast(msg) {
+    const el = $('#toast');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.classList.remove('show'); }, 1900);
+  }
+
+  /* ---------- 視圖切換 ---------- */
+  function showView(name) {
+    $$('.view').forEach(function (v) { v.hidden = true; });
+    const target = $('#view-' + name);
+    if (target) target.hidden = false;
+    state.view = name;
+    window.scrollTo(0, 0);
+  }
+
+  function go(name) {
+    if (name === 'home') {
+      stopTimer();
+      showView('home');
+      updateStarPill();
+      return;
+    }
+    if (name === 'learn') {
+      stopTimer();
+      renderLearn(state.learnKey);
+      showView('learn');
+      return;
+    }
+    if (name === 'practice') {
+      stopTimer();
+      renderPractice();
+      showView('practice');
+      return;
+    }
+  }
+
+  /* ---------- 教學區 ---------- */
+  function renderLearn(key) {
+    const item = LEARN.find(function (l) { return l.key === key; }) || LEARN[0];
+    state.learnKey = item.key;
+
+    $('#learnTabs').innerHTML = LEARN.map(function (l) {
+      return '<button class="tab' + (l.key === item.key ? ' active' : '') + '" data-learn="' + l.key + '" aria-pressed="' + (l.key === item.key) + '">' +
+        icon(l.key) + '<span>' + l.name + '</span></button>';
+    }).join('');
+
+    $('#learnArt').innerHTML = LEARN_ART[item.key] +
+      '<span class="sticker s1">' + item.tagline + '</span>' +
+      '<span class="sticker s2">看圖學描寫</span>';
+
+    $('#learnBody').innerHTML =
+      '<h2>' + item.name + '</h2>' +
+      '<p class="tagline">' + item.tagline + '</p>' +
+      '<p class="definition">' + item.intro + '</p>' +
+      '<div class="formula"><span class="label">口訣</span><span class="eq">' + item.formula + '</span></div>' +
+      '<ul class="points">' + item.points.map(function (p, i) {
+        return '<li><span class="num">' + (i + 1) + '</span><span>' + p + '</span></li>';
+      }).join('') + '</ul>' +
+      '<div class="example">' +
+        '<div class="row"><span class="badge">普通</span><span class="txt">' + escapeText(item.before) + '</span></div>' +
+        '<div class="row"><span class="badge good">生動</span><span class="txt">' + highlight(item.after, item.highlights) + '</span></div>' +
+      '</div>' +
+      '<div class="tip"><span class="bulb">' + icon('bulb') + '</span><span><strong>小提醒：</strong>' + item.tip + '</span></div>' +
+      '<div class="learn-cta"><button class="btn btn-primary" data-start="' + item.key + '">去練習這種描寫' + icon('arrow') + '</button></div>';
+  }
+
+  /* ---------- 練習選單 ---------- */
+  function modeCard(key) {
+    const m = MODES[key];
+    const best = starData[key] || 0;
+    return '<button class="mode-card c-' + m.cat + '" data-mode="' + key + '">' +
+      '<div class="top"><span class="mode-icon">' + icon(m.icon) + '</span>' +
+      '<div><span class="kicker">' + m.kicker + '</span><h3>' + m.title + '</h3></div></div>' +
+      '<p>' + m.desc + '</p>' +
+      '<div class="foot"><span class="q-count">' + m.count + ' 題</span><span class="mini-stars" aria-label="最佳成績 ' + best + ' 星">' + starsMarkup(best) + '</span></div>' +
+      '</button>';
+  }
+
+  function renderPractice() {
+    const keys = ['appearance', 'action', 'speech', 'expression', 'psychology'];
+    const challenges = ['challengeSort', 'challengePick'];
+    $('#practiceGrid').innerHTML = keys.map(modeCard).join('');
+    $('#challengeGrid').innerHTML = challenges.map(modeCard).join('');
+    updateStarPill();
+  }
+
+  /* ---------- 開始遊戲 ---------- */
+  function startMode(key) {
+    const mode = MODES[key];
+    if (!mode) return;
+    state.modeKey = key;
+    state.mode = mode;
+    state.index = 0;
+    state.correct = 0;
+    state.score = 0;
+    state.locked = false;
+    state.picked = [];
+    state.pausedRemaining = 0;
+    stopTimer();
+    $('#gameKicker').textContent = mode.kicker;
+    $('#gameTitle').textContent = mode.title;
+    showView('game');
+    renderQuestion();
+  }
+
+  function renderProgress() {
+    const m = state.mode;
+    const dots = [];
+    for (let i = 0; i < m.count; i++) {
+      const cls = i < state.index ? 'dot done' : (i === state.index ? 'dot cur' : 'dot');
+      dots.push('<span class="' + cls + '"></span>');
+    }
+    $('#progressDots').innerHTML = dots.join('');
+    $('#progressText').textContent = '第 ' + (state.index + 1) + ' / ' + m.count + ' 題';
+    $('#gameScore').textContent = String(state.score);
+  }
+
+  function renderQuestion() {
+    const m = state.mode;
+    const q = m.bank[state.index];
+    state.locked = false;
+    state.picked = [];
+    state.pausedRemaining = 0;
+    $('#feedbackHost').innerHTML = '';
+    $('#timerWrap').hidden = true;
+    $('#timerBar').style.width = '100%';
+    $('#timerBar').classList.remove('low');
+    renderProgress();
+
+    const qcard = $('#qcard');
+    if (m.type === 'avatar') qcard.innerHTML = buildAvatar(q);
+    else if (m.type === 'order') qcard.innerHTML = buildOrder(q);
+    else if (m.type === 'choice') qcard.innerHTML = buildChoice(q);
+    else if (m.type === 'wordtap') qcard.innerHTML = buildWordtap(q);
+    else if (m.type === 'sortcat') qcard.innerHTML = buildSortcat(q);
+    else if (m.type === 'pick') { qcard.innerHTML = buildPick(q); startTimer(m.timeLimit); }
+
+    bindQuestion(q);
+  }
+
+  /* ---------- 題型：外貌頭像 ---------- */
+  function buildAvatar(q) {
+    const labels = ['甲', '乙', '丙'];
+    return '<div class="qhead"><span class="qbadge">第 ' + (state.index + 1) + ' 題</span>' +
+      '<span class="qhint">讀一讀，哪位人物的特徵完全符合？</span></div>' +
+      '<p class="qtext">「' + escapeText(q.text) + '」</p>' +
+      '<div class="avatar-grid">' + q.options.map(function (o, i) {
+        return '<button class="avatar-card" data-opt="' + i + '" aria-label="選項' + labels[i] + '">' +
+          avatarSVG(o.avatar) + '<span class="label">' + labels[i] + '</span></button>';
+      }).join('') + '</div>';
+  }
+
+  /* ---------- 題型：動作排序 ---------- */
+  function buildOrder(q) {
+    state.orderItems = shuffle(q.items.map(function (_, i) { return i; }));
+    let guard = 0;
+    while (state.orderItems.every(function (v, i) { return v === i; }) && q.items.length > 1 && guard < 20) {
+      state.orderItems = shuffle(state.orderItems);
+      guard++;
+    }
+    return '<div class="qhead"><span class="qbadge">第 ' + (state.index + 1) + ' 題</span>' +
+      '<span class="qhint">按事情先後順序，依次點選四張卡</span></div>' +
+      '<p class="qtext">' + escapeText(q.prompt) + '</p>' +
+      '<div class="order-grid">' + state.orderItems.map(function (itemIndex) {
+        return '<button class="order-card" data-item="' + itemIndex + '">' +
+          '<span class="idx"></span>' + escapeText(q.items[itemIndex]) + '</button>';
+      }).join('') + '</div>' +
+      '<div class="gamecta"><button class="btn btn-teal" id="checkOrder" disabled>確認順序' + icon('check') + '</button>' +
+      '<button class="btn btn-ghost btn-sm" id="resetOrder">重新排</button>' +
+      '<span class="note" id="orderNote">已選 0 / ' + q.items.length + '</span></div>';
+  }
+
+  /* ---------- 題型：選擇 ---------- */
+  function buildChoice(q) {
+    const letters = ['A', 'B', 'C', 'D'];
+    return '<div class="qhead"><span class="qbadge">第 ' + (state.index + 1) + ' 題</span>' +
+      '<span class="qhint">' + escapeText(q.hint || '選出最適合的一個答案') + '</span></div>' +
+      '<p class="qtext">' + escapeText(q.prompt || q.text) + '</p>' +
+      '<div class="options">' + q.options.map(function (o, i) {
+        return '<button class="opt" data-opt="' + i + '"><span class="badge">' + letters[i] + '</span><span>' + escapeText(o) + '</span></button>';
+      }).join('') + '</div>';
+  }
+
+  /* ---------- 題型：神態詞語 ---------- */
+  function buildWordtap(q) {
+    return '<div class="qhead"><span class="qbadge">第 ' + (state.index + 1) + ' 題</span>' +
+      '<span class="qhint">點出兩個描寫神態的詞語</span></div>' +
+      '<p class="sentence">' + q.tokens.map(function (tok, i) {
+        if (tok.ok || tok.no) {
+          return '<button class="chip" data-chip="' + i + '">' + escapeText(tok.t) + '</button>';
+        }
+        return '<span class="plain">' + escapeText(tok.t) + '</span>';
+      }).join('') + '</p>' +
+      '<div class="gamecta"><button class="btn btn-teal" id="checkChips" disabled>確認答案' + icon('check') + '</button>' +
+      '<span class="note" id="chipNote">已選 0 / 2 個詞語</span></div>';
+  }
+
+  /* ---------- 題型：分類王 ---------- */
+  function buildSortcat(q) {
+    return '<div class="qhead"><span class="qbadge">第 ' + (state.index + 1) + ' 題</span>' +
+      '<span class="qhint">這是哪一種描寫手法？</span></div>' +
+      '<p class="qtext">「' + escapeText(q.text) + '」</p>' +
+      '<div class="options">' + SORT_CATS.map(function (c, i) {
+        return '<button class="opt" data-opt="' + i + '"><span class="badge">' + icon(c.key) + '</span><span>' + c.name + '描寫</span></button>';
+      }).join('') + '</div>';
+  }
+
+  /* ---------- 題型：限時選句 ---------- */
+  function buildPick(q) {
+    const letters = ['A', 'B', 'C'];
+    return '<div class="qhead"><span class="qbadge">第 ' + (state.index + 1) + ' 題</span>' +
+      '<span class="qhint">20 秒內找出正確句子</span></div>' +
+      '<p class="qtext">哪一句是「<span class="quote">' + escapeText(q.typeName) + '</span>」？</p>' +
+      '<div class="options">' + q.options.map(function (o, i) {
+        return '<button class="opt" data-opt="' + i + '"><span class="badge">' + letters[i] + '</span><span>' + escapeText(o) + '</span></button>';
+      }).join('') + '</div>';
+  }
+
+  /* ---------- 綁定 ---------- */
+  function bindQuestion(q) {
+    const qcard = $('#qcard');
+    const type = state.mode.type;
+
+    if (type === 'avatar' || type === 'choice' || type === 'sortcat' || type === 'pick') {
+      $$('.opt, .avatar-card', qcard).forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (state.locked) return;
+          const idx = parseInt(btn.getAttribute('data-opt'), 10);
+          sfxClick();
+          commitChoice(idx);
+        });
+      });
+      return;
+    }
+
+    if (type === 'order') {
+      $$('.order-card', qcard).forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (state.locked) return;
+          const idx = parseInt(btn.getAttribute('data-item'), 10);
+          const pos = state.picked.indexOf(idx);
+          if (pos > -1) {
+            state.picked.splice(pos, 1);
+            sfxClick();
+          } else {
+            if (state.picked.length >= q.items.length) return;
+            state.picked.push(idx);
+            sfxPick();
+          }
+          refreshOrderUI(q);
+        });
+      });
+      $('#resetOrder').addEventListener('click', function () {
+        if (state.locked) return;
+        state.picked = [];
+        sfxClick();
+        refreshOrderUI(q);
+      });
+      $('#checkOrder').addEventListener('click', function () {
+        if (state.locked || state.picked.length !== q.items.length) return;
+        commitOrder(q);
+      });
+      return;
+    }
+
+    if (type === 'wordtap') {
+      $$('.chip', qcard).forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (state.locked) return;
+          const idx = parseInt(btn.getAttribute('data-chip'), 10);
+          const pos = state.picked.indexOf(idx);
+          if (pos > -1) {
+            state.picked.splice(pos, 1);
+            sfxClick();
+          } else {
+            if (state.picked.length >= 2) {
+              toast('只需選兩個詞語，點一下已選的可以取消');
+              return;
+            }
+            state.picked.push(idx);
+            sfxPick();
+          }
+          refreshChipUI(q);
+        });
+      });
+      $('#checkChips').addEventListener('click', function () {
+        if (state.locked || state.picked.length !== 2) return;
+        commitChips(q);
+      });
+    }
+  }
+
+  function refreshOrderUI(q) {
+    $$('.order-card', $('#qcard')).forEach(function (btn) {
+      const idx = parseInt(btn.getAttribute('data-item'), 10);
+      const pos = state.picked.indexOf(idx);
+      btn.classList.toggle('picked', pos > -1);
+      const badge = $('.idx', btn);
+      badge.textContent = pos > -1 ? String(pos + 1) : '';
+    });
+    $('#orderNote').textContent = '已選 ' + state.picked.length + ' / ' + q.items.length;
+    $('#checkOrder').disabled = state.picked.length !== q.items.length;
+  }
+
+  function refreshChipUI(q) {
+    $$('.chip', $('#qcard')).forEach(function (btn) {
+      const idx = parseInt(btn.getAttribute('data-chip'), 10);
+      btn.classList.toggle('selected', state.picked.indexOf(idx) > -1);
+    });
+    $('#chipNote').textContent = '已選 ' + state.picked.length + ' / 2 個詞語';
+    $('#checkChips').disabled = state.picked.length !== 2;
+  }
+
+  /* ---------- 判定 ---------- */
+  function commitChoice(idx) {
+    const q = state.mode.bank[state.index];
+    const ok = idx === q.answer;
+    state.locked = true;
+    stopTimer();
+
+    $$('.opt, .avatar-card', $('#qcard')).forEach(function (btn) {
+      const i = parseInt(btn.getAttribute('data-opt'), 10);
+      if (i === q.answer) btn.classList.add('correct');
+      else if (i === idx) btn.classList.add('wrong');
+      else btn.classList.add('dim');
+      btn.disabled = true;
+    });
+
+    settle(ok, q, idx, false);
+  }
+
+  function commitOrder(q) {
+    const ok = state.picked.every(function (v, i) { return v === i; });
+    state.locked = true;
+    $$('.order-card', $('#qcard')).forEach(function (btn) {
+      const idx = parseInt(btn.getAttribute('data-item'), 10);
+      const pos = state.picked.indexOf(idx);
+      if (pos === idx) btn.classList.add('correct');
+      else btn.classList.add('wrong');
+    });
+    $('#checkOrder').disabled = true;
+    $('#resetOrder').disabled = true;
+    settle(ok, q, null, false);
+  }
+
+  function commitChips(q) {
+    const picked = state.picked.slice().sort(function (a, b) { return a - b; });
+    const ans = [];
+    q.tokens.forEach(function (tok, i) { if (tok.ok) ans.push(i); });
+    const ok = picked.length === ans.length && picked.every(function (v, i) { return v === ans[i]; });
+    state.locked = true;
+
+    $$('.chip', $('#qcard')).forEach(function (btn) {
+      const idx = parseInt(btn.getAttribute('data-chip'), 10);
+      const isAns = ans.indexOf(idx) > -1;
+      const isPick = picked.indexOf(idx) > -1;
+      if (isAns && isPick) btn.classList.add('correct');
+      else if (isAns) btn.classList.add('missed');
+      else if (isPick) btn.classList.add('wrong');
+    });
+    $('#checkChips').disabled = true;
+    settle(ok, q, null, false);
+  }
+
+  function answerLabel(q) {
+    const type = state.mode.type;
+    if (type === 'avatar') return ['甲', '乙', '丙'][q.answer];
+    if (type === 'sortcat') return SORT_CATS[q.answer].name + '描寫';
+    if (type === 'wordtap') return q.tokens.filter(function (t) { return t.ok; }).map(function (t) { return t.t; }).join('、');
+    if (type === 'order') return q.items.join(' → ');
+    if (type === 'pick' || type === 'choice') return ['A', 'B', 'C', 'D'][q.answer] + '. ' + q.options[q.answer];
+    return '';
+  }
+
+  function settle(ok, q, choice, timedOut) {
+    if (ok) {
+      state.correct++;
+      state.score += 10;
+      sfxCorrect();
+    } else {
+      sfxWrong();
+    }
+    $('#gameScore').textContent = String(state.score);
+    renderFeedback(ok, q, timedOut);
+  }
+
+  function renderFeedback(ok, q, timedOut) {
+    const last = state.index + 1 >= state.mode.count;
+    const cls = timedOut ? 'timed' : (ok ? '' : 'bad');
+    const title = timedOut ? '時間到！' : (ok ? '答對了！' : '再看看這一句');
+    const iconMark = timedOut ? icon('clock') : (ok ? icon('check') : icon('cross'));
+    const iconCls = timedOut ? 'no' : (ok ? 'ok' : 'no');
+
+    const html = '<div class="feedback ' + cls + '" role="status" aria-live="polite">' +
+      '<div class="fb-head"><span class="fb-icon ' + iconCls + '">' + iconMark + '</span>' +
+      '<span class="fb-title">' + title + '</span>' +
+      '<span class="fb-answer">正確答案：' + escapeText(answerLabel(q)) + '</span></div>' +
+      '<p class="fb-explain"><strong>解說：</strong>' + escapeText(q.explain) + '</p>' +
+      '<button class="btn ' + (ok ? 'btn-teal' : 'btn-primary') + '" id="nextBtn">' + (last ? '看成績' : '下一題') + icon('arrow') + '</button>' +
+      '</div>';
+
+    $('#feedbackHost').innerHTML = html;
+    $('#nextBtn').addEventListener('click', function () {
+      sfxClick();
+      if (last) finishMode();
+      else { state.index++; renderQuestion(); }
+    });
+
+    const fb = $('.feedback');
+    if (fb) {
+      setTimeout(function () {
+        try { fb.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) { fb.scrollIntoView(); }
+      }, 60);
+    }
+  }
+
+  /* ---------- 計時器 ---------- */
+  function startTimer(seconds) {
+    const wrap = $('#timerWrap');
+    const bar = $('#timerBar');
+    wrap.hidden = false;
+    bar.style.width = '100%';
+    bar.classList.remove('low');
+    state.deadline = performance.now() + seconds * 1000;
+    state.timerActive = true;
+    if (state.timerId) clearInterval(state.timerId);
+    state.timerId = setInterval(tickTimer, 100);
+    tickTimer();
+  }
+
+  function tickTimer() {
+    if (!state.timerActive || !state.mode || !state.mode.timeLimit) return;
+    const total = state.mode.timeLimit * 1000;
+    const left = state.deadline - performance.now();
+    const pct = Math.max(0, Math.min(1, left / total));
+    const bar = $('#timerBar');
+    if (bar) {
+      bar.style.width = (pct * 100).toFixed(1) + '%';
+      bar.classList.toggle('low', pct < 0.3);
+    }
+    if (left <= 0) {
+      stopTimer();
+      if (!state.locked) {
+        state.locked = true;
+        const q = state.mode.bank[state.index];
+        $$('.opt', $('#qcard')).forEach(function (btn) {
+          const i = parseInt(btn.getAttribute('data-opt'), 10);
+          if (i === q.answer) btn.classList.add('correct');
+          btn.disabled = true;
+        });
+        settle(false, q, -1, true);
+      }
+    }
+  }
+
+  function stopTimer() {
+    state.timerActive = false;
+    if (state.timerId) {
+      clearInterval(state.timerId);
+      state.timerId = null;
+    }
+  }
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      if (state.timerActive) {
+        state.pausedRemaining = Math.max(0, state.deadline - performance.now());
+        stopTimer();
+      }
+    } else if (state.pausedRemaining > 0 && state.view === 'game' && !state.locked) {
+      const remain = state.pausedRemaining / 1000;
+      state.pausedRemaining = 0;
+      startTimer(remain);
+    }
+  });
+
+  /* ---------- 結算 ---------- */
+  function starFor(correct, total) {
+    if (correct >= total) return 3;
+    if (correct >= Math.ceil(total * 0.66)) return 2;
+    if (correct >= Math.ceil(total * 0.33)) return 1;
+    return 0;
+  }
+
+  function finishMode() {
+    stopTimer();
+    const m = state.mode;
+    const stars = starFor(state.correct, m.count);
+    const prev = starData[state.modeKey] || 0;
+    if (stars > prev) {
+      starData[state.modeKey] = stars;
+      saveStars();
+    }
+    updateStarPill();
+
+    let title = '再試一次吧！';
+    if (stars === 3) title = '太厲害了！';
+    else if (stars === 2) title = '做得很好！';
+    else if (stars === 1) title = '繼續加油！';
+
+    $('#resultMascot').innerHTML = MASCOT;
+    $('#resultTitle').textContent = title;
+    $('#resultSub').textContent = m.title + ' · 答對 ' + state.correct + ' / ' + m.count + ' 題';
+    $('#resultStars').innerHTML = starsMarkup(stars, 'star');
+    $('#resultStars').setAttribute('aria-label', '獲得 ' + stars + ' 星');
+    $('#resultScore').textContent = String(state.score);
+    $('#resultCorrect').textContent = state.correct + ' / ' + m.count;
+
+    if (stars === 3) {
+      sfxWin();
+      $('#resultTip').textContent = '你已經掌握這種描寫了，試試挑戰擂台吧！';
+    } else if (stars === 2) {
+      $('#resultTip').textContent = '快成功了！再玩一次，留意每題的解說。';
+    } else if (stars === 1) {
+      $('#resultTip').textContent = '先回到教學區看看口訣，再來挑戰一次。';
+    } else {
+      $('#resultTip').textContent = '別灰心，慢慢讀句子，找出關鍵詞語。';
+    }
+
+    showView('result');
+  }
+
+  /* ---------- 事件綁定 ---------- */
+  function bindGlobal() {
+    document.addEventListener('pointerdown', initAudio, { once: true, capture: true });
+
+    document.addEventListener('click', function (e) {
+      const goBtn = e.target.closest('[data-go]');
+      if (goBtn) { sfxClick(); go(goBtn.getAttribute('data-go')); return; }
+
+      const learnBtn = e.target.closest('[data-learn]');
+      if (learnBtn) { sfxClick(); renderLearn(learnBtn.getAttribute('data-learn')); return; }
+
+      const startBtn = e.target.closest('[data-start]');
+      if (startBtn) { sfxClick(); startMode(startBtn.getAttribute('data-start')); return; }
+
+      const modeBtn = e.target.closest('[data-mode]');
+      if (modeBtn) { sfxClick(); startMode(modeBtn.getAttribute('data-mode')); return; }
+    });
+
+    $('#brandBtn').addEventListener('click', function () { sfxClick(); go('home'); });
+    $('#soundBtn').addEventListener('click', function () {
+      soundOn = !soundOn;
+      try { localStorage.setItem('miaoxie-sound', soundOn ? '1' : '0'); } catch (e) { /* 忽略 */ }
+      updateSoundBtn();
+      if (soundOn) { initAudio(); sfxClick(); toast('音效已開啟'); }
+      else toast('音效已關閉');
+    });
+    $('#gameBack').addEventListener('click', function () { sfxClick(); stopTimer(); go('practice'); });
+    $('#retryBtn').addEventListener('click', function () { sfxClick(); if (state.modeKey) startMode(state.modeKey); });
+    $('#resultBackBtn').addEventListener('click', function () { sfxClick(); go('practice'); });
+  }
+
+  function updateSoundBtn() {
+    const btn = $('#soundBtn');
+    btn.setAttribute('aria-pressed', soundOn ? 'true' : 'false');
+    btn.setAttribute('aria-label', soundOn ? '關閉音效' : '開啟音效');
+    btn.innerHTML = soundOn ? icon('sound') : icon('muted');
+  }
+
+  /* ---------- 啟動 ---------- */
+  function init() {
+    $('#brandMark').innerHTML = icon('face');
+    $('#heroMascot').innerHTML = MASCOT;
+    $('#resultMascot').innerHTML = MASCOT;
+    updateSoundBtn();
+    updateStarPill();
+    renderLearn('appearance');
+    renderPractice();
+    bindGlobal();
+    showView('home');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
+</script>
+</body>
+</html>

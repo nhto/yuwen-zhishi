@@ -1,0 +1,1789 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FFF7EA">
+<meta name="format-detection" content="telephone=no">
+<title>把字句 · 被字句 魔法教室</title>
+<meta name="description" content="小學語文互動教學遊戲：用卡通圖解學會把字句和被字句，再玩兩種模式、共十二道練習題。">
+<style>
+  :root{
+    color-scheme:light;
+    --ink:#2E2A4A;
+    --ink-soft:#5F587D;
+    --paper:#FFFBF3;
+    --blue:#2F9BF0;
+    --blue-soft:#EAF6FF;
+    --pink:#FF6FA5;
+    --pink-soft:#FFEDF4;
+    --yellow:#FFC93C;
+    --green:#22B981;
+    --green-soft:#E6FAF2;
+    --red:#F2555A;
+    --red-soft:#FFECEE;
+    --line:#F0E1CA;
+    --shadow:0 7px 0 rgba(46,42,74,.12);
+    --fs-base:clamp(18px, .65vw + 14px, 21px);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{font-size:var(--fs-base);scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:"Noto Sans HK","Noto Sans TC","PingFang HK","PingFang TC","Microsoft JhengHei","Heiti TC","Noto Sans CJK TC",system-ui,-apple-system,sans-serif;
+    color:var(--ink);
+    font-size:1rem;
+    line-height:1.65;
+    background-color:#FFF7EA;
+    background-image:
+      radial-gradient(circle at 12% 10%, rgba(255,201,60,.18), transparent 30%),
+      radial-gradient(circle at 88% 2%, rgba(47,155,240,.13), transparent 28%),
+      radial-gradient(rgba(226,175,116,.30) 1.5px, transparent 1.6px);
+    background-size:auto, auto, 26px 26px;
+    background-attachment:fixed;
+    -webkit-text-size-adjust:100%;
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  [hidden]{display:none !important}
+  button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+  h1,h2,h3,p,ul,ol{margin:0}
+  ul{padding:0;list-style:none}
+  :focus-visible{outline:4px solid #FFB020;outline-offset:3px}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 clamp(14px,3vw,32px)}
+  .narrow{max-width:920px}
+
+  /* ---------- top bar ---------- */
+  .topbar{position:sticky;top:0;z-index:60;background:rgba(255,251,243,.95);border-bottom:3px solid #F3E4CE;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .topbar-inner{max-width:1180px;margin:0 auto;padding:calc(8px + env(safe-area-inset-top)) clamp(12px,2.6vw,28px) 8px;display:flex;align-items:center;gap:10px}
+  .brand{display:flex;align-items:center;gap:10px;background:none;border:0;padding:4px;border-radius:16px;cursor:pointer;flex:1;min-width:0;text-align:left}
+  .brand-mascot{width:46px;height:46px;flex:0 0 auto}
+  .brand-mascot svg{width:100%;height:100%;display:block}
+  .brand-text{display:flex;flex-direction:column;line-height:1.14;min-width:0}
+  .brand-text b{font-size:1rem;letter-spacing:.01em;white-space:nowrap}
+  .brand-text span{font-size:.72rem;font-weight:800;color:var(--ink-soft);white-space:nowrap}
+  .sound-btn{display:inline-flex;align-items:center;gap:6px;border:2.5px solid var(--ink);background:#fff;border-radius:14px;padding:8px 12px;font-weight:800;font-size:.78rem;cursor:pointer;box-shadow:0 3px 0 rgba(46,42,74,.16);min-height:44px}
+  .sound-btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(46,42,74,.16)}
+  .sound-btn svg{width:22px;height:22px}
+  .sound-btn .lbl{display:inline}
+  @media (max-width:420px){.sound-btn .lbl{display:none}.brand-text b{font-size:.92rem}.brand-text span{font-size:.66rem}}
+
+  /* ---------- screens ---------- */
+  .screen{display:none;animation:fadeUp .32s ease both}
+  .screen.active{display:block}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  /* ---------- home ---------- */
+  .home{padding:clamp(18px,3vw,42px) 0 70px}
+  .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(14px,3vw,40px);align-items:center;margin-bottom:clamp(22px,3.4vw,44px)}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;background:#fff;border:2.5px solid var(--ink);border-radius:999px;padding:5px 14px;font-size:.75rem;font-weight:900;letter-spacing:.08em;box-shadow:0 3px 0 rgba(46,42,74,.12)}
+  .eyebrow i{width:9px;height:9px;border-radius:50%;background:var(--pink);display:inline-block}
+  .home h1{font-size:clamp(2.1rem,4.6vw,3.5rem);line-height:1.18;margin:14px 0 12px;letter-spacing:.01em}
+  .home h1 .dot{color:var(--yellow)}
+  .home h1 em{font-style:normal;color:var(--blue);position:relative;z-index:0;white-space:nowrap}
+  .home h1 em::after{content:"";position:absolute;left:0;right:0;bottom:.02em;height:.18em;background:rgba(255,201,60,.55);border-radius:99px;z-index:-1}
+  .lead{font-size:clamp(1rem,1.4vw,1.18rem);color:var(--ink-soft);font-weight:600;line-height:1.8}
+  .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .hero-badges span{background:#fff;border:2px solid #EADAC3;border-radius:999px;padding:4px 12px;font-size:.76rem;font-weight:800;color:var(--ink-soft)}
+  .hero-art{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:220px}
+  .bubble{position:relative;background:#fff;border:3px solid var(--ink);border-radius:20px;padding:10px 18px;font-weight:900;font-size:.95rem;box-shadow:0 4px 0 rgba(46,42,74,.12);margin-bottom:6px;text-align:center;max-width:260px}
+  .bubble::after{content:"";position:absolute;left:50%;bottom:-12px;transform:translateX(-50%);width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:12px solid var(--ink)}
+  .bubble::before{content:"";position:absolute;left:50%;bottom:-8px;transform:translateX(-50%);width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:9px solid #fff;z-index:2}
+  .mascot-wrap{position:relative;width:min(270px,60vw);margin-top:6px}
+  .hero-mascot{width:100%;filter:drop-shadow(0 8px 0 rgba(46,42,74,.08))}
+  .hero-mascot svg{width:100%;height:auto;display:block}
+  .chip-float{position:absolute;width:56px;height:56px;display:grid;place-items:center;border:3px solid var(--ink);border-radius:18px;font-size:1.6rem;font-weight:900;color:#fff;box-shadow:0 4px 0 rgba(46,42,74,.16);animation:floaty 3.4s ease-in-out infinite}
+  .chip-blue{background:var(--blue);left:-8px;top:16%;transform:rotate(-9deg)}
+  .chip-pink{background:var(--pink);right:-6px;bottom:18%;animation-delay:.9s;transform:rotate(8deg)}
+  @keyframes floaty{0%,100%{translate:0 0}50%{translate:0 -9px}}
+  @media (max-width:820px){
+    .hero{grid-template-columns:1fr;text-align:center}
+    .hero-badges{justify-content:center}
+    .hero-art{order:-1;min-height:0;margin-bottom:4px}
+    .mascot-wrap{width:min(210px,50vw)}
+    .bubble{font-size:.82rem;padding:7px 14px}
+    .chip-float{width:46px;height:46px;font-size:1.3rem;border-radius:15px}
+  }
+
+  .entry-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2.4vw,26px)}
+  .entry{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;padding:clamp(18px,2.6vw,30px);border:3px solid var(--ink);border-radius:30px;box-shadow:var(--shadow);cursor:pointer;background:#fff;transition:transform .16s ease, box-shadow .16s ease}
+  .entry:hover{transform:translateY(-3px);box-shadow:0 10px 0 rgba(46,42,74,.13)}
+  .entry:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(46,42,74,.13)}
+  .entry-teach{background:linear-gradient(165deg,#EAF6FF 0%,#FFFDF9 62%)}
+  .entry-play{background:linear-gradient(165deg,#FFF0D6 0%,#FFFDF9 62%)}
+  .entry-icon{width:74px;height:74px;border-radius:22px;display:grid;place-items:center;border:3px solid var(--ink);margin-bottom:6px}
+  .entry-icon svg{width:46px;height:46px}
+  .entry-teach .entry-icon{background:#CFEBFF}
+  .entry-play .entry-icon{background:#FFE0A6}
+  .entry h2{font-size:clamp(1.4rem,2.4vw,1.75rem);line-height:1.25}
+  .entry p{color:var(--ink-soft);font-size:.92rem;font-weight:600;line-height:1.7}
+  .entry .go{display:inline-flex;align-items:center;gap:8px;margin-top:10px;font-weight:900;font-size:.95rem;background:var(--ink);color:#fff;border-radius:999px;padding:9px 20px}
+  .entry-play .go{background:var(--pink)}
+  @media (max-width:760px){.entry-grid{grid-template-columns:1fr}.entry-icon{width:60px;height:60px;border-radius:18px}.entry-icon svg{width:38px;height:38px}}
+  .home-foot{text-align:center;margin-top:26px;font-size:.75rem;color:var(--ink-soft);font-weight:700;line-height:1.8}
+
+  /* ---------- teach ---------- */
+  .teach{padding:clamp(14px,2.4vw,26px) 0 64px}
+  .page-nav{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .teach-head{text-align:center;max-width:720px;margin:0 auto 16px}
+  .teach-head h2{font-size:clamp(1.5rem,2.8vw,2rem)}
+  .teach-head p{color:var(--ink-soft);font-weight:600;margin-top:4px;font-size:.92rem}
+  .teach-tabs{display:flex;gap:6px;background:#fff;border:3px solid var(--ink);border-radius:22px;padding:6px;max-width:780px;margin:0 auto clamp(14px,2.4vw,24px);box-shadow:0 5px 0 rgba(46,42,74,.1)}
+  .tab{flex:1;min-height:52px;border:0;background:transparent;border-radius:16px;font-weight:900;font-size:.92rem;color:var(--ink-soft);cursor:pointer;padding:6px 6px;line-height:1.3}
+  .tab.active{background:var(--ink);color:#fff}
+  .tab .tn{display:inline-block;margin-right:4px}
+  @media (max-width:460px){.tab{font-size:.82rem}.tab .tn{display:none}}
+  .teach-panel{display:none}
+  .teach-panel.active{display:block;animation:fadeUp .3s ease both}
+  .teach-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:clamp(14px,2.8vw,34px);align-items:center;background:#fff;border:3px solid var(--ink);border-radius:32px;padding:clamp(14px,2.4vw,30px);box-shadow:var(--shadow)}
+  .teach-art{position:relative;background:#F5FBFF;border:3px dashed #CFE9FF;border-radius:26px;padding:8px}
+  .teach-art.pink{background:#FFF7FA;border-color:#FFD3E3}
+  .teach-art svg{width:100%;height:auto;display:block;max-height:380px}
+  .art-badge{position:absolute;top:-16px;left:-10px;width:58px;height:58px;display:grid;place-items:center;border:3px solid var(--ink);border-radius:18px;font-weight:900;font-size:1.6rem;color:#fff;box-shadow:0 4px 0 rgba(46,42,74,.16);transform:rotate(-8deg)}
+  .art-badge.blue{background:var(--blue)}
+  .art-badge.pink{background:var(--pink)}
+  .art-badge.yellow{background:var(--yellow);color:var(--ink)}
+  .teach-copy h2{font-size:clamp(1.4rem,2.5vw,1.95rem);line-height:1.3;margin-bottom:6px}
+  .teach-lead{color:var(--ink-soft);font-weight:600;font-size:1rem;line-height:1.75}
+  .teach-lead b{color:var(--ink)}
+  .tag{display:inline-block;border:2.5px solid var(--ink);border-radius:999px;padding:2px 12px;font-size:.72rem;font-weight:900;letter-spacing:.06em;margin-bottom:8px}
+  .tag-blue{background:var(--blue-soft)}
+  .tag-pink{background:var(--pink-soft)}
+  .formula{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:14px 0 12px}
+  .fc{border:2.5px solid var(--ink);border-radius:14px;padding:6px 11px;font-weight:900;background:#fff;display:flex;flex-direction:column;align-items:center;line-height:1.15;font-size:.92rem;text-align:center}
+  .fc small{font-size:.64rem;font-weight:800;color:var(--ink-soft);letter-spacing:.02em;margin-top:2px;line-height:1.25}
+  .fc.who{background:#FFF2D9}
+  .fc.what{background:var(--blue-soft)}
+  .fc.act{background:var(--green-soft)}
+  .fc.mark{color:#fff;font-size:1.18rem;padding:5px 12px}
+  .fc.mark.b{background:var(--blue)}
+  .fc.mark.p{background:var(--pink)}
+  .plus{font-weight:900;color:var(--ink-soft);font-size:.95rem}
+  .example-box{border:3px solid var(--ink);border-radius:20px;padding:12px 14px;background:#FFFDF7;position:relative;margin-top:6px}
+  .example-box.blue{background:#F5FBFF}
+  .example-box.pink{background:#FFF7FA}
+  .ex-label{position:absolute;top:-13px;left:12px;background:var(--yellow);border:2.5px solid var(--ink);border-radius:99px;padding:0 10px;font-size:.64rem;font-weight:900;letter-spacing:.08em}
+  .ex-sentence{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:900;line-height:2.05;letter-spacing:.02em;margin-top:2px}
+  .hl-who{border-bottom:5px solid var(--yellow);padding-bottom:1px}
+  .hl-what{border-bottom:5px solid #9AD5FF;padding-bottom:1px}
+  .hl-act{border-bottom:5px solid #8CE3C1;padding-bottom:1px}
+  .hl-mark{color:#fff;border-radius:9px;padding:1px 7px;font-size:.92em}
+  .hl-mark.b{background:var(--blue)}
+  .hl-mark.p{background:var(--pink)}
+  .speak-btn{display:inline-flex;align-items:center;gap:6px;border:2.5px solid var(--ink);background:#fff;border-radius:999px;padding:5px 13px;font-size:.76rem;font-weight:900;cursor:pointer;margin-top:8px;box-shadow:0 3px 0 rgba(46,42,74,.14);min-height:40px}
+  .speak-btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(46,42,74,.14)}
+  .speak-btn svg{width:18px;height:18px}
+  .tips{margin-top:12px;display:flex;flex-direction:column;gap:8px}
+  .tips li{display:flex;gap:9px;align-items:flex-start;font-size:.94rem;font-weight:600;line-height:1.68;color:var(--ink-soft)}
+  .tips li b{color:var(--ink)}
+  .tick{flex:0 0 auto;width:23px;height:23px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:.76rem;font-weight:900;margin-top:2px}
+  .warn{display:flex;gap:10px;align-items:flex-start;background:#FFF6E6;border:2.5px dashed #E8B45A;border-radius:16px;padding:10px 13px;margin-top:12px;font-size:.86rem;font-weight:700;line-height:1.65}
+  .warn .wi{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--yellow);border:2px solid var(--ink);display:grid;place-items:center;font-weight:900;font-size:.8rem}
+  .warn .no{color:var(--red)}
+  .warn .yes{color:var(--green)}
+  @media (max-width:900px){.teach-grid{grid-template-columns:1fr}.teach-art{max-width:440px;margin:0 auto}.teach-copy h2{font-size:1.35rem}}
+  @media (max-width:400px){.fc{font-size:.82rem;padding:5px 8px}.fc small{font-size:.58rem}.ex-sentence{font-size:1.12rem}}
+
+  /* panel 3 */
+  .panel-card{background:#fff;border:3px solid var(--ink);border-radius:32px;padding:clamp(16px,2.6vw,32px);box-shadow:var(--shadow)}
+  .steps{display:flex;align-items:stretch;gap:10px;margin-bottom:18px}
+  .step{flex:1;background:#F8FBFF;border:2.5px solid #D9E9F7;border-radius:20px;padding:13px;min-width:0}
+  .step-head{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .step .num{width:34px;height:34px;flex:0 0 auto;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:900;border:2.5px solid var(--ink)}
+  .step-ico{width:26px;height:26px;flex:0 0 auto}
+  .step h3{font-size:1rem;line-height:1.35;margin-bottom:3px}
+  .step p{font-size:.8rem;color:var(--ink-soft);font-weight:600;line-height:1.6}
+  .step-arrow{align-self:center;font-weight:900;font-size:1.4rem;color:var(--ink-soft);flex:0 0 auto}
+  .compare{border:3px solid var(--ink);border-radius:20px;overflow:hidden;margin-bottom:16px}
+  .cmp-row{display:grid;grid-template-columns:110px 1fr;gap:10px;padding:10px 12px;border-top:2px dashed #EADCC8;align-items:center;font-size:.92rem;font-weight:700}
+  .cmp-row:first-child{border-top:0;background:#FFF4DF}
+  .cmp-row.head{font-weight:900;font-size:.8rem;letter-spacing:.06em;color:var(--ink-soft)}
+  .cmp-tag{display:inline-block;border:2px solid var(--ink);border-radius:99px;padding:2px 8px;font-size:.68rem;font-weight:900;text-align:center}
+  .cmp-tag.grey{background:#EFEAE1}
+  .cmp-tag.blue{background:var(--blue-soft);color:#1470BB}
+  .cmp-tag.pink{background:var(--pink-soft);color:#C93C74}
+  .cmp-row b{font-weight:900}
+  .rhyme{display:flex;gap:10px;flex-wrap:wrap}
+  .rhyme div{flex:1 1 240px;border:2.5px dashed #D9C7AC;border-radius:18px;padding:11px 14px;background:#FFFCF5;font-size:.9rem;font-weight:800;line-height:1.7}
+  .rhyme span{color:var(--blue)}
+  .rhyme .p{color:var(--pink)}
+  @media (max-width:760px){
+    .steps{flex-direction:column}
+    .step-arrow{transform:rotate(90deg);align-self:center}
+    .cmp-row{grid-template-columns:84px 1fr;font-size:.84rem;padding:8px 10px}
+  }
+  .teach-cta{display:flex;justify-content:center;margin-top:22px}
+
+  /* ---------- buttons ---------- */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:3px solid var(--ink);border-radius:18px;background:#fff;font-weight:900;font-size:1rem;padding:12px 22px;min-height:58px;cursor:pointer;box-shadow:0 5px 0 rgba(46,42,74,.18);transition:transform .12s ease,box-shadow .12s ease;line-height:1.3;text-align:center}
+  .btn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(46,42,74,.18)}
+  .btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:0 5px 0 rgba(46,42,74,.1);transform:none}
+  .btn-primary{background:var(--yellow)}
+  .btn-blue{background:var(--blue);color:#fff}
+  .btn-pink{background:var(--pink);color:#fff}
+  .btn-ghost{background:#fff}
+  .btn-sm{min-height:46px;font-size:.85rem;padding:8px 16px;border-width:2.5px;border-radius:14px}
+
+  /* ---------- lobby ---------- */
+  .lobby{padding:clamp(16px,2.6vw,32px) 0 64px}
+  .lobby-head{text-align:center;margin-bottom:clamp(16px,2.6vw,28px)}
+  .lobby-head h2{font-size:clamp(1.6rem,3vw,2.2rem)}
+  .lobby-head p{color:var(--ink-soft);font-weight:600;margin-top:4px;font-size:.94rem}
+  .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2.4vw,26px)}
+  .mode-card{display:flex;flex-direction:column;gap:8px;text-align:left;background:#fff;border:3px solid var(--ink);border-radius:30px;padding:clamp(16px,2.4vw,28px);box-shadow:var(--shadow);cursor:pointer;transition:transform .16s ease,box-shadow .16s ease}
+  .mode-card:hover{transform:translateY(-3px);box-shadow:0 10px 0 rgba(46,42,74,.13)}
+  .mode-card:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(46,42,74,.13)}
+  .mode-a{background:linear-gradient(160deg,#EAF6FF,#fff 70%)}
+  .mode-b{background:linear-gradient(160deg,#FFEDF4,#fff 70%)}
+  .mode-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .mode-no{font-size:.7rem;font-weight:900;letter-spacing:.1em;background:#fff;border:2px solid var(--ink);border-radius:99px;padding:2px 10px}
+  .mode-card h3{font-size:clamp(1.3rem,2.2vw,1.6rem)}
+  .mode-card p{color:var(--ink-soft);font-size:.9rem;font-weight:600;line-height:1.7}
+  .mode-art{height:150px;display:grid;place-items:center;margin:2px 0}
+  .mode-art svg{height:100%;width:auto;max-width:100%}
+  .mode-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:.76rem;font-weight:800;color:var(--ink-soft);margin-top:2px}
+  .best{background:rgba(255,201,60,.35);border-radius:99px;padding:2px 10px}
+  @media (max-width:760px){.mode-grid{grid-template-columns:1fr}.mode-art{height:110px}}
+
+  /* ---------- game ---------- */
+  .game{padding:clamp(12px,2vw,22px) 0 60px}
+  .game-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+  .back-btn{display:inline-flex;align-items:center;gap:5px;background:#fff;border:2.5px solid var(--ink);border-radius:14px;padding:8px 12px;font-weight:900;font-size:.8rem;cursor:pointer;box-shadow:0 3px 0 rgba(46,42,74,.14);min-height:44px}
+  .back-btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(46,42,74,.14)}
+  .mode-tag{font-weight:900;font-size:.8rem;background:#fff;border:2.5px solid var(--ink);border-radius:99px;padding:5px 14px}
+  .score-chip{margin-left:auto;display:inline-flex;align-items:center;gap:6px;background:#fff;border:2.5px solid var(--ink);border-radius:99px;padding:5px 13px;font-weight:900;font-size:.85rem}
+  .score-chip svg{width:20px;height:20px}
+  .progress{display:flex;gap:7px;margin:8px 0 14px}
+  .dot{height:11px;flex:1;border-radius:99px;background:#EBDCC6;transition:background .25s ease}
+  .dot.current{background:var(--yellow);box-shadow:0 0 0 3px rgba(255,201,60,.25)}
+  .dot.ok{background:var(--green)}
+  .dot.no{background:var(--red)}
+  .q-card{background:#fff;border:3px solid var(--ink);border-radius:30px;padding:clamp(14px,2.2vw,26px);box-shadow:var(--shadow)}
+  .q-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .q-num{font-size:.76rem;font-weight:900;color:var(--ink-soft);letter-spacing:.05em}
+  .ask-pill{font-size:.78rem;font-weight:900;background:var(--blue-soft);border:2px solid #9AD5FF;border-radius:99px;padding:3px 11px;line-height:1.5}
+  .ask-pill.pink{background:var(--pink-soft);border-color:#FFC2D8}
+  .q-hero{display:grid;grid-template-columns:250px 1fr;gap:clamp(10px,2vw,22px);align-items:center;margin-bottom:6px}
+  .q-scene{display:grid;place-items:center}
+  .q-scene svg{width:100%;height:auto;max-height:235px;display:block}
+  .q-prompt{font-size:clamp(1.35rem,2.6vw,1.85rem);font-weight:900;line-height:1.6;letter-spacing:.02em}
+  .q-hint{font-size:.88rem;color:var(--ink-soft);font-weight:700;margin-top:6px;line-height:1.7}
+  @media (max-width:700px){
+    .q-hero{grid-template-columns:1fr;text-align:center}
+    .q-scene svg{max-height:180px;width:auto;max-width:100%}
+    .q-prompt{text-align:center}
+  }
+  .speak-row{display:flex;justify-content:flex-start;margin-top:4px}
+  @media (max-width:700px){.speak-row{justify-content:center}}
+
+  /* options */
+  .options{display:grid;grid-template-columns:1fr;gap:10px;margin-top:14px}
+  .opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:#FFFCF6;border:2.5px solid #E4D5BE;border-radius:18px;padding:13px 14px;font-size:1.02rem;font-weight:800;line-height:1.5;min-height:64px;cursor:pointer;transition:border-color .15s ease,background .15s ease,transform .1s ease;position:relative}
+  .opt:hover{border-color:#C7B394;background:#FFF8EC}
+  .opt:active{transform:scale(.995)}
+  .opt-key{flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:2.5px solid var(--ink);display:grid;place-items:center;font-size:.9rem;font-weight:900;background:#fff}
+  .opt-text{flex:1;min-width:0;overflow-wrap:anywhere}
+  .opt-mark{flex:0 0 auto;font-weight:900;font-size:1.15rem;display:none}
+  .opt.selected{border-color:var(--blue);background:var(--blue-soft);box-shadow:0 0 0 3px rgba(47,155,240,.16)}
+  .opt.selected .opt-key{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .opt.correct{border-color:var(--green);background:var(--green-soft);box-shadow:0 0 0 3px rgba(34,185,129,.14)}
+  .opt.correct .opt-key{background:var(--green);color:#fff;border-color:var(--green)}
+  .opt.correct .opt-mark{display:block;color:var(--green)}
+  .opt.wrong{border-color:var(--red);background:var(--red-soft)}
+  .opt.wrong .opt-key{background:var(--red);color:#fff;border-color:var(--red)}
+  .opt.wrong .opt-mark{display:block;color:var(--red)}
+  .opt.dim{opacity:.62}
+  .opt:disabled{cursor:default}
+  @media (min-width:980px){.options{grid-template-columns:1fr 1fr}.opt{min-height:78px}}
+  @media (min-width:900px){
+    .q-hero{grid-template-columns:270px 1fr}
+    .q-prompt{font-size:1.95rem}
+    .opt{font-size:1.1rem}
+    .fb-explain{font-size:1rem}
+  }
+
+  /* builder */
+  .builder{margin-top:14px}
+  .build-label{font-size:.82rem;font-weight:900;color:var(--ink-soft);letter-spacing:.04em;margin-bottom:6px;line-height:1.6}
+  .answer-slots{display:flex;flex-wrap:wrap;gap:8px;min-height:76px;padding:10px;border:3px dashed #DCC9AC;border-radius:20px;background:#FFFDF7;align-content:flex-start}
+  .answer-slots.filled{border-style:solid;border-color:#C9B08B}
+  .answer-slots.ok{border-color:var(--green);background:var(--green-soft)}
+  .answer-slots.no{border-color:var(--red);background:var(--red-soft)}
+  .slot{flex:1 1 0;min-width:0;max-width:64px;height:48px;border-radius:12px;background:#F5EDE0;border:2px dashed #E0CFB6}
+  .token{border:2.5px solid var(--ink);border-radius:14px;background:#fff;padding:9px 15px;font-size:1.02rem;font-weight:900;cursor:pointer;box-shadow:0 3px 0 rgba(46,42,74,.16);min-height:48px;line-height:1.2;transition:transform .1s ease,opacity .15s ease}
+  .token:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(46,42,74,.16)}
+  .token.placed{background:#FFF1C9;animation:popIn .18s ease}
+  @keyframes popIn{from{transform:scale(.9);opacity:.6}to{transform:scale(1);opacity:1}}
+  .token.bank-token{background:#fff}
+  .token.bank-token.used{opacity:.26;box-shadow:none;cursor:default}
+  .token:disabled{cursor:default}
+  .bank{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;padding:10px;border-radius:18px;background:#F7F1E6}
+  .build-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .build-actions .btn{flex:1 1 160px}
+  .empty-note{color:#A5947C;font-weight:800;font-size:.86rem;padding:8px 6px}
+
+  /* feedback */
+  .feedback{margin-top:16px;border:3px solid var(--ink);border-radius:26px;padding:clamp(13px,2vw,20px);background:#fff;box-shadow:var(--shadow);animation:popIn .25s ease;scroll-margin-top:calc(76px + env(safe-area-inset-top))}
+  .feedback.ok{background:#F1FCF7}
+  .feedback.no{background:#FFF6F6}
+  .fb-head{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .fb-mascot{width:54px;height:54px;flex:0 0 auto}
+  .fb-mascot svg{width:100%;height:100%;display:block}
+  .fb-head h3{font-size:1.2rem;line-height:1.3}
+  .fb-head p{font-size:.82rem;color:var(--ink-soft);font-weight:700;line-height:1.5}
+  .fb-answer{font-size:1.05rem;font-weight:900;line-height:1.7;background:#fff;border:2.5px solid #E7D8C2;border-radius:14px;padding:9px 12px;margin:8px 0}
+  .fb-answer b{color:var(--blue)}
+  .feedback.no .fb-answer b{color:var(--pink)}
+  .fb-yours{font-size:.92rem;font-weight:800;color:var(--ink-soft);margin:-2px 0 8px;line-height:1.6;overflow-wrap:anywhere}
+  .fb-yours b{color:var(--red)}
+  .fb-explain{font-size:.96rem;font-weight:600;line-height:1.85;color:var(--ink-soft)}
+  .fb-explain b{color:var(--ink)}
+  .fb-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  .fb-actions .btn{flex:1 1 180px}
+  @media (min-width:640px){.fb-actions .btn{flex:0 0 auto;min-width:180px}}
+
+  /* result */
+  .result{padding:clamp(14px,2.4vw,30px) 0 70px}
+  .result-card{background:#fff;border:3px solid var(--ink);border-radius:34px;padding:clamp(20px,3.2vw,38px);text-align:center;box-shadow:var(--shadow)}
+  .stars{display:flex;justify-content:center;gap:8px;margin:6px 0 10px}
+  .star{width:clamp(58px,11vw,86px);height:auto}
+  .star .fill{fill:#EFE3D2;transition:fill .3s ease}
+  .star.on .fill{fill:var(--yellow)}
+  .star.on{animation:starPop .45s ease both}
+  .star.on:nth-child(2){animation-delay:.12s}
+  .star.on:nth-child(3){animation-delay:.24s}
+  @keyframes starPop{0%{transform:scale(.6) rotate(-8deg)}70%{transform:scale(1.08) rotate(3deg)}100%{transform:scale(1)}}
+  .result-card h2{font-size:clamp(1.6rem,3vw,2.3rem)}
+  .score-line{font-size:clamp(1.05rem,2vw,1.3rem);font-weight:900;margin-top:2px}
+  .score-line b{font-size:1.6em;color:var(--blue)}
+  .result-mode{font-size:.8rem;font-weight:900;color:var(--ink-soft);letter-spacing:.08em;margin-top:2px}
+  .result-msg{color:var(--ink-soft);font-weight:700;margin:6px auto 14px;max-width:460px;line-height:1.75;font-size:.95rem}
+  .review{text-align:left;border-top:3px dashed #EDDCC4;padding-top:12px;margin-top:6px}
+  .review h3{font-size:.95rem;margin-bottom:8px}
+  .review-item{display:flex;gap:9px;align-items:flex-start;padding:8px 0;border-bottom:1px dashed #F0E4D3}
+  .review-item:last-child{border-bottom:0}
+  .ri-mark{flex:0 0 auto;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:.8rem;color:#fff;margin-top:2px}
+  .ri-mark.ok{background:var(--green)}
+  .ri-mark.no{background:var(--red)}
+  .ri-q{font-size:.82rem;font-weight:700;color:var(--ink-soft);line-height:1.5}
+  .ri-a{font-size:.92rem;font-weight:900;line-height:1.6}
+  .ri-u{font-size:.8rem;font-weight:700;color:var(--ink-soft);line-height:1.55;margin-top:2px;overflow-wrap:anywhere}
+  .ri-u b{color:var(--red)}
+  .result-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+  .result-actions .btn{flex:1 1 170px}
+  @media (min-width:720px){.result-actions .btn{flex:0 0 auto;min-width:180px}}
+
+  /* toast */
+  .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:var(--ink);color:#fff;font-weight:800;font-size:.85rem;padding:10px 18px;border-radius:99px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:120;max-width:86vw;text-align:center}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+
+  /* confetti */
+  .confetti{position:fixed;top:-24px;z-index:110;width:11px;height:17px;border-radius:3px;pointer-events:none;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(108vh) rotate(680deg);opacity:.9}}
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="brand" type="button" data-go="home" aria-label="返回首頁">
+      <span class="brand-mascot" data-mascot aria-hidden="true"></span>
+      <span class="brand-text">
+        <b>小語魔法教室</b>
+        <span>把字句 · 被字句</span>
+      </span>
+    </button>
+    <button class="sound-btn" id="btnSound" type="button" aria-pressed="true" aria-label="音效開關">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5L11 19z"/><path class="wave1" d="M15.5 8.5a5 5 0 0 1 0 7"/><path class="wave2" d="M18.5 6a9 9 0 0 1 0 12"/></svg>
+      <span class="lbl" id="soundLbl">音效開</span>
+    </button>
+  </div>
+</header>
+
+<main data-generated-by="vibe-coding-frontend-design">
+
+  <!-- ============ HOME ============ -->
+  <section class="screen active" id="screen-home" aria-label="首頁">
+    <div class="wrap home">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow"><i></i>小學語文 · 句子魔法</span>
+          <h1>把字句<span class="dot">·</span>被字句<br><em>魔法教室</em></h1>
+          <p class="lead">跟小語老師一起，用「把」和「被」兩個魔法詞，<br>把句子變來變去，一看就明白！</p>
+          <div class="hero-badges">
+            <span>圖文教學</span>
+            <span>2 種遊戲模式</span>
+            <span>12 道練習</span>
+            <span>即時解說</span>
+          </div>
+        </div>
+        <div class="hero-art">
+          <div class="bubble">一起來玩句子魔法吧！</div>
+          <div class="mascot-wrap">
+            <div class="hero-mascot" data-mascot aria-hidden="true"></div>
+            <span class="chip-float chip-blue" aria-hidden="true">把</span>
+            <span class="chip-float chip-pink" aria-hidden="true">被</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="entry-grid">
+        <button class="entry entry-teach" type="button" data-go="teach">
+          <span class="entry-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke="#2E2A4A" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M6 10c6-3 12-3 18 1v27c-6-4-12-4-18-1z" fill="#FFFDF5"/><path d="M42 10c-6-3-12-3-18 1v27c6-4 12-4 18-1z" fill="#EAF6FF"/><path d="M12 17h6M12 23h6M30 17h6M30 23h6"/></svg>
+          </span>
+          <h2>先學後玩</h2>
+          <p>三個步驟看懂句式：誰把什麼怎麼樣、什麼被誰怎麼樣。</p>
+          <span class="go">開始學習
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 7l5 5-5 5"/></svg>
+          </span>
+        </button>
+
+        <button class="entry entry-play" type="button" data-go="lobby">
+          <span class="entry-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke="#2E2A4A" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><rect x="5" y="14" width="38" height="22" rx="9" fill="#FFFDF5"/><path d="M15 22v6M12 25h6" stroke-width="3"/><circle cx="33" cy="23" r="2.2" fill="#2E2A4A"/><circle cx="37" cy="28" r="2.2" fill="#2E2A4A"/></svg>
+          </span>
+          <h2>挑戰時間</h2>
+          <p>兩種玩法、每種六道題，答完立即解說，越玩越熟練。</p>
+          <span class="go">進入遊戲
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 7l5 5-5 5"/></svg>
+          </span>
+        </button>
+      </div>
+
+      <p class="home-foot">適合初小至小六 · 用字參考《香港小學學習字詞表》<br>手機 · 平板 · 電腦均可使用</p>
+    </div>
+  </section>
+
+  <!-- ============ TEACH ============ -->
+  <section class="screen" id="screen-teach" aria-label="教學部分">
+    <div class="wrap narrow teach">
+      <div class="page-nav">
+        <button class="back-btn" type="button" data-go="home" aria-label="返回首頁">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>返回首頁
+        </button>
+      </div>
+      <div class="teach-head">
+        <h2>三個步驟，學會句子變身</h2>
+        <p>先看圖，再看公式，最後記住小口訣。</p>
+      </div>
+
+      <div class="teach-tabs" role="tablist" aria-label="教學章節">
+        <button class="tab active" type="button" role="tab" data-tab="0" aria-selected="true"><span class="tn">①</span>把字句</button>
+        <button class="tab" type="button" role="tab" data-tab="1" aria-selected="false"><span class="tn">②</span>被字句</button>
+        <button class="tab" type="button" role="tab" data-tab="2" aria-selected="false"><span class="tn">③</span>變身三步</button>
+      </div>
+
+      <!-- panel 1 -->
+      <div class="teach-panel active" data-panel="0" role="tabpanel">
+        <div class="teach-grid">
+          <div class="teach-art">
+            <span class="art-badge blue" aria-hidden="true">把</span>
+            <div id="art1" aria-hidden="true"></div>
+          </div>
+          <div class="teach-copy">
+            <span class="tag tag-blue">把字句</span>
+            <h2>主動出擊：我把事情做好！</h2>
+            <p class="teach-lead">用「把」字，說清楚 <b>誰</b> 對 <b>什麼</b> 做了 <b>什麼</b>。</p>
+            <div class="formula" aria-label="把字句公式">
+              <span class="fc who">誰<small>做動作的人</small></span><span class="plus">＋</span>
+              <span class="fc mark b">把</span><span class="plus">＋</span>
+              <span class="fc what">什麼<small>被做的物件</small></span><span class="plus">＋</span>
+              <span class="fc act">動作＋結果</span>
+            </div>
+            <div class="example-box blue">
+              <span class="ex-label">例句</span>
+              <p class="ex-sentence"><span class="hl-who">媽媽</span><span class="hl-mark b">把</span><span class="hl-what">碗碟</span><span class="hl-act">洗乾淨</span>了。</p>
+              <button class="speak-btn" type="button" data-say="媽媽把碗碟洗乾淨了。">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5L11 19z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>聽一聽
+              </button>
+            </div>
+            <ul class="tips">
+              <li><span class="tick">✓</span><span><b>「把」要放在「誰」和「什麼」中間。</b></span></li>
+              <li><span class="tick">✓</span><span>動詞後面要說出<b>結果</b>：洗乾淨、收拾好、打開……</span></li>
+              <li><span class="tick">✓</span><span>句子的重點是<b>主動者</b>做了什麼。</span></li>
+            </ul>
+            <div class="warn"><span class="wi">!</span><span>「我把功課喜歡。」<span class="no">✗</span>　「喜歡」表示心情，不是動作，不能放進「把」字句。</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- panel 2 -->
+      <div class="teach-panel" data-panel="1" role="tabpanel">
+        <div class="teach-grid">
+          <div class="teach-art pink">
+            <span class="art-badge pink" aria-hidden="true">被</span>
+            <div id="art2" aria-hidden="true"></div>
+          </div>
+          <div class="teach-copy">
+            <span class="tag tag-pink">被字句</span>
+            <h2>物件做主角：它怎麼樣了？</h2>
+            <p class="teach-lead">用「被」字，說清楚 <b>什麼</b> 被 <b>誰</b> 做了 <b>什麼</b>。</p>
+            <div class="formula" aria-label="被字句公式">
+              <span class="fc what">什麼<small>被做的物件</small></span><span class="plus">＋</span>
+              <span class="fc mark p">被</span><span class="plus">＋</span>
+              <span class="fc who">誰<small>做動作的人</small></span><span class="plus">＋</span>
+              <span class="fc act">動作＋結果</span>
+            </div>
+            <div class="example-box pink">
+              <span class="ex-label">例句</span>
+              <p class="ex-sentence"><span class="hl-what">花瓶</span><span class="hl-mark p">被</span><span class="hl-who">姐姐</span><span class="hl-act">擦乾淨</span>了。</p>
+              <button class="speak-btn" type="button" data-say="花瓶被姐姐擦乾淨了。">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5L11 19z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>聽一聽
+              </button>
+            </div>
+            <ul class="tips">
+              <li><span class="tick">✓</span><span><b>「被」字句由「受影響的物件」開始。</b></span></li>
+              <li><span class="tick">✓</span><span>「被」後面是<b>做出動作的人或事物</b>。</span></li>
+              <li><span class="tick">✓</span><span>動詞後面同樣要有結果：擦乾淨、打破了……</span></li>
+            </ul>
+            <div class="warn"><span class="wi">!</span><span>「花瓶被姐姐擦乾淨了」和「姐姐被花瓶擦乾淨了」<b>主角不同</b>，意思就完全不同！</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- panel 3 -->
+      <div class="teach-panel" data-panel="2" role="tabpanel">
+        <div class="panel-card">
+          <div class="steps">
+            <div class="step">
+              <div class="step-head"><span class="num">1</span>
+                <svg class="step-ico" viewBox="0 0 24 24" fill="none" stroke="#2F9BF0" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+              </div>
+              <h3>找出「誰」和「什麼」</h3><p>誰做動作？什麼被影響？</p>
+            </div>
+            <span class="step-arrow" aria-hidden="true">→</span>
+            <div class="step">
+              <div class="step-head"><span class="num">2</span>
+                <svg class="step-ico" viewBox="0 0 24 24" fill="none" stroke="#FF6FA5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20 16 8"/><path d="M15 3l1 3 3 1-3 1-1 3-1-3-3-1 3-1z" fill="#FFC93C" stroke="#2E2A4A" stroke-width="1.4"/><path d="M20 13l.8 2.2L23 16l-2.2.8L20 19l-.8-2.2L17 16l2.2-.8z" fill="#FFC93C" stroke="#2E2A4A" stroke-width="1.4"/></svg>
+              </div>
+              <h3>選對魔法詞</h3><p>主動者在前用「把」；物件在前用「被」。</p>
+            </div>
+            <span class="step-arrow" aria-hidden="true">→</span>
+            <div class="step">
+              <div class="step-head"><span class="num">3</span>
+                <svg class="step-ico" viewBox="0 0 24 24" fill="none" stroke="#22B981" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/><rect x="8" y="3" width="8" height="8" rx="2"/></svg>
+              </div>
+              <h3>排好位置</h3><p>把字句：誰＋把＋什麼；被字句：什麼＋被＋誰。</p>
+            </div>
+          </div>
+
+          <div class="compare" role="table" aria-label="三種句式對照">
+            <div class="cmp-row head" role="row"><span role="columnheader">句子類型</span><span role="columnheader">例句</span></div>
+            <div class="cmp-row" role="row"><span role="cell"><span class="cmp-tag grey">主動句</span></span><span role="cell"><b>姐姐</b>擦乾淨<b>花瓶</b>。</span></div>
+            <div class="cmp-row" role="row"><span role="cell"><span class="cmp-tag blue">把字句</span></span><span role="cell"><b>姐姐</b>把<b>花瓶</b>擦乾淨了。</span></div>
+            <div class="cmp-row" role="row"><span role="cell"><span class="cmp-tag pink">被字句</span></span><span role="cell"><b>花瓶</b>被<b>姐姐</b>擦乾淨了。</span></div>
+          </div>
+
+          <div class="rhyme">
+            <div><span>把</span>字句：主動者在前，「把」字後面放物件。</div>
+            <div><span class="p">被</span>字句：物件在前，「被」字後面放主動者。</div>
+          </div>
+
+          <div class="warn"><span class="wi">!</span><span>兩種句子都要有「<b>動作＋結果</b>」，句尾常常加「了」，表示事情已經做完。</span></div>
+
+          <div class="teach-cta">
+            <button class="btn btn-primary" type="button" data-go="lobby">我學會了，去挑戰！
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 7l5 5-5 5"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ LOBBY ============ -->
+  <section class="screen" id="screen-lobby" aria-label="遊戲選單">
+    <div class="wrap narrow lobby">
+      <div class="page-nav">
+        <button class="back-btn" type="button" data-go="home" aria-label="返回首頁">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>返回首頁
+        </button>
+      </div>
+      <div class="lobby-head">
+        <h2>選一種玩法，開始挑戰！</h2>
+        <p>每種模式 6 道題，答完會有詳細解說。</p>
+      </div>
+      <div class="mode-grid">
+        <button class="mode-card mode-a" type="button" data-mode="a">
+          <div class="mode-top"><span class="mode-no">模式一</span><h3>揀一揀</h3></div>
+          <div class="mode-art" aria-hidden="true">
+            <svg viewBox="0 0 220 150" fill="none">
+              <rect x="26" y="30" width="132" height="26" rx="10" fill="#fff" stroke="#2E2A4A" stroke-width="3"/>
+              <rect x="26" y="66" width="132" height="26" rx="10" fill="#D9F0FF" stroke="#2E2A4A" stroke-width="3"/>
+              <rect x="26" y="102" width="132" height="26" rx="10" fill="#fff" stroke="#2E2A4A" stroke-width="3"/>
+              <circle cx="184" cy="79" r="24" fill="#FFC93C" stroke="#2E2A4A" stroke-width="3"/>
+              <path d="M174 79l7 8 14-16" stroke="#2E2A4A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="44" cy="43" r="5" fill="#2E2A4A"/><circle cx="44" cy="79" r="5" fill="#2E2A4A"/><circle cx="44" cy="115" r="5" fill="#2E2A4A"/>
+            </svg>
+          </div>
+          <p>看句子，從四個選項中選出正確的「把字句」或「被字句」。</p>
+          <div class="mode-meta"><span>6 道選擇題</span><span class="best" data-best="a">最佳：未有紀錄</span></div>
+        </button>
+
+        <button class="mode-card mode-b" type="button" data-mode="b">
+          <div class="mode-top"><span class="mode-no">模式二</span><h3>砌一砌</h3></div>
+          <div class="mode-art" aria-hidden="true">
+            <svg viewBox="0 0 220 150" fill="none">
+              <rect x="20" y="26" width="70" height="30" rx="9" fill="#FFE3AE" stroke="#2E2A4A" stroke-width="3"/>
+              <rect x="98" y="26" width="52" height="30" rx="9" fill="#fff" stroke="#2E2A4A" stroke-width="3"/>
+              <rect x="20" y="64" width="60" height="30" rx="9" fill="#fff" stroke="#2E2A4A" stroke-width="3"/>
+              <rect x="88" y="64" width="62" height="30" rx="9" fill="#FFF1C9" stroke="#2E2A4A" stroke-width="3"/>
+              <rect x="20" y="106" width="130" height="26" rx="10" fill="#FFF7EC" stroke="#2E2A4A" stroke-width="3" stroke-dasharray="6 5"/>
+              <path d="M170 60l10-10 10 10M180 50v34" stroke="#FF6FA5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="180" cy="104" r="22" fill="#FFD9E6" stroke="#2E2A4A" stroke-width="3"/>
+              <path d="M171 104l6 7 12-14" stroke="#2E2A4A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p>點選詞語卡，按順序砌出完整句子，再檢查答案。</p>
+          <div class="mode-meta"><span>6 道排序題</span><span class="best" data-best="b">最佳：未有紀錄</span></div>
+        </button>
+      </div>
+      <div class="teach-cta">
+        <button class="btn btn-ghost" type="button" data-go="teach">先重溫教學</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GAME ============ -->
+  <section class="screen" id="screen-game" aria-label="遊戲進行中">
+    <div class="wrap narrow game">
+      <div class="game-head">
+        <button class="back-btn" id="btnQuit" type="button" aria-label="返回遊戲選單">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>返回
+        </button>
+        <span class="mode-tag" id="modeTag">模式一 · 揀一揀</span>
+        <span class="score-chip" aria-live="polite">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5L2.6 9.3l6.5-.9z" fill="#FFC93C" stroke="#2E2A4A" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <span id="scoreNum">0</span> 分
+        </span>
+      </div>
+      <div class="progress" id="progress" aria-hidden="true"></div>
+
+      <div class="q-card">
+        <div class="q-top">
+          <span class="q-num" id="qNum">第 1 題 / 共 6 題</span>
+          <span class="ask-pill" id="askPill">請選出正確的「把字句」</span>
+        </div>
+        <div class="q-hero">
+          <div class="q-scene" id="qScene" aria-hidden="true"></div>
+          <div>
+            <p class="q-prompt" id="qPrompt">媽媽洗乾淨碗碟。</p>
+            <p class="q-hint" id="qHint" hidden></p>
+            <div class="speak-row">
+              <button class="speak-btn" id="btnSpeakPrompt" type="button" data-say="">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5L11 19z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>聽一聽
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="modeA">
+          <div class="options" id="options" role="group" aria-label="答案選項"></div>
+          <div class="build-actions">
+            <button class="btn btn-blue" id="btnConfirmA" type="button" disabled>確認答案</button>
+          </div>
+        </div>
+
+        <div id="modeB" hidden>
+          <div class="builder">
+            <p class="build-label">你的句子（點詞語卡加入；點句子中的詞語，可放回下面）</p>
+            <div class="answer-slots" id="answerSlots" aria-live="polite"></div>
+            <p class="build-label" style="margin-top:12px">詞語卡</p>
+            <div class="bank" id="bank"></div>
+            <div class="build-actions">
+              <button class="btn btn-ghost" id="btnResetBuild" type="button">重新排</button>
+              <button class="btn btn-pink" id="btnConfirmB" type="button" disabled>確認答案</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="feedback" id="feedback" hidden aria-live="polite">
+        <div class="fb-head">
+          <span class="fb-mascot" data-mascot aria-hidden="true"></span>
+          <div>
+            <h3 id="fbTitle">答對了！</h3>
+            <p id="fbSub">真棒，你已掌握這個句式。</p>
+          </div>
+        </div>
+        <p class="fb-answer">正確答案：<b id="fbAnswer">媽媽把碗碟洗乾淨了。</b></p>
+        <p class="fb-yours" id="fbYours" hidden></p>
+        <p class="fb-explain" id="fbExplain"></p>
+        <div class="fb-actions">
+          <button class="speak-btn" id="btnSpeakAnswer" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5L11 19z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>聽答案
+          </button>
+          <button class="btn btn-primary" id="btnNext" type="button">下一題
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 7l5 5-5 5"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RESULT ============ -->
+  <section class="screen" id="screen-result" aria-label="遊戲結果">
+    <div class="wrap narrow result">
+      <div class="result-card">
+        <div class="stars" id="stars" aria-hidden="true"></div>
+        <h2 id="resultTitle">太棒了！</h2>
+        <p class="score-line"><b id="resultScore">6</b> / 6 題答對</p>
+        <p class="result-mode" id="resultMode">模式一 · 揀一揀</p>
+        <p class="result-msg" id="resultMsg">你已經完全掌握把字句和被字句了！</p>
+
+        <div class="review">
+          <h3>答案重溫</h3>
+          <div id="reviewList"></div>
+        </div>
+
+        <div class="result-actions">
+          <button class="btn btn-primary" id="btnAgain" type="button">再玩一次</button>
+          <button class="btn btn-ghost" id="btnBackLobby" type="button">返回遊戲選單</button>
+          <button class="btn btn-ghost" id="btnToTeach" type="button">看教學</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* =========================================================
+     DATA
+     ========================================================= */
+  var MODE_A = [
+    {
+      scene:'bowl', sceneLabel:'碗碟插圖',
+      prompt:'媽媽洗乾淨碗碟。',
+      ask:'請選出正確的「把字句」',
+      options:[
+        '媽媽把碗碟洗乾淨了。',
+        '媽媽把洗乾淨碗碟了。',
+        '碗碟把媽媽洗乾淨了。',
+        '媽媽被碗碟洗乾淨了。'
+      ],
+      answer:'媽媽把碗碟洗乾淨了。',
+      explain:'「把」字句的格式是「誰＋把＋什麼＋動作＋結果」。「媽媽」是主動者，「碗碟」是被洗的物件，要放在「把」後面；「洗乾淨」後面加「了」，表示已經做完。'
+    },
+    {
+      scene:'vaseBroken', sceneLabel:'打破的花瓶插圖',
+      prompt:'弟弟打破了花瓶。',
+      ask:'請選出正確的「被字句」',
+      options:[
+        '花瓶被弟弟打破了。',
+        '弟弟被花瓶打破了。',
+        '花瓶把弟弟打破了。',
+        '被花瓶弟弟打破了。'
+      ],
+      answer:'花瓶被弟弟打破了。',
+      explain:'「被」字句由「受影響的物件」開始。花瓶是被打破的東西，要放在句首；弟弟是做出動作的人，要放在「被」後面。'
+    },
+    {
+      scene:'desk', sceneLabel:'書桌插圖',
+      prompt:'姐姐收拾好書桌。',
+      ask:'請選出正確的「把字句」',
+      options:[
+        '姐姐把書桌收拾好了。',
+        '姐姐把收拾好書桌了。',
+        '書桌把姐姐收拾好了。',
+        '姐姐被書桌收拾好了。'
+      ],
+      answer:'姐姐把書桌收拾好了。',
+      explain:'「把」字句要說清楚「誰對什麼做了什麼」。「姐姐」在前，「書桌」放在「把」後面；動詞「收拾好」說出結果，句尾加「了」表示完成。'
+    },
+    {
+      scene:'lamp', sceneLabel:'電燈插圖',
+      prompt:'工人修好電燈。',
+      ask:'請選出正確的「被字句」',
+      options:[
+        '電燈被工人修好了。',
+        '工人被電燈修好了。',
+        '電燈把工人修好了。',
+        '被電燈工人修好了。'
+      ],
+      answer:'電燈被工人修好了。',
+      explain:'「被」字句強調物件「怎麼樣了」。電燈是被修好的物件，所以放句首；「工人」放在「被」後面。電燈不會修工人啊！'
+    },
+    {
+      scene:'rug', sceneLabel:'弄髒的地毯插圖',
+      prompt:'小貓弄髒地毯。',
+      ask:'請選出正確的「把字句」',
+      options:[
+        '小貓把地毯弄髒了。',
+        '小貓把弄髒地毯了。',
+        '地毯把小貓弄髒了。',
+        '小貓被地毯弄髒了。'
+      ],
+      answer:'小貓把地毯弄髒了。',
+      explain:'這句用「把」字句，主動者「小貓」要放最前面；「地毯」是被弄髒的物件，放在「把」後面；「弄髒」後面加「了」，表示事情已經發生。'
+    },
+    {
+      scene:'cake', sceneLabel:'吃光的蛋糕插圖',
+      prompt:'爸爸吃光了蛋糕。',
+      ask:'請選出正確的「被字句」',
+      options:[
+        '蛋糕被爸爸吃光了。',
+        '爸爸被蛋糕吃光了。',
+        '蛋糕把爸爸吃光了。',
+        '被蛋糕爸爸吃光了。'
+      ],
+      answer:'蛋糕被爸爸吃光了。',
+      explain:'蛋糕是被吃光的物件，用「被」字句時要放句首；「爸爸」是主動者，放在「被」後面。「吃光」後面加「了」，表示已經吃完。'
+    }
+  ];
+
+  var MODE_B = [
+    {
+      scene:'toy', sceneLabel:'玩具插圖',
+      prompt:'妹妹收好玩具。',
+      ask:'請用「把」字句排出完整句子',
+      hint:'提示：妹妹是主動者，玩具是被收好的物件。',
+      tokens:['妹妹','把','玩具','收好','了'],
+      explain:'「把」要放在「妹妹」和「玩具」中間；「收好」後面加「了」，表示玩具已經收好了。'
+    },
+    {
+      scene:'homework', sceneLabel:'做完的功課插圖',
+      prompt:'哥哥做完功課。',
+      ask:'請用「被字句」排出完整句子',
+      hint:'提示：功課是被做完的物件，要放句首。',
+      tokens:['功課','被','哥哥','做完','了'],
+      explain:'「被」字句要先說「功課」，再說「哥哥」；「做完」後面加「了」，表示動作已經完成。'
+    },
+    {
+      scene:'window', sceneLabel:'打開的窗戶插圖',
+      prompt:'媽媽打開窗戶。',
+      ask:'請用「把」字句排出完整句子',
+      hint:'提示：媽媽是主動者，窗戶是被打開的物件。',
+      tokens:['媽媽','把','窗戶','打開','了'],
+      explain:'「媽媽」是主動者，要放在最前面；「把」後面的「窗戶」是被打開的東西；「打開」後面加「了」。'
+    },
+    {
+      scene:'shirt', sceneLabel:'淋濕的衣服插圖',
+      prompt:'雨水淋濕衣服。',
+      ask:'請用「被字句」排出完整句子',
+      hint:'提示：衣服是被淋濕的物件，雨水是做出動作的事物。',
+      tokens:['衣服','被','雨水','淋濕','了'],
+      explain:'「衣服」是被雨水淋濕的，所以放句首；「被」後面是「雨水」；「淋濕」後面加「了」，表示已經濕了。'
+    },
+    {
+      scene:'balloon', sceneLabel:'抓破的氣球插圖',
+      prompt:'小貓抓破氣球。',
+      ask:'請用「被字句」排出完整句子',
+      hint:'提示：氣球是被抓破的物件，要放句首。',
+      tokens:['氣球','被','小貓','抓破','了'],
+      explain:'「氣球」被小貓抓破，所以要放在「被」前面；「抓破」後面加「了」，表示氣球已經破了。'
+    },
+    {
+      scene:'board', sceneLabel:'教室黑板插圖',
+      prompt:'我們佈置好教室。',
+      ask:'請用「把」字句排出完整句子',
+      hint:'提示：我們是主動者，教室是被佈置的物件。',
+      tokens:['我們','把','教室','佈置好','了'],
+      explain:'「我們」是主動者，「把」後面是「教室」；「佈置好」加上「了」，表示教室已經佈置完成。'
+    }
+  ];
+
+  /* =========================================================
+     CARTOON SVG
+     ========================================================= */
+  function face(cx, cy, s, ink){
+    s = s || 1;
+    ink = ink || '#2E2A4A';
+    return '' +
+      '<ellipse cx="' + (cx-27*s) + '" cy="' + (cy+11*s) + '" rx="' + (8*s) + '" ry="' + (5*s) + '" fill="#FFA8C0" opacity=".7"/>' +
+      '<ellipse cx="' + (cx+27*s) + '" cy="' + (cy+11*s) + '" rx="' + (8*s) + '" ry="' + (5*s) + '" fill="#FFA8C0" opacity=".7"/>' +
+      '<circle cx="' + (cx-13*s) + '" cy="' + cy + '" r="' + (6.5*s) + '" fill="' + ink + '"/>' +
+      '<circle cx="' + (cx+13*s) + '" cy="' + cy + '" r="' + (6.5*s) + '" fill="' + ink + '"/>' +
+      '<circle cx="' + (cx-15*s) + '" cy="' + (cy-2.5*s) + '" r="' + (2.4*s) + '" fill="#fff"/>' +
+      '<circle cx="' + (cx+11*s) + '" cy="' + (cy-2.5*s) + '" r="' + (2.4*s) + '" fill="#fff"/>' +
+      '<path d="M' + (cx-7*s) + ' ' + (cy+11*s) + ' q' + (7*s) + ' ' + (6.5*s) + ' ' + (14*s) + ' 0" fill="none" stroke="' + ink + '" stroke-width="' + (2.8*s) + '" stroke-linecap="round"/>';
+  }
+
+  function flower(x, y, c){
+    var out = '';
+    for(var i=0;i<5;i++){
+      var a = -Math.PI/2 + i*2*Math.PI/5;
+      out += '<circle cx="' + (x+Math.cos(a)*10).toFixed(1) + '" cy="' + (y+Math.sin(a)*10).toFixed(1) + '" r="8" fill="' + c + '"/>';
+    }
+    return out + '<circle cx="' + x + '" cy="' + y + '" r="6.5" fill="#FFD166"/>';
+  }
+
+  function bg(c){
+    return '<rect x="12" y="10" width="216" height="160" rx="46" fill="' + c + '"/>';
+  }
+
+  var SCENE = {
+    bowl: bg('#EAF6FF') +
+      '<path d="M88 40 l3 8 l8 3 l-8 3 l-3 8 l-3 -8 l-8 -3 l8 -3z" fill="#FFD166" stroke="#2E2A4A" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M158 46 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2z" fill="#FFD166" stroke="#2E2A4A" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M44 84 q48 16 96 0 l-7 30 q-41 16 -82 0 z" fill="#9BDCFB" stroke="#2E2A4A" stroke-width="5" stroke-linejoin="round"/>' +
+      '<ellipse cx="92" cy="84" rx="48" ry="10" fill="#D6F2FF" stroke="#2E2A4A" stroke-width="5"/>' +
+      '<path d="M112 104 q48 16 96 0 l-8 38 q-40 17 -80 0 z" fill="#7ED0F7" stroke="#2E2A4A" stroke-width="5" stroke-linejoin="round"/>' +
+      '<ellipse cx="160" cy="104" rx="48" ry="10" fill="#BFEAFF" stroke="#2E2A4A" stroke-width="5"/>' +
+      face(160, 124, .85) +
+      '<path d="M128 114 q32 8 64 0" stroke="#5FB7DD" stroke-width="4" fill="none" stroke-linecap="round"/>',
+
+    vase: bg('#FFF1F6') +
+      '<path d="M120 72 q-16 -24 -32 -32" stroke="#6BC48F" stroke-width="6" fill="none" stroke-linecap="round"/>' +
+      '<path d="M120 72 q0 -32 0 -46" stroke="#6BC48F" stroke-width="6" fill="none" stroke-linecap="round"/>' +
+      '<path d="M120 72 q16 -24 32 -32" stroke="#6BC48F" stroke-width="6" fill="none" stroke-linecap="round"/>' +
+      flower(86, 32, '#FF9DBE') + flower(120, 22, '#FFC93C') + flower(154, 32, '#9DB9FF') +
+      '<path d="M96 58 q24 -8 48 0 l-5 16 q18 22 18 44 q0 32 -37 32 q-37 0 -37 -32 q0 -22 18 -44 z" fill="#FFB3C6" stroke="#2E2A4A" stroke-width="5" stroke-linejoin="round"/>' +
+      '<path d="M96 74 q24 8 48 0" stroke="#FF8FAE" stroke-width="5" fill="none"/>' +
+      '<path d="M68 66 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2z" fill="#FFD166" stroke="#2E2A4A" stroke-width="2.5" stroke-linejoin="round"/>' +
+      '<path d="M176 86 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 l5 -2z" fill="#FFD166" stroke="#2E2A4A" stroke-width="2.5" stroke-linejoin="round"/>' +
+      face(120, 116, .9),
+
+    vaseBroken: bg('#FFF1F6') +
+      '<path d="M120 72 q-16 -24 -32 -32" stroke="#6BC48F" stroke-width="6" fill="none" stroke-linecap="round"/>' +
+      '<path d="M120 72 q0 -32 0 -46" stroke="#6BC48F" stroke-width="6" fill="none" stroke-linecap="round"/>' +
+      '<path d="M120 72 q16 -24 32 -32" stroke="#6BC48F" stroke-width="6" fill="none" stroke-linecap="round"/>' +
+      flower(86, 32, '#FF9DBE') + flower(120, 22, '#FFC93C') + flower(154, 32, '#9DB9FF') +
+      '<path d="M96 58 q24 -8 48 0 l-5 16 q18 22 18 44 q0 32 -37 32 q-37 0 -37 -32 q0 -22 18 -44 z" fill="#FFB3C6" stroke="#2E2A4A" stroke-width="5" stroke-linejoin="round"/>' +
+      '<path d="M96 74 q24 8 48 0" stroke="#FF8FAE" stroke-width="5" fill="none"/>' +
+      '<path d="M134 61 l11 -3 l3 9 l-10 3 z" fill="#FFF1F6" stroke="#2E2A4A" stroke-width="4" stroke-linejoin="round"/>' +
+      '<path d="M107 76 l9 15 l-6 10 l10 12" fill="none" stroke="#2E2A4A" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M134 92 l7 11 l-4 8" fill="none" stroke="#2E2A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<circle cx="111" cy="118" r="5" fill="#2E2A4A"/><circle cx="131" cy="118" r="5" fill="#2E2A4A"/>' +
+      '<circle cx="109.5" cy="116" r="1.8" fill="#fff"/><circle cx="129.5" cy="116" r="1.8" fill="#fff"/>' +
+      '<path d="M104 109 l-4 -4 M138 109 l4 -4" stroke="#2E2A4A" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M114 133 q4 -4 8 0 q4 4 8 0" fill="none" stroke="#2E2A4A" stroke-width="3" stroke-linecap="round"/>' +
+      '<ellipse cx="72" cy="148" rx="10" ry="6" fill="#FF9DBE" stroke="#2E2A4A" stroke-width="3" transform="rotate(-18 72 148)"/>',
+
+    desk: bg('#FFF8E8') +
+      '<rect x="66" y="58" width="54" height="12" rx="4" fill="#FF8FAE" stroke="#2E2A4A" stroke-width="4"/>' +
+      '<rect x="72" y="70" width="46" height="10" rx="4" fill="#FFD166" stroke="#2E2A4A" stroke-width="4"/>' +
+      '<rect x="40" y="86" width="160" height="20" rx="9" fill="#F0C08A" stroke="#2E2A4A" stroke-width="5"/>' +
+      '<rect x="56" y="106" width="16" height="48" rx="6" fill="#D89A5C" stroke="#2E2A4A" stroke-width="5"/>' +
+      '<rect x="168" y="106" width="16" height="48" rx="6" fill="#D89A5C" stroke="#2E2A4A" stroke-width="5"/>' +
+      '<rect x="72" y="114" width="96" height="36" rx="8" fill="#E8B47A" stroke="#2E2A4A" stroke-width="5"/>' +
+      face(120, 130, .75),
+
+    lamp: bg('#FFFBEF') +
+      '<ellipse cx="120" cy="152" rx="46" ry="12" fill="#FFD166" stroke="#2E2A4A" stroke-width="5"/>' +
+      '<rect x="114" y="96" width="12" height="52" rx="6" fill="#F2B33D" stroke="#2E2A4A" stroke-width="5"/>' +
+      '<path d="M84 96 L98 48 L142 48 L156 96 Z" fill="#FFD166" stroke="#2E2A4A" stroke-width="5" stroke-linejoin="round"/>' +
+      face(120, 78, .8) +
+      '<path d="M68 58 l-12 -8 M172 58 l12 -8 M62 84 l-14 0 M178 84 l14 0" stroke="#FFB020" stroke-width="6" stroke-linecap="round"/>',
+
+    rug: bg('#FFF2F7') +
+      '<rect x="36" y="62" width="168" height="68" rx="18" fill="#FFB3C6" stroke="#2E2A4A" stroke-width="5"/>' +
+      '<rect x="50" y="76" width="140" height="40" rx="11" fill="none" stroke="#FF8FAE" stroke-width="5" stroke-dasharray="10 8"/>' +
+      '<path d="M60 82 q10 -10 20 -2 q8 8 -2 14 q-14 8 -20 -2 q-4 -6 2 -10z" fill="#B98A55" opacity=".85"/>' +
+      '<ellipse cx="152" cy="94" rx="16" ry="10" fill="#A97A47" opacity=".8" transform="rotate(-12 152 94)"/>' +
+      '<path d="M144 116 q8 -6 15 0 q5 6 -3 9 q-11 4 -14 -3 q-2 -4 2 -6z" fill="#B98A55" opacity=".8"/>' +
+      '<ellipse cx="92" cy="110" rx="5" ry="7" fill="#8E6236" opacity=".7" transform="rotate(-18 92 110)"/>' +
+      '<ellipse cx="104" cy="119" rx="5" ry="7" fill="#8E6236" opacity=".7" transform="rotate(-18 104 119)"/>' +
+      '<circle cx="112" cy="86" r="4.5" fill="#2E2A4A"/><circle cx="128" cy="86" r="4.5" fill="#2E2A4A"/>' +
+      '<circle cx="110.5" cy="84.5" r="1.6" fill="#fff"/><circle cx="126.5" cy="84.5" r="1.6" fill="#fff"/>' +
+      '<path d="M106 78 l-4 -3 M134 78 l4 -3" stroke="#2E2A4A" stroke-width="2.6" stroke-linecap="round"/>' +
+      '<path d="M116 100 q4 -4 8 0 q4 4 8 0" fill="none" stroke="#2E2A4A" stroke-width="2.8" stroke-linecap="round"/>' +
+      '<path d="M36 80 h-12 M36 96 h-12 M36 112 h-12 M204 80 h12 M204 96 h12 M204 112 h12" stroke="#E88AA5" stroke-width="5" stroke-linecap="round"/>',
+
+    cake: bg('#FFF6EA') +
+      '<ellipse cx="120" cy="150" rx="76" ry="12" fill="#EFD9BF"/>' +
+      '<ellipse cx="120" cy="132" rx="66" ry="20" fill="#FFFDF5" stroke="#2E2A4A" stroke-width="5"/>' +
+      '<ellipse cx="120" cy="130" rx="52" ry="13" fill="#F3E7D7"/>' +
+      '<circle cx="98" cy="128" r="4" fill="#C98B4B"/><circle cx="108" cy="136" r="3" fill="#C98B4B"/><circle cx="130" cy="126" r="3.5" fill="#C98B4B"/><circle cx="142" cy="134" r="3" fill="#C98B4B"/><circle cx="120" cy="138" r="2.5" fill="#C98B4B"/>' +
+      '<g transform="rotate(-14 60 120)"><rect x="56" y="92" width="8" height="52" rx="4" fill="#CFE3F2" stroke="#2E2A4A" stroke-width="4"/><path d="M52 88 v14 M60 88 v14 M68 88 v14" stroke="#2E2A4A" stroke-width="4" stroke-linecap="round"/></g>' +
+      '<g transform="rotate(14 184 120)"><rect x="180" y="94" width="8" height="50" rx="4" fill="#CFE3F2" stroke="#2E2A4A" stroke-width="4"/><path d="M176 94 q8 -10 16 0 v10 h-16z" fill="#EAF6FF" stroke="#2E2A4A" stroke-width="4" stroke-linejoin="round"/></g>' +
+      '<path d="M120 66 l3 9 l9 3 l-9 3 l-3 9 l-3 -9 l-9 -3 l9 -3z" fill="#FFD166" stroke="#2E2A4A" stroke-width="3" stroke-linejoin="round"/>',
+
+    toy: bg('#EFF8FF') +
+      '<rect x="64" y="98" width="36" height="36" rx="8" fill="#7ED0F7" stroke="#2E2A4A" stroke-width="5"/>' +
+      '<rect x="102" y="98" width="36" height="36" rx="8" fill="#FFD166" stroke="#2E2A4A" stroke-width="5"/>' +
+      '<rect x="83" y="62" width="36" height="36" rx="8" fill="#FFB3C6" stroke="#2E2A4A" stroke-width="5"/>' +
+      '<circle cx="82" cy="116" r="7" fill="#fff" opacity=".8"/>' +
+      '<path d="M112 116 l9 -10 l9 10 z" fill="#D89A5C"/>' +
+      '<circle cx="172" cy="116" r="30" fill="#FFFDF5" stroke="#2E2A4A" stroke-width="5"/>' +
+      '<path d="M172 86 v60" stroke="#FFC93C" stroke-width="5" opacity=".9"/>' +
+      face(172, 114, .68),
+
+    homework: bg('#F3F8FF') +
+      '<rect x="56" y="42" width="112" height="112" rx="12" fill="#FFFDF5" stroke="#2E2A4A" stroke-width="5"/>' +
+      '<path d="M56 54 q0 -12 12 -12 h10 v112 h-10 q-12 0 -12 -12 z" fill="#7ED0F7" stroke="#2E2A4A" stroke-width="5"/>' +
+      '<path d="M94 68 h44 M94 84 h44 M94 100 h30" stroke="#D9E6EF" stroke-width="5" stroke-linecap="round"/>' +
+      '<path d="M146 66 l4 7 l8 -12" fill="none" stroke="#22B981" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M146 82 l4 7 l8 -12" fill="none" stroke="#22B981" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M134 100 l4 7 l8 -12" fill="none" stroke="#22B981" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>' +
+      face(132, 126, .8) +
+      '<g transform="rotate(32 190 96)"><rect x="184" y="58" width="14" height="70" rx="4" fill="#FFD166" stroke="#2E2A4A" stroke-width="4"/><path d="M184 128 l7 14 l7 -14 z" fill="#FFE9C9" stroke="#2E2A4A" stroke-width="4" stroke-linejoin="round"/></g>',
+
+    window: bg('#EFF9FF') +
+      '<rect x="56" y="32" width="128" height="114" rx="10" fill="#CBEFFF" stroke="#2E2A4A" stroke-width="6"/>' +
+      '<path d="M120 32 v114" stroke="#2E2A4A" stroke-width="5"/>' +
+      '<circle cx="86" cy="58" r="14" fill="#FFD166"/>' +
+      '<polygon points="120,32 178,18 178,132 120,146" fill="#D9F3FF" stroke="#2E2A4A" stroke-width="5" stroke-linejoin="round"/>' +
+      '<path d="M149 25 v114 M120 89 h58" stroke="#2E2A4A" stroke-width="4"/>' +
+      '<path d="M64 76 q18 -10 36 0" stroke="#7ED0F7" stroke-width="5" fill="none" stroke-linecap="round"/>' +
+      '<path d="M64 98 q18 -10 36 0" stroke="#7ED0F7" stroke-width="5" fill="none" stroke-linecap="round"/>' +
+      face(149, 110, .7) +
+      '<rect x="44" y="146" width="152" height="14" rx="7" fill="#E8B47A" stroke="#2E2A4A" stroke-width="5"/>',
+
+    shirt: bg('#EFF8FF') +
+      '<path d="M88 46 L66 58 L50 96 L72 106 L80 92 L80 150 q40 12 80 0 L160 92 L168 106 L190 96 L174 58 L152 46 q-14 18 -32 18 q-18 0 -32 -18 z" fill="#7ED0F7" stroke="#2E2A4A" stroke-width="5" stroke-linejoin="round"/>' +
+      '<path d="M88 46 q14 16 32 16 q18 0 32 -16" fill="none" stroke="#2E2A4A" stroke-width="4"/>' +
+      '<path d="M120 62 v14" stroke="#2E2A4A" stroke-width="4"/>' +
+      '<path d="M86 104 q16 -10 30 0 q6 16 -8 22 q-18 6 -24 -8 q-2 -8 2 -14z" fill="#3FA9E0" opacity=".55"/>' +
+      '<path d="M132 118 q12 -8 22 0 q4 10 -6 14 q-14 4 -18 -6 q-2 -4 2 -8z" fill="#3FA9E0" opacity=".5"/>' +
+      face(120, 104, .95) +
+      '<circle cx="120" cy="138" r="3.5" fill="#2E2A4A"/><circle cx="120" cy="130" r="3.5" fill="#2E2A4A"/>' +
+      '<path d="M48 40 l-6 12 M70 24 l-6 12 M192 40 l-6 12 M208 62 l-6 12 M40 98 l-6 12 M200 110 l-6 12" stroke="#5FB7DD" stroke-width="4" stroke-linecap="round"/>',
+
+    balloon: bg('#FFF2F7') +
+      '<path d="M120 118 q-10 12 2 24 q10 8 0 18" stroke="#2E2A4A" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+      '<path d="M108 104 l-26 -10 l6 -22 l24 12 z" fill="#FF8FAE" stroke="#2E2A4A" stroke-width="5" stroke-linejoin="round"/>' +
+      '<path d="M134 102 l24 -12 l8 20 l-24 14 z" fill="#FF8FAE" stroke="#2E2A4A" stroke-width="5" stroke-linejoin="round"/>' +
+      '<path d="M116 74 q10 -18 24 -14" stroke="#FF8FAE" stroke-width="7" fill="none" stroke-linecap="round"/>' +
+      '<path d="M92 60 l-12 -12 M148 58 l12 -12 M104 44 l-4 -14 M140 40 l6 -14" stroke="#FF6B8A" stroke-width="4" stroke-linecap="round"/>' +
+      '<path d="M112 116 l8 -6 l8 6 l-8 6 z" fill="#FF6B8A" stroke="#2E2A4A" stroke-width="3" stroke-linejoin="round"/>' +
+      '<circle cx="120" cy="150" r="3" fill="#2E2A4A"/>',
+
+    board: bg('#EFFBF5') +
+      '<rect x="42" y="30" width="156" height="108" rx="12" fill="#5FBF9A" stroke="#2E2A4A" stroke-width="6"/>' +
+      '<text x="90" y="96" text-anchor="middle" font-size="44" font-weight="800" fill="#FFFDF5" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">把</text>' +
+      '<text x="152" y="96" text-anchor="middle" font-size="44" font-weight="800" fill="#FFFDF5" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">被</text>' +
+      '<rect x="44" y="138" width="152" height="10" rx="5" fill="#E8B47A" stroke="#2E2A4A" stroke-width="4"/>' +
+      '<rect x="140" y="116" width="46" height="24" rx="7" fill="#FFB3C6" stroke="#2E2A4A" stroke-width="4"/>' +
+      face(163, 128, .42)
+  };
+
+  function sceneSVG(kind, label){
+    return '<svg class="scene-svg" viewBox="0 0 240 180" role="img" aria-label="' + (label || '插圖') + '">' + (SCENE[kind] || '') + '</svg>';
+  }
+
+  var MASCOT = '' +
+    '<svg viewBox="0 0 220 220" aria-hidden="true">' +
+      '<ellipse cx="110" cy="206" rx="62" ry="9" fill="rgba(46,42,74,.10)"/>' +
+      '<path d="M158 170 q42 -4 32 -38" fill="none" stroke="#F2B33D" stroke-width="13" stroke-linecap="round"/>' +
+      '<path d="M64 62 L50 16 L96 40 Z" fill="#FFD166" stroke="#2E2A4A" stroke-width="5" stroke-linejoin="round"/>' +
+      '<path d="M156 62 L170 16 L124 40 Z" fill="#FFD166" stroke="#2E2A4A" stroke-width="5" stroke-linejoin="round"/>' +
+      '<path d="M67 52 L61 30 L82 41 Z" fill="#FFB3C6"/>' +
+      '<path d="M153 52 L159 30 L138 41 Z" fill="#FFB3C6"/>' +
+      '<ellipse cx="110" cy="158" rx="54" ry="44" fill="#FFD166" stroke="#2E2A4A" stroke-width="5"/>' +
+      '<ellipse cx="110" cy="166" rx="30" ry="24" fill="#FFF1CF"/>' +
+      '<ellipse cx="70" cy="176" rx="15" ry="11" fill="#FFD166" stroke="#2E2A4A" stroke-width="5"/>' +
+      '<ellipse cx="150" cy="176" rx="15" ry="11" fill="#FFD166" stroke="#2E2A4A" stroke-width="5"/>' +
+      '<circle cx="110" cy="82" r="52" fill="#FFD166" stroke="#2E2A4A" stroke-width="5"/>' +
+      '<ellipse cx="90" cy="82" rx="13" ry="14" fill="#2E2A4A"/>' +
+      '<ellipse cx="130" cy="82" rx="13" ry="14" fill="#2E2A4A"/>' +
+      '<circle cx="86" cy="77" r="4.4" fill="#fff"/>' +
+      '<circle cx="126" cy="77" r="4.4" fill="#fff"/>' +
+      '<circle cx="98" cy="106" r="4.5" fill="#F08AA0"/>' +
+      '<path d="M100 110 q10 9 20 0" fill="none" stroke="#2E2A4A" stroke-width="4.5" stroke-linecap="round"/>' +
+      '<ellipse cx="62" cy="102" rx="9" ry="6" fill="#FFA8C0" opacity=".8"/>' +
+      '<ellipse cx="158" cy="102" rx="9" ry="6" fill="#FFA8C0" opacity=".8"/>' +
+      '<circle cx="90" cy="82" r="19" fill="rgba(255,255,255,.18)" stroke="#2E2A4A" stroke-width="4"/>' +
+      '<circle cx="130" cy="82" r="19" fill="rgba(255,255,255,.18)" stroke="#2E2A4A" stroke-width="4"/>' +
+      '<path d="M109 82 h2" stroke="#2E2A4A" stroke-width="4" stroke-linecap="round"/>' +
+      '<path d="M71 79 h-9 M149 79 h9" stroke="#2E2A4A" stroke-width="4" stroke-linecap="round"/>' +
+      '<path d="M96 166 q14 8 28 0" fill="none" stroke="#2E2A4A" stroke-width="4" stroke-linecap="round"/>' +
+    '</svg>';
+
+  /* =========================================================
+     AUDIO
+     ========================================================= */
+  var Sound = {
+    ctx:null,
+    enabled:true,
+    broken:false,
+    init:function(){
+      try{
+        var saved = localStorage.getItem('bzy_sound');
+        if(saved === '0') this.enabled = false;
+      }catch(e){}
+    },
+    ensure:function(){
+      if(!this.enabled || this.broken) return null;
+      try{
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if(!AC){ this.broken = true; return null; }
+        if(!this.ctx) this.ctx = new AC();
+        if(this.ctx.state === 'suspended') this.ctx.resume();
+        return this.ctx;
+      }catch(err){ this.broken = true; return null; }
+    },
+    tone:function(freq, dur, type, vol, delay){
+      var ctx = this.ensure();
+      if(!ctx) return;
+      try{
+        var t = ctx.currentTime + (delay || 0);
+        var o = ctx.createOscillator();
+        var g = ctx.createGain();
+        o.type = type || 'sine';
+        o.frequency.setValueAtTime(freq, t);
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.linearRampToValueAtTime(vol || .12, t + .012);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+        o.connect(g);
+        g.connect(ctx.destination);
+        o.start(t);
+        o.stop(t + dur + .03);
+      }catch(e){}
+    },
+    click:function(){ this.tone(660, .08, 'triangle', .07); },
+    correct:function(){
+      this.tone(523.25, .16, 'sine', .13, 0);
+      this.tone(659.25, .16, 'sine', .13, .09);
+      this.tone(783.99, .24, 'sine', .13, .18);
+    },
+    wrong:function(){
+      this.tone(233.08, .16, 'sawtooth', .06, 0);
+      this.tone(174.61, .24, 'sawtooth', .05, .12);
+    },
+    win:function(){
+      var notes = [523.25, 659.25, 783.99, 1046.5];
+      for(var i=0;i<notes.length;i++) this.tone(notes[i], .24, 'triangle', .11, i*.12);
+    }
+  };
+
+  function soundToggleUI(){
+    var btn = document.getElementById('btnSound');
+    var lbl = document.getElementById('soundLbl');
+    btn.setAttribute('aria-pressed', Sound.enabled ? 'true' : 'false');
+    lbl.textContent = Sound.enabled ? '音效開' : '音效關';
+    btn.querySelector('.wave1').style.opacity = Sound.enabled ? '1' : '0';
+    btn.querySelector('.wave2').style.opacity = Sound.enabled ? '1' : '0';
+    btn.style.opacity = Sound.enabled ? '1' : '.6';
+  }
+
+  /* =========================================================
+     SPEECH
+     ========================================================= */
+  var canSpeak = ('speechSynthesis' in window) && ('SpeechSynthesisUtterance' in window);
+  var voicesCache = [];
+
+  function loadVoices(){
+    if(!canSpeak) return;
+    try{ voicesCache = window.speechSynthesis.getVoices() || []; }catch(e){ voicesCache = []; }
+  }
+  if(canSpeak){
+    loadVoices();
+    if(typeof window.speechSynthesis.onvoiceschanged !== 'undefined'){
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+  }
+
+  function speak(text){
+    if(!canSpeak){ toast('這個瀏覽器未能朗讀'); return; }
+    try{
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      var list = voicesCache.length ? voicesCache : (window.speechSynthesis.getVoices() || []);
+      var pick = null;
+      for(var i=0;i<list.length;i++){
+        if(/zh[-_]HK/i.test(list[i].lang)){ pick = list[i]; break; }
+      }
+      if(!pick){
+        for(var j=0;j<list.length;j++){
+          if(/zh[-_](TW|Hant)/i.test(list[j].lang)){ pick = list[j]; break; }
+        }
+      }
+      if(!pick){
+        for(var k=0;k<list.length;k++){
+          if(/^zh/i.test(list[k].lang)){ pick = list[k]; break; }
+        }
+      }
+      if(pick){ u.voice = pick; u.lang = pick.lang; }
+      else { u.lang = 'zh-HK'; }
+      u.rate = .85;
+      u.pitch = 1.08;
+      u.onerror = function(){ /* 靜默失敗，不中斷遊戲 */ };
+      window.speechSynthesis.speak(u);
+    }catch(err){
+      toast('朗讀未能使用');
+    }
+  }
+
+  /* =========================================================
+     STATE + HELPERS
+     ========================================================= */
+  var state = {
+    screen:'home',
+    mode:null,
+    index:0,
+    score:0,
+    locked:false,
+    selected:null,
+    built:[],
+    options:[],
+    shuffled:[],
+    results:[]
+  };
+
+  function $(sel, root){ return (root || document).querySelector(sel); }
+  function $$(sel, root){ return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+
+  function shuffle(arr){
+    var a = arr.slice();
+    for(var i=a.length-1;i>0;i--){
+      var j = Math.floor(Math.random()*(i+1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function sameOrder(a, b){
+    if(a.length !== b.length) return false;
+    for(var i=0;i<a.length;i++){ if(a[i] !== b[i]) return false; }
+    return true;
+  }
+
+  function esc(s){
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];
+    });
+  }
+
+  function toast(msg){
+    var el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function(){ el.classList.remove('show'); }, 1800);
+  }
+
+  function reducedMotion(){
+    return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  function scrollToEl(el){
+    if(!el) return;
+    try{
+      el.scrollIntoView({behavior: reducedMotion() ? 'auto' : 'smooth', block:'start'});
+    }catch(e){
+      el.scrollIntoView();
+    }
+  }
+
+  /* =========================================================
+     NAVIGATION
+     ========================================================= */
+  var SCREENS = ['home','teach','lobby','game','result'];
+
+  function showScreen(name){
+    if(canSpeak){ try{ window.speechSynthesis.cancel(); }catch(e){} }
+    SCREENS.forEach(function(s){
+      var el = document.getElementById('screen-' + s);
+      if(el) el.classList.toggle('active', s === name);
+    });
+    state.screen = name;
+    window.scrollTo({top:0, behavior:'auto'});
+  }
+
+  function navigate(name){
+    if(name === 'home'){ showScreen('home'); return; }
+    if(name === 'teach'){ showScreen('teach'); return; }
+    if(name === 'lobby'){ updateBestUI(); showScreen('lobby'); return; }
+  }
+
+  function updateBestUI(){
+    ['a','b'].forEach(function(m){
+      var el = document.querySelector('[data-best="' + m + '"]');
+      if(!el) return;
+      var v = null;
+      try{ v = localStorage.getItem('bzy_best_' + m); }catch(e){}
+      el.textContent = v ? ('最佳：' + v + ' / 6') : '最佳：未有紀錄';
+    });
+  }
+
+  function saveBest(){
+    if(!state.mode) return;
+    try{
+      var key = 'bzy_best_' + state.mode;
+      var old = parseInt(localStorage.getItem(key), 10);
+      if(isNaN(old) || state.score > old){
+        localStorage.setItem(key, String(state.score));
+      }
+    }catch(e){}
+  }
+
+  /* =========================================================
+     GAME START / RENDER
+     ========================================================= */
+  var els = {};
+
+  function cacheEls(){
+    els.modeTag = document.getElementById('modeTag');
+    els.scoreNum = document.getElementById('scoreNum');
+    els.progress = document.getElementById('progress');
+    els.qNum = document.getElementById('qNum');
+    els.askPill = document.getElementById('askPill');
+    els.qScene = document.getElementById('qScene');
+    els.qPrompt = document.getElementById('qPrompt');
+    els.qHint = document.getElementById('qHint');
+    els.btnSpeakPrompt = document.getElementById('btnSpeakPrompt');
+    els.modeA = document.getElementById('modeA');
+    els.modeB = document.getElementById('modeB');
+    els.options = document.getElementById('options');
+    els.btnConfirmA = document.getElementById('btnConfirmA');
+    els.answerSlots = document.getElementById('answerSlots');
+    els.bank = document.getElementById('bank');
+    els.btnConfirmB = document.getElementById('btnConfirmB');
+    els.btnResetBuild = document.getElementById('btnResetBuild');
+    els.feedback = document.getElementById('feedback');
+    els.fbTitle = document.getElementById('fbTitle');
+    els.fbSub = document.getElementById('fbSub');
+    els.fbAnswer = document.getElementById('fbAnswer');
+    els.fbYours = document.getElementById('fbYours');
+    els.fbExplain = document.getElementById('fbExplain');
+    els.btnSpeakAnswer = document.getElementById('btnSpeakAnswer');
+    els.btnNext = document.getElementById('btnNext');
+  }
+
+  function startMode(mode){
+    state.mode = mode;
+    state.questions = (mode === 'a' ? MODE_A : MODE_B);
+    state.index = 0;
+    state.score = 0;
+    state.results = state.questions.map(function(){ return null; });
+    els.modeTag.textContent = mode === 'a' ? '模式一 · 揀一揀' : '模式二 · 砌一砌';
+    els.scoreNum.textContent = '0';
+    showScreen('game');
+    renderQuestion();
+  }
+
+  function currentQ(){ return state.questions[state.index]; }
+
+  function renderQuestion(){
+    var q = currentQ();
+    state.locked = false;
+    state.selected = null;
+    state.built = [];
+
+    els.qNum.textContent = '第 ' + (state.index + 1) + ' 題 / 共 ' + state.questions.length + ' 題';
+    els.askPill.textContent = q.ask;
+    els.askPill.classList.toggle('pink', state.mode === 'b' || q.ask.indexOf('被') > -1);
+    els.qScene.innerHTML = sceneSVG(q.scene, q.sceneLabel);
+    els.qPrompt.textContent = q.prompt;
+    els.btnSpeakPrompt.dataset.say = q.prompt;
+    els.qHint.hidden = (state.mode !== 'b');
+    els.qHint.textContent = q.hint || '';
+
+    els.feedback.hidden = true;
+    els.btnConfirmA.disabled = true;
+    els.btnConfirmB.disabled = true;
+    els.modeA.hidden = (state.mode !== 'a');
+    els.modeB.hidden = (state.mode !== 'b');
+
+    renderProgress();
+
+    if(state.mode === 'a'){
+      renderOptions(q);
+    } else {
+      renderBuilder(q);
+    }
+  }
+
+  function renderProgress(){
+    var html = '';
+    for(var i=0;i<state.questions.length;i++){
+      var cls = 'dot';
+      var r = state.results[i];
+      if(r) cls += r.ok ? ' ok' : ' no';
+      if(i === state.index) cls += ' current';
+      html += '<span class="' + cls + '"></span>';
+    }
+    els.progress.innerHTML = html;
+  }
+
+  function renderOptions(q){
+    state.options = shuffle(q.options);
+    var letters = ['A','B','C','D'];
+    els.options.innerHTML = state.options.map(function(text, i){
+      return '<button class="opt" type="button" data-text="' + text.replace(/"/g,'&quot;') + '">' +
+        '<span class="opt-key">' + letters[i] + '</span>' +
+        '<span class="opt-text">' + text + '</span>' +
+        '<span class="opt-mark" aria-hidden="true"></span>' +
+      '</button>';
+    }).join('');
+  }
+
+  function renderBuilder(q){
+    var tries = 0;
+    do{
+      state.shuffled = shuffle(q.tokens);
+      tries++;
+    } while(sameOrder(state.shuffled, q.tokens) && tries < 25);
+    if(sameOrder(state.shuffled, q.tokens)) state.shuffled = q.tokens.slice().reverse();
+    state.built = [];
+    paintBuilder();
+  }
+
+  function paintBuilder(){
+    var q = currentQ();
+    els.answerSlots.classList.remove('ok','no');
+
+    var slots = q.tokens.map(function(_, i){
+      var ti = state.built[i];
+      if(ti === undefined || ti === null){
+        return '<span class="slot" aria-hidden="true"></span>';
+      }
+      return '<button class="token placed" type="button" data-pos="' + i + '">' + state.shuffled[ti] + '</button>';
+    }).join('');
+
+    els.answerSlots.innerHTML = slots;
+    els.answerSlots.classList.toggle('filled', state.built.length === q.tokens.length);
+
+    els.bank.innerHTML = state.shuffled.map(function(t, i){
+      var used = state.built.indexOf(i) !== -1;
+      return '<button class="token bank-token' + (used ? ' used' : '') + '" type="button" data-idx="' + i + '"' + (used ? ' disabled' : '') + '>' + t + '</button>';
+    }).join('');
+
+    els.btnConfirmB.disabled = state.locked || state.built.length !== q.tokens.length;
+    els.btnResetBuild.disabled = state.locked || state.built.length === 0;
+  }
+
+  /* =========================================================
+     ANSWER FLOW
+     ========================================================= */
+  function confirmA(){
+    if(state.locked || !state.selected) return;
+    var q = currentQ();
+    state.locked = true;
+    var ok = (state.selected === q.answer);
+
+    $$('.opt', els.options).forEach(function(btn){
+      btn.disabled = true;
+      var text = btn.dataset.text;
+      if(text === q.answer){
+        btn.classList.add('correct');
+        btn.querySelector('.opt-mark').textContent = '✓';
+      } else if(text === state.selected){
+        btn.classList.add('wrong');
+        btn.querySelector('.opt-mark').textContent = '✗';
+      } else {
+        btn.classList.add('dim');
+      }
+    });
+
+    els.btnConfirmA.disabled = true;
+    finishAnswer(ok, state.selected);
+  }
+
+  function confirmB(){
+    if(state.locked) return;
+    var q = currentQ();
+    if(state.built.length !== q.tokens.length) return;
+    state.locked = true;
+
+    var builtText = state.built.map(function(i){ return state.shuffled[i]; }).join('');
+    var target = q.tokens.join('');
+    var ok = (builtText === target);
+
+    paintBuilder();
+    $$('.token', els.answerSlots).forEach(function(b){ b.disabled = true; });
+    $$('.token', els.bank).forEach(function(b){ b.disabled = true; });
+    els.btnConfirmB.disabled = true;
+    els.btnResetBuild.disabled = true;
+
+    finishAnswer(ok, builtText + '。');
+  }
+
+  function finishAnswer(ok, userText){
+    var q = currentQ();
+    var correctSentence = (state.mode === 'a') ? q.answer : (q.tokens.join('') + '。');
+
+    if(ok){ state.score++; els.scoreNum.textContent = String(state.score); }
+    state.results[state.index] = { ok:ok, user:userText, answer:correctSentence, prompt:q.prompt };
+    renderProgress();
+
+    els.feedback.hidden = false;
+    els.feedback.className = 'feedback ' + (ok ? 'ok' : 'no');
+    els.fbTitle.textContent = ok ? '答對了！' : '我們一起看看答案！';
+    els.fbSub.textContent = ok
+      ? pickPraise()
+      : (state.mode === 'a' ? '別灰心，看清楚句式再試下一題。' : '看看正確的排列，記住「把」和「被」的位置。');
+    els.fbAnswer.textContent = correctSentence;
+    if(ok){
+      els.fbYours.hidden = true;
+      els.fbYours.textContent = '';
+    } else {
+      els.fbYours.hidden = false;
+      els.fbYours.innerHTML = '你的答案：<b>' + esc(userText) + '</b>';
+    }
+    els.fbExplain.textContent = q.explain;
+    if(state.mode === 'b'){
+      els.answerSlots.classList.remove('ok','no');
+      els.answerSlots.classList.add(ok ? 'ok' : 'no');
+    }
+    els.btnSpeakAnswer.dataset.say = correctSentence;
+    els.btnNext.disabled = false;
+    els.btnNext.textContent = (state.index === state.questions.length - 1) ? '看成績' : '下一題';
+    els.btnNext.insertAdjacentHTML('beforeend', '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 7l5 5-5 5"/></svg>');
+
+    if(ok) Sound.correct(); else Sound.wrong();
+    if(canSpeak) els.btnSpeakAnswer.hidden = false;
+
+    scrollToEl(els.feedback);
+  }
+
+  var PRAISE = ['真棒，你已掌握這個句式。','太厲害了，句子變身成功！','完全正確，繼續加油！','思路清晰，答得漂亮！'];
+  function pickPraise(){
+    return PRAISE[Math.floor(Math.random()*PRAISE.length)];
+  }
+
+  function nextQuestion(){
+    els.btnNext.disabled = true;
+    if(state.index >= state.questions.length - 1){
+      finishGame();
+      return;
+    }
+    state.index++;
+    state.locked = false;
+    Sound.click();
+    renderQuestion();
+    window.scrollTo({top:0, behavior: reducedMotion() ? 'auto' : 'smooth'});
+  }
+
+  /* =========================================================
+     RESULT
+     ========================================================= */
+  function finishGame(){
+    showScreen('result');
+    var total = state.questions.length;
+    var score = state.score;
+    var starCount = score === total ? 3 : (score >= 4 ? 2 : (score >= 1 ? 1 : 0));
+
+    var starSVG = '<svg class="star%s" viewBox="0 0 100 100" aria-hidden="true"><path class="fill" d="M50 6l13.1 26.6 29.4 4.3-21.3 20.7 5 29.3L50 73.1 23.8 86.9l5-29.3L7.5 36.9l29.4-4.3z" stroke="#2E2A4A" stroke-width="5" stroke-linejoin="round"/></svg>';
+    document.getElementById('stars').innerHTML = starSVG.replace('%s','') + starSVG.replace('%s','') + starSVG.replace('%s','');
+    var starEls = $$('.star', document.getElementById('stars'));
+    starEls.forEach(function(el, i){
+      if(i < starCount){ el.classList.add('on'); }
+    });
+
+    document.getElementById('resultScore').textContent = String(score);
+
+    document.getElementById('resultMode').textContent = state.mode === 'a' ? '模式一 · 揀一揀' : '模式二 · 砌一砌';
+
+    var title = document.getElementById('resultTitle');
+    var msg = document.getElementById('resultMsg');
+    if(score === total){
+      title.textContent = '完美通關！';
+      msg.textContent = '你已經完全掌握把字句和被字句，句子魔法師就是你！';
+    } else if(score >= 4){
+      title.textContent = '表現出色！';
+      msg.textContent = '你已經很熟悉這兩個句式了，再練習一次就會更牢固。';
+    } else if(score >= 1){
+      title.textContent = '很好的開始！';
+      msg.textContent = '記住「把」字句是主動者行先，「被」字句是物件行先，再試一次吧。';
+    } else {
+      title.textContent = '不要緊，再來一次！';
+      msg.textContent = '先回到教學區看看公式和例句，然後再挑戰，一定會進步。';
+    }
+
+    var list = '';
+    state.results.forEach(function(r, i){
+      if(!r) return;
+      var mine = r.ok ? '' : '<p class="ri-u">你的答案：<b>' + esc(r.user || '') + '</b></p>';
+      list += '<div class="review-item">' +
+        '<span class="ri-mark ' + (r.ok ? 'ok' : 'no') + '">' + (r.ok ? '✓' : '✗') + '</span>' +
+        '<div><p class="ri-q">原句：' + esc(r.prompt) + '</p><p class="ri-a">正確答案：' + esc(r.answer) + '</p>' + mine + '</div>' +
+      '</div>';
+    });
+    document.getElementById('reviewList').innerHTML = list;
+
+    saveBest();
+    updateBestUI();
+
+    if(score >= 4){ Sound.win(); }
+    if(score >= 4) confetti();
+  }
+
+  function confetti(){
+    if(reducedMotion()) return;
+    $$('.confetti').forEach(function(n){ if(n.parentNode) n.parentNode.removeChild(n); });
+    var colors = ['#FFC93C','#2F9BF0','#FF6FA5','#22B981','#8B7CF6'];
+    for(var i=0;i<28;i++){
+      var d = document.createElement('span');
+      d.className = 'confetti';
+      d.style.left = (Math.random()*100) + 'vw';
+      d.style.background = colors[Math.floor(Math.random()*colors.length)];
+      d.style.animationDuration = (1.8 + Math.random()*1.6) + 's';
+      d.style.animationDelay = (Math.random()*.5) + 's';
+      d.style.transform = 'rotate(' + (Math.random()*360) + 'deg)';
+      document.body.appendChild(d);
+      (function(node){
+        setTimeout(function(){ if(node.parentNode) node.parentNode.removeChild(node); }, 4200);
+      })(d);
+    }
+  }
+
+  /* =========================================================
+     EVENTS
+     ========================================================= */
+  function bind(){
+    document.addEventListener('click', function(e){
+      var go = e.target.closest('[data-go]');
+      if(go){
+        Sound.click();
+        navigate(go.dataset.go);
+      }
+    });
+
+    document.getElementById('btnSound').addEventListener('click', function(){
+      Sound.enabled = !Sound.enabled;
+      try{ localStorage.setItem('bzy_sound', Sound.enabled ? '1' : '0'); }catch(err){}
+      soundToggleUI();
+      if(Sound.enabled) Sound.correct();
+    });
+
+    // tabs
+    $$('.tab').forEach(function(tab){
+      tab.addEventListener('click', function(){
+        Sound.click();
+        var idx = tab.dataset.tab;
+        $$('.tab').forEach(function(t){
+          var on = t === tab;
+          t.classList.toggle('active', on);
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        $$('.teach-panel').forEach(function(p){
+          p.classList.toggle('active', p.dataset.panel === idx);
+        });
+      });
+    });
+
+    // speech (delegated)
+    document.addEventListener('click', function(e){
+      var sp = e.target.closest('.speak-btn');
+      if(!sp) return;
+      var text = sp.dataset.say;
+      if(!text){
+        var node = sp.parentNode.querySelector('.ex-sentence, .q-prompt, .fb-answer b');
+        if(node) text = node.textContent;
+      }
+      if(text) speak(text.replace(/[「」]/g,''));
+    });
+
+    // mode select
+    $$('.mode-card').forEach(function(card){
+      card.addEventListener('click', function(){
+        Sound.click();
+        startMode(card.dataset.mode);
+      });
+    });
+
+    document.getElementById('btnQuit').addEventListener('click', function(){
+      Sound.click();
+      updateBestUI();
+      showScreen('lobby');
+    });
+
+    // options
+    els.options.addEventListener('click', function(e){
+      var btn = e.target.closest('.opt');
+      if(!btn || state.locked) return;
+      Sound.click();
+      state.selected = btn.dataset.text;
+      $$('.opt', els.options).forEach(function(o){
+        o.classList.toggle('selected', o === btn);
+      });
+      els.btnConfirmA.disabled = false;
+    });
+
+    els.btnConfirmA.addEventListener('click', function(){
+      Sound.click();
+      confirmA();
+    });
+
+    // builder: add token
+    els.bank.addEventListener('click', function(e){
+      var btn = e.target.closest('.bank-token');
+      if(!btn || state.locked || btn.disabled) return;
+      Sound.click();
+      state.built.push(parseInt(btn.dataset.idx, 10));
+      paintBuilder();
+    });
+
+    // builder: remove token
+    els.answerSlots.addEventListener('click', function(e){
+      var btn = e.target.closest('.placed');
+      if(!btn || state.locked) return;
+      Sound.click();
+      var pos = parseInt(btn.dataset.pos, 10);
+      state.built.splice(pos, 1);
+      paintBuilder();
+    });
+
+    els.btnResetBuild.addEventListener('click', function(){
+      if(state.locked) return;
+      Sound.click();
+      state.built = [];
+      paintBuilder();
+    });
+
+    els.btnConfirmB.addEventListener('click', function(){
+      Sound.click();
+      confirmB();
+    });
+
+    els.btnNext.addEventListener('click', function(){
+      Sound.click();
+      nextQuestion();
+    });
+
+    document.getElementById('btnAgain').addEventListener('click', function(){
+      Sound.click();
+      startMode(state.mode);
+    });
+
+    document.getElementById('btnBackLobby').addEventListener('click', function(){
+      Sound.click();
+      updateBestUI();
+      showScreen('lobby');
+    });
+
+    document.getElementById('btnToTeach').addEventListener('click', function(){
+      Sound.click();
+      showScreen('teach');
+    });
+
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape'){
+        if(state.screen === 'game'){ updateBestUI(); showScreen('lobby'); }
+        else if(state.screen === 'result' || state.screen === 'teach' || state.screen === 'lobby'){ showScreen('home'); }
+      }
+    });
+  }
+
+  /* =========================================================
+     INIT
+     ========================================================= */
+  function init(){
+    Sound.init();
+    soundToggleUI();
+    cacheEls();
+
+    $$('[data-mascot]').forEach(function(el){ el.innerHTML = MASCOT; });
+    document.getElementById('art1').innerHTML = sceneSVG('bowl','媽媽洗碗的插圖');
+    document.getElementById('art2').innerHTML = sceneSVG('vase','花瓶的插圖');
+
+    if(!canSpeak){
+      $$('.speak-btn').forEach(function(b){ b.hidden = true; });
+    }
+
+    bind();
+    updateBestUI();
+    showScreen('home');
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>

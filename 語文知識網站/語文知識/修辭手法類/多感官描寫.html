@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FFF8EA">
+<title>五感小偵探｜小學多感官描寫互動教室</title>
+<meta name="description" content="用五感圖鑑學會描寫，再用七種互動模式練習：視覺、聽覺、嗅覺、味覺、觸覺各有一種遊戲，挑戰區再設兩種模式，每種六題並附答案解析。">
+<style>
+:root{
+  --cream:#FFF8EA;
+  --paper:#FFFDF7;
+  --ink:#4A3B32;
+  --ink-soft:#7C685B;
+  --sight:#5FB8F0;
+  --hearing:#FFB443;
+  --smell:#8BD17C;
+  --taste:#FF8FA3;
+  --touch:#A78BFA;
+  --sun:#FFC93C;
+  --line:3px solid var(--ink);
+  --shadow-sm:0 3px 0 rgba(74,59,50,.18);
+  --shadow-md:0 6px 0 rgba(74,59,50,.16);
+  --shadow-lg:0 10px 0 rgba(74,59,50,.13);
+  --r-lg:30px;
+  --r-md:22px;
+  --r-sm:16px;
+  --font:"PingFang TC","Hiragino Sans TC","Microsoft JhengHei","Noto Sans TC","Heiti TC",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  font-family:var(--font);
+  color:var(--ink);
+  background-color:var(--cream);
+  background-image:
+    radial-gradient(rgba(255,201,60,.20) 2.5px, transparent 2.5px),
+    radial-gradient(rgba(95,184,240,.13) 2.5px, transparent 2.5px);
+  background-size:52px 52px, 52px 52px;
+  background-position:0 0, 26px 26px;
+  font-size:clamp(16px, .45vw + 14.4px, 20px);
+  line-height:1.7;
+  overflow-x:hidden;
+}
+button{font-family:inherit}
+:focus-visible{outline:4px solid rgba(95,184,240,.65);outline-offset:3px}
+.app{max-width:1180px;margin:0 auto;padding:14px clamp(12px,3vw,26px) calc(44px + env(safe-area-inset-bottom))}
+
+/* ---------- 頂欄 ---------- */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 0 10px}
+.brand{display:flex;align-items:center;gap:10px;background:none;border:none;padding:0;cursor:pointer;color:var(--ink);text-align:left}
+.brand-mark{width:clamp(44px,11vw,58px);height:clamp(44px,11vw,58px);flex:0 0 auto;border-radius:50%;background:var(--sun);border:var(--line);display:grid;place-items:center;box-shadow:var(--shadow-sm)}
+.brand-mark svg{width:82%;height:82%}
+.brand-text strong{display:block;font-size:clamp(1.1rem,2.6vw,1.45rem);line-height:1.25;letter-spacing:.03em}
+.brand-text small{display:block;font-size:.72rem;color:var(--ink-soft);letter-spacing:.14em;font-weight:700}
+.sound-btn{display:inline-flex;align-items:center;gap:7px;background:#fff;border:var(--line);border-radius:999px;padding:.45em .85em;font-size:.82rem;font-weight:800;color:var(--ink);cursor:pointer;box-shadow:var(--shadow-sm);min-height:46px}
+.sound-btn svg{width:22px;height:22px;display:block}
+.sound-btn.is-off{background:#F1E9DD;color:var(--ink-soft)}
+.sound-btn:active{transform:translateY(2px);box-shadow:none}
+
+/* ---------- 導覽 ---------- */
+.tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;background:#fff;border:var(--line);border-radius:999px;padding:6px;box-shadow:var(--shadow-md);margin-bottom:18px}
+.tab{border:none;background:transparent;border-radius:999px;padding:.62em .3em;font-size:clamp(.85rem,2.2vw,1rem);font-weight:800;color:var(--ink-soft);cursor:pointer;min-height:46px;transition:background .18s,color .18s,transform .12s}
+.tab:hover{color:var(--ink);background:rgba(255,201,60,.18)}
+.tab.is-active{background:var(--sun);color:var(--ink);box-shadow:inset 0 -2px 0 rgba(74,59,50,.18)}
+.tab:active{transform:scale(.97)}
+
+/* ---------- 通用元件 ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;border:var(--line);border-radius:999px;background:#fff;color:var(--ink);font-weight:800;font-size:1rem;padding:.72em 1.5em;min-height:54px;cursor:pointer;box-shadow:var(--shadow-sm);transition:transform .12s,box-shadow .12s,background .18s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 5px 0 rgba(74,59,50,.18)}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(74,59,50,.2)}
+.btn-primary{background:var(--sun)}
+.btn-ghost{background:#fff}
+.btn-small{font-size:.88rem;padding:.5em 1em;min-height:44px}
+.eyebrow{display:inline-block;margin:0 0 6px;font-size:.78rem;letter-spacing:.2em;font-weight:800;color:var(--ink-soft);background:rgba(255,201,60,.28);border-radius:999px;padding:.25em .9em}
+.section-head{max-width:820px;margin:6px 0 20px}
+.section-head h2{font-size:clamp(1.55rem,3.4vw,2.25rem);line-height:1.3;margin:.1em 0 .3em}
+.section-head p{margin:0;color:var(--ink-soft)}
+.view{animation:viewIn .28s ease both}
+@keyframes viewIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ---------- 首頁 ---------- */
+.hero{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(14px,3vw,30px);align-items:center;background:var(--paper);border:var(--line);border-radius:34px;padding:clamp(20px,4vw,42px);box-shadow:var(--shadow-lg);overflow:hidden}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+.hero::before{width:220px;height:220px;right:-70px;top:-90px;background:rgba(95,184,240,.14)}
+.hero::after{width:150px;height:150px;left:-60px;bottom:-70px;background:rgba(255,143,163,.13)}
+.hero h1{font-size:clamp(2rem,4.8vw,3.45rem);line-height:1.22;margin:.1em 0 .35em;letter-spacing:.02em}
+.hero h1 span{background:linear-gradient(transparent 62%,#FFE08A 62%);padding:0 .06em}
+.hero .lead{margin:0;color:var(--ink-soft);font-size:clamp(.98rem,1.6vw,1.08rem)}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.hero-art{position:relative;z-index:1}
+.mascots{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));justify-items:center;align-items:end;gap:clamp(4px,1.2vw,12px);width:100%}
+.mascot{display:flex;flex-direction:column;align-items:center;gap:6px;width:100%;min-width:0;animation:float 4.6s ease-in-out infinite}
+.mascot:nth-child(2){animation-delay:.35s}
+.mascot:nth-child(3){animation-delay:.7s}
+.mascot:nth-child(4){animation-delay:1.05s}
+.mascot:nth-child(5){animation-delay:1.4s}
+.mascot-bubble{width:100%;max-width:86px;aspect-ratio:1;height:auto;border-radius:50%;border:var(--line);display:grid;place-items:center;box-shadow:var(--shadow-sm)}
+.mascot-bubble svg{width:72%;height:72%}
+.mascot span{font-size:clamp(.62rem,1.7vw,.78rem);font-weight:800;color:var(--ink-soft);letter-spacing:.05em}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.home-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px;margin-top:20px}
+.home-card{position:relative;text-align:left;background:#fff;border:var(--line);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow-md);cursor:pointer;transition:transform .16s,box-shadow .16s;color:var(--ink);display:flex;flex-direction:column;gap:8px}
+.home-card:hover{transform:translateY(-4px);box-shadow:0 9px 0 rgba(74,59,50,.15)}
+.home-card:active{transform:translateY(2px);box-shadow:var(--shadow-sm)}
+.home-card .card-ico{width:58px;height:58px;border-radius:18px;border:var(--line);display:grid;place-items:center;background:#fff}
+.home-card .card-ico svg{width:64%;height:64%}
+.home-card strong{font-size:1.18rem;display:block;margin-top:2px}
+.home-card .card-desc{display:block;margin:0;font-size:.92rem;color:var(--ink-soft);line-height:1.6}
+.home-card .card-meta{font-size:.76rem;font-weight:800;color:var(--ink-soft);letter-spacing:.08em}
+.tip-strip{display:flex;align-items:center;gap:12px;margin-top:18px;padding:16px 18px;border:3px dashed rgba(74,59,50,.35);border-radius:var(--r-md);background:rgba(255,255,255,.6);font-size:.92rem}
+.tip-strip svg{width:34px;height:34px;flex:0 0 auto}
+
+/* ---------- 教學 ---------- */
+.learn-grid{display:flex;flex-wrap:wrap;gap:18px;justify-content:center}
+.learn-grid .sense-card{flex:1 1 320px;max-width:420px}
+.sense-card{position:relative;background:#fff;border:var(--line);border-radius:var(--r-lg);padding:24px 22px 22px;box-shadow:var(--shadow-md);overflow:hidden}
+.sense-card::before{content:"";position:absolute;top:0;left:0;right:0;height:10px;background:var(--c)}
+.sense-head{display:flex;align-items:center;gap:14px;margin-bottom:10px}
+.sense-ico{width:76px;height:76px;flex:0 0 auto;border-radius:50%;border:var(--line);display:grid;place-items:center;background:var(--tint);box-shadow:var(--shadow-sm)}
+.sense-ico svg{width:74%;height:74%}
+.sense-head h3{margin:0;font-size:1.35rem;line-height:1.25}
+.sense-head .organ{display:inline-block;margin-top:4px;font-size:.75rem;font-weight:800;color:var(--ink-soft);background:var(--tint);border-radius:999px;padding:.16em .7em}
+.sense-def{margin:6px 0 12px;font-weight:700}
+.tag-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.tag{font-size:.78rem;font-weight:800;padding:.22em .7em;border-radius:999px;background:var(--tint);color:var(--ink);border:2px solid rgba(74,59,50,.14)}
+.example{background:var(--tint);border-radius:16px;padding:13px 15px;margin:0 0 10px;font-size:.96rem;line-height:1.75}
+.example mark{background:linear-gradient(transparent 55%,rgba(255,201,60,.75) 55%);color:inherit;font-weight:800;padding:0 .08em}
+.example .ex-tag{display:block;font-size:.7rem;font-weight:800;letter-spacing:.14em;color:var(--ink-soft);margin-bottom:2px}
+.sense-tip{display:flex;gap:8px;align-items:flex-start;font-size:.88rem;color:var(--ink-soft);border-top:2px dashed rgba(74,59,50,.18);padding-top:12px}
+.sense-tip svg{width:24px;height:24px;flex:0 0 auto;margin-top:2px}
+.note-card{margin-top:20px;background:rgba(255,201,60,.24);border:3px dashed rgba(74,59,50,.4);border-radius:var(--r-md);padding:20px 22px;display:flex;gap:14px;align-items:flex-start}
+.note-card svg{width:44px;height:44px;flex:0 0 auto}
+.note-card h3{margin:0 0 4px;font-size:1.1rem}
+.note-card p{margin:0;font-size:.94rem}
+
+/* ---------- 練習／挑戰選單 ---------- */
+.mode-grid{display:flex;flex-wrap:wrap;gap:18px;justify-content:center}
+.mode-grid .mode-card{flex:1 1 285px;max-width:390px}
+.mode-card{position:relative;display:flex;flex-direction:column;gap:10px;text-align:left;background:#fff;border:var(--line);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow-md);cursor:pointer;color:var(--ink);transition:transform .16s,box-shadow .16s;overflow:hidden}
+.mode-card::after{content:"";position:absolute;right:-40px;bottom:-50px;width:120px;height:120px;border-radius:50%;background:var(--tint);z-index:0}
+.mode-card:hover{transform:translateY(-4px);box-shadow:0 9px 0 rgba(74,59,50,.15)}
+.mode-card:active{transform:translateY(2px);box-shadow:var(--shadow-sm)}
+.mode-card>*{position:relative;z-index:1}
+.mode-top{display:flex;align-items:center;gap:12px}
+.mode-ico{width:62px;height:62px;flex:0 0 auto;border-radius:20px;border:var(--line);display:grid;place-items:center;background:var(--tint)}
+.mode-ico svg{width:70%;height:70%}
+.mode-name{display:block;min-width:0}
+.mode-name strong{display:block;font-size:1.16rem;line-height:1.3}
+.mode-name small{display:block;font-size:.72rem;color:var(--ink-soft);font-weight:700;letter-spacing:.1em;margin-top:2px}
+.mode-card .mode-desc{display:block;margin:0;font-size:.95rem;color:var(--ink-soft);line-height:1.6}
+.mode-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px}
+.best-pill{font-size:.76rem;font-weight:800;background:var(--tint);border-radius:999px;padding:.24em .8em;border:2px solid rgba(74,59,50,.12)}
+.go-pill{font-size:.86rem;font-weight:800;display:inline-flex;align-items:center;gap:4px;color:var(--ink)}
+.go-pill svg{width:18px;height:18px}
+.challenge-grid{display:flex;flex-wrap:wrap;gap:18px;justify-content:center}
+.challenge-grid .mode-card{flex:1 1 330px;max-width:560px}
+.challenge-grid .mode-card{padding:26px}
+.challenge-grid .mode-ico{width:72px;height:72px;border-radius:24px}
+.challenge-grid .mode-name strong{font-size:1.28rem}
+
+/* ---------- 答題 ---------- */
+.quiz{max-width:960px;margin:0 auto}
+.quiz-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-bottom:12px}
+.quiz-title{font-weight:800;margin:0;font-size:clamp(1rem,2.2vw,1.2rem);flex:1 1 auto;text-align:center;min-width:140px}
+.quiz-count{font-size:.85rem;font-weight:800;color:var(--ink-soft);background:#fff;border:2px solid rgba(74,59,50,.25);border-radius:999px;padding:.24em .8em}
+.progress{height:16px;border:3px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden;box-shadow:var(--shadow-sm)}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#FFD45E,#FFB443);border-radius:999px;transition:width .35s ease}
+.quiz-card{background:var(--paper);border:var(--line);border-radius:32px;padding:clamp(16px,3.2vw,32px);box-shadow:var(--shadow-lg);margin-top:14px}
+.q-badge{display:inline-block;font-size:.74rem;font-weight:800;letter-spacing:.12em;padding:.24em .8em;border-radius:999px;background:var(--tint,#FFE9B8);color:var(--ink);margin-bottom:6px}
+.q-prompt{margin:0;font-size:clamp(1.12rem,2.4vw,1.5rem);font-weight:800;line-height:1.75;letter-spacing:.01em}
+.q-extra{display:flex;flex-direction:column;align-items:center;gap:10px;margin:16px 0 4px}
+.q-extra .art{width:min(78%,330px);height:auto;border-radius:20px;border:3px solid rgba(74,59,50,.16);display:block}
+.play-sound{display:inline-flex;align-items:center;gap:12px;background:var(--tint,#FFE9B8);border:var(--line);border-radius:999px;padding:.7em 1.5em;font-size:1.02rem;font-weight:800;color:var(--ink);cursor:pointer;box-shadow:var(--shadow-sm);min-height:56px}
+.play-sound svg{width:30px;height:30px}
+.play-sound:active{transform:translateY(3px);box-shadow:none}
+.play-sound .wave{display:inline-flex;gap:3px;align-items:flex-end;height:20px}
+.play-sound .wave i{width:4px;border-radius:2px;background:var(--ink)}
+.play-sound .wave i:nth-child(1){height:8px}
+.play-sound .wave i:nth-child(2){height:16px;animation-delay:.15s}
+.play-sound .wave i:nth-child(3){height:11px;animation-delay:.3s}
+@keyframes wave{0%,100%{transform:scaleY(.6)}50%{transform:scaleY(1.15)}}
+.options{display:grid;gap:12px;margin-top:16px}
+.options.art-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.options.text-grid{grid-template-columns:1fr}
+.options.pick-grid{grid-template-columns:repeat(auto-fit,minmax(96px,1fr))}
+.options.odd-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.opt{position:relative;display:flex;align-items:center;gap:10px;border:3px solid var(--ink);background:#fff;border-radius:20px;padding:14px 16px;font-size:clamp(.98rem,1.9vw,1.08rem);font-weight:700;line-height:1.6;color:var(--ink);cursor:pointer;box-shadow:var(--shadow-sm);text-align:left;transition:transform .13s,background .18s,border-color .18s;min-height:56px;font-family:inherit}
+.opt:hover{transform:translateY(-2px);background:#FFF9EC}
+.opt:active{transform:translateY(2px);box-shadow:none}
+.opt-art{flex-direction:column;gap:8px;padding:9px 9px 12px;align-items:stretch}
+.opt-art .art{width:100%;height:auto;border-radius:13px;display:block}
+.opt-art .opt-label{text-align:center;font-size:1rem;font-weight:800}
+.opt-letter{width:38px;height:38px;flex:0 0 auto;border-radius:50%;border:3px solid var(--ink);display:grid;place-items:center;font-weight:900;background:var(--tint,#FFE9B8);font-size:.95rem}
+.opt-taste,.opt-sense{flex-direction:column;justify-content:center;gap:6px;text-align:center;padding:14px 8px}
+.opt-taste svg,.opt-sense svg{width:44px;height:44px}
+.opt-taste span,.opt-sense span{font-size:.95rem;font-weight:800}
+.opt.is-correct{border-color:#2F8F5B;background:#E6F7EC;box-shadow:0 3px 0 rgba(47,143,91,.35)}
+.opt.is-wrong{border-color:#D14B4B;background:#FDECEC;box-shadow:0 3px 0 rgba(209,75,75,.3)}
+.opt.is-correct::after,.opt.is-wrong::after{position:absolute;top:-10px;right:-6px;font-size:.66rem;font-weight:900;letter-spacing:.08em;color:#fff;border-radius:999px;padding:.22em .65em;border:2px solid #fff}
+.opt.is-correct::after{content:"正確";background:#2F8F5B}
+.opt.is-wrong::after{content:"你的選擇";background:#D14B4B}
+.opt[disabled]{cursor:default}
+.opt[disabled]:hover{transform:none}
+.opt.dim{opacity:.55}
+.feedback{margin-top:18px;border:3px dashed rgba(74,59,50,.4);border-radius:22px;padding:18px;background:#F2FBF5;animation:pop .26s ease both}
+.feedback.is-wrong{background:#FFF1F2}
+.feedback:focus{outline:none}
+@keyframes pop{from{opacity:0;transform:scale(.97) translateY(6px)}to{opacity:1;transform:none}}
+.fb-head{display:flex;align-items:center;gap:10px;font-size:1.14rem}
+.fb-head svg{width:32px;height:32px;flex:0 0 auto}
+.fb-answer{margin:8px 0 4px;font-weight:800}
+.fb-explain{margin:0 0 14px;font-size:.95rem;line-height:1.8}
+.feedback .btn{width:100%}
+.quiz-hint{margin-top:10px;font-size:.84rem;color:var(--ink-soft);text-align:center}
+.q-prompt:focus,#resultTitle:focus{outline:none}
+
+/* ---------- 結果 ---------- */
+.result-card{background:var(--paper);border:var(--line);border-radius:34px;padding:clamp(22px,4vw,40px);box-shadow:var(--shadow-lg);max-width:860px;margin:0 auto;text-align:center}
+.stars{display:flex;justify-content:center;gap:10px;margin-bottom:6px}
+.stars svg{width:clamp(46px,10vw,66px);height:clamp(46px,10vw,66px);animation:starIn .4s ease both}
+.stars svg:nth-child(2){animation-delay:.12s}
+.stars svg:nth-child(3){animation-delay:.24s}
+@keyframes starIn{from{opacity:0;transform:scale(.5) rotate(-18deg)}to{opacity:1;transform:none}}
+.result-card h2{font-size:clamp(1.6rem,3.6vw,2.3rem);margin:.2em 0 .1em}
+.result-score{font-size:1.2rem;font-weight:800;margin:.2em 0}
+.result-score b{font-size:1.6em;color:#E08A1E}
+.result-comment{color:var(--ink-soft);margin:.2em auto 1.2em;max-width:600px}
+.review{text-align:left;margin:0 0 20px;display:grid;gap:10px}
+.review h3{font-size:1.02rem;margin:.6em 0 .2em}
+.review-item{border:2px solid rgba(74,59,50,.2);border-left:8px solid #D14B4B;border-radius:14px;padding:12px 14px;background:#fff;font-size:.9rem;line-height:1.7}
+.review-item .rv-q{font-weight:800}
+.review-item .rv-a{color:#2F8F5B;font-weight:800}
+.review-item .rv-e{color:var(--ink-soft)}
+.result-perfect{background:#F2FBF5;border:2px solid rgba(47,143,91,.35);border-radius:16px;padding:16px;font-weight:800;margin-bottom:18px}
+.result-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.result-actions .btn{flex:1 1 200px;max-width:280px}
+
+/* ---------- 頁尾 ---------- */
+.site-foot{margin-top:28px;text-align:center;font-size:.74rem;color:var(--ink-soft);line-height:1.8}
+.site-foot b{color:var(--ink)}
+
+/* ---------- 平板／手機 ---------- */
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr}
+  .hero-art{order:-1}
+  .hero h1{font-size:clamp(1.9rem,8vw,2.6rem)}
+  .mascots{justify-content:center}
+}
+@media (max-width:560px){
+  body{font-size:16.5px}
+  .app{padding-left:12px;padding-right:12px}
+  .tabs{gap:4px;padding:5px}
+  .tab{font-size:.8rem;letter-spacing:.02em}
+  .quiz-top{gap:6px}
+  .quiz-title{order:3;flex-basis:100%;text-align:left;font-size:1rem}
+  .options.art-grid{gap:10px}
+  .opt-art{padding:7px 7px 10px}
+  .opt-art .opt-label{font-size:.9rem}
+  .options.odd-grid{grid-template-columns:1fr}
+  .result-actions .btn{flex-basis:100%;max-width:none}
+  .sound-btn span.txt{display:none}
+  .sound-btn{padding:.5em;min-width:46px;justify-content:center}
+}
+@media (min-width:760px){
+  .options.art-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media (min-width:1000px){
+  .hero{padding:46px 48px}
+  .quiz-card{padding:34px 38px}
+}
+.opt-mini{width:36px;height:36px;flex:0 0 auto;display:grid;place-items:center}
+.opt-mini svg{width:100%;height:100%}
+.opt-odd{align-items:flex-start;gap:12px;min-height:110px}
+.opt-odd .sentence{display:block;font-size:clamp(.9rem,1.8vw,1rem);line-height:1.7}
+.sense-tag{display:block;margin-top:8px;font-size:.72rem;font-weight:800;color:var(--ink-soft);background:rgba(74,59,50,.08);border-radius:999px;padding:.15em .7em;width:max-content}
+.play-sound.is-playing{animation:pulse .5s ease 2}
+.play-sound.is-playing .wave i{animation:wave 1s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+}
+</style>
+</head>
+<body>
+<div class="app" data-generated-by="vibe-coding-frontend-design">
+
+  <header class="topbar">
+    <button class="brand" id="btnHome" aria-label="回到首頁">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64"><circle cx="27" cy="27" r="16" fill="#FFFDF7" stroke="#4A3B32" stroke-width="5"/><path d="M39 39 L54 54" stroke="#4A3B32" stroke-width="7" stroke-linecap="round"/><circle cx="21" cy="23" r="3.4" fill="#5FB8F0"/><circle cx="32" cy="21" r="3.4" fill="#FFB443"/><circle cx="21" cy="33" r="3.4" fill="#8BD17C"/><circle cx="32" cy="32" r="3.4" fill="#FF8FA3"/><circle cx="27" cy="27" r="3.2" fill="#A78BFA"/></svg>
+      </span>
+      <span class="brand-text"><strong>五感小偵探</strong><small>多感官描寫教室</small></span>
+    </button>
+    <button class="sound-btn" id="btnSound" aria-pressed="true" aria-label="音效已開啟，點擊關閉">
+      <span class="ico-on" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 9 H8 L13 4 V20 L8 15 H4 Z" fill="#FFC93C" stroke="#4A3B32" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 8.5 Q18.5 12 16 15.5" fill="none" stroke="#4A3B32" stroke-width="1.8" stroke-linecap="round"/><path d="M18.5 6 Q22.5 12 18.5 18" fill="none" stroke="#4A3B32" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+      <span class="ico-off" aria-hidden="true" hidden><svg viewBox="0 0 24 24"><path d="M4 9 H8 L13 4 V20 L8 15 H4 Z" fill="#D9CFC3" stroke="#4A3B32" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 9 L21 15 M21 9 L16 15" stroke="#4A3B32" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+      <span class="txt" id="soundLabel">音效開</span>
+    </button>
+  </header>
+
+  <nav class="tabs" aria-label="主要導覽">
+    <button class="tab is-active" data-nav="home">首頁</button>
+    <button class="tab" data-nav="learn">五感圖鑑</button>
+    <button class="tab" data-nav="practice">練習區</button>
+    <button class="tab" data-nav="challenge">挑戰區</button>
+  </nav>
+
+  <main id="main">
+
+    <!-- 首頁 -->
+    <section class="view" id="view-home">
+      <div class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">小學語文 · 描寫手法</p>
+          <h1>用五感，<br><span>把世界寫活了</span></h1>
+          <p class="lead">看一看、聽一聽、聞一聞、嘗一嘗、摸一摸。跟著五位感官小幫手，學會把句子寫得有畫面、有聲音、有味道。</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" data-go="learn">先看五感圖鑑</button>
+            <button class="btn btn-ghost" data-go="practice">直接開始練習</button>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="mascots" id="mascots"></div>
+        </div>
+      </div>
+
+      <div class="home-grid">
+        <button class="home-card" data-go="learn" style="--tint:#E6F5FF">
+          <span class="card-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 12 C18 7 10 8 6 10 V36 C11 34 18 34 24 39 C30 34 37 34 42 36 V10 C38 8 30 7 24 12 Z" fill="#FFFDF7" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/><path d="M24 12 V39" stroke="#4A3B32" stroke-width="3"/><path d="M11 17 H19 M11 23 H19 M29 17 H37 M29 23 H37" stroke="#5FB8F0" stroke-width="2.6" stroke-linecap="round"/></svg></span>
+          <span class="card-meta">教學區 · 5 張圖鑑</span>
+          <strong>五感圖鑑</strong>
+          <span class="card-desc">用大圖示和簡單例子，認識視覺、聽覺、嗅覺、味覺、觸覺五種描寫。</span>
+        </button>
+        <button class="home-card" data-go="practice" style="--tint:#FFF1D6">
+          <span class="card-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M10 38 L13 29 L32 10 L38 16 L19 35 Z" fill="#FFC93C" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/><path d="M29 13 L35 19" stroke="#4A3B32" stroke-width="3"/><path d="M10 38 L19 35" stroke="#4A3B32" stroke-width="3"/></svg></span>
+          <span class="card-meta">練習區 · 5 種模式</span>
+          <strong>五感練習</strong>
+          <span class="card-desc">每種感官一種玩法、六道題目：看圖選句、聽聲辨句、氣味配對、味道分類、觸感猜物。</span>
+        </button>
+        <button class="home-card" data-go="challenge" style="--tint:#F3ECFF">
+          <span class="card-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M14 8 H34 V20 C34 27 30 31 24 31 C18 31 14 27 14 20 Z" fill="#FFC93C" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/><path d="M14 12 H8 C8 18 10 21 15 22 M34 12 H40 C40 18 38 21 33 22" fill="none" stroke="#4A3B32" stroke-width="3" stroke-linecap="round"/><path d="M24 31 V37 M18 40 H30" stroke="#4A3B32" stroke-width="3" stroke-linecap="round"/></svg></span>
+          <span class="card-meta">挑戰區 · 2 種模式</span>
+          <strong>五感大挑戰</strong>
+          <span class="card-desc">「五感快閃」和「找出不同類」兩種進階玩法，測測你能分辨哪一種感官描寫。</span>
+        </button>
+      </div>
+
+      <div class="tip-strip">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6 C16 6 11 12 11 19 C11 25 15 28 17 33 H31 C33 28 37 25 37 19 C37 12 32 6 24 6 Z" fill="#FFE08A" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/><path d="M18 37 H30 M20 42 H28" stroke="#4A3B32" stroke-width="3" stroke-linecap="round"/></svg>
+        <span><b>小訣竅：</b>一段話裡同時用上兩種感官，再加上一點心情，文章就會像電影一樣好看。</span>
+      </div>
+    </section>
+
+    <!-- 教學 -->
+    <section class="view" id="view-learn" hidden>
+      <div class="section-head">
+        <p class="eyebrow">教學區</p>
+        <h2>五感圖鑑</h2>
+        <p>每一種感官，都是寫作時的望遠鏡。先看大圖示，再讀例句，最後記住一句小訣竅。</p>
+      </div>
+      <div class="learn-grid" id="learnGrid"></div>
+      <div class="note-card">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6 L28 17 L40 18 L31 26 L34 38 L24 31 L14 38 L17 26 L8 18 L20 17 Z" fill="#FFC93C" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/></svg>
+        <div>
+          <h3>把五感合起來用</h3>
+          <p>例如：「剛出爐的麵包散發著甜甜的奶香，我咬下去，外皮酥脆、裡面鬆軟，嘴裡滿是甜甜的奶味。」一句話同時用了嗅覺、觸覺和味覺，讀者馬上就餓了。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 練習 -->
+    <section class="view" id="view-practice" hidden>
+      <div class="section-head">
+        <p class="eyebrow">練習區</p>
+        <h2>五種感官，五種玩法</h2>
+        <p>每一種感官都有專屬的互動模式，每種模式六道題目，答完立刻揭曉答案和說明。</p>
+      </div>
+      <div class="mode-grid" id="practiceGrid"></div>
+    </section>
+
+    <!-- 挑戰 -->
+    <section class="view" id="view-challenge" hidden>
+      <div class="section-head">
+        <p class="eyebrow">挑戰區</p>
+        <h2>五感大挑戰</h2>
+        <p>不再告訴你答案是哪一種感官，要靠你自己判斷。兩種模式，各六道題目。</p>
+      </div>
+      <div class="challenge-grid" id="challengeGrid"></div>
+    </section>
+
+    <!-- 答題 -->
+    <section class="view quiz" id="view-quiz" hidden>
+      <div class="quiz-top">
+        <button class="btn btn-small btn-ghost" id="btnQuit">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M14 5 L7 12 L14 19" fill="none" stroke="#4A3B32" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          返回
+        </button>
+        <h2 class="quiz-title" id="quizTitle">練習</h2>
+        <div class="quiz-count" id="quizCount">第 1 / 6 題</div>
+      </div>
+      <div class="progress" role="progressbar" aria-label="答題進度" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0"><i id="progressBar"></i></div>
+
+      <div class="quiz-card">
+        <span class="q-badge" id="qBadge">題目</span>
+        <p class="q-prompt" id="qPrompt" tabindex="-1"></p>
+        <div class="q-extra" id="qExtra"></div>
+        <div class="options" id="options"></div>
+        <div class="feedback" id="feedback" hidden tabindex="-1" aria-live="polite">
+          <div class="fb-head">
+            <span id="fbIcon" aria-hidden="true"></span>
+            <strong id="fbTitle"></strong>
+          </div>
+          <p class="fb-answer" id="fbAnswer"></p>
+          <p class="fb-explain" id="fbExplain"></p>
+          <button class="btn btn-primary" id="btnNext">下一題</button>
+        </div>
+        <p class="quiz-hint" id="quizHint">選一個答案，馬上就會揭曉原因。</p>
+      </div>
+    </section>
+
+    <!-- 結果 -->
+    <section class="view" id="view-result" hidden>
+      <div class="result-card">
+        <div class="stars" id="stars" aria-hidden="true"></div>
+        <h2 id="resultTitle" tabindex="-1"></h2>
+        <p class="result-score" id="resultScore"></p>
+        <p class="result-comment" id="resultComment"></p>
+        <div class="review" id="review"></div>
+        <div class="result-actions">
+          <button class="btn btn-primary" id="btnAgain">再玩一次</button>
+          <button class="btn btn-ghost" id="btnBackModes">返回選單</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-foot">
+    <b>五感小偵探</b>｜小學多感官描寫互動教室<br>
+    所有題目與圖示皆內建，離線也能使用；音效由瀏覽器即時合成。
+  </footer>
+</div>
+<script>
+/* ==========================================================
+   五感小偵探 — 單文件互動教學遊戲
+   資料 → 規則 → 畫面 → 音效
+   ========================================================== */
+
+/* ---------- 1. 內建插畫（全部 SVG，無外部資源） ---------- */
+const ART = {
+  sea: '<rect x="2" y="2" width="96" height="96" rx="18" fill="#DDF1FF"/><circle cx="72" cy="27" r="12" fill="#FFC93C"/><path d="M2 64 H98 V98 H2 Z" fill="#7EC8F5"/><path d="M2 78 Q16 70 30 78 T58 78 T86 78 T98 78 V98 H2 Z" fill="#2E9BD6"/><path d="M39 63 L50 45 L61 63 Z" fill="#FFFDF7" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/><path d="M50 63 V76" stroke="#4A3B32" stroke-width="3" stroke-linecap="round"/><path d="M20 40 Q27 34 34 40" fill="none" stroke="#FFFDF7" stroke-width="4" stroke-linecap="round"/>',
+  classroom: '<rect x="2" y="2" width="96" height="96" rx="18" fill="#FFF3D6"/><rect x="12" y="13" width="76" height="44" rx="6" fill="#4C6B54" stroke="#4A3B32" stroke-width="4"/><path d="M22 25 H58 M22 35 H70 M22 45 H50" stroke="#FFFDF7" stroke-width="4" stroke-linecap="round"/><rect x="12" y="66" width="30" height="7" rx="3" fill="#D9A066" stroke="#4A3B32" stroke-width="2.5"/><rect x="58" y="66" width="30" height="7" rx="3" fill="#D9A066" stroke="#4A3B32" stroke-width="2.5"/><path d="M18 73 V87 M36 73 V87 M64 73 V87 M82 73 V87" stroke="#4A3B32" stroke-width="3" stroke-linecap="round"/><rect x="44" y="60" width="12" height="5" rx="2.5" fill="#FF8FA3" stroke="#4A3B32" stroke-width="2"/>',
+  snow: '<rect x="2" y="2" width="96" height="96" rx="18" fill="#E8F6FF"/><circle cx="50" cy="64" r="20" fill="#FFFDF7" stroke="#4A3B32" stroke-width="3.5"/><circle cx="50" cy="37" r="13" fill="#FFFDF7" stroke="#4A3B32" stroke-width="3.5"/><path d="M40 27 H60 L57 16 H43 Z" fill="#FF8FA3" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/><circle cx="45" cy="36" r="2" fill="#4A3B32"/><circle cx="55" cy="36" r="2" fill="#4A3B32"/><path d="M46 43 Q50 46 54 43" fill="none" stroke="#4A3B32" stroke-width="2.5" stroke-linecap="round"/><path d="M31 80 Q50 73 69 80" fill="none" stroke="#5FB8F0" stroke-width="4" stroke-linecap="round"/><g stroke="#5FB8F0" stroke-width="2.6" stroke-linecap="round"><path d="M18 16 V24 M14 20 H22"/><path d="M82 34 V42 M78 38 H86"/><path d="M82 62 V68 M79 65 H85"/></g>',
+  nightmarket: '<rect x="2" y="2" width="96" height="96" rx="18" fill="#3D3A63"/><g fill="#FFE08A"><circle cx="18" cy="14" r="1.8"/><circle cx="46" cy="10" r="1.4"/><circle cx="86" cy="20" r="1.6"/></g><path d="M14 22 V30 M46 18 V26 M78 26 V34" stroke="#4A3B32" stroke-width="2.5"/><ellipse cx="14" cy="38" rx="8" ry="9" fill="#FF8FA3" stroke="#4A3B32" stroke-width="2.5"/><ellipse cx="46" cy="34" rx="8" ry="9" fill="#FFC93C" stroke="#4A3B32" stroke-width="2.5"/><ellipse cx="78" cy="42" rx="8" ry="9" fill="#FF8FA3" stroke="#4A3B32" stroke-width="2.5"/><rect x="8" y="58" width="84" height="8" rx="3" fill="#B07C4A" stroke="#4A3B32" stroke-width="2.5"/><rect x="14" y="70" width="32" height="18" rx="4" fill="#FFC93C" stroke="#4A3B32" stroke-width="2.5"/><rect x="54" y="70" width="32" height="18" rx="4" fill="#FF9F45" stroke="#4A3B32" stroke-width="2.5"/><path d="M18 88 V94 M42 88 V94 M58 88 V94 M82 88 V94" stroke="#4A3B32" stroke-width="3" stroke-linecap="round"/>',
+  rain: '<rect x="2" y="2" width="96" height="96" rx="18" fill="#E3EEF6"/><path d="M20 36 Q20 23 33 23 Q37 12 50 14 Q63 12 67 25 Q80 25 80 36 Z" fill="#FFFDF7" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/><g stroke="#5FB8F0" stroke-width="3.6" stroke-linecap="round"><path d="M30 48 L27 58"/><path d="M44 48 L41 60"/><path d="M58 48 L55 58"/><path d="M71 48 L68 56"/></g><path d="M14 80 Q28 72 42 80 T70 80 T92 80" fill="none" stroke="#7EC8F5" stroke-width="6" stroke-linecap="round"/><path d="M22 90 Q38 84 54 90 T86 90" fill="none" stroke="#5FB8F0" stroke-width="5" stroke-linecap="round"/>',
+  sun: '<rect x="2" y="2" width="96" height="96" rx="18" fill="#DDF1FF"/><circle cx="72" cy="25" r="12" fill="#FFC93C"/><g stroke="#FFC93C" stroke-width="3.6" stroke-linecap="round"><path d="M72 6 V10"/><path d="M72 40 V44"/><path d="M53 25 H57"/><path d="M87 25 H91"/><path d="M59 12 L62 15"/><path d="M85 38 L82 35"/><path d="M85 12 L82 15"/><path d="M59 38 L62 35"/></g><path d="M2 70 Q30 54 58 70 T98 66 V98 H2 Z" fill="#8BD17C"/><circle cx="26" cy="45" r="14" fill="#7BC96F" stroke="#4A3B32" stroke-width="3"/><rect x="23" y="56" width="6" height="16" fill="#B07C4A" stroke="#4A3B32" stroke-width="2"/>',
+  flower: '<rect x="2" y="2" width="96" height="96" rx="18" fill="#EAFBE7"/><path d="M2 74 Q26 66 50 74 T98 74 V98 H2 Z" fill="#8BD17C"/><g stroke="#5C9A52" stroke-width="3" stroke-linecap="round"><path d="M28 74 V48"/><path d="M50 76 V42"/><path d="M72 74 V52"/></g><g><circle cx="28" cy="40" r="6" fill="#FF8FA3"/><circle cx="20" cy="46" r="6" fill="#FF8FA3"/><circle cx="36" cy="46" r="6" fill="#FF8FA3"/><circle cx="24" cy="34" r="6" fill="#FF8FA3"/><circle cx="33" cy="34" r="6" fill="#FF8FA3"/><circle cx="28" cy="41" r="4.5" fill="#FFE08A"/></g><g><circle cx="50" cy="34" r="6" fill="#A78BFA"/><circle cx="42" cy="40" r="6" fill="#A78BFA"/><circle cx="58" cy="40" r="6" fill="#A78BFA"/><circle cx="46" cy="28" r="6" fill="#A78BFA"/><circle cx="55" cy="28" r="6" fill="#A78BFA"/><circle cx="50" cy="35" r="4.5" fill="#FFE08A"/></g><g><circle cx="72" cy="44" r="5.5" fill="#FFC93C"/><circle cx="65" cy="49" r="5.5" fill="#FFC93C"/><circle cx="79" cy="49" r="5.5" fill="#FFC93C"/><circle cx="69" cy="38" r="5.5" fill="#FFC93C"/><circle cx="76" cy="38" r="5.5" fill="#FFC93C"/><circle cx="72" cy="45" r="4" fill="#FF9F45"/></g><path d="M64 18 Q72 10 80 18 Q72 26 64 18 Z" fill="#FFB443" stroke="#4A3B32" stroke-width="2.4"/><path d="M64 18 Q60 16 58 12" fill="none" stroke="#4A3B32" stroke-width="2.2"/>',
+  bakery: '<rect x="2" y="2" width="96" height="96" rx="18" fill="#FFF1DC"/><rect x="6" y="26" width="88" height="6" rx="3" fill="#D9A066" stroke="#4A3B32" stroke-width="2.5"/><rect x="6" y="56" width="88" height="6" rx="3" fill="#D9A066" stroke="#4A3B32" stroke-width="2.5"/><rect x="6" y="84" width="88" height="8" rx="3" fill="#D9A066" stroke="#4A3B32" stroke-width="2.5"/><path d="M16 26 Q16 10 33 10 Q50 10 50 26 Z" fill="#E0A458" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/><path d="M22 16 L26 22 M30 14 L34 20 M38 14 L42 20" stroke="#8B5E34" stroke-width="2.4" stroke-linecap="round"/><path d="M56 26 Q56 12 71 12 Q86 12 86 26 Z" fill="#D99A4E" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/><path d="M62 18 L66 24 M70 16 L74 22 M78 18 L82 24" stroke="#8B5E34" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="26" cy="47" rx="14" ry="9" fill="#F0C27B" stroke="#4A3B32" stroke-width="3"/><ellipse cx="64" cy="47" rx="16" ry="9" fill="#E8B267" stroke="#4A3B32" stroke-width="3"/><path d="M18 47 H34 M54 47 H74" stroke="#B07C4A" stroke-width="2.4" stroke-linecap="round"/><circle cx="46" cy="73" r="9" fill="#F0C27B" stroke="#4A3B32" stroke-width="3"/><rect x="60" y="64" width="22" height="18" rx="5" fill="#D99A4E" stroke="#4A3B32" stroke-width="3"/>',
+  park: '<rect x="2" y="2" width="96" height="96" rx="18" fill="#EAFBE7"/><path d="M2 72 Q30 64 58 72 T98 72 V98 H2 Z" fill="#8BD17C"/><circle cx="30" cy="34" r="17" fill="#7BC96F" stroke="#4A3B32" stroke-width="3"/><circle cx="22" cy="44" r="11" fill="#7BC96F" stroke="#4A3B32" stroke-width="3"/><circle cx="39" cy="45" r="10" fill="#8BD17C" stroke="#4A3B32" stroke-width="3"/><rect x="26" y="50" width="7" height="24" rx="3" fill="#B07C4A" stroke="#4A3B32" stroke-width="2.4"/><rect x="60" y="66" width="28" height="6" rx="3" fill="#D9A066" stroke="#4A3B32" stroke-width="2.4"/><path d="M64 72 V82 M84 72 V82" stroke="#4A3B32" stroke-width="2.6" stroke-linecap="round"/><ellipse cx="76" cy="88" rx="13" ry="4.5" fill="#7EC8F5" stroke="#5FB8F0" stroke-width="2"/>',
+  clinic: '<rect x="2" y="2" width="96" height="96" rx="18" fill="#EAF6FF"/><rect x="12" y="24" width="76" height="64" rx="8" fill="#FFFDF7" stroke="#4A3B32" stroke-width="3.5"/><rect x="22" y="36" width="24" height="18" rx="3" fill="#BFE8FA" stroke="#4A3B32" stroke-width="2.4"/><rect x="56" y="36" width="22" height="14" rx="3" fill="#BFE8FA" stroke="#4A3B32" stroke-width="2.4"/><path d="M44 66 H56 M50 60 V72" stroke="#FF8FA3" stroke-width="6" stroke-linecap="round"/><path d="M18 88 H82" stroke="#4A3B32" stroke-width="3" stroke-linecap="round"/><path d="M66 12 H74 V20 H82 V28 H74 V36 H66 V28 H58 V20 H66 Z" fill="#FF8FA3" stroke="#4A3B32" stroke-width="2" transform="translate(-6,-4) scale(.8)"/>',
+  city: '<rect x="2" y="2" width="96" height="96" rx="18" fill="#3D3A63"/><circle cx="76" cy="22" r="11" fill="#FFE08A"/><g fill="#FFFDF7"><circle cx="18" cy="16" r="1.7"/><circle cx="40" cy="10" r="1.3"/><circle cx="56" cy="20" r="1.5"/></g><rect x="10" y="52" width="22" height="46" fill="#6A6A96" stroke="#2C2945" stroke-width="2.5"/><rect x="36" y="38" width="24" height="60" fill="#7C7CA8" stroke="#2C2945" stroke-width="2.5"/><rect x="64" y="58" width="22" height="40" fill="#6A6A96" stroke="#2C2945" stroke-width="2.5"/><g fill="#FFE08A"><rect x="15" y="58" width="5" height="6"/><rect x="24" y="58" width="5" height="6"/><rect x="15" y="70" width="5" height="6"/><rect x="24" y="70" width="5" height="6"/><rect x="42" y="46" width="5" height="6"/><rect x="51" y="46" width="5" height="6"/><rect x="42" y="58" width="5" height="6"/><rect x="51" y="58" width="5" height="6"/><rect x="42" y="70" width="5" height="6"/><rect x="51" y="70" width="5" height="6"/><rect x="70" y="66" width="5" height="6"/><rect x="78" y="66" width="5" height="6"/><rect x="70" y="78" width="5" height="6"/><rect x="78" y="78" width="5" height="6"/></g>',
+  kitchen: '<rect x="2" y="2" width="96" height="96" rx="18" fill="#FFF1DC"/><rect x="6" y="64" width="88" height="10" rx="4" fill="#D9A066" stroke="#4A3B32" stroke-width="2.5"/><path d="M30 44 H70 V68 Q70 76 62 76 H38 Q30 76 30 68 Z" fill="#9FB3C0" stroke="#4A3B32" stroke-width="3.5" stroke-linejoin="round"/><rect x="26" y="38" width="48" height="8" rx="4" fill="#B7C8D2" stroke="#4A3B32" stroke-width="3"/><path d="M30 52 H70" stroke="#7D94A3" stroke-width="3"/><path d="M24 58 H16 M76 58 H84" stroke="#4A3B32" stroke-width="4" stroke-linecap="round"/><g fill="none" stroke="#C3D2DA" stroke-width="3.4" stroke-linecap="round"><path d="M40 32 Q34 26 40 18"/><path d="M52 32 Q58 24 52 16"/><path d="M64 32 Q58 26 64 20"/></g><circle cx="24" cy="24" r="3" fill="#FF8FA3"/><circle cx="80" cy="18" r="2.6" fill="#FFC93C"/>',
+  forest: '<rect x="2" y="2" width="96" height="96" rx="18" fill="#EAFBE7"/><path d="M2 78 Q30 70 58 78 T98 78 V98 H2 Z" fill="#8BD17C"/><g stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"><path d="M24 64 L10 64 L24 30 L38 64 Z" fill="#5FA85A"/><path d="M28 78 L16 78 L28 48 L40 78 Z" fill="#7BC96F"/><path d="M62 68 L46 68 L62 26 L78 68 Z" fill="#5FA85A"/><path d="M78 78 L66 78 L78 50 L90 78 Z" fill="#7BC96F"/></g><path d="M46 88 Q56 80 68 88" stroke="#D9A066" stroke-width="7" fill="none" stroke-linecap="round"/>'
+};
+
+const GLYPH = {
+  eye: '<path d="M10 50 Q50 16 90 50 Q50 84 10 50 Z" fill="#FFFDF7" stroke="#4A3B32" stroke-width="6" stroke-linejoin="round"/><circle cx="50" cy="50" r="16" fill="#5FB8F0" stroke="#4A3B32" stroke-width="5"/><circle cx="50" cy="50" r="7" fill="#4A3B32"/><circle cx="44" cy="44" r="4" fill="#FFFDF7"/>',
+  ear: '<path d="M64 20 C40 12 24 28 26 48 C28 66 42 70 44 82 C46 92 60 90 60 80 C60 72 52 69 52 60" fill="#FFD9C0" stroke="#4A3B32" stroke-width="6" stroke-linejoin="round"/><path d="M56 34 C46 30 38 38 40 48 C41 56 50 58 50 66" fill="none" stroke="#4A3B32" stroke-width="5" stroke-linecap="round"/>',
+  nose: '<path d="M54 16 C54 32 44 42 40 52 C36 62 42 72 52 72 C58 72 62 70 64 66" fill="#FFD9C0" stroke="#4A3B32" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><path d="M44 72 C46 78 54 78 57 72" fill="none" stroke="#4A3B32" stroke-width="5" stroke-linecap="round"/>',
+  mouth: '<path d="M18 50 Q34 32 50 43 Q66 32 82 50 Q66 72 50 64 Q34 72 18 50 Z" fill="#FF8FA3" stroke="#4A3B32" stroke-width="5" stroke-linejoin="round"/><path d="M38 57 Q50 82 62 57 Z" fill="#FF6F8B" stroke="#4A3B32" stroke-width="3.5" stroke-linejoin="round"/><path d="M24 48 Q50 40 76 48" fill="none" stroke="#4A3B32" stroke-width="3.5" stroke-linecap="round"/>',
+  hand: '<rect x="26" y="24" width="11" height="28" rx="5.5" fill="#FFD9C0" stroke="#4A3B32" stroke-width="4"/><rect x="40" y="15" width="11" height="37" rx="5.5" fill="#FFD9C0" stroke="#4A3B32" stroke-width="4"/><rect x="54" y="20" width="11" height="32" rx="5.5" fill="#FFD9C0" stroke="#4A3B32" stroke-width="4"/><rect x="68" y="30" width="10" height="24" rx="5" fill="#FFD9C0" stroke="#4A3B32" stroke-width="4"/><rect x="22" y="48" width="56" height="38" rx="17" fill="#FFD9C0" stroke="#4A3B32" stroke-width="5"/><path d="M18 58 Q10 52 14 46 Q18 41 24 48" fill="#FFD9C0" stroke="#4A3B32" stroke-width="4" stroke-linecap="round"/>',
+  star: '<path d="M50 8 L61 36 L92 38 L68 58 L76 88 L50 71 L24 88 L32 58 L8 38 L39 36 Z" fill="#FFC93C" stroke="#4A3B32" stroke-width="4" stroke-linejoin="round"/>',
+  compass: '<circle cx="50" cy="50" r="36" fill="#E6F5FF" stroke="#4A3B32" stroke-width="5"/><path d="M66 32 L56 56 L34 68 L44 44 Z" fill="#FF8FA3" stroke="#4A3B32" stroke-width="4" stroke-linejoin="round"/><circle cx="50" cy="50" r="5" fill="#FFC93C" stroke="#4A3B32" stroke-width="3"/>',
+  layers: '<rect x="18" y="42" width="64" height="38" rx="8" fill="#FFE9B8" stroke="#4A3B32" stroke-width="4"/><path d="M26 34 H74" stroke="#4A3B32" stroke-width="8" stroke-linecap="round"/><path d="M32 24 H68" stroke="#4A3B32" stroke-width="8" stroke-linecap="round"/><path d="M40 54 L48 62 L60 46" fill="none" stroke="#4A3B32" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>',
+  lemon: '<circle cx="50" cy="52" r="30" fill="#FFE06B" stroke="#4A3B32" stroke-width="4"/><path d="M50 22 Q56 10 70 12 Q64 24 50 22 Z" fill="#7BC96F" stroke="#4A3B32" stroke-width="3"/><path d="M50 30 V74 M30 52 H70 M34 38 L66 66 M66 38 L34 66" stroke="#F0B429" stroke-width="3"/>',
+  candy: '<circle cx="50" cy="50" r="17" fill="#FF8FA3" stroke="#4A3B32" stroke-width="4"/><path d="M34 42 L16 30 L20 50 L16 70 L34 58 Z" fill="#FFB443" stroke="#4A3B32" stroke-width="4" stroke-linejoin="round"/><path d="M66 42 L84 30 L80 50 L84 70 L66 58 Z" fill="#FFB443" stroke="#4A3B32" stroke-width="4" stroke-linejoin="round"/><path d="M44 42 Q50 50 44 58" fill="none" stroke="#FFFDF7" stroke-width="3.5" stroke-linecap="round"/>',
+  herb: '<path d="M50 84 C48 62 46 40 52 20" fill="none" stroke="#4A3B32" stroke-width="4" stroke-linecap="round"/><path d="M50 62 C32 60 24 48 24 34 C42 34 50 44 50 62 Z" fill="#7BC96F" stroke="#4A3B32" stroke-width="3.5"/><path d="M50 46 C68 44 76 32 76 18 C58 18 50 28 50 46 Z" fill="#5FA85A" stroke="#4A3B32" stroke-width="3.5"/>',
+  chili: '<path d="M58 22 C44 26 30 40 32 60 C34 76 48 84 60 78 C74 70 78 48 70 34" fill="#E85D5D" stroke="#4A3B32" stroke-width="4" stroke-linejoin="round"/><path d="M58 22 Q58 12 70 10" fill="none" stroke="#4A3B32" stroke-width="4" stroke-linecap="round"/><path d="M52 20 Q62 16 68 22" fill="none" stroke="#7BC96F" stroke-width="5" stroke-linecap="round"/>',
+  salt: '<path d="M32 40 H68 L64 84 H36 Z" fill="#E8F6FF" stroke="#4A3B32" stroke-width="4" stroke-linejoin="round"/><rect x="30" y="30" width="40" height="12" rx="5" fill="#B7C8D2" stroke="#4A3B32" stroke-width="4"/><g fill="#5FB8F0"><circle cx="44" cy="36" r="1.6"/><circle cx="52" cy="36" r="1.6"/><circle cx="60" cy="36" r="1.6"/></g><path d="M42 56 H58 M42 68 H58" stroke="#B7C8D2" stroke-width="3.5" stroke-linecap="round"/>',
+  ice: '<rect x="2" y="2" width="96" height="96" rx="18" fill="#E6F5FF"/><rect x="16" y="30" width="32" height="32" rx="7" fill="#BFE8FA" stroke="#4A3B32" stroke-width="3.5" transform="rotate(-8 32 46)"/><rect x="48" y="44" width="34" height="34" rx="7" fill="#D9F2FD" stroke="#4A3B32" stroke-width="3.5" transform="rotate(10 65 61)"/><path d="M24 38 L30 42" stroke="#FFFDF7" stroke-width="3.4" stroke-linecap="round"/><path d="M56 52 L62 56" stroke="#FFFDF7" stroke-width="3.4" stroke-linecap="round"/>',
+  feather: '<rect x="2" y="2" width="96" height="96" rx="18" fill="#E6F5FF"/><path d="M68 14 C40 16 25 38 23 68 C50 68 74 48 68 14 Z" fill="#FFFDF7" stroke="#4A3B32" stroke-width="3.5" stroke-linejoin="round"/><path d="M66 16 L29 64" stroke="#4A3B32" stroke-width="2.8" stroke-linecap="round"/><path d="M53 27 L48 41 M45 35 L41 49 M37 43 L34 55 M57 22 L54 32" stroke="#5FB8F0" stroke-width="2.4" stroke-linecap="round"/>',
+  sandpaper: '<rect x="2" y="2" width="96" height="96" rx="18" fill="#FFF1DC"/><rect x="14" y="24" width="72" height="54" rx="6" fill="#D9A066" stroke="#4A3B32" stroke-width="3.5"/><g fill="#8B5E34"><circle cx="24" cy="34" r="2"/><circle cx="34" cy="42" r="1.6"/><circle cx="46" cy="32" r="2.2"/><circle cx="58" cy="40" r="1.8"/><circle cx="72" cy="34" r="2"/><circle cx="28" cy="54" r="1.8"/><circle cx="40" cy="58" r="2.1"/><circle cx="54" cy="52" r="1.6"/><circle cx="66" cy="60" r="2"/><circle cx="76" cy="50" r="1.6"/><circle cx="30" cy="68" r="1.7"/><circle cx="46" cy="70" r="2"/><circle cx="60" cy="68" r="1.6"/><circle cx="74" cy="70" r="1.9"/></g>',
+  hotcup: '<rect x="2" y="2" width="96" height="96" rx="18" fill="#FFF1DC"/><path d="M28 38 H68 L64 82 H32 Z" fill="#FFFDF7" stroke="#4A3B32" stroke-width="3.5" stroke-linejoin="round"/><path d="M68 46 Q80 46 77 60 Q75 68 66 66" fill="none" stroke="#4A3B32" stroke-width="3.5"/><path d="M28 54 H68" stroke="#FF8FA3" stroke-width="5"/><g fill="none" stroke="#C3D2DA" stroke-width="3.2" stroke-linecap="round"><path d="M40 30 Q34 24 40 16"/><path d="M54 30 Q60 22 54 14"/></g>',
+  stone: '<rect x="2" y="2" width="96" height="96" rx="18" fill="#EEF1F4"/><path d="M16 66 Q14 40 38 32 Q64 23 79 45 Q90 62 73 74 Q49 87 29 79 Z" fill="#B9C0C7" stroke="#4A3B32" stroke-width="3.5" stroke-linejoin="round"/><path d="M32 44 Q42 37 52 41" fill="none" stroke="#DDE3E8" stroke-width="4" stroke-linecap="round"/>',
+  teddy: '<rect x="2" y="2" width="96" height="96" rx="18" fill="#FFF1DC"/><circle cx="27" cy="28" r="12" fill="#C98F5E" stroke="#4A3B32" stroke-width="3.5"/><circle cx="73" cy="28" r="12" fill="#C98F5E" stroke="#4A3B32" stroke-width="3.5"/><circle cx="50" cy="52" r="29" fill="#D9A066" stroke="#4A3B32" stroke-width="3.5"/><ellipse cx="50" cy="63" rx="15" ry="12" fill="#F0C9A0" stroke="#4A3B32" stroke-width="3"/><circle cx="40" cy="46" r="3.4" fill="#4A3B32"/><circle cx="60" cy="46" r="3.4" fill="#4A3B32"/><ellipse cx="50" cy="57" rx="4.5" ry="3.4" fill="#4A3B32"/><path d="M50 60 V64 M50 64 Q45 68 42 64 M50 64 Q55 68 58 64" fill="none" stroke="#4A3B32" stroke-width="2.4" stroke-linecap="round"/>',
+  cotton: '<rect x="2" y="2" width="96" height="96" rx="18" fill="#F3F7FF"/><g fill="#FFFDF7" stroke="#4A3B32" stroke-width="3"><circle cx="38" cy="46" r="17"/><circle cx="58" cy="38" r="15"/><circle cx="66" cy="55" r="17"/><circle cx="48" cy="62" r="18"/></g><path d="M30 54 Q44 46 60 52" fill="none" stroke="#DCE6F2" stroke-width="3" stroke-linecap="round"/>',
+  leaf: '<rect x="2" y="2" width="96" height="96" rx="18" fill="#EAFBE7"/><path d="M50 12 C78 24 82 56 50 88 C18 56 22 24 50 12 Z" fill="#7BC96F" stroke="#4A3B32" stroke-width="3.5" stroke-linejoin="round"/><path d="M50 20 V78 M50 40 L36 32 M50 52 L64 44 M50 62 L38 56" fill="none" stroke="#4A3B32" stroke-width="2.6" stroke-linecap="round"/>'
+};
+
+function artSVG(key, cls) {
+  return '<svg class="' + (cls || 'art') + '" viewBox="0 0 100 100" aria-hidden="true" focusable="false">' + (ART[key] || '') + '</svg>';
+}
+function picSVG(key) {
+  return '<svg class="art" viewBox="0 0 100 100" aria-hidden="true" focusable="false">' + (ART[key] || GLYPH[key] || '') + '</svg>';
+}
+function glyphSVG(key) {
+  return '<svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">' + (GLYPH[key] || '') + '</svg>';
+}
+
+/* ---------- 2. 教學內容 ---------- */
+const SENSES = [
+  {
+    key: 'sight', name: '視覺', organ: '眼睛', art: 'eye', color: '#5FB8F0', tint: '#E6F5FF',
+    def: '用眼睛看，把顏色、形狀、大小、光線和遠近寫下來。',
+    writes: ['顏色', '形狀', '大小', '光線', '遠近'],
+    examples: [
+      '金黃色的夕陽慢慢沉進海裡，天空被染成一片<mark>橘紅</mark>。',
+      '雨後的荷葉上，滾著一顆<mark>圓滾滾</mark>、<mark>亮晶晶</mark>的水珠。'
+    ],
+    tip: '把「顏色＋形狀＋動作」寫進去，畫面就會站起來。'
+  },
+  {
+    key: 'hearing', name: '聽覺', organ: '耳朵', art: 'ear', color: '#FFB443', tint: '#FFF1D6',
+    def: '用耳朵聽，把聲音的高低、快慢、大小和遠近寫下來。',
+    writes: ['擬聲詞', '音量', '節奏', '遠近'],
+    examples: [
+      '小鳥在樹梢上<mark>啾啾</mark>地叫，像在唱一首輕快的歌。',
+      '轟隆一聲，<mark>雷聲</mark>從遠處滾過來，窗戶都震得發抖。'
+    ],
+    tip: '加上擬聲詞（叮咚、沙沙、轟隆），聲音馬上跑出來。'
+  },
+  {
+    key: 'smell', name: '嗅覺', organ: '鼻子', art: 'nose', color: '#8BD17C', tint: '#EAFBE7',
+    def: '用鼻子聞，把香、臭、濃、淡，還有氣味從哪裡來寫下來。',
+    writes: ['香臭', '濃淡', '氣味來源'],
+    examples: [
+      '一推開門，<mark>濃濃的麵包香</mark>就撲了過來，饞得我直流口水。',
+      '雨後的空氣裡，飄著<mark>泥土和青草</mark>的清香。'
+    ],
+    tip: '寫出「聞到之後的感覺」，味道會更有畫面。'
+  },
+  {
+    key: 'taste', name: '味覺', organ: '舌頭', art: 'mouth', color: '#FF8FA3', tint: '#FFEDF0',
+    def: '用舌頭嘗，把酸、甜、苦、辣、鹹，還有嘴裡的口感寫下來。',
+    writes: ['酸甜苦辣鹹', '口感', '身體反應'],
+    examples: [
+      '一口咬下檸檬，<mark>酸味</mark>在嘴裡炸開，我的臉立刻皺成一團。',
+      '剛出爐的蛋糕<mark>甜滋滋</mark>的，奶油在舌尖慢慢化開。'
+    ],
+    tip: '把表情和身體反應寫出來，讀者也能嘗到味道。'
+  },
+  {
+    key: 'touch', name: '觸覺', organ: '皮膚', art: 'hand', color: '#A78BFA', tint: '#F3ECFF',
+    def: '用皮膚摸，把冷熱、軟硬、粗糙光滑、乾濕寫下來。',
+    writes: ['冷熱', '軟硬', '粗滑', '乾濕'],
+    examples: [
+      '毛毛熊的毛<mark>軟綿綿</mark>的，抱起來<mark>暖呼呼</mark>，像一團小雲朵。',
+      '寒風像小刀一樣刮在臉上，<mark>冰冰刺刺</mark>的。'
+    ],
+    tip: '用「像什麼一樣」來形容，觸感會更清楚。'
+  }
+];
+const SENSE_BY_KEY = {};
+SENSES.forEach(function (s) { SENSE_BY_KEY[s.key] = s; });
+const SENSE_ORDER = ['sight', 'hearing', 'smell', 'taste', 'touch'];
+const TIP_ICON = '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5 C16 5 11 11 11 18 C11 24 15 27 17 32 H31 C33 27 37 24 37 18 C37 11 32 5 24 5 Z" fill="#FFE08A" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/><path d="M18 36 H30 M20 41 H28" stroke="#4A3B32" stroke-width="3" stroke-linecap="round"/></svg>';
+const OK_ICON = '<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="#BFEBD0" stroke="#2F8F5B" stroke-width="3"/><path d="M14 25 L21 32 L34 17" fill="none" stroke="#2F8F5B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const NO_ICON = '<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="#FFD6D6" stroke="#D14B4B" stroke-width="3"/><path d="M16 16 L32 32 M32 16 L16 32" stroke="#D14B4B" stroke-width="5" stroke-linecap="round"/></svg>';
+const STAR_FULL = '<svg viewBox="0 0 64 64"><path d="M32 4 L40 24 L62 26 L45 41 L50 62 L32 51 L14 62 L19 41 L2 26 L24 24 Z" fill="#FFC93C" stroke="#4A3B32" stroke-width="3.5" stroke-linejoin="round"/></svg>';
+const STAR_EMPTY = '<svg viewBox="0 0 64 64"><path d="M32 4 L40 24 L62 26 L45 41 L50 62 L32 51 L14 62 L19 41 L2 26 L24 24 Z" fill="#F0E7D8" stroke="#B8A99A" stroke-width="3.5" stroke-linejoin="round"/></svg>';
+
+/* ---------- 3. 題庫（7 種模式 × 6 題） ---------- */
+const TASTES = [
+  { label: '酸', art: 'lemon' },
+  { label: '甜', art: 'candy' },
+  { label: '苦', art: 'herb' },
+  { label: '辣', art: 'chili' },
+  { label: '鹹', art: 'salt' }
+];
+const TASTE_OPTIONS = TASTES.map(function (t) { return { label: t.label, art: t.art }; });
+
+const MODES = {
+  sight: {
+    zone: 'practice', title: '視覺 · 畫面快照', badge: '視覺線索', art: 'eye',
+    color: '#5FB8F0', tint: '#E6F5FF',
+    sub: '讀句子，選出最符合的畫面。',
+    hint: '先找句子裡的顏色、形狀和光線。',
+    type: 'image',
+    questions: [
+      {
+        prompt: '夏天的海面藍得像一塊大玻璃，白色的帆船慢慢駛過。',
+        options: [
+          { art: 'forest', label: '綠色的森林' },
+          { art: 'snow', label: '下雪的山坡' },
+          { art: 'sea', label: '海邊的帆船' },
+          { art: 'classroom', label: '安靜的教室' }
+        ],
+        answer: 2,
+        explain: '句子寫到「藍得像一塊大玻璃」「白色的帆船」「海面」，都是眼睛看到的顏色和景象，所以畫面是海邊。'
+      },
+      {
+        prompt: '教室裡靜悄悄的，黑板上寫滿白色的粉筆字，陽光灑在課桌上。',
+        options: [
+          { art: 'classroom', label: '安靜的教室' },
+          { art: 'bakery', label: '香噴噴的麵包店' },
+          { art: 'park', label: '綠油油的公園' },
+          { art: 'city', label: '亮著燈的城市' }
+        ],
+        answer: 0,
+        explain: '黑板、粉筆字、課桌都是教室裡看得見的東西；「靜悄悄」只是背景，主要畫面在教室。'
+      },
+      {
+        prompt: '雪花一片一片飄下來，地上鋪了厚厚一層白，小雪人笑瞇瞇地站在雪地裡。',
+        options: [
+          { art: 'rain', label: '下雨的街道' },
+          { art: 'sea', label: '藍藍的海邊' },
+          { art: 'flower', label: '開滿花的花園' },
+          { art: 'snow', label: '下雪的山坡' }
+        ],
+        answer: 3,
+        explain: '「雪花」「厚厚一層白」和「小雪人」寫出白茫茫的雪景，都是眼睛看到的畫面。'
+      },
+      {
+        prompt: '夜市裡掛滿紅紅黃黃的燈籠，攤位前的隊伍排得好長。',
+        options: [
+          { art: 'classroom', label: '安靜的教室' },
+          { art: 'nightmarket', label: '熱鬧的夜市' },
+          { art: 'snow', label: '下雪的山坡' },
+          { art: 'forest', label: '綠色的森林' }
+        ],
+        answer: 1,
+        explain: '燈籠的紅黃顏色、長長的隊伍，都是眼睛看到的景象，所以是夜市。'
+      },
+      {
+        prompt: '雨滴答答地打在窗玻璃上，外面灰濛濛的，連對面的樓都看不清。',
+        options: [
+          { art: 'sun', label: '晴朗的公園' },
+          { art: 'flower', label: '開滿花的花園' },
+          { art: 'rain', label: '下雨的街道' },
+          { art: 'sea', label: '藍藍的海邊' }
+        ],
+        answer: 2,
+        explain: '「灰濛濛」「看不清」是雨天窗外的景象，屬於視覺描寫；雨聲只是陪襯。'
+      },
+      {
+        prompt: '花園裡開滿紫色和粉紅色的小花，蝴蝶在花叢中飛來飛去。',
+        options: [
+          { art: 'snow', label: '下雪的山坡' },
+          { art: 'flower', label: '開滿花的花園' },
+          { art: 'kitchen', label: '冒著熱氣的廚房' },
+          { art: 'city', label: '亮著燈的城市' }
+        ],
+        answer: 1,
+        explain: '紫色的花和飛舞的蝴蝶，都是眼睛看到的顏色和動作，所以是花園。'
+      }
+    ]
+  },
+
+  hearing: {
+    zone: 'practice', title: '聽覺 · 聲音偵探', badge: '聽覺線索', art: 'ear',
+    color: '#FFB443', tint: '#FFF1D6',
+    sub: '先聽聲音，再選出最適合的描寫句。',
+    hint: '注意擬聲詞，它常常藏著聲音的答案。',
+    type: 'hearing',
+    questions: [
+      {
+        prompt: '按下播放，聽一聽這是什麼聲音，再選出最適合的描寫句。',
+        sound: 'rain', soundLabel: '聽一聽：雨聲',
+        options: [
+          '太陽把操場曬得發白，連影子都縮成一團。',
+          '雨水嘩啦嘩啦地打在屋簷上，像有人在敲小鼓。',
+          '桌上的布丁甜滋滋的，我一勺接一勺。'
+        ],
+        answer: 1,
+        explain: '「嘩啦嘩啦」是雨水打在屋簷上的聲音，這是耳朵聽到的描寫；另外兩句分別是視覺和味覺。'
+      },
+      {
+        prompt: '按下播放，聽一聽這是什麼聲音，再選出最適合的描寫句。',
+        sound: 'thunder', soundLabel: '聽一聽：雷聲',
+        options: [
+          '天空忽然轟隆作響，雷聲在雲層裡滾來滾去，我趕緊捂住耳朵。',
+          '花園裡的玫瑰紅得像一團火。',
+          '妹妹摸著小貓的毛，笑得眼睛都彎了。'
+        ],
+        answer: 0,
+        explain: '「轟隆」是雷聲，「捂住耳朵」是聽到雷聲後的反應，所以是聽覺描寫。'
+      },
+      {
+        prompt: '按下播放，聽一聽這是什麼聲音，再選出最適合的描寫句。',
+        sound: 'bird', soundLabel: '聽一聽：鳥叫聲',
+        options: [
+          '小狗的毛摸起來軟軟的，還帶著一點體溫。',
+          '桌上的檸檬酸得我皺起整張臉。',
+          '啾啾、啾啾，小鳥在枝頭上唱著歌。'
+        ],
+        answer: 2,
+        explain: '「啾啾」是小鳥的叫聲，寫出聲音的高低和節奏，是聽覺描寫。'
+      },
+      {
+        prompt: '按下播放，聽一聽這是什麼聲音，再選出最適合的描寫句。',
+        sound: 'bell', soundLabel: '聽一聽：門鈴聲',
+        options: [
+          '叮咚——門鈴響了，我趕緊跑去開門。',
+          '風把樹葉吹得沙沙作響。',
+          '碗裡的湯熱呼呼的，冒著白煙。'
+        ],
+        answer: 0,
+        explain: '「叮咚」是門鈴的聲音；B 句雖然也是聲音，但題目播放的是門鈴，所以選 A 句。'
+      },
+      {
+        prompt: '按下播放，聽一聽這是什麼聲音，再選出最適合的描寫句。',
+        sound: 'water', soundLabel: '聽一聽：流水聲',
+        options: [
+          '新書的紙張摸起來滑滑的，還有一股油墨香。',
+          '小溪叮叮咚咚地流過石頭，聲音清脆又好聽。',
+          '夜空中掛著一輪又圓又亮的月亮。'
+        ],
+        answer: 1,
+        explain: '「叮叮咚咚」寫出溪水流過石頭的聲音，是聽覺描寫。'
+      },
+      {
+        prompt: '按下播放，聽一聽這是什麼聲音，再選出最適合的描寫句。',
+        sound: 'wind', soundLabel: '聽一聽：風聲',
+        options: [
+          '烤地瓜的香味從巷口飄過來。',
+          '雨後的小水窪映著藍天，像一面鏡子。',
+          '風呼呼地吹過樹梢，葉子沙沙作響。'
+        ],
+        answer: 2,
+        explain: '「呼呼」和「沙沙」都是風吹過的聲音，所以是聽覺描寫。'
+      }
+    ]
+  },
+
+  smell: {
+    zone: 'practice', title: '嗅覺 · 氣味配對', badge: '嗅覺線索', art: 'nose',
+    color: '#8BD17C', tint: '#EAFBE7',
+    sub: '看場景圖，選出最適合的氣味。',
+    hint: '先想一想：這個地方會飄出什麼味道？',
+    type: 'word',
+    questions: [
+      {
+        prompt: '這是廚房。鍋裡的湯正冒著熱氣，你會聞到什麼氣味？',
+        art: 'kitchen',
+        options: ['刺鼻的消毒水味', '剛煮好的雞湯香味', '鹹鹹的海水味', '汽油的臭味'],
+        answer: 1,
+        explain: '鍋裡飄出的是「剛煮好的雞湯香味」。「香」是鼻子聞到的，不是眼睛看到或耳朵聽到。'
+      },
+      {
+        prompt: '這是雨後的小公園。深呼吸，空氣裡有什麼氣味？',
+        art: 'park',
+        options: ['雨後泥土的清香', '甜甜的糖果味', '燒焦的煙味', '濃濃的香水味'],
+        answer: 0,
+        explain: '下雨後，泥土和青草會散發清新的氣味，「清香」正是嗅覺描寫，還寫出了氣味淡淡的、不濃。'
+      },
+      {
+        prompt: '這是開滿花的花園。風一吹，你會聞到什麼？',
+        art: 'flower',
+        options: ['酸酸的醋味', '潮濕的霉味', '辛辣的胡椒味', '淡淡的茉莉花香'],
+        answer: 3,
+        explain: '花園裡最常見的是花香；「淡淡的」寫出氣味的濃淡，讓嗅覺描寫更細緻。'
+      },
+      {
+        prompt: '這是海邊。閉上眼睛聞一聞，空氣裡有什麼味道？',
+        art: 'sea',
+        options: ['剛洗好的衣服味', '甜甜的奶油味', '鹹鹹的海水味', '冷冷的鐵鏽味'],
+        answer: 2,
+        explain: '海風會帶來「鹹鹹的海水味」，這是鼻子聞到的氣味，也帶有一點味覺的聯想。'
+      },
+      {
+        prompt: '這是診所。一走進去，你最可能聞到什麼？',
+        art: 'clinic',
+        options: ['新鮮的青草味', '刺鼻的消毒水味', '香噴噴的咖啡味', '甜甜的果醬味'],
+        answer: 1,
+        explain: '診所常用消毒水清潔，「刺鼻」寫出氣味很濃、聞起來有點嗆，是典型的嗅覺描寫。'
+      },
+      {
+        prompt: '這是熱鬧的夜市。順著人潮走，你會聞到什麼？',
+        art: 'nightmarket',
+        options: ['淡淡的書香', '清涼的薄荷味', '香噴噴的烤魷魚味', '雨後的泥土味'],
+        answer: 2,
+        explain: '夜市裡最常飄出烤魷魚的香味；「香噴噴」寫出氣味濃郁，讓人一聞就餓。'
+      }
+    ]
+  },
+
+  taste: {
+    zone: 'practice', title: '味覺 · 味道分類', badge: '味覺線索', art: 'mouth',
+    color: '#FF8FA3', tint: '#FFEDF0',
+    sub: '讀句子，選出這是哪一種味道。',
+    hint: '先找舌頭嘗到的味道，再看身體的反應。',
+    type: 'taste',
+    questions: [
+      {
+        prompt: '我咬了一口還沒熟的青梅，酸得牙齒發軟，口水一下子湧出來。',
+        options: TASTE_OPTIONS, answer: 0,
+        explain: '「酸」是舌頭嘗到的；「牙齒發軟」「口水湧出來」是身體對酸味的反應，所以選酸。'
+      },
+      {
+        prompt: '這顆糖果在嘴裡慢慢化開，像蜜一樣，甜得我笑瞇了眼。',
+        options: TASTE_OPTIONS, answer: 1,
+        explain: '「像蜜一樣」「甜得笑瞇眼」都是甜味的線索，舌頭嘗到甜，心情也跟著變好。'
+      },
+      {
+        prompt: '我喝了一口沒有加糖的苦瓜湯，苦得眉頭皺得好緊，趕緊喝了一大口水。',
+        options: TASTE_OPTIONS, answer: 2,
+        explain: '「沒有加糖」「苦得皺眉」寫出苦味，這是舌頭嘗到的味道。'
+      },
+      {
+        prompt: '火鍋裡的辣椒嗆得我眼淚直流，猛灌了三杯水還是不夠。',
+        options: TASTE_OPTIONS, answer: 3,
+        explain: '「嗆」「眼淚直流」「猛灌水」都是辣味的反應，所以選辣。'
+      },
+      {
+        prompt: '薯片越吃越口渴，舌頭上全是鹽巴的味道。',
+        options: TASTE_OPTIONS, answer: 4,
+        explain: '「鹽巴的味道」「越吃越口渴」寫出鹹味，是舌頭嘗到的感覺。'
+      },
+      {
+        prompt: '剛摘下的青芒果酸溜溜的，咬一口就讓我瞇起眼睛。',
+        options: TASTE_OPTIONS, answer: 0,
+        explain: '「酸溜溜」「瞇起眼睛」都是酸味帶來的反應，所以選酸。'
+      }
+    ]
+  },
+
+  touch: {
+    zone: 'practice', title: '觸覺 · 摸一摸猜一猜', badge: '觸覺線索', art: 'hand',
+    color: '#A78BFA', tint: '#F3ECFF',
+    sub: '讀觸感描述，選出最符合的物品。',
+    hint: '找一找：是冷是熱？是軟是硬？是粗還是滑？',
+    type: 'object',
+    questions: [
+      {
+        prompt: '冰冰涼涼、硬硬的，放在手心裡一下子就化成水。',
+        options: [
+          { art: 'teddy', label: '毛絨熊' },
+          { art: 'ice', label: '冰塊' },
+          { art: 'sandpaper', label: '砂紙' },
+          { art: 'stone', label: '石頭' }
+        ],
+        answer: 1,
+        explain: '「冰冰涼涼」是皮膚感覺到的溫度，「化成水」是冰塊融化的變化，所以是冰塊。'
+      },
+      {
+        prompt: '輕輕一吹就飄起來，摸起來軟軟的、癢癢的。',
+        options: [
+          { art: 'feather', label: '羽毛' },
+          { art: 'stone', label: '石頭' },
+          { art: 'hotcup', label: '熱水杯' },
+          { art: 'sandpaper', label: '砂紙' }
+        ],
+        answer: 0,
+        explain: '「輕輕一吹就飄」「軟軟的、癢癢的」寫出又輕又軟的觸感，所以是羽毛。'
+      },
+      {
+        prompt: '表面粗粗的，摸過去會沙沙作響，還會刮手。',
+        options: [
+          { art: 'cotton', label: '棉花' },
+          { art: 'teddy', label: '毛絨熊' },
+          { art: 'sandpaper', label: '砂紙' },
+          { art: 'leaf', label: '葉子' }
+        ],
+        answer: 2,
+        explain: '「粗粗的」「刮手」是粗糙的觸感，砂紙表面有許多小顆粒，摸起來正是這樣。'
+      },
+      {
+        prompt: '捧在手裡熱呼呼的，杯壁燙得我趕緊換手。',
+        options: [
+          { art: 'ice', label: '冰塊' },
+          { art: 'stone', label: '石頭' },
+          { art: 'leaf', label: '葉子' },
+          { art: 'hotcup', label: '熱水杯' }
+        ],
+        answer: 3,
+        explain: '「熱呼呼」「燙得趕緊換手」是皮膚感覺到的溫度，所以是裝著熱水的杯子。'
+      },
+      {
+        prompt: '硬硬的，摸起來冰涼又光滑，撿起來沉甸甸的。',
+        options: [
+          { art: 'cotton', label: '棉花' },
+          { art: 'stone', label: '石頭' },
+          { art: 'feather', label: '羽毛' },
+          { art: 'leaf', label: '葉子' }
+        ],
+        answer: 1,
+        explain: '「硬」「冰涼」「光滑」「沉甸甸」都是石頭的觸感，重量也是皮膚和手感覺得到的。'
+      },
+      {
+        prompt: '白白的一大團，摸起來軟綿綿、輕飄飄，風一吹就散開。',
+        options: [
+          { art: 'cotton', label: '棉花' },
+          { art: 'teddy', label: '毛絨熊' },
+          { art: 'sandpaper', label: '砂紙' },
+          { art: 'stone', label: '石頭' }
+        ],
+        answer: 0,
+        explain: '「軟綿綿」「輕飄飄」「風一吹就散開」寫出又輕又軟的觸感；毛絨熊雖然軟，但不會被風吹散，所以最符合棉花。'
+      }
+    ]
+  },
+
+  challengeA: {
+    zone: 'challenge', title: '挑戰一 · 五感快閃', badge: '五感判斷', art: 'compass',
+    color: '#FFB443', tint: '#FFF1D6',
+    sub: '讀一句話，判斷它用了哪一種感官。',
+    hint: '先問自己：這句話是靠哪個身體部位感覺到的？',
+    type: 'sense',
+    questions: [
+      {
+        prompt: '風一吹，桂花淡淡的香味飄進教室。',
+        options: SENSE_ORDER.map(function (k) { return { label: SENSE_BY_KEY[k].name, art: SENSE_BY_KEY[k].art }; }),
+        answer: 2,
+        explain: '「香味」是鼻子聞到的；「飄」寫出氣味在空氣中慢慢散開，所以是嗅覺。'
+      },
+      {
+        prompt: '弟弟把積木推倒，嘩啦一聲，嚇了我一跳。',
+        options: SENSE_ORDER.map(function (k) { return { label: SENSE_BY_KEY[k].name, art: SENSE_BY_KEY[k].art }; }),
+        answer: 1,
+        explain: '「嘩啦」是積木倒下的聲音，耳朵聽到的，所以是聽覺。'
+      },
+      {
+        prompt: '妹妹的新裙子是粉紅色的，上面還有白色的小花。',
+        options: SENSE_ORDER.map(function (k) { return { label: SENSE_BY_KEY[k].name, art: SENSE_BY_KEY[k].art }; }),
+        answer: 0,
+        explain: '「粉紅色」「白色的小花」是眼睛看到的顏色和圖案，所以是視覺。'
+      },
+      {
+        prompt: '我一摸到熱騰騰的包子，趕緊把手縮回來。',
+        options: SENSE_ORDER.map(function (k) { return { label: SENSE_BY_KEY[k].name, art: SENSE_BY_KEY[k].art }; }),
+        answer: 4,
+        explain: '「摸到」「熱騰騰」是皮膚感覺到的溫度和觸感，所以是觸覺。'
+      },
+      {
+        prompt: '湯圓咬下去，芝麻餡甜得我笑瞇了眼。',
+        options: SENSE_ORDER.map(function (k) { return { label: SENSE_BY_KEY[k].name, art: SENSE_BY_KEY[k].art }; }),
+        answer: 3,
+        explain: '「甜」是舌頭嘗到的味道，所以是味覺；「笑瞇眼」是味覺帶來的反應。'
+      },
+      {
+        prompt: '遠處傳來咚咚的鼓聲，我的心也跟著怦怦跳。',
+        options: SENSE_ORDER.map(function (k) { return { label: SENSE_BY_KEY[k].name, art: SENSE_BY_KEY[k].art }; }),
+        answer: 1,
+        explain: '「咚咚」是鼓聲，耳朵聽到的，所以是聽覺；心跳是聽到聲音後的反應。'
+      }
+    ]
+  },
+
+  challengeB: {
+    zone: 'challenge', title: '挑戰二 · 找出不同類', badge: '找出不同類', art: 'layers',
+    color: '#A78BFA', tint: '#F3ECFF',
+    sub: '四句之中，找出感官和其他三句不同的一句。',
+    hint: '先一句一句標出感官，再找出不一樣的那一句。',
+    type: 'odd',
+    questions: [
+      {
+        prompt: '下面四句，哪一句不是視覺描寫？',
+        options: [
+          '太陽像一顆大火球，把操場曬得發白。',
+          '樹上的蟬「知了知了」叫個不停。',
+          '天空藍得像剛洗過的布。',
+          '雲朵白白的，像一大團棉花糖。'
+        ],
+        senses: ['sight', 'hearing', 'sight', 'sight'],
+        answer: 1,
+        explain: 'A、C、D 都在寫眼睛看到的顏色和形狀；只有 B 的「知了知了」是蟬的叫聲，屬於聽覺。'
+      },
+      {
+        prompt: '下面四句，哪一句不是嗅覺描寫？',
+        options: [
+          '媽媽煎魚的香味飄滿整個屋子。',
+          '剛出爐的蛋糕散發著甜甜的奶香。',
+          '花園裡的玫瑰香得讓人陶醉。',
+          '妹妹笑得眼睛彎成兩道月牙。'
+        ],
+        senses: ['smell', 'smell', 'smell', 'sight'],
+        answer: 3,
+        explain: 'A、B、C 都是鼻子聞到的香味；D 的「眼睛彎成月牙」是看到的表情，屬於視覺。'
+      },
+      {
+        prompt: '下面四句，哪一句不是味覺描寫？',
+        options: [
+          '冰塊冰得我直甩手。',
+          '檸檬酸得我直流口水。',
+          '辣椒辣得我猛灌水。',
+          '苦瓜苦得我皺起眉頭。'
+        ],
+        senses: ['touch', 'taste', 'taste', 'taste'],
+        answer: 0,
+        explain: 'B、C、D 都是舌頭嘗到的味道；A 的「冰得直甩手」是皮膚感覺到的溫度，屬於觸覺。'
+      },
+      {
+        prompt: '下面四句，哪一句不是觸覺描寫？',
+        options: [
+          '小貓的毛軟綿綿的，摸起來很舒服。',
+          '砂紙粗粗的，一摸就刮手。',
+          '小貓「喵喵」地叫著要吃飯。',
+          '石頭被太陽曬得熱呼呼的。'
+        ],
+        senses: ['touch', 'touch', 'hearing', 'touch'],
+        answer: 2,
+        explain: 'A、B、D 都在寫摸起來的感覺；C 的「喵喵」是耳朵聽到的聲音，屬於聽覺。'
+      },
+      {
+        prompt: '下面四句，哪一句不是聽覺描寫？',
+        options: [
+          '雨滴答滴答地打在傘上。',
+          '雨後的泥土散發著清香。',
+          '風呼呼地吹過山谷。',
+          '遠處傳來轟隆隆的雷聲。'
+        ],
+        senses: ['hearing', 'smell', 'hearing', 'hearing'],
+        answer: 1,
+        explain: 'A、C、D 都是耳朵聽到的聲音；B 的「清香」是鼻子聞到的氣味，屬於嗅覺。'
+      },
+      {
+        prompt: '下面四句，哪一句不是視覺描寫？',
+        options: [
+          '彩虹像一座七色橋掛在天邊。',
+          '星星一閃一閃，像在眨眼睛。',
+          '夜裡的花香一陣一陣飄來。',
+          '月光灑在地上，白白的一片。'
+        ],
+        senses: ['sight', 'sight', 'smell', 'sight'],
+        answer: 2,
+        explain: 'A、B、D 都是眼睛看到的景色；C 的「花香」是鼻子聞到的，屬於嗅覺。'
+      }
+    ]
+  }
+};
+
+const PRACTICE_KEYS = ['sight', 'hearing', 'smell', 'taste', 'touch'];
+const CHALLENGE_KEYS = ['challengeA', 'challengeB'];
+
+/* ---------- 4. 音效引擎（Web Audio 即時合成） ---------- */
+let actx = null;
+let soundOn = true;
+let noiseBuffer = null;
+
+function audio() {
+  if (!soundOn) return null;
+  try {
+    if (!actx) {
+      const C = window.AudioContext || window.webkitAudioContext;
+      if (!C) return null;
+      actx = new C();
+    }
+    if (actx.state === 'suspended') actx.resume();
+    return actx;
+  } catch (e) {
+    return null;
+  }
+}
+
+function tone(freq, dur, opt) {
+  const ac = audio();
+  if (!ac) return;
+  opt = opt || {};
+  const t0 = ac.currentTime + (opt.delay || 0);
+  const o = ac.createOscillator();
+  const g = ac.createGain();
+  o.type = opt.type || 'sine';
+  o.frequency.setValueAtTime(freq, t0);
+  if (opt.to) o.frequency.exponentialRampToValueAtTime(opt.to, t0 + dur);
+  const peak = opt.gain || 0.16;
+  g.gain.setValueAtTime(0.0001, t0);
+  g.gain.exponentialRampToValueAtTime(peak, t0 + 0.015);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  o.connect(g);
+  g.connect(ac.destination);
+  o.start(t0);
+  o.stop(t0 + dur + 0.03);
+}
+
+function noiseBurst(dur, filterFreq, type, gain, delay) {
+  const ac = audio();
+  if (!ac) return;
+  try {
+    if (!noiseBuffer) {
+      const len = Math.floor(ac.sampleRate * 2);
+      noiseBuffer = ac.createBuffer(1, len, ac.sampleRate);
+      const d = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    }
+    const t0 = ac.currentTime + (delay || 0);
+    const src = ac.createBufferSource();
+    src.buffer = noiseBuffer;
+    const f = ac.createBiquadFilter();
+    f.type = type || 'lowpass';
+    f.frequency.value = filterFreq;
+    const g = ac.createGain();
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(gain || 0.14, t0 + 0.12);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    src.connect(f);
+    f.connect(g);
+    g.connect(ac.destination);
+    src.start(t0);
+    src.stop(t0 + dur + 0.05);
+  } catch (e) { /* 音效不可用時靜默降級 */ }
+}
+
+function playSfx(name) {
+  if (!soundOn) return;
+  switch (name) {
+    case 'click':
+      tone(640, 0.07, { type: 'triangle', gain: 0.06 });
+      break;
+    case 'correct':
+      tone(659, 0.16, { gain: 0.14 });
+      tone(784, 0.18, { delay: 0.12, gain: 0.14 });
+      tone(1047, 0.34, { delay: 0.24, gain: 0.12 });
+      break;
+    case 'wrong':
+      tone(320, 0.2, { type: 'triangle', to: 200, gain: 0.12 });
+      tone(220, 0.28, { delay: 0.16, type: 'triangle', to: 150, gain: 0.1 });
+      break;
+    case 'win':
+      [523, 659, 784, 1047].forEach(function (f, i) {
+        tone(f, 0.3, { delay: i * 0.13, gain: 0.13 });
+      });
+      break;
+    case 'rain':
+      noiseBurst(2.2, 1500, 'bandpass', 0.1);
+      noiseBurst(1.1, 2600, 'highpass', 0.045, 0.1);
+      break;
+    case 'thunder':
+      noiseBurst(1.8, 130, 'lowpass', 0.3);
+      tone(62, 1.4, { type: 'sine', to: 38, gain: 0.14 });
+      break;
+    case 'bird':
+      tone(1900, 0.09, { to: 2600, gain: 0.1 });
+      tone(2100, 0.09, { delay: 0.14, to: 2800, gain: 0.1 });
+      tone(1800, 0.12, { delay: 0.3, to: 2400, gain: 0.09 });
+      break;
+    case 'bell':
+      tone(880, 0.9, { gain: 0.12 });
+      tone(1320, 0.7, { gain: 0.05 });
+      tone(660, 1.0, { delay: 0.5, gain: 0.1 });
+      tone(990, 0.8, { delay: 0.5, gain: 0.04 });
+      break;
+    case 'water':
+      noiseBurst(1.3, 900, 'bandpass', 0.09);
+      [0, 0.32, 0.64].forEach(function (d, i) {
+        tone(500 + i * 90, 0.12, { delay: d, to: 760, gain: 0.07 });
+      });
+      break;
+    case 'wind':
+      noiseBurst(2.0, 420, 'lowpass', 0.13);
+      noiseBurst(1.2, 700, 'lowpass', 0.06, 0.4);
+      break;
+  }
+}
+
+/* ---------- 5. 狀態 ---------- */
+const state = {
+  view: 'home',
+  mode: null,
+  qi: 0,
+  answered: false,
+  correct: 0,
+  records: []
+};
+const STORE_KEY = 'wugu-progress-v1';
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) {
+    return {};
+  }
+}
+function bestOf(key) {
+  const p = loadProgress();
+  return typeof p[key] === 'number' ? p[key] : null;
+}
+function saveBest(key, score) {
+  try {
+    const p = loadProgress();
+    if (typeof p[key] !== 'number' || score > p[key]) {
+      p[key] = score;
+      localStorage.setItem(STORE_KEY, JSON.stringify(p));
+    }
+  } catch (e) { /* 無法儲存時不影響遊戲 */ }
+}
+
+const $ = function (sel) { return document.querySelector(sel); };
+const VIEWS = ['home', 'learn', 'practice', 'challenge', 'quiz', 'result'];
+
+/* ---------- 6. 畫面：首頁 / 教學 / 選單 ---------- */
+function renderMascots() {
+  $('#mascots').innerHTML = SENSES.map(function (s) {
+    return '<div class="mascot"><div class="mascot-bubble" style="background:' + s.tint + '">' +
+      glyphSVG(s.art) + '</div><span>' + s.name + '</span></div>';
+  }).join('');
+}
+
+function renderLearn() {
+  $('#learnGrid').innerHTML = SENSES.map(function (s) {
+    return '<article class="sense-card" style="--c:' + s.color + ';--tint:' + s.tint + '">' +
+      '<div class="sense-head">' +
+        '<span class="sense-ico">' + glyphSVG(s.art) + '</span>' +
+        '<div><h3>' + s.name + '描寫</h3><span class="organ">用' + s.organ + '</span></div>' +
+      '</div>' +
+      '<p class="sense-def">' + s.def + '</p>' +
+      '<div class="tag-row">' + s.writes.map(function (t) { return '<span class="tag">' + t + '</span>'; }).join('') + '</div>' +
+      s.examples.map(function (ex) {
+        return '<div class="example"><span class="ex-tag">例句</span>' + ex + '</div>';
+      }).join('') +
+      '<div class="sense-tip">' + TIP_ICON + '<span>' + s.tip + '</span></div>' +
+    '</article>';
+  }).join('');
+}
+
+function modeCard(key) {
+  const m = MODES[key];
+  const best = bestOf(key);
+  const bestText = best === null ? '尚未挑戰' : '最佳 ' + best + ' / 6';
+  return '<button class="mode-card" data-mode="' + key + '" style="--tint:' + m.tint + ';--c:' + m.color + '">' +
+    '<span class="mode-top">' +
+      '<span class="mode-ico" style="background:' + m.tint + '">' + glyphSVG(m.art) + '</span>' +
+      '<span class="mode-name"><strong>' + m.title + '</strong><small>6 道題目</small></span>' +
+    '</span>' +
+    '<span class="mode-desc">' + m.sub + '</span>' +
+    '<span class="mode-foot"><span class="best-pill">' + bestText + '</span>' +
+    '<span class="go-pill">開始<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 L16 12 L9 19" fill="none" stroke="#4A3B32" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>' +
+  '</button>';
+}
+
+function renderMenus() {
+  $('#practiceGrid').innerHTML = PRACTICE_KEYS.map(modeCard).join('');
+  $('#challengeGrid').innerHTML = CHALLENGE_KEYS.map(modeCard).join('');
+}
+
+/* ---------- 7. 視圖切換 ---------- */
+function showView(name) {
+  VIEWS.forEach(function (v) {
+    const el = document.getElementById('view-' + v);
+    if (el) el.hidden = v !== name;
+  });
+  state.view = name;
+  document.querySelectorAll('.tab').forEach(function (t) {
+    var active = t.getAttribute('data-nav') === name;
+    t.classList.toggle('is-active', active);
+    if (active) t.setAttribute('aria-current', 'page'); else t.removeAttribute('aria-current');
+  });
+  if (name === 'practice' || name === 'challenge') renderMenus();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ---------- 8. 答題流程 ---------- */
+function currentMode() { return MODES[state.mode]; }
+function currentQ() { return currentMode().questions[state.qi]; }
+
+function labelOf(o) {
+  return typeof o === 'string' ? o : o.label;
+}
+
+function optionHTML(mode, q, o, i) {
+  const label = labelOf(o);
+  if (mode.type === 'image' || mode.type === 'object') {
+    return '<button class="opt opt-art" data-i="' + i + '" type="button">' +
+      picSVG(o.art) + '<span class="opt-label">' + label + '</span></button>';
+  }
+  if (mode.type === 'taste') {
+    return '<button class="opt opt-taste" data-i="' + i + '" type="button">' +
+      glyphSVG(o.art) + '<span>' + label + '</span></button>';
+  }
+  if (mode.type === 'sense') {
+    return '<button class="opt opt-sense" data-i="' + i + '" type="button">' +
+      glyphSVG(o.art) + '<span>' + label + '</span></button>';
+  }
+  if (mode.type === 'odd') {
+    return '<button class="opt opt-odd" data-i="' + i + '" type="button">' +
+      '<span class="opt-letter">' + 'ABCD'.charAt(i) + '</span>' +
+      '<span class="sentence">' + label + '</span></button>';
+  }
+  return '<button class="opt opt-text" data-i="' + i + '" type="button">' +
+    '<span class="opt-letter">' + 'ABCD'.charAt(i) + '</span>' +
+    '<span>' + label + '</span></button>';
+}
+
+function gridClass(type) {
+  if (type === 'image' || type === 'object') return 'options art-grid';
+  if (type === 'taste' || type === 'sense') return 'options pick-grid';
+  if (type === 'odd') return 'options odd-grid';
+  return 'options text-grid';
+}
+
+function renderQuestion() {
+  const mode = currentMode();
+  const q = currentQ();
+  const total = mode.questions.length;
+
+  $('#quizTitle').textContent = mode.title;
+  $('#quizCount').textContent = '第 ' + (state.qi + 1) + ' / ' + total + ' 題';
+  $('#qBadge').textContent = mode.badge;
+  $('#qBadge').style.background = mode.tint;
+  $('#qPrompt').textContent = q.prompt;
+  $('#quizHint').textContent = mode.hint;
+  $('#feedback').hidden = true;
+  $('#options').className = gridClass(mode.type);
+  $('#qExtra').innerHTML = '';
+
+  if (q.art) {
+    $('#qExtra').innerHTML = artSVG(q.art);
+  }
+  if (q.sound) {
+    $('#qExtra').innerHTML = '<button class="play-sound" id="btnPlaySound" type="button" aria-label="' + q.soundLabel + '">' +
+      '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 18 H16 L26 8 V40 L16 30 H8 Z" fill="#FFC93C" stroke="#4A3B32" stroke-width="3" stroke-linejoin="round"/><path d="M32 17 Q37 24 32 31" fill="none" stroke="#4A3B32" stroke-width="3" stroke-linecap="round"/><path d="M37 12 Q45 24 37 36" fill="none" stroke="#4A3B32" stroke-width="3" stroke-linecap="round"/></svg>' +
+      '<span>' + q.soundLabel + '</span>' +
+      '<span class="wave" aria-hidden="true"><i></i><i></i><i></i></span>' +
+    '</button>';
+  }
+
+  const opts = $('#options');
+  opts.innerHTML = q.options.map(function (o, i) { return optionHTML(mode, q, o, i); }).join('');
+  opts.querySelectorAll('.opt').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      choose(parseInt(btn.getAttribute('data-i'), 10));
+    });
+  });
+
+  const playBtn = document.getElementById('btnPlaySound');
+  if (playBtn) {
+    playBtn.addEventListener('click', function () {
+      playSfx(q.sound);
+      playBtn.classList.add('is-playing');
+      setTimeout(function () { playBtn.classList.remove('is-playing'); }, 2300);
+    });
+  }
+
+  const done = state.answered;
+  $('#feedback').hidden = !done;
+  updateProgress(false);
+  $('#qPrompt').focus({ preventScroll: true });
+}
+
+function updateProgress(completed) {
+  const total = currentMode().questions.length;
+  const value = completed ? state.qi + 1 : state.qi;
+  $('#progressBar').style.width = (value / total * 100) + '%';
+  $('.progress').setAttribute('aria-valuenow', String(value));
+}
+
+function choose(idx) {
+  if (state.answered) return;
+  const mode = currentMode();
+  const q = currentQ();
+  const ok = idx === q.answer;
+  state.answered = true;
+  if (ok) state.correct++;
+  state.records.push({
+    prompt: q.sound ? q.soundLabel + '，選出最適合的描寫句。' : q.prompt,
+    chosen: labelOf(q.options[idx]),
+    chosenLetter: 'ABCD'.charAt(idx),
+    answerLabel: labelOf(q.options[q.answer]),
+    answerLetter: 'ABCD'.charAt(q.answer),
+    letterMode: mode.type === 'odd' || mode.type === 'hearing' || mode.type === 'word',
+    explain: q.explain,
+    ok: ok
+  });
+
+  const btns = Array.prototype.slice.call($('#options').querySelectorAll('.opt'));
+  btns.forEach(function (b, i) {
+    b.disabled = true;
+    if (i === q.answer) b.classList.add('is-correct');
+    if (i === idx && !ok) b.classList.add('is-wrong');
+    if (i !== q.answer && i !== idx) b.classList.add('dim');
+  });
+
+  if (mode.type === 'odd' && q.senses) {
+    btns.forEach(function (b, i) {
+      const sentence = b.querySelector('.sentence');
+      if (sentence) {
+        const tag = document.createElement('span');
+        tag.className = 'sense-tag';
+        tag.textContent = '感官：' + SENSE_BY_KEY[q.senses[i]].name;
+        sentence.appendChild(tag);
+      }
+    });
+  }
+
+  const fb = $('#feedback');
+  fb.hidden = false;
+  fb.classList.toggle('is-wrong', !ok);
+  $('#fbIcon').innerHTML = ok ? OK_ICON : NO_ICON;
+  $('#fbTitle').textContent = ok ? '答對了！' : '再想一想…';
+
+  let answerText;
+  if (mode.type === 'odd') {
+    answerText = '正確答案：' + 'ABCD'.charAt(q.answer) + '　' + labelOf(q.options[q.answer]);
+  } else if (mode.type === 'taste' || mode.type === 'sense') {
+    answerText = '正確答案：' + labelOf(q.options[q.answer]);
+  } else if (mode.type === 'hearing') {
+    answerText = '正確答案：' + 'ABCD'.charAt(q.answer) + '　' + labelOf(q.options[q.answer]);
+  } else {
+    answerText = '正確答案：' + labelOf(q.options[q.answer]);
+  }
+  $('#fbAnswer').textContent = answerText;
+  $('#fbExplain').textContent = q.explain;
+  $('#btnNext').textContent = state.qi === mode.questions.length - 1 ? '看成績' : '下一題';
+
+  updateProgress(true);
+  playSfx(ok ? 'correct' : 'wrong');
+  fb.focus({ preventScroll: true });
+}
+
+function nextQuestion() {
+  const mode = currentMode();
+  if (!state.answered) return;
+  if (state.qi < mode.questions.length - 1) {
+    state.qi++;
+    state.answered = false;
+    renderQuestion();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    finish();
+  }
+}
+
+function finish() {
+  const mode = currentMode();
+  const total = mode.questions.length;
+  const correct = state.correct;
+  const stars = correct === total ? 3 : correct >= total - 2 ? 2 : 1;
+
+  saveBest(state.mode, correct);
+
+  $('#stars').innerHTML = [0, 1, 2].map(function (i) {
+    return i < stars ? STAR_FULL : STAR_EMPTY;
+  }).join('');
+
+  let title, comment;
+  if (correct === total) {
+    title = '五感大師！';
+    comment = '全部答對，太厲害了！你已經能準確分辨每一種感官描寫。';
+  } else if (correct >= total - 2) {
+    title = '很棒的偵探！';
+    comment = '大部分題目都答對了。看看下面的解說，把錯的那幾題變成你的新本領。';
+  } else if (correct >= 3) {
+    title = '再練一下就更好！';
+    comment = '你已經抓到一些線索了。先回到五感圖鑑複習，再回來挑戰一次。';
+  } else {
+    title = '別灰心，慢慢來！';
+    comment = '五感描寫需要多練習。先看圖鑑裡的例句，注意作者用了哪些感官詞。';
+  }
+
+  $('#resultTitle').textContent = title;
+  $('#resultScore').innerHTML = '答對 <b>' + correct + '</b> / ' + total + ' 題';
+  $('#resultComment').textContent = comment;
+
+  const wrong = state.records.filter(function (r) { return !r.ok; });
+  const review = $('#review');
+  if (wrong.length === 0) {
+    review.innerHTML = '<div class="result-perfect">全部答對，沒有錯題。給自己一個大大的掌聲！</div>';
+  } else {
+    review.innerHTML = '<h3>錯題回顧</h3>' + wrong.map(function (r) {
+      return '<div class="review-item">' +
+        '<div class="rv-q">' + r.prompt + '</div>' +
+        '<div>你的答案：' + (r.letterMode ? r.chosenLetter + '　' : '') + r.chosen + '</div>' +
+        '<div class="rv-a">正確答案：' + (r.letterMode ? r.answerLetter + '　' : '') + r.answerLabel + '</div>' +
+        '<div class="rv-e">' + r.explain + '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  showView('result');
+  $('#resultTitle').focus({ preventScroll: true });
+  playSfx(correct === total ? 'win' : 'correct');
+}
+
+function startMode(key) {
+  if (!MODES[key]) return;
+  state.mode = key;
+  state.qi = 0;
+  state.answered = false;
+  state.correct = 0;
+  state.records = [];
+  showView('quiz');
+  renderQuestion();
+}
+
+/* ---------- 9. 事件 ---------- */
+function bindEvents() {
+  document.querySelectorAll('[data-nav]').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      const target = tab.getAttribute('data-nav');
+      showView(target);
+    });
+  });
+
+  document.querySelectorAll('[data-go]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      showView(btn.getAttribute('data-go'));
+    });
+  });
+
+  $('#btnHome').addEventListener('click', function () { showView('home'); });
+
+  $('#btnSound').addEventListener('click', function () {
+    soundOn = !soundOn;
+    const btn = $('#btnSound');
+    btn.classList.toggle('is-off', !soundOn);
+    btn.setAttribute('aria-pressed', String(soundOn));
+    btn.setAttribute('aria-label', soundOn ? '音效已開啟，點擊關閉' : '音效已關閉，點擊開啟');
+    btn.querySelector('.ico-on').hidden = !soundOn;
+    btn.querySelector('.ico-off').hidden = soundOn;
+    $('#soundLabel').textContent = soundOn ? '音效開' : '音效關';
+    if (soundOn) playSfx('click');
+  });
+
+  $('#practiceGrid').addEventListener('click', function (e) {
+    const card = e.target.closest('[data-mode]');
+    if (card) startMode(card.getAttribute('data-mode'));
+  });
+  $('#challengeGrid').addEventListener('click', function (e) {
+    const card = e.target.closest('[data-mode]');
+    if (card) startMode(card.getAttribute('data-mode'));
+  });
+
+  $('#btnNext').addEventListener('click', nextQuestion);
+
+  $('#btnQuit').addEventListener('click', function () {
+    const zone = state.mode && MODES[state.mode].zone === 'challenge' ? 'challenge' : 'practice';
+    showView(zone);
+  });
+
+  $('#btnAgain').addEventListener('click', function () {
+    if (state.mode) startMode(state.mode);
+  });
+  $('#btnBackModes').addEventListener('click', function () {
+    const zone = state.mode && MODES[state.mode].zone === 'challenge' ? 'challenge' : 'practice';
+    showView(zone);
+  });
+
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('.opt') || e.target.closest('#btnSound') || e.target.closest('.play-sound')) return;
+    if (e.target.closest('button')) playSfx('click');
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (state.view !== 'quiz') return;
+    if (e.key === 'Enter' && state.answered) {
+      e.preventDefault();
+      nextQuestion();
+    }
+  });
+}
+
+/* ---------- 10. 啟動 ---------- */
+function init() {
+  renderMascots();
+  renderLearn();
+  renderMenus();
+  bindEvents();
+  showView('home');
+}
+
+init();
+
+</script>
+</body>
+</html>

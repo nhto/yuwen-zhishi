@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#dff2ff">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23ffd166'/%3E%3Cpath d='M18 46l4-13 19-19 9 9-19 19z' fill='%23fff' stroke='%2343362f' stroke-width='4' stroke-linejoin='round'/%3E%3Cpath d='M38 17l9 9' stroke='%2343362f' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+<meta name="format-detection" content="telephone=no">
+<title>承接複句探險隊｜小學語文互動課件</title>
+<meta name="description" content="小學承接複句互動課件：七組承接詞語圖示教學，兩種遊戲模式各七題，即時揭曉答案與解析，支援手機、平板及電腦。">
+<style>
+  :root{
+    --ink:#43362f;
+    --ink-soft:#6f5c52;
+    --paper:#fffdf6;
+    --sky:#e2f4ff;
+    --sky-deep:#bfe6ff;
+    --sun:#ffd166;
+    --coral:#ff9b8a;
+    --mint:#7fd8cb;
+    --grape:#b9a5f7;
+    --blue:#8cc9f7;
+    --pink:#ffc3d8;
+    --green:#5fc487;
+    --red:#ef7a6c;
+    --line:3px solid var(--ink);
+    --shadow:0 .28rem 0 rgba(67,54,47,.16);
+    --radius:1.5rem;
+  }
+  *{box-sizing:border-box;}
+  html{
+    font-size:clamp(16px, calc(.7vw + 12.7px), 22px);
+    -webkit-text-size-adjust:100%;
+  }
+  body{
+    margin:0;
+    min-height:100vh;min-height:100svh;
+    color:var(--ink);
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei","Heiti TC","Source Han Sans TC",system-ui,-apple-system,"Segoe UI",sans-serif;
+    line-height:1.6;
+    letter-spacing:.01em;
+    overflow-x:hidden;
+    background:
+      radial-gradient(circle at 10% 6%, rgba(255,255,255,.95) 0 5.5rem, transparent 5.6rem),
+      radial-gradient(circle at 92% 12%, rgba(255,255,255,.75) 0 4rem, transparent 4.1rem),
+      radial-gradient(circle at 80% 82%, rgba(255,255,255,.5) 0 5rem, transparent 5.1rem),
+      linear-gradient(180deg, var(--sky) 0%, #edf8ff 42%, #fff4e0 100%);
+  }
+  button{-webkit-appearance:none;appearance:none;font:inherit;color:inherit;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+  svg{max-width:100%;}
+  .shell{
+    width:100%;
+    max-width:1180px;
+    margin:0 auto;
+    padding:clamp(.85rem,2.2vw,1.8rem) clamp(.8rem,2.6vw,2rem) 3.5rem;
+  }
+
+  /* ============ 頂欄 ============ */
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;
+    flex-wrap:wrap;gap:.7rem;margin-bottom:1rem;
+  }
+  .brand{display:flex;align-items:center;gap:.7rem;min-width:0;}
+  .brand-mark{
+    width:3.2rem;height:3.2rem;flex:none;display:grid;place-items:center;
+    background:var(--sun);border:var(--line);border-radius:1.1rem;
+    box-shadow:var(--shadow);transform:rotate(-4deg);
+  }
+  .brand-mark svg{width:78%;height:78%;display:block;}
+  .brand-text h1{
+    font-size:clamp(1.08rem,2.1vw,1.5rem);
+    margin:0;line-height:1.2;letter-spacing:.02em;
+  }
+  .brand-text p{
+    margin:.12rem 0 0;font-size:.76rem;color:var(--ink-soft);line-height:1.3;
+  }
+  .sound-btn{
+    display:inline-flex;align-items:center;gap:.4rem;
+    min-height:2.9rem;padding:.4rem .8rem;
+    background:var(--paper);border:var(--line);border-radius:999px;
+    box-shadow:var(--shadow);cursor:pointer;
+    font-size:.88rem;font-weight:800;
+    transition:transform .12s ease,box-shadow .12s ease;
+  }
+  .sound-btn:hover{transform:translateY(-1px);}
+  .sound-btn:active{transform:translateY(2px);box-shadow:0 .1rem 0 rgba(67,54,47,.16);}
+  .sound-btn svg{width:1.35rem;height:1.35rem;display:block;flex:none;}
+  .sound-btn .wave{transition:opacity .2s;}
+  .sound-btn[aria-pressed="false"] .wave{opacity:0;}
+  .sound-btn .slash{opacity:0;transition:opacity .2s;}
+  .sound-btn[aria-pressed="false"] .slash{opacity:1;}
+  .sound-btn:disabled{opacity:.5;cursor:not-allowed;}
+
+  /* ============ 導覽 ============ */
+  .nav{
+    display:flex;gap:.4rem;padding:.4rem;margin-bottom:1.35rem;
+    background:rgba(255,253,246,.9);
+    border:var(--line);border-radius:1.2rem;
+    box-shadow:var(--shadow);
+  }
+  .nav button{
+    flex:1 1 0;min-width:0;min-height:3.15rem;
+    display:flex;align-items:center;justify-content:center;gap:.4rem;
+    border:0;border-radius:.9rem;background:transparent;
+    font-size:clamp(.92rem,1.5vw,1.06rem);font-weight:800;
+    padding:.35rem .3rem;cursor:pointer;
+    transition:background .18s ease,transform .12s ease;
+  }
+  .nav button svg{width:1.25rem;height:1.25rem;flex:none;}
+  .nav button:hover{background:rgba(255,209,102,.28);}
+  .nav button[aria-current="page"]{
+    background:var(--sun);box-shadow:inset 0 0 0 2.5px var(--ink);
+  }
+  .nav button:active{transform:scale(.985);}
+
+  /* ============ 通用 ============ */
+  .card{
+    background:var(--paper);
+    border:var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+  }
+  .view[hidden]{display:none;}
+  .view{animation:viewIn .28s ease both;}
+  @keyframes viewIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:.4rem;
+    margin:0 0 .6rem;padding:.2rem .8rem;
+    background:rgba(255,255,255,.82);
+    border:2px solid var(--ink);border-radius:999px;
+    font-size:.8rem;font-weight:800;letter-spacing:.12em;
+  }
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:.45rem;
+    min-height:3.15rem;padding:.68rem 1.2rem;
+    background:var(--paper);border:var(--line);border-radius:1rem;
+    box-shadow:var(--shadow);cursor:pointer;
+    font-size:clamp(.98rem,1.5vw,1.08rem);font-weight:800;line-height:1.25;
+    text-align:center;
+    transition:transform .12s ease,box-shadow .12s ease,filter .12s ease;
+  }
+  .btn:hover{transform:translateY(-1px);filter:brightness(1.02);}
+  .btn:active{transform:translateY(2px);box-shadow:0 .1rem 0 rgba(67,54,47,.18);}
+  .btn.primary{background:var(--sun);}
+  .btn.mint{background:var(--mint);}
+  .btn.ghost{background:#fff;}
+  .btn:disabled,.btn[aria-disabled="true"]{
+    opacity:.42;cursor:not-allowed;transform:none;box-shadow:var(--shadow);
+  }
+  :focus-visible{outline:4px solid #2f7fd1;outline-offset:3px;}
+  .tag{
+    display:inline-flex;align-items:center;
+    padding:.12rem .55rem;border:2px solid var(--ink);border-radius:999px;
+    background:#fff;font-size:.78rem;font-weight:800;line-height:1.45;
+  }
+
+  /* ============ 首頁 ============ */
+  .hero{
+    display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+    gap:clamp(1rem,3vw,2rem);align-items:center;
+    padding:clamp(1.1rem,3vw,2.2rem);
+    position:relative;overflow:hidden;
+  }
+  .hero::after{
+    content:"";position:absolute;right:-3rem;top:-3rem;
+    width:11rem;height:11rem;pointer-events:none;
+    background:radial-gradient(circle,rgba(255,209,102,.42),transparent 70%);
+  }
+  .hero-copy{min-width:0;}
+  .hero h2{
+    font-size:clamp(1.85rem,4.2vw,3.1rem);
+    line-height:1.18;margin:.1rem 0 .55rem;letter-spacing:.01em;
+  }
+  .hero h2 .hl{
+    background:linear-gradient(transparent 62%,rgba(255,209,102,.85) 62% 92%,transparent 92%);
+    padding:0 .06em;
+  }
+  .hero p.lead{
+    margin:.2rem 0 1rem;max-width:32em;
+    color:var(--ink-soft);font-size:clamp(.98rem,1.7vw,1.14rem);
+  }
+  .hero-actions{display:flex;flex-wrap:wrap;gap:.6rem;}
+  .hero-art{display:flex;justify-content:center;align-items:center;}
+  .hero-art svg{
+    width:min(100%,20rem);height:auto;display:block;
+    filter:drop-shadow(0 .35rem 0 rgba(67,54,47,.12));
+  }
+  .chips-row{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1rem;}
+  .chip-static{
+    padding:.22rem .75rem;background:#fff;
+    border:2px solid var(--ink);border-radius:999px;
+    font-size:.83rem;font-weight:800;
+  }
+
+  /* ============ 教學 ============ */
+  .section-head{margin:0 0 1rem;}
+  .section-head h2{
+    font-size:clamp(1.45rem,2.8vw,2rem);
+    margin:.1rem 0 .3rem;line-height:1.25;
+  }
+  .section-head p{margin:0;color:var(--ink-soft);font-size:clamp(.95rem,1.6vw,1.04rem);}
+  .intro{
+    display:flex;flex-wrap:wrap;align-items:center;gap:.9rem;
+    padding:1rem 1.1rem;margin-bottom:1.2rem;
+  }
+  .intro-icon{
+    width:4rem;height:4rem;flex:none;display:grid;place-items:center;
+    background:var(--sky);border:var(--line);border-radius:1.1rem;
+  }
+  .intro-icon svg{width:76%;height:76%;}
+  .intro-copy{flex:1 1 16rem;min-width:0;}
+  .intro-copy h2{margin:0;font-size:clamp(1.18rem,2.2vw,1.4rem);line-height:1.3;}
+  .intro-copy p{margin:.25rem 0 0;color:var(--ink-soft);font-size:clamp(.95rem,1.6vw,1.02rem);}
+  .intro-flow{
+    display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;
+    font-size:.82rem;font-weight:800;
+  }
+  .intro-flow span{
+    padding:.18rem .55rem;background:#fff;
+    border:2px solid var(--ink);border-radius:.7rem;
+  }
+  .intro-flow i{font-style:normal;color:var(--ink-soft);}
+  .learn-grid{display:grid;grid-template-columns:1fr;gap:1rem;}
+  .learn-grid>*,.mode-grid>*{min-width:0;}
+  .learn-card{
+    position:relative;overflow:hidden;
+    padding:1.05rem 1.05rem 1.1rem 1.3rem;
+    background:var(--paper);
+    border:var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);
+  }
+  .learn-card .stripe{
+    position:absolute;left:0;top:0;bottom:0;
+    width:.55rem;background:var(--accent,var(--sun));
+  }
+  .learn-head{display:flex;flex-direction:column;gap:.15rem;}
+  .learn-tag{
+    font-size:.76rem;font-weight:800;letter-spacing:.12em;color:var(--ink-soft);
+  }
+  .learn-words{
+    margin:0;font-size:clamp(1.4rem,2.4vw,1.72rem);
+    font-weight:900;line-height:1.3;overflow-wrap:anywhere;
+  }
+  .learn-words.long{font-size:clamp(1.05rem,1.9vw,1.35rem);letter-spacing:0;}
+  .flow{
+    display:flex;align-items:flex-start;justify-content:center;flex-wrap:wrap;gap:.35rem;
+    margin:.7rem 0 .8rem;padding:.6rem .5rem;
+    background:rgba(255,255,255,.72);
+    border:2px dashed rgba(67,54,47,.28);border-radius:1rem;
+  }
+  .flow-step{
+    display:flex;flex-direction:column;align-items:center;gap:.15rem;
+    flex:0 0 auto;min-width:3.2rem;
+  }
+  .flow-icon{
+    position:relative;width:3.35rem;height:3.35rem;
+    display:grid;place-items:center;
+    background:#fff;border:2.5px solid var(--ink);border-radius:1rem;
+    box-shadow:0 .15rem 0 rgba(67,54,47,.12);
+  }
+  .flow-icon svg{width:80%;height:80%;display:block;}
+  .flow-num{
+    position:absolute;top:-.45rem;left:-.45rem;
+    width:1.25rem;height:1.25rem;display:grid;place-items:center;
+    background:var(--accent,var(--sun));border:2px solid var(--ink);border-radius:50%;
+    font-size:.68rem;font-weight:900;line-height:1;
+  }
+  .flow-label{
+    font-size:.8rem;font-weight:800;color:var(--ink-soft);white-space:nowrap;
+  }
+  .flow-arrow{
+    align-self:flex-start;padding-top:.85rem;
+    font-size:1.1rem;font-weight:900;color:var(--ink-soft);
+  }
+  .learn-use{
+    margin:.1rem 0 .55rem;
+    font-size:clamp(.98rem,1.6vw,1.06rem);
+  }
+  .examples{
+    list-style:none;margin:0;padding:.55rem .65rem;
+    background:rgba(255,255,255,.68);
+    border:2px solid rgba(67,54,47,.14);border-radius:.9rem;
+  }
+  .examples li{
+    display:flex;gap:.45rem;align-items:flex-start;
+    margin:.15rem 0;font-size:clamp(.96rem,1.6vw,1.03rem);
+  }
+  .examples li::before{
+    content:"例";flex:none;
+    width:1.25rem;height:1.25rem;display:grid;place-items:center;
+    margin-top:.15rem;background:var(--accent,var(--sun));
+    border:2px solid var(--ink);border-radius:50%;
+    font-size:.62rem;font-weight:900;line-height:1;
+  }
+  .learn-tip{
+    display:flex;gap:.4rem;align-items:flex-start;
+    margin:.6rem 0 0;font-size:.88rem;font-weight:700;color:var(--ink-soft);
+  }
+  .learn-tip svg{width:1.15rem;height:1.15rem;flex:none;margin-top:.12rem;}
+  .learn-cta{display:flex;justify-content:center;margin-top:1.3rem;}
+
+  /* ============ 模式選擇 ============ */
+  .mode-grid{display:grid;grid-template-columns:1fr;gap:1rem;}
+  .mode-card{
+    display:flex;flex-direction:column;gap:.65rem;
+    padding:1.1rem 1.1rem 1.15rem;
+    background:var(--paper);border:var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);text-align:left;cursor:pointer;
+    transition:transform .16s ease,box-shadow .16s ease;
+  }
+  .mode-card:hover{transform:translateY(-3px);box-shadow:0 .5rem 0 rgba(67,54,47,.15);}
+  .mode-card:active{transform:translateY(2px);box-shadow:0 .12rem 0 rgba(67,54,47,.15);}
+  .mode-art{
+    width:100%;height:8.8rem;display:grid;place-items:center;overflow:hidden;
+    background:rgba(255,255,255,.72);
+    border:2.5px dashed rgba(67,54,47,.28);border-radius:1.1rem;
+  }
+  .mode-art svg{width:100%;height:100%;display:block;}
+  .mode-title{display:block;margin:0;font-size:clamp(1.2rem,2.1vw,1.42rem);font-weight:900;line-height:1.3;}
+  .mode-desc{display:block;margin:0;color:var(--ink-soft);font-size:clamp(.94rem,1.6vw,1rem);line-height:1.55;}
+  .mode-meta{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin-top:auto;}
+  .tag.best{background:var(--sun);}
+  .note{
+    display:flex;gap:.55rem;align-items:flex-start;
+    margin-top:1.1rem;padding:.7rem .85rem;
+    background:rgba(255,255,255,.72);
+    border:2px dashed rgba(67,54,47,.24);border-radius:1rem;
+    font-size:.9rem;color:var(--ink-soft);
+  }
+  .note svg{width:1.2rem;height:1.2rem;flex:none;margin-top:.1rem;}
+
+  /* ============ 答題 ============ */
+  .play-wrap{width:100%;max-width:52rem;margin:0 auto;}
+  .play-top{
+    display:flex;align-items:center;justify-content:space-between;
+    flex-wrap:wrap;gap:.5rem;margin-bottom:.7rem;
+  }
+  .back-btn{
+    display:inline-flex;align-items:center;gap:.3rem;
+    min-height:2.9rem;padding:.35rem .75rem;
+    background:#fff;border:2.5px solid var(--ink);border-radius:.9rem;
+    font-size:.9rem;font-weight:800;cursor:pointer;
+  }
+  .play-title{
+    flex:1 1 7rem;min-width:0;text-align:center;
+    font-size:clamp(.96rem,1.7vw,1.1rem);font-weight:900;
+  }
+  .score-pill{
+    padding:.25rem .75rem;background:#fff;
+    border:2.5px solid var(--ink);border-radius:999px;
+    font-size:.88rem;font-weight:900;white-space:nowrap;
+  }
+  .progress{display:flex;align-items:center;flex-wrap:wrap;gap:.38rem;margin-bottom:.7rem;}
+  .dot{
+    width:1rem;height:1rem;border-radius:50%;
+    background:#fff;border:2.5px solid var(--ink);
+    transition:background .2s ease,transform .2s ease;
+  }
+  .dot.now{background:var(--sun);transform:scale(1.15);}
+  .dot.ok{background:var(--green);}
+  .dot.bad{background:var(--red);}
+  .progress-text{margin-left:.25rem;font-size:.82rem;font-weight:800;color:var(--ink-soft);}
+  .question-card{padding:clamp(1rem,2.4vw,1.55rem);}
+  .question-card:focus{outline:none;}
+  .q-instruction{
+    display:flex;gap:.55rem;align-items:flex-start;
+    margin:0 0 .8rem;font-size:clamp(1rem,1.7vw,1.08rem);font-weight:800;line-height:1.5;
+  }
+  .q-instruction .badge{
+    flex:none;width:2rem;height:2rem;display:grid;place-items:center;
+    background:var(--sun);border:2.5px solid var(--ink);border-radius:50%;
+    font-size:1rem;font-weight:900;line-height:1;
+  }
+  .q-instruction span:last-child{min-width:0;}
+
+  /* 排序模式 */
+  .slots{
+    display:flex;flex-wrap:wrap;align-items:center;gap:.45rem;
+    min-height:5.4rem;padding:.7rem;margin-bottom:.65rem;
+    background:rgba(255,255,255,.72);
+    border:3px dashed rgba(67,54,47,.35);border-radius:1.1rem;
+  }
+  .slot-hint{margin:0;padding:.2rem;color:var(--ink-soft);font-size:.94rem;font-weight:700;}
+  .slot-item{position:relative;display:inline-flex;padding-top:.6rem;}
+  .slot-no{
+    position:absolute;top:0;left:50%;transform:translateX(-50%);
+    font-size:.62rem;font-weight:900;color:var(--ink-soft);line-height:1;
+  }
+  .token{
+    overflow-wrap:anywhere;
+    min-height:3.1rem;padding:.45em .85em;
+    background:#fff;border:var(--line);border-radius:.9rem;
+    box-shadow:0 .18rem 0 rgba(67,54,47,.16);
+    font-size:clamp(1.15rem,2.2vw,1.4rem);font-weight:800;line-height:1.2;
+    cursor:pointer;color:var(--ink);
+    transition:transform .1s ease,box-shadow .1s ease,background .15s ease;
+  }
+  .token:hover{background:#fff8e3;transform:translateY(-1px);}
+  .token:active{transform:translateY(2px);box-shadow:none;}
+  .token.in-slot{background:var(--sun);}
+  .token.ok{background:#dcf7e5;border-color:#2f8f57;}
+  .token.bad{background:#ffe3de;border-color:#c9483a;}
+  .token.ok::after{content:"✓";margin-left:.32em;font-size:.82em;}
+  .token.bad::after{content:"✗";margin-left:.32em;font-size:.82em;}
+  .token:disabled{cursor:default;transform:none;}
+  .pool-label{
+    margin:0 0 .3rem;font-size:.78rem;font-weight:800;
+    letter-spacing:.1em;color:var(--ink-soft);
+  }
+  .pool{display:flex;flex-wrap:wrap;gap:.5rem;min-height:2rem;margin-bottom:.85rem;}
+  .play-actions{display:flex;flex-wrap:wrap;gap:.55rem;justify-content:flex-end;}
+  .play-actions .btn{flex:1 1 9rem;max-width:15rem;}
+
+  /* 選擇模式 */
+  .sentence-box{
+    overflow-wrap:anywhere;
+    margin-bottom:.85rem;padding:.85rem 1rem;
+    background:rgba(255,255,255,.8);
+    border:2.5px solid rgba(67,54,47,.2);border-radius:1rem;
+    font-size:clamp(1.24rem,2.6vw,1.58rem);font-weight:700;line-height:2.05;
+  }
+  .blank{
+    display:inline-block;min-width:2.9rem;margin:0 .12em;padding:0 .18em;
+    border-bottom:4px solid var(--ink);
+    color:#857469;font-weight:900;text-align:center;
+  }
+  .blank.filled{
+    color:var(--ink);background:rgba(255,209,102,.5);
+    border-radius:.4rem .4rem 0 0;
+  }
+  .blank.wrong{background:rgba(239,122,108,.28);}
+  .blank.right{background:rgba(95,196,135,.28);}
+  .options{display:grid;gap:.55rem;margin-bottom:.85rem;}
+  .option{
+    display:flex;align-items:center;gap:.6rem;width:100%;
+    min-height:3.4rem;padding:.6rem .8rem;
+    background:#fff;border:var(--line);border-radius:1rem;
+    box-shadow:0 .18rem 0 rgba(67,54,47,.15);
+    font-size:clamp(1.05rem,2vw,1.24rem);font-weight:800;text-align:left;
+    cursor:pointer;transition:background .15s ease,transform .1s ease;
+  }
+  .option:hover{background:#fff8e3;}
+  .option:active{transform:translateY(2px);}
+  .option .mark{
+    flex:none;width:1.7rem;height:1.7rem;display:grid;place-items:center;
+    background:#fff;border:2.5px solid var(--ink);border-radius:50%;
+    font-size:.88rem;font-weight:900;line-height:1;
+  }
+  .option .opt-label{flex:1;min-width:0;}
+  .option .state{flex:none;opacity:0;font-size:1rem;font-weight:900;line-height:1;}
+  .option.sel{background:var(--sun);}
+  .option.correct{background:#dcf7e5;border-color:#2f8f57;}
+  .option.correct .mark{background:var(--green);border-color:#2f8f57;color:var(--ink);}
+  .option.correct .state{opacity:1;color:#1f6b41;}
+  .option.wrong{background:#ffe3de;border-color:#c9483a;}
+  .option.wrong .mark{background:var(--red);border-color:#c9483a;color:var(--ink);}
+  .option.wrong .state{opacity:1;color:#9c2f22;}
+  .option:disabled{cursor:default;}
+  .option:disabled:not(.correct):not(.wrong){opacity:.72;}
+
+  /* 回饋 */
+  .feedback{
+    margin-top:.95rem;padding:.9rem 1rem;
+    background:#fff;border:var(--line);border-radius:1.1rem;
+    animation:pop .25s ease both;
+  }
+  .feedback.ok{background:#eafbf1;}
+  .feedback.bad{background:#fff1ed;}
+  @keyframes pop{from{opacity:0;transform:translateY(6px) scale(.995);}to{opacity:1;transform:none;}}
+  .fb-head{
+    display:flex;align-items:center;gap:.5rem;
+    font-size:clamp(1.06rem,2vw,1.24rem);font-weight:900;line-height:1.3;
+  }
+  .fb-head svg{width:1.9rem;height:1.9rem;flex:none;}
+  .fb-row{display:flex;flex-wrap:wrap;gap:.35rem;margin:.5rem 0 0;}
+  .fb-sentence{
+    margin:.5rem 0 0;padding:.55rem .7rem;
+    background:rgba(255,255,255,.78);
+    border:2px dashed rgba(67,54,47,.24);border-radius:.8rem;
+    font-size:clamp(.96rem,1.7vw,1.05rem);font-weight:700;line-height:1.55;
+  }
+  .fb-sentence b{font-weight:900;}
+  .fb-why{
+    margin:.55rem 0 0;padding:.55rem .7rem;
+    background:rgba(255,255,255,.62);border-radius:.8rem;
+    font-size:clamp(.94rem,1.6vw,1.01rem);line-height:1.6;
+  }
+  .fb-why b,.fb-hint b,.fb-note b{
+    display:block;margin-bottom:.1rem;
+    font-size:.75rem;letter-spacing:.08em;color:var(--ink-soft);
+  }
+  .fb-hint{
+    margin:.5rem 0 0;padding:.5rem .7rem;
+    background:rgba(255,255,255,.55);
+    border-left:.28rem solid var(--sun);border-radius:.4rem .8rem .8rem .4rem;
+    font-size:.93rem;line-height:1.55;
+  }
+  .fb-note{
+    margin:.5rem 0 0;font-size:.93rem;font-weight:700;color:#1f6b41;
+  }
+  .feedback .btn{width:100%;margin-top:.8rem;}
+
+  /* ============ 結算 ============ */
+  .result-card{
+    max-width:46rem;margin:0 auto;
+    padding:clamp(1.2rem,3vw,2.1rem);text-align:center;
+  }
+  .result-art{width:min(58%,11rem);margin:0 auto;}
+  .result-art svg{width:100%;height:auto;display:block;}
+  .result-card h2{
+    margin:.3rem 0 .2rem;font-size:clamp(1.45rem,3vw,1.95rem);line-height:1.3;
+  }
+  .result-score{
+    margin:.15rem 0;font-size:clamp(2.3rem,6vw,3.4rem);
+    font-weight:900;line-height:1.1;
+  }
+  .result-score span{font-size:.38em;color:var(--ink-soft);}
+  .stars{display:flex;justify-content:center;gap:.3rem;margin:.35rem 0 .6rem;}
+  .stars svg{width:clamp(2rem,4.5vw,2.7rem);height:auto;}
+  .result-msg{margin:.2rem 0 .5rem;color:var(--ink-soft);font-size:clamp(.98rem,1.8vw,1.06rem);}
+  .result-best{margin:.1rem 0 0;font-size:.9rem;font-weight:800;color:var(--ink-soft);}
+  .review{
+    margin:1rem 0 0;padding-top:.8rem;
+    border-top:2px dashed rgba(67,54,47,.25);text-align:left;
+  }
+  .review h3{margin:.2rem 0 .5rem;font-size:1rem;}
+  .review ul{list-style:none;margin:0;padding:0;display:grid;gap:.5rem;}
+  .review li{
+    padding:.55rem .65rem;
+    background:rgba(255,255,255,.7);
+    border:2px solid rgba(67,54,47,.14);border-radius:.85rem;
+    font-size:.92rem;
+  }
+  .r-head{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;margin-bottom:.2rem;font-weight:800;}
+  .r-sentence{font-weight:700;line-height:1.5;}
+  .r-why{margin-top:.15rem;color:var(--ink-soft);font-size:.9rem;line-height:1.5;}
+  .pill{
+    display:inline-flex;align-items:center;
+    padding:.05rem .5rem;border:2px solid var(--ink);border-radius:999px;
+    font-size:.72rem;font-weight:900;background:#fff;
+  }
+  .pill.ok{background:#dcf7e5;}
+  .pill.bad{background:#ffe3de;}
+  .result-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:.55rem;margin-top:1rem;}
+  .result-actions .btn{flex:1 1 10rem;max-width:14rem;}
+
+  /* ============ 頁腳 ============ */
+  .foot{
+    margin-top:2rem;text-align:center;
+    color:var(--ink-soft);font-size:.8rem;line-height:1.7;
+  }
+
+  /* ============ 響應式 ============ */
+  @media (min-width:760px){
+    .learn-grid,.mode-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .learn-grid .learn-card{height:100%;}
+  }
+  @media (max-width:900px){
+    .hero{grid-template-columns:1fr;}
+    .hero-art svg{width:min(100%,15rem);}
+  }
+  @media (max-width:560px){
+    .shell{padding-left:.75rem;padding-right:.75rem;padding-bottom:2.5rem;}
+    .brand-mark{width:2.9rem;height:2.9rem;}
+    .brand-text p{display:none;}
+    .nav{gap:.3rem;padding:.32rem;}
+    .nav button{font-size:.9rem;gap:.28rem;padding:.3rem .2rem;}
+    .nav button svg{width:1.1rem;height:1.1rem;}
+    .hero{padding:1rem;}
+    .hero h2{font-size:1.85rem;}
+    .hero-art svg{width:min(100%,13rem);}
+    .intro{padding:.85rem;}
+    .intro-flow{font-size:.74rem;gap:.25rem;}
+    .intro-flow span{padding:.16rem .45rem;}
+    .learn-card{padding-left:1.15rem;}
+    .flow-icon{width:3.1rem;height:3.1rem;}
+    .flow-step{min-width:3rem;}
+    .flow-label{font-size:.74rem;}
+    .play-actions .btn{max-width:none;}
+    .result-actions .btn{max-width:none;}
+    .mode-art{height:7.8rem;}
+  }
+  @media (max-width:370px){
+    .sound-btn span{display:none;}
+    .sound-btn{padding:.4rem .55rem;}
+    .flow-arrow{padding-top:.7rem;}
+  }
+  @media (hover:none){
+    .mode-card:hover,.btn:hover,.token:hover{transform:none;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.01ms !important;transition-duration:.01ms !important;}
+    .view{animation:none;}
+  }
+</style>
+</head>
+<body>
+<div class="shell" data-generated-by="vibe-coding-frontend-design">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none">
+          <rect x="22" y="8" width="20" height="40" rx="6" fill="#fff" stroke="#43362f" stroke-width="3.5"/>
+          <path d="M22 48L32 60L42 48Z" fill="#f6d5b0" stroke="#43362f" stroke-width="3.5" stroke-linejoin="round"/>
+          <path d="M29.5 54L32 60L34.5 54Z" fill="#43362f"/>
+          <circle cx="28.5" cy="24" r="2.4" fill="#43362f"/>
+          <circle cx="35.5" cy="24" r="2.4" fill="#43362f"/>
+          <path d="M28 31q4 3.4 8 0" stroke="#43362f" stroke-width="2.6" stroke-linecap="round"/>
+          <path d="M22 16h20" stroke="#ff9b8a" stroke-width="5"/>
+        </svg>
+      </span>
+      <div class="brand-text">
+        <h1>承接複句探險隊</h1>
+        <p>小學語文 · 承接複句教學與互動練習</p>
+      </div>
+    </div>
+    <button class="sound-btn" id="soundToggle" type="button" aria-pressed="true" aria-label="關閉音效">
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <path d="M5 13h5l6-5v16l-6-5H5z" fill="#ffd166" stroke="#43362f" stroke-width="2.6" stroke-linejoin="round"/>
+        <path class="wave" d="M20 12a6 6 0 0 1 0 8" stroke="#43362f" stroke-width="2.6" stroke-linecap="round"/>
+        <path class="wave" d="M23.5 9a10.5 10.5 0 0 1 0 14" stroke="#43362f" stroke-width="2.6" stroke-linecap="round"/>
+        <path class="slash" d="M6 26L26 6" stroke="#ef7a6c" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <span id="soundLabel">音效開</span>
+    </button>
+  </header>
+
+  <nav class="nav" aria-label="主要頁面">
+    <button type="button" data-go="home" aria-current="page">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z" fill="#fff" stroke="#43362f" stroke-width="2.2" stroke-linejoin="round"/></svg>
+      首頁
+    </button>
+    <button type="button" data-go="learn" aria-current="false">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h7v15H4zM13 5h7v15h-7z" fill="#fff" stroke="#43362f" stroke-width="2.2" stroke-linejoin="round"/></svg>
+      教學
+    </button>
+    <button type="button" data-go="game" aria-current="false">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="#fff" stroke="#43362f" stroke-width="2.2"/><path d="M12 7v5l4 2" stroke="#43362f" stroke-width="2.2" stroke-linecap="round"/></svg>
+      遊戲
+    </button>
+  </nav>
+
+  <main>
+    <!-- ================= 首頁 ================= -->
+    <section class="view" id="view-home">
+      <div class="hero card">
+        <div class="hero-copy">
+          <span class="eyebrow">小學語文 · 句子訓練</span>
+          <h2>把句子<span class="hl">排好隊</span>，<br>說話更有條理！</h2>
+          <p class="lead">七組常用承接詞語，配合卡通圖示一看就懂；兩種互動遊戲各七題，答完即時解說「為什麼」。</p>
+          <div class="hero-actions">
+            <button class="btn primary" type="button" data-go="learn">先看教學</button>
+            <button class="btn mint" type="button" data-go="game">開始挑戰</button>
+          </div>
+          <div class="chips-row">
+            <span class="chip-static">7 組承接詞語</span>
+            <span class="chip-static">2 種遊戲模式</span>
+            <span class="chip-static">14 道題目</span>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <svg viewBox="0 0 320 300" role="img">
+            <ellipse cx="160" cy="272" rx="112" ry="18" fill="#e8dccb" opacity=".55"/>
+            <g fill="#fff" stroke="#43362f" stroke-width="4">
+              <ellipse cx="70" cy="62" rx="32" ry="20"/>
+              <ellipse cx="98" cy="54" rx="22" ry="15"/>
+            </g>
+            <circle cx="268" cy="46" r="30" fill="#ffd166" stroke="#43362f" stroke-width="4"/>
+            <g stroke="#43362f" stroke-width="4" stroke-linecap="round">
+              <path d="M268 4v8M268 80v8M226 46h8M302 46h8M238 16l6 6M294 72l6 6M298 16l-6 6M242 72l-6 6"/>
+            </g>
+            <g transform="translate(30 52)">
+              <rect x="34" y="16" width="52" height="130" rx="16" fill="#ffd166" stroke="#43362f" stroke-width="5"/>
+              <rect x="34" y="16" width="52" height="24" rx="12" fill="#ff9b8a" stroke="#43362f" stroke-width="5"/>
+              <path d="M34 146L60 186L86 146Z" fill="#f6d5b0" stroke="#43362f" stroke-width="5" stroke-linejoin="round"/>
+              <path d="M53 173L60 186L67 173Z" fill="#43362f"/>
+              <circle cx="49" cy="90" r="5.5" fill="#43362f"/>
+              <circle cx="71" cy="90" r="5.5" fill="#43362f"/>
+              <path d="M51 106q9 8 18 0" stroke="#43362f" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+              <circle cx="40" cy="100" r="6" fill="#ffb4a2" opacity=".75"/>
+              <circle cx="80" cy="100" r="6" fill="#ffb4a2" opacity=".75"/>
+              <path d="M34 98q-14 6-18 20" stroke="#43362f" stroke-width="5" fill="none" stroke-linecap="round"/>
+              <path d="M86 98q12 4 18 16" stroke="#43362f" stroke-width="5" fill="none" stroke-linecap="round"/>
+            </g>
+            <path d="M158 88h128a18 18 0 0 1 18 18v44a18 18 0 0 1-18 18h-88l-20 18v-18h-20a18 18 0 0 1-18-18v-44a18 18 0 0 1 18-18z" fill="#fff" stroke="#43362f" stroke-width="4.5"/>
+            <text x="241" y="132" text-anchor="middle" font-family="'Noto Sans TC','PingFang TC',sans-serif" font-size="25" font-weight="800" fill="#43362f">先……再……</text>
+            <g fill="#8fd6a4" stroke="#43362f" stroke-width="4">
+              <path d="M40 254q0-32 24-32q4 28-24 32z"/>
+              <path d="M40 266v-22"/>
+            </g>
+            <g fill="#8fd6a4" stroke="#43362f" stroke-width="4">
+              <path d="M120 258q0-26 20-26q3 23-20 26z"/>
+              <path d="M120 268v-20"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 教學 ================= -->
+    <section class="view" id="view-learn" hidden>
+      <div class="section-head">
+        <span class="eyebrow">教學基地</span>
+        <h2>七組承接詞語，看圖就懂</h2>
+        <p>每組一張圖示卡：先看圖示流程，再讀用法和例句，最後記住小口訣。</p>
+      </div>
+      <div class="intro card">
+        <span class="intro-icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none">
+            <path d="M10 14h20v38H10zM34 14h20v38H34z" fill="#fff" stroke="#43362f" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M16 23h8M16 31h8M40 23h8M40 31h8" stroke="#8cc9f7" stroke-width="3" stroke-linecap="round"/>
+            <path d="M30 14v38" stroke="#43362f" stroke-width="3"/>
+          </svg>
+        </span>
+        <div class="intro-copy">
+          <h2>什麼是承接複句？</h2>
+          <p>把兩件或幾件事按照發生的先後次序說出來，這樣的句子就是承接複句。事情說得有序，別人就聽得明白。</p>
+        </div>
+        <div class="intro-flow" aria-hidden="true">
+          <span>第一件事</span><i>→</i><span>第二件事</span><i>→</i><span>第三件事</span>
+        </div>
+      </div>
+      <div class="learn-grid" id="learnGrid"></div>
+      <div class="learn-cta">
+        <button class="btn primary" type="button" data-go="game">看完教學，去玩遊戲 →</button>
+      </div>
+    </section>
+
+    <!-- ================= 模式選擇 ================= -->
+    <section class="view" id="view-modes" hidden>
+      <div class="section-head">
+        <span class="eyebrow">遊戲挑戰</span>
+        <h2>選一個玩法</h2>
+        <p>兩種模式各七題，題目不重複；七組承接詞語在每個模式中各練一次。</p>
+      </div>
+      <div class="mode-grid" id="modeGrid"></div>
+      <div class="note">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a6 6 0 0 1 3.6 10.8V17H8.4v-3.2A6 6 0 0 1 12 3z" fill="#ffd166" stroke="#43362f" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 20h6" stroke="#43362f" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span>每題送出後都會顯示正確句子和「為什麼」，答錯也能看懂原因，再進入下一題。</span>
+      </div>
+    </section>
+
+    <!-- ================= 答題 ================= -->
+    <section class="view" id="view-play" hidden>
+      <div class="play-wrap">
+        <div class="play-top">
+          <button class="back-btn" type="button" id="backToModes">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="#43362f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            返回
+          </button>
+          <span class="play-title" id="playTitle">模式</span>
+          <span class="score-pill" id="scorePill">得分 0 / 7</span>
+        </div>
+        <div class="progress" id="progressBar" role="img" aria-label="第 1 題，共 7 題"></div>
+        <div class="card question-card" id="questionCard" tabindex="-1">
+          <p class="q-instruction"><span class="badge" id="qNum">1</span><span id="qInstruction">題目</span></p>
+          <div id="qBody"></div>
+          <div class="play-actions" id="playActions"></div>
+          <div id="feedback" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 結算 ================= -->
+    <section class="view" id="view-result" hidden>
+      <div class="card result-card">
+        <div class="result-art" id="resultArt" aria-hidden="true"></div>
+        <h2 id="resultTitle" tabindex="-1">挑戰完成！</h2>
+        <p class="result-score" id="resultScore">0<span> / 7</span></p>
+        <div class="stars" id="resultStars" role="img"></div>
+        <p class="result-msg" id="resultMsg"></p>
+        <p class="result-best" id="resultBest"></p>
+        <div class="review" id="reviewBox" hidden>
+          <h3>逐題重溫</h3>
+          <ul id="reviewList"></ul>
+        </div>
+        <div class="result-actions">
+          <button class="btn primary" type="button" id="btnAgain">再玩一次</button>
+          <button class="btn mint" type="button" id="btnSwitch">換個模式</button>
+          <button class="btn ghost" type="button" id="btnLearn">回教學</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    承接複句探險隊 · 小學語文承接複句互動課件<br>
+    所有題目、圖示與音效均內嵌於本檔案，離線亦可使用。
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* =========================================================
+     一、教學資料：七組承接詞語
+     ========================================================= */
+  var LEARN = [
+    {
+      tag:"第 1 類", words:"先……再……", accent:"#ff9b8a",
+      use:"兩件事一先一後：先做完第一件，再做第二件。",
+      examples:["我先洗手，再吃飯。","爸爸先看報紙，再喝茶。"],
+      tip:"口訣：先做第一件，再做第二件，次序不可倒。",
+      visual:[{icon:"wash",label:"洗手"},{icon:"eat",label:"吃飯"}]
+    },
+    {
+      tag:"第 2 類", words:"先……然後……", accent:"#ffd166",
+      use:"用「然後」承接第二件事，適合把日常流程說清楚。",
+      examples:["妹妹先換衣服，然後出門。","我們先做功課，然後去打球。"],
+      tip:"口訣：「然後」前面是第一步，後面是第二步。",
+      visual:[{icon:"shirt",label:"換衣服"},{icon:"door",label:"出門"}]
+    },
+    {
+      tag:"第 3 類", words:"首先……接着……最後……", accent:"#7fd8cb",
+      use:"三個步驟順着說，條理最清楚。",
+      examples:["首先洗菜，接着切菜，最後炒菜。","首先排隊，接着點名，最後出發。"],
+      tip:"口訣：第一步、第二步、第三步，一步一步來。",
+      visual:[{icon:"carrot",label:"洗菜"},{icon:"knife",label:"切菜"},{icon:"pan",label:"炒菜"}]
+    },
+    {
+      tag:"第 4 類", words:"一……就……", accent:"#8cc9f7",
+      use:"前一件事一發生，後一件事立刻跟着發生。",
+      examples:["鈴聲一響，同學就安靜下來。","弟弟一放學，就跑進公園。"],
+      tip:"口訣：兩件事緊緊相連，中間幾乎沒有停頓。",
+      visual:[{icon:"bell",label:"鈴聲響"},{icon:"sit",label:"安靜坐好"}]
+    },
+    {
+      tag:"第 5 類 · 時間詞", words:"……以後……", accent:"#b9a5f7",
+      use:"「以後」是時間詞，放在事情後面，表示那件事完成之後，才做另一件事。",
+      examples:["做完功課以後，媽媽帶我去公園。","吃完早餐以後，我背起書包上學。"],
+      tip:"口訣：先完成前面的事，才有後面的動作。",
+      visual:[{icon:"book",label:"做完功課"},{icon:"slide",label:"去公園"}]
+    },
+    {
+      tag:"第 6 類", words:"於是……", accent:"#ffc3d8",
+      use:"前面的事情發生了，後面用「於是」引出接着採取的行動。",
+      examples:["下雨了，於是我們留在課室裏。","巴士走了，於是我們改坐地鐵。"],
+      tip:"口訣：前事引出後事，行動接着來。",
+      visual:[{icon:"rain",label:"下雨了"},{icon:"classroom",label:"留在課室"}]
+    },
+    {
+      tag:"第 7 類", words:"……，（……）便……", accent:"#5fc487",
+      use:"前面的事情一發生，後面用「便」引出緊接着出現的結果或行動，意思和「於是」相近，但語氣更簡潔、快速。",
+      examples:["天色漸暗，路燈便亮起來了。","老師一走進課室，同學們便安靜下來。"],
+      tip:"口訣：前事剛發生，後事便跟來。",
+      visual:[{icon:"lightoff",label:"天色暗下"},{icon:"lighton",label:"路燈亮了"}]
+    }
+  ];
+
+  /* =========================================================
+     二、模式一題庫：句子排排隊（7 題，每類一題）
+     ========================================================= */
+  var ORDER_QS = [
+    {
+      cat:"先……再……",
+      words:["媽媽","先","把菜洗乾淨","再","放進鍋裏炒"],
+      sentence:"媽媽先把菜洗乾淨，再放進鍋裏炒。",
+      explain:"「先」放在第一件事前面，「再」引出第二件事。洗菜在前，炒菜在後，次序清楚。",
+      hint:"先找出「先」和「再」的位置。"
+    },
+    {
+      cat:"先……然後……",
+      words:["爺爺","先","澆花","然後","坐在樹下乘涼"],
+      sentence:"爺爺先澆花，然後坐在樹下乘涼。",
+      explain:"澆花是第一步，坐在樹下乘涼是第二步；「然後」正好把兩件事接起來。",
+      hint:"「先」後面是第一步，「然後」後面是第二步。"
+    },
+    {
+      cat:"首先……接着……最後……",
+      words:["首先","打開課本","接着","朗讀課文","最後","回答問題"],
+      sentence:"首先打開課本，接着朗讀課文，最後回答問題。",
+      explain:"三個學習步驟用「首先、接着、最後」串連：打開課本→朗讀課文→回答問題。",
+      hint:"三個步驟的提示詞是「首先、接着、最後」。"
+    },
+    {
+      cat:"一……就……",
+      words:["鬧鐘","一","響","哥哥","就","跳下床"],
+      sentence:"鬧鐘一響，哥哥就跳下床。",
+      explain:"「一……就……」表示前一件事剛發生，後一件事立刻發生。鬧鐘響起和跳下床幾乎同時。",
+      hint:"「一」放在「響」前面，「就」放在「哥哥」後面。"
+    },
+    {
+      cat:"……以後……",
+      words:["爸爸下班","以後","我們","一起吃晚飯"],
+      sentence:"爸爸下班以後，我們一起吃晚飯。",
+      explain:"「以後」表示時間在後：爸爸先下班，之後我們才一起吃晚飯。",
+      hint:"「以後」要放在「爸爸下班」後面。"
+    },
+    {
+      cat:"於是……",
+      words:["小美忘記帶雨傘","於是","她","留在校門口等雨停"],
+      sentence:"小美忘記帶雨傘，於是她留在校門口等雨停。",
+      accept:["小美忘記帶雨傘，她於是留在校門口等雨停。"],
+      explain:"前面說出情況（忘記帶雨傘），後面用「於是」引出接着採取的行動（留在校門口等雨停）。",
+      hint:"「於是」放在情況和行動之間。"
+    },
+    {
+      cat:"……，（……）便……",
+      words:["聽到火警鐘響","同學們","便","迅速離開課室"],
+      sentence:"聽到火警鐘響，同學們便迅速離開課室。",
+      explain:"前面是發生的事情（火警鐘響），後面用「便」引出同學們立刻作出的反應（迅速離開課室）。前後兩件事緊緊相連。",
+      hint:"「便」連接前面發生的事和後面立刻出現的行動。"
+    }
+  ];
+
+  /* =========================================================
+     三、模式二題庫：承接詞小偵探（7 題，與模式一不重複）
+     ========================================================= */
+  var CHOOSE_QS = [
+    {
+      cat:"先……再……",
+      template:"姐姐{0}把桌子擦乾淨，{1}擺好碗筷。",
+      options:[
+        {label:"一邊……一邊……",parts:["一邊","一邊"],why:"表示兩件事同時進行，不分先後。"},
+        {label:"先……再……",parts:["先","再"],correct:true,why:"表示兩件事一先一後：先擦桌子，再擺碗筷。"},
+        {label:"因為……所以……",parts:["因為","所以"],why:"表示原因和結果，不是先後次序。"}
+      ],
+      sentence:"姐姐先把桌子擦乾淨，再擺好碗筷。",
+      explain:"擦桌子和擺碗筷有先後次序：先擦乾淨，才擺碗筷。用「先……再……」能把次序說清楚。"
+    },
+    {
+      cat:"一……就……",
+      template:"小貓{0}聽到門聲，{1}跑到門口迎接。",
+      options:[
+        {label:"一邊……一邊……",parts:["一邊","一邊"],why:"表示兩件事同時進行，但「聽到門聲」是一瞬間的事，不能說「一邊聽到」。"},
+        {label:"雖然……但是……",parts:["雖然","但是"],why:"表示轉折，前後意思相反。"},
+        {label:"一……就……",parts:["一","就"],correct:true,why:"表示前一件事一發生，後一件事立刻發生。"}
+      ],
+      sentence:"小貓一聽到門聲，就跑到門口迎接。",
+      explain:"小貓一聽到門聲，馬上就跑到門口，中間幾乎沒有停頓，用「一……就……」最貼切。"
+    },
+    {
+      cat:"首先……接着……最後……",
+      template:"種綠豆時，我們{0}把豆子泡水，{1}放進泥土，最後放在窗邊曬太陽。",
+      options:[
+        {label:"首先……接着……",parts:["首先","接着"],correct:true,why:"和句中的「最後」一起，按三個步驟順序說明，條理清楚。"},
+        {label:"因為……所以……",parts:["因為","所以"],why:"表示原因和結果，不能串起三個步驟。"},
+        {label:"一邊……一邊……",parts:["一邊","一邊"],why:"表示兩件事同時做，不表示三步驟。"}
+      ],
+      sentence:"種綠豆時，我們首先把豆子泡水，接着放進泥土，最後放在窗邊曬太陽。",
+      explain:"泡水、放進泥土、放在窗邊是三個連續步驟，用「首先……接着……最後……」說得最有條理。"
+    },
+    {
+      cat:"……以後……",
+      template:"吃過晚飯{0}，我們一起到公園散步。",
+      options:[
+        {label:"以前",parts:["以前"],why:"表示那件事之前，時間在前，意思相反。"},
+        {label:"接着",parts:["接着"],why:"「接着」要放在逗號後面，引出下一個動作，不能直接插在「吃過晚飯」和逗號之間。"},
+        {label:"以後",parts:["以後"],correct:true,why:"表示那件事之後，時間在後。"}
+      ],
+      sentence:"吃過晚飯以後，我們一起到公園散步。",
+      explain:"「……以後」表示時間在後：先吃晚飯，之後才去公園散步。"
+    },
+    {
+      cat:"於是……",
+      template:"校車突然壞了，{0}我們改坐巴士上學。",
+      options:[
+        {label:"但是",parts:["但是"],why:"表示轉折，前後意思相反。"},
+        {label:"於是",parts:["於是"],correct:true,why:"承接前面的事，引出接着採取的行動。"},
+        {label:"雖然",parts:["雖然"],why:"表示讓步，通常要和「但是」配合。"}
+      ],
+      sentence:"校車突然壞了，於是我們改坐巴士上學。",
+      explain:"校車壞了是前面的情況，改坐巴士是接着採取的行動，用「於是」承接最自然。"
+    },
+    {
+      cat:"先……然後……",
+      template:"哥哥{0}把書包放好，{1}坐下來做功課。",
+      options:[
+        {label:"先……然後……",parts:["先","然後"],correct:true,why:"表示兩件事一先一後。"},
+        {label:"如果……就……",parts:["如果","就"],why:"表示假設，不是已經發生的次序。"},
+        {label:"不但……而且……",parts:["不但","而且"],why:"表示遞進，後面的意思更進一步。"}
+      ],
+      sentence:"哥哥先把書包放好，然後坐下來做功課。",
+      explain:"放書包在前，坐下來做功課在後，用「先……然後……」把次序說清楚。"
+    },
+    {
+      cat:"……，（……）便……",
+      template:"打開窗戶，新鮮空氣{0}流進屋裏來。",
+      options:[
+        {label:"便",parts:["便"],correct:true,why:"承接前面的動作（打開窗戶），引出緊接着出現的結果（空氣流進來）。"},
+        {label:"但是",parts:["但是"],why:"表示轉折，前後意思相反，這裏沒有相反的意思。"},
+        {label:"首先",parts:["首先"],why:"表示一系列動作的第一步，通常放在分句開頭；這句是「打開窗戶」後自然出現的結果，並非分步驟。"}
+      ],
+      sentence:"打開窗戶，新鮮空氣便流進屋裏來。",
+      explain:"打開窗戶是前面的動作，新鮮空氣流進來是緊接着的結果，用「便」把前後連接起來最通順。"
+    }
+  ];
+
+  /* =========================================================
+     四、圖示（全部內聯 SVG）
+     ========================================================= */
+  var ICONS = {
+    wash:'<svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><rect x="8" y="36" width="48" height="18" rx="8" fill="#dff2ff" stroke="#43362f" stroke-width="3"/><path d="M20 36V26h8v10" fill="#fff" stroke="#43362f" stroke-width="3" stroke-linejoin="round"/><path d="M28 30h12v6" stroke="#43362f" stroke-width="3" stroke-linecap="round"/><path d="M40 36v8" stroke="#8cc9f7" stroke-width="5" stroke-linecap="round"/><circle cx="17" cy="21" r="4" fill="#fff" stroke="#43362f" stroke-width="2.4"/><circle cx="26" cy="16" r="2.6" fill="#fff" stroke="#43362f" stroke-width="2.2"/><path d="M13 45h8" stroke="#8cc9f7" stroke-width="3" stroke-linecap="round"/></svg>',
+    eat:'<svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M12 30c4-9 11-13 20-13s16 4 20 13z" fill="#fff7e0" stroke="#43362f" stroke-width="3" stroke-linejoin="round"/><path d="M8 30h48c0 14-10 24-24 24S8 44 8 30z" fill="#fff" stroke="#43362f" stroke-width="3" stroke-linejoin="round"/><path d="M42 8l-8 20M50 10l-7 18" stroke="#43362f" stroke-width="3.4" stroke-linecap="round"/><path d="M20 41h24" stroke="#ff9b8a" stroke-width="3" stroke-linecap="round"/></svg>',
+    shirt:'<svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M23 10L10 17l6 11 7-4v27h22V24l7 4 6-11-13-7-7 4h-8z" fill="#ffc3d8" stroke="#43362f" stroke-width="3" stroke-linejoin="round"/><path d="M27 10q5 5 10 0" stroke="#43362f" stroke-width="3" stroke-linecap="round"/></svg>',
+    door:'<svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M12 56V14a4 4 0 0 1 4-4h32a4 4 0 0 1 4 4v42" fill="#f6d5b0" stroke="#43362f" stroke-width="3" stroke-linejoin="round"/><rect x="21" y="16" width="16" height="14" rx="2.5" fill="#dff2ff" stroke="#43362f" stroke-width="2.4"/><circle cx="43" cy="36" r="2.8" fill="#43362f"/><path d="M8 56h48" stroke="#43362f" stroke-width="3.4" stroke-linecap="round"/></svg>',
+    carrot:'<svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M32 18l10 18-10 16-10-16z" fill="#ff9b8a" stroke="#43362f" stroke-width="3" stroke-linejoin="round"/><path d="M27 20q-5-9 2-13M31 19q2-10 10-9M29 21q-9-4-12 2" stroke="#63c98a" stroke-width="4" stroke-linecap="round"/><path d="M34 32l-4 5M38 38l-4 5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>',
+    knife:'<svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><rect x="7" y="42" width="50" height="9" rx="4" fill="#f6d5b0" stroke="#43362f" stroke-width="3"/><path d="M14 38h26l-7-10H14z" fill="#d9e6f2" stroke="#43362f" stroke-width="3" stroke-linejoin="round"/><path d="M40 38h12" stroke="#43362f" stroke-width="4" stroke-linecap="round"/></svg>',
+    pan:'<svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><ellipse cx="31" cy="38" rx="18" ry="9" fill="#8cc9f7" stroke="#43362f" stroke-width="3"/><path d="M49 38h10" stroke="#43362f" stroke-width="5" stroke-linecap="round"/><path d="M23 22q3-5 0-10M33 24q3-5 0-10M43 22q3-5 0-10" stroke="#bfe6ff" stroke-width="3.4" stroke-linecap="round"/></svg>',
+    bell:'<svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M32 8a13 13 0 0 1 13 13v9l4 7H15l4-7v-9A13 13 0 0 1 32 8z" fill="#ffd166" stroke="#43362f" stroke-width="3" stroke-linejoin="round"/><circle cx="32" cy="44" r="4" fill="#43362f"/><path d="M32 3v2M8 18l-3-2M56 18l3-2" stroke="#43362f" stroke-width="3" stroke-linecap="round"/></svg>',
+    sit:'<svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="32" cy="15" r="8" fill="#f6d5b0" stroke="#43362f" stroke-width="3"/><path d="M20 56V38a12 12 0 0 1 24 0v18" fill="#8cc9f7" stroke="#43362f" stroke-width="3" stroke-linejoin="round"/><rect x="12" y="44" width="40" height="7" rx="3.5" fill="#fff" stroke="#43362f" stroke-width="3"/><path d="M24 51v9M40 51v9" stroke="#43362f" stroke-width="3" stroke-linecap="round"/><circle cx="29" cy="15" r="1.8" fill="#43362f"/><circle cx="35" cy="15" r="1.8" fill="#43362f"/><path d="M29 19q3 2 6 0" stroke="#43362f" stroke-width="2" stroke-linecap="round"/></svg>',
+    book:'<svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><rect x="10" y="12" width="33" height="42" rx="4" fill="#fff" stroke="#43362f" stroke-width="3"/><path d="M18 22h17M18 30h17M18 38h9" stroke="#43362f" stroke-width="2.8" stroke-linecap="round"/><path d="M44 10l10 10-15 20-9 3 2-9z" fill="#ffd166" stroke="#43362f" stroke-width="3" stroke-linejoin="round"/><path d="M45 16l5 5" stroke="#43362f" stroke-width="2.6" stroke-linecap="round"/></svg>',
+    slide:'<svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M14 54V22h8v8l18 24z" fill="#7fd8cb" stroke="#43362f" stroke-width="3" stroke-linejoin="round"/><path d="M14 28h-6M14 36h-6M14 44h-6" stroke="#43362f" stroke-width="3" stroke-linecap="round"/><path d="M22 54h26" stroke="#43362f" stroke-width="3" stroke-linecap="round"/><circle cx="46" cy="46" r="6" fill="#ffd166" stroke="#43362f" stroke-width="2.6"/></svg>',
+    rain:'<svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M16 34a10 10 0 0 1 2-19 14 14 0 0 1 27-2 10 10 0 0 1 2 21z" fill="#dff2ff" stroke="#43362f" stroke-width="3" stroke-linejoin="round"/><path d="M22 42l-2 9M33 42l-2 9M44 42l-2 9" stroke="#8cc9f7" stroke-width="4" stroke-linecap="round"/></svg>',
+    classroom:'<svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><rect x="8" y="10" width="48" height="32" rx="3" fill="#7fd8cb" stroke="#43362f" stroke-width="3"/><path d="M16 20h22M16 28h14" stroke="#fff" stroke-width="3" stroke-linecap="round"/><rect x="14" y="48" width="36" height="8" rx="4" fill="#f6d5b0" stroke="#43362f" stroke-width="3"/><path d="M22 48v-6M42 48v-6" stroke="#43362f" stroke-width="3"/></svg>',
+    lightoff:'<svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="32" cy="26" r="14" fill="#6f5c52" stroke="#43362f" stroke-width="3"/><path d="M20 25a12 12 0 0 1 10-12" stroke="#ffd166" stroke-width="4" stroke-linecap="round"/><path d="M22 44h20" stroke="#43362f" stroke-width="3" stroke-linecap="round"/><path d="M26 50h12" stroke="#43362f" stroke-width="2.6" stroke-linecap="round"/></svg>',
+    lighton:'<svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><rect x="28" y="36" width="8" height="18" rx="2" fill="#6f5c52" stroke="#43362f" stroke-width="2.6"/><path d="M22 54h20M26 48h12" stroke="#43362f" stroke-width="2.6" stroke-linecap="round"/><path d="M32 8a14 14 0 0 0-10 24c2 2 3 4 3 7h14c0-3 1-5 3-7a14 14 0 0 0-10-24z" fill="#ffd166" stroke="#43362f" stroke-width="3" stroke-linejoin="round"/><path d="M24 12l-3-4M40 12l3-4M14 22l-5-2M50 22l5-2M18 32l-6 3M46 32l6 3" stroke="#ffd166" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="22" r="3" fill="#fff" opacity=".7"/></svg>',
+    bulb:'<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a6 6 0 0 1 3.6 10.8V17H8.4v-3.2A6 6 0 0 1 12 3z" fill="#ffd166" stroke="#43362f" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 20h6" stroke="#43362f" stroke-width="1.8" stroke-linecap="round"/></svg>',
+    check:'<svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><circle cx="20" cy="20" r="17" fill="#5fc487" stroke="#43362f" stroke-width="3"/><path d="M11 20l6 6 12-13" stroke="#fff" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    cross:'<svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><circle cx="20" cy="20" r="17" fill="#ef7a6c" stroke="#43362f" stroke-width="3"/><path d="M14 14l12 12M26 14L14 26" stroke="#fff" stroke-width="4.4" stroke-linecap="round"/></svg>',
+    star:'<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3l5.2 10.6 11.6 1.7-8.4 8.2 2 11.6L20 29.6 9.6 35.1l2-11.6L3.2 15.3l11.6-1.7z" fill="#ffd166" stroke="#43362f" stroke-width="2.4" stroke-linejoin="round"/></svg>',
+    starDim:'<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3l5.2 10.6 11.6 1.7-8.4 8.2 2 11.6L20 29.6 9.6 35.1l2-11.6L3.2 15.3l11.6-1.7z" fill="#eee6d8" stroke="#43362f" stroke-width="2.4" stroke-linejoin="round"/></svg>'
+  };
+
+  var MODE_ART = {
+    order:'<svg viewBox="0 0 260 120" fill="none" aria-hidden="true"><rect x="12" y="28" width="62" height="38" rx="10" fill="#fff" stroke="#43362f" stroke-width="3.4"/><text x="43" y="54" text-anchor="middle" font-family="\'Noto Sans TC\',sans-serif" font-size="18" font-weight="800" fill="#43362f">先</text><rect x="82" y="28" width="72" height="38" rx="10" fill="#fff" stroke="#43362f" stroke-width="3.4"/><text x="118" y="54" text-anchor="middle" font-family="\'Noto Sans TC\',sans-serif" font-size="18" font-weight="800" fill="#43362f">洗手</text><rect x="162" y="28" width="70" height="38" rx="10" fill="#ffd166" stroke="#43362f" stroke-width="3.4" stroke-dasharray="7 5"/><text x="197" y="54" text-anchor="middle" font-family="\'Noto Sans TC\',sans-serif" font-size="18" font-weight="800" fill="#43362f">？</text><path d="M26 88h60" stroke="#43362f" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 8"/><path d="M110 88h112" stroke="#43362f" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 8"/><path d="M218 82l6 6-6 6" stroke="#43362f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="214" cy="24" r="13" fill="#ff9b8a" stroke="#43362f" stroke-width="3"/><path d="M209 24l4 4 7-8" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    choose:'<svg viewBox="0 0 260 120" fill="none" aria-hidden="true"><rect x="14" y="18" width="160" height="84" rx="14" fill="#fff" stroke="#43362f" stroke-width="3.4"/><rect x="28" y="34" width="36" height="9" rx="4.5" fill="#d9cfc4"/><rect x="70" y="34" width="36" height="9" rx="4.5" fill="#ffd166"/><rect x="112" y="34" width="46" height="9" rx="4.5" fill="#d9cfc4"/><rect x="28" y="56" width="50" height="9" rx="4.5" fill="#d9cfc4"/><rect x="86" y="56" width="34" height="9" rx="4.5" fill="#d9cfc4"/><rect x="28" y="76" width="90" height="9" rx="4.5" fill="#d9cfc4"/><circle cx="196" cy="60" r="28" fill="#7fd8cb" stroke="#43362f" stroke-width="3.4"/><path d="M184 60l8 8 16-18" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="214" cy="30" r="7" fill="#ffd166" stroke="#43362f" stroke-width="2.8"/></svg>'
+  };
+
+  var RESULT_ART = '<svg viewBox="0 0 200 150" fill="none" aria-hidden="true"><ellipse cx="100" cy="136" rx="64" ry="9" fill="#e8dccb" opacity=".6"/><path d="M56 118c-16-12-24-30-24-48 0-14 10-24 22-24 8 0 15 5 19 12 4-7 11-12 19-12 12 0 22 10 22 24 0 18-8 36-24 48-8 6-18 6-26 0z" fill="#dff3ff" stroke="#43362f" stroke-width="4" transform="translate(24 -4)"/><circle cx="76" cy="60" r="5.5" fill="#43362f"/><circle cx="124" cy="60" r="5.5" fill="#43362f"/><path d="M88 76q12 10 24 0" stroke="#43362f" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M36 34l6 12 13 2-9 9 2 13-12-6-12 6 2-13-9-9 13-2z" fill="#ffd166" stroke="#43362f" stroke-width="3.2" stroke-linejoin="round"/><path d="M166 44l4.6 9 10 1.4-7.2 7 1.7 10-9.1-4.8-9.1 4.8 1.7-10-7.2-7 10-1.4z" fill="#ff9b8a" stroke="#43362f" stroke-width="3" stroke-linejoin="round"/></svg>';
+
+  /* =========================================================
+     五、狀態與工具
+     ========================================================= */
+  var state = {
+    mode:null,
+    index:0,
+    score:0,
+    answered:false,
+    placed:[],
+    remaining:[],
+    selected:null,
+    results:[]
+  };
+
+  var soundOn = true;
+  var audioCtx = null;
+  var audioSupported = !!(window.AudioContext || window.webkitAudioContext);
+
+  function $(id){ return document.getElementById(id); }
+
+  function readStore(key){
+    try{ return localStorage.getItem(key); }catch(e){ return null; }
+  }
+  function writeStore(key,value){
+    try{ localStorage.setItem(key,value); }catch(e){}
+  }
+
+  function getBest(mode){
+    var v = parseInt(readStore("cj_best_" + mode),10);
+    return isNaN(v) ? null : v;
+  }
+  function saveBest(mode,score){
+    var prev = getBest(mode);
+    if(prev === null || score > prev) writeStore("cj_best_" + mode,String(score));
+  }
+
+  function shuffle(list){
+    var a = list.slice();
+    for(var i=a.length-1;i>0;i--){
+      var j = Math.floor(Math.random()*(i+1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function norm(text){
+    return String(text).replace(/[，。！？、；：,.!?;:\s]/g,"");
+  }
+
+  /* =========================================================
+     六、音效
+     ========================================================= */
+  try{
+    if(readStore("cj_sound") === "off") soundOn = false;
+  }catch(e){}
+
+  function ensureAudio(){
+    if(!audioSupported) return null;
+    if(!audioCtx || audioCtx.state === "closed"){
+      try{
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }catch(e){
+        audioSupported = false;
+        try{ updateSoundUI(); }catch(err){}
+        return null;
+      }
+    }
+    if(audioCtx.state !== "running"){
+      try{
+        var resumed = audioCtx.resume();
+        if(resumed && resumed.catch) resumed.catch(function(){});
+      }catch(e){}
+    }
+    return audioCtx;
+  }
+
+  function tone(freq,start,dur,type,vol){
+    var ctx = ensureAudio();
+    if(!ctx) return;
+    try{
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      var t0 = ctx.currentTime + start;
+      osc.type = type || "sine";
+      osc.frequency.setValueAtTime(freq,t0);
+      gain.gain.setValueAtTime(0.0001,t0);
+      gain.gain.exponentialRampToValueAtTime(vol || 0.12,t0 + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001,t0 + dur);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(t0);
+      osc.stop(t0 + dur + 0.03);
+    }catch(e){}
+  }
+
+  function sfx(name){
+    if(!soundOn || !audioSupported) return;
+    if(name === "tap"){
+      tone(620,0,0.08,"triangle",0.08);
+    }else if(name === "correct"){
+      tone(523.25,0,0.12,"sine",0.13);
+      tone(659.25,0.09,0.12,"sine",0.13);
+      tone(783.99,0.18,0.2,"sine",0.14);
+    }else if(name === "wrong"){
+      tone(311.13,0,0.14,"triangle",0.12);
+      tone(233.08,0.13,0.22,"triangle",0.11);
+    }else if(name === "win"){
+      tone(523.25,0,0.12,"sine",0.12);
+      tone(659.25,0.11,0.12,"sine",0.12);
+      tone(783.99,0.22,0.12,"sine",0.12);
+      tone(1046.5,0.33,0.36,"sine",0.13);
+    }
+  }
+
+  function updateSoundUI(){
+    var btn = $("soundToggle");
+    btn.setAttribute("aria-pressed",(soundOn && audioSupported) ? "true" : "false");
+    btn.setAttribute("aria-label",!audioSupported ? "此瀏覽器不支援音效" : (soundOn ? "關閉音效" : "開啟音效"));
+    $("soundLabel").textContent = audioSupported ? (soundOn ? "音效開" : "音效關") : "不支援音效";
+    if(!audioSupported){
+      btn.disabled = true;
+      btn.setAttribute("aria-disabled","true");
+      btn.setAttribute("title","此瀏覽器不支援音效");
+    }
+  }
+
+  /* =========================================================
+     七、畫面切換
+     ========================================================= */
+  var VIEWS = {
+    home:"view-home",
+    learn:"view-learn",
+    game:"view-modes",
+    play:"view-play",
+    result:"view-result"
+  };
+
+  function showView(name){
+    Object.keys(VIEWS).forEach(function(key){
+      var el = $(VIEWS[key]);
+      if(el) el.hidden = (key !== name);
+    });
+    var navKey = (name === "play" || name === "result") ? "game" : name;
+    var navBtns = document.querySelectorAll(".nav button");
+    for(var i=0;i<navBtns.length;i++){
+      navBtns[i].setAttribute("aria-current",navBtns[i].getAttribute("data-go") === navKey ? "page" : "false");
+    }
+    try{
+      window.scrollTo({top:0,behavior:"smooth"});
+    }catch(e){
+      window.scrollTo(0,0);
+    }
+  }
+
+  function go(name){
+    if(name === "game"){
+      renderModes();
+      showView("game");
+    }else if(name === "learn"){
+      showView("learn");
+    }else{
+      showView("home");
+    }
+    sfx("tap");
+  }
+
+  /* =========================================================
+     八、教學卡
+     ========================================================= */
+  function renderLearn(){
+    var html = LEARN.map(function(item){
+      var flow = item.visual.map(function(step,index){
+        return (index ? '<span class="flow-arrow" aria-hidden="true">→</span>' : '') +
+          '<span class="flow-step">' +
+            '<span class="flow-icon">' + ICONS[step.icon] +
+              '<span class="flow-num">' + (index + 1) + '</span>' +
+            '</span>' +
+            '<span class="flow-label">' + step.label + '</span>' +
+          '</span>';
+      }).join("");
+      var examples = item.examples.map(function(sentence){
+        return '<li>' + sentence + '</li>';
+      }).join("");
+      var longCls = item.words.length >= 10 ? " long" : "";
+      return '<article class="learn-card" style="--accent:' + item.accent + '">' +
+        '<span class="stripe" aria-hidden="true"></span>' +
+        '<div class="learn-head">' +
+          '<span class="learn-tag">' + item.tag + '</span>' +
+          '<h3 class="learn-words' + longCls + '">' + item.words + '</h3>' +
+        '</div>' +
+        '<div class="flow" aria-label="圖示流程">' + flow + '</div>' +
+        '<p class="learn-use">' + item.use + '</p>' +
+        '<ul class="examples">' + examples + '</ul>' +
+        '<p class="learn-tip">' + ICONS.bulb + '<span>' + item.tip + '</span></p>' +
+      '</article>';
+    }).join("");
+    $("learnGrid").innerHTML = html;
+  }
+
+  /* =========================================================
+     九、模式選擇
+     ========================================================= */
+  function renderModes(){
+    var b1 = getBest("order");
+    var b2 = getBest("choose");
+    $("modeGrid").innerHTML =
+      '<button class="mode-card" type="button" data-mode="order">' +
+        '<span class="mode-art">' + MODE_ART.order + '</span>' +
+        '<span class="mode-title">模式一 · 句子排排隊</span>' +
+        '<span class="mode-desc">點選詞卡，按正確次序排成一句通順的承接複句。送出後即時看解析。</span>' +
+        '<span class="mode-meta"><span class="tag">7 題</span><span class="tag">點選排序</span>' +
+          (b1 !== null ? '<span class="tag best">最佳 ' + b1 + ' / 7</span>' : '<span class="tag">未挑戰</span>') +
+        '</span>' +
+      '</button>' +
+      '<button class="mode-card" type="button" data-mode="choose">' +
+        '<span class="mode-art">' + MODE_ART.choose + '</span>' +
+        '<span class="mode-title">模式二 · 承接詞小偵探</span>' +
+        '<span class="mode-desc">句子留空，從三個選項中選出最合適的承接詞語。送出後會說明對錯原因。</span>' +
+        '<span class="mode-meta"><span class="tag">7 題</span><span class="tag">三選一</span>' +
+          (b2 !== null ? '<span class="tag best">最佳 ' + b2 + ' / 7</span>' : '<span class="tag">未挑戰</span>') +
+        '</span>' +
+      '</button>';
+  }
+
+  /* =========================================================
+     十、開始遊戲與出題
+     ========================================================= */
+  function startMode(mode){
+    if(mode !== "order" && mode !== "choose") return;
+    state.mode = mode;
+    state.index = 0;
+    state.score = 0;
+    state.results = [];
+    state.answered = false;
+    state.placed = [];
+    state.remaining = [];
+    state.selected = null;
+    $("playTitle").textContent = mode === "order" ? "句子排排隊" : "承接詞小偵探";
+    showView("play");
+    renderQuestion();
+    sfx("tap");
+  }
+
+  function currentQ(){
+    return state.mode === "order" ? ORDER_QS[state.index] : CHOOSE_QS[state.index];
+  }
+
+  function renderProgress(){
+    var html = "";
+    for(var i=0;i<7;i++){
+      var cls = "dot";
+      if(state.results[i]){
+        cls += state.results[i].ok ? " ok" : " bad";
+      }else if(i === state.index && !state.answered){
+        cls += " now";
+      }
+      html += '<span class="' + cls + '"></span>';
+    }
+    html += '<span class="progress-text">第 ' + (state.index + 1) + ' / 7 題</span>';
+    $("progressBar").innerHTML = html;
+    $("progressBar").setAttribute("aria-label","第 " + (state.index + 1) + " 題，共 7 題");
+    $("scorePill").textContent = "得分 " + state.score + " / 7";
+    $("qNum").textContent = String(state.index + 1);
+  }
+
+  function renderQuestion(){
+    state.answered = false;
+    state.selected = null;
+    state.placed = [];
+    state.remaining = [];
+    $("feedback").innerHTML = "";
+    $("playActions").innerHTML = "";
+    $("questionCard").classList.remove("answered");
+
+    if(state.mode === "order"){
+      $("qInstruction").textContent = "把詞卡按正確次序排好，組成一句通順的承接複句。";
+      var tokens = currentQ().words.map(function(word,index){
+        return {id:"q" + state.index + "-" + index,text:word};
+      });
+      var shuffled = shuffle(tokens);
+      if(shuffled.map(function(t){return t.text;}).join("") === currentQ().words.join("")){
+        shuffled.push(shuffled.shift());
+      }
+      state.remaining = shuffled;
+      renderOrder();
+    }else{
+      $("qInstruction").textContent = "選出最合適的詞語，填入句子的空格裏。";
+      renderChoose();
+    }
+    renderProgress();
+    try{ $("questionCard").focus({preventScroll:true}); }catch(e){}
+  }
+
+  /* ---------- 模式一：排序 ---------- */
+  function renderOrder(){
+    var slots;
+    if(state.placed.length === 0){
+      slots = '<p class="slot-hint">點下面的詞卡，按順序放進來</p>';
+    }else{
+      slots = state.placed.map(function(token,index){
+        return '<span class="slot-item">' +
+          '<span class="slot-no" aria-hidden="true">' + (index + 1) + '</span>' +
+          '<button class="token in-slot" type="button" data-slot="' + index + '" aria-label="取回 ' + token.text + '">' + token.text + '</button>' +
+        '</span>';
+      }).join("");
+    }
+    var pool = state.remaining.map(function(token){
+      return '<button class="token" type="button" data-token="' + token.id + '" aria-label="詞卡 ' + token.text + '">' + token.text + '</button>';
+    }).join("");
+
+    $("qBody").innerHTML =
+      '<div class="slots" id="slots" aria-label="已排好的句子">' + slots + '</div>' +
+      '<p class="pool-label">詞卡</p>' +
+      '<div class="pool" id="pool">' + pool + '</div>';
+
+    $("playActions").innerHTML =
+      '<button class="btn ghost" type="button" id="btnReset">重新排列</button>' +
+      '<button class="btn primary" type="button" id="btnSubmit"' + (state.remaining.length ? ' disabled' : '') + '>送出答案</button>';
+  }
+
+  function placeToken(id){
+    if(state.answered) return;
+    var index = -1;
+    for(var i=0;i<state.remaining.length;i++){
+      if(state.remaining[i].id === id){ index = i; break; }
+    }
+    if(index < 0) return;
+    state.placed.push(state.remaining.splice(index,1)[0]);
+    sfx("tap");
+    renderOrder();
+    renderProgress();
+    var next = document.querySelector("#pool .token");
+    if(next){
+      try{ next.focus({preventScroll:true}); }catch(e){}
+    }else{
+      var submit = $("btnSubmit");
+      if(submit){ try{ submit.focus({preventScroll:true}); }catch(e){} }
+    }
+  }
+
+  function removeSlot(position){
+    if(state.answered || isNaN(position)) return;
+    var token = state.placed.splice(position,1)[0];
+    if(!token) return;
+    state.remaining.push(token);
+    sfx("tap");
+    renderOrder();
+    renderProgress();
+    var back = document.querySelector('[data-token="' + token.id + '"]');
+    if(back){ try{ back.focus({preventScroll:true}); }catch(e){} }
+  }
+
+  function resetOrder(){
+    if(state.answered) return;
+    state.remaining = shuffle(state.remaining.concat(state.placed));
+    state.placed = [];
+    sfx("tap");
+    renderOrder();
+    renderProgress();
+  }
+
+  function submitOrder(){
+    if(state.answered || state.remaining.length > 0) return;
+    var q = currentQ();
+    var userText = state.placed.map(function(t){return t.text;}).join("");
+    var target = q.words.join("");
+    var accepted = [target].concat(q.accept || []);
+    var exact = norm(userText) === norm(target);
+    var ok = accepted.some(function(item){ return norm(item) === norm(userText); });
+    revealOrder(ok,exact);
+  }
+
+  function markOrder(ok,exact){
+    var q = currentQ();
+    for(var i=0;i<state.placed.length;i++){
+      var btn = document.querySelector('[data-slot="' + i + '"]');
+      if(!btn) continue;
+      btn.disabled = true;
+      if(ok){
+        btn.classList.add("ok");
+      }else{
+        btn.classList.add(state.placed[i].text === q.words[i] ? "ok" : "bad");
+      }
+    }
+    if(!exact && ok){
+      state.placed.forEach(function(token,index){
+        var node = document.querySelector('[data-slot="' + index + '"]');
+        if(node) node.classList.add("ok");
+      });
+    }
+  }
+
+  /* ---------- 模式二：選擇 ---------- */
+  function renderChoose(){
+    var q = currentQ();
+    var sentenceHtml = q.template.replace(/\{(\d+)\}/g,function(){
+      return '<span class="blank">＿＿</span>';
+    });
+    var options = q.options.map(function(option,index){
+      return '<button class="option" type="button" data-opt="' + index + '" aria-pressed="false">' +
+        '<span class="mark">' + String.fromCharCode(65 + index) + '</span>' +
+        '<span class="opt-label">' + option.label + '</span>' +
+        '<span class="state" aria-hidden="true"></span>' +
+      '</button>';
+    }).join("");
+
+    $("qBody").innerHTML =
+      '<div class="sentence-box" id="sentenceBox">' + sentenceHtml + '</div>' +
+      '<div class="options" id="options" role="group" aria-label="選項">' + options + '</div>';
+
+    $("playActions").innerHTML =
+      '<button class="btn primary" type="button" id="btnSubmit" disabled>送出答案</button>';
+
+    paintChoose();
+  }
+
+  function paintChoose(){
+    var q = currentQ();
+    var parts = state.selected === null ? [] : q.options[state.selected].parts;
+    var blanks = $("qBody").querySelectorAll(".blank");
+    for(var i=0;i<blanks.length;i++){
+      var value = parts[i];
+      blanks[i].textContent = value || "\u00a0";
+      if(value){
+        blanks[i].classList.add("filled");
+      }else{
+        blanks[i].classList.remove("filled");
+      }
+    }
+    var opts = $("qBody").querySelectorAll(".option");
+    for(var j=0;j<opts.length;j++){
+      var selected = state.selected === j;
+      if(selected){
+        opts[j].classList.add("sel");
+      }else{
+        opts[j].classList.remove("sel");
+      }
+      opts[j].setAttribute("aria-pressed",selected ? "true" : "false");
+    }
+    var submit = $("btnSubmit");
+    if(submit) submit.disabled = (state.selected === null);
+  }
+
+  function selectOption(index){
+    if(state.answered || state.mode !== "choose") return;
+    if(isNaN(index) || !currentQ().options[index]) return;
+    state.selected = index;
+    paintChoose();
+    sfx("tap");
+  }
+
+  function submitChoose(){
+    if(state.answered || state.selected === null) return;
+    var q = currentQ();
+    revealChoose(!!q.options[state.selected].correct);
+  }
+
+  function markChoose(ok){
+    var q = currentQ();
+    var opts = $("qBody").querySelectorAll(".option");
+    for(var i=0;i<opts.length;i++){
+      opts[i].disabled = true;
+      var option = q.options[i];
+      var stateNode = opts[i].querySelector(".state");
+      if(option.correct){
+        opts[i].classList.add("correct");
+        if(stateNode) stateNode.textContent = "✓";
+      }else if(i === state.selected){
+        opts[i].classList.add("wrong");
+        if(stateNode) stateNode.textContent = "✗";
+      }
+    }
+    var correctOpt = null;
+    for(var k=0;k<q.options.length;k++){
+      if(q.options[k].correct){ correctOpt = q.options[k]; break; }
+    }
+    var blanks = $("qBody").querySelectorAll(".blank");
+    for(var j=0;j<blanks.length;j++){
+      blanks[j].textContent = (correctOpt && correctOpt.parts[j]) ? correctOpt.parts[j] : "\u00a0";
+      blanks[j].classList.add("filled","right");
+      blanks[j].classList.remove("wrong");
+    }
+  }
+
+  /* ---------- 揭曉與回饋 ---------- */
+  function finishQuestion(ok){
+    state.answered = true;
+    state.results[state.index] = {ok:ok};
+    if(ok) state.score += 1;
+    $("playActions").innerHTML = "";
+    renderProgress();
+    sfx(ok ? "correct" : "wrong");
+  }
+
+  function revealOrder(ok,exact){
+    finishQuestion(ok);
+    markOrder(ok,exact);
+    var q = currentQ();
+    var html = '<div class="feedback ' + (ok ? "ok" : "bad") + '">' +
+      '<div class="fb-head">' + (ok ? ICONS.check : ICONS.cross) +
+        '<span>' + (ok ? "答對了！" : "次序不太對，一起來看") + '</span>' +
+      '</div>' +
+      '<div class="fb-row"><span class="tag">' + q.cat + '</span></div>' +
+      (ok ? "" : '<p class="fb-sentence"><b>你的排列：</b>' + state.placed.map(function(t){return t.text;}).join(" ／ ") + '</p>') +
+      '<p class="fb-sentence"><b>正確句子：</b>' + q.sentence + '</p>' +
+      (ok && !exact ? '<p class="fb-note">你的排法也通順，意思一樣清楚。</p>' : '') +
+      '<div class="fb-why"><b>為什麼？</b>' + q.explain + '</div>' +
+      (!ok ? '<div class="fb-hint"><b>小提示</b>' + q.hint + '</div>' : '') +
+      '<button class="btn ' + (ok ? "mint" : "primary") + '" type="button" id="btnNext">' +
+        (state.index >= 6 ? "看成績 →" : "下一題 →") +
+      '</button>' +
+    '</div>';
+    showFeedback(html);
+  }
+
+  function revealChoose(ok){
+    finishQuestion(ok);
+    markChoose(ok);
+    var q = currentQ();
+    var chosen = q.options[state.selected];
+    var correctOpt = null;
+    for(var i=0;i<q.options.length;i++){
+      if(q.options[i].correct) correctOpt = q.options[i];
+    }
+    var html = '<div class="feedback ' + (ok ? "ok" : "bad") + '">' +
+      '<div class="fb-head">' + (ok ? ICONS.check : ICONS.cross) +
+        '<span>' + (ok ? "答對了！" : "差一點點，一起來看") + '</span>' +
+      '</div>' +
+      '<div class="fb-row"><span class="tag">' + q.cat + '</span></div>' +
+      (!ok ? '<p class="fb-sentence"><b>你的選擇：</b>「' + chosen.label + '」。' + chosen.why + '</p>' : '') +
+      '<p class="fb-sentence"><b>正確句子：</b>' + q.sentence + '</p>' +
+      '<div class="fb-why"><b>為什麼？</b>' + q.explain + '</div>' +
+      '<div class="fb-hint"><b>詞語意思</b>「' + correctOpt.label + '」：' + correctOpt.why + '</div>' +
+      '<button class="btn ' + (ok ? "mint" : "primary") + '" type="button" id="btnNext">' +
+        (state.index >= 6 ? "看成績 →" : "下一題 →") +
+      '</button>' +
+    '</div>';
+    showFeedback(html);
+  }
+
+  function showFeedback(html){
+    $("feedback").innerHTML = html;
+    var next = $("btnNext");
+    if(next){
+      next.addEventListener("click",nextQuestion);
+    }
+    try{
+      $("feedback").scrollIntoView({behavior:"smooth",block:"nearest"});
+    }catch(e){}
+    if(next){ try{ next.focus({preventScroll:true}); }catch(e){} }
+  }
+
+  function nextQuestion(){
+    if(!state.answered) return;
+    if(state.index >= 6){
+      showResult();
+      return;
+    }
+    state.index += 1;
+    sfx("tap");
+    renderQuestion();
+  }
+
+  /* =========================================================
+     十一、成績結算
+     ========================================================= */
+  function showResult(){
+    saveBest(state.mode,state.score);
+    var score = state.score;
+    var stars = score >= 7 ? 3 : (score >= 5 ? 2 : (score >= 3 ? 1 : 0));
+    var starHtml = "";
+    for(var i=0;i<3;i++){
+      starHtml += (i < stars ? ICONS.star : ICONS.starDim);
+    }
+    $("resultArt").innerHTML = RESULT_ART;
+    $("resultScore").innerHTML = score + '<span> / 7</span>';
+    $("resultStars").innerHTML = starHtml;
+    $("resultStars").setAttribute("aria-label","獲得 " + stars + " 顆星，共 3 顆");
+    $("resultTitle").textContent = score >= 7 ? "全部答對，太厲害了！" : (score >= 5 ? "表現不錯，繼續加油！" : "再試一次會更好！");
+    if(state.mode === "order"){
+      $("resultMsg").textContent = score >= 7
+        ? "你已經掌握承接複句的先後次序，可以把句子說得更有條理。"
+        : (score >= 5
+          ? "大部分句子的次序都排對了。留意「哪件事先發生」，答案會更準確。"
+          : "記得口訣：先發生的事放前面，後發生的事放後面。先回教學看圖示，再挑戰一次吧。");
+    }else{
+      $("resultMsg").textContent = score >= 7
+        ? "你已能按前後關係選對承接詞語，句子讀起來更通順、更有條理。"
+        : (score >= 5
+          ? "大部分詞語都選對了。留意前後兩件事是「先後」、「同時」，還是前一件事引出後一個行動，答案會更準確。"
+          : "先分辨兩件事的關係：是先發生、同時發生，還是前一件事引出後一個行動，再想哪個詞語能把前後接起來。先回教學看圖示，再挑戰一次吧。");
+    }
+    var best = getBest(state.mode);
+    $("resultBest").textContent = best === null ? "" : "這個模式的最佳成績：" + best + " / 7";
+
+    var list = "";
+    for(var k=0;k<7;k++){
+      var result = state.results[k];
+      var q = state.mode === "order" ? ORDER_QS[k] : CHOOSE_QS[k];
+      var ok = result ? result.ok : false;
+      list += '<li>' +
+        '<div class="r-head">' +
+          '<span class="pill ' + (ok ? "ok" : "bad") + '">' + (ok ? "答對" : "答錯") + '</span>' +
+          '<span>第 ' + (k + 1) + ' 題</span>' +
+          '<span class="tag">' + q.cat + '</span>' +
+        '</div>' +
+        '<div class="r-sentence">' + q.sentence + '</div>' +
+        '<div class="r-why">' + q.explain + '</div>' +
+      '</li>';
+    }
+    $("reviewList").innerHTML = list;
+    $("reviewBox").hidden = false;
+
+    showView("result");
+    sfx("win");
+    try{ $("resultTitle").focus({preventScroll:true}); }catch(e){}
+  }
+
+  /* =========================================================
+     十二、事件綁定
+     ========================================================= */
+  document.addEventListener("click",function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var goBtn = target.closest("[data-go]");
+    if(goBtn){ go(goBtn.getAttribute("data-go")); }
+  });
+
+  $("modeGrid").addEventListener("click",function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var card = target.closest("[data-mode]");
+    if(!card) return;
+    startMode(card.getAttribute("data-mode"));
+  });
+
+  $("backToModes").addEventListener("click",function(){
+    renderModes();
+    showView("game");
+    sfx("tap");
+  });
+
+  $("btnAgain").addEventListener("click",function(){
+    startMode(state.mode);
+  });
+
+  $("btnSwitch").addEventListener("click",function(){
+    renderModes();
+    showView("game");
+    sfx("tap");
+  });
+
+  $("btnLearn").addEventListener("click",function(){
+    showView("learn");
+    sfx("tap");
+  });
+
+  $("qBody").addEventListener("click",function(event){
+    if(state.answered) return;
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var token = target.closest("[data-token]");
+    if(token && state.mode === "order"){
+      placeToken(token.getAttribute("data-token"));
+      return;
+    }
+    var slot = target.closest("[data-slot]");
+    if(slot && state.mode === "order"){
+      removeSlot(parseInt(slot.getAttribute("data-slot"),10));
+      return;
+    }
+    var option = target.closest("[data-opt]");
+    if(option && state.mode === "choose"){
+      selectOption(parseInt(option.getAttribute("data-opt"),10));
+    }
+  });
+
+  $("playActions").addEventListener("click",function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest("button");
+    if(!button) return;
+    if(button.id === "btnReset") resetOrder();
+    else if(button.id === "btnSubmit"){
+      if(state.mode === "order") submitOrder();
+      else submitChoose();
+    }
+  });
+
+  $("soundToggle").addEventListener("click",function(){
+    if(!audioSupported) return;
+    soundOn = !soundOn;
+    writeStore("cj_sound",soundOn ? "on" : "off");
+    updateSoundUI();
+    if(soundOn){
+      ensureAudio();
+      sfx("tap");
+    }
+  });
+
+  function unlockAudio(){
+    if(!audioSupported) return;
+    var ctx = ensureAudio();
+    if(ctx){
+      try{
+        var buffer = ctx.createBuffer(1,1,22050);
+        var source = ctx.createBufferSource();
+        source.buffer = buffer;
+        source.connect(ctx.destination);
+        source.start(0);
+      }catch(e){}
+    }
+    document.removeEventListener("pointerdown",unlockAudio);
+    document.removeEventListener("keydown",unlockAudio);
+  }
+
+  /* =========================================================
+     十三、啟動
+     ========================================================= */
+  function init(){
+    renderLearn();
+    renderModes();
+    updateSoundUI();
+
+    if(audioSupported){
+      document.addEventListener("pointerdown",unlockAudio,{passive:true});
+      document.addEventListener("keydown",unlockAudio);
+    }else{
+      $("soundToggle").disabled = true;
+    }
+
+    document.addEventListener("visibilitychange",function(){
+      if(!document.hidden && audioCtx && audioCtx.state !== "running" && audioCtx.state !== "closed"){
+        try{
+          var resumed = audioCtx.resume();
+          if(resumed && resumed.catch) resumed.catch(function(){});
+        }catch(e){}
+      }
+    });
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

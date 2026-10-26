@@ -1,0 +1,2003 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>字裡小偵探｜之・則 文言小學堂</title>
+<meta name="description" content="小學文言文「之」「則」看圖互動課：八張圖解卡、兩種玩法各六題、逐題講解、語音與音效，手機、平板、電腦皆可離線使用。">
+<meta name="theme-color" content="#FBF1DA">
+<style>
+:root{
+  --ink:#2A2118;
+  --ink2:#584734;
+  --muted:#8B7554;
+  --paper:#FBF1DA;
+  --paper-deep:#F3E1BC;
+  --card:#FFFCF2;
+  --red:#D94B32;
+  --red-deep:#B23A24;
+  --gold:#F2B33D;
+  --gold-soft:#FBE3AE;
+  --jade:#2C9A8B;
+  --jade-soft:#DDF0E8;
+  --blue:#37699F;
+  --blue-soft:#DCE8F5;
+  --plum:#8A5878;
+  --line:4px solid var(--ink);
+  --radius:22px;
+  --shadow:7px 7px 0 rgba(42,33,24,.13);
+  --font-ui:"PingFang TC","Noto Sans CJK TC","Microsoft JhengHei","Heiti TC",sans-serif;
+  --font-kai:"Kaiti TC","BiauKai","DFKai-SB","AR PL UKai TW","Noto Serif CJK TC",serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;font-size:17px;scroll-behavior:smooth}
+@media(min-width:768px){html{font-size:18px}}
+@media(min-width:1180px){html{font-size:19px}}
+body{
+  margin:0;
+  color:var(--ink);
+  font-family:var(--font-ui);
+  line-height:1.65;
+  background:
+    radial-gradient(circle at 8% 4%, rgba(242,179,61,.30), transparent 34%),
+    radial-gradient(circle at 94% 96%, rgba(44,154,139,.18), transparent 38%),
+    var(--paper);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(rgba(42,33,24,.055) 1px, transparent 1.2px);
+  background-size:17px 17px;
+  opacity:.75;
+}
+h1,h2,h3,h4,p,ul{margin:0}
+ul{padding:0;list-style:none}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;-webkit-tap-highlight-color:transparent}
+button:disabled{cursor:not-allowed;opacity:.5}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+[hidden]{display:none !important}
+main{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:0 16px 46px}
+@media(min-width:768px){main{padding:0 24px 60px}}
+.kai{font-family:var(--font-kai)}
+
+/* ---------- 頂欄 ---------- */
+.topbar{
+  position:sticky;top:0;z-index:40;
+  background:rgba(251,241,218,.94);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border-bottom:3px solid var(--ink);
+}
+.topbar-in{max-width:1120px;margin:0 auto;padding:9px 16px;display:flex;align-items:center;gap:10px}
+@media(min-width:768px){.topbar-in{padding:11px 24px}}
+.brand{display:flex;align-items:center;gap:9px;min-width:0;flex:1 1 auto}
+.brand-badge{width:42px;height:42px;flex:0 0 42px;display:block}
+@media(min-width:768px){.brand-badge{width:50px;height:50px;flex-basis:50px}}
+.brand h1{font-size:1.06rem;line-height:1.2;letter-spacing:.02em;white-space:nowrap}
+.brand p{font-size:.68rem;color:var(--muted);letter-spacing:.14em;line-height:1.3;margin-top:1px}
+@media(max-width:420px){.brand p{display:none}.brand h1{font-size:1rem}}
+.nav-desk{display:none;gap:6px;background:rgba(42,33,24,.07);padding:4px;border-radius:999px}
+@media(min-width:900px){.nav-desk{display:flex}}
+.nav-desk button{
+  padding:.42em 1.15em;border-radius:999px;font-weight:700;font-size:.9rem;
+  color:var(--ink2);transition:background .15s,color .15s;
+}
+.nav-desk button[aria-selected="true"]{background:var(--ink);color:#FFF8E6}
+.sound{
+  display:flex;align-items:center;gap:6px;
+  border:3px solid var(--ink);background:var(--card);border-radius:999px;
+  padding:.36em .7em;font-size:.78rem;font-weight:800;flex:0 0 auto;
+  box-shadow:0 3px 0 var(--ink);
+}
+.sound:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.sound svg{width:19px;height:19px;display:block}
+.sound .slash{display:none}
+.sound[aria-pressed="false"]{background:var(--paper-deep);color:var(--muted)}
+.sound[aria-pressed="false"] .wave{display:none}
+.sound[aria-pressed="false"] .slash{display:block}
+@media(max-width:520px){.sound span{display:none}.sound{padding:.42em}}
+
+/* ---------- 首屏 ---------- */
+.hero{position:relative;padding:20px 0 8px;display:grid;gap:10px}
+@media(min-width:820px){.hero{grid-template-columns:1.05fr .95fr;align-items:center;gap:20px;padding:34px 0 12px}}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.72rem;font-weight:800;letter-spacing:.16em;color:var(--red-deep);
+  background:rgba(217,75,50,.10);border:2px solid rgba(217,75,50,.4);
+  padding:.24em .7em;border-radius:999px;
+}
+.hero h1{
+  font-family:var(--font-kai);
+  font-size:clamp(2.15rem,9.4vw,3.2rem);
+  line-height:1.12;letter-spacing:.02em;margin:.42em 0 .28em;
+}
+.hero h1 .mark{position:relative;display:inline-block;color:var(--red-deep);white-space:nowrap}
+.hero h1 .mark::after{
+  content:"";position:absolute;left:-2%;right:-2%;bottom:.06em;height:.26em;
+  background:rgba(242,179,61,.75);border-radius:4px;z-index:-1;transform:rotate(-1.4deg);
+}
+.hero p.desc{font-size:.98rem;color:var(--ink2);max-width:26em;line-height:1.7}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.hero-stats{display:flex;gap:18px;margin-top:18px}
+.hero-stats div{display:flex;flex-direction:column;line-height:1.15}
+.hero-stats b{font-size:1.5rem;font-family:var(--font-kai)}
+.hero-stats span{font-size:.72rem;color:var(--muted);letter-spacing:.08em}
+
+.hero-art{position:relative;height:212px;order:-1}
+@media(min-width:820px){.hero-art{height:300px;order:0}}
+.hero-card{
+  position:absolute;width:104px;height:132px;top:22px;left:9%;
+  display:grid;place-items:center;
+  font-family:var(--font-kai);font-size:3.6rem;line-height:1;
+  border:4px solid var(--ink);border-radius:16px;
+  box-shadow:7px 8px 0 rgba(42,33,24,.16);
+  transform:rotate(-7deg);
+}
+.hero-card.z{background:var(--gold);color:var(--ink)}
+.hero-card.e{background:var(--jade);color:#FFF8E6;left:auto;right:12%;top:10px;transform:rotate(6deg)}
+.hero-card::before{
+  content:"";position:absolute;top:-9px;left:50%;width:36px;height:14px;
+  transform:translateX(-50%) rotate(-3deg);
+  background:rgba(255,248,230,.72);border:2px solid rgba(42,33,24,.35);border-radius:2px;
+}
+@media(min-width:820px){
+  .hero-card{width:158px;height:198px;font-size:5.4rem;left:12%;top:34px}
+  .hero-card.e{left:auto;right:14%}
+}
+.hero-mascot{position:absolute;left:50%;bottom:-4px;width:138px;transform:translateX(-50%)}
+.hero-mascot svg{width:100%;height:auto;display:block}
+@media(min-width:820px){.hero-mascot{width:208px;bottom:0}}
+
+/* ---------- 按鈕 ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border:3px solid var(--ink);border-radius:999px;
+  padding:.62em 1.25em;font-weight:800;font-size:.95rem;line-height:1.3;
+  background:var(--card);box-shadow:0 4px 0 var(--ink);
+  transition:transform .12s ease,box-shadow .12s ease,background .15s;
+  text-decoration:none;
+}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.btn svg{width:19px;height:19px;flex:0 0 19px}
+.btn-red{background:var(--red);color:#FFF8E6}
+.btn-dark{background:var(--ink);color:#FFF8E6}
+.btn-ghost{background:var(--card);color:var(--ink)}
+.btn-jade{background:var(--jade);color:#FFF8E6}
+.btn-lg{font-size:1.08rem;padding:.72em 1.5em;min-height:56px}
+.btn-block{width:100%}
+
+/* ---------- 區塊標題 ---------- */
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:26px 0 12px}
+.sec-head h2{font-family:var(--font-kai);font-size:1.6rem;display:flex;align-items:center;gap:9px;line-height:1.2}
+.sec-head h2::before{content:"";width:9px;height:28px;background:var(--red);border-radius:3px;border:2px solid var(--ink)}
+.sec-head p{font-size:.78rem;color:var(--muted);text-align:right}
+
+/* ---------- 字切換 ---------- */
+.char-tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.char-tab{
+  display:flex;align-items:center;gap:10px;text-align:left;
+  background:var(--card);border:3px solid rgba(42,33,24,.35);border-radius:16px;
+  padding:8px 10px;box-shadow:0 3px 0 rgba(42,33,24,.15);
+  transition:transform .15s,border-color .15s,background .15s;
+}
+.char-tab .glyph{
+  width:56px;height:56px;flex:0 0 56px;display:grid;place-items:center;
+  font-family:var(--font-kai);font-size:2.2rem;line-height:1;
+  border:3px solid var(--ink);border-radius:12px;background:var(--paper-deep);
+}
+.char-tab .meta{display:flex;flex-direction:column;min-width:0}
+.char-tab .meta b{font-size:.95rem;line-height:1.3}
+.char-tab .meta small{font-size:.7rem;color:var(--muted);line-height:1.4;margin-top:2px}
+.char-tab[aria-selected="true"]{border-color:var(--ink);background:var(--gold-soft);transform:translateY(-2px);box-shadow:0 5px 0 var(--ink)}
+.char-tab[aria-selected="true"] .glyph{background:var(--red);color:#FFF8E6}
+@media(min-width:640px){
+  .char-tab{padding:12px 16px;gap:14px}
+  .char-tab .glyph{width:66px;height:66px;flex-basis:66px;font-size:2.6rem}
+  .char-tab .meta b{font-size:1.05rem}
+  .char-tab .meta small{font-size:.78rem}
+}
+
+/* ---------- 教學卡 ---------- */
+.teach-grid{display:grid;gap:16px}
+@media(min-width:900px){.teach-grid{grid-template-columns:1fr 1fr;gap:20px;align-items:start}}
+.tcard{
+  position:relative;background:var(--card);border:var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);overflow:hidden;
+  animation:rise .5s cubic-bezier(.2,.8,.2,1) both;
+}
+.tcard:nth-child(2){animation-delay:.06s}
+.tcard:nth-child(3){animation-delay:.12s}
+.tcard:nth-child(4){animation-delay:.18s}
+@keyframes rise{from{opacity:.92;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.tcard{animation:none}html{scroll-behavior:auto}}
+.tcard-top{display:flex;align-items:center;gap:6px;padding:11px 13px 6px}
+.chip{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:.68rem;font-weight:800;letter-spacing:.06em;
+  padding:.22em .6em;border-radius:999px;border:2px solid var(--ink);line-height:1.4;
+}
+.chip-tag{background:var(--paper-deep)}
+.chip-lv{background:var(--jade-soft)}
+.chip-lv.hard{background:var(--blue-soft)}
+.card-no{
+  margin-left:auto;font-family:var(--font-kai);font-size:1.1rem;color:var(--muted);
+  letter-spacing:.1em;
+}
+.tcard-art{position:relative;padding:0 11px}
+.tcard-art svg{width:100%;height:auto;display:block;border-radius:14px}
+.art-badge{
+  position:absolute;left:20px;bottom:10px;
+  background:var(--card);border:3px solid var(--ink);border-radius:10px;
+  padding:.1em .55em;font-size:.78rem;font-weight:800;
+  box-shadow:3px 3px 0 rgba(42,33,24,.2);transform:rotate(-2.5deg);
+  max-width:80%;
+}
+.art-badge b{color:var(--red-deep);font-size:.95em}
+.tcard-body{padding:9px 14px 15px}
+.tcard-title{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.tcard-title h3{font-family:var(--font-kai);font-size:1.95rem;line-height:1.2;letter-spacing:.02em}
+.tcard-title small{font-size:.76rem;color:var(--muted)}
+.tcard-meaning{font-size:.92rem;color:var(--ink2);margin-top:1px;line-height:1.55}
+.example{
+  position:relative;margin-top:10px;padding:9px 11px 10px 14px;
+  background:var(--paper);border:2px dashed rgba(42,33,24,.35);border-radius:12px;
+}
+.example::before{
+  content:"";position:absolute;left:0;top:8px;bottom:8px;width:5px;
+  background:var(--gold);border-radius:0 4px 4px 0;
+}
+.ex-line{font-family:var(--font-kai);line-height:1.65;letter-spacing:.02em}
+.ex-before,.ex-after{font-size:.8rem;color:var(--muted)}
+.ex-main{font-size:1.16rem;margin:2px 0}
+@media(min-width:768px){.ex-main{font-size:1.22rem}}
+.hl{
+  color:var(--red-deep);font-weight:700;font-style:normal;
+  padding:0 1px;border-bottom:3px solid rgba(217,75,50,.45);
+  background:linear-gradient(to top,rgba(242,179,61,.35) 38%,transparent 38%);
+}
+.ex-tools{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+.icon-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  border:2px solid var(--ink);border-radius:999px;background:var(--card);
+  padding:.24em .62em;font-size:.72rem;font-weight:800;line-height:1.5;
+  box-shadow:0 2px 0 var(--ink);
+}
+.icon-btn:active{transform:translateY(2px);box-shadow:none}
+.icon-btn svg{width:15px;height:15px;flex:0 0 15px}
+.tip{
+  display:flex;align-items:flex-start;gap:7px;margin-top:10px;
+  background:rgba(242,179,61,.22);border-radius:10px;padding:7px 9px;
+  font-size:.82rem;font-weight:700;line-height:1.5;
+}
+.tip svg{width:17px;height:17px;flex:0 0 17px;margin-top:2px}
+details.more{margin-top:8px;border-top:2px dotted rgba(42,33,24,.22);padding-top:6px}
+details.more summary{
+  list-style:none;cursor:pointer;font-size:.76rem;font-weight:800;color:var(--blue);
+  display:inline-flex;align-items:center;gap:4px;padding:.2em 0;
+}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::after{content:"＋";font-size:1em}
+details.more[open] summary::after{content:"－"}
+details.more p{font-size:.82rem;color:var(--ink2);line-height:1.6;margin-top:2px}
+details.more .src{display:inline-block;font-size:.7rem;color:var(--muted);margin-top:3px}
+
+.learn-cta{display:flex;justify-content:center;margin:22px 0 6px}
+
+/* ---------- 練習場 ---------- */
+.config-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin:20px 0 12px}
+.config-head h2{font-family:var(--font-kai);font-size:2rem;line-height:1.2}
+.config-head p{font-size:.84rem;color:var(--muted)}
+.config-block{
+  background:var(--card);border:var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:14px;margin-bottom:14px;
+}
+.step{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.step .n{
+  width:26px;height:26px;flex:0 0 26px;display:grid;place-items:center;
+  background:var(--ink);color:#FFF8E6;border-radius:50%;font-size:.8rem;font-weight:900;
+}
+.step h3{font-size:1.05rem}
+.step small{margin-left:auto;font-size:.72rem;color:var(--muted);text-align:right}
+.pick-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+.pick{
+  display:flex;align-items:center;gap:9px;text-align:left;
+  background:var(--paper);border:3px solid rgba(42,33,24,.32);border-radius:14px;
+  padding:9px;min-height:72px;
+  transition:background .15s,border-color .15s,transform .12s;
+}
+.pick .ico{width:44px;height:44px;flex:0 0 44px}
+.pick .ico svg{width:100%;height:100%;display:block}
+.pick .t{display:flex;flex-direction:column;min-width:0}
+.pick .t b{font-size:.95rem;line-height:1.25}
+.pick .t small{font-size:.7rem;color:var(--muted);line-height:1.4;margin-top:1px}
+.pick[aria-pressed="true"]{background:var(--gold-soft);border-color:var(--ink);box-shadow:0 3px 0 var(--ink);transform:translateY(-1px)}
+.pick[aria-pressed="true"] .t b{color:var(--ink)}
+@media(max-width:359px){.pick{flex-direction:column;align-items:flex-start;gap:4px}.pick .ico{width:36px;height:36px;flex-basis:36px}}
+.start-row{display:flex;flex-direction:column;gap:8px;align-items:stretch}
+@media(min-width:640px){.start-row{flex-direction:row;align-items:center;justify-content:space-between}}
+.start-summary{font-size:.8rem;color:var(--muted);text-align:center}
+.config-hint{
+  display:flex;align-items:center;gap:8px;justify-content:center;
+  font-size:.8rem;color:var(--ink2);margin:4px 0 10px;text-align:center;
+}
+.config-hint svg{width:17px;height:17px;flex:0 0 17px}
+
+/* ---------- 遊戲 ---------- */
+.game-shell{padding-top:12px}
+.game-top{
+  position:sticky;top:66px;z-index:30;
+  display:flex;align-items:center;gap:9px;
+  background:rgba(251,241,218,.96);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  padding:8px 0 9px;margin-bottom:8px;
+}
+@media(min-width:768px){.game-top{top:74px}}
+.quit{
+  font-size:.76rem;font-weight:800;border:2px solid var(--ink);border-radius:999px;
+  background:var(--card);padding:.3em .6em;flex:0 0 auto;
+}
+.hud{flex:1 1 auto;min-width:0}
+.hud-line{display:flex;justify-content:space-between;font-size:.7rem;font-weight:700;color:var(--ink2);line-height:1.3}
+.bar{height:9px;background:rgba(42,33,24,.14);border-radius:999px;overflow:hidden;margin-top:3px}
+.bar i{display:block;height:100%;width:0;background:var(--jade);border-radius:999px;transition:width .35s ease}
+.score-chip{
+  flex:0 0 auto;font-size:.76rem;font-weight:900;background:var(--gold);
+  border:2px solid var(--ink);border-radius:999px;padding:.28em .6em;line-height:1.4;
+}
+.qcard{
+  background:var(--card);border:var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:11px;animation:rise .35s ease both;
+}
+.qart{position:relative}
+.qart svg{width:100%;height:auto;display:block;border-radius:13px}
+.qtag{
+  position:absolute;top:8px;left:8px;
+  background:var(--card);border:2px solid var(--ink);border-radius:999px;
+  font-size:.64rem;font-weight:900;padding:.15em .55em;letter-spacing:.05em;
+}
+.qsent{margin-top:10px;padding:0 3px}
+.qsent .line{font-family:var(--font-kai);line-height:1.7;letter-spacing:.02em}
+.qsent .before,.qsent .after{font-size:.78rem;color:var(--muted)}
+.qsent .main{font-size:1.2rem;margin:2px 0}
+@media(min-width:768px){.qsent .main{font-size:1.32rem}}
+.qask{font-size:.84rem;font-weight:800;margin:10px 3px 8px;display:flex;align-items:center;gap:6px;color:var(--ink2)}
+.qask::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--red);flex:0 0 7px}
+.opts{display:grid;gap:8px}
+@media(min-width:820px){.opts{grid-template-columns:1fr 1fr}}
+.opt{
+  display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  background:var(--paper);border:3px solid rgba(42,33,24,.5);border-radius:14px;
+  padding:10px 11px;min-height:58px;font-size:1rem;font-weight:700;line-height:1.45;
+  box-shadow:0 3px 0 rgba(42,33,24,.22);
+  transition:background .15s,border-color .15s,transform .1s;
+}
+.opt:active{transform:translateY(2px);box-shadow:none}
+.opt .key{
+  width:30px;height:30px;flex:0 0 30px;display:grid;place-items:center;
+  border-radius:50%;border:2px solid var(--ink);background:var(--card);
+  font-family:var(--font-kai);font-size:1rem;font-weight:700;
+}
+.opt .txt{min-width:0}
+.opt[data-state="right"]{background:var(--jade-soft);border-color:#1E7A62}
+.opt[data-state="wrong"]{background:#FBE2D8;border-color:var(--red-deep)}
+.opt[data-state="muted"]{opacity:.48}
+.bins{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(min-width:820px){.bins{grid-template-columns:repeat(4,1fr)}}
+.bin{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  min-height:88px;padding:8px 6px;text-align:center;
+  background:var(--paper);border:3px dashed rgba(42,33,24,.5);border-radius:14px;
+  transition:background .15s,border-color .15s,transform .1s;
+}
+.bin:active{transform:scale(.98)}
+.bin .ico{width:36px;height:36px}
+.bin .ico svg{width:100%;height:100%;display:block}
+.bin b{font-size:.9rem;line-height:1.3}
+.bin small{font-size:.66rem;color:var(--muted);line-height:1.35}
+.bin[data-state="right"]{background:var(--jade-soft);border-style:solid;border-color:#1E7A62}
+.bin[data-state="wrong"]{background:#FBE2D8;border-style:solid;border-color:var(--red-deep)}
+.bin[data-state="muted"]{opacity:.45}
+.bin .mark{font-size:.68rem;font-weight:900;color:var(--jade);line-height:1.2}
+
+/* 回饋 */
+.fb{
+  margin-top:12px;border:var(--line);border-radius:18px;padding:12px;
+  background:var(--card);box-shadow:4px 4px 0 rgba(42,33,24,.12);
+  animation:pop .28s ease both;
+}
+@keyframes pop{from{opacity:.9;transform:scale(.985)}to{opacity:1;transform:none}}
+.fb-head{display:flex;align-items:center;gap:9px}
+.fb-seal{width:40px;height:40px;flex:0 0 40px}
+.fb-seal svg{width:100%;height:100%;display:block}
+.fb-head b{font-size:1.02rem;line-height:1.3}
+.fb-head span{font-size:.72rem;color:var(--muted);display:block}
+.fb-sentence{font-family:var(--font-kai);font-size:1rem;line-height:1.6;background:var(--paper);border-radius:9px;padding:6px 9px;margin-top:8px;letter-spacing:.02em}
+.fb-answer{
+  margin-top:8px;font-size:.95rem;font-weight:800;line-height:1.5;
+  background:rgba(44,154,139,.12);border-radius:9px;padding:6px 9px;
+}
+.fb.no .fb-sentence{font-family:var(--font-kai);font-size:1rem;line-height:1.6;background:var(--paper);border-radius:9px;padding:6px 9px;margin-top:8px;letter-spacing:.02em}
+.fb-answer{background:rgba(217,75,50,.10)}
+.fb-why{font-size:.9rem;line-height:1.65;margin-top:7px;color:var(--ink2)}
+.fb-why b{color:var(--ink)}
+.fb-trans{font-size:.84rem;line-height:1.6;color:var(--ink2);margin-top:6px;padding-left:9px;border-left:3px solid var(--gold)}
+.fb-src{font-size:.7rem;color:var(--muted);margin-top:5px;display:block}
+.fb-actions{display:flex;justify-content:flex-end;margin-top:10px}
+
+/* 結果 */
+.result-wrap{animation:rise .4s ease both}
+.result-hero{
+  background:var(--card);border:var(--line);border-radius:26px;box-shadow:var(--shadow);
+  padding:20px 16px;text-align:center;position:relative;overflow:hidden;
+}
+.result-hero::before{
+  content:"";position:absolute;left:-30px;right:-30px;top:-70px;height:140px;
+  background:radial-gradient(ellipse at center,rgba(242,179,61,.45),transparent 70%);
+}
+.stars{display:flex;justify-content:center;gap:8px;margin:4px 0 2px;position:relative}
+.stars svg{width:54px;height:54px;display:block}
+.stars svg.off{opacity:.22}
+.result-hero h2{font-family:var(--font-kai);font-size:1.9rem;line-height:1.25;margin-top:4px}
+.result-score{font-size:.92rem;color:var(--ink2);margin-top:2px}
+.result-score b{font-size:1.5rem;font-family:var(--font-kai);color:var(--red-deep)}
+.result-msg{font-size:.86rem;color:var(--muted);margin-top:4px}
+.result-actions{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-top:14px}
+.review{margin-top:16px}
+.review h3{font-size:1rem;display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.review h3::before{content:"";width:8px;height:20px;background:var(--jade);border-radius:3px;border:2px solid var(--ink)}
+.rev-row{
+  display:flex;gap:9px;align-items:flex-start;
+  background:var(--card);border:2px solid rgba(42,33,24,.22);border-radius:12px;
+  padding:8px 10px;margin-bottom:7px;
+}
+.rev-no{font-size:.7rem;font-weight:900;color:var(--muted);flex:0 0 20px;padding-top:2px}
+.rev-main{flex:1 1 auto;min-width:0}
+.rev-main .s{font-family:var(--font-kai);font-size:.9rem;line-height:1.5}
+.rev-main .a{font-size:.74rem;color:var(--ink2);margin-top:2px;line-height:1.45}
+.rev-mark{flex:0 0 auto;font-weight:900;font-size:.8rem;padding-top:1px}
+.rev-row.ok .rev-mark{color:#1E7A62}
+.rev-row.no .rev-mark{color:var(--red-deep)}
+
+/* 底部導覽 */
+.tabbar{
+  position:fixed;left:0;right:0;bottom:0;z-index:45;
+  display:grid;grid-template-columns:1fr 1fr;
+  background:rgba(251,241,218,.97);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border-top:3px solid var(--ink);
+  padding:6px 10px calc(6px + env(safe-area-inset-bottom));
+}
+.tabbar button{
+  display:flex;flex-direction:column;align-items:center;gap:1px;
+  padding:5px;border-radius:12px;font-size:.68rem;font-weight:800;color:var(--muted);
+}
+.tabbar button svg{width:24px;height:24px;display:block}
+.tabbar button[aria-selected="true"]{color:var(--ink);background:rgba(242,179,61,.30)}
+@media(min-width:900px){.tabbar{display:none}body{padding-bottom:0}}
+body{padding-bottom:70px}
+@media(min-width:900px){body{padding-bottom:0}}
+body.playing .tabbar{display:none}
+body.playing{padding-bottom:20px}
+
+/* 頁尾 */
+.foot{
+  position:relative;z-index:1;text-align:center;font-size:.72rem;color:var(--muted);
+  padding:18px 16px 26px;line-height:1.7;border-top:2px dotted rgba(42,33,24,.18);
+  max-width:1120px;margin:18px auto 0;
+}
+.toast{
+  position:fixed;left:50%;bottom:88px;transform:translate(-50%,14px);
+  background:var(--ink);color:#FFF8E6;border-radius:999px;padding:.5em 1.1em;
+  font-size:.82rem;font-weight:700;z-index:80;opacity:0;pointer-events:none;
+  transition:opacity .2s,transform .2s;max-width:88vw;text-align:center;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <svg class="brand-badge" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="47" cy="47" r="33" fill="#F2B33D" stroke="#2A2118" stroke-width="5"/>
+        <path d="M22 40q3-24 25-24t25 24" fill="#8A5878" stroke="#2A2118" stroke-width="5" stroke-linejoin="round"/>
+        <path d="M14 40h66" stroke="#2A2118" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="37" cy="50" r="4.6" fill="#2A2118"/><circle cx="57" cy="50" r="4.6" fill="#2A2118"/>
+        <path d="M38 62q9 8 18 0" stroke="#2A2118" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+        <circle cx="28" cy="59" r="5.4" fill="#D94B32" opacity=".3"/><circle cx="66" cy="59" r="5.4" fill="#D94B32" opacity=".3"/>
+        <circle cx="72" cy="76" r="17" fill="#DCE8F5" fill-opacity=".75" stroke="#2A2118" stroke-width="4"/>
+        <path d="M84 88l10 10" stroke="#2A2118" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <h1>字裡小偵探</h1>
+        <p>之・則 文言小學堂</p>
+      </div>
+    </div>
+    <nav class="nav-desk" aria-label="主要分頁">
+      <button type="button" data-view="learn" aria-selected="true">教學館</button>
+      <button type="button" data-view="play" aria-selected="false">練習場</button>
+    </nav>
+    <button type="button" class="sound" id="btn-sound" aria-pressed="true" aria-label="音效開關">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 9.5v5h3.5L12 18V6L7.5 9.5z" fill="currentColor" stroke="none"/>
+        <path class="wave" d="M15.5 9a4.2 4.2 0 0 1 0 6"/><path class="wave" d="M18.2 6.4a8 8 0 0 1 0 11.2"/>
+        <path class="slash" d="M15 4 21 20"/>
+      </svg>
+      <span id="sound-label">音效</span>
+    </button>
+  </div>
+</div>
+
+<main>
+  <!-- 教學館 -->
+  <section id="view-learn" class="view" aria-label="教學館">
+    <div class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">小學文言文・基礎知識</span>
+        <h1>兩個字，<br><span class="mark">八種</span>身分。</h1>
+        <p class="desc">「之」和「則」是文言文裡最常見的兩個小幫手。看懂它們，句子就通了一半。</p>
+        <div class="hero-actions">
+          <button type="button" class="btn btn-red" data-view="play">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4.5v15l13-7.5z" fill="currentColor" stroke="none"/></svg>
+            開始挑戰
+          </button>
+          <button type="button" class="btn btn-ghost" id="btn-hero-teach">先看圖卡</button>
+        </div>
+        <div class="hero-stats">
+          <div><b>8</b><span>張圖解卡</span></div>
+          <div><b>2</b><span>種玩法</span></div>
+          <div><b>24</b><span>道練習</span></div>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="hero-card z">之</div>
+        <div class="hero-card e">則</div>
+        <div class="hero-mascot" id="hero-mascot"></div>
+      </div>
+    </div>
+
+    <div class="sec-head">
+      <h2>教學館</h2>
+      <p>一張圖，一種用法<br>點「聽句子」跟著念</p>
+    </div>
+
+    <div class="char-tabs" role="tablist" aria-label="選擇字">
+      <button type="button" class="char-tab" role="tab" id="tab-zhi" data-char="zhi" aria-selected="true" aria-controls="teach-list">
+        <span class="glyph">之</span>
+        <span class="meta"><b>四種身分</b><small>它／的／往／不翻</small></span>
+      </button>
+      <button type="button" class="char-tab" role="tab" id="tab-ze" data-char="ze" aria-selected="false" aria-controls="teach-list">
+        <span class="glyph">則</span>
+        <span class="meta"><b>四種接法</b><small>就／卻／就是／那麼</small></span>
+      </button>
+    </div>
+
+    <div id="teach-list" class="teach-grid" role="tabpanel" aria-labelledby="tab-zhi"></div>
+
+    <div class="learn-cta">
+      <button type="button" class="btn btn-jade btn-lg" data-view="play">我準備好了，去練習 →</button>
+    </div>
+  </section>
+
+  <!-- 練習場 -->
+  <section id="view-play" class="view" aria-label="練習場" hidden>
+    <div id="play-config">
+      <div class="config-head">
+        <div>
+          <h2 class="kai">練習場</h2>
+          <p>選難度、選玩法，一輪六題。</p>
+        </div>
+        <div class="hero-cards" aria-hidden="true" style="display:flex;gap:6px;transform:scale(.7);transform-origin:right bottom">
+          <span style="width:44px;height:56px;display:grid;place-items:center;border:3px solid var(--ink);border-radius:9px;background:var(--gold);font-family:var(--font-kai);font-size:1.6rem">之</span>
+          <span style="width:44px;height:56px;display:grid;place-items:center;border:3px solid var(--ink);border-radius:9px;background:var(--jade);color:#FFF8E6;font-family:var(--font-kai);font-size:1.6rem">則</span>
+        </div>
+      </div>
+
+      <div class="config-block">
+        <div class="step"><span class="n">1</span><h3>選難度</h3><small>同一批字，深淺不同</small></div>
+        <div class="pick-grid" id="level-row">
+          <button type="button" class="pick" data-level="easy" aria-pressed="true">
+            <span class="ico" data-art="seed"></span>
+            <span class="t"><b>初階版</b><small>四・五年級<br>最常用的用法</small></span>
+          </button>
+          <button type="button" class="pick" data-level="hard" aria-pressed="false">
+            <span class="ico" data-art="rocket"></span>
+            <span class="t"><b>高階版</b><small>五・六年級<br>加上進階用法</small></span>
+          </button>
+        </div>
+
+        <div class="step"><span class="n">2</span><h3>選玩法</h3><small>兩種都能練六題</small></div>
+        <div class="pick-grid" id="mode-row">
+          <button type="button" class="pick" data-mode="pick" aria-pressed="true">
+            <span class="ico" data-art="bulb"></span>
+            <span class="t"><b>字義挑戰</b><small>四選一<br>選出紅字的意思</small></span>
+          </button>
+          <button type="button" class="pick" data-mode="sort" aria-pressed="false">
+            <span class="ico" data-art="basket"></span>
+            <span class="t"><b>分類高手</b><small>一句一籃<br>把句子放對位置</small></span>
+          </button>
+        </div>
+
+        <div class="start-row">
+          <button type="button" class="btn btn-red btn-lg" id="btn-start">開始挑戰</button>
+          <span class="start-summary" id="start-summary">初階版・字義挑戰・六題</span>
+        </div>
+      </div>
+
+      <p class="config-hint">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7.6h.01"/></svg>
+        答錯不扣分，每題都會告訴你「為什麼」。
+      </p>
+    </div>
+
+    <div id="play-game" class="game-shell" hidden>
+      <div class="game-top">
+        <button type="button" class="quit" id="btn-quit">← 離開</button>
+        <div class="hud">
+          <div class="hud-line"><span id="q-count">第 1 / 6 題</span><span id="q-left">還剩 5 題</span></div>
+          <div class="bar"><i id="q-bar"></i></div>
+        </div>
+        <span class="score-chip" id="score-chip">0 分</span>
+      </div>
+      <div id="stage"></div>
+    </div>
+
+    <div id="play-result" hidden></div>
+  </section>
+</main>
+
+<footer class="foot"><b>字裡小偵探</b>　之・則 文言小學堂<br>單檔離線課件・手機／平板／電腦・適合課堂投屏</footer>
+
+<nav class="tabbar" aria-label="主要分頁">
+  <button type="button" data-view="learn" aria-selected="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H19v3"/></svg>
+    <span>教學館</span>
+  </button>
+  <button type="button" data-view="play" aria-selected="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>
+    <span>練習場</span>
+  </button>
+</nav>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+/* =========================================================
+   插圖：全部內嵌 SVG（320×200 場景），離線可用
+   ========================================================= */
+var ART = {};
+var INK = '#2A2118';
+
+function svg(inner, bg){
+  return '<svg viewBox="0 0 320 200" aria-hidden="true" focusable="false">' +
+    '<rect x="4" y="4" width="312" height="192" rx="18" fill="' + (bg || '#FDF6E4') + '" stroke="' + INK + '" stroke-width="5"/>' +
+    inner + '</svg>';
+}
+function waves(y, color, op){
+  return '<path d="M8 ' + y + ' q20-8 40 0 t40 0 t40 0 t40 0 t40 0 t40 0" fill="none" stroke="' + (color || '#37699F') + '" stroke-width="4" stroke-linecap="round" opacity="' + (op || '.5') + '"/>';
+}
+function ground(y){
+  return '<path d="M0 ' + (y || 170) + 'h320" stroke="' + INK + '" stroke-width="4" stroke-linecap="round"/>';
+}
+function sun(x, y, r){
+  return '<circle cx="' + x + '" cy="' + y + '" r="' + r + '" fill="#F2B33D" stroke="' + INK + '" stroke-width="4"/>' +
+    '<path d="M' + x + ' ' + (y - r - 12) + 'v-7M' + x + ' ' + (y + r + 12) + 'v7M' + (x - r - 12) + ' ' + y + 'h-7M' + (x + r + 12) + ' ' + y + 'h7" stroke="' + INK + '" stroke-width="3" stroke-linecap="round" opacity=".5"/>';
+}
+
+var HAIR = {
+  boy: '<path d="M-21 -2q1-22 21-22t21 22q-9-9-21-7-12-2-21 7Z" fill="#2A2118"/>',
+  girl: '<path d="M-21 -2q1-22 21-22t21 22q-9-9-21-7-12-2-21 7Z" fill="#2A2118"/><circle cx="0" cy="-25" r="8" fill="#2A2118"/><circle cx="0" cy="-25" r="3.2" fill="#D94B32"/>',
+  old: '<path d="M-21 -2q1-22 21-22t21 22q-9-8-21-6-12-2-21 6Z" fill="#EFE6D2"/><path d="M-15 14q15 19 30 0-5 17-15 17t-15-17Z" fill="#EFE6D2"/>',
+  scholar: '<path d="M-24 -11h48l-5-11h-38Z" fill="#2A2118"/><rect x="-12" y="-24" width="24" height="12" rx="3" fill="#2A2118"/>'
+};
+
+function chibi(o){
+  o = o || {};
+  var x = o.x || 160, y = o.y || 80, s = o.s || 1;
+  var robe = o.robe || '#37699F';
+  var mouth = o.sad ? 'M-6 11q6-5 12 0' : 'M-6 9q6 6 12 0';
+  var arms = o.arms || ('<path d="M-15 29q-11 9-13 19" stroke="' + robe + '" stroke-width="10" fill="none" stroke-linecap="round"/>' +
+    '<path d="M15 29q11 9 13 19" stroke="' + robe + '" stroke-width="10" fill="none" stroke-linecap="round"/>');
+  var legs = o.sit ? '' : '<path d="M-8 57v13M8 57v13" stroke="' + INK + '" stroke-width="7" stroke-linecap="round"/>';
+  return '<g transform="translate(' + x + ',' + y + ') scale(' + s + ')">' +
+    '<path d="M-15 21q15-7 30 0l4 35q-19 7-38 0Z" fill="' + robe + '" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+    arms + legs +
+    '<circle cx="0" cy="0" r="21" fill="' + (o.skin || '#F7C98D') + '" stroke="' + INK + '" stroke-width="4"/>' +
+    (HAIR[o.hair || 'boy'] || HAIR.boy) +
+    '<circle cx="-7" cy="1" r="2.7" fill="' + INK + '"/><circle cx="7" cy="1" r="2.7" fill="' + INK + '"/>' +
+    '<path d="' + mouth + '" stroke="' + INK + '" stroke-width="2.8" fill="none" stroke-linecap="round"/>' +
+    '<circle cx="-14" cy="8" r="4.2" fill="#D94B32" opacity=".22"/><circle cx="14" cy="8" r="4.2" fill="#D94B32" opacity=".22"/>' +
+    '</g>';
+}
+
+/* 1 讀書 */
+ART.study = svg(
+  sun(272, 40, 17) +
+  '<rect x="30" y="30" width="92" height="74" rx="5" fill="#DCEBF7" stroke="' + INK + '" stroke-width="4"/>' +
+  '<path d="M76 30v74M30 67h92" stroke="' + INK + '" stroke-width="3.4"/>' +
+  '<path d="M30 30l46 37M122 30L76 67" stroke="' + INK + '" stroke-width="1.8" opacity=".3"/>' +
+  chibi({ x: 196, y: 74, robe: '#37699F', hair: 'boy' }) +
+  '<rect x="122" y="126" width="138" height="13" rx="6" fill="#C9A46E" stroke="' + INK + '" stroke-width="4"/>' +
+  '<path d="M136 139v29M246 139v29" stroke="' + INK + '" stroke-width="6" stroke-linecap="round"/>' +
+  '<path d="M160 126q17-8 34 0v-11q-17-7-34 0Z" fill="#FFFCF2" stroke="' + INK + '" stroke-width="3.4" stroke-linejoin="round"/>' +
+  '<path d="M194 126q17-8 34 0v-11q-17-7-34 0Z" fill="#FFFCF2" stroke="' + INK + '" stroke-width="3.4" stroke-linejoin="round"/>' +
+  '<path d="M187 126v-11M175 120h-9M199 120h9" stroke="' + INK + '" stroke-width="2.4" stroke-linecap="round" opacity=".45"/>' +
+  ground(168)
+);
+
+/* 2 蓮花 */
+ART.lotus = svg(
+  '<circle cx="268" cy="38" r="18" fill="#F2B33D" stroke="' + INK + '" stroke-width="4"/>' +
+  '<ellipse cx="180" cy="164" rx="128" ry="24" fill="#CFE6F2" stroke="' + INK + '" stroke-width="4"/>' +
+  '<ellipse cx="112" cy="156" rx="34" ry="12" fill="#7FB6A4" stroke="' + INK + '" stroke-width="3.6"/>' +
+  '<path d="M100 156h24" stroke="' + INK + '" stroke-width="2.4" opacity=".35"/>' +
+  '<path d="M212 160q-14-18 0-38 14 20 0 38Z" fill="#F2B33D" stroke="' + INK + '" stroke-width="3.6"/>' +
+  '<path d="M212 160q-24-8-26-28 20 6 26 28Z" fill="#E8A0B4" stroke="' + INK + '" stroke-width="3.4"/>' +
+  '<path d="M212 160q24-8 26-28-20 6-26 28Z" fill="#E8A0B4" stroke="' + INK + '" stroke-width="3.4"/>' +
+  '<path d="M150 166q-9-14 0-27 10 13 0 27Z" fill="#F5D6A0" stroke="' + INK + '" stroke-width="3.2"/>' +
+  chibi({ x: 66, y: 92, robe: '#8A5878', hair: 'girl', arms: '<path d="M15 29q14-8 24-16" stroke="#8A5878" stroke-width="10" fill="none" stroke-linecap="round"/>' }) +
+  '<path d="M118 78l4-9 4 9 9 4-9 4-4 9-4-9-9-4Z" fill="#FFFCF2" stroke="' + INK + '" stroke-width="2.2"/>' +
+  ground(182)
+);
+
+/* 3 送別 */
+ART.boat = svg(
+  sun(54, 46, 18) +
+  '<path d="M0 130q30-18 60 0t60 0 60 0 60 0 60 0v40H0Z" fill="#CFE6F2" stroke="' + INK + '" stroke-width="4"/>' +
+  waves(148, '#37699F', .45) + waves(166, '#37699F', .3) +
+  '<path d="M172 116h72l-10 18h-52Z" fill="#C9A46E" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  '<path d="M208 30v86" stroke="' + INK + '" stroke-width="4"/>' +
+  '<path d="M208 36l34 40h-34Z" fill="#FFFCF2" stroke="' + INK + '" stroke-width="3.6" stroke-linejoin="round"/>' +
+  '<path d="M208 36l-24 40h24Z" fill="#F2B33D" stroke="' + INK + '" stroke-width="3.6" stroke-linejoin="round"/>' +
+  '<path d="M118 92q10-12 20 0M140 84q8-10 16 0" stroke="' + INK + '" stroke-width="2.6" fill="none" stroke-linecap="round"/>' +
+  chibi({ x: 66, y: 100, robe: '#2C9A8B', hair: 'boy', arms: '<path d="M15 29q13-10 22-20" stroke="#2C9A8B" stroke-width="10" fill="none" stroke-linecap="round"/>' }) +
+  ground(172)
+);
+
+/* 4 山與愚公 */
+ART.mountain = svg(
+  '<path d="M0 164 74 60l56 104Z" fill="#7FB6A4" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  '<path d="M108 164 196 44l92 120Z" fill="#A9D3C4" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  '<path d="M196 44l-22 30 22-8 20 10Z" fill="#FFFCF2" stroke="' + INK + '" stroke-width="3"/>' +
+  '<path d="M40 164q22-30 44-8t40-2" stroke="#EFE0BE" stroke-width="12" fill="none" stroke-linecap="round"/>' +
+  chibi({ x: 236, y: 106, robe: '#8A5878', hair: 'old', s: .92, arms: '<path d="M-15 28q-14 2-20 12" stroke="#8A5878" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M15 28q12 6 18 14" stroke="#8A5878" stroke-width="10" fill="none" stroke-linecap="round"/>' }) +
+  '<path d="M208 150l-16-40" stroke="#C9A46E" stroke-width="5" stroke-linecap="round"/>' +
+  '<path d="M186 116l14 6-6 12-14-6Z" fill="#6E7C86" stroke="' + INK + '" stroke-width="3"/>' +
+  chibi({ x: 86, y: 118, robe: '#D94B32', hair: 'boy', s: .7 }) +
+  '<path d="M60 160q10-8 22 0" stroke="' + INK + '" stroke-width="3" fill="none" opacity=".35"/>' +
+  ground(166)
+);
+
+/* 5 清水魚 */
+ART.fish = svg(
+  '<rect x="20" y="26" width="280" height="132" rx="16" fill="#DCEBF7" stroke="' + INK + '" stroke-width="4"/>' +
+  '<path d="M20 132q26-14 52 0t52 0 52 0 52 0 52 0v26H20Z" fill="#CFE6F2"/>' +
+  '<path d="M92 92q28-26 58-6 10 6 18 6-8 2-18 8-30 18-58-8Z" fill="#F2B33D" stroke="' + INK + '" stroke-width="3.6" stroke-linejoin="round"/>' +
+  '<path d="M168 92l22-14v28Z" fill="#F2B33D" stroke="' + INK + '" stroke-width="3.4" stroke-linejoin="round"/>' +
+  '<circle cx="114" cy="88" r="3" fill="' + INK + '"/>' +
+  '<path d="M190 60q10-10 20 0M214 76q8-8 16 0" stroke="#37699F" stroke-width="3" fill="none" opacity=".5" stroke-linecap="round"/>' +
+  '<path d="M42 56q8-10 16 0M60 48q7-8 14 0" stroke="' + INK + '" stroke-width="2.4" fill="none" opacity=".35" stroke-linecap="round"/>' +
+  '<circle cx="236" cy="118" r="10" fill="#7FB6A4" stroke="' + INK + '" stroke-width="3"/>' +
+  '<path d="M84 120q8-6 16 0t16 0" stroke="#2C9A8B" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+  ground(186)
+);
+
+/* 6 龜 */
+ART.turtle = svg(
+  '<circle cx="262" cy="44" r="17" fill="#F2B33D" stroke="' + INK + '" stroke-width="4"/>' +
+  '<path d="M20 162q30-52 74-52 46 0 72 52Z" fill="#7FB6A4" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  '<path d="M52 158q8-30 32-38M126 158q-4-28-16-36" stroke="' + INK + '" stroke-width="2.6" fill="none" opacity=".4"/>' +
+  '<circle cx="222" cy="128" r="23" fill="#F7C98D" stroke="' + INK + '" stroke-width="4"/>' +
+  '<path d="M214 122l7 5M230 122l7 5" stroke="' + INK + '" stroke-width="2.6" stroke-linecap="round"/>' +
+  '<path d="M212 140q10 6 20 0" stroke="' + INK + '" stroke-width="2.8" fill="none" stroke-linecap="round"/>' +
+  '<path d="M244 152q10 4 18 0" stroke="' + INK + '" stroke-width="4" stroke-linecap="round"/>' +
+  '<text x="256" y="96" font-size="18" font-weight="700" font-family="sans-serif" fill="#584734">z</text>' +
+  '<text x="272" y="80" font-size="12" font-weight="700" font-family="sans-serif" fill="#584734">z</text>' +
+  ground(170)
+);
+
+/* 7 岳陽樓 */
+ART.terrace = svg(
+  sun(268, 40, 16) +
+  '<path d="M160 20 108 54h104Z" fill="#D94B32" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  '<path d="M112 54h96v10h-96Z" fill="#F2B33D" stroke="' + INK + '" stroke-width="3.4"/>' +
+  '<path d="M122 64h76v62h-76Z" fill="#FFFCF2" stroke="' + INK + '" stroke-width="4"/>' +
+  '<path d="M136 126V90q24-14 48 0v36" fill="#CFE6F2" stroke="' + INK + '" stroke-width="3.2"/>' +
+  '<path d="M136 96h48M160 90v36" stroke="' + INK + '" stroke-width="2.4" opacity=".45"/>' +
+  '<path d="M80 126h160" stroke="' + INK + '" stroke-width="4" stroke-linecap="round"/>' +
+  waves(150, '#37699F', .45) + waves(168, '#37699F', .3) +
+  '<path d="M44 86q10-12 20 0M62 72q8-9 16 0" stroke="' + INK + '" stroke-width="2.6" fill="none" opacity=".55" stroke-linecap="round"/>' +
+  ground(186)
+);
+
+/* 8 月下亭 */
+ART.moon = svg(
+  '<rect x="4" y="4" width="312" height="192" rx="18" fill="#2F3B57" stroke="' + INK + '" stroke-width="5"/>' +
+  '<circle cx="248" cy="48" r="21" fill="#FFF3D0" stroke="' + INK + '" stroke-width="3.4"/>' +
+  '<circle cx="241" cy="43" r="3.4" fill="#E4D5B6"/><circle cx="254" cy="54" r="2.6" fill="#E4D5B6"/>' +
+  '<circle cx="92" cy="40" r="2.2" fill="#FFF3D0"/><circle cx="132" cy="62" r="1.8" fill="#FFF3D0"/>' +
+  '<circle cx="56" cy="72" r="1.6" fill="#FFF3D0"/><circle cx="186" cy="30" r="1.8" fill="#FFF3D0"/>' +
+  '<path d="M118 42q4-14 20-14t20 14Z" fill="#4C5C7C" stroke="' + INK + '" stroke-width="3.4"/>' +
+  '<path d="M118 46h40" stroke="' + INK + '" stroke-width="3.4" stroke-linecap="round"/>' +
+  '<path d="M124 46v14M152 46v14" stroke="' + INK + '" stroke-width="3.4"/>' +
+  '<path d="M106 128h64v40h-64Z" fill="#4C5C7C" stroke="' + INK + '" stroke-width="4"/>' +
+  '<path d="M112 128v-8h52v8" fill="#D94B32" stroke="' + INK + '" stroke-width="3.4"/>' +
+  '<path d="M96 168h84" stroke="#FFF3D0" stroke-width="3" opacity=".5"/>' +
+  '<path d="M0 168q20-8 40 0t40 0 40 0 40 0 40 0 40 0" stroke="#8FB6D8" stroke-width="3.4" fill="none" opacity=".45"/>' +
+  chibi({ x: 58, y: 112, robe: '#D94B32', hair: 'boy', s: .86, sit: true })
+);
+
+/* 9 司馬光砸缸 */
+ART.jar = svg(
+  '<ellipse cx="176" cy="176" rx="64" ry="8" fill="' + INK + '" opacity=".1"/>' +
+  '<path d="M136 62q40-18 80 0l-8 86q-32 20-64 0Z" fill="#7FB6A4" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  '<path d="M136 62q40 16 80 0" fill="none" stroke="' + INK + '" stroke-width="4"/>' +
+  '<path d="M148 106q28 12 56 0" stroke="#37699F" stroke-width="3.4" fill="none" opacity=".55"/>' +
+  '<path d="M120 78L96 52" stroke="' + INK + '" stroke-width="5" stroke-linecap="round" opacity=".5"/>' +
+  '<path d="M214 64q10-14 4-24" stroke="#37699F" stroke-width="3.4" fill="none" stroke-linecap="round"/>' +
+  '<circle cx="220" cy="36" r="3" fill="#37699F"/>' +
+  '<path d="M112 60l22-8 12 18-20 12Z" fill="#9AA6AE" stroke="' + INK + '" stroke-width="3.4" stroke-linejoin="round"/>' +
+  '<path d="M118 66l14-4" stroke="#FFFCF2" stroke-width="2.4" stroke-linecap="round" opacity=".55"/>' +
+  '<path d="M150 64q-6-10 2-18M162 72q2-12 12-16" stroke="#37699F" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"/>' +
+  chibi({ x: 82, y: 92, robe: '#D94B32', hair: 'boy', arms: '<path d="M15 28q18-4 30-12" stroke="#D94B32" stroke-width="10" fill="none" stroke-linecap="round"/>' }) +
+  '<path d="M128 70l14 8" stroke="#6E7C86" stroke-width="9" stroke-linecap="round"/>' +
+  waves(140, '#37699F', .35) +
+  ground(174)
+);
+
+/* 10 千里之行 */
+ART.road = svg(
+  '<path d="M0 156 62 70l40 54 34-40 46 72Z" fill="#A9D3C4" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  '<circle cx="268" cy="46" r="18" fill="#F2B33D" stroke="' + INK + '" stroke-width="4"/>' +
+  '<path d="M24 176c50-30 54-52 96-66s54-32 82-42" stroke="#E6D3AC" stroke-width="34" fill="none" stroke-linecap="round"/>' +
+  '<path d="M24 176c50-30 54-52 96-66s54-32 82-42" stroke="' + INK + '" stroke-width="3" fill="none" stroke-dasharray="2 12" stroke-linecap="round" opacity=".35"/>' +
+  '<ellipse cx="92" cy="140" rx="6" ry="8" fill="' + INK + '" opacity=".35"/>' +
+  '<ellipse cx="120" cy="122" rx="6" ry="8" fill="' + INK + '" opacity=".35"/>' +
+  '<ellipse cx="150" cy="102" rx="6" ry="8" fill="' + INK + '" opacity=".35"/>' +
+  chibi({ x: 52, y: 108, robe: '#37699F', hair: 'boy', s: .85 }) +
+  '<path d="M188 42q10-12 20 0M208 34q8-9 16 0" stroke="' + INK + '" stroke-width="2.4" fill="none" opacity=".4" stroke-linecap="round"/>' +
+  ground(178)
+);
+
+/* 11 伯牙鼓琴 */
+ART.qin = svg(
+  '<ellipse cx="150" cy="176" rx="96" ry="9" fill="' + INK + '" opacity=".1"/>' +
+  '<path d="M62 120q86-20 172 0l-10 34q-76 14-152 0Z" fill="#C9A46E" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  '<path d="M72 128q78-14 152 0" stroke="' + INK + '" stroke-width="2.4" fill="none"/>' +
+  '<path d="M76 140q72-12 144 0M80 150q66-10 132 0" stroke="' + INK + '" stroke-width="1.8" fill="none" opacity=".5"/>' +
+  chibi({ x: 96, y: 76, robe: '#8A5878', hair: 'scholar', s: .9, arms: '<path d="M15 28q14 4 20 14" stroke="#8A5878" stroke-width="10" fill="none" stroke-linecap="round"/>' }) +
+  chibi({ x: 250, y: 88, robe: '#2C9A8B', hair: 'boy', s: .86, arms: '<path d="M-15 28q-12 10-16 18" stroke="#2C9A8B" stroke-width="10" fill="none" stroke-linecap="round"/>' }) +
+  '<path d="M180 64q8-12 0-20M198 54q8-12 0-20" stroke="#D94B32" stroke-width="3.4" fill="none" stroke-linecap="round"/>' +
+  '<circle cx="178" cy="70" r="4" fill="#D94B32"/><circle cx="196" cy="60" r="4" fill="#D94B32"/>' +
+  ground(174)
+);
+
+/* 12 少年智 */
+ART.flag = svg(
+  '<path d="M0 168 92 74l64 66 52-40 112 68Z" fill="#A9D3C4" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  sun(268, 44, 18) +
+  '<path d="M188 40v112" stroke="' + INK + '" stroke-width="5" stroke-linecap="round"/>' +
+  '<path d="M188 44h64l-12 18 12 18h-64Z" fill="#D94B32" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  '<path d="M200 54h30M200 66h26" stroke="#FFFCF2" stroke-width="3" stroke-linecap="round"/>' +
+  chibi({ x: 154, y: 96, robe: '#37699F', hair: 'boy', s: .9, arms: '<path d="M15 28q14-8 26-26" stroke="#37699F" stroke-width="10" fill="none" stroke-linecap="round"/>' }) +
+  '<path d="M58 60q12-14 24 0M82 48q10-11 20 0" stroke="' + INK + '" stroke-width="2.6" fill="none" opacity=".4" stroke-linecap="round"/>' +
+  ground(172)
+);
+
+/* 13 浙江之潮 */
+ART.tide = svg(
+  '<path d="M0 120q64-66 128-18-42-6-38 26 12-18 36-4 26 14 58-2 42-22 72 0 22 16 40 6v52H0Z" fill="#7FB6D8" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  waves(88, '#FFFCF2', .8) + waves(112, '#37699F', .5) +
+  '<path d="M112 34q10-12 20 0M132 24q8-9 16 0" stroke="' + INK + '" stroke-width="2.6" fill="none" opacity=".4" stroke-linecap="round"/>' +
+  chibi({ x: 64, y: 108, robe: '#D94B32', hair: 'boy', s: .78, arms: '<path d="M15 28q12-8 18-18" stroke="#D94B32" stroke-width="10" fill="none" stroke-linecap="round"/>' }) +
+  chibi({ x: 246, y: 116, robe: '#2C9A8B', hair: 'girl', s: .7, arms: '<path d="M-15 28q-12-8-18-18" stroke="#2C9A8B" stroke-width="10" fill="none" stroke-linecap="round"/>' }) +
+  ground(178)
+);
+
+/* 14 想一想 */
+ART.brain = svg(
+  '<circle cx="264" cy="42" r="16" fill="#F2B33D" stroke="' + INK + '" stroke-width="4"/>' +
+  '<path d="M196 44q0-30 30-30t30 30q0 22-22 26v10h-18v-10q-20-4-20-26Z" fill="#FFFCF2" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  '<text x="226" y="56" text-anchor="middle" font-size="30" font-weight="700" font-family="serif" fill="#D94B32">?</text>' +
+  '<circle cx="180" cy="82" r="5" fill="#FFFCF2" stroke="' + INK + '" stroke-width="3"/>' +
+  '<circle cx="168" cy="96" r="3.4" fill="#FFFCF2" stroke="' + INK + '" stroke-width="3"/>' +
+  chibi({ x: 108, y: 106, robe: '#8A5878', hair: 'boy', s: .95, arms: '<path d="M15 28q14-6 22-12" stroke="#8A5878" stroke-width="10" fill="none" stroke-linecap="round"/>' }) +
+  '<path d="M60 160q30-8 60 0" stroke="' + INK + '" stroke-width="3" fill="none" opacity=".25"/>' +
+  ground(172)
+);
+
+/* 15 王戎與李 */
+ART.plum = svg(
+  '<path d="M188 168V52" stroke="' + INK + '" stroke-width="12" stroke-linecap="round"/>' +
+  '<path d="M188 92l-38-26M188 74l42-26" stroke="' + INK + '" stroke-width="7" stroke-linecap="round"/>' +
+  '<circle cx="142" cy="58" r="26" fill="#7FB6A4" stroke="' + INK + '" stroke-width="4"/>' +
+  '<circle cx="238" cy="40" r="28" fill="#7FB6A4" stroke="' + INK + '" stroke-width="4"/>' +
+  '<circle cx="208" cy="30" r="20" fill="#A9D3C4" stroke="' + INK + '" stroke-width="3.6"/>' +
+  '<circle cx="166" cy="44" r="7" fill="#8A5878" stroke="' + INK + '" stroke-width="2.4"/>' +
+  '<circle cx="198" cy="52" r="7" fill="#8A5878" stroke="' + INK + '" stroke-width="2.4"/>' +
+  '<circle cx="246" cy="58" r="7" fill="#8A5878" stroke="' + INK + '" stroke-width="2.4"/>' +
+  '<circle cx="220" cy="70" r="7" fill="#8A5878" stroke="' + INK + '" stroke-width="2.4"/>' +
+  chibi({ x: 74, y: 96, robe: '#D94B32', hair: 'boy', s: .8, arms: '<path d="M15 28q16-8 26-2" stroke="#D94B32" stroke-width="10" fill="none" stroke-linecap="round"/>' }) +
+  chibi({ x: 118, y: 112, robe: '#37699F', hair: 'boy', s: .72 }) +
+  ground(170)
+);
+
+/* 16 見善則遷 */
+ART.heart = svg(
+  '<path d="M160 74c-30-22-56-6-56 14 0 20 24 36 56 56 32-20 56-36 56-56 0-20-26-36-56-14Z" fill="#F2B33D" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round" transform="translate(0,-26) scale(.72) translate(62,26)"/>' +
+  '<path d="M148 58l9 9 20-22" stroke="' + INK + '" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
+  chibi({ x: 92, y: 112, robe: '#2C9A8B', hair: 'boy', s: .95, arms: '<path d="M15 28q20 0 30-4" stroke="#2C9A8B" stroke-width="10" fill="none" stroke-linecap="round"/>' }) +
+  chibi({ x: 228, y: 112, robe: '#8A5878', hair: 'girl', s: .95, arms: '<path d="M-15 28q-20 0-30-4" stroke="#8A5878" stroke-width="10" fill="none" stroke-linecap="round"/>' }) +
+  '<path d="M126 92q34-10 68 0" stroke="' + INK + '" stroke-width="3" fill="none" stroke-dasharray="5 6" opacity=".35"/>' +
+  ground(172)
+);
+
+/* 17 山川 */
+ART.river = svg(
+  '<path d="M0 150 64 54l44 62 38-44 52 78Z" fill="#A9D3C4" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  '<circle cx="266" cy="40" r="17" fill="#F2B33D" stroke="' + INK + '" stroke-width="4"/>' +
+  '<path d="M0 156q46-12 92 4t92-2 92 6 44-4v40H0Z" fill="#CFE6F2" stroke="' + INK + '" stroke-width="4"/>' +
+  waves(172, '#37699F', .45) +
+  '<path d="M142 86q10-12 20 0M162 76q8-9 16 0" stroke="' + INK + '" stroke-width="2.4" fill="none" opacity=".4" stroke-linecap="round"/>' +
+  '<path d="M44 142q16-10 32 0M64 128q14-9 28 0" stroke="#2C9A8B" stroke-width="3.4" fill="none" stroke-linecap="round"/>' +
+  ground(190)
+);
+
+/* 18 集市買履 */
+ART.market = svg(
+  '<path d="M28 84h108l-10 22H38Z" fill="#D94B32" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  '<path d="M34 84l14-24h72l14 24" fill="#F2B33D" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  '<path d="M82 60v46M52 84h60" stroke="' + INK + '" stroke-width="3" opacity=".4"/>' +
+  '<rect x="40" y="106" width="84" height="8" rx="4" fill="#C9A46E" stroke="' + INK + '" stroke-width="3"/>' +
+  '<path d="M48 114v46M116 114v46" stroke="' + INK + '" stroke-width="5" stroke-linecap="round"/>' +
+  '<path d="M182 142h84l-6 22h-72Z" fill="#C9A46E" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  '<path d="M196 92h56l6 52h-68Z" fill="#FFFCF2" stroke="' + INK + '" stroke-width="3.6"/>' +
+  '<path d="M196 106h56M196 120h56" stroke="' + INK + '" stroke-width="2.4" opacity=".4"/>' +
+  chibi({ x: 150, y: 106, robe: '#37699F', hair: 'boy', s: .82, arms: '<path d="M15 28q16-8 26-6" stroke="#37699F" stroke-width="10" fill="none" stroke-linecap="round"/>' }) +
+  '<rect x="208" y="70" width="26" height="10" rx="2" fill="#F2B33D" stroke="' + INK + '" stroke-width="2.6" transform="rotate(12 221 75)"/>' +
+  ground(172)
+);
+
+/* 19 大道之行 */
+ART.gate = svg(
+  '<path d="M96 84 160 30l64 54Z" fill="#D94B32" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  '<path d="M106 84h108v78H106Z" fill="#FFFCF2" stroke="' + INK + '" stroke-width="4"/>' +
+  '<path d="M136 162V116q24-18 48 0v46" fill="#7FB6A4" stroke="' + INK + '" stroke-width="3.6"/>' +
+  '<path d="M96 84h128" stroke="' + INK + '" stroke-width="5" stroke-linecap="round"/>' +
+  chibi({ x: 62, y: 112, robe: '#8A5878', hair: 'old', s: .78 }) +
+  chibi({ x: 248, y: 116, robe: '#2C9A8B', hair: 'girl', s: .74 }) +
+  '<path d="M28 176q70-16 132 0t132 0" stroke="#E6D3AC" stroke-width="16" fill="none" stroke-linecap="round"/>' +
+  ground(184)
+);
+
+/* 20 陋室 */
+ART.hut = svg(
+  '<path d="M160 34 92 94h136Z" fill="#C9A46E" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  '<path d="M106 94v70h108V94" fill="#FFFCF2" stroke="' + INK + '" stroke-width="4"/>' +
+  '<path d="M146 164v-40q14-12 28 0v40" fill="#7FB6A4" stroke="' + INK + '" stroke-width="3.4"/>' +
+  '<rect x="116" y="112" width="20" height="18" rx="3" fill="#CFE6F2" stroke="' + INK + '" stroke-width="3"/>' +
+  '<path d="M52 164V74" stroke="#2C9A8B" stroke-width="5" stroke-linecap="round"/>' +
+  '<path d="M52 92q-16-4-18-18 16-2 18 18ZM52 108q16-4 18-18-16-2-18 18Z" fill="#7FB6A4" stroke="' + INK + '" stroke-width="3"/>' +
+  '<path d="M246 164V84M246 106q-16-4-18-18 16-2 18 18Z" stroke="#2C9A8B" stroke-width="5" fill="none" stroke-linecap="round"/>' +
+  '<circle cx="248" cy="42" r="15" fill="#F2B33D" stroke="' + INK + '" stroke-width="4"/>' +
+  ground(166)
+);
+
+/* 21 鋤頭 */
+ART.hoe = svg(
+  '<path d="M0 154 56 92l40 62Z" fill="#A9D3C4" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  '<circle cx="270" cy="42" r="17" fill="#F2B33D" stroke="' + INK + '" stroke-width="4"/>' +
+  '<path d="M28 168h270" stroke="#E6D3AC" stroke-width="18" stroke-linecap="round"/>' +
+  chibi({ x: 138, y: 92, robe: '#D94B32', hair: 'boy', s: .95, arms: '<path d="M-15 28q-18 2-26 12" stroke="#D94B32" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M15 28q14 10 16 22" stroke="#D94B32" stroke-width="10" fill="none" stroke-linecap="round"/>' }) +
+  '<path d="M188 66l-38 74" stroke="#C9A46E" stroke-width="6" stroke-linecap="round"/>' +
+  '<path d="M146 140l16-6 8 16-16 6Z" fill="#6E7C86" stroke="' + INK + '" stroke-width="3.4"/>' +
+  '<path d="M58 150q10-8 20 0M86 158q8-6 16 0" stroke="#2C9A8B" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+  ground(176)
+);
+
+/* 22 枯苗 */
+ART.sprout = svg(
+  '<circle cx="268" cy="44" r="18" fill="#F2B33D" stroke="' + INK + '" stroke-width="4"/>' +
+  '<path d="M20 162h280" stroke="#C9A46E" stroke-width="16" stroke-linecap="round"/>' +
+  '<path d="M76 162q-4-22 6-34" stroke="#9A8A60" stroke-width="5" fill="none" stroke-linecap="round"/>' +
+  '<path d="M82 132q-16 2-18-12 15-4 18 12Z" fill="#C9B27A" stroke="' + INK + '" stroke-width="3"/>' +
+  '<path d="M144 162q2-26-4-38" stroke="#9A8A60" stroke-width="5" fill="none" stroke-linecap="round"/>' +
+  '<path d="M140 126q-16 0-16-14 15-2 16 14Z" fill="#C9B27A" stroke="' + INK + '" stroke-width="3"/>' +
+  '<path d="M214 162q-6-20 2-30" stroke="#9A8A60" stroke-width="5" fill="none" stroke-linecap="round"/>' +
+  '<path d="M216 134q16 0 16-14-15-2-16 14Z" fill="#C9B27A" stroke="' + INK + '" stroke-width="3"/>' +
+  chibi({ x: 176, y: 96, robe: '#37699F', hair: 'old', s: .82, sad: true }) +
+  '<path d="M232 70q10 4 12 12" stroke="' + INK + '" stroke-width="2.6" fill="none" opacity=".35" stroke-linecap="round"/>' +
+  ground(176)
+);
+
+/* 23 曾子妻 */
+ART.mother = svg(
+  '<circle cx="64" cy="40" r="16" fill="#F2B33D" stroke="' + INK + '" stroke-width="4"/>' +
+  chibi({ x: 118, y: 92, robe: '#D94B32', hair: 'girl', s: 1.12 }) +
+  chibi({ x: 208, y: 122, robe: '#37699F', hair: 'boy', s: .78, arms: '<path d="M-15 28q-18 2-28 6" stroke="#37699F" stroke-width="10" fill="none" stroke-linecap="round"/>' }) +
+  '<path d="M162 138q14-6 26-8" stroke="' + INK + '" stroke-width="3" fill="none" opacity=".3"/>' +
+  '<path d="M264 150v-24M264 132h30v18h-30" fill="#FFFCF2" stroke="' + INK + '" stroke-width="3.4" stroke-linejoin="round"/>' +
+  '<path d="M256 150h34" stroke="' + INK + '" stroke-width="4" stroke-linecap="round"/>' +
+  '<path d="M40 160q30-8 60 0" stroke="' + INK + '" stroke-width="3" fill="none" opacity=".25"/>' +
+  ground(166)
+);
+
+/* 24 南海 */
+ART.sea = svg(
+  sun(54, 40, 17) +
+  '<path d="M0 120q30-12 60 0t60 0 60 0 60 0 60 0v60H0Z" fill="#7FB6D8" stroke="' + INK + '" stroke-width="4"/>' +
+  waves(140, '#FFFCF2', .65) + waves(162, '#37699F', .45) +
+  '<path d="M186 104h62l-9 16h-45Z" fill="#C9A46E" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  '<path d="M216 58v46" stroke="' + INK + '" stroke-width="4"/>' +
+  '<path d="M216 62l26 32h-26Z" fill="#FFFCF2" stroke="' + INK + '" stroke-width="3.4" stroke-linejoin="round"/>' +
+  chibi({ x: 96, y: 90, robe: '#8A5878', hair: 'old', s: .8, arms: '<path d="M15 28q14-6 20-14" stroke="#8A5878" stroke-width="10" fill="none" stroke-linecap="round"/>' }) +
+  '<path d="M270 52q10-12 20 0M290 44q8-9 16 0" stroke="' + INK + '" stroke-width="2.4" fill="none" opacity=".45" stroke-linecap="round"/>' +
+  ground(188)
+);
+
+/* 25 天空 */
+ART.sky = svg(
+  '<rect x="4" y="4" width="312" height="192" rx="18" fill="#DCEBF7" stroke="' + INK + '" stroke-width="5"/>' +
+  '<circle cx="74" cy="52" r="20" fill="#F2B33D" stroke="' + INK + '" stroke-width="4"/>' +
+  '<path d="M168 56q0-18 20-18 11 0 15 9 16-2 16 13 0 13-16 13h-35q-13 0-13-9Z" fill="#FFFCF2" stroke="' + INK + '" stroke-width="3.6" stroke-linejoin="round"/>' +
+  '<path d="M52 96q10-12 20 0M74 84q8-9 16 0" stroke="' + INK + '" stroke-width="2.6" fill="none" opacity=".45" stroke-linecap="round"/>' +
+  chibi({ x: 240, y: 128, robe: '#2C9A8B', hair: 'boy', s: .82, arms: '<path d="M15 28q12-2 18-10" stroke="#2C9A8B" stroke-width="10" fill="none" stroke-linecap="round"/>' }) +
+  '<path d="M26 168q30-8 60 0t60 0 60 0 60 0 60 0" stroke="#7FB6D8" stroke-width="4" fill="none" opacity=".5"/>' +
+  ground(180)
+);
+
+/* 26 花 */
+ART.flowers = svg(
+  '<path d="M20 168h280" stroke="' + INK + '" stroke-width="4" stroke-linecap="round" opacity=".25"/>' +
+  '<path d="M66 168v-38M124 168v-52M196 168v-44M254 168v-34" stroke="#2C9A8B" stroke-width="4" stroke-linecap="round"/>' +
+  '<circle cx="66" cy="124" r="13" fill="#F2B33D" stroke="' + INK + '" stroke-width="3.2"/>' +
+  '<circle cx="52" cy="116" r="10" fill="#FFFCF2" stroke="' + INK + '" stroke-width="3"/>' +
+  '<circle cx="80" cy="116" r="10" fill="#FFFCF2" stroke="' + INK + '" stroke-width="3"/>' +
+  '<circle cx="66" cy="104" r="10" fill="#FFFCF2" stroke="' + INK + '" stroke-width="3"/>' +
+  '<circle cx="124" cy="110" r="11" fill="#D94B32" stroke="' + INK + '" stroke-width="3.2"/>' +
+  '<circle cx="112" cy="102" r="8" fill="#F2B33D" stroke="' + INK + '" stroke-width="3"/>' +
+  '<circle cx="136" cy="102" r="8" fill="#F2B33D" stroke="' + INK + '" stroke-width="3"/>' +
+  '<circle cx="196" cy="118" r="10" fill="#8A5878" stroke="' + INK + '" stroke-width="3.2"/>' +
+  '<circle cx="184" cy="110" r="8" fill="#E8A0B4" stroke="' + INK + '" stroke-width="3"/>' +
+  '<circle cx="208" cy="110" r="8" fill="#E8A0B4" stroke="' + INK + '" stroke-width="3"/>' +
+  '<circle cx="254" cy="128" r="12" fill="#F2B33D" stroke="' + INK + '" stroke-width="3.2"/>' +
+  '<circle cx="240" cy="120" r="8" fill="#FFFCF2" stroke="' + INK + '" stroke-width="3"/>' +
+  '<circle cx="268" cy="120" r="8" fill="#FFFCF2" stroke="' + INK + '" stroke-width="3"/>' +
+  ground(170)
+);
+
+/* 27 弈棋 */
+ART.chess = svg(
+  '<rect x="58" y="46" width="204" height="112" rx="8" fill="#E8CD98" stroke="' + INK + '" stroke-width="4"/>' +
+  '<path d="M109 46v112M160 46v112M211 46v112M58 84h204M58 121h204" stroke="' + INK + '" stroke-width="2.2" opacity=".45"/>' +
+  '<circle cx="135" cy="103" r="10" fill="' + INK + '"/>' +
+  '<circle cx="186" cy="103" r="10" fill="#FFFCF2" stroke="' + INK + '" stroke-width="3"/>' +
+  '<circle cx="160" cy="140" r="10" fill="' + INK + '"/>' +
+  '<circle cx="83" cy="65" r="9" fill="#FFFCF2" stroke="' + INK + '" stroke-width="3"/>' +
+  '<circle cx="237" cy="65" r="9" fill="' + INK + '"/>' +
+  chibi({ x: 42, y: 102, robe: '#37699F', hair: 'boy', s: .7 }) +
+  chibi({ x: 284, y: 102, robe: '#D94B32', hair: 'girl', s: .7 }) +
+  ground(172)
+);
+
+/* 28 閱讀小卡（教學備用） */
+ART.book = svg(
+  '<ellipse cx="160" cy="172" rx="96" ry="9" fill="' + INK + '" opacity=".1"/>' +
+  '<path d="M160 52C132 34 92 34 48 46v92c40-12 78-12 112 4Z" fill="#FFFCF2" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  '<path d="M160 52c28-18 68-18 112-6v92c-40-12-78-12-112 4Z" fill="#FFFCF2" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  '<path d="M160 52v94" stroke="' + INK + '" stroke-width="3.6"/>' +
+  '<path d="M72 70q32-8 64 2M72 88q32-8 64 2M72 106q32-8 64 2M184 70q32-8 64 2M184 88q32-8 64 2" stroke="' + INK + '" stroke-width="2.4" fill="none" opacity=".3"/>' +
+  ground(178)
+);
+
+/* ---------- 小圖示（80×80） ---------- */
+function icon(inner){
+  return '<svg viewBox="0 0 80 80" aria-hidden="true" focusable="false">' + inner + '</svg>';
+}
+ART.seed = icon('<path d="M40 70V44" stroke="' + INK + '" stroke-width="4" stroke-linecap="round"/><path d="M40 48C24 48 18 36 20 26c14-2 22 7 20 22Z" fill="#A9D3C4" stroke="' + INK + '" stroke-width="3.4" stroke-linejoin="round"/><path d="M40 44c16 0 22-12 20-22-14-2-22 7-20 22Z" fill="#F2B33D" stroke="' + INK + '" stroke-width="3.4" stroke-linejoin="round"/><path d="M22 70h36" stroke="' + INK + '" stroke-width="4" stroke-linecap="round"/>');
+ART.rocket = icon('<path d="M40 8c12 12 16 26 16 40H24c0-14 4-28 16-40Z" fill="#FFFCF2" stroke="' + INK + '" stroke-width="3.4" stroke-linejoin="round"/><circle cx="40" cy="30" r="6" fill="#A9D3C4" stroke="' + INK + '" stroke-width="3"/><path d="M24 40 14 54h12" fill="#D94B32" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/><path d="M56 40l10 14H54" fill="#D94B32" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/><path d="M32 50q8 16 8 20 0-4 8-20" fill="#F2B33D" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>');
+ART.bulb = icon('<circle cx="40" cy="34" r="20" fill="#F2B33D" stroke="' + INK + '" stroke-width="3.6"/><path d="M32 54h16M34 62h12" stroke="' + INK + '" stroke-width="3.6" stroke-linecap="round"/><path d="M40 46v8" stroke="' + INK + '" stroke-width="3"/><path d="M33 32l5 6 9-12" stroke="' + INK + '" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>');
+ART.basket = icon('<path d="M13 32h54l-7 34H20Z" fill="#F2B33D" stroke="' + INK + '" stroke-width="3.4" stroke-linejoin="round"/><path d="M28 32l8-17M52 32l-8-17" stroke="' + INK + '" stroke-width="3.4" stroke-linecap="round"/><path d="M27 42v13M40 42v13M53 42v13" stroke="' + INK + '" stroke-width="2.8" opacity=".4" stroke-linecap="round"/>');
+
+/* ---------- 吉祥物 ---------- */
+ART.mascot = '<svg viewBox="0 0 240 240" aria-hidden="true" focusable="false">' +
+  '<ellipse cx="120" cy="226" rx="72" ry="11" fill="' + INK + '" opacity=".1"/>' +
+  '<path d="M78 158h84v46q-42 16-84 0Z" fill="#2C9A8B" stroke="' + INK + '" stroke-width="4" stroke-linejoin="round"/>' +
+  '<path d="M84 160 56 184" stroke="#2C9A8B" stroke-width="14" stroke-linecap="round"/>' +
+  '<path d="M156 160 198 178" stroke="#2C9A8B" stroke-width="14" stroke-linecap="round"/>' +
+  '<circle cx="120" cy="108" r="56" fill="#F7C98D" stroke="' + INK + '" stroke-width="5"/>' +
+  '<path d="M64 86q6-44 56-44t56 44Z" fill="#8A5878" stroke="' + INK + '" stroke-width="5" stroke-linejoin="round"/>' +
+  '<path d="M52 86h136" stroke="' + INK + '" stroke-width="6" stroke-linecap="round"/>' +
+  '<circle cx="120" cy="40" r="8" fill="#D94B32" stroke="' + INK + '" stroke-width="3"/>' +
+  '<circle cx="99" cy="110" r="7" fill="' + INK + '"/><circle cx="141" cy="110" r="7" fill="' + INK + '"/>' +
+  '<circle cx="101.5" cy="107" r="2.4" fill="#FFF"/><circle cx="143.5" cy="107" r="2.4" fill="#FFF"/>' +
+  '<path d="M106 128q14 12 28 0" stroke="' + INK + '" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+  '<circle cx="80" cy="124" r="8" fill="#D94B32" opacity=".28"/><circle cx="160" cy="124" r="8" fill="#D94B32" opacity=".28"/>' +
+  '<circle cx="198" cy="188" r="28" fill="#DCE8F5" fill-opacity=".85" stroke="' + INK + '" stroke-width="4"/>' +
+  '<path d="M218 208l16 16" stroke="' + INK + '" stroke-width="10" stroke-linecap="round"/>' +
+  '<path d="M184 178q8-6 16 0" stroke="#FFF" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+  '</svg>';
+
+/* 星星 */
+ART.star = '<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M32 5l8.2 16.8 18.5 2.6-13.4 13 3.2 18.4L32 47.2 15.5 55.8l3.2-18.4-13.4-13 18.5-2.6Z" fill="#F2B33D" stroke="' + INK + '" stroke-width="3.4" stroke-linejoin="round"/><path d="M32 14l5 10" stroke="#FFF8E6" stroke-width="3" stroke-linecap="round" opacity=".8"/></svg>';
+ART.starOff = '<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M32 5l8.2 16.8 18.5 2.6-13.4 13 3.2 18.4L32 47.2 15.5 55.8l3.2-18.4-13.4-13 18.5-2.6Z" fill="#F3E1BC" stroke="' + INK + '" stroke-width="3.4" stroke-linejoin="round"/></svg>';
+
+/* 29 句中無義（缺口） */
+ART.gap = icon('<path d="M4 62h24q6-2 8-8v-4H4Z" fill="#CFE0D4" stroke="' + INK + '" stroke-width="3.2" stroke-linejoin="round"/><path d="M76 62H52q-6-2-8-8v-4h32Z" fill="#CFE0D4" stroke="' + INK + '" stroke-width="3.2" stroke-linejoin="round"/><path d="M30 48q10-6 20 0" stroke="' + INK + '" stroke-width="3" fill="none" stroke-dasharray="4 4" stroke-linecap="round"/><circle cx="40" cy="26" r="11" fill="#F2B33D" stroke="' + INK + '" stroke-width="3.2"/><text x="40" y="32" text-anchor="middle" font-size="13" font-weight="700" font-family="serif" fill="' + INK + '">之</text><path d="M14 66q10-8 20 0M46 66q10-8 20 0" stroke="' + INK + '" stroke-width="2.2" fill="none" opacity=".3"/>');
+/* =========================================================
+   教學內容：八張圖解卡
+   ========================================================= */
+var TEACH = {
+  zhi: {
+    label: '之',
+    intro: '「之」出場最多，會變四種身分。',
+    items: [
+      {
+        tag: '代詞', level: '初階', art: 'study', accent: '#F2B33D',
+        badge: '它 <b>→</b> 學過的知識',
+        title: '它／他', sub: '代替前面說過的人或事物',
+        ex: {
+          before: '子曰：',
+          main: '學而時習<em class="hl">之</em>，不亦說乎？',
+          after: '有朋自遠方來，不亦樂乎？',
+          trans: '學過的知識按時溫習，不也很快樂嗎？',
+          src: '《論語・學而》'
+        },
+        tip: '動詞後面，先問「它是誰」'
+      },
+      {
+        tag: '助詞', level: '初階', art: 'lotus', accent: '#2C9A8B',
+        badge: '花 <b>之</b> 君子 → 花中的君子',
+        title: '的', sub: '夾在兩個詞中間，就是「的」',
+        ex: {
+          before: '自李唐來，世人甚愛牡丹。',
+          main: '蓮，花<em class="hl">之</em>君子者也。',
+          after: '噫！蓮之愛，同予者何人？',
+          trans: '蓮花，是花中的君子。',
+          src: '《愛蓮說》'
+        },
+        tip: '前後都是名詞 → 的'
+      },
+      {
+        tag: '動詞', level: '高階', art: 'boat', accent: '#37699F',
+        badge: '之 <b>→</b> 到南海去',
+        title: '往、到……去', sub: '自己當動詞，表示要去某地',
+        ex: {
+          before: '蜀之鄙有二僧，其一貧，其一富。',
+          main: '吾欲<em class="hl">之</em>南海，何如？',
+          after: '富者曰：「子何恃而往？」',
+          trans: '我想要到南海去，你覺得怎麼樣？',
+          src: '《為學》'
+        },
+        tip: '後面接地名 → 往、到'
+      },
+      {
+        tag: '助詞', level: '高階', art: 'mountain', accent: '#8A5878',
+        badge: '拿掉「之」，句子也通',
+        title: '不必翻譯', sub: '只把句子隔開，本身沒有意思',
+        ex: {
+          before: '河曲智叟笑而止之曰：「甚矣，汝之不惠！」',
+          main: '雖我<em class="hl">之</em>死，有子存焉。',
+          after: '子又生孫，孫又生子。',
+          trans: '即使我死了，還有兒子在。',
+          src: '《愚公移山》'
+        },
+        tip: '拿掉也通 → 不必翻'
+      }
+    ]
+  },
+  ze: {
+    label: '則',
+    intro: '「則」是句子的接棒手，接法不同，意思就不同。',
+    items: [
+      {
+        tag: '連詞', level: '初階', art: 'fish', accent: '#2C9A8B',
+        badge: '條件 <b>→</b> 結果',
+        title: '就', sub: '前面一發生，後面跟著發生',
+        ex: {
+          before: '子曰：',
+          main: '學而不思<em class="hl">則</em>罔，思而不學則殆。',
+          after: '',
+          trans: '只讀書不思考，就會迷惑；只思考不讀書，就會疑惑不定。',
+          src: '《論語・為政》'
+        },
+        tip: '條件接結果，就是「就」'
+      },
+      {
+        tag: '連詞', level: '初階', art: 'turtle', accent: '#F2B33D',
+        badge: '想快 <b>→</b> 反而慢',
+        title: '卻、反而', sub: '拐個彎，跟預期相反',
+        ex: {
+          before: '無欲速，無見小利。',
+          main: '欲速<em class="hl">則</em>不達，見小利則大事不成。',
+          after: '',
+          trans: '急著求快，反而達不到目的。',
+          src: '《論語・子路》'
+        },
+        tip: '跟預期相反 → 卻'
+      },
+      {
+        tag: '副詞', level: '高階', art: 'terrace', accent: '#37699F',
+        badge: '此 <b>則</b> 大觀 → 這就是',
+        title: '就是', sub: '判斷「甲就是乙」',
+        ex: {
+          before: '予觀夫巴陵勝狀，在洞庭一湖。',
+          main: '此<em class="hl">則</em>岳陽樓之大觀也，前人之述備矣。',
+          after: '',
+          trans: '這就是岳陽樓的雄偉景象。',
+          src: '《岳陽樓記》'
+        },
+        tip: '在介紹身分 → 就是'
+      },
+      {
+        tag: '連詞', level: '高階', art: 'moon', accent: '#8A5878',
+        badge: '然則 <b>＝</b> 既然這樣，那麼',
+        title: '就、那麼', sub: '順著上文，推出後面的結果',
+        ex: {
+          before: '是進亦憂，退亦憂。',
+          main: '然<em class="hl">則</em>何時而樂耶？',
+          after: '其必曰「先天下之憂而憂，後天下之樂而樂」乎！',
+          trans: '既然這樣，那麼什麼時候才快樂呢？',
+          src: '《岳陽樓記》'
+        },
+        tip: '「然則」＝既然這樣，那麼'
+      }
+    ]
+  }
+};
+
+/* =========================================================
+   題庫：四組 × 六題，共 24 組不重複例句
+   ========================================================= */
+var BANK = {
+  easy: {
+    pick: [
+      {
+        art: 'jar',
+        before: '一兒登甕，足跌沒水中。',
+        main: '光持石擊甕破<em class="hl">之</em>。',
+        after: '水迸，兒得活。',
+        ref: '之 → 甕（水缸）',
+        opts: ['它，指水缸', '的', '到……去', '他，指小孩'],
+        ans: 0,
+        why: '「擊」是動詞，後面接的「之」代替前一句的「甕」。',
+        trans: '司馬光拿石頭砸破水缸，水湧出來，小孩得救了。',
+        src: '《宋史・司馬光傳》'
+      },
+      {
+        art: 'road',
+        before: '合抱之木，生於毫末；九層之臺，起於累土。',
+        main: '千里<em class="hl">之</em>行，始於足下。',
+        after: '',
+        ref: '千里 之 行 → 千里的遠行',
+        opts: ['它', '的', '往、到', '不必翻'],
+        ans: 1,
+        why: '「千里」修飾「行」，中間的「之」就是「的」。',
+        trans: '千里的遠行，是從腳下第一步開始的。',
+        src: '《老子》第六十四章'
+      },
+      {
+        art: 'qin',
+        before: '伯牙鼓琴，',
+        main: '鍾子期聽<em class="hl">之</em>。',
+        after: '方鼓琴而志在太山。',
+        ref: '之 → 琴聲',
+        opts: ['它，指琴聲', '的', '到……去', '不必翻'],
+        ans: 0,
+        why: '「聽」是動詞，「之」代替伯牙彈出的琴聲。',
+        trans: '伯牙彈琴，鍾子期在一旁聽。',
+        src: '《列子・湯問》'
+      },
+      {
+        art: 'flag',
+        before: '',
+        main: '少年智<em class="hl">則</em>國智，少年富則國富。',
+        after: '少年強則國強。',
+        ref: '少年智 → 國智',
+        opts: ['就', '卻', '就是', '的'],
+        ans: 0,
+        why: '「少年聰明」是條件，「國家聰明」是結果，順接就是「就」。',
+        trans: '少年聰明，國家就聰明；少年富足，國家就富足。',
+        src: '《少年中國說》'
+      },
+      {
+        art: 'terrace',
+        before: '予觀夫巴陵勝狀，在洞庭一湖。',
+        main: '此<em class="hl">則</em>岳陽樓之大觀也。',
+        after: '前人之述備矣。',
+        ref: '此 則 大觀 → 這就是',
+        opts: ['就', '卻', '就是', '往、到'],
+        ans: 2,
+        why: '句子在判斷：「這個」就是「岳陽樓的大觀」，所以是「就是」。',
+        trans: '這就是岳陽樓的雄偉景象。',
+        src: '《岳陽樓記》'
+      },
+      {
+        art: 'turtle',
+        before: '無欲速，無見小利。',
+        main: '欲速<em class="hl">則</em>不達。',
+        after: '',
+        ref: '想快 → 反而慢',
+        opts: ['就', '卻、反而', '就是', '不必翻'],
+        ans: 1,
+        why: '想求快，結果跟預期相反，是「卻、反而」。',
+        trans: '急著求快，反而達不到目的。',
+        src: '《論語・子路》'
+      }
+    ],
+    sort: {
+      bins: [
+        { id: 'de', label: '之 ＝ 的', sub: '兩個詞之間', art: 'lotus' },
+        { id: 'ta', label: '之 ＝ 它／他', sub: '代替人或事物', art: 'jar' },
+        { id: 'jiu', label: '則 ＝ 就', sub: '前面發生，後面跟著', art: 'fish' }
+      ],
+      items: [
+        {
+          art: 'river', bin: 'de',
+          before: '', main: '山川<em class="hl">之</em>美，古來共談。', after: '',
+          why: '「山川」和「美」之間，就是「的」。',
+          trans: '山川的美，自古以來大家一起讚嘆。',
+          src: '《答謝中書書》'
+        },
+        {
+          art: 'tide', bin: 'de',
+          before: '', main: '浙江<em class="hl">之</em>潮，天下<em class="hl">之</em>偉觀也。', after: '',
+          why: '兩個「之」都在兩個詞之間，都是「的」。',
+          trans: '錢塘江的潮水，是天下的雄偉景象。',
+          src: '《觀潮》'
+        },
+        {
+          art: 'brain', bin: 'ta',
+          before: '子曰：', main: '知<em class="hl">之</em>為知<em class="hl">之</em>，不知為不知，是知也。', after: '',
+          why: '「知」是動詞，這裡的「之」指知道的事。',
+          trans: '知道就是知道，不知道就是不知道，這才是真知道。',
+          src: '《論語・為政》'
+        },
+        {
+          art: 'plum', bin: 'ta',
+          before: '王戎七歲，嘗與諸小兒遊。道邊李樹多子，諸兒競走取之，唯戎不動。',
+          main: '人問<em class="hl">之</em>，答曰：「此必苦李。」',
+          after: '取之，信然。',
+          why: '「問」的對象是人，「之」代替王戎；最後「取之」的「之」才指李子。',
+          trans: '有人問他，他回答：這一定是苦李子。',
+          src: '《世說新語》'
+        },
+        {
+          art: 'heart', bin: 'jiu',
+          before: '', main: '見善<em class="hl">則</em>遷，有過<em class="hl">則</em>改。', after: '',
+          why: '看見好的就學，有過錯就改，兩處都是順接。',
+          trans: '看見好的行為就學習，有了過錯就改正。',
+          src: '《周易・益卦》'
+        },
+        {
+          art: 'fish', bin: 'jiu',
+          before: '', main: '水至清<em class="hl">則</em>無魚，人至察則無徒。', after: '',
+          why: '水太清是條件，沒有魚是結果，順接就是「就」。',
+          trans: '水太清澈就沒有魚，人太苛求就沒有同伴。',
+          src: '《漢書・東方朔傳》'
+        }
+      ]
+    }
+  },
+  hard: {
+    pick: [
+      {
+        art: 'market',
+        before: '鄭人有欲買履者，先自度其足，而置之其坐。',
+        main: '至<em class="hl">之</em>市，而忘操之。',
+        after: '已得履，乃曰：「吾忘持度。」',
+        ref: '之 → 到集市去（後一個「之」指尺碼）',
+        opts: ['往、到', '的', '它，指尺碼', '不必翻'],
+        ans: 0,
+        why: '「之」後面是「市」，它自己就是動詞；後面「操之」的「之」才指尺碼。',
+        trans: '到了集市，卻忘了帶量好的尺碼。',
+        src: '《韓非子・外儲說左上》'
+      },
+      {
+        art: 'gate',
+        before: '',
+        main: '大道<em class="hl">之</em>行也，天下為公。',
+        after: '選賢與能，講信修睦。',
+        ref: '大道行 → 主謂完整',
+        opts: ['往、到', '的', '用在句中，不必翻', '它'],
+        ans: 2,
+        why: '「大道行」主謂完整，「之」只把句子隔開，拿掉也通。',
+        trans: '在大道實行的時代，天下是大家共有的。',
+        src: '《禮記・禮運》'
+      },
+      {
+        art: 'hut',
+        before: '孔子云：',
+        main: '何陋<em class="hl">之</em>有？',
+        after: '',
+        ref: '何陋之有 → 有何陋',
+        opts: ['的', '賓語前置的標誌，不必翻', '往、到', '他'],
+        ans: 1,
+        why: '本來是「有何陋」，把「何陋」提到前面，「之」只是標誌。',
+        trans: '有什麼簡陋的呢？',
+        src: '《陋室銘》'
+      },
+      {
+        art: 'hoe',
+        before: '天下事有難易乎？',
+        main: '為之，<em class="hl">則</em>難者亦易矣。',
+        after: '不為，則易者亦難矣。',
+        ref: '去做 → 難的變容易',
+        opts: ['卻', '就', '就是', '往、到'],
+        ans: 1,
+        why: '「去做」是條件，「難的變容易」是結果，順接就是「就」。',
+        trans: '去做它，難的也會變容易。',
+        src: '《為學》'
+      },
+      {
+        art: 'sprout',
+        before: '其子趨而往視之，',
+        main: '苗<em class="hl">則</em>槁矣。',
+        after: '天下之不助苗長者寡矣。',
+        ref: '本盼長高 → 卻枯了',
+        opts: ['就', '卻、反而', '就是', '不必翻'],
+        ans: 1,
+        why: '農夫著急拔苗，本盼禾苗長高，結果「卻」枯了，跟預期相反。',
+        trans: '他的兒子跑去看，禾苗卻已經枯了。',
+        src: '《孟子・公孫丑上》'
+      },
+      {
+        art: 'mother',
+        before: '曾子之妻之市，',
+        main: '其子隨<em class="hl">之</em>而泣。',
+        after: '其母曰：「女還，顧反為女殺彘。」',
+        ref: '之 → 她（曾子的妻子）',
+        opts: ['她，指曾子的妻子', '的', '往、到', '不必翻'],
+        ans: 0,
+        why: '「隨」是動詞，這個「之」代替母親；前兩個分別是「的」和「往」。',
+        trans: '曾子的妻子去集市，兒子跟著她哭。',
+        src: '《韓非子・外儲說左上》'
+      }
+    ],
+    sort: {
+      bins: [
+        { id: 'go', label: '之 ＝ 往、到', sub: '後面接地名', art: 'boat' },
+        { id: 'none', label: '之 ＝ 不必翻', sub: '拿掉也通順', art: 'gap' },
+        { id: 'jiu', label: '則 ＝ 就', sub: '條件接結果', art: 'fish' },
+        { id: 'de', label: '之 ＝ 的', sub: '兩個詞之間', art: 'lotus' }
+      ],
+      items: [
+        {
+          art: 'boat', bin: 'go',
+          before: '故人西辭黃鶴樓，煙花三月下揚州。',
+          main: '送孟浩然<em class="hl">之</em>廣陵',
+          after: '孤帆遠影碧空盡，唯見長江天際流。',
+          why: '「之」後面是地名「廣陵」，表示到廣陵去。',
+          trans: '送孟浩然到廣陵去。',
+          src: '《黃鶴樓送孟浩然之廣陵》詩題'
+        },
+        {
+          art: 'lotus', bin: 'none',
+          before: '',
+          main: '予獨愛蓮<em class="hl">之</em>出淤泥而不染，',
+          after: '濯清漣而不妖。',
+          why: '「蓮出淤泥」主謂完整，「之」只隔開，不必翻。',
+          trans: '我唯獨喜愛蓮花從淤泥裡長出來，卻不受污染。',
+          src: '《愛蓮說》'
+        },
+        {
+          art: 'sky', bin: 'none',
+          before: '',
+          main: '天<em class="hl">之</em>蒼蒼，其正色邪？',
+          after: '其遠而無所至極邪？',
+          why: '「天蒼蒼」本身通順，「之」沒有實義。',
+          trans: '天空那麼藍，那是它真正的顏色嗎？',
+          src: '《莊子・逍遙遊》'
+        },
+        {
+          art: 'chess', bin: 'jiu',
+          before: '心之官則思，',
+          main: '思<em class="hl">則</em>得之，不思則不得也。',
+          after: '',
+          why: '思考就能得到，不思考就得不到，兩處「則」都是順接。',
+          trans: '心這個器官會思考，思考就能得到，不思考就得不到。',
+          src: '《孟子・告子上》'
+        },
+        {
+          art: 'flowers', bin: 'de',
+          before: '',
+          main: '水陸草木<em class="hl">之</em>花，可愛者甚蕃。',
+          after: '',
+          why: '「水陸草木」和「花」之間，就是「的」。',
+          trans: '水上、陸上、草本、木本的花，值得喜愛的很多。',
+          src: '《愛蓮說》'
+        },
+        {
+          art: 'study', bin: 'de',
+          before: '',
+          main: '弈秋，通國<em class="hl">之</em>善弈者也。',
+          after: '',
+          why: '「通國」和「善弈者」之間，就是「的」。',
+          trans: '弈秋，是全國最擅長下棋的人。',
+          src: '《學弈》'
+        }
+      ]
+    }
+  }
+};
+/* =========================================================
+   工具
+   ========================================================= */
+function $(sel, root){ return (root || document).querySelector(sel); }
+function $$(sel, root){ return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+function plain(html){
+  var d = document.createElement('div');
+  d.innerHTML = String(html == null ? '' : html);
+  return (d.textContent || '').replace(/\s+/g, ' ').trim();
+}
+function shuffle(arr){
+  for(var i = arr.length - 1; i > 0; i--){
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+  }
+  return arr;
+}
+var reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+var scrollBehavior = reduceMotion ? 'auto' : 'smooth';
+var toastTimer = null;
+function toast(msg){
+  var el = $('#toast');
+  if(!el) return;
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ el.classList.remove('show'); }, 1800);
+}
+
+/* =========================================================
+   音效與朗讀
+   ========================================================= */
+var AC = null;
+var canAudio = !!(window.AudioContext || window.webkitAudioContext);
+var synth = ('speechSynthesis' in window) ? window.speechSynthesis : null;
+var canSpeech = !!(synth && typeof window.SpeechSynthesisUtterance === 'function');
+var voices = [];
+var soundOn = true;
+
+function refreshVoices(){
+  if(!synth) return;
+  try{ voices = synth.getVoices() || []; }catch(e){ voices = []; }
+}
+if(canSpeech){
+  refreshVoices();
+  if(typeof synth.addEventListener === 'function'){ synth.addEventListener('voiceschanged', refreshVoices); }
+  else { synth.onvoiceschanged = refreshVoices; }
+}
+function audioCtx(){
+  if(!canAudio) return null;
+  try{
+    if(!AC){ var C = window.AudioContext || window.webkitAudioContext; AC = new C(); }
+    if(AC.state === 'suspended'){ AC.resume(); }
+    return AC;
+  }catch(e){ return null; }
+}
+function tone(freq, start, dur, type, vol){
+  var c = audioCtx();
+  if(!c) return;
+  try{
+    var o = c.createOscillator(), g = c.createGain();
+    o.type = type || 'sine';
+    o.frequency.value = freq;
+    var t0 = c.currentTime + (start || 0);
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(vol || 0.1, t0 + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g); g.connect(c.destination);
+    o.start(t0); o.stop(t0 + dur + 0.03);
+  }catch(e){}
+}
+function sfx(kind){
+  if(!soundOn || !canAudio) return;
+  if(kind === 'tap'){ tone(620, 0, 0.06, 'sine', 0.05); }
+  else if(kind === 'right'){ tone(659, 0, 0.10, 'sine', 0.10); tone(880, 0.09, 0.12, 'sine', 0.09); tone(1175, 0.18, 0.18, 'sine', 0.07); }
+  else if(kind === 'wrong'){ tone(233, 0, 0.14, 'triangle', 0.09); tone(175, 0.13, 0.20, 'triangle', 0.08); }
+  else if(kind === 'win'){ [523, 659, 784, 1047, 1319].forEach(function(f, i){ tone(f, i * 0.10, 0.22, 'sine', 0.08); }); }
+  else if(kind === 'place'){ tone(784, 0, 0.07, 'sine', 0.06); }
+}
+function speak(text){
+  if(!soundOn || !canSpeech) return;
+  try{
+    synth.cancel();
+    var clean = plain(text).replace(/（[^）]*）/g, '').replace(/\([^)]*\)/g, '');
+    var u = new window.SpeechSynthesisUtterance(clean);
+    u.lang = 'zh-TW'; u.rate = 0.82; u.pitch = 1.03; u.volume = 1;
+    var v = null, i;
+    for(i = 0; i < voices.length; i++){
+      if(/zh[-_]TW|zh[-_]Hant|zh[-_]HK/i.test(voices[i].lang)){ v = voices[i]; break; }
+    }
+    if(!v){
+      for(i = 0; i < voices.length; i++){ if(/^zh/i.test(voices[i].lang)){ v = voices[i]; break; } }
+    }
+    if(v){ u.voice = v; }
+    synth.speak(u);
+  }catch(e){}
+}
+document.addEventListener('pointerdown', function(){ audioCtx(); }, { once: true });
+
+/* =========================================================
+   狀態
+   ========================================================= */
+var QUIZ_LEN = 6;
+var state = {
+  view: 'learn',
+  char: 'zhi',
+  level: 'easy',
+  mode: 'pick',
+  phase: 'config',
+  idx: 0,
+  score: 0,
+  answers: [],
+  locked: false,
+  bank: null
+};
+var LEVEL_NAME = { easy: '初階版', hard: '高階版' };
+var MODE_NAME = { pick: '字義挑戰', sort: '分類高手' };
+
+/* =========================================================
+   教學館
+   ========================================================= */
+function teachCardHTML(item, i){
+  var ex = item.ex;
+  var sayText = plain(ex.before + ' ' + ex.main + ' ' + ex.after);
+  return '<article class="tcard">' +
+    '<div class="tcard-top">' +
+      '<span class="chip chip-tag">' + item.tag + '</span>' +
+      '<span class="chip chip-lv' + (item.level === '高階' ? ' hard' : '') + '">' + item.level + '</span>' +
+      '<span class="card-no">' + (i < 9 ? '0' : '') + (i + 1) + '</span>' +
+    '</div>' +
+    '<div class="tcard-art">' + (ART[item.art] || '') +
+      '<span class="art-badge">' + item.badge + '</span>' +
+    '</div>' +
+    '<div class="tcard-body">' +
+      '<div class="tcard-title"><h3>' + item.title + '</h3><small>' + item.sub + '</small></div>' +
+      '<div class="example">' +
+        (ex.before ? '<div class="ex-line ex-before">' + ex.before + '</div>' : '') +
+        '<div class="ex-line ex-main">' + ex.main + '</div>' +
+        (ex.after ? '<div class="ex-line ex-after">' + ex.after + '</div>' : '') +
+        '<div class="ex-tools">' +
+          '<button type="button" class="icon-btn speak" data-i="' + i + '">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5v5h3.5L12 18V6L7.5 9.5z" fill="currentColor" stroke="none"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6"/><path d="M18.2 6.4a8 8 0 0 1 0 11.2"/></svg>' +
+            '聽句子' +
+          '</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="tip">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1 2h5.2c0-.8.4-1.5 1-2A6 6 0 0 0 12 3Z"/></svg>' +
+        '<span>訣竅：' + item.tip + '</span>' +
+      '</div>' +
+      '<details class="more"><summary>看白話．看出處</summary><p>' + ex.trans + '</p><span class="src">出處：' + ex.src + '</span></details>' +
+    '</div>' +
+  '</article>';
+}
+function renderTeach(){
+  var data = TEACH[state.char];
+  var host = $('#teach-list');
+  host.innerHTML = data.items.map(teachCardHTML).join('');
+  host.setAttribute('aria-labelledby', 'tab-' + state.char);
+  $$('.char-tab').forEach(function(b){
+    b.setAttribute('aria-selected', String(b.dataset.char === state.char));
+  });
+  $$('.speak', host).forEach(function(btn){ btn.setAttribute('aria-label', '朗讀第 ' + (Number(btn.dataset.i) + 1) + ' 張圖卡的例句'); });
+}
+$('#teach-list').addEventListener('click', function(e){
+  var btn = e.target.closest('.speak');
+  if(!btn) return;
+  var item = TEACH[state.char].items[Number(btn.dataset.i)];
+  if(!item) return;
+  if(!soundOn){ toast('音效已關閉，請先開啟右上角音效'); return; }
+  if(!canSpeech){ toast('此裝置不支援語音朗讀'); return; }
+  sfx('tap');
+  speak(item.ex.before + ' ' + item.ex.main + ' ' + item.ex.after);
+});
+$$('.char-tab').forEach(function(tab){
+  tab.addEventListener('click', function(){
+    if(state.char === tab.dataset.char) return;
+    sfx('tap');
+    state.char = tab.dataset.char;
+    renderTeach();
+  });
+  tab.addEventListener('keydown', function(e){
+    if(e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    e.preventDefault();
+    var next = state.char === 'zhi' ? 'ze' : 'zhi';
+    state.char = next;
+    renderTeach();
+    $('#tab-' + next).focus();
+  });
+});
+
+/* =========================================================
+   畫面切換
+   ========================================================= */
+function resetGame(){
+  state.phase = 'config';
+  state.bank = null;
+  state.answers = [];
+  state.locked = false;
+  state.bins = null;
+  $('#play-config').hidden = false;
+  $('#play-game').hidden = true;
+  $('#play-result').hidden = true;
+  document.body.classList.remove('playing');
+  window.scrollTo({ top: 0, behavior: 'auto' });
+}
+function showView(name){
+  if(name !== 'play' && state.view === 'play'){ resetGame(); }
+  state.view = name;
+  $$('.view').forEach(function(v){ v.hidden = (v.id !== 'view-' + name); });
+  $$('.nav-desk button, .tabbar button').forEach(function(b){
+    b.setAttribute('aria-selected', String(b.dataset.view === name));
+  });
+  document.body.classList.toggle('playing', name === 'play' && state.phase === 'playing');
+  window.scrollTo({ top: 0, behavior: scrollBehavior });
+}
+$$('[data-view]').forEach(function(b){
+  b.addEventListener('click', function(){
+    sfx('tap');
+    showView(b.dataset.view);
+  });
+});
+$('#btn-hero-teach').addEventListener('click', function(){
+  sfx('tap');
+  var el = $('#teach-list');
+  var top = el.getBoundingClientRect().top + window.pageYOffset - 74;
+  window.scrollTo({ top: top, behavior: scrollBehavior });
+});
+
+/* 音效開關 */
+(function(){
+  var btn = $('#btn-sound');
+  var label = $('#sound-label');
+  if(!canAudio && !canSpeech){
+    btn.disabled = true;
+    btn.setAttribute('aria-pressed', 'false');
+    label.textContent = '無音效';
+    btn.title = '此瀏覽器不支援音效';
+    return;
+  }
+  btn.addEventListener('click', function(){
+    soundOn = !soundOn;
+    btn.setAttribute('aria-pressed', String(soundOn));
+    label.textContent = soundOn ? '音效' : '靜音';
+    btn.setAttribute('aria-label', soundOn ? '關閉音效' : '開啟音效');
+    if(soundOn){ sfx('tap'); toast('音效已開啟'); }
+    else { toast('音效已關閉'); }
+  });
+})();
+
+/* =========================================================
+   練習場設定
+   ========================================================= */
+$$('#level-row .pick').forEach(function(b){
+  b.addEventListener('click', function(){
+    state.level = b.dataset.level;
+    sfx('tap');
+    $$('#level-row .pick').forEach(function(x){ x.setAttribute('aria-pressed', String(x === b)); });
+    updateSummary();
+  });
+});
+$$('#mode-row .pick').forEach(function(b){
+  b.addEventListener('click', function(){
+    state.mode = b.dataset.mode;
+    sfx('tap');
+    $$('#mode-row .pick').forEach(function(x){ x.setAttribute('aria-pressed', String(x === b)); });
+    updateSummary();
+  });
+});
+function updateSummary(){
+  $('#start-summary').textContent = LEVEL_NAME[state.level] + '・' + MODE_NAME[state.mode] + '・六題';
+}
+$('#btn-start').addEventListener('click', function(){ sfx('tap'); startGame(); });
+$('#btn-quit').addEventListener('click', function(){ sfx('tap'); resetGame(); });
+
+/* =========================================================
+   遊戲
+   ========================================================= */
+function startGame(){
+  state.phase = 'playing';
+  state.idx = 0;
+  state.score = 0;
+  state.answers = [];
+  state.locked = false;
+  state.bank = (state.mode === 'pick') ? BANK[state.level].pick : BANK[state.level].sort.items;
+  state.bins = (state.mode === 'pick') ? null : BANK[state.level].sort.bins;
+  $('#play-config').hidden = true;
+  $('#play-result').hidden = true;
+  $('#play-game').hidden = false;
+  document.body.classList.add('playing');
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: 'auto' });
+}
+function updateHud(){
+  $('#q-count').textContent = '第 ' + (state.idx + 1) + ' / ' + QUIZ_LEN + ' 題';
+  $('#q-left').textContent = '還剩 ' + (QUIZ_LEN - state.idx - 1) + ' 題';
+  $('#score-chip').textContent = state.score + ' 分';
+  $('#q-bar').style.width = ((state.idx) / QUIZ_LEN * 100) + '%';
+}
+function currentQuestion(){
+  return state.bank[state.idx];
+}
+function sentenceHTML(q){
+  return '<div class="qsent">' +
+    (q.before ? '<div class="line before">' + q.before + '</div>' : '') +
+    '<div class="line main">' + q.main + '</div>' +
+    (q.after ? '<div class="line after">' + q.after + '</div>' : '') +
+  '</div>';
+}
+function renderQuestion(){
+  var q = currentQuestion();
+  var stage = $('#stage');
+  state.locked = false;
+  updateHud();
+  if(state.mode === 'pick'){
+    var order = shuffle(q.opts.map(function(_, i){ return i; }));
+    var letters = ['A', 'B', 'C', 'D'];
+    stage.innerHTML = '<div class="qcard">' +
+      '<div class="qart">' + (ART[q.art] || '') + '<span class="qtag">字義挑戰</span></div>' +
+      sentenceHTML(q) +
+      '<p class="qask">紅色的字，是哪一個意思？</p>' +
+      '<div class="opts" id="opts" role="group" aria-label="選項">' +
+        order.map(function(oi, n){
+          return '<button type="button" class="opt" data-val="' + q.opts[oi].replace(/"/g, '&quot;') + '" data-oi="' + oi + '">' +
+            '<span class="key">' + letters[n] + '</span><span class="txt">' + q.opts[oi] + '</span></button>';
+        }).join('') +
+      '</div>' +
+      '<div id="fb-slot"></div>' +
+    '</div>';
+    $$('#opts .opt').forEach(function(btn){
+      btn.addEventListener('click', function(){ answerPick(btn, q); });
+    });
+  } else {
+    stage.innerHTML = '<div class="qcard">' +
+      '<div class="qart">' + (ART[q.art] || '') + '<span class="qtag">分類高手</span></div>' +
+      sentenceHTML(q) +
+      '<p class="qask">紅色的字，該放進哪一籃？</p>' +
+      '<div class="bins" id="bins" role="group" aria-label="分類籃">' +
+        (state.bins || []).map(function(b){
+          return '<button type="button" class="bin" data-bin="' + b.id + '">' +
+            '<span class="ico">' + (ART[b.art] || '') + '</span>' +
+            '<b>' + b.label + '</b><small>' + b.sub + '</small></button>';
+        }).join('') +
+      '</div>' +
+      '<div id="fb-slot"></div>' +
+    '</div>';
+    $$('#bins .bin').forEach(function(btn){
+      btn.addEventListener('click', function(){ answerSort(btn, q); });
+    });
+  }
+}
+function feedbackHTML(ok, q, answerLabel){
+  var seal = ok
+    ? '<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="#DDF0E8" stroke="#2A2118" stroke-width="3.4"/><path d="M18 33l10 10 19-22" stroke="#1E7A62" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    : '<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="#FBE2D8" stroke="#2A2118" stroke-width="3.4"/><path d="M22 22l20 20M42 22L22 42" stroke="#B23A24" stroke-width="6" fill="none" stroke-linecap="round"/></svg>';
+  return '<div class="fb ' + (ok ? 'ok' : 'no') + '" tabindex="-1" role="status" aria-live="polite">' +
+    '<div class="fb-head">' +
+      '<span class="fb-seal">' + seal + '</span>' +
+      '<div><b>' + (ok ? '答對了！' : '再想想，差一點') + '</b>' +
+        '<span>' + (ok ? '偵探筆記已更新' : '看看提示，下一題就會了') + '</span></div>' +
+    '</div>' +
+    '<div class="fb-sentence">' + q.main.replace(/<em class="hl">/g, '<em class="hl">') + '</div>' +
+    '<div class="fb-answer">正解：' + answerLabel + '</div>' +
+    '<p class="fb-why"><b>為什麼：</b>' + q.why + '</p>' +
+    '<p class="fb-trans">整句白話：' + q.trans + '</p>' +
+    '<span class="fb-src">出處：' + q.src + '</span>' +
+    '<div class="fb-actions"><button type="button" class="btn btn-dark" id="btn-next">' +
+      (state.idx === QUIZ_LEN - 1 ? '看成績' : '下一題 →') +
+    '</button></div>' +
+  '</div>';
+}
+function reveal(ok, q, answerLabel, chosenEl, rightEl){
+  state.locked = true;
+  state.score += ok ? 1 : 0;
+  state.answers.push({ q: q, ok: ok, answer: answerLabel });
+  $('#score-chip').textContent = state.score + ' 分';
+  $('#q-bar').style.width = ((state.idx + 1) / QUIZ_LEN * 100) + '%';
+  if(chosenEl){ chosenEl.setAttribute('data-state', ok ? 'right' : 'wrong'); }
+  if(rightEl && rightEl !== chosenEl){ rightEl.setAttribute('data-state', 'right'); }
+  $$('#opts .opt, #bins .bin').forEach(function(el){
+    if(el !== chosenEl && el !== rightEl){ el.setAttribute('data-state', 'muted'); }
+  });
+  sfx(ok ? 'right' : 'wrong');
+  var slot = $('#fb-slot');
+  slot.innerHTML = feedbackHTML(ok, q, answerLabel);
+  var fb = $('.fb', slot);
+  setTimeout(function(){
+    if(!fb) return;
+    fb.scrollIntoView({ block: 'center', behavior: scrollBehavior });
+    try{ fb.focus({ preventScroll: true }); }catch(e){ fb.focus(); }
+  }, 70);
+  $('#btn-next').addEventListener('click', function(){
+    sfx('tap');
+    state.idx += 1;
+    if(state.idx >= QUIZ_LEN){ showResult(); }
+    else { renderQuestion(); window.scrollTo({ top: 0, behavior: 'auto' }); }
+  });
+}
+function answerPick(btn, q){
+  if(state.locked) return;
+  var oi = Number(btn.dataset.oi);
+  var ok = oi === q.ans;
+  reveal(ok, q, q.opts[q.ans], btn, null);
+}
+function answerSort(btn, q){
+  if(state.locked) return;
+  var ok = btn.dataset.bin === q.bin;
+  var right = $('#bins .bin[data-bin="' + q.bin + '"]');
+  var bin = (state.bins || []).filter(function(b){ return b.id === q.bin; })[0];
+  reveal(ok, q, bin ? bin.label : '—', btn, right);
+}
+function showResult(){
+  state.phase = 'result';
+  document.body.classList.remove('playing');
+  $('#play-game').hidden = true;
+  var stars = state.score === QUIZ_LEN ? 3 : (state.score >= 4 ? 2 : (state.score >= 1 ? 1 : 0));
+  var starHTML = '';
+  for(var i = 0; i < 3; i++){
+    starHTML += (i < stars ? ART.star : ART.starOff);
+  }
+  var msg = stars === 3 ? '全對！你已經是字裡小偵探。' : (stars === 2 ? '很不錯，再練一次就滿分。' : (stars === 1 ? '已經抓到一點線索，再試一次。' : '別急，先回教學館看圖卡。'));
+  var review = state.answers.map(function(a, i){
+    return '<div class="rev-row ' + (a.ok ? 'ok' : 'no') + '">' +
+      '<span class="rev-no">' + (i + 1) + '</span>' +
+      '<span class="rev-main"><span class="s">' + plain(a.q.main) + '</span>' +
+        '<span class="a">正解：' + a.answer + (a.ok ? '' : '・' + plain(a.q.why)) + '</span></span>' +
+      '<span class="rev-mark">' + (a.ok ? '✓' : '✗') + '</span>' +
+    '</div>';
+  }).join('');
+  var host = $('#play-result');
+  host.innerHTML = '<div class="result-wrap">' +
+    '<div class="result-hero">' +
+      '<div class="stars" aria-label="得到 ' + stars + ' 顆星">' + starHTML + '</div>' +
+      '<h2>' + (stars === 3 ? '漂亮破案！' : (stars >= 2 ? '線索都對上了' : '再查一次線索')) + '</h2>' +
+      '<p class="result-score">答對 <b>' + state.score + '</b> / ' + QUIZ_LEN + ' 題</p>' +
+      '<p class="result-msg">' + msg + '</p>' +
+      '<div class="result-actions">' +
+        '<button type="button" class="btn btn-red" id="btn-again">再玩一次</button>' +
+        '<button type="button" class="btn btn-ghost" id="btn-switch">換一種玩法</button>' +
+        '<button type="button" class="btn btn-ghost" id="btn-back-learn">回教學館</button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="review"><h3>逐題回顧</h3>' + review + '</div>' +
+  '</div>';
+  host.hidden = false;
+  $('#btn-again').addEventListener('click', function(){ sfx('tap'); startGame(); });
+  $('#btn-switch').addEventListener('click', function(){
+    sfx('tap');
+    state.mode = state.mode === 'pick' ? 'sort' : 'pick';
+    $$('#mode-row .pick').forEach(function(x){ x.setAttribute('aria-pressed', String(x.dataset.mode === state.mode)); });
+    updateSummary();
+    startGame();
+  });
+  $('#btn-back-learn').addEventListener('click', function(){ sfx('tap'); resetGame(); showView('learn'); });
+  sfx('win');
+  window.scrollTo({ top: 0, behavior: scrollBehavior });
+}
+
+/* 鍵盤：1–4 作答 */
+document.addEventListener('keydown', function(e){
+  if(state.phase !== 'playing' || state.mode !== 'pick' || state.locked) return;
+  if(!/^[1-4]$/.test(e.key)) return;
+  var opts = $$('#opts .opt');
+  var btn = opts[Number(e.key) - 1];
+  if(btn){ e.preventDefault(); btn.click(); }
+});
+
+/* =========================================================
+   初始化
+   ========================================================= */
+(function init(){
+  $('#hero-mascot').innerHTML = ART.mascot;
+  $$('[data-art]').forEach(function(el){ el.innerHTML = ART[el.dataset.art] || ''; });
+  renderTeach();
+  updateSummary();
+  if(!canSpeech){
+    $$('.speak').forEach(function(b){ b.disabled = true; b.title = '此裝置不支援語音朗讀'; });
+  }
+})();
+</script>
+</body>
+</html>

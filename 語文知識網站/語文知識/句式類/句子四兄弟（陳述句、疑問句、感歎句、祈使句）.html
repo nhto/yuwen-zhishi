@@ -1,0 +1,1965 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>句子四兄弟 · 句型探險隊｜小學四類句式互動遊戲</title>
+<meta name="description" content="小學語文四類句式（陳述、疑問、祈使、感嘆）互動學習遊戲：四張教學卡、兩種綜合模式、四類專屬小遊戲與限時挑戰塔，卡通 Q 版、繁體字、即時音效，手機、平板、電腦均適用。">
+<meta name="theme-color" content="#FFF8EC">
+<style>
+/* ===== 設計變數 ===== */
+:root{
+  --ink:#22303C;
+  --ink-soft:#5B6B78;
+  --cream:#FFF8EC;
+  --card:#FFFFFF;
+  --blue:#3B7DD8;   --blue-l:#E7F0FC;
+  --yellow:#EFA63A; --yellow-l:#FDF1DC;
+  --green:#34A07A;  --green-l:#E3F4ED;
+  --coral:#E85C4A;  --coral-l:#FCE8E4;
+  --line:rgba(34,48,60,.14);
+  --hard:0 5px 0 rgba(34,48,60,.14);
+  --hard-lg:0 8px 0 rgba(34,48,60,.10);
+  --radius:22px;
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  min-height:100vh;
+  background-color:var(--cream);
+  background-image:radial-gradient(circle at 1px 1px, rgba(34,48,60,.075) 1.2px, transparent 1.4px);
+  background-size:22px 22px;
+  color:var(--ink);
+  font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC","Source Han Sans TC","Noto Sans CJK TC","Heiti TC",system-ui,sans-serif;
+  font-size:clamp(17px,0.55vw + 13.5px,20px);
+  line-height:1.65;
+  -webkit-tap-highlight-color:transparent;
+}
+button{font-family:inherit;color:inherit}
+h1,h2,h3,h4,p{margin:0}
+:focus-visible{outline:4px solid rgba(59,125,216,.45);outline-offset:3px}
+
+/* ===== 頂欄 ===== */
+.topbar{
+  position:sticky;top:0;z-index:30;
+  display:flex;align-items:center;gap:10px;
+  padding:8px clamp(12px,3vw,26px);
+  padding-top:calc(8px + env(safe-area-inset-top,0px));
+  background:rgba(255,248,236,.93);
+  backdrop-filter:blur(10px);
+  border-bottom:2px solid rgba(34,48,60,.07);
+}
+.topbar-title{
+  flex:1;min-width:0;text-align:center;font-weight:900;font-size:1rem;
+  letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.icon-btn{
+  flex:0 0 auto;width:44px;height:44px;display:grid;place-items:center;
+  border:2px solid var(--line);border-radius:14px;background:#fff;
+  cursor:pointer;transition:transform .12s ease,background .12s ease;
+  touch-action:manipulation;
+}
+.icon-btn:active{transform:scale(.94)}
+.icon-btn svg{width:22px;height:22px;display:block}
+.icon-btn.ghost{visibility:hidden;pointer-events:none}
+
+/* ===== 版面 ===== */
+.wrap{width:100%;max-width:1060px;margin:0 auto;padding:clamp(14px,3vw,26px) clamp(14px,4vw,30px) calc(44px + var(--safe-b));}
+.screen{display:none}
+.screen.active{display:block;animation:fadeUp .32s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ===== 按鈕 ===== */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:54px;padding:12px 22px;
+  font-size:1.02rem;font-weight:900;letter-spacing:.02em;
+  color:var(--ink);background:#fff;
+  border:3px solid var(--ink);border-radius:18px;
+  box-shadow:var(--hard);
+  cursor:pointer;touch-action:manipulation;
+  transition:transform .12s ease,box-shadow .12s ease,background .12s ease;
+}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(34,48,60,.14)}
+.btn:disabled{opacity:.55;cursor:default;transform:none;box-shadow:var(--hard)}
+.btn-primary{background:var(--ink);color:var(--cream)}
+.btn-accent{background:var(--blue);color:#fff;border-color:#2A5FA8;box-shadow:0 5px 0 #2A5FA8}
+.btn-block{width:100%}
+.btn-lg{min-height:64px;font-size:1.12rem;border-radius:20px}
+.btn-sm{min-height:44px;padding:8px 14px;font-size:.9rem;border-width:2px;border-radius:12px;box-shadow:0 3px 0 rgba(34,48,60,.14)}
+.btn-ghost{background:rgba(255,255,255,.65)}
+
+/* ===== 啟動頁 ===== */
+.hero{
+  min-height:calc(100dvh - 32px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;gap:clamp(10px,1.8vh,20px);
+  padding:max(4vh,20px) 0 6vh;
+}
+.kicker{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 16px;border:2px solid var(--ink);border-radius:999px;
+  background:#fff;font-size:.8rem;font-weight:800;letter-spacing:.12em;
+  box-shadow:0 3px 0 rgba(34,48,60,.1);
+}
+.kicker i{width:9px;height:9px;border-radius:50%;background:var(--coral);display:block}
+.hero h1{
+  font-size:clamp(2.4rem,9vw,4.6rem);
+  line-height:1.08;font-weight:900;letter-spacing:.02em;
+}
+.hero h1 .c1{color:var(--blue)}
+.hero h1 .c2{color:var(--yellow)}
+.hero h1 .c3{color:var(--green)}
+.hero h1 .c4{color:var(--coral)}
+.hero-sub{
+  font-size:clamp(1rem,3.4vw,1.4rem);font-weight:800;color:var(--ink-soft);
+  letter-spacing:.22em;
+}
+.hero-desc{max-width:30em;font-size:.95rem;color:var(--ink-soft);line-height:1.7}
+.char-row{display:flex;justify-content:center;align-items:flex-end;gap:clamp(2px,2vw,18px);width:100%;margin:4px 0}
+.char-item{width:clamp(70px,21vw,140px);animation:bob 3.2s ease-in-out infinite}
+.char-item:nth-child(2){animation-delay:.35s}
+.char-item:nth-child(3){animation-delay:.7s}
+.char-item:nth-child(4){animation-delay:1.05s}
+.char-item svg{width:100%;height:auto;display:block}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.hero-actions{width:100%;max-width:420px;display:flex;flex-direction:column;gap:10px;margin-top:4px}
+.hero-note{font-size:.78rem;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
+
+/* ===== 主選單 ===== */
+.menu-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.menu-head h2{font-size:clamp(1.5rem,4.6vw,2rem);font-weight:900;line-height:1.25}
+.menu-head p{font-size:.88rem;color:var(--ink-soft);margin-top:2px}
+.total-stars{
+  display:inline-flex;align-items:center;gap:6px;padding:7px 14px;
+  background:#fff;border:2px solid var(--ink);border-radius:999px;
+  font-weight:900;font-size:.95rem;box-shadow:0 3px 0 rgba(34,48,60,.1);
+}
+.total-stars svg{width:18px;height:18px}
+.menu-grid{display:block}
+.menu-cols{display:grid;grid-template-columns:1fr;gap:12px}
+.mode-card{
+  display:flex;align-items:center;gap:14px;width:100%;text-align:left;
+  padding:16px 18px;min-height:88px;
+  background:#fff;border:3px solid var(--ink);border-radius:var(--radius);
+  box-shadow:var(--hard);cursor:pointer;touch-action:manipulation;
+  transition:transform .14s ease,box-shadow .14s ease;
+}
+.mode-card:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(34,48,60,.14)}
+.mode-card .glyph{
+  flex:0 0 auto;width:60px;height:60px;border-radius:18px;
+  display:grid;place-items:center;background:var(--tl,#E7F0FC);color:var(--tc,#3B7DD8);
+  border:2px solid var(--tc,#3B7DD8);
+}
+.mode-card .glyph svg{width:34px;height:34px}
+.mode-card .glyph .char-mini{width:54px;height:54px;margin:-2px}
+.mode-card .txt{flex:1;min-width:0}
+.mode-card h3{font-size:1.12rem;font-weight:900;line-height:1.3}
+.mode-card p{font-size:.82rem;color:var(--ink-soft);margin-top:1px}
+.mode-card .side{flex:0 0 auto;font-size:.8rem;font-weight:800;color:var(--ink-soft);text-align:right}
+.mode-card .side .stars{color:#EFA63A;letter-spacing:1px;font-size:.95rem;white-space:nowrap}
+.section-label{
+  display:flex;align-items:center;gap:10px;margin:22px 0 10px;
+  font-size:.82rem;font-weight:900;letter-spacing:.16em;color:var(--ink-soft);
+}
+.section-label::after{content:"";flex:1;height:2px;background:rgba(34,48,60,.1);border-radius:2px}
+.sub-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.sub-card{
+  display:flex;flex-direction:column;align-items:flex-start;gap:4px;
+  padding:14px 14px 12px;min-height:118px;text-align:left;
+  background:#fff;border:3px solid var(--tc);border-radius:18px;
+  box-shadow:var(--hard);cursor:pointer;touch-action:manipulation;
+  transition:transform .14s ease,box-shadow .14s ease;
+}
+.sub-card:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(34,48,60,.14)}
+.sub-card .dot{
+  width:38px;height:38px;border-radius:12px;background:var(--tl);color:var(--tc);
+  display:grid;place-items:center;font-weight:900;font-size:1.25rem;margin-bottom:2px;
+}
+.sub-card h4{font-size:1rem;font-weight:900;line-height:1.3}
+.sub-card .sub-desc{display:block;font-size:.8rem;color:var(--ink-soft);line-height:1.5;margin:0}
+.sub-card .tag{font-size:.74rem;font-weight:800;color:var(--tc);margin-top:auto}
+.challenge-banner{
+  width:100%;display:flex;align-items:center;gap:14px;text-align:left;
+  padding:18px;border-radius:var(--radius);border:3px solid var(--ink);
+  background:linear-gradient(135deg,#22303C 0%,#2E4050 100%);
+  color:var(--cream);box-shadow:0 6px 0 rgba(34,48,60,.28);
+  cursor:pointer;touch-action:manipulation;
+}
+.challenge-banner:active{transform:translateY(3px)}
+.challenge-banner .glyph{
+  flex:0 0 auto;width:60px;height:60px;border-radius:18px;display:grid;place-items:center;
+  background:rgba(255,248,236,.12);border:2px solid rgba(255,248,236,.5);
+}
+.challenge-banner .glyph svg{width:34px;height:34px}
+.challenge-banner h3{font-size:1.12rem;font-weight:900}
+.challenge-banner p{font-size:.8rem;color:rgba(255,248,236,.75)}
+.challenge-banner .side{margin-left:auto;font-weight:900;font-size:.85rem;color:#FFD28A;white-space:nowrap}
+
+/* ===== 教學館 ===== */
+.lesson-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-bottom:14px}
+.lesson-tab{
+  padding:10px 4px;border:2px solid var(--line);border-radius:14px;background:#fff;
+  font-size:.9rem;font-weight:900;cursor:pointer;touch-action:manipulation;
+  transition:background .15s,border-color .15s,color .15s;
+}
+.lesson-tab[aria-selected="true"]{background:var(--tl);border-color:var(--tc);color:var(--tc);box-shadow:0 3px 0 rgba(34,48,60,.1)}
+.lesson-card{
+  position:relative;background:#fff;border:3px solid var(--tc);
+  border-radius:28px;padding:clamp(16px,4vw,28px);
+  box-shadow:var(--hard-lg);overflow:hidden;
+}
+.lesson-card::before{
+  content:"";position:absolute;inset:0 auto auto 0;width:100%;height:9px;background:var(--tc);
+}
+.lesson-top{display:flex;align-items:center;gap:clamp(8px,3vw,22px);margin-top:6px}
+.lesson-char{flex:0 0 auto;width:clamp(96px,25vw,168px)}
+.lesson-char svg{width:100%;height:auto;display:block}
+.lesson-id{min-width:0}
+.lesson-id .en{font-size:.68rem;font-weight:800;letter-spacing:.18em;color:var(--ink-soft);text-transform:uppercase}
+.lesson-id h2{font-size:clamp(1.7rem,5.6vw,2.5rem);font-weight:900;line-height:1.15;color:var(--tc)}
+.slogan{
+  margin-top:10px;padding:10px 14px;border-radius:14px;
+  background:var(--tl);border:2px dashed var(--tc);
+  font-size:clamp(1rem,2.8vw,1.22rem);font-weight:900;line-height:1.5;
+}
+.lesson-sec{margin-top:clamp(14px,3vw,20px)}
+.lesson-sec h3{
+  display:flex;align-items:center;gap:8px;
+  font-size:.78rem;font-weight:900;letter-spacing:.14em;color:var(--ink-soft);
+  margin-bottom:8px;
+}
+.lesson-sec h3 svg{width:19px;height:19px;color:var(--tc);flex:0 0 auto}
+.kw-list{display:flex;flex-wrap:wrap;gap:7px}
+.kw{
+  padding:5px 12px;border-radius:999px;background:var(--tl);border:2px solid var(--tc);
+  font-size:.86rem;font-weight:800;color:var(--ink);
+}
+.example{
+  display:flex;gap:9px;align-items:flex-start;
+  padding:9px 12px;border-radius:12px;background:rgba(34,48,60,.035);
+  font-size:clamp(1.02rem,3vw,1.22rem);line-height:1.6;font-weight:700;
+}
+.example + .example{margin-top:7px}
+.example .no{
+  flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:var(--tc);color:#fff;
+  font-size:.72rem;font-weight:900;display:grid;place-items:center;margin-top:4px;
+}
+.hl{background:linear-gradient(transparent 58%, var(--tl) 58%);border-bottom:3px solid var(--tc);padding:0 2px;border-radius:2px}
+.pitfall{
+  display:flex;gap:10px;align-items:flex-start;
+  padding:12px 14px;border-radius:16px;background:var(--coral-l);
+  border:2px dashed #E8A79E;font-size:.94rem;line-height:1.7;
+}
+.pitfall .pf-icon{flex:0 0 auto;width:26px;height:26px;margin-top:1px}
+.pitfall b{color:#B23A2B}
+.lesson-nav{display:flex;gap:10px;margin-top:14px}
+.lesson-nav .btn{flex:1}
+.try-box{
+  margin-top:16px;padding:14px;border-radius:18px;background:#fff;
+  border:3px solid var(--ink);box-shadow:var(--hard);
+}
+.try-head{display:flex;align-items:center;gap:8px;font-weight:900;font-size:.95rem}
+.try-head .pill{font-size:.68rem;background:var(--ink);color:var(--cream);border-radius:999px;padding:2px 9px;letter-spacing:.08em}
+.try-text{font-size:clamp(1.2rem,3.8vw,1.55rem);font-weight:900;margin:8px 0 12px;line-height:1.5}
+.try-opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.try-opt{
+  padding:10px 6px;border:2px solid var(--line);border-radius:12px;background:#fff;
+  font-weight:800;font-size:.9rem;cursor:pointer;touch-action:manipulation;
+}
+.try-opt:disabled{cursor:default}
+.try-opt.correct{border-color:var(--green);background:var(--green-l)}
+.try-opt.wrong{border-color:var(--coral);background:var(--coral-l)}
+.try-fb{margin-top:10px;font-size:.9rem;line-height:1.65;padding:10px 12px;border-radius:12px;background:rgba(34,48,60,.045)}
+.try-fb.ok{background:var(--green-l)}
+.try-fb.bad{background:var(--coral-l)}
+
+/* ===== 答題頁 ===== */
+.play-wrap{max-width:780px;margin:0 auto}
+.play-head{margin-bottom:10px}
+.progress{height:14px;border-radius:99px;background:rgba(34,48,60,.09);overflow:hidden;border:2px solid rgba(34,48,60,.08)}
+.progress-fill{height:100%;width:0;border-radius:99px;background:var(--blue);transition:width .35s ease}
+.play-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:6px;font-size:.8rem;font-weight:800;color:var(--ink-soft)}
+.play-meta .mode-name{color:var(--ink);font-size:.85rem}
+.hud{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:10px}
+.hud-item{background:#fff;border:2px solid var(--line);border-radius:14px;padding:5px 8px;text-align:center}
+.hud-item b{display:block;font-size:1.15rem;font-weight:900;line-height:1.3;font-variant-numeric:tabular-nums}
+.hud-item span{font-size:.68rem;font-weight:800;color:var(--ink-soft);letter-spacing:.08em}
+.hud-item.hot b{color:var(--coral)}
+.timer-track{height:10px;border-radius:99px;background:rgba(34,48,60,.09);overflow:hidden;margin:0 0 10px}
+.timer-fill{height:100%;width:100%;background:var(--green);transition:width .2s linear,background .3s}
+.timer-fill.low{background:var(--coral)}
+.play-prompt{font-size:.9rem;font-weight:800;color:var(--ink-soft);margin:0 0 6px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.play-prompt .type-chip{padding:2px 10px;border-radius:999px;background:var(--tl);color:var(--tc);border:2px solid var(--tc);font-size:.75rem}
+.qcard{
+  position:relative;background:#fff;border:3px solid var(--ink);border-radius:26px;
+  padding:clamp(18px,5vw,34px);box-shadow:var(--hard-lg);margin-bottom:16px;
+}
+.qcard::after{
+  content:"";position:absolute;right:18px;bottom:-11px;width:26px;height:26px;
+  background:#fff;border-right:3px solid var(--ink);border-bottom:3px solid var(--ink);
+  transform:rotate(45deg);border-radius:0 0 6px 0;
+}
+.qtext{
+  font-size:clamp(1.5rem,5.2vw,2.35rem);line-height:1.55;font-weight:900;
+  letter-spacing:.02em;word-break:break-word;overflow-wrap:anywhere;
+}
+.qtext .quote{color:var(--blue)}
+.tokens{display:flex;flex-wrap:wrap;gap:clamp(6px,1.8vw,12px);align-items:center}
+.token{
+  padding:8px 14px;min-height:52px;
+  border:3px solid var(--ink);border-radius:14px;background:#fff;
+  font-size:clamp(1.3rem,4.6vw,1.9rem);font-weight:900;line-height:1.3;
+  box-shadow:0 4px 0 rgba(34,48,60,.13);cursor:pointer;touch-action:manipulation;
+  transition:transform .12s,background .15s;
+}
+.token:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(34,48,60,.13)}
+.token.correct{background:var(--green-l);border-color:var(--green)}
+.token.wrong{background:var(--coral-l);border-color:var(--coral)}
+.token.muted{opacity:.5}
+.token-punc{font-size:clamp(1.4rem,4.8vw,2rem);font-weight:900;line-height:1;padding:0 2px;color:var(--ink-soft)}
+.answers{display:grid;gap:10px}
+.stations{grid-template-columns:repeat(2,minmax(0,1fr))}
+.station{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  min-height:104px;padding:10px 6px;
+  border:3px solid var(--tc);border-radius:20px;background:var(--tl);
+  box-shadow:0 5px 0 rgba(34,48,60,.13);cursor:pointer;touch-action:manipulation;
+  transition:transform .12s,box-shadow .12s,filter .15s;
+}
+.station:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(34,48,60,.13)}
+.station .sym{font-size:1.5rem;line-height:1;font-weight:900;color:var(--tc)}
+.station .nm{font-size:1.06rem;font-weight:900;line-height:1.3}
+.station .hint{font-size:.7rem;font-weight:700;color:var(--ink-soft)}
+.station.correct{border-color:var(--green);background:var(--green-l);box-shadow:0 0 0 4px rgba(52,160,122,.22)}
+.station.wrong{border-color:var(--coral);background:var(--coral-l);opacity:.85}
+.station.dim{opacity:.55}
+.options{grid-template-columns:1fr}
+.option{
+  display:flex;align-items:center;gap:12px;text-align:left;
+  padding:14px 16px;min-height:70px;
+  border:3px solid var(--ink);border-radius:18px;background:#fff;
+  box-shadow:var(--hard);cursor:pointer;touch-action:manipulation;
+  font-size:clamp(1.02rem,3.4vw,1.22rem);font-weight:800;line-height:1.5;
+  transition:transform .12s,box-shadow .12s,background .15s;
+}
+.option:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(34,48,60,.14)}
+.option .k{
+  flex:0 0 auto;width:36px;height:36px;border-radius:11px;background:var(--ink);color:var(--cream);
+  display:grid;place-items:center;font-weight:900;font-size:1rem;
+}
+.option.correct{border-color:var(--green);background:var(--green-l)}
+.option.correct .k{background:var(--green)}
+.option.wrong{border-color:var(--coral);background:var(--coral-l)}
+.option.wrong .k{background:var(--coral)}
+.option.dim{opacity:.55}
+.yesno{grid-template-columns:repeat(2,minmax(0,1fr))}
+.yesno .yn{
+  min-height:88px;border:3px solid var(--ink);border-radius:20px;background:#fff;
+  box-shadow:var(--hard);cursor:pointer;touch-action:manipulation;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  font-size:clamp(1.05rem,3.4vw,1.25rem);font-weight:900;line-height:1.3;padding:8px;
+  transition:transform .12s,box-shadow .12s,background .15s;
+}
+.yesno .yn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(34,48,60,.14)}
+.yesno .yn .big{font-size:1.6rem;line-height:1}
+.yesno .yn.yes,.yesno .yn.no{background:#fff;border-color:var(--ink)}
+.yesno .yn.correct{background:var(--green-l);border-color:var(--green);box-shadow:0 0 0 4px rgba(52,160,122,.22)}
+.yesno .yn.correct .big{color:var(--green)}
+.yesno .yn.wrong{background:var(--coral-l);border-color:var(--coral);opacity:.82}
+.yesno .yn.wrong .big{color:var(--coral)}
+.feedback{
+  margin-top:16px;padding:16px 18px;border-radius:22px;
+  border:3px solid var(--ink);background:#fff;box-shadow:var(--hard);
+  animation:popIn .28s ease both;
+}
+.feedback.ok{background:var(--green-l);border-color:var(--green)}
+.feedback.bad{background:var(--coral-l);border-color:var(--coral)}
+@keyframes popIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+.fb-head{display:flex;align-items:center;gap:10px;font-size:1.12rem;font-weight:900;line-height:1.4}
+.fb-badge{
+  flex:0 0 auto;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;
+  background:var(--green);color:#fff;font-weight:900;font-size:1.15rem;
+}
+.feedback.bad .fb-badge{background:var(--coral)}
+.fb-answer{font-size:.95rem;font-weight:900;margin-top:6px}
+.fb-explain{font-size:.95rem;line-height:1.7;margin-top:6px;color:var(--ink)}
+.fb-explain b{color:#B23A2B}
+.feedback.ok .fb-explain b{color:#1F6B52}
+.fb-next{margin-top:12px}
+.combo-flash{
+  position:fixed;left:50%;top:32%;transform:translate(-50%,-50%);
+  font-size:2rem;font-weight:900;color:var(--coral);z-index:60;pointer-events:none;
+  text-shadow:0 3px 0 #fff,0 6px 12px rgba(34,48,60,.2);
+  animation:comboUp .9s ease both;
+}
+@keyframes comboUp{0%{opacity:0;transform:translate(-50%,-30%) scale(.7)}25%{opacity:1;transform:translate(-50%,-55%) scale(1.05)}100%{opacity:0;transform:translate(-50%,-90%) scale(1)}}
+
+/* ===== 結算頁 ===== */
+.result-card{
+  max-width:720px;margin:0 auto;background:#fff;border:3px solid var(--ink);
+  border-radius:30px;padding:clamp(20px,5vw,34px);box-shadow:var(--hard-lg);text-align:center;
+  position:relative;overflow:hidden;
+}
+.result-card::before{
+  content:"";position:absolute;top:-80px;left:50%;transform:translateX(-50%);
+  width:320px;height:180px;border-radius:50%;background:rgba(239,166,58,.16);filter:blur(6px);
+}
+.result-stars{display:flex;justify-content:center;gap:6px;position:relative;margin-bottom:6px}
+.result-stars svg{width:clamp(48px,13vw,64px);height:auto;animation:starPop .5s ease both}
+.result-stars svg:nth-child(2){animation-delay:.15s}
+.result-stars svg:nth-child(3){animation-delay:.3s}
+@keyframes starPop{0%{transform:scale(0) rotate(-25deg);opacity:0}70%{transform:scale(1.15) rotate(4deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+.result-card h2{font-size:clamp(1.6rem,5.4vw,2.2rem);font-weight:900;margin-top:2px;position:relative}
+.result-sub{font-size:.95rem;color:var(--ink-soft);margin-top:4px;position:relative}
+.result-score{
+  display:inline-flex;align-items:baseline;gap:6px;margin-top:12px;
+  padding:6px 18px;border-radius:999px;background:rgba(34,48,60,.06);font-weight:900;
+}
+.result-score b{font-size:1.7rem;color:var(--tc,var(--blue))}
+.result-sec{margin-top:22px;text-align:left}
+.result-sec h3{font-size:.82rem;letter-spacing:.14em;font-weight:900;color:var(--ink-soft);margin-bottom:8px}
+.type-row{display:grid;grid-template-columns:76px 1fr 52px;gap:10px;align-items:center;margin-bottom:7px;font-size:.82rem;font-weight:800}
+.type-row .bar-track{display:block;height:12px;border-radius:99px;background:rgba(34,48,60,.08);overflow:hidden}
+.type-row .bar-fill{display:block;height:100%;border-radius:99px;background:var(--tc);width:0;transition:width .7s ease}
+.type-row .val{text-align:right;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.wrong-list{display:grid;gap:8px}
+.wrong-item{border:2px solid var(--line);border-radius:14px;background:#fff;padding:9px 12px}
+.wrong-item summary{cursor:pointer;font-weight:800;font-size:.9rem;line-height:1.5;list-style:none;display:flex;gap:8px;align-items:flex-start}
+.wrong-item summary::-webkit-details-marker{display:none}
+.wrong-item summary::before{content:"＋";flex:0 0 auto;color:var(--coral);font-weight:900}
+.wrong-item[open] summary::before{content:"－"}
+.wrong-body{font-size:.85rem;line-height:1.7;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);color:var(--ink-soft)}
+.wrong-body b{color:var(--ink)}
+.all-right{padding:12px 14px;border-radius:14px;background:var(--green-l);font-weight:800;font-size:.9rem;text-align:center}
+.result-actions{display:grid;gap:9px;margin-top:22px}
+.result-actions .row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.rank-badge{
+  display:inline-flex;align-items:center;gap:8px;margin-top:10px;padding:7px 16px;
+  border-radius:999px;background:var(--ink);color:var(--cream);font-weight:900;font-size:.9rem;letter-spacing:.06em;
+}
+
+/* ===== 學習足跡 ===== */
+.stats-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:16px}
+.stat-box{background:#fff;border:3px solid var(--ink);border-radius:18px;padding:14px;box-shadow:var(--hard);text-align:center}
+.stat-box b{display:block;font-size:1.7rem;font-weight:900;line-height:1.2;color:var(--blue)}
+.stat-box span{font-size:.76rem;font-weight:800;color:var(--ink-soft)}
+.stats-list{display:grid;gap:8px}
+.stat-row{display:flex;align-items:center;gap:10px;padding:11px 14px;background:#fff;border:2px solid var(--line);border-radius:14px;font-size:.9rem;font-weight:800}
+.stat-row .nm{flex:1;min-width:0}
+.stat-row .stars{color:#EFA63A;letter-spacing:1px;white-space:nowrap}
+.stat-row .num{font-size:.8rem;color:var(--ink-soft);white-space:nowrap}
+.wrong-book{margin-top:8px;display:grid;gap:8px}
+.stats-empty{padding:22px;text-align:center;color:var(--ink-soft);font-size:.9rem;background:#fff;border:2px dashed var(--line);border-radius:16px}
+
+/* ===== 彈層與提示 ===== */
+.modal{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:20px;background:rgba(34,48,60,.45);animation:fadeUp .2s ease}
+.modal-card{
+  width:100%;max-width:380px;background:var(--cream);border:3px solid var(--ink);
+  border-radius:24px;padding:22px;box-shadow:0 10px 0 rgba(34,48,60,.25);text-align:center;
+}
+.modal-card h3{font-size:1.2rem;font-weight:900;margin-bottom:6px}
+.modal-card p{font-size:.9rem;color:var(--ink-soft);line-height:1.6}
+.modal-actions{display:grid;gap:8px;margin-top:16px}
+.toast{
+  position:fixed;left:50%;bottom:calc(24px + var(--safe-b));transform:translateX(-50%);
+  z-index:90;max-width:88vw;padding:10px 18px;border-radius:999px;
+  background:var(--ink);color:var(--cream);font-size:.85rem;font-weight:800;
+  box-shadow:0 6px 16px rgba(34,48,60,.25);animation:toastIn .25s ease both;
+}
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+
+
+/* 卡片文字（按鈕內使用 span） */
+.mode-card .ttl{display:block;font-size:1.12rem;font-weight:900;line-height:1.3}
+.mode-card .sub{display:block;font-size:.86rem;color:var(--ink-soft);margin-top:1px;line-height:1.5}
+.sub-card .sub-ttl{display:block;font-size:1rem;font-weight:900;line-height:1.3}
+.challenge-banner .txt{flex:1;min-width:0}
+.challenge-banner .ttl{display:block;font-size:1.12rem;font-weight:900;line-height:1.35}
+.challenge-banner .sub{display:block;font-size:.8rem;color:rgba(255,248,236,.75);line-height:1.5;margin-top:1px}
+.qtext.scene{font-size:clamp(1.22rem,3.9vw,1.62rem);font-weight:800;line-height:1.6}
+.scene-label{display:inline-block;margin-right:8px;padding:1px 8px;border-radius:6px;background:var(--yellow-l);color:#8A5A12;font-size:.68rem;font-weight:900;vertical-align:middle;letter-spacing:.08em}
+.fb-tip{margin-top:6px;font-size:.86rem;color:var(--ink-soft);padding-left:2px}
+.option .ot{min-width:0;flex:1}
+@media (max-width:520px){
+  .mode-card .ttl{font-size:1.02rem}
+  .mode-card .sub{font-size:.75rem}
+}
+
+@media (min-height:680px) and (min-width:600px){
+  .play-wrap{min-height:calc(100dvh - 132px);display:flex;flex-direction:column;justify-content:center}
+}
+@media (max-width:599px){
+  .play-wrap{padding-top:10px}
+}
+@media (min-width:1000px){
+  .qtext{font-size:2.6rem}
+  .stations{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+  .station{min-height:138px}
+  .station .nm{font-size:1.42rem}
+  .station .sym{font-size:2rem}
+  .station .hint{font-size:.78rem}
+  .option{font-size:1.24rem;min-height:78px}
+  .lesson-card{padding:30px}
+  .example{font-size:1.24rem}
+  .slogan{font-size:1.32rem}
+  .play-wrap{max-width:900px}
+}
+/* ===== 響應式 ===== */
+@media (max-width:520px){
+  .menu-grid{gap:10px}
+  .mode-card{padding:13px 14px;min-height:82px}
+  .mode-card .glyph{width:54px;height:54px;border-radius:15px}
+  .mode-card .glyph .char-mini{width:48px;height:48px}
+  .mode-card h3{font-size:1.02rem}
+  .mode-card .side{font-size:.72rem}
+  .sub-card{min-height:112px;padding:12px}
+  .lesson-tabs{gap:5px}
+  .lesson-tab{font-size:.8rem;padding:8px 2px}
+  .station{min-height:96px}
+  .station .nm{font-size:.98rem}
+  .qtext{letter-spacing:0}
+  .type-row{grid-template-columns:64px 1fr 46px;font-size:.76rem}
+  .result-actions .row{grid-template-columns:1fr}
+}
+@media (min-width:760px){
+  .menu-cols{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .sub-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .answers{grid-template-columns:1fr}
+  .stations{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .yesno{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stats-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .play-wrap{max-width:860px}
+}
+@media (min-width:1100px){
+  .hero{gap:16px}
+}
+@media (max-width:420px){
+  .menu-head .btn-sm{margin-left:auto}
+  .mode-card{gap:10px;padding:12px 13px}
+  .mode-card .glyph{width:50px;height:50px;border-radius:14px}
+  .mode-card .glyph .char-mini{width:44px;height:44px}
+  .mode-card .ttl{font-size:.98rem;line-height:1.25}
+  .mode-card .side{font-size:.68rem}
+  .mode-card .side .stars{display:block;font-size:.82rem;letter-spacing:0}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
+  .char-item{animation:none}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar" id="topbar" hidden>
+    <button class="icon-btn" id="btn-back" type="button" aria-label="返回">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <div class="topbar-title" id="topbar-title">句子四兄弟</div>
+    <button class="icon-btn" id="btn-sound" type="button" aria-label="關閉音效" aria-pressed="true">
+      <svg id="sound-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+    </button>
+  </header>
+
+  <main data-generated-by="vibe-coding-frontend-design">
+
+    <!-- 啟動頁 -->
+    <section class="screen active" id="screen-home" aria-label="啟動頁">
+      <div class="wrap">
+        <div class="hero">
+          <div class="kicker"><i></i>小學語文 · 四類句式</div>
+          <h1><span class="c1">句</span><span class="c2">子</span><span class="c3">四</span><span class="c4">兄</span>弟</h1>
+          <div class="hero-sub">句型探險隊</div>
+          <div class="char-row" id="home-chars" aria-hidden="true"></div>
+          <p class="hero-desc">看圖認識四位句型夥伴，再玩遊戲把句子送回家。<br>大字、大圖、有聲效，適合課堂投屏與平板上使用。</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-lg btn-block" id="btn-start" type="button">開始探險</button>
+            <button class="btn btn-ghost btn-block" id="btn-home-sound" type="button">音效：開啟</button>
+          </div>
+          <p class="hero-note">手機、平板、電腦皆可使用 · 進度自動保存在本機</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 主選單 -->
+    <section class="screen" id="screen-menu" aria-label="主選單">
+      <div class="wrap">
+        <div class="menu-head">
+          <div>
+            <h2>選一個任務開始吧！</h2>
+            <p>先看教學，再玩遊戲，最後挑戰句型塔。</p>
+          </div>
+          <div class="total-stars" id="total-stars" aria-label="總星星數">
+            <svg viewBox="0 0 24 24" fill="#EFA63A" stroke="#22303C" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3.6l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.8l5.9-.9L12 3.6z"/></svg>
+            <span id="total-star-num">0</span>
+          </div>
+        </div>
+        <div class="menu-grid" id="menu-grid"></div>
+      </div>
+    </section>
+
+    <!-- 教學館 -->
+    <section class="screen" id="screen-lesson" aria-label="教學館">
+      <div class="wrap">
+        <div class="lesson-tabs" id="lesson-tabs" role="tablist" aria-label="四類句式"></div>
+        <div id="lesson-body"></div>
+      </div>
+    </section>
+
+    <!-- 答題頁 -->
+    <section class="screen" id="screen-play" aria-label="答題">
+      <div class="wrap play-wrap">
+        <div class="play-head">
+          <div class="progress" aria-hidden="true"><div class="progress-fill" id="progress-fill"></div></div>
+          <div class="play-meta">
+            <span class="mode-name" id="play-mode">模式</span>
+            <span id="play-count">第 1 / 6 題</span>
+          </div>
+        </div>
+        <div class="hud" id="challenge-hud" hidden>
+          <div class="hud-item"><b id="hud-time">90</b><span>剩餘秒數</span></div>
+          <div class="hud-item"><b id="hud-score">0</b><span>分數</span></div>
+          <div class="hud-item" id="hud-combo-box"><b id="hud-combo">0</b><span>連擊</span></div>
+        </div>
+        <div class="timer-track" id="timer-track" hidden><div class="timer-fill" id="timer-fill"></div></div>
+        <p class="play-prompt" id="play-prompt"></p>
+        <div class="qcard">
+          <p class="qtext" id="qtext"></p>
+          <div class="tokens" id="qtokens" hidden></div>
+        </div>
+        <div class="answers" id="answers"></div>
+        <div class="feedback" id="feedback" hidden aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- 結算頁 -->
+    <section class="screen" id="screen-result" aria-label="結算">
+      <div class="wrap">
+        <div class="result-card" id="result-card"></div>
+      </div>
+    </section>
+
+    <!-- 學習足跡 -->
+    <section class="screen" id="screen-stats" aria-label="學習足跡">
+      <div class="wrap">
+        <div class="menu-head">
+          <div>
+            <h2>學習足跡</h2>
+            <p>看看哪一類句式已經掌握，哪一類還要再練。</p>
+          </div>
+          <button class="btn btn-sm" id="btn-clear-stats" type="button">清除紀錄</button>
+        </div>
+        <div id="stats-body"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="modal" id="modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <h3 id="modal-title">離開這一局？</h3>
+    <p id="modal-text">目前的作答進度不會保存。</p>
+    <div class="modal-actions">
+      <button class="btn btn-primary btn-block" id="modal-cancel" type="button">繼續作答</button>
+      <button class="btn btn-block" id="modal-ok" type="button">離開</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script>
+/* =========================================================
+   句子四兄弟 · 句型探險隊
+   單文件互動遊戲：資料、畫面狀態機、音效與本機進度
+   ========================================================= */
+(function(){
+"use strict";
+
+/* ---------- 一、四類句式設定 ---------- */
+var TYPES = {
+  statement: {
+    key: 'statement', name: '陳述句', en: 'Statement', symbol: '。', badge: '。',
+    color: '#3B7DD8', tint: '#E7F0FC',
+    slogan: '我在告訴你一件事。',
+    keywords: ['句號「。」', '語氣平穩', '沒有要求別人'],
+    examples: [
+      { text: '小貓在窗台上曬太陽。', marks: ['曬太陽'] },
+      { text: '今天的天氣很涼爽。', marks: ['很涼爽'] }
+    ],
+    pitfall: '句中有「請」字，但只是描述一件事，例如「老師請我們坐下。」仍然是陳述句。',
+    tip: '有話直說，句號收尾。'
+  },
+  question: {
+    key: 'question', name: '疑問句', en: 'Question', symbol: '？', badge: '？',
+    color: '#EFA63A', tint: '#FDF1DC',
+    slogan: '我在問你一件事，等你回答。',
+    keywords: ['嗎、呢、甚麼', '為甚麼、怎樣、哪一種', '句末問號「？」'],
+    examples: [
+      { text: '你為甚麼遲到呢？', marks: ['為甚麼', '呢'] },
+      { text: '這本書是誰的？', marks: ['誰'] }
+    ],
+    pitfall: '「難道你不知道嗎？」是反問句，句末仍用問號，小學階段先把它歸入疑問句；它其實不需要對方回答。',
+    tip: '句末問號，向人提問。'
+  },
+  imperative: {
+    key: 'imperative', name: '祈使句', en: 'Imperative', symbol: '請', badge: '請',
+    color: '#34A07A', tint: '#E3F4ED',
+    slogan: '我在請你做一件事。',
+    keywords: ['請、吧', '不要、別、快', '句末多用句號'],
+    examples: [
+      { text: '請把窗戶關上吧。', marks: ['請', '吧'] },
+      { text: '不要在這裏跑來跑去！', marks: ['不要'] }
+    ],
+    pitfall: '「你可以幫我嗎？」是疑問句；「請幫我。」才是祈使句。判斷關鍵是有沒有要求對方做事，而不是有沒有問號。',
+    tip: '請人做事，句子常有「請、吧、不要」。'
+  },
+  exclamation: {
+    key: 'exclamation', name: '感嘆句', en: 'Exclamation', symbol: '！', badge: '！',
+    color: '#E85C4A', tint: '#FCE8E4',
+    slogan: '我心裏很激動，忍不住說出來。',
+    keywords: ['啊、呀、真', '多麼、太、極了', '句末感嘆號「！」'],
+    examples: [
+      { text: '這幅畫真美啊！', marks: ['真', '啊'] },
+      { text: '這碗湯好喝極了！', marks: ['極了'] }
+    ],
+    pitfall: '不是有「！」就是感嘆句：命令句「快走！」也用它，判斷要看是「表達感情」還是「要求別人」。',
+    tip: '感情滿滿，才用感嘆號。'
+  }
+};
+var TYPE_KEYS = ['statement', 'question', 'imperative', 'exclamation'];
+
+/* ---------- 二、Q 版角色 SVG ---------- */
+function characterSVG(type, extraClass){
+  var t = TYPES[type];
+  var c = t.color;
+  var cls = 'char-svg' + (extraClass ? ' ' + extraClass : '');
+  var ears = '';
+  var face = '';
+  var headY = 62;
+  var headR = 32;
+
+  if (type === 'statement') {
+    ears = '<circle cx="33" cy="31" r="13" fill="' + c + '"/>' +
+           '<circle cx="87" cy="31" r="13" fill="' + c + '"/>' +
+           '<circle cx="33" cy="31" r="5.5" fill="#FFFFFF" opacity="0.55" stroke="none"/>' +
+           '<circle cx="87" cy="31" r="5.5" fill="#FFFFFF" opacity="0.55" stroke="none"/>';
+    face = '<ellipse cx="60" cy="75" rx="17" ry="11" fill="#fff" opacity="0.65" stroke="none"/>' +
+           '<path d="M55 72 Q60 70 65 72" fill="none"/>' +
+           '<path d="M57 77 Q60 80 63 77" fill="none"/>';
+  } else if (type === 'question') {
+    ears = '<path d="M25 46 L29 6 L58 29 Z" fill="' + c + '"/>' +
+           '<path d="M95 46 L91 6 L62 29 Z" fill="' + c + '"/>' +
+           '<path d="M32 34 L34 16 L48 28 Z" fill="#fff" opacity="0.35" stroke="none"/>' +
+           '<path d="M88 34 L86 16 L72 28 Z" fill="#fff" opacity="0.35" stroke="none"/>';
+    face = '<ellipse cx="60" cy="74" rx="16" ry="11.5" fill="#fff" opacity="0.85" stroke="none"/>' +
+           '<path d="M55 70 L65 70 L60 75 Z" fill="#22303C" stroke="none"/>' +
+           '<path d="M60 75 L60 79 M60 79 Q55 82 52 79 M60 79 Q65 82 68 79" fill="none"/>';
+  } else if (type === 'imperative') {
+    ears = '<ellipse cx="44" cy="15" rx="9.5" ry="23" fill="' + c + '" transform="rotate(-8 44 15)"/>' +
+           '<ellipse cx="76" cy="15" rx="9.5" ry="23" fill="' + c + '" transform="rotate(8 76 15)"/>' +
+           '<ellipse cx="44" cy="15" rx="4" ry="14" fill="#fff" opacity="0.4" stroke="none" transform="rotate(-8 44 15)"/>' +
+           '<ellipse cx="76" cy="15" rx="4" ry="14" fill="#fff" opacity="0.4" stroke="none" transform="rotate(8 76 15)"/>';
+    headY = 66; headR = 30;
+    face = '<path d="M56 71 L64 71 L60 75 Z" fill="#22303C" stroke="none"/>' +
+           '<path d="M60 75 L60 79 M60 79 Q56 82 53 79 M60 79 Q64 82 67 79" fill="none"/>' +
+           '<rect x="55" y="81" width="10" height="7" rx="2.5" fill="#fff" stroke-width="2.6"/>';
+  } else {
+    ears = '<path d="M27 45 L32 8 L60 29 Z" fill="' + c + '"/>' +
+           '<path d="M93 45 L88 8 L60 29 Z" fill="' + c + '"/>' +
+           '<path d="M34 35 L36 18 L49 28 Z" fill="#fff" opacity="0.35" stroke="none"/>' +
+           '<path d="M86 35 L84 18 L71 28 Z" fill="#fff" opacity="0.35" stroke="none"/>';
+    face = '<path d="M55 72 L65 72 L60 76 Z" fill="#22303C" stroke="none"/>' +
+           '<path d="M60 76 L60 80 M60 80 Q55 83 52 80 M60 80 Q65 83 68 80" fill="none"/>' +
+           '<path d="M30 66 L18 62 M30 71 L17 71 M30 76 L18 80" fill="none" stroke-width="2.4"/>' +
+           '<path d="M90 66 L102 62 M90 71 L103 71 M90 76 L102 80" fill="none" stroke-width="2.4"/>';
+  }
+
+  return '<svg class="' + cls + '" viewBox="0 -8 120 140" aria-hidden="true" focusable="false">' +
+    '<g stroke="#22303C" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round">' +
+      '<path d="M16 132 Q16 95 60 95 Q104 95 104 132 Z" fill="' + c + '"/>' +
+      ears +
+      '<circle cx="60" cy="' + headY + '" r="' + headR + '" fill="#FFFFFF"/>' +
+      '<ellipse cx="40" cy="72" rx="7" ry="4.2" fill="' + c + '" opacity="0.3" stroke="none"/>' +
+      '<ellipse cx="80" cy="72" rx="7" ry="4.2" fill="' + c + '" opacity="0.3" stroke="none"/>' +
+      '<circle cx="48" cy="59" r="4.7" fill="#22303C" stroke="none"/>' +
+      '<circle cx="72" cy="59" r="4.7" fill="#22303C" stroke="none"/>' +
+      '<circle cx="49.6" cy="57.4" r="1.6" fill="#FFFFFF" stroke="none"/>' +
+      '<circle cx="73.6" cy="57.4" r="1.6" fill="#FFFFFF" stroke="none"/>' +
+      face +
+    '</g>' +
+    '<g>' +
+      '<circle cx="99" cy="106" r="17" fill="' + c + '" stroke="#22303C" stroke-width="3"/>' +
+      '<text x="99" y="113" text-anchor="middle" font-size="' + (type === 'imperative' ? 15 : 19) + '" font-weight="900" fill="#FFFFFF" font-family="inherit">' + t.badge + '</text>' +
+    '</g>' +
+  '</svg>';
+}
+
+/* ---------- 三、題庫（全站題幹不重複） ---------- */
+var SORT_Q = [
+  { id:'S1', text:'妹妹正在客廳畫畫。', type:'statement',
+    explain:'這句話只是告訴我們妹妹在做甚麼，句末是句號「。」，語氣平穩，所以是陳述句。' },
+  { id:'S2', text:'你為甚麼遲到呢？', type:'question',
+    explain:'句中有疑問詞「為甚麼」，句末是問號「？」，是在問原因，所以是疑問句。' },
+  { id:'S3', text:'請把窗戶關上吧。', type:'imperative',
+    explain:'句中有「請」和「吧」，是在請別人做事，句末用句號，所以是祈使句。' },
+  { id:'S4', text:'這幅畫真美啊！', type:'exclamation',
+    explain:'句中有「真」和「啊」，表達讚嘆的感情，句末是感嘆號「！」，所以是感嘆句。' },
+  { id:'S5', text:'老師請我們坐下。', type:'statement',
+    explain:'雖然有「請」字，但這句話只是在告訴我們老師做了甚麼，沒有要求別人做事，所以仍是陳述句。' },
+  { id:'S6', text:'快走！', type:'imperative',
+    explain:'句末雖然是感嘆號，但「快走」是在命令別人行動，所以是祈使句。記住：感嘆號不等於感嘆句。' }
+];
+
+var TRANSFORM_Q = [
+  { id:'T1', scene:'你想告訴同學：今天有體育課。', target:'statement',
+    options:[
+      { text:'今天有體育課。', type:'statement' },
+      { text:'今天有體育課嗎？', type:'question' },
+      { text:'今天一定要上體育課！', type:'exclamation' }
+    ], answer:0,
+    explain:'「今天有體育課。」用句號平靜地說出一件事，是陳述句；第二句加了「嗎」變成疑問句；第三句加了「一定要」表達強烈心情，是感嘆句。' },
+  { id:'T2', scene:'你想知道明天會不會下雨。', target:'question',
+    options:[
+      { text:'明天會下雨。', type:'statement' },
+      { text:'明天會下雨嗎？', type:'question' },
+      { text:'明天真希望能下雨啊！', type:'exclamation' }
+    ], answer:1,
+    explain:'「明天會下雨嗎？」用「嗎」提出問題，句末是問號，是疑問句；第一句只是陳述；第三句用「真……啊」表達盼望，是感嘆句。' },
+  { id:'T3', scene:'你想請同學借你一支鉛筆。', target:'imperative',
+    options:[
+      { text:'你可以借我一支鉛筆嗎？', type:'question' },
+      { text:'請借我一支鉛筆。', type:'imperative' },
+      { text:'這支鉛筆真漂亮！', type:'exclamation' }
+    ], answer:1,
+    explain:'「請借我一支鉛筆。」用「請」提出請求，是祈使句；第一句用「嗎」在發問，是疑問句；第三句在讚美鉛筆，是感嘆句。' },
+  { id:'T4', scene:'你看見彩虹，心裏很興奮。', target:'exclamation',
+    options:[
+      { text:'我看見彩虹了。', type:'statement' },
+      { text:'你看見彩虹了嗎？', type:'question' },
+      { text:'彩虹真漂亮啊！', type:'exclamation' }
+    ], answer:2,
+    explain:'「彩虹真漂亮啊！」用「真……啊」表達興奮和讚美，是感嘆句；第一句只是陳述；第二句用「嗎」發問，是疑問句。' },
+  { id:'T5', scene:'你想提醒弟弟不要在客廳踢球。', target:'imperative',
+    options:[
+      { text:'弟弟在客廳踢球。', type:'statement' },
+      { text:'請不要在客廳踢球。', type:'imperative' },
+      { text:'弟弟踢球真厲害！', type:'exclamation' }
+    ], answer:1,
+    explain:'「請不要在客廳踢球。」用「請」和「不要」提出要求，是祈使句；第一句只是說出事實；第三句在稱讚弟弟，是感嘆句。' },
+  { id:'T6', scene:'你想問同學功課寫完了沒有。', target:'question',
+    options:[
+      { text:'你的功課寫完了。', type:'statement' },
+      { text:'你的功課寫完了嗎？', type:'question' },
+      { text:'快點把功課寫完！', type:'imperative' }
+    ], answer:1,
+    explain:'「你的功課寫完了嗎？」用「嗎」提出問題，是疑問句；第一句只是陳述；第三句用「快點」催促別人，是祈使句。' }
+];
+
+var DETECTIVE_Q = [
+  { id:'D1', text:'小狗趴在門口休息。', type:'statement', isTarget:true,
+    explain:'這句話告訴我們小狗在做甚麼，句末是句號，是陳述句。' },
+  { id:'D2', text:'你會不會游泳？', type:'question', isTarget:false,
+    explain:'這句話用「會不會」提出問題，句末是問號，是疑問句，不是陳述句。' },
+  { id:'D3', text:'請安靜一點。', type:'imperative', isTarget:false,
+    explain:'這句話用「請」要求別人安靜，是祈使句，不是陳述句。' },
+  { id:'D4', text:'圖書館裏很安靜。', type:'statement', isTarget:true,
+    explain:'這句話只是描述圖書館的情況，句末是句號，是陳述句。' },
+  { id:'D5', text:'這座山多麼高啊！', type:'exclamation', isTarget:false,
+    explain:'這句話用「多麼……啊」表達驚嘆，是感嘆句，不是陳述句。' },
+  { id:'D6', text:'爸爸每天早上七點出門。', type:'statement', isTarget:true,
+    explain:'這句話告訴我們爸爸的習慣，句末是句號，是陳述句。' }
+];
+
+var SEARCH_Q = [
+  { id:'Q1', text:'你為甚麼不穿外套？', tokens:['你','為甚麼','不穿','外套'], answer:1,
+    explain:'「為甚麼」用來問原因，是疑問詞；「不穿」和「外套」只是說出動作和物件。' },
+  { id:'Q2', text:'這本書是誰的？', tokens:['這本','書','是','誰','的'], answer:3,
+    explain:'「誰」用來問人，是疑問詞；其他詞語只是在說明這本書。' },
+  { id:'Q3', text:'我們甚麼時候去公園？', tokens:['我們','甚麼時候','去','公園'], answer:1,
+    explain:'「甚麼時候」用來問時間，是疑問詞；「去公園」是動作和地點。' },
+  { id:'Q4', text:'你最喜歡哪一種水果？', tokens:['你','最喜歡','哪一種','水果'], answer:2,
+    explain:'「哪一種」用來問選擇，是疑問詞；「水果」是被問的對象。' },
+  { id:'Q5', text:'你有沒有看見我的橡皮擦？', tokens:['你','有沒有','看見','我的','橡皮擦'], answer:1,
+    explain:'「有沒有」用來問事情是否發生，是疑問詞；「我的」是限定語，「橡皮擦」是物件。' },
+  { id:'Q6', text:'這道數學題怎樣做？', tokens:['這道','數學題','怎樣','做'], answer:2,
+    explain:'「怎樣」用來問方法，是疑問詞；「做」是動作，配合「怎樣」才形成問題。' }
+];
+
+var THEATER_Q = [
+  { id:'P1', text:'請幫我關上門。', type:'imperative', isTarget:true,
+    explain:'用「請」提出請求，是祈使句。' },
+  { id:'P2', text:'花園裏的花開了。', type:'statement', isTarget:false,
+    explain:'這句話只是告訴我們花開了，是陳述句，沒有要求別人做事。' },
+  { id:'P3', text:'我們一起來唱首歌吧。', type:'imperative', isTarget:true,
+    explain:'用「吧」提出建議，請大家一起做，是祈使句。' },
+  { id:'P4', text:'為甚麼天空是藍色的？', type:'question', isTarget:false,
+    explain:'這句話用「為甚麼」發問，是疑問句，不是在要求別人做事。' },
+  { id:'P5', text:'不要在這裏跑來跑去！', type:'imperative', isTarget:true,
+    explain:'用「不要」制止別人，雖然句末是感嘆號，仍然是祈使句。' },
+  { id:'P6', text:'這件衣服真好看！', type:'exclamation', isTarget:false,
+    explain:'這句話在讚美衣服，表達感情，是感嘆句。' }
+];
+
+var MAGNIFIER_Q = [
+  { id:'E1', text:'這碗湯太好喝了！', type:'exclamation', isTarget:true,
+    explain:'用「太……了」表達強烈的讚美，是感嘆句。' },
+  { id:'E2', text:'請你把書還給我。', type:'imperative', isTarget:false,
+    explain:'用「請」要求別人做事，是祈使句，不是感嘆句。' },
+  { id:'E3', text:'天空多麼藍啊！', type:'exclamation', isTarget:true,
+    explain:'用「多麼……啊」表達驚嘆，是感嘆句。' },
+  { id:'E4', text:'明天是星期幾？', type:'question', isTarget:false,
+    explain:'這句話在提出問題，是疑問句，沒有表達強烈感情。' },
+  { id:'E5', text:'我真的很開心！', type:'exclamation', isTarget:true,
+    explain:'「真的」加上感嘆號，表達強烈而真實的開心，是感嘆句。' },
+  { id:'E6', text:'弟弟在房間裏做功課。', type:'statement', isTarget:false,
+    explain:'這句話只是告訴我們弟弟在做甚麼，是陳述句。' }
+];
+
+var CHALLENGE_Q = [
+  { id:'C1', text:'太陽從東邊升起。', type:'statement',
+    explain:'說出一個自然現象，句末是句號，是陳述句。' },
+  { id:'C2', text:'你吃過這種麵包嗎？', type:'question',
+    explain:'用「嗎」提出問題，句末是問號，是疑問句。' },
+  { id:'C3', text:'請排好隊。', type:'imperative',
+    explain:'用「請」要求別人排隊，是祈使句。' },
+  { id:'C4', text:'多麼美麗的夜景啊！', type:'exclamation',
+    explain:'用「多麼……啊」表達讚嘆，是感嘆句。' },
+  { id:'C5', text:'難道你忘了帶課本嗎？', type:'question',
+    explain:'用「嗎」提出反問，句末仍是問號；小學階段把反問句歸入疑問句，它其實不需要對方回答。' },
+  { id:'C6', text:'快把功課做完！', type:'imperative',
+    explain:'用「快」催促別人做事，是祈使句；感嘆號只是加強語氣。' },
+  { id:'C7', text:'公園裏有很多人在散步。', type:'statement',
+    explain:'描述公園裏的情況，句末是句號，是陳述句。' },
+  { id:'C8', text:'這道題真難啊！', type:'exclamation',
+    explain:'用「真……啊」表達感受，是感嘆句。' },
+  { id:'C9', text:'別在走廊上追逐。', type:'imperative',
+    explain:'用「別」制止別人，是祈使句。' },
+  { id:'C10', text:'你喜歡春天還是秋天？', type:'question',
+    explain:'用「還是」提供選擇並發問，句末是問號，是疑問句。' }
+];
+
+/* 教學卡「試一試」：四題，與遊戲題庫不重複 */
+var TRY_Q = {
+  statement: { text:'弟弟最喜歡吃草莓。', answer:'statement',
+    explain:'這句話只是告訴我們弟弟的喜好，句末是句號，是陳述句。' },
+  question: { text:'你會不會騎單車？', answer:'question',
+    explain:'用「會不會」提出問題，句末是問號，是疑問句。' },
+  imperative: { text:'請不要隨地丟垃圾。', answer:'imperative',
+    explain:'用「請」和「不要」要求別人，是祈使句。' },
+  exclamation: { text:'這朵花真香啊！', answer:'exclamation',
+    explain:'用「真……啊」表達讚美，是感嘆句。' }
+};
+
+/* ---------- 四、模式設定 ---------- */
+var MODES = {
+  sort: {
+    key:'sort', title:'模式一 · 句子分類站', short:'句子分類站', kind:'sort',
+    desc:'讀一句，送進正確的站台', count:6, qs:SORT_Q,
+    prompt:'把這句話送到正確的站台', accent:'#3B7DD8', tint:'#E7F0FC', glyph:'char:statement'
+  },
+  transform: {
+    key:'transform', title:'模式二 · 句型變身術', short:'句型變身術', kind:'transform',
+    desc:'看情境，選出符合目標句式的一句', count:6, qs:TRANSFORM_Q,
+    prompt:'哪一句符合目標句式？', accent:'#EFA63A', tint:'#FDF1DC', glyph:'magic'
+  },
+  detective: {
+    key:'detective', title:'陳述句 · 小偵探報告站', short:'小偵探報告站', kind:'yesno',
+    desc:'判斷句子是否在陳述事實', count:6, qs:DETECTIVE_Q, target:'statement',
+    prompt:'這句話是在告訴我們一件事嗎？', yes:'是，在陳述', no:'不是',
+    accent:'#3B7DD8', tint:'#E7F0FC', glyph:'char:statement'
+  },
+  search: {
+    key:'search', title:'疑問句 · 問號大搜查', short:'問號大搜查', kind:'token',
+    desc:'點出句子中真正的疑問詞', count:6, qs:SEARCH_Q, target:'question',
+    prompt:'點一下句子中提出問題的詞語', accent:'#EFA63A', tint:'#FDF1DC', glyph:'char:question'
+  },
+  theater: {
+    key:'theater', title:'祈使句 · 命令小劇場', short:'命令小劇場', kind:'yesno',
+    desc:'分辨句子是否在發出請求或指令', count:6, qs:THEATER_Q, target:'imperative',
+    prompt:'這句話是在請人做事嗎？', yes:'是，在要求', no:'不是',
+    accent:'#34A07A', tint:'#E3F4ED', glyph:'char:imperative'
+  },
+  magnifier: {
+    key:'magnifier', title:'感嘆句 · 驚嘆號放大鏡', short:'驚嘆號放大鏡', kind:'yesno',
+    desc:'判斷句子是否表達強烈情感', count:6, qs:MAGNIFIER_Q, target:'exclamation',
+    prompt:'這句話在表達強烈感情嗎？', yes:'是，很激動', no:'不是',
+    accent:'#E85C4A', tint:'#FCE8E4', glyph:'char:exclamation'
+  },
+  challenge: {
+    key:'challenge', title:'挑戰塔 · 句型關', short:'挑戰塔', kind:'challenge',
+    desc:'90 秒作答 10 題，看解說時暫停計時', count:10, qs:CHALLENGE_Q,
+    prompt:'這句話屬於哪一類？', accent:'#22303C', tint:'#FFF1D6', glyph:'tower'
+  }
+};
+var MODE_ORDER = ['sort','transform','detective','search','theater','magnifier','challenge'];
+
+/* ---------- 五、工具與儲存 ---------- */
+function $(sel, root){ return (root || document).querySelector(sel); }
+function $$(sel, root){ return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+function esc(s){
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function starsText(n){
+  var out = '';
+  for (var i = 0; i < 3; i++) out += (i < n ? '★' : '☆');
+  return out;
+}
+function starSVG(filled){
+  return '<svg viewBox="0 0 24 24" aria-hidden="true" fill="' + (filled ? '#EFA63A' : '#E8E0D4') +
+    '" stroke="#22303C" stroke-width="1.4" stroke-linejoin="round"><path d="M12 2.8l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.8 6.2 20.8l1.1-6.5L2.6 9.7l6.5-1L12 2.8z"/></svg>';
+}
+function iconSVG(name){
+  var open = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">';
+  if (name === 'book') return open + '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H19v3H6.5"/></svg>';
+  if (name === 'sort') return open + '<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>';
+  if (name === 'magic') return open + '<path d="M15 4l5 5L9 20l-5-5z"/><path d="M14 5l5 5"/><path d="M6 3v4M4 5h4M18 15v4M16 17h4"/></svg>';
+  if (name === 'tower') return open + '<path d="M5 21V9l3-2V4h3v2h2V4h3v2l3 2v12z"/><path d="M10 21v-5h4v5"/></svg>';
+  if (name === 'chart') return open + '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>';
+  if (name === 'key') return open + '<circle cx="8" cy="12" r="4"/><path d="M12 12h9M18 12v4M15 12v3"/></svg>';
+  if (name === 'quote') return open + '<path d="M9 7c-3 1-4 3-4 6v4h5v-6H6c0-2 1-3 3-3z"/><path d="M19 7c-3 1-4 3-4 6v4h5v-6h-4c0-2 1-3 3-3z"/></svg>';
+  if (name === 'warn') return open + '<path d="M12 3l9 16H3z"/><path d="M12 9v4"/><circle cx="12" cy="16.4" r=".8"/></svg>';
+  if (name === 'bulb') return open + '<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9V16h7v-2.1A6 6 0 0 0 12 3z"/></svg>';
+  return open + '</svg>';
+}
+function glyphHTML(glyph){
+  if (glyph && glyph.indexOf('char:') === 0) return characterSVG(glyph.slice(5), 'char-mini');
+  return iconSVG(glyph || 'chart');
+}
+
+var STORE_KEY = 'sentence-quartet-v1';
+function defaultProgress(){
+  return { muted:false, modes:{}, totals:{ attempted:0, correct:0 }, wrong:[] };
+}
+function loadProgress(){
+  var d = defaultProgress();
+  try {
+    var raw = localStorage.getItem(STORE_KEY);
+    if (!raw) return d;
+    var p = JSON.parse(raw);
+    if (!p || typeof p !== 'object') return d;
+    d.muted = !!p.muted;
+    if (p.modes && typeof p.modes === 'object') d.modes = p.modes;
+    if (p.totals && typeof p.totals === 'object') {
+      d.totals.attempted = Math.max(0, Number(p.totals.attempted) || 0);
+      d.totals.correct = Math.max(0, Number(p.totals.correct) || 0);
+    }
+    if (Array.isArray(p.wrong)) d.wrong = p.wrong.slice(0, 30);
+    return d;
+  } catch (e) {
+    return d;
+  }
+}
+var progress = loadProgress();
+function saveProgress(){
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(progress)); } catch (e) { /* 私隱模式或額滿時忽略 */ }
+}
+
+/* ---------- 六、音效（Web Audio 即時合成） ---------- */
+var Sound = {
+  ctx: null,
+  ensure: function(){
+    try {
+      if (!this.ctx) {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return null;
+        this.ctx = new AC();
+      }
+      if (this.ctx.state === 'suspended') this.ctx.resume();
+      return this.ctx;
+    } catch (e) { return null; }
+  },
+  tone: function(freq, delay, dur, type, vol){
+    var ctx = this.ctx;
+    if (!ctx) return;
+    try {
+      var t0 = ctx.currentTime + delay;
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = type || 'sine';
+      osc.frequency.setValueAtTime(freq, t0);
+      gain.gain.setValueAtTime(0.0001, t0);
+      gain.gain.exponentialRampToValueAtTime(vol || 0.12, t0 + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(t0);
+      osc.stop(t0 + dur + 0.03);
+    } catch (e) { /* 音效失敗不影響遊戲 */ }
+  },
+  play: function(kind){
+    if (progress.muted) return;
+    if (!this.ensure()) return;
+    if (kind === 'tap') {
+      this.tone(880, 0, 0.055, 'sine', 0.045);
+    } else if (kind === 'correct') {
+      this.tone(523.25, 0, 0.13, 'sine', 0.1);
+      this.tone(659.25, 0.09, 0.13, 'sine', 0.1);
+      this.tone(783.99, 0.18, 0.2, 'sine', 0.11);
+    } else if (kind === 'wrong') {
+      this.tone(349.23, 0, 0.16, 'triangle', 0.08);
+      this.tone(261.63, 0.15, 0.24, 'triangle', 0.075);
+    } else if (kind === 'win') {
+      this.tone(523.25, 0, 0.16, 'sine', 0.1);
+      this.tone(659.25, 0.1, 0.16, 'sine', 0.1);
+      this.tone(783.99, 0.2, 0.18, 'sine', 0.11);
+      this.tone(1046.5, 0.3, 0.34, 'sine', 0.12);
+    } else if (kind === 'combo') {
+      this.tone(783.99, 0, 0.09, 'square', 0.05);
+      this.tone(1046.5, 0.09, 0.14, 'square', 0.05);
+    }
+  }
+};
+
+/* ---------- 七、狀態與 DOM ---------- */
+var state = {
+  screen: 'home',
+  modeKey: null,
+  index: 0,
+  answers: [],
+  score: 0,
+  combo: 0,
+  bestCombo: 0,
+  locked: false,
+  finished: false,
+  timeLeft: 90,
+  timerId: null,
+  paused: false,
+  lastTick: 0,
+  lessonType: 'statement',
+  lastResult: null
+};
+
+var dom = {
+  topbar: $('#topbar'),
+  topTitle: $('#topbar-title'),
+  back: $('#btn-back'),
+  sound: $('#btn-sound'),
+  soundIcon: $('#sound-icon'),
+  homeChars: $('#home-chars'),
+  start: $('#btn-start'),
+  homeSound: $('#btn-home-sound'),
+  menuGrid: $('#menu-grid'),
+  totalStarNum: $('#total-star-num'),
+  lessonTabs: $('#lesson-tabs'),
+  lessonBody: $('#lesson-body'),
+  playMode: $('#play-mode'),
+  playCount: $('#play-count'),
+  progressFill: $('#progress-fill'),
+  hud: $('#challenge-hud'),
+  hudTime: $('#hud-time'),
+  hudScore: $('#hud-score'),
+  hudCombo: $('#hud-combo'),
+  hudComboBox: $('#hud-combo-box'),
+  timerTrack: $('#timer-track'),
+  timerFill: $('#timer-fill'),
+  prompt: $('#play-prompt'),
+  qtext: $('#qtext'),
+  qtokens: $('#qtokens'),
+  answers: $('#answers'),
+  feedback: $('#feedback'),
+  resultCard: $('#result-card'),
+  statsBody: $('#stats-body'),
+  modal: $('#modal'),
+  modalTitle: $('#modal-title'),
+  modalText: $('#modal-text'),
+  modalOk: $('#modal-ok'),
+  modalCancel: $('#modal-cancel'),
+  toast: $('#toast')
+};
+
+var TRY_MODE = {
+  statement: 'detective',
+  question: 'search',
+  imperative: 'theater',
+  exclamation: 'magnifier'
+};
+
+/* ---------- 八、畫面切換 ---------- */
+function showScreen(name){
+  $$('.screen').forEach(function(s){ s.classList.remove('active'); });
+  var target = $('#screen-' + name);
+  if (target) target.classList.add('active');
+  state.screen = name;
+  dom.topbar.hidden = (name === 'home');
+  if (name === 'menu') { renderMenu(); }
+  if (name === 'stats') { renderStats(); }
+  var titles = {
+    home: '句子四兄弟', menu: '句型探險隊', lesson: '教學館',
+    play: state.modeKey ? MODES[state.modeKey].short : '答題',
+    result: '學習報告', stats: '學習足跡'
+  };
+  dom.topTitle.textContent = titles[name] || '句子四兄弟';
+  window.scrollTo({ top: 0, behavior: 'auto' });
+}
+function toast(msg){
+  dom.toast.textContent = msg;
+  dom.toast.hidden = false;
+  clearTimeout(toast._t);
+  toast._t = setTimeout(function(){ dom.toast.hidden = true; }, 1900);
+}
+
+/* ---------- 九、啟動頁與選單 ---------- */
+function renderHome(){
+  dom.homeChars.innerHTML = TYPE_KEYS.map(function(k){
+    return '<div class="char-item">' + characterSVG(k) + '</div>';
+  }).join('');
+}
+function modeCardHTML(o){
+  var starLine = (o.stars == null) ? '' : '<span class="stars" aria-label="已獲得 ' + o.stars + ' 顆星">' + starsText(o.stars) + '</span>';
+  return '<button class="mode-card" type="button" data-go="' + o.go + '"' +
+    (o.style ? ' style="' + o.style + '"' : '') + '>' +
+    '<span class="glyph">' + glyphHTML(o.glyph) + '</span>' +
+    '<span class="txt"><span class="ttl">' + esc(o.title) + '</span><span class="sub">' + esc(o.desc) + '</span></span>' +
+    '<span class="side">' + (o.side ? esc(o.side) : '') + starLine + '</span>' +
+  '</button>';
+}
+function renderMenu(){
+  var total = 0;
+  MODE_ORDER.forEach(function(k){
+    var rec = progress.modes[k];
+    total += rec && rec.stars ? rec.stars : 0;
+  });
+  dom.totalStarNum.textContent = total;
+
+  var html = '';
+  html += modeCardHTML({ go:'lesson', title:'教學館', desc:'四張句式卡，先看懂再玩', glyph:'book', side:'4 張卡', style:'--tc:#22303C;--tl:#FFF1D6' });
+
+  html += '<div class="section-label">綜合模式 · 每種 6 題</div><div class="menu-cols">';
+  html += modeCardHTML({
+    go:'sort', title:MODES.sort.title, desc:MODES.sort.desc, glyph:'sort',
+    side:'6 題 ', stars:(progress.modes.sort && progress.modes.sort.stars) || 0,
+    style:'--tc:' + MODES.sort.accent + ';--tl:' + MODES.sort.tint
+  });
+  html += modeCardHTML({
+    go:'transform', title:MODES.transform.title, desc:MODES.transform.desc, glyph:'magic',
+    side:'6 題 ', stars:(progress.modes.transform && progress.modes.transform.stars) || 0,
+    style:'--tc:' + MODES.transform.accent + ';--tl:' + MODES.transform.tint
+  });
+  html += '</div>';
+
+  html += '<div class="section-label">四類句式 · 專屬小遊戲</div><div class="sub-grid">';
+  ['detective','search','theater','magnifier'].forEach(function(k){
+    var m = MODES[k];
+    var t = TYPES[m.target];
+    html += '<button class="sub-card" type="button" data-go="' + k + '" style="--tc:' + m.accent + ';--tl:' + m.tint + '">' +
+      '<span class="dot">' + t.symbol + '</span>' +
+      '<span class="sub-ttl">' + esc(m.short) + '</span>' +
+      '<span class="sub-desc">' + esc(m.desc) + '</span>' +
+      '<span class="tag">' + starsText((progress.modes[k] && progress.modes[k].stars) || 0) + ' · 6 題</span>' +
+    '</button>';
+  });
+  html += '</div>';
+
+  html += '<div class="section-label">最終挑戰</div>';
+  html += '<button class="challenge-banner" type="button" data-go="challenge">' +
+    '<span class="glyph">' + iconSVG('tower') + '</span>' +
+    '<span class="txt"><span class="ttl">挑戰塔 · 句型關</span><span class="sub">90 秒作答 10 題混合句式，連對有加成</span></span>' +
+    '<span class="side">' + (progress.modes.challenge ? '最高 ' + (progress.modes.challenge.best || 0) + ' 分' : '開始挑戰') + '</span>' +
+  '</button>';
+
+  html += '<div class="section-label">我的紀錄</div>';
+  html += modeCardHTML({
+    go:'stats', title:'學習足跡', desc:'四類正確率、星星與錯題回看', glyph:'chart',
+    side: progress.totals.attempted ? '累計 ' + progress.totals.attempted + ' 題' : '尚未開始',
+    style:'--tc:#5B6B78;--tl:#F1EEE8'
+  });
+
+  dom.menuGrid.innerHTML = html;
+}
+
+/* ---------- 十、教學館 ---------- */
+function renderLessonTabs(){
+  dom.lessonTabs.innerHTML = TYPE_KEYS.map(function(k){
+    var t = TYPES[k];
+    return '<button class="lesson-tab" type="button" role="tab" data-type="' + k + '" aria-selected="' +
+      (k === state.lessonType ? 'true' : 'false') + '" style="--tc:' + t.color + ';--tl:' + t.tint + '">' + t.name + '</button>';
+  }).join('');
+}
+function highlight(text, marks){
+  var out = esc(text);
+  (marks || []).forEach(function(m){
+    var safe = esc(m);
+    out = out.split(safe).join('<span class="hl">' + safe + '</span>');
+  });
+  return out;
+}
+function renderLessonCard(){
+  var t = TYPES[state.lessonType];
+  var q = TRY_Q[state.lessonType];
+  var html = '<article class="lesson-card" style="--tc:' + t.color + ';--tl:' + t.tint + '">' +
+    '<div class="lesson-top">' +
+      '<div class="lesson-char">' + characterSVG(t.key) + '</div>' +
+      '<div class="lesson-id">' +
+        '<div class="en">' + t.en + '</div>' +
+        '<h2>' + t.name + '</h2>' +
+        '<div class="slogan">' + esc(t.slogan) + '</div>' +
+      '</div>' +
+    '</div>' +
+
+    '<div class="lesson-sec"><h3>' + iconSVG('key') + '關鍵詞與標點</h3><div class="kw-list">' +
+      t.keywords.map(function(k){ return '<span class="kw">' + esc(k) + '</span>'; }).join('') +
+    '</div></div>' +
+
+    '<div class="lesson-sec"><h3>' + iconSVG('quote') + '例句</h3>' +
+      t.examples.map(function(ex, i){
+        return '<div class="example"><span class="no">' + (i + 1) + '</span><span>' + highlight(ex.text, ex.marks) + '</span></div>';
+      }).join('') +
+    '</div>' +
+
+    '<div class="lesson-sec"><h3>' + iconSVG('warn') + '常見誤區</h3><div class="pitfall">' +
+      '<svg class="pf-icon" viewBox="0 0 24 24" fill="none" stroke="#B23A2B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 16H3z"/><path d="M12 9v4"/><circle cx="12" cy="16.4" r=".8" fill="#B23A2B" stroke="none"/></svg>' +
+      '<div>' + esc(t.pitfall) + '</div>' +
+    '</div></div>' +
+
+    '<div class="lesson-sec"><h3>' + iconSVG('bulb') + '一句口訣</h3><div class="example"><span class="no" style="background:' + t.color + '">訣</span><span>' + esc(t.tip) + '</span></div></div>' +
+
+    '<div class="try-box" data-try="' + t.key + '">' +
+      '<div class="try-head"><span class="pill">試一試</span>這句話屬於哪一類？</div>' +
+      '<p class="try-text">「' + esc(q.text) + '」</p>' +
+      '<div class="try-opts">' +
+        TYPE_KEYS.map(function(k){
+          return '<button class="try-opt" type="button" data-val="' + k + '">' + TYPES[k].name + '</button>';
+        }).join('') +
+      '</div>' +
+      '<div class="try-fb" hidden></div>' +
+    '</div>' +
+
+    '<div class="lesson-nav">' +
+      '<button class="btn" type="button" data-lesson-prev>上一個</button>' +
+      '<button class="btn btn-primary" type="button" data-lesson-next>下一個</button>' +
+    '</div>' +
+  '</article>';
+  dom.lessonBody.innerHTML = html;
+  renderLessonTabs();
+}
+function openLesson(type){
+  state.lessonType = type || state.lessonType;
+  renderLessonCard();
+  showScreen('lesson');
+}
+
+/* ---------- 十一、答題流程 ---------- */
+function startMode(key){
+  var m = MODES[key];
+  if (!m) return;
+  state.modeKey = key;
+  state.index = 0;
+  state.answers = [];
+  state.score = 0;
+  state.combo = 0;
+  state.bestCombo = 0;
+  state.locked = false;
+  state.finished = false;
+  state.timeLeft = 90;
+  state.paused = false;
+  dom.hud.hidden = (m.kind !== 'challenge');
+  dom.timerTrack.hidden = (m.kind !== 'challenge');
+  dom.playMode.textContent = m.title;
+  showScreen('play');
+  if (m.kind === 'challenge') { startTimer(); renderHud(); } else { stopTimer(); }
+  renderQuestion();
+  Sound.play('tap');
+}
+
+function renderQuestion(){
+  var m = MODES[state.modeKey];
+  var q = m.qs[state.index];
+  state.locked = false;
+  state.paused = false;
+  state.lastTick = performance.now();
+  dom.feedback.hidden = true;
+  dom.feedback.className = 'feedback';
+  dom.feedback.innerHTML = '';
+  dom.answers.innerHTML = '';
+  dom.answers.className = 'answers';
+  dom.qtokens.innerHTML = '';
+  dom.qtokens.hidden = true;
+  dom.qtext.hidden = false;
+  dom.qtext.className = 'qtext';
+  dom.progressFill.style.width = ((state.index + 1) / m.count * 100) + '%';
+  dom.playCount.textContent = '第 ' + (state.index + 1) + ' / ' + m.count + ' 題';
+
+  if (m.kind === 'transform') {
+    var target = TYPES[q.target];
+    dom.prompt.innerHTML = '<span class="type-chip" style="--tc:' + target.color + ';--tl:' + target.tint + '">目標：' + target.name + '</span>' +
+      '<span>哪一句符合這個句式？</span>';
+    dom.qtext.className = 'qtext scene';
+    dom.qtext.innerHTML = '<span class="scene-label">情境</span>' + esc(q.scene);
+    dom.answers.className = 'answers options';
+    dom.answers.innerHTML = q.options.map(function(o, i){
+      return '<button class="option" type="button" data-ans="' + i + '">' +
+        '<span class="k">' + 'ABC'.charAt(i) + '</span><span class="ot">' + esc(o.text) + '</span>' +
+      '</button>';
+    }).join('');
+  } else if (m.kind === 'token') {
+    dom.prompt.innerHTML = '<span>' + esc(m.prompt) + '</span>';
+    dom.qtext.hidden = true;
+    dom.qtokens.hidden = false;
+    dom.qtokens.innerHTML = q.tokens.map(function(tk, i){
+      return '<button class="token" type="button" data-tok="' + i + '">' + esc(tk) + '</button>';
+    }).join('') + '<span class="token-punc" aria-hidden="true">？</span>';
+  } else {
+    dom.prompt.innerHTML = '<span>' + esc(m.prompt) + '</span>';
+    dom.qtext.innerHTML = '「' + esc(q.text) + '」';
+    if (m.kind === 'yesno') {
+      dom.answers.className = 'answers yesno';
+      dom.answers.innerHTML =
+        '<button class="yn yes" type="button" data-ans="yes"><span class="big">是</span><span>' + esc(m.yes) + '</span></button>' +
+        '<button class="yn no" type="button" data-ans="no"><span class="big">不是</span><span>這句話不是' + TYPES[m.target].name + '</span></button>';
+    } else {
+      dom.answers.className = 'answers stations';
+      dom.answers.innerHTML = TYPE_KEYS.map(function(k){
+        var t = TYPES[k];
+        return '<button class="station" type="button" data-ans="' + k + '" style="--tc:' + t.color + ';--tl:' + t.tint + '">' +
+          '<span class="sym">' + t.symbol + '</span>' +
+          '<span class="nm">' + t.name + '</span>' +
+          '<span class="hint">' + t.en + '</span>' +
+        '</button>';
+      }).join('');
+    }
+  }
+}
+
+function handleAnswer(value){
+  if (state.locked || state.finished) return;
+  var m = MODES[state.modeKey];
+  var q = m.qs[state.index];
+  var ok = false;
+  var chosenLabel = '';
+  var correctLabel = '';
+  var okText = '';
+  var badText = '';
+  var recordType = q.type || m.target || 'statement';
+
+  if (m.kind === 'sort' || m.kind === 'challenge') {
+    ok = String(value) === q.type;
+    chosenLabel = (TYPES[String(value)] || { name: String(value) }).name;
+    correctLabel = TYPES[q.type].name;
+    okText = '這是「' + esc(correctLabel) + '」';
+    badText = '正確答案：' + esc(correctLabel) + '<br>你選了：' + esc(chosenLabel);
+    $$('button[data-ans]', dom.answers).forEach(function(n){
+      var k = n.getAttribute('data-ans');
+      if (k === q.type) n.classList.add('correct');
+      else if (k === String(value)) n.classList.add('wrong');
+      else n.classList.add('dim');
+    });
+  } else if (m.kind === 'transform') {
+    var idx = Number(value);
+    ok = (idx === q.answer);
+    chosenLabel = '第 ' + 'ABC'.charAt(idx) + ' 句「' + q.options[idx].text + '」';
+    correctLabel = '第 ' + 'ABC'.charAt(q.answer) + ' 句「' + q.options[q.answer].text + '」';
+    recordType = q.target;
+    okText = '正確句子是 ' + esc(correctLabel);
+    badText = '正確答案：' + esc(correctLabel) + '<br>你選了：' + esc(chosenLabel);
+    $$('button[data-ans]', dom.answers).forEach(function(n){
+      var i = Number(n.getAttribute('data-ans'));
+      if (i === q.answer) n.classList.add('correct');
+      else if (i === idx) n.classList.add('wrong');
+      else n.classList.add('dim');
+    });
+  } else if (m.kind === 'yesno') {
+    var yes = (value === 'yes');
+    ok = (yes === !!q.isTarget);
+    chosenLabel = yes ? '是' : '不是';
+    correctLabel = q.isTarget ? '是' : '不是';
+    recordType = q.type || m.target;
+    var actualName = TYPES[recordType] ? TYPES[recordType].name : TYPES[m.target].name;
+    okText = '這句話是' + actualName + '。';
+    badText = '這句話其實是' + actualName + '。<br>你選了：' + chosenLabel;
+    $$('button[data-ans]', dom.answers).forEach(function(n){
+      var v = n.getAttribute('data-ans');
+      var isCorrectBtn = (v === 'yes') === !!q.isTarget;
+      if (isCorrectBtn) n.classList.add('correct');
+      else if (v === value) n.classList.add('wrong');
+    });
+  } else if (m.kind === 'token') {
+    var ti = Number(value);
+    ok = (ti === q.answer);
+    chosenLabel = q.tokens[ti];
+    correctLabel = q.tokens[q.answer];
+    recordType = q.type || m.target;
+    okText = '疑問詞是「' + esc(correctLabel) + '」';
+    badText = '疑問詞是「' + esc(correctLabel) + '」。<br>你選了：' + esc(chosenLabel);
+    $$('button[data-tok]', dom.qtokens).forEach(function(n){
+      var i = Number(n.getAttribute('data-tok'));
+      if (i === q.answer) n.classList.add('correct');
+      else if (i === ti) n.classList.add('wrong');
+      else n.classList.add('muted');
+    });
+  }
+
+  state.locked = true;
+
+  if (ok) {
+    state.combo += 1;
+    state.bestCombo = Math.max(state.bestCombo, state.combo);
+    state.score += 10 + Math.min(state.combo - 1, 5) * 2;
+    Sound.play('correct');
+    if (m.kind === 'challenge' && state.combo >= 3) {
+      Sound.play('combo');
+      flashCombo(state.combo);
+    }
+  } else {
+    state.combo = 0;
+    Sound.play('wrong');
+  }
+
+  var displayText = q.scene ? '情境：' + q.scene : q.text;
+  state.answers.push({
+    id: q.id, text: displayText, type: recordType,
+    correct: ok, chosen: chosenLabel, answer: correctLabel, explain: q.explain
+  });
+
+  progress.totals.attempted += 1;
+  if (ok) progress.totals.correct += 1;
+  if (!ok) {
+    progress.wrong.unshift({
+      text: displayText, answer: correctLabel, explain: q.explain,
+      mode: m.short, type: recordType
+    });
+    progress.wrong = progress.wrong.slice(0, 30);
+  }
+  saveProgress();
+
+  var extra = '';
+  if (!ok && (m.kind === 'sort' || m.kind === 'challenge')) {
+    extra = '<div class="fb-tip">記住：' + esc(TYPES[q.type].tip) + '</div>';
+  }
+  if (!ok && m.kind === 'token') {
+    extra = '<div class="fb-tip">「' + esc(chosenLabel) + '」只是句子中的普通詞語，不是在提出問題。</div>';
+  }
+
+  var isLast = (state.index + 1 >= m.count);
+  dom.feedback.className = 'feedback ' + (ok ? 'ok' : 'bad');
+  dom.feedback.innerHTML =
+    '<div class="fb-head"><span class="fb-badge">' + (ok ? '✓' : '✕') + '</span><span>' +
+      (ok ? '答對了！' : '差一點，再想想！') + '</span></div>' +
+    '<div class="fb-answer">' + (ok ? okText : badText) + '</div>' +
+    '<div class="fb-explain">' + esc(q.explain) + '</div>' + extra +
+    '<button class="btn btn-primary btn-block fb-next" type="button" data-next="1">' +
+      (isLast ? '看成績' : (m.kind === 'challenge' ? '下一題（計時繼續）' : '下一題')) +
+    '</button>';
+  dom.feedback.hidden = false;
+  if (m.kind === 'challenge') { state.paused = true; renderHud(); }
+  try { dom.feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) { }
+}
+
+function flashCombo(n){
+  var d = document.createElement('div');
+  d.className = 'combo-flash';
+  d.textContent = '連擊 ×' + n + '！';
+  document.body.appendChild(d);
+  setTimeout(function(){ if (d.parentNode) d.parentNode.removeChild(d); }, 950);
+}
+
+function nextQuestion(){
+  var m = MODES[state.modeKey];
+  if (state.index + 1 >= m.count) { finishRound(false); return; }
+  state.index += 1;
+  renderQuestion();
+  try { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  catch (e) { window.scrollTo(0, 0); }
+}
+
+/* ---------- 十二、計時器 ---------- */
+function startTimer(){
+  stopTimer();
+  state.timeLeft = 90;
+  state.lastTick = performance.now();
+  state.paused = false;
+  state.timerId = setInterval(tick, 200);
+  renderHud();
+}
+function stopTimer(){
+  if (state.timerId) { clearInterval(state.timerId); state.timerId = null; }
+}
+function tick(){
+  if (!state.timerId) return;
+  var now = performance.now();
+  if (state.paused) {
+    state.lastTick = now;
+    return;
+  }
+  state.timeLeft -= (now - state.lastTick) / 1000;
+  state.lastTick = now;
+  if (state.timeLeft <= 0) {
+    state.timeLeft = 0;
+    renderHud();
+    finishRound(true);
+    return;
+  }
+  renderHud();
+}
+function renderHud(){
+  if (!state.modeKey || MODES[state.modeKey].kind !== 'challenge') return;
+  dom.hudTime.textContent = Math.ceil(state.timeLeft);
+  dom.hudScore.textContent = state.score;
+  dom.hudCombo.textContent = state.combo;
+  dom.hudComboBox.classList.toggle('hot', state.combo >= 3);
+  dom.timerFill.style.width = (state.timeLeft / 90 * 100) + '%';
+  dom.timerFill.classList.toggle('low', state.timeLeft <= 20);
+}
+
+/* ---------- 十三、結算 ---------- */
+function finishRound(timeout){
+  if (state.finished) return;
+  state.finished = true;
+  state.paused = false;
+  stopTimer();
+  var m = MODES[state.modeKey];
+  var answered = state.answers.length;
+  var correctCount = state.answers.filter(function(a){ return a.correct; }).length;
+  var ratio = answered ? correctCount / answered : 0;
+  var stars;
+  if (m.kind === 'challenge') {
+    stars = state.score >= 100 ? 3 : state.score >= 60 ? 2 : state.score >= 30 ? 1 : 0;
+  } else {
+    stars = ratio >= 0.83 ? 3 : ratio >= 0.66 ? 2 : ratio > 0 ? 1 : 0;
+  }
+
+  var per = {};
+  TYPE_KEYS.forEach(function(k){ per[k] = { n: 0, c: 0 }; });
+  state.answers.forEach(function(a){
+    if (per[a.type]) {
+      per[a.type].n += 1;
+      if (a.correct) per[a.type].c += 1;
+    }
+  });
+  var weakest = null;
+  TYPE_KEYS.forEach(function(k){
+    if (per[k].n > 0) {
+      if (!weakest || (per[k].c / per[k].n) < (per[weakest].c / per[weakest].n)) weakest = k;
+    }
+  });
+
+  var rec = progress.modes[m.key] || { stars: 0, best: 0 };
+  rec.stars = Math.max(rec.stars || 0, stars);
+  var thisBest = m.kind === 'challenge' ? state.score : correctCount;
+  rec.best = Math.max(rec.best || 0, thisBest);
+  progress.modes[m.key] = rec;
+  saveProgress();
+
+  state.lastResult = {
+    stars: stars, correct: correctCount, answered: answered, total: m.count,
+    ratio: ratio, per: per, weakest: weakest || 'statement', timeout: !!timeout,
+    challenge: m.kind === 'challenge'
+  };
+  renderResult();
+  showScreen('result');
+  Sound.play(stars > 0 ? 'win' : 'wrong');
+}
+
+function renderResult(){
+  var m = MODES[state.modeKey];
+  var d = state.lastResult;
+  dom.resultCard.style.setProperty('--tc', m.accent);
+
+  var title = '';
+  if (d.timeout) title = '時間到！再挑戰一次吧';
+  else if (d.stars === 3) title = '太厲害了，句型小高手！';
+  else if (d.stars === 2) title = '做得不錯，再練一下就滿分！';
+  else if (d.stars === 1) title = d.challenge ? '完成挑戰，看看解說再進步！' : '完成這一關，看看解說再進步！';
+  else title = '別灰心，先回教學館看一看。';
+
+  var sub = '';
+  if (d.challenge) {
+    var rank = state.score >= 100 ? '句式大師' : state.score >= 70 ? '句型高手' : state.score >= 40 ? '句型學徒' : '句型新手';
+    sub = '答對 ' + d.correct + ' / ' + d.total + ' 題' + (d.answered < d.total ? '（已作答 ' + d.answered + ' 題）' : '') + ' · 最高連擊 ' + state.bestCombo + ' 次';
+    title = d.timeout ? '時間到！' : title;
+    sub += '<br><span class="rank-badge">段位：' + rank + '</span>';
+  } else {
+    sub = '答對 ' + d.correct + ' / ' + d.total + ' 題';
+  }
+  if (d.answered === 0) sub = '這次還沒有作答，先回教學館看一看，再挑戰吧！';
+
+  var typeRows = TYPE_KEYS.filter(function(k){ return d.per[k].n > 0; }).map(function(k){
+    var t = TYPES[k];
+    var pct = Math.round(d.per[k].c / d.per[k].n * 100);
+    return '<div class="type-row" style="--tc:' + t.color + '">' +
+      '<span>' + t.name + '</span>' +
+      '<span class="bar-track"><span class="bar-fill" data-w="' + pct + '"></span></span>' +
+      '<span class="val">' + d.per[k].c + '/' + d.per[k].n + '</span>' +
+    '</div>';
+  }).join('');
+
+  var wrongs = state.answers.filter(function(a){ return !a.correct; });
+  var wrongHTML = '';
+  if (wrongs.length === 0) {
+    wrongHTML = '<div class="all-right">全部答對，沒有錯題！繼續保持。</div>';
+  } else {
+    wrongHTML = '<div class="wrong-list">' + wrongs.map(function(a){
+      return '<details class="wrong-item"><summary>「' + esc(a.text) + '」</summary>' +
+        '<div class="wrong-body"><b>正確答案：</b>' + esc(a.answer) + '<br>' +
+        '<b>說明：</b>' + esc(a.explain) + '</div></details>';
+    }).join('') + '</div>';
+  }
+
+  dom.resultCard.innerHTML =
+    '<div class="result-stars">' + [0,1,2].map(function(i){ return starSVG(i < d.stars); }).join('') + '</div>' +
+    '<h2>' + title + '</h2>' +
+    '<p class="result-sub">' + sub + '</p>' +
+    '<div class="result-score"><b>' + (d.challenge ? state.score : d.correct) + '</b>' + (d.challenge ? '分' : '題答對') + '</div>' +
+    '<div class="result-sec"><h3>四類句式表現</h3>' + typeRows + '</div>' +
+    '<div class="result-sec"><h3>錯題回看</h3>' + wrongHTML + '</div>' +
+    '<div class="result-actions">' +
+      '<button class="btn btn-primary btn-lg btn-block" type="button" data-act="replay">再玩一次</button>' +
+      '<div class="row">' +
+        '<button class="btn" type="button" data-act="lesson">看教學卡</button>' +
+        '<button class="btn" type="button" data-act="menu">回主選單</button>' +
+      '</div>' +
+    '</div>';
+
+  // 進度條動畫
+  requestAnimationFrame(function(){
+    $$('.bar-fill', dom.resultCard).forEach(function(b){
+      b.style.width = (b.getAttribute('data-w') || 0) + '%';
+    });
+  });
+}
+
+/* ---------- 十四、學習足跡 ---------- */
+function renderStats(){
+  var t = progress.totals;
+  var rate = t.attempted ? Math.round(t.correct / t.attempted * 100) : 0;
+  var totalStars = 0;
+  MODE_ORDER.forEach(function(k){
+    if (progress.modes[k] && progress.modes[k].stars) totalStars += progress.modes[k].stars;
+  });
+
+  var rows = MODE_ORDER.map(function(k){
+    var m = MODES[k];
+    var rec = progress.modes[k] || { stars: 0, best: 0 };
+    var best = m.kind === 'challenge' ? (rec.best || 0) + ' 分' : '答對 ' + (rec.best || 0) + ' / ' + m.count + ' 題';
+    return '<div class="stat-row">' +
+      '<span class="nm">' + esc(m.short) + '</span>' +
+      '<span class="num">' + best + '</span>' +
+      '<span class="stars" aria-label="' + (rec.stars || 0) + ' 顆星">' + starsText(rec.stars || 0) + '</span>' +
+    '</div>';
+  }).join('');
+
+  var wrongHTML = '';
+  if (!progress.wrong.length) {
+    wrongHTML = '<div class="stats-empty">還沒有錯題紀錄，繼續保持！</div>';
+  } else {
+    wrongHTML = '<div class="wrong-book">' + progress.wrong.slice(0, 12).map(function(w){
+      return '<details class="wrong-item"><summary>' +
+        '<span class="tag" style="color:var(--ink-soft);font-size:.7rem;margin-right:4px">' + esc(w.mode || '') + '</span>' +
+        '「' + esc(w.text) + '」</summary>' +
+        '<div class="wrong-body"><b>正確答案：</b>' + esc(w.answer) + '<br><b>說明：</b>' + esc(w.explain) + '</div></details>';
+    }).join('') + '</div>';
+  }
+
+  dom.statsBody.innerHTML =
+    '<div class="stats-grid">' +
+      '<div class="stat-box"><b>' + totalStars + '</b><span>獲得星星</span></div>' +
+      '<div class="stat-box"><b>' + t.attempted + '</b><span>累計答題</span></div>' +
+      '<div class="stat-box"><b>' + rate + '%</b><span>整體正確率</span></div>' +
+      '<div class="stat-box"><b>' + progress.wrong.length + '</b><span>錯題紀錄</span></div>' +
+    '</div>' +
+    '<div class="section-label">各模式最佳成績</div>' +
+    '<div class="stats-list">' + rows + '</div>' +
+    '<div class="section-label">錯題本</div>' + wrongHTML;
+}
+
+/* ---------- 十五、彈層與音效開關 ---------- */
+var modalAction = null;
+function openModal(opts){
+  dom.modalTitle.textContent = opts.title || '提示';
+  dom.modalText.textContent = opts.text || '';
+  dom.modalOk.textContent = opts.ok || '確定';
+  dom.modalCancel.textContent = opts.cancel || '取消';
+  dom.modalOk.hidden = !!opts.hideOk;
+  dom.modalCancel.hidden = !!opts.hideCancel;
+  modalAction = opts.onOk || null;
+  dom.modal.hidden = false;
+  if (!dom.modalCancel.hidden) dom.modalCancel.focus();
+  else if (!dom.modalOk.hidden) dom.modalOk.focus();
+}
+function closeModal(){
+  dom.modal.hidden = true;
+  modalAction = null;
+}
+function syncSoundUI(){
+  dom.sound.setAttribute('aria-pressed', String(!progress.muted));
+  dom.sound.setAttribute('aria-label', progress.muted ? '開啟音效' : '關閉音效');
+  dom.soundIcon.innerHTML = progress.muted
+    ? '<path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9l5 6M21 9l-5 6"/>'
+    : '<path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/>';
+  dom.homeSound.textContent = '音效：' + (progress.muted ? '關閉' : '開啟');
+  dom.homeSound.setAttribute('aria-pressed', String(!progress.muted));
+}
+function toggleSound(){
+  progress.muted = !progress.muted;
+  saveProgress();
+  syncSoundUI();
+  if (!progress.muted) { Sound.ensure(); Sound.play('tap'); }
+  toast(progress.muted ? '已關閉音效' : '已開啟音效');
+}
+
+function goBack(){
+  if (state.screen === 'home') return;
+  if (state.screen === 'menu') { showScreen('home'); return; }
+  if (state.screen === 'play') {
+    openModal({
+      title: '離開這一局？',
+      text: '目前的作答進度不會保存，確定要回主選單嗎？',
+      ok: '離開', cancel: '繼續作答',
+      onOk: function(){ stopTimer(); showScreen('menu'); }
+    });
+    return;
+  }
+  showScreen('menu');
+}
+
+/* ---------- 十六、事件綁定 ---------- */
+function bindEvents(){
+  dom.start.addEventListener('click', function(){
+    Sound.play('tap');
+    showScreen('menu');
+  });
+  dom.homeSound.addEventListener('click', toggleSound);
+  dom.sound.addEventListener('click', toggleSound);
+  dom.back.addEventListener('click', goBack);
+
+  dom.menuGrid.addEventListener('click', function(e){
+    var b = e.target.closest('[data-go]');
+    if (!b) return;
+    var go = b.getAttribute('data-go');
+    Sound.play('tap');
+    if (go === 'lesson') openLesson(state.lessonType);
+    else if (go === 'stats') showScreen('stats');
+    else startMode(go);
+  });
+
+  dom.lessonTabs.addEventListener('click', function(e){
+    var b = e.target.closest('.lesson-tab');
+    if (!b) return;
+    state.lessonType = b.getAttribute('data-type');
+    renderLessonCard();
+    Sound.play('tap');
+  });
+
+  dom.lessonBody.addEventListener('click', function(e){
+    var opt = e.target.closest('.try-opt');
+    if (opt && !opt.disabled) {
+      var box = opt.closest('.try-box');
+      var type = box.getAttribute('data-try');
+      var q = TRY_Q[type];
+      var val = opt.getAttribute('data-val');
+      var ok = (val === q.answer);
+      $$('.try-opt', box).forEach(function(b){
+        b.disabled = true;
+        if (b.getAttribute('data-val') === q.answer) b.classList.add('correct');
+        else if (b === opt) b.classList.add('wrong');
+      });
+      var fb = $('.try-fb', box);
+      fb.hidden = false;
+      fb.className = 'try-fb ' + (ok ? 'ok' : 'bad');
+      fb.innerHTML = '<b>' + (ok ? '答對了！' : '再想想，正確答案是「' + TYPES[q.answer].name + '」。') + '</b><br>' + esc(q.explain) +
+        '<div style="margin-top:10px"><button class="btn btn-sm" type="button" data-go-mode="' + TRY_MODE[type] + '">去玩這個小遊戲</button></div>';
+      Sound.play(ok ? 'correct' : 'wrong');
+      return;
+    }
+    var goMode = e.target.closest('[data-go-mode]');
+    if (goMode) { startMode(goMode.getAttribute('data-go-mode')); return; }
+    if (e.target.closest('[data-lesson-prev]')) {
+      var i = TYPE_KEYS.indexOf(state.lessonType);
+      state.lessonType = TYPE_KEYS[(i - 1 + TYPE_KEYS.length) % TYPE_KEYS.length];
+      renderLessonCard();
+      Sound.play('tap');
+    } else if (e.target.closest('[data-lesson-next]')) {
+      var j = TYPE_KEYS.indexOf(state.lessonType);
+      state.lessonType = TYPE_KEYS[(j + 1) % TYPE_KEYS.length];
+      renderLessonCard();
+      Sound.play('tap');
+    }
+  });
+
+  dom.answers.addEventListener('click', function(e){
+    var b = e.target.closest('button[data-ans]');
+    if (!b || state.locked) return;
+    handleAnswer(b.getAttribute('data-ans'));
+  });
+  dom.qtokens.addEventListener('click', function(e){
+    var b = e.target.closest('button[data-tok]');
+    if (!b || state.locked) return;
+    handleAnswer(b.getAttribute('data-tok'));
+  });
+  dom.feedback.addEventListener('click', function(e){
+    if (e.target.closest('[data-next]')) nextQuestion();
+  });
+
+  dom.resultCard.addEventListener('click', function(e){
+    var b = e.target.closest('[data-act]');
+    if (!b) return;
+    var act = b.getAttribute('data-act');
+    Sound.play('tap');
+    if (act === 'replay') startMode(state.modeKey);
+    else if (act === 'menu') showScreen('menu');
+    else if (act === 'lesson') openLesson(state.lastResult ? state.lastResult.weakest : 'statement');
+  });
+
+  $('#btn-clear-stats').addEventListener('click', function(){
+    openModal({
+      title: '清除所有紀錄？',
+      text: '星星、正確率和錯題本都會清空，此操作不能復原。',
+      ok: '確定清除', cancel: '保留',
+      onOk: function(){
+        var muted = progress.muted;
+        progress = defaultProgress();
+        progress.muted = muted;
+        saveProgress();
+        renderStats();
+        renderMenu();
+        toast('紀錄已清除');
+      }
+    });
+  });
+
+  dom.modalOk.addEventListener('click', function(){
+    var fn = modalAction;
+    closeModal();
+    if (fn) fn();
+  });
+  dom.modalCancel.addEventListener('click', closeModal);
+  dom.modal.addEventListener('click', function(e){
+    if (e.target === dom.modal) closeModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && !dom.modal.hidden) closeModal();
+  });
+  document.addEventListener('visibilitychange', function(){
+    if (!state.modeKey || state.finished || MODES[state.modeKey].kind !== 'challenge') return;
+    if (document.hidden) {
+      state.paused = true;
+    } else if (!state.locked) {
+      state.paused = false;
+      state.lastTick = performance.now();
+    }
+  });
+  document.addEventListener('pointerdown', function once(){
+    Sound.ensure();
+    document.removeEventListener('pointerdown', once);
+  });
+}
+
+/* ---------- 十七、啟動 ---------- */
+function init(){
+  renderHome();
+  renderMenu();
+  renderLessonCard();
+  syncSoundUI();
+  bindEvents();
+  showScreen('home');
+}
+
+init();
+})();
+</script>
+</body>
+</html>

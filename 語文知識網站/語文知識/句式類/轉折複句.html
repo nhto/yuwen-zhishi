@@ -1,0 +1,2374 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>轉折小偵探｜小學轉折複句互動遊戲</title>
+<meta name="description" content="九組關聯詞、兩種玩法、108 組題目的小學轉折複句互動課件，支援手機、平板與電腦。">
+<style>
+:root{
+  --cream:#FFF7E8;--paper:#FFFFFF;--ink:#2B2A35;--ink-soft:#5D5A68;
+  --orange:#FF8A3D;--orange-d:#E4681A;--sky:#3E7CB1;--sky-d:#2C5F8C;
+  --purple:#7C6BD6;--purple-d:#5F4FBC;--green:#2FA97A;--yellow:#FFC94D;
+  --pink:#FF6B8A;--line:rgba(43,42,53,.16);--shadow:0 6px 0 rgba(43,42,53,.14);
+  --r:22px;
+}
+*{box-sizing:border-box}
+html{font-size:clamp(17px,1.2vw + 13px,21px);-webkit-text-size-adjust:100%}
+body{
+  margin:0;color:var(--ink);line-height:1.6;
+  font-family:"PingFang TC","Hiragino Sans CNS","Microsoft JhengHei","Heiti TC","Noto Sans TC",system-ui,sans-serif;
+  background:
+    radial-gradient(circle at 8% 4%,rgba(255,214,160,.55) 0,transparent 38%),
+    radial-gradient(circle at 94% 6%,rgba(190,224,255,.6) 0,transparent 36%),
+    radial-gradient(circle at 50% 100%,rgba(255,196,214,.35) 0,transparent 45%),
+    var(--cream);
+  background-attachment:fixed;
+  -webkit-tap-highlight-color:transparent;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:radial-gradient(rgba(43,42,53,.13) 1px,transparent 1px);
+  background-size:22px 22px;
+}
+#app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column}
+button{font-family:inherit}
+img,svg{display:block}
+
+/* ---------- top bar ---------- */
+.topbar{
+  position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:.6rem;
+  padding:.55rem clamp(.7rem,2vw,1.2rem);
+  background:rgba(255,247,232,.93);backdrop-filter:blur(10px);
+  border-bottom:3px solid rgba(43,42,53,.12);
+}
+.topbar .grow{flex:1;min-width:0;text-align:center;font-weight:900;font-size:1rem;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.iconbtn{
+  width:3rem;height:3rem;min-width:3rem;border-radius:50%;border:3px solid var(--ink);
+  background:#fff;display:grid;place-items:center;cursor:pointer;
+  box-shadow:0 3px 0 rgba(43,42,53,.2);transition:transform .12s,box-shadow .12s;
+}
+.iconbtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(43,42,53,.2)}
+.iconbtn svg{width:1.4rem;height:1.4rem}
+.iconbtn.off{opacity:.45}
+
+/* ---------- shell ---------- */
+.view{width:100%;max-width:1180px;margin:0 auto;padding:1rem clamp(.75rem,2.4vw,1.5rem) 3.2rem;flex:1}
+.card{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.sec-title{font-size:1.15rem;font-weight:900;margin:0 0 .7rem;display:flex;align-items:center;gap:.45rem}
+.sec-title .dot{width:.7rem;height:.7rem;border-radius:50%;background:var(--orange);border:2px solid var(--ink)}
+.sub{color:var(--ink-soft);font-size:.95rem;margin:0}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  min-height:3.2rem;padding:.55rem 1.2rem;border:3px solid var(--ink);border-radius:999px;
+  background:#fff;color:var(--ink);font-size:1rem;font-weight:900;cursor:pointer;
+  box-shadow:0 4px 0 rgba(43,42,53,.22);transition:transform .12s,box-shadow .12s,background .15s;
+  text-align:center;line-height:1.35;
+}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(43,42,53,.22)}
+.btn:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
+.btn.orange{background:var(--orange);color:var(--ink)}
+.btn.sky{background:var(--sky);color:#fff}
+.btn.purple{background:var(--purple);color:#fff}
+.btn.green{background:var(--green);color:#fff}
+.btn.ghost{background:#fff}
+.btn.wide{width:100%}
+.btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:0 4px 0 rgba(43,42,53,.12)}
+.btn .bi{width:1.35rem;height:1.35rem;flex:0 0 auto}
+.btn .bi svg{width:100%;height:100%}
+
+/* ---------- home ---------- */
+.home{padding-top:.6rem;display:grid;gap:1.3rem;align-items:center}
+@media(min-width:880px){.home{grid-template-columns:1.05fr .95fr;gap:2.2rem;padding-top:2rem}}
+.badge{
+  display:inline-flex;align-items:center;gap:.4rem;background:#fff;border:3px solid var(--ink);
+  border-radius:999px;padding:.22rem .85rem;font-size:.82rem;font-weight:900;
+  box-shadow:0 3px 0 rgba(43,42,53,.14)
+}
+.badge .bi{width:1rem;height:1rem}
+.title{font-size:clamp(2.2rem,6.2vw,3.7rem);font-weight:900;line-height:1.15;margin:.7rem 0 .5rem;letter-spacing:.01em}
+.title em{font-style:normal;color:var(--orange);text-shadow:2px 2px 0 var(--ink);-webkit-text-stroke:1px var(--ink)}
+.lead{font-size:1.05rem;color:var(--ink-soft);margin:0 0 1.1rem;max-width:30ch}
+.home .cta{display:flex;flex-wrap:wrap;gap:.65rem}
+.home .cta .btn{flex:1 1 12rem}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem;margin-top:1.2rem}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:#fff;border:3px solid var(--ink);border-radius:16px;padding:.55rem .5rem;text-align:center;box-shadow:0 4px 0 rgba(43,42,53,.12)}
+.stat b{display:block;font-size:1.5rem;line-height:1.15}
+.stat span{font-size:.76rem;color:var(--ink-soft);font-weight:700}
+.hero-art{position:relative;display:grid;place-items:center}
+.hero-art svg{width:min(100%,26rem);height:auto;filter:drop-shadow(0 10px 0 rgba(43,42,53,.1))}
+.float{animation:float 4s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-8px)}}
+.howto{margin-top:1.3rem;padding:1rem 1.1rem}
+.howto ol{margin:.4rem 0 0;padding-left:1.3rem;font-size:.95rem}
+.howto li{margin:.25rem 0}
+
+/* ---------- map ---------- */
+.map-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:.6rem;margin:.2rem 0 1rem}
+.map-head h1{font-size:clamp(1.5rem,3.4vw,2.1rem);margin:0}
+.star-total{display:inline-flex;align-items:center;gap:.35rem;font-weight:900;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:.25rem .8rem;box-shadow:0 3px 0 rgba(43,42,53,.14)}
+.star-total svg{width:1.2rem;height:1.2rem}
+.map{display:grid;grid-template-columns:1fr;gap:.85rem}
+@media(min-width:620px){.map{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:980px){.map{grid-template-columns:repeat(3,1fr)}}
+.mapcard{
+  display:flex;gap:.75rem;align-items:center;padding:.7rem;text-align:left;cursor:pointer;
+  background:#fff;border:3px solid var(--ink);border-radius:20px;box-shadow:var(--shadow);
+  transition:transform .12s,box-shadow .12s;width:100%;
+}
+.mapcard:hover{transform:translateY(-2px)}
+.mapcard:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(43,42,53,.14)}
+.mapcard:focus-visible,.ing:focus-visible,.mcard:focus-visible,.spk:focus-visible,.iconbtn:focus-visible,.mode-btn:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
+.mapcard .thumb{width:6rem;height:6rem;min-width:6rem;border-radius:18px;overflow:hidden;border:3px solid var(--ink);background:#EAF4FF;box-shadow:inset 0 -6px 0 rgba(43,42,53,.06)}
+.mapcard .thumb svg{width:100%;height:100%}
+.mapcard .meta{min-width:0;flex:1}
+.mapcard .name{font-weight:900;font-size:1.02rem;line-height:1.3;margin-bottom:.15rem}
+.mapcard .tag{font-size:.72rem;font-weight:800;color:var(--ink-soft);background:rgba(43,42,53,.06);border-radius:999px;padding:.05rem .5rem;display:inline-block}
+.stars{display:flex;align-items:center;gap:.12rem;font-size:.72rem;font-weight:800;color:var(--ink-soft);margin-top:.28rem}
+.stars svg{width:.95rem;height:.95rem}
+.stars .lbl{min-width:2.6rem;color:var(--ink-soft)}
+
+/* ---------- lesson ---------- */
+.lesson{display:grid;gap:.9rem}
+.lhero{display:grid;grid-template-columns:1fr;gap:.9rem;padding:.9rem;align-items:center}
+@media(min-width:720px){.lhero{grid-template-columns:17rem 1fr;gap:1.2rem;padding:1.1rem}}
+.lhero .pic{border:3px solid var(--ink);border-radius:18px;overflow:hidden;background:#EAF4FF}
+.lhero .pic svg{width:100%;height:auto}
+.lhero h1{font-size:clamp(1.55rem,4.2vw,2.3rem);margin:.15rem 0 .3rem;line-height:1.25}
+.lhero p{margin:0;color:var(--ink-soft);font-size:1rem}
+.formula{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.7rem}
+.formula span{font-weight:900;font-size:.85rem;padding:.2rem .6rem;border:2px solid var(--ink);border-radius:10px;background:#FFF3DA}
+.formula .arw{border:none;background:none;padding:0 .1rem;font-weight:900;display:grid;place-items:center}
+.panel{padding:1rem 1.05rem}
+.points{list-style:none;margin:0;padding:0;display:grid;gap:.5rem}
+.points li{display:flex;gap:.6rem;align-items:flex-start;font-size:.98rem;background:#FFFBF2;border:2px dashed rgba(43,42,53,.28);border-radius:14px;padding:.5rem .7rem}
+.points .num{width:1.7rem;height:1.7rem;min-width:1.7rem;border-radius:50%;background:var(--sky);color:#fff;display:grid;place-items:center;font-weight:900;font-size:.85rem;border:2px solid var(--ink)}
+.examples{display:grid;gap:.6rem}
+.ex{display:grid;grid-template-columns:4.6rem 1fr auto;gap:.55rem;align-items:center;background:#F6FAFF;border:2px solid rgba(62,124,177,.35);border-radius:16px;padding:.5rem .6rem}
+.ex .eximg{width:4.6rem;height:3rem;border-radius:10px;overflow:hidden;border:2px solid var(--ink);background:#EAF4FF}
+.ex .eximg svg{width:100%;height:100%}
+@media(min-width:640px){.ex .eximg{width:5.6rem;height:3.5rem}}
+.ex .txt{font-size:1rem;font-weight:700;line-height:1.7}
+.ex .hl{color:var(--orange-d);background:rgba(255,201,77,.45);border-radius:.25rem;padding:0 .12rem}
+.ex .note{font-size:.8rem;color:var(--ink-soft);font-weight:600;margin-top:.15rem}
+.spk{width:2.9rem;height:2.9rem;min-width:2.9rem;border-radius:50%;border:3px solid var(--ink);background:var(--yellow);display:grid;place-items:center;cursor:pointer;box-shadow:0 3px 0 rgba(43,42,53,.18)}
+.spk:active{transform:translateY(2px);box-shadow:none}
+.spk svg{width:1.3rem;height:1.3rem}
+.tipbox{display:flex;gap:.55rem;align-items:flex-start;background:#FFF0F4;border:2px dashed rgba(255,107,138,.7);border-radius:14px;padding:.6rem .75rem;font-size:.92rem}
+.tipbox .bi{width:1.4rem;height:1.4rem;flex:0 0 auto;margin-top:.1rem}
+.modes{display:grid;gap:.7rem}
+@media(min-width:640px){.modes{grid-template-columns:1fr 1fr}}
+.mode-btn{display:flex;align-items:center;gap:.75rem;text-align:left;padding:.8rem .9rem;border:3px solid var(--ink);border-radius:18px;background:#fff;cursor:pointer;box-shadow:var(--shadow);color:var(--ink)}
+.mode-btn .mi{width:3.2rem;height:3.2rem;min-width:3.2rem;border-radius:14px;display:grid;place-items:center;border:3px solid var(--ink);background:#EAF4FF}
+.mode-btn .mi svg{width:2rem;height:2rem}
+.mode-btn b{display:block;font-size:1.02rem}
+.mode-btn small{display:block;font-size:.78rem;color:var(--ink-soft);font-weight:700}
+
+/* ---------- play shared ---------- */
+.play{padding-top:.3rem}
+.hud{display:flex;align-items:center;justify-content:space-between;gap:.6rem;flex-wrap:wrap;margin:.2rem 0 .7rem}
+.dots{display:flex;gap:.28rem;align-items:center}
+.dots i{width:.7rem;height:.7rem;border-radius:50%;border:2px solid rgba(43,42,53,.5);background:#fff;display:block}
+.dots i.done{background:var(--green);border-color:var(--ink)}
+.dots i.now{background:var(--yellow);border-color:var(--ink);transform:scale(1.25)}
+.score{display:inline-flex;align-items:center;gap:.3rem;font-weight:900;font-size:.9rem;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:.18rem .7rem}
+.score svg{width:1.05rem;height:1.05rem}
+
+.playA{display:grid;gap:.85rem}
+@media(min-width:900px){.playA{grid-template-columns:20rem 1fr;align-items:start}}
+.artcard{padding:.55rem;overflow:hidden}
+.artcard .frame{border:3px solid var(--ink);border-radius:16px;overflow:hidden;background:#EAF4FF}
+.artcard .frame svg{width:100%;height:auto}
+.artcard .cap{font-size:.98rem;font-weight:800;text-align:center;margin:.5rem .2rem .1rem;color:var(--ink-soft)}
+@media(max-width:899px){.artcard .frame{max-height:32vh;display:grid;place-items:center}.artcard .frame svg{height:32vh;width:auto;max-width:100%}}
+
+.burgerwrap{padding:.85rem}
+.burger{display:flex;flex-direction:column;gap:.4rem;margin:.2rem 0 .8rem}
+.bun{height:2.3rem;border:3px solid var(--ink);border-radius:999px;display:grid;place-items:center;font-weight:900;font-size:.82rem;letter-spacing:.14em;background:var(--yellow)}
+.bun.bottom{background:#F3B96B;height:1.8rem}
+.layer{
+  display:flex;align-items:center;gap:.55rem;border:3px solid var(--ink);border-radius:14px;
+  padding:.5rem .65rem;background:#FFFDF6;font-size:1rem;font-weight:800;line-height:1.45;
+  min-height:3.1rem;width:100%;text-align:left;cursor:pointer;font-family:inherit;color:var(--ink);
+  transition:transform .1s;
+}
+.layer .no{width:1.65rem;height:1.65rem;min-width:1.65rem;border-radius:50%;background:var(--sky);color:#fff;display:grid;place-items:center;font-size:.78rem;font-weight:900;border:2px solid var(--ink)}
+.layer.link{background:#FFF1C9}
+.layer.empty{border-style:dashed;background:rgba(43,42,53,.03);color:var(--ink-soft);justify-content:center;font-weight:700;font-size:.88rem;cursor:default}
+.layer.shake{animation:shake .38s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+.tray-title{font-size:.82rem;font-weight:900;color:var(--ink-soft);margin:.2rem 0 .45rem;display:flex;align-items:center;gap:.4rem}
+.tray{display:flex;flex-wrap:wrap;gap:.45rem;min-height:3rem}
+.ing{
+  display:flex;align-items:center;gap:.45rem;border:3px solid var(--ink);border-radius:999px;
+  background:#fff;padding:.45rem .8rem;font-size:.95rem;font-weight:800;cursor:pointer;
+  box-shadow:0 3px 0 rgba(43,42,53,.16);font-family:inherit;color:var(--ink);line-height:1.35;text-align:left;
+}
+.ing:active{transform:translateY(2px);box-shadow:none}
+.ing.link{background:#FFF1C9}
+.ing .dot{width:.6rem;height:.6rem;border-radius:50%;background:var(--orange);border:2px solid var(--ink);flex:0 0 auto}
+.ing.pulse{animation:pulse .7s ease-in-out 2}
+@keyframes pulse{50%{transform:scale(1.06);background:#FFE6A8}}
+.actions{margin-top:.85rem;display:grid;gap:.5rem}
+.hintline{font-size:.82rem;font-weight:700;color:var(--ink-soft);text-align:center}
+
+.fb{margin-top:.8rem;border:3px solid var(--ink);border-radius:18px;padding:.8rem .85rem;background:#fff}
+.fb.good{background:#EAF9F1;border-color:var(--ink)}
+.fb.bad{background:#FFF2E8}
+.fb h3{margin:0 0 .35rem;font-size:1.02rem;display:flex;align-items:center;gap:.4rem}
+.fb h3 .bi{width:1.3rem;height:1.3rem}
+.fb .sent{font-size:1.08rem;font-weight:900;line-height:1.75;margin:.2rem 0 .45rem}
+.fb .sent mark{background:rgba(255,201,77,.65);color:var(--orange-d);border-radius:.2rem;padding:0 .1rem}
+.fb .why{font-size:.94rem;margin:.2rem 0}
+.fb .order{display:flex;flex-wrap:wrap;gap:.3rem;align-items:center;margin:.5rem 0 .2rem}
+.fb .order .oc{font-size:.8rem;font-weight:800;background:#fff;border:2px solid rgba(43,42,53,.3);border-radius:8px;padding:.1rem .4rem}
+.fb .order .oa{font-weight:900;color:var(--ink-soft)}
+.fb .fbrow{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.6rem}
+.fb .fbrow .btn{flex:1 1 9rem}
+
+/* ---------- match ---------- */
+.matchwrap{padding:.6rem}
+@media(min-width:760px){.matchwrap{padding:.85rem}}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+@media(min-width:760px){.match{gap:1rem}}
+.mcol h2{font-size:.86rem;margin:0 0 .4rem;color:var(--ink-soft);font-weight:900;letter-spacing:.06em}
+.mlist{display:grid;gap:.45rem}
+.mcard{
+  display:flex;align-items:center;gap:.55rem;width:100%;text-align:left;font-family:inherit;color:var(--ink);
+  border:3px solid var(--ink);border-radius:14px;background:#fff;padding:.45rem;font-size:.9rem;
+  font-weight:800;line-height:1.45;cursor:pointer;box-shadow:0 3px 0 rgba(43,42,53,.14);min-height:3.2rem;
+}
+.mcard .mic{width:2.5rem;height:2.5rem;min-width:2.5rem;border-radius:10px;overflow:hidden;border:2px solid var(--ink);background:#EAF4FF}
+.mcard .mic.linkic{display:grid;place-items:center;background:rgba(62,124,177,.12);color:var(--sky)}
+.mcard .mic.linkic svg{width:1.35rem;height:1.35rem}
+@media(min-width:760px){.mcard{padding:.5rem .6rem;font-size:.98rem}.mcard .mic{width:3.5rem;height:3.5rem;min-width:3.5rem;border-radius:12px}.mcard .mic.linkic svg{width:1.6rem;height:1.6rem}}
+.mcard .mic svg{width:100%;height:100%}
+.mcard .mtxt{flex:1;min-width:0}
+.mcard.sel{background:#FFF1C9;box-shadow:0 0 0 3px rgba(255,201,77,.8),0 3px 0 rgba(43,42,53,.14)}
+.mcard.done{background:#EAF9F1;border-color:var(--green);cursor:default;box-shadow:none}
+.mcard.done .tick{width:1.3rem;height:1.3rem;color:var(--green)}
+.mcard.wrong{animation:shake .38s;border-color:var(--pink)}
+.mcard:disabled{color:var(--ink)}
+.roundbar{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem;flex-wrap:wrap}
+.pill{font-size:.8rem;font-weight:900;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:.12rem .65rem}
+
+/* ---------- result ---------- */
+.result{max-width:34rem;margin:1rem auto;padding:1.2rem;text-align:center}
+.result .mascot{width:min(100%,15rem);margin:0 auto .4rem;border:3px solid var(--ink);border-radius:18px;overflow:hidden;background:#EAF4FF;box-shadow:0 5px 0 rgba(43,42,53,.12)}
+.result h1{font-size:clamp(1.6rem,4.5vw,2.2rem);margin:.2rem 0}
+.bigstars{display:flex;justify-content:center;gap:.4rem;margin:.7rem 0}
+.bigstars svg{width:3rem;height:3rem;animation:pop .45s backwards}
+.bigstars svg:nth-child(2){animation-delay:.15s}
+.bigstars svg:nth-child(3){animation-delay:.3s}
+@keyframes pop{from{transform:scale(.3);opacity:0}}
+.result .rs{display:flex;justify-content:center;gap:1.4rem;margin:.5rem 0 1rem;flex-wrap:wrap}
+.result .rs b{display:block;font-size:1.4rem}
+.result .rs span{font-size:.78rem;color:var(--ink-soft);font-weight:700}
+.result .acts{display:grid;gap:.5rem}
+@media(min-width:520px){.result .acts{grid-template-columns:1fr 1fr}}
+
+/* ---------- toast ---------- */
+#toast{position:fixed;left:50%;bottom:1.4rem;transform:translate(-50%,2rem);z-index:60;
+  background:var(--ink);color:#fff;font-weight:800;font-size:.9rem;padding:.6rem 1rem;border-radius:999px;
+  opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;max-width:88vw;text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+
+.pop{animation:pop2 .25s}
+@keyframes pop2{from{transform:scale(.96);opacity:.4}}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001s !important;animation-iteration-count:1 !important;transition-duration:.001s !important}
+}
+
+/* ---------- lesson steps ---------- */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-top:.75rem}
+.stepitem{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.12rem;
+  background:#FFFBF2;border:2px solid rgba(43,42,53,.18);border-radius:12px;padding:.4rem .25rem}
+.stepitem .si{width:2rem;height:2rem}
+.stepitem .si svg{width:100%;height:100%}
+.stepitem b{font-size:.76rem;line-height:1.25}
+.stepitem small{font-size:.66rem;line-height:1.25;color:var(--ink-soft)}
+
+/* ---------- icon sizing / hidden fix ---------- */
+.topbar[hidden]{display:none !important}
+.btn > svg{width:1.3rem;height:1.3rem;flex:0 0 auto}
+.mode-btn .mi svg{width:2rem;height:2rem}
+.stepitem .si svg{width:100%;height:100%}
+
+/* ---------- formula chips ---------- */
+.formula{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.7rem}
+.formula .fchip{display:inline-flex;align-items:center;gap:.28rem;font-weight:900;font-size:.82rem;
+  padding:.2rem .55rem;border:2px solid var(--ink);border-radius:10px;background:#FFF3DA}
+.formula .fchip i{font-style:normal;color:var(--ink-soft);font-size:.8rem}
+.formula .arw{display:none}
+@media(max-width:540px){.stepitem small{display:none}.stepitem b{font-size:.72rem}}
+
+</style>
+</head>
+<body>
+<div id="app" data-generated-by="vibe-coding-frontend-design">
+  <header id="topbar" class="topbar" hidden>
+    <button id="backBtn" class="iconbtn" aria-label="返回"></button>
+    <div id="topTitle" class="grow">轉折小偵探</div>
+    <button id="soundBtn" class="iconbtn" aria-label="關閉音效"></button>
+  </header>
+  <main id="view" class="view"></main>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+/* ===== Q 版卡通插圖：全部以內嵌 SVG 繪製，離線可用 ===== */
+var INK = '#2B2A35', SKIN = '#FFDCC0', BLUSH = '#FFB3C1';
+
+function P_(name, x, y, s, opt) {
+  var fn = PRIM[name];
+  if (!fn) return '';
+  opt = opt || {};
+  var inner = fn(opt);
+  if (opt.flip) inner = '<g transform="translate(100 0) scale(-1 1)">' + inner + '</g>';
+  if (opt.alpha != null) inner = '<g opacity="' + opt.alpha + '">' + inner + '</g>';
+  return '<g transform="translate(' + (x - 50 * s) + ' ' + (y - 100 * s) + ') scale(' + s + ')">' + inner + '</g>';
+}
+function sh(rx) { return '<ellipse cx="50" cy="97" rx="' + (rx || 26) + '" ry="5" fill="rgba(43,42,53,.10)"/>'; }
+function sp4(x, y, r, c) {
+  return '<path d="M' + x + ' ' + (y - r) + ' Q' + (x + r * .28) + ' ' + (y - r * .28) + ' ' + (x + r) + ' ' + y +
+    ' Q' + (x + r * .28) + ' ' + (y + r * .28) + ' ' + x + ' ' + (y + r) +
+    ' Q' + (x - r * .28) + ' ' + (y + r * .28) + ' ' + (x - r) + ' ' + y +
+    ' Q' + (x - r * .28) + ' ' + (y - r * .28) + ' ' + x + ' ' + (y - r) + ' Z" fill="' + (c || '#FFC94D') + '" stroke="' + INK + '" stroke-width="2"/>';
+}
+function note(x, y, c) {
+  return '<g transform="translate(' + x + ' ' + y + ')" fill="' + (c || '#7C6BD6') + '" stroke="' + INK + '" stroke-width="2">' +
+    '<ellipse cx="0" cy="0" rx="7" ry="5.2" transform="rotate(-18)"/><path d="M5 -1 L5 -24 L18 -27 L18 -20 L8 -18 L8 -1 Z"/></g>';
+}
+
+var PRIM = {};
+
+/* ---------- 人物 ---------- */
+PRIM.kid = function (o) {
+  o = o || {};
+  var shirt = o.shirt || '#FF8A3D', hair = o.hair || '#3B2F2F', skin = o.skin || SKIN;
+  var pose = o.pose || 'stand', style = o.style || 'short', mood = o.mood || 'smile';
+  function limb(x1, y1, x2, y2, w, c) {
+    return '<path d="M' + x1 + ' ' + y1 + ' L' + x2 + ' ' + y2 + '" stroke="' + INK + '" stroke-width="' + (w + 2.4) + '" stroke-linecap="round" fill="none"/>' +
+      '<path d="M' + x1 + ' ' + y1 + ' L' + x2 + ' ' + y2 + '" stroke="' + c + '" stroke-width="' + w + '" stroke-linecap="round" fill="none"/>';
+  }
+  function hd(x, y) { return '<circle cx="' + x + '" cy="' + y + '" r="5.4" fill="' + skin + '" stroke="' + INK + '" stroke-width="2.4"/>'; }
+  var leg = '', shoe = '', arm = '', hand = '';
+  var pants = o.pants || '#4A4A57';
+
+  if (pose === 'run') {
+    leg = limb(43, 76, 31, 89, 6.5, pants) + limb(31, 89, 21, 95, 6.5, pants) +
+      limb(57, 76, 70, 87, 6.5, pants) + limb(70, 87, 82, 92, 6.5, pants);
+    shoe = '<ellipse cx="17" cy="96" rx="9" ry="5" fill="#3E3E4A" stroke="' + INK + '" stroke-width="2.4"/>' +
+      '<ellipse cx="86" cy="93" rx="9" ry="5" fill="#3E3E4A" stroke="' + INK + '" stroke-width="2.4"/>';
+    arm = limb(36, 58, 19, 50, 5.5, skin) + limb(64, 58, 82, 64, 5.5, skin);
+    hand = hd(17, 49) + hd(84, 65);
+  } else if (pose === 'umb') {
+    leg = limb(43, 76, 42, 91, 6.5, pants) + limb(57, 76, 58, 91, 6.5, pants);
+    shoe = '<ellipse cx="40" cy="93" rx="9" ry="5" fill="#3E3E4A" stroke="' + INK + '" stroke-width="2.4"/>' +
+      '<ellipse cx="60" cy="93" rx="9" ry="5" fill="#3E3E4A" stroke="' + INK + '" stroke-width="2.4"/>';
+    arm = limb(36, 58, 40, 37, 5.5, skin) + limb(64, 58, 60, 37, 5.5, skin);
+    hand = hd(40, 35) + hd(60, 35);
+  } else if (pose === 'point') {
+    leg = limb(43, 76, 42, 91, 6.5, pants) + limb(57, 76, 58, 91, 6.5, pants);
+    shoe = '<ellipse cx="40" cy="93" rx="9" ry="5" fill="#3E3E4A" stroke="' + INK + '" stroke-width="2.4"/>' +
+      '<ellipse cx="60" cy="93" rx="9" ry="5" fill="#3E3E4A" stroke="' + INK + '" stroke-width="2.4"/>';
+    arm = limb(36, 58, 26, 74, 5.5, skin) + limb(64, 58, 88, 46, 5.5, skin);
+    hand = hd(25, 76) + hd(90, 45);
+  } else if (pose === 'hold') {
+    leg = limb(43, 76, 42, 91, 6.5, pants) + limb(57, 76, 58, 91, 6.5, pants);
+    shoe = '<ellipse cx="40" cy="93" rx="9" ry="5" fill="#3E3E4A" stroke="' + INK + '" stroke-width="2.4"/>' +
+      '<ellipse cx="60" cy="93" rx="9" ry="5" fill="#3E3E4A" stroke="' + INK + '" stroke-width="2.4"/>';
+    arm = limb(36, 58, 27, 72, 5.5, skin) + limb(64, 58, 73, 72, 5.5, skin);
+    hand = hd(26, 74) + hd(74, 74);
+  } else if (pose === 'taichi') {
+    leg = limb(43, 76, 36, 91, 6.5, pants) + limb(57, 76, 64, 91, 6.5, pants);
+    shoe = '<ellipse cx="34" cy="93" rx="9" ry="5" fill="#3E3E4A" stroke="' + INK + '" stroke-width="2.4"/>' +
+      '<ellipse cx="66" cy="93" rx="9" ry="5" fill="#3E3E4A" stroke="' + INK + '" stroke-width="2.4"/>';
+    arm = limb(36, 56, 12, 60, 5.5, skin) + limb(64, 56, 88, 60, 5.5, skin);
+    hand = hd(10, 61) + hd(90, 61);
+  } else if (pose === 'wave') {
+    leg = limb(43, 76, 42, 91, 6.5, pants) + limb(57, 76, 58, 91, 6.5, pants);
+    shoe = '<ellipse cx="40" cy="93" rx="9" ry="5" fill="#3E3E4A" stroke="' + INK + '" stroke-width="2.4"/>' +
+      '<ellipse cx="60" cy="93" rx="9" ry="5" fill="#3E3E4A" stroke="' + INK + '" stroke-width="2.4"/>';
+    arm = limb(36, 58, 27, 76, 5.5, skin) + limb(64, 58, 82, 40, 5.5, skin);
+    hand = hd(26, 78) + hd(83, 38);
+  } else if (pose === 'raise') {
+    leg = limb(43, 76, 42, 91, 6.5, pants) + limb(57, 76, 58, 91, 6.5, pants);
+    shoe = '<ellipse cx="40" cy="93" rx="9" ry="5" fill="#3E3E4A" stroke="' + INK + '" stroke-width="2.4"/>' +
+      '<ellipse cx="60" cy="93" rx="9" ry="5" fill="#3E3E4A" stroke="' + INK + '" stroke-width="2.4"/>';
+    arm = limb(36, 58, 28, 74, 5.5, skin) + limb(64, 58, 70, 26, 5.5, skin);
+    hand = hd(27, 76) + hd(71, 24);
+  } else if (pose === 'sit') {
+    leg = limb(44, 78, 58, 85, 6.5, pants) + limb(58, 85, 72, 85, 6.5, pants);
+    shoe = '<ellipse cx="75" cy="86" rx="9" ry="5" fill="#3E3E4A" stroke="' + INK + '" stroke-width="2.4"/>';
+    arm = limb(36, 58, 30, 72, 5.5, skin) + limb(64, 58, 70, 72, 5.5, skin);
+    hand = hd(29, 74) + hd(71, 74);
+  } else if (pose === 'shake') {
+    leg = limb(43, 76, 42, 91, 6.5, pants) + limb(57, 76, 58, 91, 6.5, pants);
+    shoe = '<ellipse cx="40" cy="93" rx="9" ry="5" fill="#3E3E4A" stroke="' + INK + '" stroke-width="2.4"/>' +
+      '<ellipse cx="60" cy="93" rx="9" ry="5" fill="#3E3E4A" stroke="' + INK + '" stroke-width="2.4"/>';
+    arm = limb(36, 58, 28, 72, 5.5, skin) + limb(64, 58, 90, 62, 5.5, skin);
+    hand = hd(27, 74) + hd(92, 62);
+  } else if (pose === 'peek') {
+    leg = limb(43, 76, 42, 91, 6.5, pants) + limb(57, 76, 58, 91, 6.5, pants);
+    shoe = '<ellipse cx="40" cy="93" rx="9" ry="5" fill="#3E3E4A" stroke="' + INK + '" stroke-width="2.4"/>' +
+      '<ellipse cx="60" cy="93" rx="9" ry="5" fill="#3E3E4A" stroke="' + INK + '" stroke-width="2.4"/>';
+    arm = limb(36, 58, 30, 74, 5.5, skin) + limb(64, 58, 84, 52, 5.5, skin);
+    hand = hd(29, 76) + hd(86, 51);
+  } else {
+    leg = limb(43, 76, 42, 91, 6.5, pants) + limb(57, 76, 58, 91, 6.5, pants);
+    shoe = '<ellipse cx="40" cy="93" rx="9" ry="5" fill="#3E3E4A" stroke="' + INK + '" stroke-width="2.4"/>' +
+      '<ellipse cx="60" cy="93" rx="9" ry="5" fill="#3E3E4A" stroke="' + INK + '" stroke-width="2.4"/>';
+    arm = limb(36, 58, 27, 76, 5.5, skin) + limb(64, 58, 73, 76, 5.5, skin);
+    hand = hd(26, 78) + hd(74, 78);
+  }
+
+  /* 髮型 */
+  var hairS = '';
+  if (style === 'bob') {
+    hairS = '<path d="M24 26 Q22 3 50 3 Q78 3 76 26 L77 44 Q74 48 70 44 L70 24 Q62 13 50 13 Q38 13 30 24 L30 44 Q26 48 23 44 Z" fill="' + hair + '" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>';
+  } else if (style === 'pigtail') {
+    hairS = '<circle cx="19" cy="41" r="9.5" fill="' + hair + '" stroke="' + INK + '" stroke-width="3"/>' +
+      '<circle cx="81" cy="41" r="9.5" fill="' + hair + '" stroke="' + INK + '" stroke-width="3"/>' +
+      '<circle cx="24" cy="33" r="3" fill="#FF6B8A" stroke="' + INK + '" stroke-width="1.8"/>' +
+      '<circle cx="76" cy="33" r="3" fill="#FF6B8A" stroke="' + INK + '" stroke-width="1.8"/>' +
+      '<path d="M24 25 Q23 4 50 4 Q77 4 76 25 Q67 15 58 17 Q54 10 46 16 Q37 11 24 25 Z" fill="' + hair + '" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>';
+  } else if (style === 'bun') {
+    hairS = '<circle cx="50" cy="3" r="9" fill="' + hair + '" stroke="' + INK + '" stroke-width="3"/>' +
+      '<path d="M24 25 Q23 4 50 4 Q77 4 76 25 Q67 15 58 17 Q54 10 46 16 Q37 11 24 25 Z" fill="' + hair + '" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>';
+  } else if (style === 'spiky') {
+    hairS = '<path d="M24 26 L27 12 L35 20 L39 5 L48 16 L55 4 L62 17 L71 9 L76 26 Q63 15 50 16 Q37 15 24 26 Z" fill="' + hair + '" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>';
+  } else {
+    hairS = '<path d="M24 25 Q23 4 50 4 Q77 4 76 25 Q67 15 58 17 Q54 10 46 16 Q37 11 24 25 Z" fill="' + hair + '" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>';
+  }
+  if (style !== 'spiky') {
+    hairS += '<path d="M37 13 Q43 9 50 10" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" fill="none" opacity=".45"/>';
+  }
+
+  /* 表情 */
+  var eyesS = '', browS = '', mouthS = '', tearS = '';
+  if (mood === 'cry') {
+    eyesS = '<path d="M36 30 Q41 25 46 30 M54 30 Q59 25 64 30" stroke="' + INK + '" stroke-width="2.8" fill="none" stroke-linecap="round"/>' +
+      '<path d="M36 35 q-2 8 1 12 q4 -4 -1 -12" fill="#7EC8F0" stroke="' + INK + '" stroke-width="1.4"/>' +
+      '<path d="M64 35 q2 8 -1 12 q-4 -4 1 -12" fill="#7EC8F0" stroke="' + INK + '" stroke-width="1.4"/>';
+    mouthS = '<path d="M44 42 Q50 50 56 42 Z" fill="#E4576F" stroke="' + INK + '" stroke-width="2" stroke-linejoin="round"/>';
+    browS = '<path d="M35 22 Q40 19 45 22 M55 22 Q60 19 65 22" stroke="' + INK + '" stroke-width="2" fill="none"/>';
+  } else if (mood === 'angry') {
+    eyesS = '<ellipse cx="41" cy="30" rx="3.6" ry="4.4" fill="' + INK + '"/><ellipse cx="59" cy="30" rx="3.6" ry="4.4" fill="' + INK + '"/>';
+    browS = '<path d="M34 21 L46 25 M66 21 L54 25" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/>';
+    mouthS = '<path d="M44 44 Q50 38 56 44" stroke="' + INK + '" stroke-width="2.8" fill="none" stroke-linecap="round"/>';
+  } else if (mood === 'wow') {
+    eyesS = '<circle cx="41" cy="29" r="5.4" fill="' + INK + '"/><circle cx="59" cy="29" r="5.4" fill="' + INK + '"/>' +
+      '<circle cx="43" cy="27" r="2" fill="#fff"/><circle cx="61" cy="27" r="2" fill="#fff"/>';
+    mouthS = '<ellipse cx="50" cy="43" rx="4" ry="5" fill="#E4576F" stroke="' + INK + '" stroke-width="2"/>';
+  } else if (mood === 'sad') {
+    eyesS = '<ellipse cx="41" cy="30" rx="3.4" ry="4.2" fill="' + INK + '"/><ellipse cx="59" cy="30" rx="3.4" ry="4.2" fill="' + INK + '"/>' +
+      '<circle cx="42.3" cy="28.5" r="1.3" fill="#fff"/><circle cx="60.3" cy="28.5" r="1.3" fill="#fff"/>';
+    browS = '<path d="M35 23 Q40 20 45 23 M55 23 Q60 20 65 23" stroke="' + INK + '" stroke-width="2" fill="none"/>';
+    mouthS = '<path d="M45 44 Q50 40 55 44" stroke="' + INK + '" stroke-width="2.6" fill="none" stroke-linecap="round"/>';
+  } else if (mood === 'grin') {
+    eyesS = '<ellipse cx="41" cy="29" rx="3.8" ry="4.6" fill="' + INK + '"/><ellipse cx="59" cy="29" rx="3.8" ry="4.6" fill="' + INK + '"/>' +
+      '<circle cx="42.4" cy="27.4" r="1.5" fill="#fff"/><circle cx="60.4" cy="27.4" r="1.5" fill="#fff"/>';
+    mouthS = '<path d="M43 39 Q50 49 57 39 Z" fill="#E4576F" stroke="' + INK + '" stroke-width="2.2" stroke-linejoin="round"/>' +
+      '<path d="M47 45 Q50 48 53 45" fill="#FF9FB2"/>';
+  } else {
+    eyesS = '<ellipse cx="41" cy="29" rx="3.8" ry="4.8" fill="' + INK + '"/><ellipse cx="59" cy="29" rx="3.8" ry="4.8" fill="' + INK + '"/>' +
+      '<circle cx="42.4" cy="27.2" r="1.5" fill="#fff"/><circle cx="60.4" cy="27.2" r="1.5" fill="#fff"/>' +
+      '<circle cx="39.8" cy="31" r=".8" fill="#fff"/><circle cx="57.8" cy="31" r=".8" fill="#fff"/>';
+    mouthS = '<path d="M45 40 Q50 46 55 40" stroke="' + INK + '" stroke-width="2.6" fill="none" stroke-linecap="round"/>';
+  }
+
+  var glasses = o.glasses ? '<g fill="none" stroke="' + INK + '" stroke-width="2.2"><circle cx="41" cy="29" r="7.6"/><circle cx="59" cy="29" r="7.6"/><path d="M48.6 29 L51.4 29 M33.4 27 L26 29 M66.6 27 L74 29"/></g>' : '';
+  var hat = '';
+  if (o.hat) {
+    var hc = o.hatColor || '#3E7CB1';
+    hat = '<path d="M26 19 Q27 3 50 3 Q73 3 74 19 Z" fill="' + hc + '" stroke="' + INK + '" stroke-width="3"/>' +
+      '<path d="M68 16 Q86 16 89 23 L64 23 Z" fill="' + hc + '" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+      '<circle cx="50" cy="4" r="3" fill="#FFC94D" stroke="' + INK + '" stroke-width="1.8"/>';
+  }
+  var scarf = '';
+  if (o.scarf) {
+    scarf = '<path d="M33 50 Q50 59 67 50 L67 57 Q50 66 33 57 Z" fill="' + o.scarf + '" stroke="' + INK + '" stroke-width="2.6"/>' +
+      '<path d="M62 57 L67 70 L60 68 L57 57 Z" fill="' + o.scarf + '" stroke="' + INK + '" stroke-width="2.4"/>';
+  }
+  var extra = '';
+  if (o.apron) {
+    extra += '<path d="M38 59 L62 59 L66 80 L34 80 Z" fill="#FFFDF6" stroke="' + INK + '" stroke-width="2.4"/>' +
+      '<path d="M38 59 L33 53 M62 59 L67 53" stroke="' + INK + '" stroke-width="2.4"/>' +
+      '<path d="M45 70 L55 70" stroke="#FFB3C1" stroke-width="2.4" stroke-linecap="round"/>';
+  }
+  if (o.earring) {
+    extra += '<circle cx="25" cy="39" r="2.2" fill="#FFC94D" stroke="' + INK + '" stroke-width="1.4"/>' +
+      '<circle cx="75" cy="39" r="2.2" fill="#FFC94D" stroke="' + INK + '" stroke-width="1.4"/>';
+  }
+  if (o.cane) {
+    extra += '<path d="M88 60 L90 94" stroke="#9C6B3C" stroke-width="4.5" stroke-linecap="round"/>' +
+      '<path d="M88 60 q-7 -5 -10 2" stroke="#9C6B3C" stroke-width="4.5" fill="none" stroke-linecap="round"/>';
+  }
+  if (o.pointer) {
+    extra += '<path d="M30 76 L8 50" stroke="#E8B97E" stroke-width="4" stroke-linecap="round"/>' +
+      '<circle cx="7" cy="48" r="3.6" fill="#FF6B8A" stroke="' + INK + '" stroke-width="1.8"/>';
+  }
+  if (o.moustache) {
+    extra += '<path d="M43 45 Q46 42 50 45 Q54 42 57 45" stroke="#EDEDF3" stroke-width="3.2" fill="none" stroke-linecap="round"/>';
+  }
+  if (o.helmet) {
+    extra += '<path d="M25 17 Q28 -1 50 -1 Q72 -1 75 17 Z" fill="#FFC94D" stroke="' + INK + '" stroke-width="3"/>' +
+      '<path d="M22 17 L78 17" stroke="' + INK + '" stroke-width="4" stroke-linecap="round"/>' +
+      '<rect x="45" y="-3" width="10" height="6" rx="3" fill="#FF8A3D" stroke="' + INK + '" stroke-width="1.8"/>';
+  }
+
+  return sh(24) + leg + shoe +
+    '<rect x="35" y="51" width="30" height="28" rx="12" fill="' + shirt + '" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M41 55 Q50 60 59 55" stroke="#FFFFFF" stroke-width="2.2" fill="none" opacity=".35"/>' +
+    arm + hand +
+    '<circle cx="27" cy="33" r="5.4" fill="' + skin + '" stroke="' + INK + '" stroke-width="2.6"/>' +
+    '<circle cx="73" cy="33" r="5.4" fill="' + skin + '" stroke="' + INK + '" stroke-width="2.6"/>' +
+    '<circle cx="50" cy="29" r="24" fill="' + skin + '" stroke="' + INK + '" stroke-width="3"/>' +
+    hairS +
+    '<ellipse cx="32" cy="38" rx="5.2" ry="3.2" fill="' + BLUSH + '" opacity=".85"/>' +
+    '<ellipse cx="68" cy="38" rx="5.2" ry="3.2" fill="' + BLUSH + '" opacity=".85"/>' +
+    eyesS + browS + mouthS + glasses + hat + scarf + extra;
+};
+
+PRIM.mom = function (o) {
+  o = o || {};
+  return PRIM.kid({
+    shirt: o.shirt || '#FF9FBB', hair: o.hair || '#4A3A34', style: 'bob',
+    mood: o.mood || 'smile', pose: o.pose || 'stand', apron: true, earring: true, skin: o.skin
+  }) + '<circle cx="50" cy="7" r="7.5" fill="' + (o.hair || '#4A3A34') + '" stroke="' + INK + '" stroke-width="2.8"/>';
+};
+
+PRIM.elder = function (o) {
+  o = o || {};
+  return PRIM.kid({
+    shirt: o.shirt || '#8FB8D8', hair: '#EDEDF3', style: o.pose === 'taichi' ? 'bun' : 'short',
+    mood: o.mood || 'smile', pose: o.pose || 'stand', glasses: true, moustache: true,
+    cane: o.cane !== false, skin: '#FFD6B4'
+  });
+};
+
+PRIM.teacher = function (o) {
+  o = o || {};
+  return PRIM.kid({
+    shirt: o.shirt || '#7C9FD6', hair: '#4A3A34', style: 'bun', mood: 'smile',
+    pose: o.pose || 'point', glasses: true, pointer: o.pointer !== false, earring: true
+  });
+};
+
+PRIM.worker = function (o) {
+  return PRIM.kid({ shirt: '#FFB23E', mood: 'smile', helmet: true, pants: '#5C6B7A' }) +
+    '<path d="M39 54 L61 54 L61 78 L39 78 Z" fill="#FF8A3D" stroke="' + INK + '" stroke-width="2.2"/>' +
+    '<path d="M40 63 L60 63 M40 70 L60 70" stroke="#FFF3DA" stroke-width="3"/>';
+};
+
+/* ---------- 動物 ---------- */
+PRIM.cat = function (o) {
+  o = o || {};
+  var c = o.color || '#F4A94E', dark = o.dark || '#D98A35';
+  return sh(20) +
+    '<path d="M30 84 Q10 84 10 68 Q10 60 18 58" fill="none" stroke="' + INK + '" stroke-width="8" stroke-linecap="round"/>' +
+    '<path d="M30 84 Q10 84 10 68 Q10 60 18 58" fill="none" stroke="' + c + '" stroke-width="5" stroke-linecap="round"/>' +
+    '<ellipse cx="44" cy="78" rx="22" ry="16" fill="' + c + '" stroke="' + INK + '" stroke-width="3"/>' +
+    '<ellipse cx="44" cy="84" rx="12" ry="8" fill="#FFF3DA" opacity=".9"/>' +
+    '<path d="M58 42 L54 22 L70 34 Z" fill="' + c + '" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M84 42 L92 24 L74 34 Z" fill="' + c + '" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M58 38 L57 29 L65 35 Z" fill="#FFB3C1"/><path d="M86 38 L89 29 L79 35 Z" fill="#FFB3C1"/>' +
+    '<circle cx="68" cy="52" r="19" fill="' + c + '" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M60 44 q6 4 12 0 M82 44 q-4 4 -8 1" stroke="' + dark + '" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+    '<ellipse cx="61" cy="52" rx="3.8" ry="4.6" fill="' + INK + '"/><ellipse cx="76" cy="52" rx="3.8" ry="4.6" fill="' + INK + '"/>' +
+    '<circle cx="62.2" cy="50.5" r="1.4" fill="#fff"/><circle cx="77.2" cy="50.5" r="1.4" fill="#fff"/>' +
+    '<ellipse cx="54" cy="59" rx="4" ry="2.4" fill="' + BLUSH + '" opacity=".85"/><ellipse cx="83" cy="59" rx="4" ry="2.4" fill="' + BLUSH + '" opacity=".85"/>' +
+    '<path d="M66 59 q2.5 2.5 5 0" stroke="' + INK + '" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+    '<path d="M68 61 v2 M66 64 q2 2 4 0" stroke="' + INK + '" stroke-width="1.8" fill="none"/>' +
+    '<path d="M88 55 L97 53 M88 60 L97 63 M55 55 L46 53 M55 61 L46 64" stroke="' + INK + '" stroke-width="1.8" stroke-linecap="round"/>' +
+    '<ellipse cx="33" cy="90" rx="8" ry="5" fill="#FFF3DA" stroke="' + INK + '" stroke-width="2.2"/>' +
+    '<ellipse cx="56" cy="90" rx="8" ry="5" fill="#FFF3DA" stroke="' + INK + '" stroke-width="2.2"/>';
+};
+
+PRIM.dog = function (o) {
+  o = o || {};
+  return sh(22) +
+    '<path d="M26 72 Q10 64 14 50" fill="none" stroke="' + INK + '" stroke-width="8" stroke-linecap="round"/>' +
+    '<path d="M26 72 Q10 64 14 50" fill="none" stroke="#D9A46B" stroke-width="5" stroke-linecap="round"/>' +
+    '<ellipse cx="44" cy="78" rx="22" ry="15" fill="#E8B97E" stroke="' + INK + '" stroke-width="3"/>' +
+    '<ellipse cx="44" cy="84" rx="12" ry="7" fill="#FFF3DA" opacity=".85"/>' +
+    '<circle cx="68" cy="50" r="19" fill="#E8B97E" stroke="' + INK + '" stroke-width="3"/>' +
+    '<ellipse cx="55" cy="45" rx="7" ry="12" fill="#B9814C" stroke="' + INK + '" stroke-width="2.6" transform="rotate(-18 55 45)"/>' +
+    '<ellipse cx="82" cy="45" rx="7" ry="12" fill="#B9814C" stroke="' + INK + '" stroke-width="2.6" transform="rotate(18 82 45)"/>' +
+    '<ellipse cx="61" cy="50" rx="3.4" ry="4.2" fill="' + INK + '"/><ellipse cx="76" cy="50" rx="3.4" ry="4.2" fill="' + INK + '"/>' +
+    '<circle cx="62.2" cy="48.5" r="1.3" fill="#fff"/><circle cx="77.2" cy="48.5" r="1.3" fill="#fff"/>' +
+    '<ellipse cx="68" cy="59" rx="5" ry="3.4" fill="' + INK + '"/>' +
+    '<path d="M68 62 q0 5 -5 5" stroke="' + INK + '" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+    '<path d="M68 66 q3 5 8 2" fill="#FF8A9B" stroke="' + INK + '" stroke-width="1.8" stroke-linejoin="round"/>' +
+    '<path d="M84 38 q6 -4 8 2" stroke="' + INK + '" stroke-width="2" fill="none"/>' +
+    '<ellipse cx="34" cy="91" rx="8" ry="5" fill="#F7D9B8" stroke="' + INK + '" stroke-width="2.2"/>' +
+    '<ellipse cx="56" cy="91" rx="8" ry="5" fill="#F7D9B8" stroke="' + INK + '" stroke-width="2.2"/>';
+};
+
+PRIM.bird = function (o) {
+  o = o || {};
+  var c = o.color || '#7FC8F0';
+  return sh(18) +
+    '<ellipse cx="46" cy="60" rx="22" ry="18" fill="' + c + '" stroke="' + INK + '" stroke-width="3"/>' +
+    '<circle cx="66" cy="42" r="15" fill="' + c + '" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M80 39 L94 44 L80 49 Z" fill="#FFC94D" stroke="' + INK + '" stroke-width="2.4" stroke-linejoin="round"/>' +
+    '<circle cx="68" cy="40" r="3" fill="' + INK + '"/><circle cx="69" cy="39" r="1.1" fill="#fff"/>' +
+    '<ellipse cx="61" cy="47" rx="3.4" ry="2.2" fill="' + BLUSH + '"/>' +
+    '<path d="M36 58 q12 14 26 2 q-2 12 -14 13 q-12 0 -12 -15 Z" fill="#BFE6FA" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<path d="M44 78 L42 92 M54 78 L56 92" stroke="#FFB23E" stroke-width="3.4" stroke-linecap="round"/>' +
+    '<path d="M38 92 L46 92 M52 92 L60 92" stroke="' + INK + '" stroke-width="2.4" stroke-linecap="round"/>';
+};
+
+PRIM.teddy = function () {
+  return sh(20) +
+    '<circle cx="31" cy="36" r="12" fill="#C99A5F" stroke="' + INK + '" stroke-width="3"/>' +
+    '<circle cx="69" cy="36" r="12" fill="#C99A5F" stroke="' + INK + '" stroke-width="3"/>' +
+    '<circle cx="31" cy="36" r="6" fill="#FFC9A8"/><circle cx="69" cy="36" r="6" fill="#FFC9A8"/>' +
+    '<ellipse cx="50" cy="88" rx="20" ry="12" fill="#D9A46B" stroke="' + INK + '" stroke-width="3"/>' +
+    '<ellipse cx="50" cy="58" rx="24" ry="26" fill="#D9A46B" stroke="' + INK + '" stroke-width="3"/>' +
+    '<ellipse cx="50" cy="66" rx="14" ry="11" fill="#F7D9B8"/>' +
+    '<circle cx="42" cy="54" r="3.4" fill="' + INK + '"/><circle cx="58" cy="54" r="3.4" fill="' + INK + '"/>' +
+    '<circle cx="43.2" cy="52.6" r="1.2" fill="#fff"/><circle cx="59.2" cy="52.6" r="1.2" fill="#fff"/>' +
+    '<ellipse cx="36" cy="62" rx="4" ry="2.4" fill="' + BLUSH + '"/><ellipse cx="64" cy="62" rx="4" ry="2.4" fill="' + BLUSH + '"/>' +
+    '<ellipse cx="50" cy="62" rx="4" ry="3" fill="' + INK + '"/>' +
+    '<path d="M50 65 v3 M46 69 q4 3 8 0" stroke="' + INK + '" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+    '<circle cx="50" cy="72" r="5" fill="#FFC9A8" opacity=".6"/>';
+};
+
+PRIM.fish = function (o) {
+  var c = (o && o.color) || '#FF9FBB';
+  return '<ellipse cx="52" cy="56" rx="22" ry="15" fill="' + c + '" stroke="' + INK + '" stroke-width="2.6"/>' +
+    '<path d="M30 56 L12 42 L14 70 Z" fill="' + c + '" stroke="' + INK + '" stroke-width="2.6" stroke-linejoin="round"/>' +
+    '<circle cx="62" cy="52" r="3" fill="' + INK + '"/><circle cx="63" cy="51" r="1" fill="#fff"/>' +
+    '<path d="M68 60 q4 3 8 0" stroke="' + INK + '" stroke-width="1.6" fill="none"/>' +
+    '<path d="M48 44 q6 -8 12 0" stroke="' + INK + '" stroke-width="2" fill="none" opacity=".3"/>';
+};
+
+/* ---------- 天空與植物 ---------- */
+PRIM.sun = function (o) {
+  o = o || {};
+  var r = o.r || 26;
+  var rays = '';
+  for (var i = 0; i < 8; i++) {
+    var a = i * Math.PI / 4, x1 = 50 + Math.cos(a) * (r + 6), y1 = 50 + Math.sin(a) * (r + 6);
+    var x2 = 50 + Math.cos(a) * (r + 14), y2 = 50 + Math.sin(a) * (r + 14);
+    rays += '<path d="M' + x1.toFixed(1) + ' ' + y1.toFixed(1) + ' L' + x2.toFixed(1) + ' ' + y2.toFixed(1) + '" stroke="#FFB23E" stroke-width="4.5" stroke-linecap="round"/>';
+  }
+  return rays + '<circle cx="50" cy="50" r="' + r + '" fill="#FFD76A" stroke="' + INK + '" stroke-width="3"/>' +
+    '<circle cx="41" cy="46" r="3" fill="' + INK + '"/><circle cx="59" cy="46" r="3" fill="' + INK + '"/>' +
+    '<circle cx="42" cy="45" r="1" fill="#fff"/><circle cx="60" cy="45" r="1" fill="#fff"/>' +
+    '<ellipse cx="35" cy="54" rx="4" ry="2.4" fill="#FF9FBB" opacity=".8"/><ellipse cx="65" cy="54" rx="4" ry="2.4" fill="#FF9FBB" opacity=".8"/>' +
+    '<path d="M44 55 q6 6 12 0" stroke="' + INK + '" stroke-width="2.4" fill="none" stroke-linecap="round"/>';
+};
+
+PRIM.cloud = function (o) {
+  o = o || {};
+  var face = o.face !== false;
+  return '<path d="M22 82 Q8 82 8 68 Q8 56 22 55 Q24 36 44 36 Q52 22 68 26 Q84 24 88 42 Q98 46 98 60 Q98 76 84 82 Z" fill="' + (o.color || '#FFFFFF') + '" stroke="' + INK + '" stroke-width="2.8" stroke-linejoin="round"/>' +
+    (face ? '<circle cx="41" cy="58" r="2.6" fill="' + INK + '"/><circle cx="59" cy="58" r="2.6" fill="' + INK + '"/>' +
+      '<ellipse cx="35" cy="65" rx="3.4" ry="2" fill="' + BLUSH + '"/><ellipse cx="65" cy="65" rx="3.4" ry="2" fill="' + BLUSH + '"/>' +
+      '<path d="M44 66 q6 5 12 0" stroke="' + INK + '" stroke-width="2.2" fill="none" stroke-linecap="round"/>' : '');
+};
+
+PRIM.moon = function () {
+  return '<path d="M62 8 Q26 14 26 50 Q26 86 62 92 Q34 72 34 50 Q34 28 62 8 Z" fill="#FFF1C9" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<circle cx="47" cy="44" r="2.6" fill="' + INK + '"/><path d="M44 52 q4 4 8 0" stroke="' + INK + '" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+    '<ellipse cx="42" cy="49" rx="3" ry="1.8" fill="#FFC1CD"/>';
+};
+
+PRIM.rainbow = function () {
+  return '<g fill="none" stroke-linecap="round">' +
+    '<path d="M4 96 Q4 34 50 34 Q96 34 96 96" stroke="#FF8A8A" stroke-width="9"/>' +
+    '<path d="M13 96 Q13 43 50 43 Q87 43 87 96" stroke="#FFC94D" stroke-width="9"/>' +
+    '<path d="M22 96 Q22 52 50 52 Q78 52 78 96" stroke="#7FCB8E" stroke-width="9"/>' +
+    '<path d="M31 96 Q31 61 50 61 Q69 61 69 96" stroke="#7FC8F0" stroke-width="9"/></g>';
+};
+
+PRIM.tree = function (o) {
+  o = o || {};
+  var bend = o.bend;
+  var trunk = bend
+    ? '<path d="M50 97 Q44 72 33 55 Q25 43 30 30" fill="none" stroke="#A9743F" stroke-width="12" stroke-linecap="round"/>'
+    : '<path d="M50 97 L50 45" stroke="#A9743F" stroke-width="12" stroke-linecap="round"/>';
+  var app = o.apples === false ? '' :
+    '<circle cx="32" cy="28" r="4" fill="#FF6B8A" stroke="' + INK + '" stroke-width="1.6"/>' +
+    '<circle cx="66" cy="46" r="4" fill="#FF6B8A" stroke="' + INK + '" stroke-width="1.6"/>' +
+    '<circle cx="50" cy="16" r="4" fill="#FF6B8A" stroke="' + INK + '" stroke-width="1.6"/>';
+  return sh(28) + trunk +
+    '<circle cx="34" cy="38" r="23" fill="#7FCB8E" stroke="' + INK + '" stroke-width="3"/>' +
+    '<circle cx="64" cy="30" r="25" fill="#9CDCA6" stroke="' + INK + '" stroke-width="3"/>' +
+    '<circle cx="52" cy="56" r="21" fill="#6FBF80" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M44 14 Q52 10 60 13" stroke="#FFFFFF" stroke-width="3" opacity=".35" fill="none" stroke-linecap="round"/>' + app;
+};
+
+PRIM.bush = function (o) {
+  var c = (o && o.color) || '#8FCF9B';
+  return '<circle cx="26" cy="86" r="14" fill="' + c + '" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<circle cx="46" cy="78" r="18" fill="' + c + '" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<circle cx="68" cy="86" r="13" fill="' + c + '" stroke="' + INK + '" stroke-width="2.4"/>';
+};
+
+PRIM.mountain = function () {
+  return '<path d="M-6 100 L58 18 L124 100 Z" fill="#93BEDF" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M58 18 L40 44 L54 41 L64 50 L76 40 Z" fill="#F7FCFF" stroke="' + INK + '" stroke-width="2.4" stroke-linejoin="round"/>' +
+    '<path d="M66 100 L130 40 L196 100 Z" fill="#AFD1EA" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M130 40 L118 58 L130 56 L140 62 L148 54 Z" fill="#F7FCFF" stroke="' + INK + '" stroke-width="2.2"/>';
+};
+
+PRIM.flower = function (o) {
+  o = o || {};
+  var c = o.color || '#FF6B8A';
+  return '<path d="M50 97 L50 52" stroke="#4E9B62" stroke-width="5.5" stroke-linecap="round"/>' +
+    '<path d="M50 76 q-17 -2 -19 -15 q15 0 19 15 M50 68 q17 -2 19 -15 q-15 0 -19 15" fill="#7FCB8E" stroke="' + INK + '" stroke-width="2"/>' +
+    '<circle cx="50" cy="44" r="10" fill="' + c + '" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<circle cx="39" cy="34" r="10" fill="' + c + '" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<circle cx="61" cy="34" r="10" fill="' + c + '" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<circle cx="39" cy="54" r="10" fill="' + c + '" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<circle cx="61" cy="54" r="10" fill="' + c + '" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<circle cx="50" cy="44" r="8" fill="#FFD76A" stroke="' + INK + '" stroke-width="2"/>' +
+    '<circle cx="47.5" cy="43" r="1.2" fill="' + INK + '"/><circle cx="52.5" cy="43" r="1.2" fill="' + INK + '"/>' +
+    '<path d="M47 47 q3 2.6 6 0" stroke="' + INK + '" stroke-width="1.6" fill="none" stroke-linecap="round"/>';
+};
+
+PRIM.flowerpot = function () {
+  return sh(22) +
+    '<path d="M28 64 L72 64 L65 96 L35 96 Z" fill="#E08D55" stroke="' + INK + '" stroke-width="3"/>' +
+    '<rect x="23" y="55" width="54" height="12" rx="5" fill="#F0A46A" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M50 55 L50 30" stroke="#4E9B62" stroke-width="5"/>' +
+    '<path d="M50 44 q-15 -1 -17 -13 q13 0 17 13 M50 38 q15 -1 17 -13 q-13 0 -17 13" fill="#7FCB8E" stroke="' + INK + '" stroke-width="2"/>' +
+    '<circle cx="50" cy="28" r="6" fill="#FF6B8A" stroke="' + INK + '" stroke-width="2"/>' +
+    '<circle cx="43" cy="22" r="6" fill="#FF6B8A" stroke="' + INK + '" stroke-width="2"/>' +
+    '<circle cx="57" cy="22" r="6" fill="#FF6B8A" stroke="' + INK + '" stroke-width="2"/>' +
+    '<circle cx="50" cy="17" r="6" fill="#FF6B8A" stroke="' + INK + '" stroke-width="2"/>' +
+    '<circle cx="50" cy="22" r="4" fill="#FFD76A" stroke="' + INK + '" stroke-width="1.6"/>' +
+    '<circle cx="34" cy="78" r="2" fill="' + INK + '" opacity=".35"/><circle cx="50" cy="84" r="2" fill="' + INK + '" opacity=".35"/>';
+};
+
+/* ---------- 建築與場景 ---------- */
+PRIM.school = function () {
+  return sh(46) +
+    '<rect x="8" y="42" width="84" height="58" rx="6" fill="#FFE0B3" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M2 42 L50 12 L98 42 Z" fill="#FF8A3D" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<rect x="42" y="68" width="18" height="32" rx="2" fill="#A9743F" stroke="' + INK + '" stroke-width="2.6"/>' +
+    '<circle cx="56" cy="84" r="1.8" fill="#FFC94D"/>' +
+    '<rect x="16" y="52" width="16" height="14" rx="2" fill="#BFE6FA" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<rect x="70" y="52" width="16" height="14" rx="2" fill="#BFE6FA" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<path d="M24 52 L24 66 M16 59 L32 59 M78 52 L78 66 M70 59 L86 59" stroke="' + INK + '" stroke-width="1.6"/>' +
+    '<circle cx="50" cy="32" r="7" fill="#FFFDF6" stroke="' + INK + '" stroke-width="2.2"/>' +
+    '<path d="M50 27 L50 32 L54 35" stroke="' + INK + '" stroke-width="1.6" stroke-linecap="round"/>' +
+    '<path d="M50 12 L50 2" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<path d="M51 3 L64 6 L51 10 Z" fill="#FF6B8A" stroke="' + INK + '" stroke-width="1.6"/>';
+};
+
+PRIM.shop = function () {
+  return sh(42) +
+    '<rect x="10" y="44" width="80" height="56" rx="4" fill="#FFE9CD" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M6 44 L94 44 L88 24 L12 24 Z" fill="#FF8A3D" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M6 44 q7 8 14 0 q7 8 14 0 q7 8 14 0 q7 8 14 0 q7 8 14 0 q7 8 14 0 L94 44" fill="#FFF3DA" stroke="' + INK + '" stroke-width="2"/>' +
+    '<rect x="22" y="58" width="24" height="20" rx="2" fill="#BFE6FA" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<rect x="54" y="64" width="24" height="36" rx="2" fill="#A9743F" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<circle cx="72" cy="82" r="2" fill="#FFC94D"/>' +
+    '<rect x="16" y="84" width="32" height="12" rx="2" fill="#FFFDF6" stroke="' + INK + '" stroke-width="2"/>' +
+    '<path d="M20 90 L44 90" stroke="#FF8A3D" stroke-width="2.4" stroke-linecap="round"/>' +
+    '<circle cx="50" cy="16" r="8" fill="#FFC94D" stroke="' + INK + '" stroke-width="2.2"/>' +
+    '<path d="M46 16 q4 5 8 0" stroke="' + INK + '" stroke-width="1.6" fill="none"/>';
+};
+
+PRIM.board = function () {
+  return '<rect x="8" y="14" width="84" height="60" rx="4" fill="#3E6B5A" stroke="' + INK + '" stroke-width="4"/>' +
+    '<path d="M18 30 L48 30 M18 42 L58 42 M18 54 L40 54" stroke="#EAF7EF" stroke-width="3" stroke-linecap="round"/>' +
+    '<path d="M62 30 q8 -8 16 0 q-8 8 -16 0" stroke="#FFC94D" stroke-width="2.6" fill="none"/>' +
+    '<path d="M70 50 l8 10 m0 -10 l-8 10" stroke="#FFB3C1" stroke-width="2.6"/>' +
+    '<rect x="62" y="62" width="20" height="6" rx="2" fill="#FFC94D" stroke="' + INK + '" stroke-width="1.8"/>' +
+    '<path d="M8 74 L2 96 M92 74 L98 96" stroke="' + INK + '" stroke-width="4" stroke-linecap="round"/>' +
+    '<rect x="14" y="78" width="30" height="4" rx="2" fill="#E8B97E" stroke="' + INK + '" stroke-width="1.6"/>';
+};
+
+PRIM.piano = function () {
+  return sh(34) +
+    '<rect x="6" y="30" width="88" height="42" rx="6" fill="#6B4F3A" stroke="' + INK + '" stroke-width="3"/>' +
+    '<rect x="12" y="56" width="76" height="16" rx="2" fill="#FFFDF6" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<path d="M24 56 L24 72 M36 56 L36 72 M48 56 L48 72 M60 56 L60 72 M72 56 L72 72 M84 56 L84 72" stroke="' + INK + '" stroke-width="1.8"/>' +
+    '<rect x="20" y="36" width="60" height="12" rx="2" fill="#8B5E3C" stroke="' + INK + '" stroke-width="2"/>' +
+    '<rect x="14" y="72" width="72" height="6" rx="3" fill="#8B5E3C" stroke="' + INK + '" stroke-width="2"/>' +
+    '<path d="M20 78 L16 96 M80 78 L84 96" stroke="' + INK + '" stroke-width="4" stroke-linecap="round"/>' +
+    '<rect x="30" y="20" width="12" height="10" rx="2" fill="#FFF1C9" stroke="' + INK + '" stroke-width="2"/>' +
+    '<path d="M36 14 q-4 -6 0 -10" stroke="' + INK + '" stroke-width="2" fill="none"/>';
+};
+
+PRIM.easel = function () {
+  return '<path d="M22 96 L44 24 M78 96 L56 24" stroke="#A9743F" stroke-width="5" stroke-linecap="round"/>' +
+    '<rect x="16" y="22" width="68" height="52" rx="3" fill="#FFFDF6" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M26 40 q8 -12 18 0 q10 10 26 -4" stroke="#FF8A3D" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+    '<circle cx="65" cy="34" r="7" fill="#FFD76A" stroke="' + INK + '" stroke-width="2"/>' +
+    '<path d="M26 62 L40 50 L50 62 Z" fill="#7FCB8E" stroke="' + INK + '" stroke-width="2"/>' +
+    '<rect x="30" y="80" width="40" height="7" rx="3" fill="#E8B97E" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<circle cx="22" cy="88" r="4" fill="#FF6B8A" stroke="' + INK + '" stroke-width="1.6"/>' +
+    '<circle cx="82" cy="86" r="4" fill="#7C6BD6" stroke="' + INK + '" stroke-width="1.6"/>';
+};
+
+PRIM.window = function () {
+  return '<rect x="10" y="8" width="80" height="86" rx="4" fill="#DDF1FF" stroke="' + INK + '" stroke-width="4"/>' +
+    '<path d="M50 8 L50 94 M10 51 L90 51" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M6 8 q10 10 0 20 M94 8 q-10 10 0 20" stroke="#FF8A3D" stroke-width="6" fill="none" stroke-linecap="round"/>' +
+    '<path d="M16 12 L16 92 M84 12 L84 92" stroke="#FFFDF6" stroke-width="7"/>' +
+    '<circle cx="32" cy="30" r="8" fill="#FFD76A" stroke="' + INK + '" stroke-width="1.8"/>' +
+    '<path d="M60 40 q8 -6 16 0 q-2 12 -16 14 Z" fill="#7FCB8E" stroke="' + INK + '" stroke-width="2"/>' +
+    '<path d="M58 70 q6 6 14 2" stroke="#7FC8F0" stroke-width="3" fill="none"/>';
+};
+
+PRIM.door = function () {
+  return '<rect x="12" y="8" width="76" height="92" rx="5" fill="#C98B5E" stroke="' + INK + '" stroke-width="4"/>' +
+    '<rect x="20" y="16" width="60" height="76" rx="3" fill="#A9743F" stroke="' + INK + '" stroke-width="2.5"/>' +
+    '<rect x="27" y="24" width="46" height="26" rx="2" fill="#C98B5E" stroke="' + INK + '" stroke-width="2"/>' +
+    '<rect x="27" y="56" width="46" height="28" rx="2" fill="#C98B5E" stroke="' + INK + '" stroke-width="2"/>' +
+    '<circle cx="68" cy="58" r="4" fill="#FFC94D" stroke="' + INK + '" stroke-width="2"/>' +
+    '<path d="M4 100 L96 100" stroke="' + INK + '" stroke-width="4" stroke-linecap="round"/>';
+};
+
+PRIM.stairs = function () {
+  return '<path d="M4 98 L4 80 L27 80 L27 64 L50 64 L50 48 L73 48 L73 32 L96 32 L96 98 Z" fill="#D6C4B0" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M4 80 L96 80 M27 64 L96 64 M50 48 L96 48 M73 32 L96 32" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<path d="M10 80 L10 98 M33 64 L33 80 M56 48 L56 64 M79 32 L79 48" stroke="#B49C84" stroke-width="2"/>';
+};
+
+PRIM.car = function (o) {
+  var c = (o && o.color) || '#7FC8F0';
+  return sh(38) +
+    '<path d="M8 74 L10 58 Q12 50 22 50 L34 50 L46 34 L70 34 L80 50 L90 52 Q97 54 97 62 L97 74 Z" fill="' + c + '" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M48 38 L56 38 L56 50 L40 50 Z" fill="#EAF7FF" stroke="' + INK + '" stroke-width="2"/>' +
+    '<path d="M60 38 L68 38 L78 50 L60 50 Z" fill="#EAF7FF" stroke="' + INK + '" stroke-width="2"/>' +
+    '<circle cx="27" cy="76" r="11" fill="#3B3B45" stroke="' + INK + '" stroke-width="3"/>' +
+    '<circle cx="77" cy="76" r="11" fill="#3B3B45" stroke="' + INK + '" stroke-width="3"/>' +
+    '<circle cx="27" cy="76" r="4.5" fill="#D8E2EA"/><circle cx="77" cy="76" r="4.5" fill="#D8E2EA"/>' +
+    '<rect x="86" y="60" width="9" height="6" rx="2.5" fill="#FFC94D" stroke="' + INK + '" stroke-width="2"/>' +
+    '<path d="M12 66 L20 66" stroke="#FFC94D" stroke-width="3" stroke-linecap="round"/>';
+};
+
+PRIM.train = function () {
+  return sh(46) +
+    '<rect x="6" y="90" width="90" height="6" rx="3" fill="#9AA7B4"/>' +
+    '<rect x="6" y="46" width="30" height="32" rx="6" fill="#FF8A3D" stroke="' + INK + '" stroke-width="3"/>' +
+    '<rect x="34" y="34" width="32" height="44" rx="6" fill="#7FC8F0" stroke="' + INK + '" stroke-width="3"/>' +
+    '<rect x="64" y="48" width="30" height="30" rx="5" fill="#FFC94D" stroke="' + INK + '" stroke-width="3"/>' +
+    '<rect x="40" y="40" width="18" height="14" rx="3" fill="#EAF7FF" stroke="' + INK + '" stroke-width="2"/>' +
+    '<rect x="12" y="54" width="12" height="12" rx="2" fill="#FFF1C9" stroke="' + INK + '" stroke-width="2"/>' +
+    '<circle cx="50" cy="66" r="6" fill="#FFFDF6" stroke="' + INK + '" stroke-width="2"/>' +
+    '<circle cx="47" cy="65" r="1.4" fill="' + INK + '"/><circle cx="53" cy="65" r="1.4" fill="' + INK + '"/>' +
+    '<path d="M47 69 q3 2.6 6 0" stroke="' + INK + '" stroke-width="1.5" fill="none"/>' +
+    '<rect x="10" y="26" width="9" height="20" rx="2" fill="' + INK + '"/>' +
+    '<circle cx="14" cy="18" r="7" fill="#E8EEF4" stroke="' + INK + '" stroke-width="2"/>' +
+    '<circle cx="26" cy="12" r="5" fill="#E8EEF4" stroke="' + INK + '" stroke-width="2"/>' +
+    '<circle cx="16" cy="76" r="8" fill="#3B3B45" stroke="' + INK + '" stroke-width="2.5"/>' +
+    '<circle cx="38" cy="76" r="8" fill="#3B3B45" stroke="' + INK + '" stroke-width="2.5"/>' +
+    '<circle cx="62" cy="76" r="8" fill="#3B3B45" stroke="' + INK + '" stroke-width="2.5"/>' +
+    '<circle cx="84" cy="76" r="8" fill="#3B3B45" stroke="' + INK + '" stroke-width="2.5"/>';
+};
+
+PRIM.clock = function () {
+  return sh(30) +
+    '<circle cx="30" cy="18" r="9" fill="#FFC94D" stroke="' + INK + '" stroke-width="2.6"/>' +
+    '<circle cx="70" cy="18" r="9" fill="#FFC94D" stroke="' + INK + '" stroke-width="2.6"/>' +
+    '<path d="M32 24 q4 4 8 4 M68 24 q-4 4 -8 4" stroke="' + INK + '" stroke-width="2.4" fill="none"/>' +
+    '<circle cx="50" cy="55" r="35" fill="#FFFDF6" stroke="' + INK + '" stroke-width="4"/>' +
+    '<circle cx="50" cy="55" r="28" fill="none" stroke="#BFD4E6" stroke-width="2"/>' +
+    '<path d="M50 31 L50 55 L66 64" stroke="' + INK + '" stroke-width="5" stroke-linecap="round" fill="none"/>' +
+    '<circle cx="50" cy="55" r="4" fill="#FF6B8A" stroke="' + INK + '" stroke-width="2"/>' +
+    '<path d="M50 24 L50 28 M81 55 L77 55 M50 86 L50 82 M19 55 L23 55" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/>' +
+    '<path d="M32 92 L26 98 M68 92 L74 98" stroke="' + INK + '" stroke-width="5" stroke-linecap="round"/>' +
+    '<ellipse cx="41" cy="52" rx="4" ry="2.4" fill="' + BLUSH + '"/><ellipse cx="59" cy="52" rx="4" ry="2.4" fill="' + BLUSH + '"/>' +
+    '<circle cx="41" cy="45" r="2.4" fill="' + INK + '"/><circle cx="59" cy="45" r="2.4" fill="' + INK + '"/>';
+};
+
+PRIM.trafficLight = function () {
+  return '<path d="M50 96 L50 48" stroke="#6B7280" stroke-width="7" stroke-linecap="round"/>' +
+    '<rect x="30" y="10" width="40" height="62" rx="10" fill="#3B3B45" stroke="' + INK + '" stroke-width="3"/>' +
+    '<circle cx="50" cy="24" r="8" fill="#FF6B6B" stroke="' + INK + '" stroke-width="2"/>' +
+    '<circle cx="50" cy="41" r="8" fill="#FFD76A" stroke="' + INK + '" stroke-width="2"/>' +
+    '<circle cx="50" cy="58" r="8" fill="#7FCB8E" stroke="' + INK + '" stroke-width="2"/>' +
+    '<path d="M38 78 L72 78" stroke="#6B7280" stroke-width="6" stroke-linecap="round"/>';
+};
+
+/* ---------- 物件 ---------- */
+PRIM.umbrella = function (o) {
+  var c = (o && o.color) || '#FF6B8A';
+  return '<path d="M50 14 Q96 16 98 52 L88 46 L80 54 L70 46 L60 54 L50 46 L40 54 L30 46 L20 54 L12 46 L2 52 Q4 16 50 14 Z" fill="' + c + '" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M50 14 Q28 20 24 52 M50 14 Q72 20 76 52" stroke="#FFFDF6" stroke-width="2.4" fill="none" opacity=".8"/>' +
+    '<path d="M50 14 L50 88 q0 9 11 9 q9 0 9 -9" stroke="' + INK + '" stroke-width="5" fill="none" stroke-linecap="round"/>' +
+    '<circle cx="50" cy="11" r="4" fill="#FFC94D" stroke="' + INK + '" stroke-width="2"/>';
+};
+
+PRIM.coat = function (o) {
+  return '<path d="M50 16 L50 8" stroke="' + INK + '" stroke-width="4"/>' +
+    '<path d="M50 16 q-10 -8 -16 2 q10 4 16 2 q6 2 16 -2 q-6 -10 -16 -2" fill="none" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M50 18 L28 32 L20 72 L34 76 L38 54 L38 92 L62 92 L62 54 L66 76 L80 72 L72 32 Z" fill="' + (o.color || '#FF8A3D') + '" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M50 20 L50 92" stroke="' + INK + '" stroke-width="2.5"/>' +
+    '<path d="M42 24 L50 34 L58 24" stroke="' + INK + '" stroke-width="2.4" fill="none"/>' +
+    '<circle cx="45" cy="42" r="2.2" fill="' + INK + '"/><circle cx="55" cy="52" r="2.2" fill="' + INK + '"/>' +
+    '<rect x="56" y="44" width="16" height="12" rx="2" fill="#FFFDF6" stroke="' + INK + '" stroke-width="2"/>' +
+    '<path d="M61 50 L67 50" stroke="#FF6B8A" stroke-width="3" stroke-linecap="round"/>' +
+    '<path d="M88 34 q5 -6 10 0 M90 46 q4 -5 8 0" stroke="#FFB23E" stroke-width="2.6" fill="none" stroke-linecap="round"/>';
+};
+
+PRIM.book = function (o) {
+  o = o || {};
+  var cover = o.color || '#FF6B8A';
+  return sh(30) +
+    '<path d="M10 24 Q30 16 48 26 L48 88 Q30 78 10 86 Z" fill="#FFFDF6" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M90 24 Q70 16 52 26 L52 88 Q70 78 90 86 Z" fill="#FFFDF6" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M10 24 Q30 16 48 26 L48 32 Q30 22 10 30 Z" fill="' + cover + '" stroke="' + INK + '" stroke-width="2"/>' +
+    '<path d="M90 24 Q70 16 52 26 L52 32 Q70 22 90 30 Z" fill="' + cover + '" stroke="' + INK + '" stroke-width="2"/>' +
+    '<path d="M18 40 q12 -3 24 2 M18 52 q12 -3 24 2 M18 64 q12 -3 24 2" stroke="#B9C6D6" stroke-width="2.6" stroke-linecap="round"/>' +
+    '<path d="M58 42 q12 -5 24 -2 M58 54 q12 -5 24 -2 M58 66 q12 -5 24 -2" stroke="#B9C6D6" stroke-width="2.6" stroke-linecap="round"/>' +
+    '<path d="M48 26 L52 26 L52 88 L48 88 Z" fill="#FFC94D" stroke="' + INK + '" stroke-width="2"/>' +
+    '<path d="M30 88 L30 78 L38 82 L38 88" fill="' + cover + '" stroke="' + INK + '" stroke-width="1.6"/>';
+};
+
+PRIM.cake = function () {
+  return sh(36) +
+    '<ellipse cx="50" cy="92" rx="40" ry="6" fill="#E7D3B8" stroke="' + INK + '" stroke-width="2"/>' +
+    '<rect x="16" y="60" width="68" height="32" rx="7" fill="#FFD1E0" stroke="' + INK + '" stroke-width="3"/>' +
+    '<rect x="22" y="42" width="56" height="22" rx="7" fill="#FFE9B8" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M16 68 q8 7 17 0 q9 7 17 0 q9 7 17 0 q9 7 17 0" fill="none" stroke="#FF6B8A" stroke-width="4" stroke-linecap="round"/>' +
+    '<path d="M22 50 q8 6 16 0 q8 6 16 0 q8 6 16 0" fill="none" stroke="#FFFDF6" stroke-width="3.4" stroke-linecap="round"/>' +
+    '<circle cx="35" cy="75" r="3" fill="#FF6B8A"/><circle cx="50" cy="80" r="3" fill="#FFC94D"/><circle cx="66" cy="74" r="3" fill="#7C6BD6"/>' +
+    '<rect x="47" y="22" width="6" height="20" rx="2" fill="#7C6BD6" stroke="' + INK + '" stroke-width="2"/>' +
+    '<path d="M50 8 q6 8 0 12 q-6 -4 0 -12" fill="#FFC94D" stroke="' + INK + '" stroke-width="2"/>' +
+    '<circle cx="50" cy="39" r="5" fill="#FF6B8A" stroke="' + INK + '" stroke-width="2"/>';
+};
+
+PRIM.bowl = function (o) {
+  var food = (o && o.food) || '#FFF1C9';
+  return sh(28) +
+    '<path d="M16 56 L84 56 Q82 92 50 92 Q18 92 16 56 Z" fill="#FFFDF6" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M18 56 Q50 44 82 56 Q80 66 50 66 Q20 66 18 56 Z" fill="' + food + '" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<ellipse cx="50" cy="55" rx="32" ry="5" fill="#FFF1C9" stroke="' + INK + '" stroke-width="2"/>' +
+    '<path d="M38 38 q-6 -8 0 -14 M50 38 q-6 -8 0 -14 M62 38 q-6 -8 0 -14" stroke="#B9C6D6" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+    '<path d="M28 70 q10 11 22 11 q12 0 22 -11" fill="none" stroke="#E2E9F0" stroke-width="3"/>' +
+    '<circle cx="50" cy="62" r="3" fill="#FF8A3D" opacity=".55"/>';
+};
+
+PRIM.cup = function () {
+  return sh(26) +
+    '<path d="M22 44 L78 44 L72 82 Q70 90 60 90 L40 90 Q30 90 28 82 Z" fill="#FFFDF6" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M78 52 q16 0 14 14 q-2 12 -16 10" fill="none" stroke="' + INK + '" stroke-width="4"/>' +
+    '<ellipse cx="50" cy="44" rx="28" ry="5" fill="#E8B97E" stroke="' + INK + '" stroke-width="2"/>' +
+    '<path d="M34 34 q-6 -8 0 -14 M50 34 q-6 -8 0 -14 M66 34 q-6 -8 0 -14" stroke="#B9C6D6" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+    '<circle cx="44" cy="34" r="2" fill="#FFFDF6" opacity=".8"/>';
+};
+
+PRIM.teaCold = function () {
+  return PRIM.cup() +
+    '<g stroke="' + INK + '" stroke-width="2">' +
+    '<path d="M26 30 L38 22 L34 34 L46 26" fill="none" stroke="#7FC8F0" stroke-width="3"/>' +
+    '<rect x="60" y="26" width="8" height="8" rx="2" fill="#BFE6FA" transform="rotate(15 64 30)"/>' +
+    '<rect x="70" y="32" width="8" height="8" rx="2" fill="#BFE6FA" transform="rotate(-10 74 36)"/></g>';
+};
+
+/* 桌子／書桌 */
+PRIM.table = function (o) {
+  o = o || {};
+  var cloth = o.cloth;
+  return sh(44) +
+    (cloth ? '<path d="M10 58 L90 58 L86 86 L14 86 Z" fill="' + cloth + '" stroke="' + INK + '" stroke-width="2.6"/>' : '') +
+    '<rect x="6" y="52" width="88" height="10" rx="5" fill="#E8B97E" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M18 60 L14 96 M82 60 L86 96" stroke="#A9743F" stroke-width="7" stroke-linecap="round"/>' +
+    '<path d="M18 48 L14 96 M82 48 L86 96" stroke="' + INK + '" stroke-width="1.6" stroke-dasharray="0" opacity=".25"/>';
+};
+
+PRIM.desk = function () {
+  return sh(40) +
+    '<rect x="6" y="50" width="88" height="9" rx="4" fill="#E8B97E" stroke="' + INK + '" stroke-width="3"/>' +
+    '<rect x="12" y="59" width="76" height="25" rx="3" fill="#D9A46B" stroke="' + INK + '" stroke-width="2.6"/>' +
+    '<path d="M50 51 L50 81" stroke="' + INK + '" stroke-width="2"/>' +
+    '<circle cx="45" cy="66" r="2.4" fill="' + INK + '"/><circle cx="55" cy="66" r="2.4" fill="' + INK + '"/>' +
+    '<path d="M16 84 L12 96 M84 84 L88 96" stroke="#A9743F" stroke-width="7" stroke-linecap="round"/>';
+};
+
+PRIM.chair = function () {
+  return '<rect x="20" y="34" width="60" height="10" rx="4" fill="#E8B97E" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M26 44 L24 96 M74 44 L76 96 M26 74 L74 74" stroke="#A9743F" stroke-width="6" stroke-linecap="round"/>';
+};
+
+PRIM.bed = function () {
+  return sh(30) +
+    '<rect x="8" y="48" width="84" height="42" rx="6" fill="#FFFDF6" stroke="' + INK + '" stroke-width="3"/>' +
+    '<rect x="8" y="42" width="20" height="20" rx="5" fill="#FFD1E0" stroke="' + INK + '" stroke-width="3"/>' +
+    '<rect x="8" y="74" width="84" height="16" rx="3" fill="#E8B97E" stroke="' + INK + '" stroke-width="2.6"/>' +
+    '<path d="M36 52 q14 -10 30 0 q6 6 0 10 q-14 -6 -30 0 q-6 -4 0 -10" fill="#BFE6FA" stroke="' + INK + '" stroke-width="2"/>';
+};
+
+PRIM.lamp = function () {
+  return '<ellipse cx="50" cy="94" rx="22" ry="5" fill="#6B7280" stroke="' + INK + '" stroke-width="2"/>' +
+    '<path d="M50 92 L50 58 L36 40" stroke="#6B7280" stroke-width="5" fill="none" stroke-linecap="round"/>' +
+    '<path d="M22 40 L50 40 L56 20 L28 20 Z" fill="#FFD76A" stroke="' + INK + '" stroke-width="2.6" stroke-linejoin="round"/>' +
+    '<path d="M28 44 L56 44 L72 84 L12 84 Z" fill="#FFF1C9" opacity=".55"/>' +
+    '<circle cx="42" cy="30" r="4" fill="#FFFDF6"/>';
+};
+
+PRIM.paper = function (o) {
+  var score = o && o.score;
+  return '<rect x="16" y="12" width="68" height="78" rx="4" fill="#FFFDF6" stroke="' + INK + '" stroke-width="3" transform="rotate(-4 50 52)"/>' +
+    '<path d="M26 30 L66 28 M26 44 L66 42 M26 58 L54 56" stroke="#B9C6D6" stroke-width="3" stroke-linecap="round"/>' +
+    (score ? '<text x="55" y="78" font-size="20" font-weight="900" fill="#FF6B8A" stroke="' + INK + '" stroke-width=".6" transform="rotate(-4 55 78)">100</text>' :
+      '<path d="M58 64 l8 10 l16 -18" stroke="#FF6B8A" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>');
+};
+
+PRIM.bulb = function () {
+  return '<path d="M34 50 q0 -26 16 -26 q16 0 16 26 q0 13 -8 19 l0 8 l-16 0 l0 -8 q-8 -6 -8 -19 Z" fill="#FFF1C9" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M40 58 q10 6 20 0" stroke="#FFB23E" stroke-width="2.4" fill="none"/>' +
+    '<rect x="41" y="78" width="18" height="10" rx="2" fill="#C9B8A6" stroke="' + INK + '" stroke-width="2.5"/>' +
+    '<path d="M50 6 L50 14 M24 18 L30 24 M76 18 L70 24 M16 46 L24 46 M84 46 L76 46" stroke="#FFC94D" stroke-width="4" stroke-linecap="round"/>';
+};
+
+PRIM.gift = function () {
+  return sh(30) +
+    '<rect x="14" y="42" width="72" height="50" rx="5" fill="#FF8A3D" stroke="' + INK + '" stroke-width="3"/>' +
+    '<rect x="8" y="32" width="84" height="16" rx="4" fill="#FF6B8A" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M50 32 L50 92" stroke="#FFC94D" stroke-width="9"/>' +
+    '<path d="M50 32 q-16 -20 -24 -8 q-4 8 24 8 q28 0 24 -8 q-8 -12 -24 8" fill="#FFC94D" stroke="' + INK + '" stroke-width="2.5"/>';
+};
+
+PRIM.icecream = function () {
+  return sh(22) +
+    '<path d="M34 50 L50 96 L66 50 Z" fill="#E8B97E" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M38 60 L52 90 M50 54 L46 86" stroke="#C99A5F" stroke-width="2"/>' +
+    '<circle cx="42" cy="44" r="15" fill="#FFD1E0" stroke="' + INK + '" stroke-width="3"/>' +
+    '<circle cx="58" cy="42" r="15" fill="#FFF1C9" stroke="' + INK + '" stroke-width="3"/>' +
+    '<circle cx="50" cy="28" r="14" fill="#BFE6FA" stroke="' + INK + '" stroke-width="3"/>' +
+    '<circle cx="50" cy="13" r="5" fill="#FF6B8A" stroke="' + INK + '" stroke-width="2"/>' +
+    '<circle cx="44" cy="26" r="2" fill="' + INK + '"/><circle cx="56" cy="26" r="2" fill="' + INK + '"/>' +
+    '<path d="M46 31 q4 3 8 0" stroke="' + INK + '" stroke-width="1.6" fill="none"/>';
+};
+
+PRIM.candy = function () {
+  return '<rect x="26" y="30" width="48" height="64" rx="10" fill="#EAF7FF" stroke="' + INK + '" stroke-width="3"/>' +
+    '<rect x="20" y="18" width="60" height="14" rx="6" fill="#7FC8F0" stroke="' + INK + '" stroke-width="3"/>' +
+    '<circle cx="40" cy="50" r="7" fill="#FF6B8A" stroke="' + INK + '" stroke-width="2"/>' +
+    '<circle cx="60" cy="62" r="7" fill="#FFC94D" stroke="' + INK + '" stroke-width="2"/>' +
+    '<circle cx="42" cy="76" r="6" fill="#7C6BD6" stroke="' + INK + '" stroke-width="2"/>' +
+    '<path d="M36 40 q6 10 0 18" stroke="#FF8A3D" stroke-width="2.4" fill="none"/>';
+};
+
+PRIM.suitcase = function () {
+  return sh(28) +
+    '<rect x="18" y="26" width="64" height="66" rx="7" fill="#7C6BD6" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M38 26 L38 18 q0 -6 6 -6 L56 12 q6 0 6 6 L62 26" fill="none" stroke="' + INK + '" stroke-width="4"/>' +
+    '<path d="M18 44 L82 44" stroke="' + INK + '" stroke-width="2.6"/>' +
+    '<rect x="26" y="52" width="18" height="12" rx="2" fill="#FFC94D" stroke="' + INK + '" stroke-width="2"/>' +
+    '<circle cx="68" cy="72" r="6" fill="#FF6B8A" stroke="' + INK + '" stroke-width="2"/>' +
+    '<path d="M28 88 L28 92 M72 88 L72 92" stroke="' + INK + '" stroke-width="5" stroke-linecap="round"/>';
+};
+
+PRIM.snowman = function () {
+  return sh(26) +
+    '<circle cx="50" cy="84" r="18" fill="#FFFFFF" stroke="' + INK + '" stroke-width="3"/>' +
+    '<circle cx="50" cy="58" r="14" fill="#FFFFFF" stroke="' + INK + '" stroke-width="3"/>' +
+    '<circle cx="50" cy="37" r="11" fill="#FFFFFF" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M33 74 L18 64 M67 74 L82 62" stroke="#A9743F" stroke-width="4" stroke-linecap="round"/>' +
+    '<path d="M50 48 L62 51 L50 54 Z" fill="#FF8A3D" stroke="' + INK + '" stroke-width="1.8"/>' +
+    '<circle cx="46" cy="35" r="1.8" fill="' + INK + '"/><circle cx="54" cy="35" r="1.8" fill="' + INK + '"/>' +
+    '<circle cx="41" cy="40" r="2" fill="' + BLUSH + '"/><circle cx="59" cy="40" r="2" fill="' + BLUSH + '"/>' +
+    '<path d="M38 52 Q50 60 62 52" stroke="#FF6B8A" stroke-width="7" fill="none"/>' +
+    '<path d="M56 56 L66 66" stroke="#FF6B8A" stroke-width="7" stroke-linecap="round"/>' +
+    '<path d="M30 28 Q50 4 70 28 Z" fill="#FF6B8A" stroke="' + INK + '" stroke-width="3"/>' +
+    '<circle cx="50" cy="10" r="4" fill="#FFFDF6" stroke="' + INK + '" stroke-width="1.6"/>';
+};
+
+PRIM.ball = function (o) {
+  var c = (o && o.color) || '#3B3B45';
+  return sh(26) +
+    '<circle cx="50" cy="56" r="36" fill="#FFFDF6" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M50 20 L64 34 L58 52 L42 52 L36 34 Z" fill="' + c + '"/>' +
+    '<path d="M22 66 Q50 80 78 66" stroke="' + INK + '" stroke-width="3" fill="none"/>' +
+    '<path d="M50 56 L38 82 M50 56 L62 82" stroke="' + INK + '" stroke-width="2.5"/>' +
+    '<circle cx="34" cy="40" r="3" fill="#FFC94D" opacity=".6"/>';
+};
+
+PRIM.cone = function () {
+  return '<path d="M38 96 L50 32 L62 96 Z" fill="#FF8A3D" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M42 74 L58 74 M45 58 L55 58" stroke="#FFFDF6" stroke-width="6"/>' +
+    '<rect x="28" y="92" width="44" height="7" rx="3.5" fill="#FF8A3D" stroke="' + INK + '" stroke-width="2.4"/>';
+};
+
+PRIM.box = function () {
+  return sh(30) +
+    '<rect x="12" y="40" width="76" height="52" rx="4" fill="#D9A46B" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M12 56 L88 56" stroke="' + INK + '" stroke-width="2.5"/>' +
+    '<path d="M50 40 L50 92" stroke="#E8C9A0" stroke-width="7"/>' +
+    '<path d="M20 48 L30 48 M70 48 L80 48" stroke="#B9814C" stroke-width="2" stroke-linecap="round"/>';
+};
+
+PRIM.signpost = function () {
+  return '<path d="M50 97 L50 18" stroke="#A9743F" stroke-width="6" stroke-linecap="round"/>' +
+    '<path d="M50 22 L84 22 L92 32 L84 42 L50 42 Z" fill="#E8B97E" stroke="' + INK + '" stroke-width="2.6" stroke-linejoin="round"/>' +
+    '<path d="M50 50 L16 50 L8 60 L16 70 L50 70 Z" fill="#FFC94D" stroke="' + INK + '" stroke-width="2.6" stroke-linejoin="round"/>' +
+    '<path d="M58 30 L74 30 M20 58 L36 58" stroke="' + INK + '" stroke-width="2.4" stroke-linecap="round"/>';
+};
+
+PRIM.flag = function () {
+  return '<path d="M20 96 L20 10" stroke="#A9743F" stroke-width="5" stroke-linecap="round"/>' +
+    '<path d="M22 14 Q42 6 56 16 Q70 26 88 16 L88 46 Q70 56 56 46 Q42 36 22 44 Z" fill="#FF6B8A" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M40 26 L44 34 L53 35 L46 41 L48 50 L40 45 L32 50 L34 41 L27 35 L36 34 Z" fill="#FFC94D" stroke="' + INK + '" stroke-width="1.6"/>' +
+    '<circle cx="20" cy="8" r="4.5" fill="#FFC94D" stroke="' + INK + '" stroke-width="2"/>';
+};
+
+PRIM.tape = function () {
+  return '<path d="M12 96 L12 30 M88 96 L88 30" stroke="' + INK + '" stroke-width="5" stroke-linecap="round"/>' +
+    '<path d="M12 44 q38 12 76 0" stroke="#FF6B8A" stroke-width="8" fill="none"/>' +
+    '<path d="M12 44 q38 12 76 0" stroke="#FFFDF6" stroke-width="2.4" stroke-dasharray="6 6" fill="none"/>';
+};
+
+PRIM.mic = function () {
+  return '<rect x="38" y="6" width="24" height="44" rx="12" fill="#7C6BD6" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M34 22 L46 22 M34 32 L46 32" stroke="#B9AEF5" stroke-width="2.4"/>' +
+    '<path d="M26 40 q0 24 24 24 q24 0 24 -24" fill="none" stroke="' + INK + '" stroke-width="4"/>' +
+    '<path d="M50 64 L50 90 M36 90 L64 90" stroke="' + INK + '" stroke-width="5" stroke-linecap="round"/>';
+};
+
+PRIM.bubble = function (o) {
+  var txt = (o && o.txt) || '';
+  return '<path d="M12 20 q0 -10 10 -10 L78 10 q10 0 10 10 L88 54 q0 10 -10 10 L42 64 L24 80 L28 64 L22 64 q-10 0 -10 -10 Z" fill="#FFFDF6" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    (txt ? '<text x="50" y="40" text-anchor="middle" font-size="14" font-weight="900" fill="' + INK + '">' + txt + '</text>' :
+      '<path d="M26 34 L74 34 M26 46 L58 46" stroke="#B9C6D6" stroke-width="3.5" stroke-linecap="round"/>');
+};
+
+PRIM.heart = function () {
+  return '<path d="M50 86 Q8 58 12 36 Q16 16 36 18 Q46 20 50 30 Q54 20 64 18 Q84 16 88 36 Q92 58 50 86 Z" fill="#FF6B8A" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M26 32 q-3 8 3 14" stroke="#FFB3C1" stroke-width="3" fill="none" stroke-linecap="round"/>';
+};
+
+PRIM.star = function () {
+  return '<path d="M50 8 L61 38 L94 38 L67 57 L77 90 L50 70 L23 90 L33 57 L6 38 L39 38 Z" fill="#FFC94D" stroke="' + INK + '" stroke-width="2.8" stroke-linejoin="round"/>' +
+    '<circle cx="42" cy="52" r="2.2" fill="' + INK + '"/><circle cx="58" cy="52" r="2.2" fill="' + INK + '"/>' +
+    '<path d="M45 60 q5 4 10 0" stroke="' + INK + '" stroke-width="2" fill="none" stroke-linecap="round"/>';
+};
+
+PRIM.sparkle = function (o) {
+  return sp4(50, 50, 40, (o && o.color) || '#FFC94D');
+};
+
+PRIM.note = function (o) {
+  return note(50, 60, (o && o.color) || '#7C6BD6');
+};
+
+PRIM.wind = function () {
+  return '<g fill="none" stroke="#7FB2D6" stroke-width="4" stroke-linecap="round">' +
+    '<path d="M4 30 q26 -10 44 0 q12 7 24 0"/><path d="M10 58 q30 -12 52 0 q10 6 22 0"/><path d="M4 84 q20 -8 36 0"/></g>';
+};
+
+PRIM.sound = function () {
+  return '<g fill="none" stroke="#FF8A3D" stroke-width="4" stroke-linecap="round">' +
+    '<path d="M70 40 q10 10 0 20"/><path d="M80 30 q18 20 0 40"/><path d="M90 20 q26 30 0 60"/></g>';
+};
+
+PRIM.puddle = function () {
+  return '<ellipse cx="50" cy="80" rx="40" ry="12" fill="#9ECDEB" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<path d="M24 76 q10 -4 20 0" stroke="#E8F7FF" stroke-width="3" fill="none" stroke-linecap="round"/>';
+};
+
+PRIM.puzzle = function () {
+  return '<g stroke="' + INK + '" stroke-width="2.4" stroke-linejoin="round">' +
+    '<path d="M8 18 h30 v10 a6 6 0 0 1 0 12 v10 h-30 v-10 a6 6 0 0 1 0 -12 Z" fill="#7FC8F0"/>' +
+    '<path d="M38 18 h30 v10 a6 6 0 0 0 0 12 v10 h-30 v-10 a6 6 0 0 1 0 -12 Z" fill="#FFC94D" transform="translate(0 0)"/>' +
+    '<path d="M22 50 h30 v10 a6 6 0 0 1 0 12 v10 h-30 v-10 a6 6 0 0 0 0 -12 Z" fill="#FF9FBB"/>' +
+    '<path d="M52 50 h30 v10 a6 6 0 0 0 0 12 v10 h-30 v-10 a6 6 0 0 0 0 -12 Z" fill="#9CDCA6"/>' +
+    '<path d="M52 2 h30 v10 a6 6 0 0 0 0 12 v10 h-30 v-10 a6 6 0 0 1 0 -12 Z" fill="#B9AEF5"/></g>';
+};
+
+PRIM.chili = function () {
+  return '<path d="M40 30 Q66 34 68 62 Q70 88 44 92 Q24 94 26 76 Q28 60 40 52" fill="#FF5D5D" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M40 30 q-2 -12 8 -16" stroke="#4E9B62" stroke-width="6" fill="none" stroke-linecap="round"/>' +
+    '<path d="M40 30 q10 2 14 10" stroke="#4E9B62" stroke-width="5" fill="none" stroke-linecap="round"/>' +
+    '<path d="M38 60 q10 -6 18 2" stroke="#FFB3C1" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>';
+};
+
+PRIM.medicineBottle = function () {
+  return '<rect x="28" y="28" width="44" height="64" rx="7" fill="#FFFDF6" stroke="' + INK + '" stroke-width="3"/>' +
+    '<rect x="32" y="14" width="36" height="16" rx="4" fill="#7FC8F0" stroke="' + INK + '" stroke-width="2.6"/>' +
+    '<rect x="36" y="46" width="28" height="28" rx="4" fill="#FFF0F4" stroke="' + INK + '" stroke-width="1.8"/>' +
+    '<path d="M50 50 L50 70 M40 60 L60 60" stroke="#FF6B8A" stroke-width="5" stroke-linecap="round"/>' +
+    '<path d="M26 92 L74 92" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/>';
+};
+
+PRIM.syringe = function () {
+  return '<g transform="rotate(-24 50 50)">' +
+    '<rect x="26" y="38" width="48" height="20" rx="4" fill="#EAF7FF" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<path d="M74 46 L96 46" stroke="#8793A3" stroke-width="3"/>' +
+    '<path d="M26 44 L10 44" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M10 38 L10 50" stroke="' + INK + '" stroke-width="4" stroke-linecap="round"/>' +
+    '<rect x="36" y="40" width="24" height="16" fill="#7FC8F0" opacity=".7"/>' +
+    '<path d="M40 58 L40 64 M56 58 L56 64" stroke="' + INK + '" stroke-width="2"/></g>';
+};
+
+PRIM.scoreboard = function () {
+  return '<rect x="6" y="18" width="88" height="56" rx="6" fill="#3B3B45" stroke="' + INK + '" stroke-width="3"/>' +
+    '<text x="30" y="56" text-anchor="middle" font-size="26" font-weight="900" fill="#FFC94D">1</text>' +
+    '<text x="50" y="56" text-anchor="middle" font-size="26" font-weight="900" fill="#FFFDF6">:</text>' +
+    '<text x="70" y="56" text-anchor="middle" font-size="26" font-weight="900" fill="#FFC94D">0</text>' +
+    '<path d="M50 74 L50 96 M34 96 L66 96" stroke="' + INK + '" stroke-width="4" stroke-linecap="round"/>';
+};
+
+PRIM.flashlight = function () {
+  return '<g transform="rotate(-18 50 60)">' +
+    '<rect x="38" y="50" width="40" height="18" rx="6" fill="#FFC94D" stroke="' + INK + '" stroke-width="2.6"/>' +
+    '<path d="M78 54 L90 46 L90 74 L78 66 Z" fill="#FFF1C9" stroke="' + INK + '" stroke-width="2.4"/>' +
+    '<path d="M90 46 L100 38 L100 82 L90 74 Z" fill="#FFF1C9" opacity=".5"/>' +
+    '<rect x="32" y="54" width="8" height="10" rx="2" fill="#FF8A3D" stroke="' + INK + '" stroke-width="1.8"/></g>';
+};
+
+PRIM.wateringCan = function () {
+  return '<path d="M28 40 L64 40 L62 86 Q60 92 52 92 L38 92 Q30 92 30 86 Z" fill="#7FC8F0" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M28 46 L10 34 L8 44 L26 56" fill="#7FC8F0" stroke="' + INK + '" stroke-width="2.6" stroke-linejoin="round"/>' +
+    '<path d="M64 48 q16 0 14 14 q-2 10 -14 10" fill="none" stroke="' + INK + '" stroke-width="4"/>' +
+    '<path d="M34 40 q4 -18 20 -18 q16 0 18 18" fill="none" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M8 52 q-4 8 0 12 M4 72 q-3 6 0 9" stroke="#7FB2D6" stroke-width="3" fill="none" stroke-linecap="round"/>';
+};
+
+PRIM.apple = function () {
+  return '<path d="M50 30 Q66 18 82 32 Q96 48 82 74 Q72 94 50 88 Q28 94 18 74 Q4 48 18 32 Q34 18 50 30 Z" fill="#FF5D5D" stroke="' + INK + '" stroke-width="3"/>' +
+    '<path d="M50 30 q0 -12 10 -16" stroke="#4E9B62" stroke-width="5" fill="none" stroke-linecap="round"/>' +
+    '<path d="M30 42 q-6 8 0 16" stroke="#FFB3C1" stroke-width="3" fill="none" stroke-linecap="round"/>';
+};
+
+PRIM.crayon = function () {
+  return '<g transform="rotate(-18 50 55)">' +
+    '<rect x="38" y="30" width="24" height="56" rx="4" fill="#FF6B8A" stroke="' + INK + '" stroke-width="2.6"/>' +
+    '<path d="M38 30 L50 12 L62 30 Z" fill="#FF9FBB" stroke="' + INK + '" stroke-width="2.6"/>' +
+    '<path d="M42 42 L58 42 M42 52 L58 52" stroke="#FFFDF6" stroke-width="3"/></g>';
+};
+
+/* ===== 場景 ===== */
+var SCENES = {
+  schoolRain: { bg: 'rain', items: [['school', 300, 216, 1.6], ['puddle', 110, 232, 1], ['umbrella', 100, 141, 1.25], ['kid', 100, 216, 1.15, { pose: 'umb', shirt: '#FFC94D' }], ['umbrella', 178, 154, 1.05], ['kid', 178, 218, .95, { pose: 'umb', shirt: '#7FC8F0' }]], sp: [[215, 96, .8]] },
+  jacket: { bg: 'indoor', items: [['coat', 140, 214, 1.75], ['kid', 300, 216, 1.1, { pose: 'wave', shirt: '#FF9FBB' }], ['heart', 236, 150, .5], ['sparkle', 236, 106, .5]], sp: [[190, 96, .6]] },
+  running: { bg: 'day', items: [['kid', 160, 216, 1.3, { pose: 'run', shirt: '#FF6B8A' }], ['tape', 330, 208, 1.1], ['clock', 350, 112, .65]], sp: [[205, 120, .8]] },
+  cake: { bg: 'indoor', items: [['cake', 160, 214, 1.35], ['kid', 300, 216, 1.05, { hat: true, hatColor: '#FFFDF6', shirt: '#7C6BD6' }], ['sparkle', 235, 112, .6]], sp: [[240, 160, .45]] },
+  summit: { bg: 'day', items: [['mountain', 80, 216, 1.5], ['flag', 165, 150, 1.1], ['kid', 315, 216, 1.15, { pose: 'point', shirt: '#2FA97A' }]], sp: [[215, 96, .9], [275, 130, .5]] },
+  catFish: { bg: 'indoor', items: [['cat', 120, 214, 1.5], ['bowl', 300, 216, 1.1, { food: '#FFC94D' }], ['fish', 300, 198, .55], ['heart', 220, 140, .5]], sp: [[245, 100, .6]] },
+  coldPlay: { bg: 'snow', items: [['snowman', 200, 214, 1.15], ['kid', 100, 216, 1.15, { shirt: '#FF8A3D', scarf: '#FF6B8A' }], ['kid', 305, 216, 1.15, { shirt: '#7C6BD6', scarf: '#7FC8F0' }], ['ball', 145, 222, .55], ['ball', 258, 224, .5]], sp: [[200, 106, .8]] },
+  familyDinner: { bg: 'indoor', items: [['mom', 95, 214, 1.05], ['kid', 310, 214, .95, { shirt: '#7FC8F0' }], ['table', 200, 216, 1.4, { cloth: '#FFF3DA' }], ['bowl', 178, 151, .62], ['bowl', 228, 151, .62], ['cup', 262, 151, .5], ['heart', 200, 112, .42]], sp: [[200, 92, .5]] },
+  classroom: { bg: 'indoor', items: [['board', 262, 206, 1.45], ['teacher', 100, 216, 1.05], ['desk', 300, 216, 1.15]], sp: [[196, 130, .7]] },
+  piano: { bg: 'indoor', items: [['piano', 145, 214, 1.6], ['kid', 315, 216, 1, { shirt: '#7C6BD6' }], ['note', 230, 128, .8], ['note', 260, 100, .6]], sp: [[286, 150, .5]] },
+  gardenRain: { bg: 'rain', items: [['flower', 70, 218, 1.1], ['flower', 135, 218, .9, { color: '#FFC94D' }], ['wateringCan', 192, 218, .9], ['umbrella', 258, 151, 1.1], ['kid', 258, 216, 1, { pose: 'umb', shirt: '#FF6B8A' }], ['flower', 340, 218, 1.05, { color: '#7C6BD6' }]], sp: [[300, 100, .6]] },
+  windTree: { bg: 'day', items: [['tree', 120, 216, 1.7, { bend: true }], ['bird', 250, 130, 1], ['wind', 292, 154, 1.2], ['kid', 340, 218, .9, { shirt: '#FFC94D' }]], sp: [[205, 96, .5]] },
+  nightWork: { bg: 'night', items: [['worker', 140, 216, 1.3], ['cone', 250, 214, .95], ['cone', 310, 214, .95], ['lamp', 55, 216, 1.1]], sp: [] },
+  grandpaGarden: { bg: 'day', items: [['elder', 120, 216, 1.2], ['flower', 255, 218, 1], ['flower', 305, 218, .85, { color: '#FFC94D' }], ['wateringCan', 352, 216, .85]], sp: [[200, 108, .6]] },
+  matchLose: { bg: 'day', items: [['kid', 100, 216, 1.1, { shirt: '#FF8A3D' }], ['kid', 190, 216, 1.1, { shirt: '#7C6BD6' }], ['ball', 300, 210, .75], ['scoreboard', 350, 188, .72]], sp: [[230, 110, .6]] },
+  traffic: { bg: 'day', items: [['car', 150, 216, 1.5], ['trafficLight', 300, 212, 1.05], ['clock', 352, 108, .7]], sp: [[220, 100, .6]] },
+  icecreamRain: { bg: 'rain', items: [['umbrella', 110, 144, 1.2], ['kid', 110, 216, 1.1, { pose: 'umb', shirt: '#FFC94D' }], ['icecream', 270, 216, 1.2], ['puddle', 330, 234, .8]], sp: [[210, 120, .6]] },
+  puzzle: { bg: 'indoor', items: [['kid', 110, 216, 1.1, { pose: 'point', shirt: '#2FA97A' }], ['puzzle', 268, 202, 1.55], ['bulb', 330, 130, .8]], sp: [[205, 104, .6]] },
+  deskWork: { bg: 'indoor', items: [['kid', 120, 216, 1, { pose: 'sit', shirt: '#3E7CB1' }], ['desk', 212, 216, 1.45], ['lamp', 300, 146, .85], ['paper', 190, 145, .8], ['cup', 252, 145, .5], ['clock', 62, 122, .65]], sp: [[250, 100, .6]] },
+  longRoad: { bg: 'day', items: [['signpost', 100, 214, 1.2], ['kid', 300, 216, 1.05, { shirt: '#FF6B8A' }], ['mountain', 352, 216, 1.1]], sp: [[210, 110, .7]] },
+  testPaper: { bg: 'indoor', items: [['paper', 160, 208, 1.5, { score: true }], ['kid', 315, 216, 1, { shirt: '#FF8A3D' }], ['star', 248, 124, .55]], sp: [[216, 104, .6]] },
+  darkStairs: { bg: 'night', items: [['door', 70, 214, 1.15], ['stairs', 278, 216, 1.3], ['kid', 180, 216, 1, { shirt: '#7C6BD6', mood: 'wow' }], ['flashlight', 200, 196, .8]], sp: [] },
+  dogBark: { bg: 'day', items: [['dog', 245, 216, 1.3], ['kid', 110, 216, 1.1, { shirt: '#FFC94D' }], ['sound', 300, 128, .95]], sp: [[190, 104, .6]] },
+  breakfast: { bg: 'indoor', items: [['mom', 95, 214, 1.05], ['kid', 320, 214, .95, { shirt: '#7FC8F0' }], ['table', 212, 216, 1.3, { cloth: '#FFF3DA' }], ['bowl', 192, 154, .58], ['cup', 242, 154, .48], ['heart', 212, 112, .4]], sp: [[212, 92, .5]] },
+  painting: { bg: 'indoor', items: [['easel', 150, 214, 1.55], ['kid', 315, 216, 1.05, { pose: 'point', shirt: '#7C6BD6' }], ['crayon', 258, 216, .8]], sp: [[206, 104, .6]] },
+  bowl: { bg: 'indoor', items: [['kid', 80, 216, 1, { shirt: '#FF8A3D' }], ['table', 188, 216, 1.35], ['bowl', 188, 153, .95], ['chili', 300, 212, .95]], sp: [[240, 110, .6]] },
+  sunCold: { bg: 'coldSun', items: [['kid', 130, 216, 1.05, { shirt: '#7FC8F0', scarf: '#FF6B8A', mood: 'sad' }], ['cloud', 300, 92, 1.05], ['wind', 248, 168, 1.2]], sp: [] },
+  stage: { bg: 'stage', items: [['mic', 180, 198, 1.5], ['kid', 300, 216, 1, { pose: 'hold', shirt: '#FF6B8A' }], ['note', 238, 130, .8], ['note', 270, 100, .6]], sp: [[215, 78, .5]] },
+  shop: { bg: 'day', items: [['shop', 252, 216, 1.45], ['kid', 80, 216, 1, { shirt: '#FFC94D' }], ['kid', 132, 218, .9, { shirt: '#7FC8F0' }]], sp: [[190, 108, .5]] },
+  hideDoor: { bg: 'indoor', items: [['door', 250, 214, 1.3], ['kid', 120, 216, 1.05, { pose: 'peek', shirt: '#7C6BD6', mood: 'grin' }], ['book', 170, 216, .7]], sp: [[205, 110, .5]] },
+  twoFaces: { bg: 'indoor', items: [['kid', 120, 216, 1.15, { shirt: '#FF8A3D' }], ['kid', 290, 216, 1.15, { shirt: '#7FC8F0', mood: 'grin' }], ['heart', 205, 152, .5]], sp: [[205, 108, .5]] },
+  rainHeavy: { bg: 'rain', items: [['cloud', 190, 86, 1.25, { color: '#DCE6F0' }], ['umbrella', 320, 151, 1.1], ['kid', 320, 216, 1, { pose: 'umb', shirt: '#FFC94D' }], ['puddle', 150, 234, 1.1]], sp: [] },
+  helpBox: { bg: 'day', items: [['kid', 110, 216, 1.1, { pose: 'point', shirt: '#FF8A3D' }], ['kid', 285, 214, 1, { pose: 'sit', shirt: '#2FA97A', mood: 'sad' }], ['box', 200, 212, .85], ['heart', 200, 132, .45]], sp: [[200, 100, .5]] },
+  medicine: { bg: 'indoor', items: [['kid', 120, 216, 1, { shirt: '#7FC8F0', mood: 'sad' }], ['medicineBottle', 262, 214, 1.05], ['syringe', 334, 192, .7]], sp: [[206, 114, .4]] },
+  flowerPot: { bg: 'day', items: [['flowerpot', 180, 216, 1.4], ['flower', 300, 218, .9, { color: '#FFC94D' }], ['kid', 80, 216, 1, { pose: 'point', shirt: '#2FA97A' }]], sp: [[238, 104, .6]] },
+  flagWind: { bg: 'day', items: [['flag', 170, 216, 1.9], ['wind', 290, 148, 1.3], ['bird', 330, 100, .8]], sp: [[225, 100, .6]] },
+  handshake: { bg: 'indoor', items: [['kid', 158, 216, 1.05, { pose: 'shake', shirt: '#FF8A3D' }], ['kid', 242, 216, 1.05, { pose: 'shake', shirt: '#2FA97A', flip: true }], ['heart', 200, 118, .42]], sp: [[200, 88, .5]] },
+  teaCold: { bg: 'indoor', items: [['kid', 130, 216, 1.05, { shirt: '#7C6BD6', mood: 'wow' }], ['teaCold', 268, 212, 1.25], ['sun', 350, 84, .7]], sp: [[210, 110, .5]] },
+  umbrella: { bg: 'indoor', items: [['umbrella', 160, 216, 2], ['kid', 320, 216, 1, { shirt: '#FFC94D' }]], sp: [[232, 100, .6]] },
+  umbrellaShare: { bg: 'rain', items: [['umbrella', 150, 150, 1.45], ['kid', 130, 216, 1, { pose: 'umb', shirt: '#FF8A3D' }], ['kid', 186, 218, .95, { shirt: '#7FC8F0', mood: 'sad' }], ['puddle', 305, 234, .9]], sp: [] },
+  clock: { bg: 'indoor', items: [['clock', 150, 212, 1.7], ['kid', 312, 216, 1, { pose: 'run', shirt: '#FFC94D' }]], sp: [[235, 108, .5]] },
+  candy: { bg: 'indoor', items: [['kid', 110, 216, 1.05, { shirt: '#FF8A3D' }], ['kid', 178, 218, .9, { shirt: '#FF9FBB', style: 'pigtail', mood: 'grin' }], ['candy', 300, 214, 1.2], ['heart', 242, 134, .45]], sp: [[212, 96, .5]] },
+  grandpaWalk: { bg: 'day', items: [['signpost', 80, 214, 1], ['elder', 150, 216, 1.2], ['car', 300, 216, 1.3]], sp: [[215, 108, .6]] },
+  suitcaseCat: { bg: 'indoor', items: [['suitcase', 120, 216, 1.2], ['cat', 262, 214, 1.1], ['kid', 335, 216, .95, { shirt: '#FF9FBB', style: 'pigtail' }], ['heart', 208, 132, .4]], sp: [[200, 100, .5]] },
+  sunnyRain: { bg: 'sunnyrain', items: [['umbrella', 130, 148, 1.15], ['kid', 130, 216, 1.05, { pose: 'umb', shirt: '#FFC94D' }], ['flower', 300, 218, .95]], sp: [[215, 108, .6]] },
+  crying: { bg: 'indoor', items: [['kid', 130, 216, 1.15, { pose: 'cry', shirt: '#7FC8F0', mood: 'cry' }], ['teddy', 300, 214, 1.1]], sp: [] },
+  taichi: { bg: 'day', items: [['elder', 170, 216, 1.35, { pose: 'taichi', shirt: '#8FB8D8' }], ['tree', 330, 216, 1.4]], sp: [[248, 110, .6]] },
+  teacherPraise: { bg: 'indoor', items: [['board', 282, 204, 1.2], ['teacher', 100, 216, 1, { pose: 'point' }], ['kid', 262, 216, 1, { mood: 'grin', shirt: '#FF8A3D' }], ['star', 196, 124, .55]], sp: [[232, 100, .5]] },
+  train: { bg: 'day', items: [['train', 132, 214, 1.5], ['mountain', 342, 216, 1.15]], sp: [[238, 100, .6]] },
+  windowLeaves: { bg: 'indoor', items: [['window', 170, 196, 1.6], ['kid', 330, 216, .95, { shirt: '#FFC94D', mood: 'wow' }], ['wind', 270, 150, .9]], sp: [[250, 104, .5]] },
+  paperFlower: { bg: 'indoor', items: [['flower', 140, 214, 1.3, { color: '#FF6B8A' }], ['kid', 300, 216, 1, { shirt: '#2FA97A' }], ['crayon', 220, 216, .7]], sp: [[200, 100, .6]] },
+  finishLine: { bg: 'day', items: [['kid', 250, 216, 1, { pose: 'run', shirt: '#7C6BD6', alpha: .3 }], ['kid', 155, 216, 1.25, { pose: 'run', shirt: '#FF8A3D' }], ['tape', 330, 208, 1.2], ['star', 222, 116, .5]], sp: [[280, 100, .6]] },
+  thickBook: { bg: 'indoor', items: [['book', 150, 212, 1.7], ['kid', 315, 216, 1, { shirt: '#3E7CB1' }], ['clock', 64, 122, .62]], sp: [[232, 106, .6]] },
+  oldBook: { bg: 'indoor', items: [['book', 150, 212, 1.5, { color: '#C98B5E' }], ['kid', 315, 216, 1, { shirt: '#7C6BD6' }], ['heart', 238, 140, .42]], sp: [[210, 100, .5]] },
+  myBook: { bg: 'indoor', items: [['kid', 130, 216, 1.05, { pose: 'hold', shirt: '#FF8A3D' }], ['book', 268, 202, 1.1, { color: '#7FC8F0' }]], sp: [[205, 108, .6]] },
+  truthTell: { bg: 'indoor', items: [['kid', 140, 216, 1.1, { pose: 'raise', shirt: '#FF8A3D' }], ['kid', 262, 216, 1, { mood: 'angry', shirt: '#95A3B8' }], ['kid', 326, 218, .9, { mood: 'angry', shirt: '#B0BCCB' }], ['bubble', 86, 124, 1.05]], sp: [[200, 90, .6]] },
+  speakClear: { bg: 'indoor', items: [['kid', 120, 216, 1.05, { shirt: '#FF8A3D' }], ['kid', 292, 216, 1.05, { shirt: '#7FC8F0' }], ['bubble', 200, 112, 1]], sp: [[252, 84, .5]] },
+  momAngry: { bg: 'indoor', items: [['mom', 120, 216, 1.1, { mood: 'angry' }], ['kid', 300, 216, 1, { mood: 'sad', shirt: '#7FC8F0' }]], sp: [] },
+  greeting: { bg: 'day', items: [['kid', 130, 216, 1, { pose: 'wave', shirt: '#FFC94D' }], ['kid', 292, 216, 1, { pose: 'wave', shirt: '#7FC8F0', flip: true }], ['heart', 210, 132, .55]], sp: [[210, 92, .6]] },
+  book: { bg: 'indoor', items: [['book', 160, 212, 1.6], ['kid', 312, 216, 1, { shirt: '#FF8A3D' }]], sp: [[235, 108, .5]] },
+  readBook: { bg: 'indoor', items: [['book', 150, 206, 1.5, { color: '#3E7CB1' }], ['kid', 305, 218, 1.15, { pose: 'sit', shirt: '#7FC8F0' }], ['lamp', 60, 140, .75], ['desk', 210, 218, 1.1]], sp: [[200, 100, .6]] },
+  comicRead: { bg: 'indoor', items: [['kid', 120, 218, 1.15, { pose: 'sit', shirt: '#FF8A3D', mood: 'grin' }], ['book', 240, 200, 1.3, { color: '#FFC94D' }], ['desk', 210, 220, 1]], sp: [[200, 100, .6]] },
+  catPlay: { bg: 'indoor', items: [['kid', 110, 216, 1, { style: 'pigtail', shirt: '#FF9FBB', pose: 'hold', mood: 'grin' }], ['cat', 280, 214, 1.1], ['ball', 320, 218, .5, { color: '#FF6B8A' }]], sp: [[220, 110, .5]] },
+  puddleJump: { bg: 'rain', items: [['puddle', 200, 222, 1.4], ['kid', 120, 216, 1.05, { pose: 'run', shirt: '#FFC94D', mood: 'grin' }], ['kid', 270, 218, 1.05, { pose: 'run', shirt: '#7FC8F0', mood: 'grin' }], ['umbrella', 330, 150, .7]], sp: [[200, 110, .5]] },
+  cornerRead: { bg: 'indoor', items: [['kid', 130, 218, 1.1, { pose: 'sit', shirt: '#7C6BD6' }], ['book', 100, 200, .8, { color: '#2FA97A' }], ['bush', 320, 220, .7]], sp: [[200, 100, .5]] },
+  birdSing: { bg: 'day', items: [['window', 130, 188, 1.4], ['bird', 230, 140, .95], ['kid', 310, 218, .95, { pose: 'wave', shirt: '#FFC94D', mood: 'grin' }], ['note', 290, 100, .55]], sp: [[260, 90, .5]] },
+  momHug: { bg: 'indoor', items: [['mom', 130, 216, 1.15], ['kid', 280, 218, 1.0, { shirt: '#7FC8F0', mood: 'sad' }], ['heart', 205, 128, .5]], sp: [[205, 95, .5]] },
+  stairsRun: { bg: 'indoor', items: [['stairs', 200, 216, 1.3], ['kid', 270, 180, .9, { pose: 'run', shirt: '#FF8A3D', mood: 'grin' }]], sp: [[200, 100, .6]] },
+  pillowBook: { bg: 'indoor', items: [['bed', 200, 200, 1.2], ['book', 240, 190, .65, { color: '#7C6BD6' }]], sp: [[200, 100, .5]] }
+};
+
+function bgSVG(kind) {
+  var s = '';
+  if (kind === 'indoor') {
+    s += '<rect width="400" height="250" fill="#FFF1DC"/>';
+    s += '<g fill="#FFE2BE">';
+    for (var r = 0; r < 4; r++) for (var c = 0; c < 7; c++) s += '<circle cx="' + (30 + c * 58) + '" cy="' + (30 + r * 46) + '" r="3.4"/>';
+    s += '</g>';
+    s += '<rect x="298" y="26" width="68" height="52" rx="4" fill="#FFFDF6" stroke="' + INK + '" stroke-width="3"/>';
+    s += '<path d="M310 64 L324 46 L334 60 L341 51 L354 64" stroke="#7FCB8E" stroke-width="3" fill="none"/>';
+    s += '<circle cx="345" cy="42" r="6" fill="#FFD76A" stroke="' + INK + '" stroke-width="2"/>';
+    s += '<rect y="190" width="400" height="60" fill="#F3D3AC"/>';
+    s += '<path d="M0 190 L400 190" stroke="#D9AE80" stroke-width="4"/>';
+    s += '<ellipse cx="200" cy="226" rx="120" ry="14" fill="#FFDFC0"/>';
+  } else if (kind === 'rain') {
+    s += '<rect width="400" height="250" fill="#B7CBDD"/>';
+    s += '<g opacity=".95">' + P_('cloud', 82, 84, .95, { color: '#D5E0EC', face: false }) + P_('cloud', 320, 70, .8, { color: '#CBD8E6', face: false }) + '</g>';
+    s += '<path d="M0 198 Q90 178 180 198 T400 194 L400 250 L0 250 Z" fill="#9CCFA9"/>';
+    s += '<path d="M0 214 Q100 198 200 214 T400 210 L400 250 L0 250 Z" fill="#8AC298"/>';
+    s += '<g stroke="#7FB2D6" stroke-width="4" stroke-linecap="round" opacity=".85">';
+    s += '<path d="M34 96 L26 122 M74 88 L66 114 M118 98 L110 124 M196 90 L188 116 M236 82 L228 108 M276 96 L268 122 M324 88 L316 114 M366 98 L358 124"/>';
+    s += '<path d="M56 148 L48 174 M108 142 L100 168 M166 150 L158 176 M222 140 L214 166 M300 146 L292 172 M348 152 L340 178"/></g>';
+    s += '<ellipse cx="120" cy="230" rx="42" ry="9" fill="#A9D4EC" opacity=".8"/>';
+    s += '<ellipse cx="322" cy="236" rx="30" ry="7" fill="#A9D4EC" opacity=".8"/>';
+  } else if (kind === 'night') {
+    s += '<rect width="400" height="250" fill="#3B4874"/>';
+    s += '<g fill="#FFF1C9"><circle cx="48" cy="38" r="2.6"/><circle cx="96" cy="66" r="2"/><circle cx="150" cy="30" r="2.4"/><circle cx="206" cy="62" r="2"/><circle cx="252" cy="34" r="2.6"/><circle cx="300" cy="72" r="2"/><circle cx="372" cy="104" r="2"/><circle cx="120" cy="96" r="1.8"/></g>';
+    s += P_('moon', 348, 84, .85);
+    s += '<path d="M0 206 L0 172 L46 172 L46 152 L92 152 L92 178 L140 178 L140 160 L196 160 L196 182 L250 182 L250 166 L310 166 L310 184 L362 184 L362 170 L400 170 L400 250 L0 250 Z" fill="#4B5C88"/>';
+    s += '<g fill="#FFC94D" opacity=".8"><rect x="56" y="180" width="10" height="10"/><rect x="160" y="188" width="10" height="10"/><rect x="270" y="192" width="10" height="10"/><rect x="330" y="190" width="10" height="10"/></g>';
+    s += '<rect y="216" width="400" height="34" fill="#5A6C96"/>';
+    s += '<path d="M0 216 L400 216" stroke="#3B4874" stroke-width="3"/>';
+  } else if (kind === 'snow') {
+    s += '<rect width="400" height="250" fill="#E4F1FB"/>';
+    s += P_('cloud', 72, 78, .85, { color: '#F8FCFF', face: false });
+    s += P_('cloud', 318, 66, .7, { color: '#F8FCFF', face: false });
+    s += '<path d="M0 198 Q100 176 200 198 T400 192 L400 250 L0 250 Z" fill="#FBFDFF"/>';
+    s += '<path d="M0 218 Q110 202 210 218 T400 214 L400 250 L0 250 Z" fill="#EAF6FF"/>';
+    s += '<g stroke="#A8D2EE" stroke-width="3" stroke-linecap="round">';
+    s += '<path d="M60 104 L60 120 M53 111 L67 111 M310 96 L310 110 M304 103 L316 103 M352 130 L352 142 M346 136 L358 136 M90 160 L90 170 M85 165 L95 165"/></g>';
+    s += '<path d="M356 190 L356 150 M356 164 L342 152 M356 172 L370 158" stroke="#B99A7B" stroke-width="5" stroke-linecap="round"/>';
+  } else if (kind === 'sunnyrain') {
+    s += '<rect width="400" height="250" fill="#CDE9FF"/>';
+    s += P_('sun', 70, 66, .9);
+    s += P_('cloud', 300, 76, 1, { color: '#DDE7F2', face: false });
+    s += P_('rainbow', 200, 196, 1.5);
+    s += '<path d="M0 198 Q100 178 200 198 T400 194 L400 250 L0 250 Z" fill="#9FD6A6"/>';
+    s += '<g stroke="#7FB2D6" stroke-width="3.6" stroke-linecap="round"><path d="M262 96 L256 120 M288 100 L282 124 M314 94 L308 118 M340 100 L334 124"/></g>';
+  } else if (kind === 'stage') {
+    s += '<rect width="400" height="250" fill="#3B2E55"/>';
+    s += '<path d="M120 0 L180 200 L80 200 Z" fill="#FFF3DA" opacity=".12"/>';
+    s += '<path d="M280 0 L320 200 L220 200 Z" fill="#FFF3DA" opacity=".12"/>';
+    s += '<rect y="200" width="400" height="50" fill="#6B4F7A"/>';
+    s += '<path d="M0 200 L400 200" stroke="#8E6A9E" stroke-width="4"/>';
+    s += '<path d="M0 0 L70 0 Q46 70 60 140 Q30 176 0 196 Z" fill="#C2496F" stroke="' + INK + '" stroke-width="3"/>';
+    s += '<path d="M400 0 L330 0 Q354 70 340 140 Q370 176 400 196 Z" fill="#C2496F" stroke="' + INK + '" stroke-width="3"/>';
+    s += '<path d="M0 0 L400 0 L400 26 L0 26 Z" fill="#8E3B5E"/>';
+  } else if (kind === 'coldSun') {
+    s += '<rect width="400" height="250" fill="#DDF0FF"/>';
+    s += P_('sun', 330, 62, 1.1);
+    s += '<path d="M0 198 Q100 178 200 198 T400 192 L400 250 L0 250 Z" fill="#FBFDFF"/>';
+    s += '<path d="M0 220 Q110 204 210 220 T400 216 L400 250 L0 250 Z" fill="#EAF6FF"/>';
+    s += '<g stroke="#A8D2EE" stroke-width="3.4" stroke-linecap="round"><path d="M58 108 L58 124 M51 115 L65 115 M92 148 L92 160 M86 154 L98 154"/></g>';
+    s += '<g fill="none" stroke="#8FC3E6" stroke-width="4" stroke-linecap="round"><path d="M40 86 q30 -12 56 0 q14 8 28 0"/><path d="M10 120 q34 -14 62 0"/></g>';
+  } else {
+    s += '<rect width="400" height="250" fill="#CFEBFF"/>';
+    s += P_('sun', 338, 60, .95);
+    s += P_('cloud', 78, 78, .9, { color: '#FFFFFF', face: false });
+    s += P_('cloud', 240, 62, .68, { color: '#FFFFFF', face: false });
+    s += '<path d="M0 198 Q90 170 180 198 T400 192 L400 250 L0 250 Z" fill="#A8DDA8"/>';
+    s += '<path d="M0 216 Q110 194 210 216 T400 210 L400 250 L0 250 Z" fill="#8FCF9B"/>';
+    s += '<path d="M236 250 Q262 214 300 250 Z" fill="#F6E3B8" opacity=".85"/>';
+    s += P_('bush', 40, 210, .8) + P_('bush', 352, 214, .65);
+    s += '<g fill="#FF6B8A"><circle cx="120" cy="226" r="3"/><circle cx="146" cy="232" r="2.6"/><circle cx="300" cy="228" r="3"/></g>';
+    s += '<g fill="#FFC94D"><circle cx="132" cy="228" r="2.2"/><circle cx="286" cy="226" r="2.2"/></g>';
+  }
+  return s;
+}
+
+function sceneSVG(key, fit) {
+  var sc = SCENES[key] || SCENES.book;
+  var out = '<svg viewBox="0 0 400 250" role="img" aria-label="情境插圖" preserveAspectRatio="xMidYMid ' + (fit === 'slice' ? 'slice' : 'meet') + '">' + bgSVG(sc.bg);
+  for (var i = 0; i < sc.items.length; i++) {
+    var it = sc.items[i];
+    out += P_(it[0], it[1], it[2], it[3], it[4] || {});
+  }
+  if (sc.sp) {
+    for (var j = 0; j < sc.sp.length; j++) {
+      var p = sc.sp[j];
+      out += '<g transform="translate(' + p[0] + ' ' + p[1] + ') scale(' + p[2] + ')">' + sp4(0, 0, 9, '#FFC94D') + '</g>';
+    }
+  }
+  out += '</svg>';
+  return out;
+}
+
+/* 首頁偵探主視覺 */
+function heroSVG() {
+  var s = '<svg viewBox="0 0 420 380" role="img" aria-label="Q 版小偵探">';
+  s += '<ellipse cx="210" cy="344" rx="120" ry="18" fill="rgba(43,42,53,.12)"/>';
+  s += '<circle cx="210" cy="196" r="150" fill="#FFF1C9" opacity=".75"/>';
+  s += '<g class="float">';
+  s += '<g transform="translate(115 120) scale(1.95)">' + PRIM.kid({ pose: 'point', hat: true, hatColor: '#3E7CB1', shirt: '#FF8A3D' }) + '</g>';
+  s += '<g transform="translate(250 250) scale(1.2) rotate(-16)">' +
+    '<circle cx="50" cy="50" r="30" fill="rgba(191,230,250,.75)" stroke="#2B2A35" stroke-width="5"/>' +
+    '<path d="M72 72 L96 96" stroke="#2B2A35" stroke-width="10" stroke-linecap="round"/></g>';
+  s += '<g transform="translate(40 60) scale(.7)">' + PRIM.bubble() + '</g>';
+  s += '<g transform="translate(300 40) scale(.6)">' + PRIM.flag() + '</g>';
+  s += '</g>';
+  s += '<g fill="#FFC94D" stroke="#2B2A35" stroke-width="2.5">' +
+    '<path d="M60 260 l7 16 17 2 -12 12 3 17 -15 -8 -15 8 3 -17 -12 -12 17 -2 Z"/>' +
+    '<path d="M360 190 l6 13 14 2 -10 10 2 14 -12 -7 -12 7 2 -14 -10 -10 14 -2 Z"/></g>';
+  s += '</svg>';
+  return s;
+}
+
+/* 小圖示 */
+var ICON = {
+  back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 L8 12 L15 19"/></svg>',
+  sound: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9 L9 9 L14 5 L14 19 L9 15 L4 15 Z" fill="currentColor" stroke="none"/><path d="M17 9 a4 4 0 0 1 0 6"/><path d="M19.5 6.5 a8 8 0 0 1 0 11"/></svg>',
+  mute: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9 L9 9 L14 5 L14 19 L9 15 L4 15 Z" fill="currentColor" stroke="none"/><path d="M17 9 L22 15 M22 9 L17 15"/></svg>',
+  star: '<svg viewBox="0 0 24 24"><path d="M12 2.6 l2.9 5.9 6.5 .9 -4.7 4.6 1.1 6.5 -5.8 -3.1 -5.8 3.1 1.1 -6.5 -4.7 -4.6 6.5 -.9 Z" fill="currentColor" stroke="#2B2A35" stroke-width="1.4"/></svg>',
+  starOff: '<svg viewBox="0 0 24 24"><path d="M12 2.6 l2.9 5.9 6.5 .9 -4.7 4.6 1.1 6.5 -5.8 -3.1 -5.8 3.1 1.1 -6.5 -4.7 -4.6 6.5 -.9 Z" fill="#E9E4DA" stroke="#2B2A35" stroke-width="1.4"/></svg>',
+  play: '<svg viewBox="0 0 24 24" fill="currentColor" stroke="#2B2A35" stroke-width="1.6" stroke-linejoin="round"><path d="M7 4 L20 12 L7 20 Z"/></svg>',
+  burger: '<svg viewBox="0 0 24 24" fill="none" stroke="#2B2A35" stroke-width="1.8" stroke-linejoin="round"><path d="M4 9 q0 -5 8 -5 q8 0 8 5 Z" fill="#FFC94D"/><rect x="4" y="10" width="16" height="3" rx="1.5" fill="#7FCB8E"/><rect x="4" y="14" width="16" height="3" rx="1.5" fill="#FF8A3D"/><path d="M4 18 q0 3 8 3 q8 0 8 -3 Z" fill="#E8B97E"/></svg>',
+  match: '<svg viewBox="0 0 24 24" fill="none" stroke="#2B2A35" stroke-width="1.8" stroke-linejoin="round"><rect x="2.5" y="5" width="7" height="5" rx="1.5" fill="#7FC8F0"/><rect x="2.5" y="14" width="7" height="5" rx="1.5" fill="#FFC94D"/><rect x="14.5" y="5" width="7" height="5" rx="1.5" fill="#FFC94D"/><rect x="14.5" y="14" width="7" height="5" rx="1.5" fill="#7FC8F0"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="#2FA97A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13 L9 18 L20 6"/></svg>',
+  cross: '<svg viewBox="0 0 24 24" fill="none" stroke="#FF6B8A" stroke-width="3" stroke-linecap="round"><path d="M6 6 L18 18 M18 6 L6 18"/></svg>',
+  bulb: '<svg viewBox="0 0 24 24" fill="none" stroke="#2B2A35" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 15 q-3 -2.5 -3 -6 a7 7 0 0 1 14 0 q0 3.5 -3 6 v2 h-8 Z" fill="#FFC94D"/><path d="M9 20 h6"/></svg>',
+  lesson: '<svg viewBox="0 0 24 24" fill="none" stroke="#2B2A35" stroke-width="1.8" stroke-linejoin="round"><path d="M3 5 q5 -2 9 1 q4 -3 9 -1 v14 q-5 -2 -9 1 q-4 -3 -9 -1 Z" fill="#FFFDF6"/><path d="M12 6 v14"/></svg>',
+  eye: '<svg viewBox="0 0 24 24" fill="none" stroke="#2B2A35" stroke-width="1.9" stroke-linejoin="round"><path d="M2 12 q5 -7 10 -7 q5 0 10 7 q-5 7 -10 7 q-5 0 -10 -7 Z" fill="#EAF7FF"/><circle cx="12" cy="12" r="3.4" fill="#3E7CB1"/></svg>',
+  link: '<svg viewBox="0 0 24 24" fill="none" stroke="#2B2A35" stroke-width="2" stroke-linecap="round"><path d="M9 8 L6.5 10.5 a3.6 3.6 0 0 0 5 5 L14 13"/><path d="M15 16 L17.5 13.5 a3.6 3.6 0 0 0 -5 -5 L10 11"/></svg>',
+  arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="#2B2A35" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12 H19 M14 7 L19 12 L14 17"/></svg>'
+};
+
+function starRow(a, b) {
+  return '<div class="stars"><span class="lbl">玩法一</span>' + stars(a) + '</div><div class="stars"><span class="lbl">玩法二</span>' + stars(b) + '</div>';
+}
+function stars(n) {
+  var h = '';
+  for (var i = 1; i <= 3; i++) h += '<span style="color:#FFC94D">' + (i <= n ? ICON.star : ICON.starOff) + '</span>';
+  return h;
+}
+
+</script>
+<script>
+/* ===== 九族題庫：每族玩法一 6 題、玩法二 6 組 ===== */
+var CATS = [
+{
+  id:'sr', name:'雖然……但是……', short:'雖然…但是…', tag:'轉折入門', color:'#FF8A3D', art:'schoolRain',
+  tagline:'先說一件不太好的事，再說出相反的結果。',
+  formula:['雖然','情況','但是','結果'],
+  points:['「雖然」放前半句，「但是」放後半句。','前後意思要相反，或跟想像不同。','用了「但是」，就不要再加「卻」。'],
+  examples:[
+    {t:'雖然今天下著大雨，但是同學們都準時回到學校。',n:'天氣不好，結果卻沒有受影響。'},
+    {t:'雖然這件外套很便宜，但是穿起來很暖和。',n:'價錢低，品質卻比想像中好。'}
+  ],
+  tip:'「雖然」和「但是」要成對出現，不能只說一半。',
+  A:[
+    {segs:['雖然','今天下著大雨，','但是','同學們都準時回到學校。'],art:'schoolRain',cap:'雨這麼大，大家還是回來了。',why:'下雨本來會令人遲到，結果同學仍準時，前後相反，所以用「雖然……但是……」。'},
+    {segs:['雖然','這件外套很便宜，','但是','穿起來很暖和。'],art:'jacket',cap:'便宜的外套，穿上卻很暖。',why:'價錢便宜會讓人以為不暖，實際卻很暖，轉折成立。'},
+    {segs:['雖然','弟弟個子矮，','但是','跑得比誰都快。'],art:'running',cap:'個子小，跑得飛快。',why:'個子矮通常跑得慢，弟弟卻跑得最快，結果出人意料。'},
+    {segs:['雖然','我第一次做蛋糕，','但是','味道還不錯。'],art:'cake',cap:'第一次做蛋糕，成果不錯。',why:'第一次做通常會失敗，這次卻成功，所以要用轉折。'},
+    {segs:['雖然','山路又陡又長，','但是','我們仍然走到山頂。'],art:'summit',cap:'山路難走，還是到了山頂。',why:'山路難走會令人放棄，我們卻走完，前後情況相反。'},
+    {segs:['雖然','小貓很怕陌生人，','但是','牠很喜歡跟我玩。'],art:'catFish',cap:'怕生的貓，只跟我玩。',why:'怕陌生人，卻喜歡親近我，態度相反，用轉折說出例外。'}
+  ],
+  B:[
+    {l:'雖然這本書很厚，',r:'但是我兩天就看完了。',art:'book',why:'書厚本應看很久，兩天看完，時間比想像中短。'},
+    {l:'雖然天氣很冷，',r:'但是同學們在操場上玩得滿頭大汗。',art:'coldPlay',why:'天氣冷，大家卻玩到出汗，身體感覺與天氣相反。'},
+    {l:'雖然媽媽工作很忙，',r:'但是她每天都陪我吃晚飯。',art:'familyDinner',why:'工作忙通常沒時間，媽媽仍每天陪我，見出重視。'},
+    {l:'雖然教室不大，',r:'但是佈置得很溫馨。',art:'classroom',why:'地方小不等於不好，佈置令它變得溫暖。'},
+    {l:'雖然我學了很久，',r:'但是一直彈不好這首歌。',art:'piano',why:'學了很久本應彈得好，結果仍未彈好，跟預期相反。'},
+    {l:'雖然雨下個不停，',r:'但是花園裡的花開得更鮮豔了。',art:'gardenRain',why:'下雨本應打壞花，花卻開得更美，結果出人意料。'}
+  ]
+},
+{
+  id:'jg', name:'儘管……還是……', short:'儘管…還是…', tag:'語氣加強', color:'#3E7CB1', art:'windTree',
+  tagline:'先讓一步，說出不會改變的結果。',
+  formula:['儘管','不利情況','還是','不變的結果'],
+  points:['「儘管」放前半句，語氣比「雖然」更強。','後半句用「還是」帶出不變的結果。','適合寫困難很大、決心不變的情況。'],
+  examples:[
+    {t:'儘管風很大，樹還是站得直直的。',n:'風吹得厲害，結果沒有改變。'},
+    {t:'儘管題目很難，他還是自己做完了。',n:'困難大，他仍堅持完成。'}
+  ],
+  tip:'「儘管」後面說的是困難，「還是」後面說的是沒有改變的結果。',
+  A:[
+    {segs:['儘管','風吹得樹都彎了腰，','還是','有小鳥站在枝頭上唱歌。'],art:'windTree',cap:'樹被吹彎，小鳥照樣唱歌。',why:'風很大是不利情況，小鳥仍唱歌，結果沒有改變。'},
+    {segs:['儘管','老師講了三次，','還是','有同學沒聽明白。'],art:'classroom',cap:'講了三次，仍有人不明白。',why:'老師講了很多次，結果仍有同學不明白，前後相反。'},
+    {segs:['儘管','天色已經很晚，','還是','有工人在修補馬路。'],art:'nightWork',cap:'天黑了，工人仍在修路。',why:'時間很晚本應休息，工人仍開工，見出堅持。'},
+    {segs:['儘管','爺爺年紀大了，','還是','每天早上去公園種花。'],art:'grandpaGarden',cap:'年紀大，仍天天種花。',why:'年紀大體力有限，爺爺仍每天種花，結果不變。'},
+    {segs:['儘管','比賽輸了第一場，','還是','沒有人放棄練習。'],art:'matchLose',cap:'輸了一場，沒有人放棄。',why:'輸波會令人灰心，隊員仍練習，見出決心。'},
+    {segs:['儘管','路上塞車，','我們','還是','趕上了開場的表演。'],art:'traffic',cap:'路上塞車，仍趕上表演。',why:'塞車本應遲到，我們仍趕上，結果跟預期相反。'}
+  ],
+  B:[
+    {l:'儘管外面下著大雨，',r:'還是有人排隊買雪糕。',art:'icecreamRain',why:'下大雨仍排隊，天氣沒有改變人們的興致。'},
+    {l:'儘管題目很難，',r:'還是被小明解開了。',art:'puzzle',why:'題目難本應解不開，小明仍解開，見出能力。'},
+    {l:'儘管大家都勸他休息，',r:'他還是堅持把工作做完。',art:'deskWork',why:'大家勸他停，他仍做完，決定沒有動搖。'},
+    {l:'儘管夏天很熱，',r:'還是有人中午去跑步。',art:'running',why:'天氣熱本應避開，仍有人跑步，行為跟天氣相反。'},
+    {l:'儘管這條路很遠，',r:'還是值得走一趟。',art:'longRoad',why:'路遠是缺點，仍值得走，結果比困難重要。'},
+    {l:'儘管我已經很努力，',r:'還是差一點才及格。',art:'testPaper',why:'努力本應有好成績，結果仍差一點，跟預期相反。'}
+  ]
+},
+{
+  id:'que', name:'……卻……', short:'…卻…', tag:'單字轉折', color:'#7C6BD6', art:'longRoad',
+  tagline:'一個「卻」字，把意思輕輕轉到另一邊。',
+  formula:['主語','情況','卻','相反的結果'],
+  points:['「卻」放在主語後面，不放在句首。','前後意思要相反，帶一點意外。','句子已有「卻」，不必再加「但是」。'],
+  examples:[
+    {t:'哥哥嘴上說不餓，卻吃了三碗飯。',n:'說的跟做的相反。'},
+    {t:'太陽很大，風卻冷得叫人發抖。',n:'陽光與風的感覺相反。'}
+  ],
+  tip:'「卻」最常放錯位置：要說「他卻走了」，不要說「卻他走了」。',
+  A:[
+    {segs:['他','明明很累，','卻','不肯停下來休息。'],art:'running',cap:'明明累了，還是不肯停。',why:'累本應休息，他卻不肯停，動作跟身體情況相反。'},
+    {segs:['妹妹','最怕黑，','卻','一個人走進了地下室。'],art:'darkStairs',cap:'最怕黑，卻走進地下室。',why:'怕黑本應避開，妹妹卻走進去，行為出人意料。'},
+    {segs:['這隻小狗','個子小小，','卻','叫得比大狗還響。'],art:'dogBark',cap:'個子小，叫聲特別響。',why:'個子小通常聲音小，牠卻叫得響，前後相反。'},
+    {segs:['這條小路','看起來很近，','卻','走了半個小時才到。'],art:'longRoad',cap:'看著近，走了半小時。',why:'看起來近，實際很遠，感覺與事實相反。'},
+    {segs:['媽媽','感冒了，','卻','堅持為我們準備早餐。'],art:'breakfast',cap:'生病了，仍為我們做早餐。',why:'生病本應休息，媽媽卻堅持做早餐，見出照顧家人。'},
+    {segs:['這幅畫','顏色不多，','卻','讓人一看就想起故鄉。'],art:'painting',cap:'顏色簡單，卻很動人。',why:'顏色少本應單調，畫卻令人想起故鄉，效果相反。'}
+  ],
+  B:[
+    {l:'哥哥嘴上說不餓，',r:'卻吃了三碗飯。',art:'bowl',why:'說不餓，實際吃很多，說話與行為相反。'},
+    {l:'太陽很大，',r:'風卻冷得叫人發抖。',art:'sunCold',why:'陽光猛烈，風卻很冷，兩種感覺相反。'},
+    {l:'我準備了很久，',r:'上台時卻一句話也說不出來。',art:'stage',why:'準備充足本應順利，結果說不出話，跟預期相反。'},
+    {l:'這間店很小，',r:'客人卻多得排到門外。',art:'shop',why:'店小本應客少，客人卻很多，前後相反。'},
+    {l:'弟弟答應幫忙，',r:'卻躲在房間裡看漫畫。',art:'hideDoor',why:'答應了本應做到，他卻躲起來，行為跟承諾相反。'},
+    {l:'我們以為他會生氣，',r:'他卻笑著說沒關係。',art:'twoFaces',why:'以為他生氣，他卻笑，反應跟預期相反。'}
+  ]
+},
+{
+  id:'bd', name:'不但……反而……', short:'不但…反而…', tag:'出乎意料', color:'#2FA97A', art:'rainHeavy',
+  tagline:'本來以為會這樣，結果偏偏往相反方向走。',
+  formula:['不但','本來的預期','反而','相反的結果'],
+  points:['「不但」先說本來的情況，「反而」說相反的結果。','後面常是否定：不但沒有……反而更……','轉的方向要出乎意料。'],
+  examples:[
+    {t:'雨不但沒有停，反而越下越大。',n:'以為會停，結果更大。'},
+    {t:'他不但沒有生氣，反而耐心聽我解釋。',n:'以為會生氣，結果很有耐性。'}
+  ],
+  tip:'「反而」後面一定是跟預期相反的情況，不能接相同的結果。',
+  A:[
+    {segs:['雨不但','沒有停，','反而','越下越大。'],art:'rainHeavy',cap:'以為雨會停，結果更大。',why:'預期雨會停，結果更大，轉向相反方向，所以用「反而」。'},
+    {segs:['弟弟不但','沒有哭，','反而','笑著扶起跌倒的同學。'],art:'helpBox',cap:'跌倒沒哭，還扶起同學。',why:'跌倒通常會哭，弟弟卻笑，反應跟預期相反。'},
+    {segs:['吃了藥，','病情不但','沒有好轉，','反而','更嚴重了。'],art:'medicine',cap:'吃了藥，病情反而更重。',why:'吃藥本應好轉，結果更嚴重，跟預期完全相反。'},
+    {segs:['這盆花不但','沒有枯死，','反而','開出了更多花。'],art:'flowerPot',cap:'沒枯死，還開更多花。',why:'以為花會枯死，結果開得更多，出乎意料。'},
+    {segs:['他不但','沒有生氣，','反而','耐心地聽我解釋。'],art:'twoFaces',cap:'沒生氣，還耐心聽我說。',why:'以為他會生氣，他卻耐心聽，反應跟預期相反。'},
+    {segs:['風不但','沒有把旗吹倒，','反而','把旗吹得飄揚起來。'],art:'flagWind',cap:'風沒吹倒旗，還吹得飄揚。',why:'大風本應吹倒旗，旗卻飄揚得更起勁，結果與預期相反。'}
+  ],
+  B:[
+    {l:'我以為他會拒絕，',r:'他反而一口答應了。',art:'handshake',why:'以為會被拒絕，結果立即答應，跟預期相反。'},
+    {l:'這條路不但不難走，',r:'反而比想像中好走。',art:'longRoad',why:'以為難走，實際平坦好走，結果跟預期相反。'},
+    {l:'批評不但沒有打擊他，',r:'反而讓他更努力。',art:'deskWork',why:'批評本應令人灰心，他卻更努力，結果相反。'},
+    {l:'喝了冰水以後，我不但不覺得涼快，',r:'反而更渴了。',art:'teaCold',why:'冰水本應解渴，結果更渴，身體反應跟預期相反。'},
+    {l:'小貓不但不怕水，',r:'反而跳進盆裡玩。',art:'catFish',why:'貓本應怕水，牠卻跳進水裡，行為出乎意料。'},
+    {l:'這次失敗不但沒有令我們灰心，',r:'反而教會了我們很多。',art:'matchLose',why:'失敗本應令人放棄，我們卻學會更多，結果相反。'}
+  ]
+},
+{
+  id:'js', name:'即使……也……', short:'即使…也…', tag:'假設讓步', color:'#FF6B8A', art:'summit',
+  tagline:'就算最壞的情況出現，決心也不改變。',
+  formula:['即使','假設的情況','也','不變的結果'],
+  points:['「即使」先假設一個情況，包括最壞的情況。','後半句用「也」說出不會改變的結果。','前後不是已發生的事，而是假設。'],
+  examples:[
+    {t:'即使明天下雨，我們也要去郊遊。',n:'假設下雨，決定不變。'},
+    {t:'即使考了第一名，也不能驕傲。',n:'假設有好成績，態度不變。'}
+  ],
+  tip:'「即使」後面是假設，「也」後面是決心；不要寫成「即使……但是……」。',
+  A:[
+    {segs:['即使','明天下雨，','我們也','要去郊遊。'],art:'rainTrip',cap:'明天下雨，也要去郊遊。',why:'下雨是假設的困難，我們仍要去，決心不變。'},
+    {segs:['即使','考了第一名，','也不能','驕傲。'],art:'testPaper',cap:'考第一，也不能驕傲。',why:'考第一是假設的好事，也不能驕傲，態度不變。'},
+    {segs:['即使','你再聰明，','也要','認真練習。'],art:'piano',cap:'再聰明，也要練習。',why:'聰明是假設的條件，仍要練習，結論不變。'},
+    {segs:['即使','風再大，','旗也','照樣在山頂飄揚。'],art:'flagWind',cap:'風再大，旗也照樣飄。',why:'大風是假設的困難，旗仍照樣飄揚，結果不變。'},
+    {segs:['即使','路很遠，','我們也','要一步一步走完。'],art:'longRoad',cap:'路再遠，也要走完。',why:'路遠是假設的困難，我們仍走完，決心不變。'},
+    {segs:['即使','沒有人看見，','也要','做好每一件小事。'],art:'honesty',cap:'沒人看見，也要做好。',why:'沒有人看見是假設，仍要做好，說明自律。'}
+  ],
+  B:[
+    {l:'即使你現在不懂，',r:'也可以慢慢學。',art:'book',why:'不懂是假設的起點，仍可以學，結論不變。'},
+    {l:'即使明天很忙，',r:'我也會抽時間看書。',art:'deskWork',why:'忙是假設的困難，仍會看書，決心不變。'},
+    {l:'即使失敗一百次，',r:'也要再試一次。',art:'matchLose',why:'失敗是假設，仍要再試，態度不變。'},
+    {l:'即使天氣轉涼，',r:'花園裡的花也照樣開。',art:'flowerPot',why:'轉涼是假設，花仍開，結果不變。'},
+    {l:'即使大家都反對，',r:'他也要把真相說出來。',art:'honesty',why:'反對是假設的壓力，仍說真相，決心不變。'},
+    {l:'即使只是一句問候，',r:'也能讓人溫暖一整天。',art:'familyDinner',why:'問候很小，也能帶來溫暖，結果不因小而改變。'}
+  ]
+},
+{
+  id:'nk', name:'寧可……也不……', short:'寧可…也不…', tag:'取捨選擇', color:'#E4681A', art:'crosswalk',
+  tagline:'寧願自己辛苦一點，也絕不做不該做的事。',
+  formula:['寧可','願意接受的','也不','堅決不做的'],
+  points:['「寧可」說出願意接受的辛苦。','「也不」說出堅決不接受的做法。','兩邊一比，見出心裡的價值。'],
+  examples:[
+    {t:'寧可多走十分鐘，也不亂過馬路。',n:'寧願花時間，也不冒險。'},
+    {t:'媽媽寧可自己少吃一點，也不讓我們餓著。',n:'寧願自己辛苦，也不委屈孩子。'}
+  ],
+  tip:'「寧可」後面是願意做的事，「也不」後面是無論如何都不做的事。',
+  A:[
+    {segs:['寧可','多走十分鐘，','也不','亂過馬路。'],art:'crosswalk',cap:'寧願走遠一點，也不亂過馬路。',why:'多走是辛苦，亂過馬路是危險，選擇辛苦而不冒險。'},
+    {segs:['媽媽寧可','自己少吃一點，','也不','讓我們餓著。'],art:'familyDinner',cap:'寧願自己少吃，也不讓我們餓。',why:'少吃是辛苦，讓孩子餓是她不願意的，取捨清楚。'},
+    {segs:['他寧可','留下來幫忙，','也不','一個人先回家。'],art:'helpBox',cap:'寧願留下幫忙，也不先走。',why:'留下要付出時間，先走會丟下同伴一個人，他選擇前者。'},
+    {segs:['我寧可','慢慢做，','也不','馬虎了事。'],art:'testPaper',cap:'寧願慢慢做，也不馬虎。',why:'慢一點要花時間，馬虎了事是不認真的做法，選擇認真。'},
+    {segs:['寧可','今天辛苦一點，','也不','把事情留到明天。'],art:'deskWork',cap:'寧願今天辛苦，也不拖延。',why:'今天辛苦是代價，把事情留到明天是壞習慣，選擇承擔。'},
+    {segs:['她寧可','自己淋雨，','也不','讓同學淋濕。'],art:'umbrellaShare',cap:'寧願自己淋雨，也不讓同學淋。',why:'淋雨是辛苦，同學淋濕是她不願意的，見出體貼。'}
+  ],
+  B:[
+    {l:'寧可早到十分鐘，',r:'也不願遲到一分鐘。',art:'clock',why:'早到要等，遲到是不守時，寧願等也不遲到。'},
+    {l:'弟弟寧可自己不吃糖，',r:'也不讓妹妹失望。',art:'candy',why:'不吃糖是犧牲，妹妹失望是他不願意的。'},
+    {l:'寧可現在多練習，',r:'也不要在台上出錯。',art:'stage',why:'練習辛苦，台上出錯難受，選擇先付出。'},
+    {l:'爺爺寧可走路，',r:'也不肯坐車。',art:'grandpaWalk',why:'走路費力，坐車舒服，他仍選走路，見出習慣與堅持。'},
+    {l:'我寧可把話說清楚，',r:'也不願被誤會。',art:'honesty',why:'說清楚要勇氣，被誤會更難受，選擇坦白。'},
+    {l:'她寧可放棄假期，',r:'也不肯放下生病的小貓。',art:'suitcaseCat',why:'假期難得，小貓生病無人照顧，她選擇留下。'}
+  ]
+},
+{
+  id:'ks', name:'……可是……', short:'…可是…', tag:'口語轉折', color:'#D94F70', art:'sunnyRain',
+  tagline:'先說一件事，再用「可是」把話轉到另一邊。',
+  formula:['情況','可是','相反的結果'],
+  points:['「可是」放在後半句開頭，前面先說一件事。','前後意思要相反，或跟想像不同。','比「但是」更口語，適合日常對話。'],
+  examples:[
+    {t:'早上還是大晴天，可是放學時下起了大雨。',n:'天氣突然轉變。'},
+    {t:'這件外套很便宜，可是我穿起來太窄了。',n:'價錢好，尺寸不合。'}
+  ],
+  tip:'句子已有「可是」，就不要再加「但是」，否則轉折重複。',
+  A:[
+    {segs:['早上出門時，','天氣還是大晴天，','可是','放學時下起了大雨。'],art:'sunnyRain',cap:'早上天晴，放學下大雨。',why:'早上天晴，放學下雨，天氣轉到相反方向，用「可是」轉折。'},
+    {segs:['這件外套很便宜，','顏色也好看，','可是','我穿起來太窄了。'],art:'jacket',cap:'便宜又好看，可是太窄。',why:'價錢與顏色都好，尺寸卻不合，說出可惜的地方。'},
+    {segs:['我把功課檢查了三次，','覺得一定沒錯，','可是','還是漏掉一個錯字。'],art:'testPaper',cap:'檢查三次，仍漏了錯字。',why:'檢查多次本應全對，結果仍有錯，跟預期相反。'},
+    {segs:['小貓平時最愛吃魚，','聞到魚味就飛奔過來，','可是','今天牠一口也不吃。'],art:'catFish',cap:'平時愛吃魚，今天不吃。',why:'平時愛吃，今天不吃，行為跟習慣相反。'},
+    {segs:['爺爺常說自己走得慢，','出門總落在後面，','可是','他每天都最早到公園。'],art:'grandpaWalk',cap:'說自己慢，卻最早到公園。',why:'說走得慢，實際最早到，說話與事實相反。'},
+    {segs:['這本舊書的封面破了，','紙也黃了，','可是','我讀了兩遍還想再讀。'],art:'book',cap:'書舊了，仍想再讀。',why:'書又舊又破，本應不想看，我卻想再讀，轉出喜愛。'}
+  ],
+  B:[
+    {l:'我準備了好久的演講，',r:'可是我上台就忘了台詞。',art:'stage',why:'準備很久本應順利，上台卻忘詞，結果跟預期相反。'},
+    {l:'這間店離我家很近，',r:'可是我一次也沒去過。',art:'shop',why:'近本應常去，卻一次也沒去，行為跟距離相反。'},
+    {l:'弟弟說他不怕打針，',r:'可是針還沒碰到他就哭了。',art:'medicine',why:'說不怕，實際未打就哭，說話與反應相反。'},
+    {l:'天氣預報說今天放晴，',r:'可是下午又下起雨來。',art:'rainHeavy',why:'預報放晴，下午卻下雨，結果跟預報相反。'},
+    {l:'我把種子撒在花盆裡，',r:'可是過了一個月還沒發芽。',art:'flowerPot',why:'一個月本應發芽，結果沒有，跟預期相反。'},
+    {l:'大家都說這道菜很辣，',r:'可是我一點也不覺得。',art:'bowl',why:'大家說辣，我卻不覺得，感受跟別人相反。'}
+  ]
+},
+{
+  id:'be', name:'不是……而是……', short:'不是…而是…', tag:'先否定再肯定', color:'#5F4FBC', art:'umbrella',
+  tagline:'先否定一種說法，再說出真正的意思。',
+  formula:['主語','不是','被否定的','而是','真正的意思'],
+  points:['「不是」先否定一種說法或想法，「而是」再說出真正的意思。','「而是」後面才是說話人真正想強調的重點。','「不是」和「而是」成對出現，「是」字不能省略。'],
+  examples:[
+    {t:'這把雨傘不是買的，而是向同學借的。',n:'否定「買」，說出「借」。'},
+    {t:'弟弟哭不是因為跌倒，而是因為小熊不見了。',n:'否定跌倒，說出真正原因。'}
+  ],
+  tip:'「不是」和「而是」要成對出現，不能把「而是」換成「但是」。',
+  A:[
+    {segs:['這把雨傘','不是','買的，','而是','向同學借的。'],art:'umbrella',cap:'不是買的，是借來的。',why:'先否定「買」，再說真意「借」，這正是「不是……而是……」的用法。'},
+    {segs:['弟弟哭','不是','因為跌倒，','而是','因為心愛的小熊不見了。'],art:'crying',cap:'哭不是因為跌倒，而是小熊不見了。',why:'先否定跌倒這個原因，再指出真正原因，焦點落在「而是」後面。'},
+    {segs:['牆上那幅畫','不是','用水彩畫的，','而是','用蠟筆一筆一筆畫的。'],art:'painting',cap:'不是水彩，是蠟筆畫。',why:'否定水彩，指出蠟筆，糾正別人對畫法的想法。'},
+    {segs:['爺爺每天出門','不是','去買菜，','而是','去公園打太極。'],art:'taichi',cap:'不是買菜，是去打太極。',why:'先否定買菜，再說出真正目的，避免別人誤會。'},
+    {segs:['老師表揚小明','不是','因為他考了第一，','而是','因為他主動幫助同學。'],art:'teacherPraise',cap:'表揚不是因為考第一，而是因為主動助人。',why:'否定成績這個原因，指出助人，說明真正值得讚賞的地方。'},
+    {segs:['我們這次旅行','不是','坐飛機，','而是','坐火車慢慢看風景。'],art:'train',cap:'不是坐飛機，是坐火車。',why:'否定坐飛機，說出坐火車，真正的安排才清楚。'}
+  ],
+  B:[
+    {l:'這本書不是圖書館的，',r:'而是我自己的。',art:'book',why:'否定「圖書館的」，指出書是我自己的，所有權才說得清楚。'},
+    {l:'他這麼做不是為了錢，',r:'而是想幫朋友一把。',art:'helpBox',why:'否定為錢，指出幫朋友，動機才明白。'},
+    {l:'窗外傳來的不是雨聲，',r:'而是風吹樹葉的聲音。',art:'windowLeaves',why:'否定雨聲，指出風聲，聽到的來源才準確。'},
+    {l:'媽媽生氣不是因為我弄髒衣服，',r:'而是因為我說了謊。',art:'twoFaces',why:'否定弄髒衣服，指出說謊，真正的原因才清楚。'},
+    {l:'這朵花不是塑膠做的，',r:'而是用紙摺出來的。',art:'paperFlower',why:'否定塑膠，指出紙摺，材料才說得對。'},
+    {l:'我們不是要贏過別人，',r:'而是要勝過昨天的自己。',art:'finishLine',why:'否定贏別人，指出超越自己，真正的目標才明白。'}
+  ]
+},
+{
+  id:'br', name:'……不……，而……', short:'…不…，而…', tag:'行動對照', color:'#4A90C9', art:'readBook',
+  tagline:'否定一個動作，再說出真正在做的事。',
+  formula:['主語','不','沒做的事，','而','真正做的事'],
+  points:['「不」後是否定的動作，即沒有做的事。','「而」轉出真正發生的事，前後對照。','中間用逗號分開，結尾是真正的行為。'],
+  examples:[
+    {t:'他不做功課，而在看漫畫。',n:'不做功課，卻在看漫畫，前後對照。'},
+    {t:'媽媽不坐下休息，而在廚房繼續幫我們弄點心。',n:'不休息，反而繼續做點心。'}
+  ],
+  tip:'「不」後面是被否定的動作，「而」後面才是真正在做的事，前後是兩個相對照的行為。',
+  A:[
+    {segs:['他','不','做功課，','而','在看漫畫。'],art:'comicRead',cap:'不做功課，在看漫畫。',why:'「做功課」是該做而沒做的事，「看漫畫」是真正做的事，用「不……而……」對照。'},
+    {segs:['妹妹','不','吃早餐，','而','在跟小貓玩耍。'],art:'catPlay',cap:'不吃早餐，在跟小貓玩。',why:'吃早餐是應該做的事，妹妹卻在玩貓，用「不……而……」說出對照。'},
+    {segs:['弟弟','不','好好走路，','而','在水窪裡跳來跳去。'],art:'puddleJump',cap:'不好好走路，在水窪跳。',why:'好好走路是應該的行為，弟弟卻跳進水窪，兩個動作相對照。'},
+    {segs:['爺爺','不','在家休息，','而','每天去公園打太極。'],art:'taichi',cap:'不休息，去公園打太極。',why:'爺爺不選擇休息，而是每天去打太極，否定休息、肯定運動。'},
+    {segs:['他','不','跟大家一起玩，','而','一個人坐在角落看書。'],art:'cornerRead',cap:'不跟大家玩，一個人看書。',why:'大家以為他會一起玩，他卻一個人看書，行為跟預期相反。'},
+    {segs:['小鳥','不','怕人，','而','站在窗台上唱歌。'],art:'birdSing',cap:'不怕人，站在窗台唱歌。',why:'小鳥本應怕人，反而站在窗台唱歌，用「不……而……」說出反差。'}
+  ],
+  B:[
+    {l:'他不回答我的問題，',r:'而低著頭默默地哭了。',art:'crying',why:'以為他會回答，結果他低頭哭了，反應跟預期對照。'},
+    {l:'小貓不喝碗裡的水，',r:'而跑去喝花盆底下的水。',art:'catFish',why:'碗裡有水不喝，偏偏去喝花盆水，行為跟預期相反。'},
+    {l:'媽媽不責備我，',r:'而溫柔地摸著我的頭安慰我。',art:'momHug',why:'做錯事本應被罵，媽媽反而安慰我，反應出人意料。'},
+    {l:'他不坐電梯，',r:'而一口氣跑上十樓。',art:'stairsRun',why:'有電梯不坐，選擇跑樓梯，兩種做法對照。'},
+    {l:'這本書不放在書架上，',r:'而藏在枕頭底下。',art:'pillowBook',why:'書本應放書架，結果藏在枕頭下，位置跟預期相反。'},
+    {l:'哥哥不出去玩，',r:'而留在房間裡認真溫習。',art:'deskWork',why:'大家都出去玩，哥哥卻留在家溫習，行為對照。'}
+  ]
+}
+];
+
+</script>
+<script>
+/* ===== 轉折小偵探 · 遊戲邏輯 ===== */
+(function () {
+  'use strict';
+
+  var viewEl = document.getElementById('view');
+  var topEl = document.getElementById('topbar');
+  var titleEl = document.getElementById('topTitle');
+  var backBtn = document.getElementById('backBtn');
+  var soundBtn = document.getElementById('soundBtn');
+  var toastEl = document.getElementById('toast');
+
+  var KEY = 'zhexiaozhentan_v3';
+  var store = {};
+  try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { store = {}; }
+  if (!store.stars) store.stars = {};
+
+  var S = {
+    view: 'home', cat: 0, mode: 'A', qi: 0,
+    placed: [], order: [], tries: 0, solved: false, good: 0, fb: null, hintIdx: -1,
+    round: 0, roundPairs: [], left: [], right: [], selL: null, matched: {}, mistakes: 0,
+    locked: false, wrongR: null, roundDone: false,
+    resultStars: 0, resultGood: 0, resultMistakes: 0,
+    sound: store.sound !== false
+  };
+  var lockTimer = null;
+
+  /* ---------- 工具 ---------- */
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+  function shuffle(a) {
+    var x = a.slice();
+    for (var i = x.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = x[i]; x[i] = x[j]; x[j] = t;
+    }
+    return x;
+  }
+  function starsForA(n) { return n >= 6 ? 3 : n >= 4 ? 2 : 1; }
+  function starsForB(m) { return m <= 1 ? 3 : m <= 3 ? 2 : 1; }
+  function catStar(id, mode) {
+    var rec = store.stars[id];
+    return rec && rec[mode] ? rec[mode] : 0;
+  }
+  function totalStars() {
+    var t = 0;
+    for (var k in store.stars) {
+      if (store.stars[k]) t += (store.stars[k].A || 0) + (store.stars[k].B || 0);
+    }
+    return t;
+  }
+  function saveStar(id, mode, n) {
+    if (!store.stars[id]) store.stars[id] = { A: 0, B: 0 };
+    if (!store.stars[id][mode] || n > store.stars[id][mode]) store.stars[id][mode] = n;
+    try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) { /* 私密模式：本次有效 */ }
+  }
+  function saveSound() {
+    store.sound = S.sound;
+    try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {}
+  }
+  var toastTimer = null;
+  function toast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 2600);
+  }
+
+  /* ---------- 音效 ---------- */
+  var AC = null;
+  function audio() {
+    if (AC) return AC;
+    try {
+      var C = window.AudioContext || window.webkitAudioContext;
+      if (!C) return null;
+      AC = new C();
+    } catch (e) { AC = null; }
+    return AC;
+  }
+  function tone(freq, start, dur, type, vol) {
+    var c = audio();
+    if (!c) return;
+    var o = c.createOscillator(), g = c.createGain();
+    o.type = type || 'sine';
+    o.frequency.value = freq;
+    var t0 = c.currentTime + (start || 0);
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(vol || 0.12, t0 + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g); g.connect(c.destination);
+    o.start(t0); o.stop(t0 + dur + 0.02);
+  }
+  function sfx(name) {
+    if (!S.sound) return;
+    var c = audio();
+    if (!c) return;
+    if (c.state === 'suspended') { try { c.resume(); } catch (e) {} }
+    if (name === 'tap') { tone(520, 0, 0.07, 'triangle', 0.07); }
+    else if (name === 'place') { tone(680, 0, 0.09, 'triangle', 0.09); tone(880, 0.05, 0.08, 'sine', 0.05); }
+    else if (name === 'good') { tone(523, 0, 0.16, 'sine', 0.13); tone(659, 0.12, 0.16, 'sine', 0.12); tone(784, 0.24, 0.26, 'sine', 0.12); }
+    else if (name === 'bad') { tone(320, 0, 0.15, 'sine', 0.1); tone(240, 0.13, 0.2, 'sine', 0.09); }
+    else if (name === 'match') { tone(660, 0, 0.12, 'sine', 0.1); tone(880, 0.1, 0.18, 'sine', 0.1); }
+    else if (name === 'win') { tone(523, 0, 0.14, 'sine', 0.12); tone(659, 0.1, 0.14, 'sine', 0.12); tone(784, 0.2, 0.14, 'sine', 0.12); tone(1046, 0.3, 0.3, 'sine', 0.12); }
+  }
+
+  /* ---------- 語音 ---------- */
+  var voiceWarned = false;
+  function speak(text) {
+    if (!('speechSynthesis' in window) || !window.SpeechSynthesisUtterance) {
+      toast('這個瀏覽器不支援語音朗讀，可以看文字。');
+      return;
+    }
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(String(text).replace(/[「」『』]/g, ''));
+      u.lang = 'zh-TW';
+      u.rate = 0.9;
+      u.pitch = 1.05;
+      var vs = window.speechSynthesis.getVoices() || [];
+      var v = null, anyZh = null;
+      for (var i = 0; i < vs.length; i++) {
+        var lg = (vs[i].lang || '').toLowerCase();
+        if (lg.indexOf('zh') === 0) {
+          if (!anyZh) anyZh = vs[i];
+          if (lg.indexOf('zh-tw') === 0 || lg.indexOf('zh-hk') === 0 || lg.indexOf('zh-hant') === 0) { v = vs[i]; break; }
+        }
+      }
+      if (v || anyZh) u.voice = v || anyZh;
+      u.onerror = function (ev) {
+        if (ev && (ev.error === 'canceled' || ev.error === 'interrupted')) return;
+        if (!voiceWarned) { voiceWarned = true; toast('語音暫時未能播放，請再試一次。'); }
+      };
+      window.speechSynthesis.speak(u);
+    } catch (e) {
+      if (!voiceWarned) { voiceWarned = true; toast('語音暫時未能播放，請再試一次。'); }
+    }
+  }
+
+  function clearLock() {
+    if (lockTimer) { clearTimeout(lockTimer); lockTimer = null; }
+    S.locked = false; S.wrongR = null;
+  }
+
+  /* ---------- 頭欄 ---------- */
+  var TITLES = { home: '', map: '學習地圖', lesson: '', play: '', result: '挑戰完成' };
+  function catShort(c) { return c.short.replace(/^…+/, '').replace(/…+$/, ''); }
+  function topbar() {
+    var v = S.view;
+    topEl.hidden = (v === 'home');
+    if (v === 'home') return;
+    var t = TITLES[v] || '';
+    if (v === 'lesson') t = catShort(CATS[S.cat]);
+    if (v === 'play') t = catShort(CATS[S.cat]) + ' · ' + (S.mode === 'A' ? '漢堡' : '配對');
+    titleEl.textContent = t;
+    soundBtn.innerHTML = S.sound ? ICON.sound : ICON.mute;
+    soundBtn.classList.toggle('off', !S.sound);
+    soundBtn.setAttribute('aria-label', S.sound ? '關閉音效' : '開啟音效');
+  }
+
+  /* ---------- 首頁 ---------- */
+  function viewHome() {
+    var total = totalStars();
+    var h = '';
+    h += '<section class="home">';
+    h += '<div>';
+    h += '<span class="badge"><span class="bi">' + ICON.star + '</span>小學語文 · 轉折複句</span>';
+    h += '<h1 class="title">轉折<em>小偵探</em></h1>';
+    h += '<p class="lead">句子轉個彎，意思更精彩！九組關聯詞，兩種玩法，一起找出句子裡的「轉折」。' + '</p>';
+    h += '<div class="cta">';
+    h += '<button class="btn orange" data-act="map">' + ICON.play + '開始學習</button>';
+    h += '<button class="btn ghost" data-act="how">怎麼玩？</button>';
+    h += '</div>';
+    h += '<div class="stats">';
+    h += '<div class="stat"><b>9</b><span>關聯詞家族</span></div>';
+    h += '<div class="stat"><b>2</b><span>種玩法</span></div>';
+    h += '<div class="stat"><b>108</b><span>組題目</span></div>';
+    h += '<div class="stat"><b>' + total + '/54</b><span>已收集星星</span></div>';
+    h += '</div>';
+    h += '</div>';
+    h += '<div class="hero-art">' + heroSVG() + '</div>';
+    h += '</section>';
+
+    h += '<section id="howto" class="card howto"' + '>';
+    h += '<h2 class="sec-title"><span class="dot"></span>怎麼玩？</h2>';
+    h += '<ol>';
+    h += '<li><b>看圖學會</b>：每個家族都有一張情境圖、三條要點和兩句例句，點喇叭可以聽一次。</li>';
+    h += '<li><b>句子漢堡</b>：把配料卡由左至右疊成完整句子；疊錯會指出第幾層接不上。</li>';
+    h += '<li><b>句子配對</b>：先點前半句，再點後半句，配對成功就會說明前後的轉折關係。</li>';
+    h += '<li><b>收集星星</b>：每族每種玩法最多三顆星，進度會保存在這部裝置。</li>';
+    h += '</ol>';
+    h += '</section>';
+    return h;
+  }
+
+  /* ---------- 學習地圖 ---------- */
+  function viewMap() {
+    var h = '';
+    h += '<div class="map-head"><div><h1>學習地圖</h1><p class="sub">選一個家族，先學再玩。</p></div>';
+    h += '<span class="star-total">' + ICON.star + ' ' + totalStars() + ' / 54</span></div>';
+    h += '<div class="map">';
+    CATS.forEach(function (c, i) {
+      h += '<button class="mapcard" data-act="lesson" data-i="' + i + '">';
+      h += '<span class="thumb">' + sceneSVG(c.art, 'slice') + '</span>';
+      h += '<span class="meta"><span class="name">' + esc(c.name) + '</span>';
+      h += '<span class="tag">' + esc(c.tag) + '</span>';
+      h += starRow(catStar(c.id, 'A'), catStar(c.id, 'B'));
+      h += '</span></button>';
+    });
+    h += '</div>';
+    return h;
+  }
+
+  /* ---------- 教學頁 ---------- */
+  function viewLesson() {
+    var c = CATS[S.cat];
+    var h = '<section class="lesson">';
+    h += '<div class="card lhero">';
+    h += '<div class="pic">' + sceneSVG(c.art) + '</div>';
+    h += '<div><span class="badge">' + esc(c.tag) + '</span>';
+    h += '<h1>' + esc(c.name) + '</h1>';
+    h += '<p>' + esc(c.tagline) + '</p>';
+    h += '<div class="formula">';
+    c.formula.forEach(function (f, i) {
+      h += '<span class="fchip">' + esc(f) + (i < c.formula.length - 1 ? '<i>→</i>' : '') + '</span>';
+    });
+    h += '</div>';
+    h += '<div class="steps">';
+    h += '<div class="stepitem"><span class="si">' + ICON.eye + '</span><b>先看情況</b><small>前半句說的是甚麼</small></div>';
+    h += '<div class="stepitem"><span class="si">' + ICON.link + '</span><b>找出轉折詞</b><small>它放在哪個位置</small></div>';
+    h += '<div class="stepitem"><span class="si">' + ICON.arrow + '</span><b>讀出結果</b><small>後半句轉到哪裡</small></div>';
+    h += '</div></div></div>';
+
+    h += '<div class="card panel"><h2 class="sec-title"><span class="dot"></span>關聯詞小檔案</h2><ul class="points">';
+    c.points.forEach(function (p, i) {
+      h += '<li><span class="num">' + (i + 1) + '</span><span>' + esc(p) + '</span></li>';
+    });
+    h += '</ul></div>';
+
+    h += '<div class="card panel"><h2 class="sec-title"><span class="dot"></span>聽一聽例句</h2><div class="examples">';
+    c.examples.forEach(function (ex, xi) {
+      var marked = highlight(ex.t, c.id);
+      var ak = (EXART[c.id] || [])[xi];
+      h += '<div class="ex">' + (ak ? '<span class="eximg" aria-hidden="true">' + sceneSVG(ak, 'slice') + '</span>' : '') + '<div><div class="txt">' + marked + '</div><div class="note">' + esc(ex.n) + '</div></div>';
+      h += '<button class="spk" data-act="speak" data-t="' + esc(ex.t) + '" aria-label="朗讀例句">' + ICON.sound + '</button></div>';
+    });
+    h += '</div></div>';
+
+    h += '<div class="tipbox">' + '<span class="bi">' + ICON.bulb + '</span><span><b>易錯提醒：</b>' + esc(c.tip) + '</span></div>';
+
+    h += '<div class="modes">';
+    h += '<button class="btn mode-btn" data-act="mode" data-m="A" style="background:#EAF4FF">';
+    h += '<span class="mi">' + ICON.burger + '</span><span><b>玩法一：句子漢堡</b><small>把 4–5 張配料按順序疊成完整句子</small></span></button>';
+    h += '<button class="btn mode-btn" data-act="mode" data-m="B" style="background:#F1EEFF">';
+    h += '<span class="mi">' + ICON.match + '</span><span><b>玩法二：句子配對</b><small>把前半句和後半句配成一對</small></span></button>';
+    h += '</div>';
+    h += '</section>';
+    return h;
+  }
+
+  var EXART = {
+    sr: ['schoolRain', 'jacket'],
+    jg: ['windTree', 'classroom'],
+    que: ['running', 'darkStairs'],
+    bd: ['rainHeavy', 'helpBox'],
+    js: ['rainTrip', 'testPaper'],
+    nk: ['crosswalk', 'familyDinner'],
+    ks: ['sunnyRain', 'jacket'],
+    be: ['umbrella', 'crying'],
+    br: ['readBook', 'comicRead']
+  };
+
+  var FAMILY_WORDS = {
+    sr: ['雖然','但是'],
+    jg: ['儘管','還是'],
+    que:['卻'],
+    bd: ['不但','反而'],
+    js: ['即使','也','也要','也不能','也能','我們也','旗也'],
+    nk: ['寧可','也不'],
+    ks: ['可是'],
+    be: ['不是','而是'],
+    br: ['不','而']
+  };
+  function highlight(text, cid) {
+    var base = ['雖然','但是','儘管','還是','卻','不但','反而','即使','寧可','也不','可是','不是','而是','也要','也不能','也能','我們也','旗也'];
+    var words = base.concat(FAMILY_WORDS[cid] || []);
+    words = words.filter(function(w, i){ return words.indexOf(w) === i; });
+    var sorted = words.slice().sort(function (a, b) { return b.length - a.length; });
+    var src = esc(text);
+    var re = new RegExp('(' + sorted.join('|') + ')', 'g');
+    return src.split(re).map(function (part, i) {
+      return (i % 2 === 1) ? '<span class="hl">' + part + '</span>' : part;
+    }).join('');
+  }
+
+  /* ---------- 玩法一：句子漢堡 ---------- */
+  var LINK_END = /(雖然|但是|儘管|還是|卻|不但|反而|即使|寧可|也不|可是|而是|不是|我們也|旗也|也不能|也要|不|而)$/;
+  function isLink(s) {
+    var t = s.replace(/[，。！？、]/g, '');
+    return LINK_END.test(t);
+  }
+  function startA() {
+    clearLock();
+    S.mode = 'A'; S.qi = 0; S.good = 0; S.view = 'play';
+    loadQ();
+  }
+  function loadQ() {
+    var q = CATS[S.cat].A[S.qi];
+    S.placed = [];
+    S.order = shuffle(q.segs.map(function (_, i) { return i; }));
+    S.tries = 0; S.solved = false; S.fb = null; S.hintIdx = -1;
+    render();
+  }
+  function viewPlayA() {
+    var c = CATS[S.cat];
+    var q = c.A[S.qi];
+    var total = q.segs.length;
+    var h = '<section class="play">';
+    h += hud();
+    h += '<div class="playA">';
+
+    h += '<div class="card artcard"><div class="frame">' + sceneSVG(q.art) + '</div>';
+    h += '<div class="cap">' + esc(q.cap) + '</div></div>';
+
+    h += '<div class="card burgerwrap">';
+    h += '<div class="burger">';
+    h += '<div class="bun">句子漢堡</div>';
+    S.placed.forEach(function (idx, p) {
+      h += '<button class="layer' + (isLink(q.segs[idx]) ? ' link' : '') + (S.fb && S.fb.type === 'bad' && S.fb.pos === p ? ' shake' : '') + '" data-act="layer" data-p="' + p + '">' +
+        '<span class="no">' + (p + 1) + '</span><span>' + esc(q.segs[idx]) + '</span></button>';
+    });
+    if (!S.solved) {
+      h += '<div class="layer empty">第 ' + (S.placed.length + 1) + ' 層 · 點配料放上來</div>';
+    }
+    h += '<div class="bun bottom"></div></div>';
+
+    if (S.solved) {
+      h += '<div class="hintline">漢堡疊好了！按「下一題」繼續。</div>';
+    } else {
+      h += '<div class="tray-title">配料盤 <span style="font-weight:700">（點一下放上漢堡）</span></div>';
+      h += '<div class="hintline" style="text-align:left;margin:-.2rem 0 .5rem">點漢堡上的層，可以連同上面的層一起收回。</div>';
+      h += '<div class="tray">';
+      S.order.forEach(function (idx) {
+        if (S.placed.indexOf(idx) >= 0) return;
+        h += '<button class="ing' + (isLink(q.segs[idx]) ? ' link' : '') + (S.hintIdx === idx ? ' pulse' : '') + '" data-act="ing" data-i="' + idx + '">' +
+          '<span class="dot"></span>' + esc(q.segs[idx]) + '</button>';
+      });
+      h += '</div>';
+      h += '<div class="actions"><button class="btn orange wide" data-act="check"' + (S.placed.length < total ? ' disabled' : '') + '>疊好了，開動！</button>';
+      h += '<div class="hintline">還有 ' + (total - S.placed.length) + ' 層未放</div></div>';
+    }
+
+    h += feedbackA(q);
+    h += '</div></div></section>';
+    return h;
+  }
+  function feedbackA(q) {
+    if (!S.fb) return '';
+    if (S.fb.type === 'bad') {
+      return '<div class="fb bad" role="status"><h3><span class="bi">' + ICON.cross + '</span>再想想</h3>' +
+        '<p class="why">' + esc(S.fb.msg) + '</p>' +
+        '<p class="why" style="font-size:.86rem;color:#5D5A68">提示：先想清楚哪一張是關聯詞，它應該放在哪個位置。</p></div>';
+    }
+    var segs = q.segs;
+    var sent = '';
+    segs.forEach(function (s) {
+      sent += isLink(s) ? '<mark>' + esc(s) + '</mark>' : esc(s);
+    });
+    var h = '<div class="fb good" role="status">';
+    h += '<h3><span class="bi">' + ICON.check + '</span>疊對了！' + (S.fb.first ? '一次成功，很棒！' : '繼續努力！') + '</h3>';
+    h += '<div class="sent">' + sent + '</div>';
+    h += '<p class="why"><b>為甚麼這樣排：</b>' + esc(q.why) + '</p>';
+    h += '<div class="order">';
+    segs.forEach(function (s, i) {
+      if (i) h += '<span class="oa">→</span>';
+      h += '<span class="oc">' + esc(s.replace(/[，。！？]/g, '')) + '</span>';
+    });
+    h += '</div>';
+    h += '<div class="fbrow">';
+    h += '<button class="btn ghost" data-act="speak" data-t="' + esc(segs.join('')) + '">' + ICON.sound + '聽一聽完整句子</button>';
+    h += '<button class="btn orange" data-act="next">' + (S.qi >= 5 ? '看結果' : '下一題') + '</button>';
+    h += '</div></div>';
+    return h;
+  }
+  function place(idx) {
+    if (S.solved || S.placed.indexOf(idx) >= 0) return;
+    S.placed.push(idx);
+    S.fb = null; S.hintIdx = -1;
+    sfx('place');
+    render();
+  }
+  function unplace(p) {
+    if (S.solved) return;
+    S.placed = S.placed.slice(0, p);
+    S.fb = null; S.hintIdx = -1;
+    sfx('tap');
+    render();
+  }
+  function checkA() {
+    if (S.solved) return;
+    var q = CATS[S.cat].A[S.qi];
+    if (S.placed.length < q.segs.length) return;
+    var pos = -1;
+    for (var i = 0; i < S.placed.length; i++) {
+      if (S.placed[i] !== i) { pos = i; break; }
+    }
+    if (pos === -1) {
+      S.solved = true;
+      var first = S.tries === 0;
+      if (first) S.good++;
+      S.fb = { type: 'good', first: first };
+      sfx('good');
+      render();
+      return;
+    }
+    S.tries++;
+    var msg;
+    if (S.tries === 1) {
+      msg = '第 ' + (pos + 1) + ' 層接不上。這一層放的是「' + q.segs[S.placed[pos]] + '」，想想它應該排在哪裡。';
+    } else {
+      msg = '第 ' + (pos + 1) + ' 層應該是「' + q.segs[pos] + '」。';
+      if (S.placed.indexOf(pos) >= 0) {
+        msg += '「' + q.segs[pos] + '」現在放在第 ' + (S.placed.indexOf(pos) + 1) + ' 層，先點那一層把它收回來。';
+      } else {
+        msg += '把它放上去再試一次。';
+      }
+      S.hintIdx = pos;
+    }
+    S.fb = { type: 'bad', msg: msg, pos: pos };
+    sfx('bad');
+    render();
+  }
+  function nextA() {
+    if (S.qi < 5) { S.qi++; loadQ(); return; }
+    finish();
+  }
+
+  /* ---------- 玩法二：句子配對 ---------- */
+  function startB() {
+    clearLock();
+    S.mode = 'B'; S.round = 0; S.mistakes = 0; S.fb = null; S.view = 'play';
+    buildRound();
+  }
+  function buildRound() {
+    var all = CATS[S.cat].B;
+    var base = S.round * 3;
+    S.roundPairs = all.slice(base, base + 3).map(function (p, i) { return { id: i, l: p.l, r: p.r, art: p.art, why: p.why }; });
+    S.left = shuffle(S.roundPairs);
+    S.right = shuffle(S.roundPairs);
+    S.selL = null; S.matched = {}; S.roundDone = false; S.wrongR = null; S.fb = null; S.locked = false;
+    render();
+  }
+  function viewPlayB() {
+    var h = '<section class="play">';
+    h += '<div class="hud"><span class="pill">第 ' + (S.round + 1) + ' / 2 回合</span>';
+    h += '<span class="score">' + ICON.check + ' 已配對 ' + Object.keys(S.matched).length + ' / 3</span>';
+    h += '<span class="pill">錯誤 ' + S.mistakes + ' 次</span></div>';
+    h += '<div class="card matchwrap"><p class="sub" style="margin:0 0 .6rem">先點左邊的前半句，再點右邊的後半句，配成一句完整的轉折句。</p>';
+    if (S.roundDone) {
+      h += '<div class="fb good" role="status"><h3><span class="bi">' + ICON.check + '</span>這一回合完成了！</h3>';
+      h += '<p class="why">三組句子都配對了。讀一讀每組的關聯詞，看看後半句怎樣順著它轉到另一個意思。</p>';
+      if (S.fb && S.fb.sent) {
+        h += '<div class="sent">' + esc(S.fb.sent) + '</div>';
+        h += '<p class="why">' + esc(S.fb.msg) + '</p>';
+      }
+      h += '<div class="fbrow"><button class="btn orange" data-act="nextround">' + (S.round === 0 ? '下一回合' : '看結果') + '</button></div></div>';
+    } else {
+      h += '<div class="match">';
+      h += '<div class="mcol"><h2>前半句</h2><div class="mlist">';
+      S.left.forEach(function (it) {
+        var done = !!S.matched[it.id];
+        h += '<button class="mcard' + (done ? ' done' : '') + (S.selL === it.id ? ' sel' : '') + '" data-act="pickL" data-i="' + it.id + '"' + (done ? ' disabled' : '') + '>';
+        h += '<span class="mic">' + sceneSVG(it.art, 'slice') + '</span><span class="mtxt">' + esc(it.l) + '</span>';
+        if (done) h += '<span class="tick">' + ICON.check + '</span>';
+        h += '</button>';
+      });
+      h += '</div></div>';
+      h += '<div class="mcol"><h2>後半句</h2><div class="mlist">';
+      S.right.forEach(function (it) {
+        var done = !!S.matched[it.id];
+        h += '<button class="mcard' + (done ? ' done' : '') + (S.wrongR === it.id ? ' wrong' : '') + '" data-act="pickR" data-i="' + it.id + '"' + (done ? ' disabled' : '') + '>';
+        h += '<span class="mic linkic" aria-hidden="true">' + ICON.link + '</span><span class="mtxt">' + esc(it.r) + '</span>';
+        if (done) h += '<span class="tick">' + ICON.check + '</span>';
+        h += '</button>';
+      });
+      h += '</div></div></div>';
+    }
+    if (S.fb && !S.roundDone) {
+      h += '<div class="fb ' + (S.fb.type === 'good' ? 'good' : 'bad') + '" role="status" style="margin-top:.8rem">';
+      h += '<h3><span class="bi">' + (S.fb.type === 'good' ? ICON.check : ICON.cross) + '</span>' + esc(S.fb.title || (S.fb.type === 'good' ? '配對了！' : '再試一次')) + '</h3>';
+      if (S.fb.sent) h += '<div class="sent">' + esc(S.fb.sent) + '</div>';
+      h += '<p class="why">' + esc(S.fb.msg) + '</p></div>';
+    }
+    h += '</div></section>';
+    return h;
+  }
+  function pickL(id) {
+    if (S.locked || S.matched[id]) return;
+    S.selL = (S.selL === id ? null : id);
+    S.fb = null;
+    sfx('tap');
+    render();
+  }
+  function pickR(id) {
+    if (S.locked || S.matched[id]) return;
+    if (S.selL === null) { toast('先點左邊的前半句，再點這一邊。'); return; }
+    if (S.selL === id) {
+      var pair = S.roundPairs.filter(function (p) { return p.id === id; })[0];
+      S.matched[id] = true;
+      S.selL = null;
+      S.fb = { type: 'good', title: '配對了！', sent: pair.l + pair.r, msg: pair.why };
+      sfx('match');
+      if (Object.keys(S.matched).length === 3) {
+        S.roundDone = true;
+        setTimeout(function () { sfx('win'); }, 350);
+      }
+      render();
+      return;
+    }
+    S.mistakes++;
+    S.locked = true;
+    S.wrongR = id;
+    S.fb = { type: 'bad', title: '不對哦', msg: '後半句是不是轉到另一個意思？再讀一次前半句，找語氣接得上的那一句。' };
+    sfx('bad');
+    render();
+    clearTimeout(lockTimer);
+    lockTimer = setTimeout(function () {
+      lockTimer = null;
+      S.locked = false; S.wrongR = null; S.selL = null; S.fb = null;
+      if (S.view === 'play' && S.mode === 'B') render();
+    }, 900);
+  }
+  function nextRound() {
+    if (S.round === 0) { S.round = 1; S.fb = null; buildRound(); }
+    else finish();
+  }
+
+  /* ---------- 結果 ---------- */
+  function finish() {
+    var c = CATS[S.cat];
+    if (S.mode === 'A') {
+      S.resultGood = S.good;
+      S.resultStars = starsForA(S.good);
+      saveStar(c.id, 'A', S.resultStars);
+    } else {
+      S.resultStars = starsForB(S.mistakes);
+      S.resultGood = 6;
+      saveStar(c.id, 'B', S.resultStars);
+    }
+    S.view = 'result';
+    sfx('win');
+    render();
+  }
+  function viewResult() {
+    var c = CATS[S.cat];
+    var h = '<section class="card result">';
+    h += '<div class="mascot">' + sceneSVG(c.art) + '</div>';
+    h += '<h1>' + (S.resultStars === 3 ? '太厲害了！' : S.resultStars === 2 ? '做得不錯！' : '完成挑戰！') + '</h1>';
+    h += '<p class="sub">' + esc(c.name) + ' · ' + (S.mode === 'A' ? '句子漢堡' : '句子配對') + '</p>';
+    h += '<div class="bigstars">' + stars(S.resultStars) + '</div>';
+    h += '<div class="rs">';
+    if (S.mode === 'A') {
+      h += '<div><b>' + S.resultGood + ' / 6</b><span>一次疊對</span></div>';
+    } else {
+      h += '<div><b>6 / 6</b><span>配對成功</span></div><div><b>' + S.mistakes + '</b><span>錯誤次數</span></div>';
+    }
+    h += '</div>';
+    h += '<p class="why" style="margin:0 0 1rem">' + (S.resultStars === 3 ? '你已經掌握這組關聯詞的用法，可以去挑戰下一個家族了。' : S.resultStars === 2 ? '再練習一次，把說明讀一遍，就能拿三顆星。' : '把教學頁的三條要點再看一次，下一次會更順利。') + '</p>';
+    h += '<div class="acts">';
+    h += '<button class="btn orange" data-act="again">再玩一次</button>';
+    h += '<button class="btn purple" data-act="other">試另一個玩法</button>';
+    h += '<button class="btn ghost" data-act="toLesson">回教學頁</button>';
+    h += '<button class="btn sky" data-act="toMap">回學習地圖</button>';
+    h += '</div></section>';
+    return h;
+  }
+
+  /* ---------- HUD ---------- */
+  function hud() {
+    var h = '<div class="hud"><span class="pill">第 ' + (S.qi + 1) + ' / 6 題</span><div class="dots">';
+    for (var i = 0; i < 6; i++) {
+      h += '<i class="' + (i < S.qi ? 'done' : i === S.qi ? 'now' : '') + '"></i>';
+    }
+    h += '</div><span class="score">' + ICON.star + ' ' + S.good + ' / 6</span></div>';
+    return h;
+  }
+
+  /* ---------- 渲染 ---------- */
+  function render() {
+    if (S.view === 'home') viewEl.innerHTML = viewHome();
+    else if (S.view === 'map') viewEl.innerHTML = viewMap();
+    else if (S.view === 'lesson') viewEl.innerHTML = viewLesson();
+    else if (S.view === 'play') viewEl.innerHTML = (S.mode === 'A') ? viewPlayA() : viewPlayB();
+    else if (S.view === 'result') viewEl.innerHTML = viewResult();
+    topbar();
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+
+  /* ---------- 事件 ---------- */
+  viewEl.addEventListener('click', function (e) {
+    var t = e.target.closest ? e.target.closest('[data-act]') : null;
+    if (!t || !viewEl.contains(t)) return;
+    var act = t.getAttribute('data-act');
+    if (act === 'map') { S.view = 'map'; sfx('tap'); render(); }
+    else if (act === 'how') {
+      var box = document.getElementById('howto');
+      if (box) box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    else if (act === 'lesson') { S.cat = +t.getAttribute('data-i'); S.view = 'lesson'; sfx('tap'); render(); }
+    else if (act === 'mode') {
+      var m = t.getAttribute('data-m');
+      if (m === 'A') startA(); else startB();
+    }
+    else if (act === 'ing') { place(+t.getAttribute('data-i')); }
+    else if (act === 'layer') { unplace(+t.getAttribute('data-p')); }
+    else if (act === 'check') { checkA(); }
+    else if (act === 'next') { nextA(); }
+    else if (act === 'pickL') { pickL(+t.getAttribute('data-i')); }
+    else if (act === 'pickR') { pickR(+t.getAttribute('data-i')); }
+    else if (act === 'nextround') { sfx('tap'); nextRound(); }
+    else if (act === 'speak') { speak(t.getAttribute('data-t')); }
+    else if (act === 'again') { if (S.mode === 'A') startA(); else startB(); }
+    else if (act === 'other') { if (S.mode === 'A') startB(); else startA(); }
+    else if (act === 'toLesson') { S.view = 'lesson'; render(); }
+    else if (act === 'toMap') { S.view = 'map'; render(); }
+  });
+
+  backBtn.addEventListener('click', function () {
+    sfx('tap');
+    clearLock();
+    if (S.view === 'play') { S.view = 'lesson'; render(); }
+    else if (S.view === 'result') { S.view = 'map'; render(); }
+    else if (S.view === 'lesson') { S.view = 'map'; render(); }
+    else if (S.view === 'map') { S.view = 'home'; render(); }
+    else { S.view = 'home'; render(); }
+  });
+
+  soundBtn.addEventListener('click', function () {
+    S.sound = !S.sound;
+    saveSound();
+    if (!S.sound && window.speechSynthesis) { try { window.speechSynthesis.cancel(); } catch (e) {} }
+    topbar();
+    if (S.sound) sfx('tap');
+    toast(S.sound ? '音效已開啟' : '音效已關閉');
+  });
+
+  /* 預載語音清單（部分瀏覽器非同步） */
+  if ('speechSynthesis' in window) {
+    try { window.speechSynthesis.getVoices(); } catch (e) {}
+  }
+
+  /* ---------- 啟動 ---------- */
+  backBtn.innerHTML = ICON.back;
+  S.view = 'home';
+  render();
+  window.__ZX = S;
+})();
+
+</script>
+</body>
+</html>

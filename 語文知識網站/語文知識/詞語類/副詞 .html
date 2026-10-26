@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>副詞小精靈｜小學副詞互動學習樂園</title>
+<meta name="description" content="以五位卡通小精靈帶小朋友認識程度、時間、範圍、否定與情態副詞，五類副詞各有兩種互動遊戲，每種模式六組題目。">
+<style>
+:root{
+  --ink:#2B2440;
+  --ink-soft:#5C5470;
+  --cream:#FFF8EC;
+  --paper:#FFFFFF;
+  --coral:#FF7A52;
+  --sky:#3E93E8;
+  --mint:#1FAF8F;
+  --grape:#8C6BEF;
+  --sun:#F5B32E;
+  --shadow:0 8px 0 rgba(43,36,64,.13);
+  --radius:26px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  font-family:'PingFang HK','PingFang TC','Microsoft JhengHei','Noto Sans TC','Heiti TC','Songti TC',sans-serif;
+  font-size:clamp(17px,1.05vw + 13px,21px);
+  line-height:1.62;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 12% 8%, #FFE8C9 0%, rgba(255,232,201,0) 46%),
+    radial-gradient(circle at 88% 4%, #D9EEFF 0%, rgba(217,238,255,0) 42%),
+    radial-gradient(circle at 82% 92%, #E4FBEF 0%, rgba(228,251,239,0) 44%),
+    var(--cream);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";
+  position:fixed;inset:0;
+  background-image:radial-gradient(rgba(43,36,64,.10) 1.6px, transparent 1.7px);
+  background-size:30px 30px;
+  opacity:.45;
+  pointer-events:none;
+  z-index:0;
+}
+body::after{
+  content:"";
+  position:fixed;inset:0;
+  background:
+    radial-gradient(circle at 6% 62%, rgba(255,122,82,.14) 0 90px, transparent 91px),
+    radial-gradient(circle at 96% 38%, rgba(62,147,232,.13) 0 110px, transparent 111px);
+  pointer-events:none;z-index:0;
+}
+button{font-family:inherit;color:inherit;cursor:pointer;border:none;background:none}
+button:focus-visible{outline:4px solid #1F6FD0;outline-offset:3px}
+h1,h2,h3,h4,p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+#app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column}
+
+/* ---------- 頂欄 ---------- */
+.topbar{
+  position:sticky;top:0;z-index:40;
+  display:flex;align-items:center;gap:10px;
+  padding:9px clamp(12px,2vw,26px);
+  background:rgba(255,248,236,.93);
+  backdrop-filter:blur(10px);
+  border-bottom:3px solid rgba(43,36,64,.10);
+}
+.topbar .brand{display:flex;align-items:center;gap:9px;min-width:0;flex:1}
+.topbar .brand svg{width:42px;height:auto;flex:0 0 auto}
+.brand-text{min-width:0}
+.brand-title{font-size:clamp(16px,1vw + 11px,22px);font-weight:900;line-height:1.15;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand-sub{font-size:clamp(11px,.55vw + 9px,13px);color:var(--ink-soft);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.icon-btn{
+  width:52px;height:52px;border-radius:16px;flex:0 0 auto;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:#fff;border:3px solid var(--ink);
+  box-shadow:0 4px 0 rgba(43,36,64,.18);
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.icon-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(43,36,64,.18)}
+.icon-btn svg{width:26px;height:26px}
+.icon-btn.off{background:#EFEAF6;color:var(--ink-soft)}
+
+/* ---------- 版面 ---------- */
+main{flex:1;width:100%}
+.wrap{width:100%;max-width:1120px;margin:0 auto;padding:clamp(16px,2.4vw,34px) clamp(12px,2.6vw,28px) 96px}
+.screen{display:none}
+.screen.on{display:block;animation:screenIn .38s cubic-bezier(.2,.8,.2,1) both}
+@keyframes screenIn{from{transform:translateY(14px) scale(.985)}to{transform:none}}
+
+.panel{
+  background:var(--paper);
+  border:3px solid var(--ink);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-height:60px;padding:12px 26px;border-radius:999px;
+  border:3px solid var(--ink);font-size:clamp(18px,1.1vw + 13px,23px);font-weight:900;
+  background:#fff;color:var(--ink);
+  box-shadow:0 6px 0 rgba(43,36,64,.85);
+  transition:transform .12s ease, box-shadow .12s ease, background .2s ease;
+  text-align:center;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 0 rgba(43,36,64,.85)}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(43,36,64,.85)}
+.btn svg{width:26px;height:26px;flex:0 0 auto}
+.btn-primary{background:var(--sun);color:#2B2440}
+.btn-mint{background:#C9F5E7}
+.btn-sky{background:#D6EBFF}
+.btn-ghost{background:#fff}
+.btn:disabled{opacity:.55;cursor:default;transform:none;box-shadow:0 6px 0 rgba(43,36,64,.35)}
+.btn-lg{min-height:74px;font-size:clamp(20px,1.4vw + 14px,27px);border-radius:26px}
+
+/* ---------- 首頁 ---------- */
+.hero{
+  position:relative;overflow:hidden;
+  background:linear-gradient(160deg,#FFFFFF 0%,#FFF4DE 58%,#FFE9D6 100%);
+  border:3px solid var(--ink);border-radius:34px;
+  box-shadow:var(--shadow);
+  padding:clamp(20px,3.2vw,44px);
+}
+.hero::before{content:"";position:absolute;width:230px;height:230px;right:-70px;top:-90px;border-radius:50%;background:rgba(255,197,61,.30)}
+.hero::after{content:"";position:absolute;width:160px;height:160px;left:-60px;bottom:-80px;border-radius:50%;background:rgba(62,147,232,.16)}
+.hero-inner{position:relative;z-index:2;display:flex;flex-direction:column;gap:clamp(14px,2vw,22px)}
+.hero-copy{display:flex;flex-direction:column;gap:clamp(12px,1.6vw,18px);min-width:0}
+.hero-visual{display:flex;flex-direction:column;align-items:center;gap:8px}
+.visual-note{font-size:13px;font-weight:800;color:var(--ink-soft);letter-spacing:.1em}
+@media(min-width:900px){
+  .hero-inner{display:grid;grid-template-columns:1.16fr .84fr;gap:clamp(20px,3vw,44px);align-items:center}
+  .mascot-row{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(6px,1vw,16px);justify-items:center;width:100%}
+  .mascot-chip svg{width:clamp(64px,6.2vw,102px)}
+  .hero h1{font-size:clamp(54px,5.2vw,84px)}
+  .word-title .w{font-size:clamp(30px,2.4vw,40px)}
+}
+.kicker{
+  display:inline-flex;align-items:center;gap:8px;align-self:flex-start;
+  padding:6px 16px;border-radius:999px;background:#fff;border:2.5px solid var(--ink);
+  font-size:clamp(13px,.5vw + 11px,16px);font-weight:800;letter-spacing:.06em;
+}
+.kicker .dot{width:10px;height:10px;border-radius:50%;background:var(--coral)}
+.hero h1{
+  font-size:clamp(40px,6.6vw,78px);line-height:1.06;letter-spacing:.01em;font-weight:900;
+  text-shadow:3px 3px 0 #FFD98A, 6px 6px 0 rgba(43,36,64,.12);
+}
+.hero h1 .hl{color:var(--coral)}
+.hero .lead{font-size:clamp(17px,1.25vw + 12px,23px);line-height:1.62;max-width:30em;color:#3D3554}
+.hero .lead b{background:linear-gradient(transparent 62%, #FFE08A 62%);padding:0 2px}
+.mascot-row{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(2px,1vw,12px);align-items:end;width:100%}
+.mascot-chip{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  animation:bob 3.4s ease-in-out infinite;animation-delay:calc(var(--i) * .28s);
+}
+.mascot-chip svg{width:clamp(52px,10vw,88px);height:auto;max-width:100%}
+.mascot-chip span{font-size:clamp(11px,.5vw + 9px,14px);font-weight:800;color:var(--ink-soft);white-space:nowrap}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+.hero-actions .btn{flex:1 1 220px}
+
+.home-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:18px}
+@media(min-width:820px){.home-grid{grid-template-columns:1.25fr 1fr}}
+.quick-card{padding:clamp(16px,2vw,26px);display:flex;flex-direction:column;gap:10px}
+.quick-card h3{font-size:clamp(20px,1.3vw + 14px,26px);font-weight:900;display:flex;align-items:center;gap:10px}
+.quick-card p{font-size:clamp(15px,.5vw + 13px,18px);color:var(--ink-soft);line-height:1.6}
+.mini-list{display:grid;gap:8px;margin-top:2px}
+.mini-list li{display:flex;gap:9px;align-items:flex-start;font-size:clamp(15px,.5vw + 13px,18px);color:#3D3554}
+.mini-list svg{width:22px;height:22px;flex:0 0 auto;margin-top:3px}
+
+/* ---------- 教學 ---------- */
+.cat-tabs{display:flex;flex-wrap:wrap;gap:8px;padding:4px 2px 10px}
+.cat-tabs::-webkit-scrollbar{display:none}
+.cat-tab{
+  flex:0 0 auto;display:flex;align-items:center;gap:7px;
+  padding:9px 16px;border-radius:999px;background:#fff;
+  border:3px solid rgba(43,36,64,.16);
+  font-size:clamp(14px,.6vw + 12px,17px);font-weight:800;color:var(--ink-soft);
+  transition:all .18s ease;
+}
+.cat-tab svg{width:28px;height:auto;flex:0 0 auto}
+.cat-tab.on{background:var(--soft);border-color:var(--ink);color:var(--ink);box-shadow:0 4px 0 rgba(43,36,64,.16)}
+
+.teach-head{
+  display:grid;grid-template-columns:1fr;gap:16px;align-items:center;
+  padding:clamp(16px,2.4vw,30px);margin-top:4px;
+  background:linear-gradient(150deg,#fff 0%, var(--soft) 130%);
+  position:relative;overflow:hidden;
+}
+@media(min-width:760px){.teach-head{grid-template-columns:190px 1fr}}
+.teach-head .big-mascot{display:flex;justify-content:center}
+.teach-head .big-mascot svg{width:clamp(120px,18vw,176px);height:auto;filter:drop-shadow(0 8px 0 rgba(43,36,64,.10))}
+.cat-name{font-size:clamp(30px,4vw,48px);font-weight:900;line-height:1.1;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cat-name .tag{
+  font-size:clamp(12px,.4vw + 10px,15px);font-weight:800;padding:4px 12px;border-radius:999px;
+  background:#fff;border:2.5px solid var(--ink);letter-spacing:.04em;
+}
+.cat-def{font-size:clamp(17px,1.15vw + 12px,22px);line-height:1.7;margin-top:8px;color:#3D3554}
+.cat-def b{background:linear-gradient(transparent 60%, rgba(255,197,61,.55) 60%);padding:0 2px}
+
+.word-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:16px}
+@media(min-width:700px){.word-grid{grid-template-columns:1fr 1fr}}
+.word-card{
+  display:flex;gap:14px;align-items:flex-start;
+  padding:clamp(14px,1.8vw,20px);
+  background:#fff;border:3px solid var(--ink);border-radius:24px;
+  box-shadow:0 6px 0 rgba(43,36,64,.10);
+}
+.word-card .badge{
+  width:clamp(58px,7vw,72px);height:clamp(58px,7vw,72px);flex:0 0 auto;border-radius:20px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--soft);border:3px solid var(--ink);
+}
+.word-card .badge svg{width:60%;height:60%}
+.word-body{min-width:0;flex:1}
+.word-title{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.word-title .w{font-size:clamp(28px,2.2vw,38px);font-weight:900;line-height:1.2}
+.word-title .py{font-size:13px;color:var(--ink-soft);font-weight:700}
+.word-mean{font-size:clamp(16px,.55vw + 13px,19px);color:#3D3554;line-height:1.62;margin-top:2px}
+.word-ex{
+  margin-top:8px;padding:8px 12px;border-radius:14px;
+  background:rgba(43,36,64,.045);border:2px dashed rgba(43,36,64,.18);
+  font-size:clamp(16px,.55vw + 13px,20px);line-height:1.6;
+}
+.word-ex mark{background:rgba(255,197,61,.6);color:var(--ink);font-weight:900;padding:0 3px;border-radius:5px}
+.speak{
+  margin-left:auto;flex:0 0 auto;width:48px;height:48px;border-radius:14px;
+  border:2.5px solid var(--ink);background:#fff;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 3px 0 rgba(43,36,64,.2);
+}
+.speak svg{width:22px;height:22px}
+.speak:active{transform:translateY(2px);box-shadow:none}
+
+.tip-card{
+  margin-top:16px;display:flex;gap:14px;align-items:flex-start;
+  padding:clamp(14px,1.8vw,22px);border-radius:24px;
+  background:#FFF6D9;border:3px dashed #E0A400;
+}
+.tip-card .tip-icon{width:52px;height:52px;flex:0 0 auto;border-radius:16px;background:#FFE9A8;display:flex;align-items:center;justify-content:center;border:2.5px solid var(--ink)}
+.tip-card .tip-icon svg{width:28px;height:28px}
+.tip-card h4{font-size:clamp(17px,.6vw + 14px,20px);font-weight:900;margin-bottom:2px}
+.tip-card p{font-size:clamp(15px,.55vw + 13px,18px);line-height:1.65;color:#5B4A18}
+.teach-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+.teach-actions .btn{flex:1 1 240px}
+
+/* ---------- 模式選擇 ---------- */
+.mode-head{text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:18px}
+.mode-head svg{width:clamp(84px,12vw,120px);height:auto}
+.mode-head h2{font-size:clamp(28px,3.4vw,42px);font-weight:900;line-height:1.2}
+.mode-head p{font-size:clamp(16px,.7vw + 14px,20px);color:var(--ink-soft);max-width:34em}
+.mode-grid{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:760px){.mode-grid{grid-template-columns:1fr 1fr}}
+.mode-card{
+  position:relative;text-align:left;padding:clamp(18px,2.2vw,28px);
+  border-radius:28px;border:3px solid var(--ink);
+  background:#fff;box-shadow:0 8px 0 rgba(43,36,64,.12);
+  display:flex;flex-direction:column;gap:10px;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.mode-card:hover{transform:translateY(-4px);box-shadow:0 12px 0 rgba(43,36,64,.14)}
+.mode-card:active{transform:translateY(3px);box-shadow:0 4px 0 rgba(43,36,64,.14)}
+.mode-card .mode-ill{width:clamp(72px,9vw,96px);height:clamp(72px,9vw,96px);border-radius:24px;background:var(--soft);border:3px solid var(--ink);display:flex;align-items:center;justify-content:center}
+.mode-card .mode-ill svg{width:60%;height:60%}
+.mode-card .mode-title{display:block;font-size:clamp(23px,2vw,30px);font-weight:900;line-height:1.2}
+.mode-card .mode-desc{display:block;font-size:clamp(15px,.55vw + 13px,18px);color:var(--ink-soft);line-height:1.6}
+.mode-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
+.pill{font-size:clamp(12px,.35vw + 10px,14px);font-weight:800;padding:4px 10px;white-space:nowrap;border-radius:999px;background:rgba(43,36,64,.07);border:2px solid rgba(43,36,64,.16)}
+.mode-card .go{display:inline-flex;align-items:center;gap:8px;font-weight:900;color:var(--ink);margin-top:6px;font-size:clamp(16px,.6vw + 13px,19px)}
+.mode-card .go svg{width:22px;height:22px}
+
+/* ---------- 遊戲 ---------- */
+.play-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.play-top .who{display:flex;align-items:center;gap:9px;font-weight:900;font-size:clamp(15px,.6vw + 13px,19px)}
+.play-top .who svg{width:42px;height:auto}
+.play-top .mode-name{font-size:clamp(13px,.4vw + 11px,15px);font-weight:800;color:var(--ink-soft);background:#fff;border:2.5px solid rgba(43,36,64,.18);padding:3px 26px;border-radius:999px}
+.progress{display:flex;gap:7px;margin-left:auto;align-items:center}
+.pdot{width:clamp(16px,2vw,22px);height:clamp(16px,2vw,22px);border-radius:50%;background:rgba(43,36,64,.10);border:2.5px solid rgba(43,36,64,.18);transition:all .2s}
+.pdot.done{background:var(--sun);border-color:var(--ink)}
+.pdot.now{background:#fff;border-color:var(--ink);transform:scale(1.14);box-shadow:0 0 0 4px rgba(255,197,61,.35)}
+.score-chip{display:flex;align-items:center;gap:6px;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:4px 14px;font-weight:900;font-size:clamp(15px,.6vw + 13px,19px);box-shadow:0 4px 0 rgba(43,36,64,.14)}
+.score-chip svg{width:22px;height:22px}
+
+.q-card{
+  padding:clamp(18px,2.6vw,34px);
+  background:#fff;border:3px solid var(--ink);border-radius:30px;
+  box-shadow:var(--shadow);position:relative;
+}
+.q-no{font-size:clamp(13px,.4vw + 11px,15px);font-weight:900;letter-spacing:.1em;color:var(--ink-soft);margin-bottom:8px}
+.q-prompt{font-size:clamp(16px,.6vw + 14px,20px);font-weight:800;color:var(--ink-soft);margin-bottom:14px}
+.q-prompt b{color:var(--ink);background:linear-gradient(transparent 62%, #FFE08A 62%)}
+.chunks{display:flex;flex-wrap:wrap;gap:clamp(6px,1vw,12px);justify-content:center;padding:6px 0 4px}
+.chunk{
+  font-size:clamp(23px,2.7vw,36px);font-weight:800;line-height:1.35;
+  padding:8px 14px;border-radius:18px;background:rgba(43,36,64,.045);
+  border:3px solid transparent;transition:all .15s ease;
+  min-height:56px;
+}
+.chunk:hover{background:rgba(255,197,61,.35);border-color:rgba(43,36,64,.25);transform:translateY(-2px)}
+.chunk.chosen-wrong{background:#FFE1DC;border-color:#D9432A;color:#8E2415;animation:shake .4s}
+.chunk.correct{background:#C9F5E7;border-color:#0E7C62;color:#0A5947;box-shadow:0 4px 0 rgba(14,124,98,.35)}
+.chunk.dim{opacity:.45}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}50%{transform:translateX(7px)}75%{transform:translateX(-4px)}}
+
+.blank-sentence{font-size:clamp(23px,2.7vw,36px);font-weight:800;line-height:1.6;text-align:center;padding:8px 0 4px}
+.blank-sentence .blank{
+  display:inline-block;min-width:3.4em;min-height:1.3em;margin:0 6px;padding:0 10px;text-align:center;
+  border-bottom:5px solid var(--ink);color:var(--ink-soft);
+}
+.blank-sentence .blank.filled{color:#0E7C62;border-color:#0E7C62}
+.options{display:grid;gap:12px;margin-top:22px;grid-template-columns:1fr}
+@media(min-width:560px){.options{grid-template-columns:repeat(3,1fr)}}
+.opt{
+  min-height:74px;padding:12px 10px;border-radius:22px;background:#fff;
+  border:3px solid var(--ink);box-shadow:0 6px 0 rgba(43,36,64,.16);
+  font-size:clamp(22px,2.2vw,30px);font-weight:900;
+  transition:transform .12s ease, box-shadow .12s ease, background .15s;
+}
+.opt:hover{background:#FFF6D9;transform:translateY(-2px);box-shadow:0 8px 0 rgba(43,36,64,.16)}
+.opt:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(43,36,64,.16)}
+.opt.wrong{background:#FFE1DC;border-color:#D9432A;color:#8E2415;opacity:.75}
+.opt.correct{background:#C9F5E7;border-color:#0E7C62;color:#0A5947}
+.opt.rest{opacity:.5}
+
+.feedback{
+  visibility:hidden;
+  position:fixed;left:0;right:0;bottom:0;z-index:50;
+  padding:14px clamp(12px,3vw,26px) calc(14px + env(safe-area-inset-bottom));
+  background:linear-gradient(180deg, rgba(255,248,236,0) 0%, rgba(255,248,236,.92) 26%, #FFF8EC 100%);
+  transform:translateY(110%);transition:transform .32s cubic-bezier(.2,.8,.2,1);
+  pointer-events:none;
+}
+.feedback.show{transform:translateY(0);pointer-events:auto;visibility:visible;transition:transform .32s cubic-bezier(.2,.8,.2,1), visibility 0s}
+.feedback-inner{
+  max-width:900px;margin:0 auto;background:#fff;border:3px solid var(--ink);
+  border-radius:26px;box-shadow:0 10px 0 rgba(43,36,64,.16);
+  padding:clamp(14px,2vw,22px);
+  display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;max-height:min(76vh,480px);overflow-y:auto;
+}
+.fb-icon{width:56px;height:56px;flex:0 0 auto;border-radius:18px;display:flex;align-items:center;justify-content:center;background:#C9F5E7;border:2.5px solid var(--ink)}
+.fb-icon.bad{background:#FFE1DC}
+.fb-icon svg{width:32px;height:32px}
+.fb-main{flex:1 1 240px;min-width:0}
+.fb-title{font-size:clamp(19px,1.2vw + 14px,24px);font-weight:900;line-height:1.25}
+.fb-text{font-size:clamp(15px,.55vw + 13px,18px);line-height:1.65;color:#3D3554;margin-top:3px}
+.fb-text b{background:linear-gradient(transparent 60%, rgba(255,197,61,.6) 60%)}
+.fb-actions{display:flex;gap:8px;align-items:center;margin-left:auto}
+.fb-actions .btn{min-height:56px;padding:8px 22px;font-size:clamp(17px,.7vw + 14px,20px)}
+
+/* ---------- 結果 ---------- */
+.result{
+  text-align:center;padding:clamp(22px,3vw,42px);
+  background:linear-gradient(165deg,#fff 0%, #FFF6DC 100%);
+  border:3px solid var(--ink);border-radius:32px;box-shadow:var(--shadow);
+}
+.result h2{font-size:clamp(30px,3.6vw,46px);font-weight:900;line-height:1.2;margin-top:6px}
+.result .sub{font-size:clamp(16px,.7vw + 14px,21px);color:var(--ink-soft);margin-top:8px}
+.stars{display:flex;justify-content:center;gap:8px;margin:16px 0 4px;flex-wrap:wrap}
+.stars svg{width:clamp(40px,6vw,64px);height:auto;animation:popStar .5s cubic-bezier(.2,1.4,.4,1) both}
+.stars svg:nth-child(2){animation-delay:.08s}
+.stars svg:nth-child(3){animation-delay:.16s}
+.stars svg:nth-child(4){animation-delay:.24s}
+.stars svg:nth-child(5){animation-delay:.32s}
+.stars svg:nth-child(6){animation-delay:.4s}
+.stars svg.off{opacity:.18;animation:none}
+@keyframes popStar{from{transform:scale(.4)}to{transform:scale(1)}}
+.review{margin-top:18px;text-align:left;display:grid;gap:8px}
+.review-item{display:flex;gap:10px;align-items:flex-start;font-size:clamp(15px,.5vw + 13px,18px);background:#fff;border:2.5px solid rgba(43,36,64,.14);border-radius:16px;padding:10px 14px;line-height:1.55}
+.review-item .rv-no{font-weight:900;color:var(--ink-soft)}
+.review-item .rv-ans{font-weight:900}
+.result-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:22px}
+.result-actions .btn{flex:1 1 200px}
+
+/* ---------- 小工具 ---------- */
+.bubble{
+  display:inline-block;margin-top:10px;padding:8px 16px;border-radius:16px 16px 16px 4px;
+  background:#fff;border:2.5px solid var(--ink);box-shadow:0 3px 0 rgba(43,36,64,.14);
+  font-size:clamp(15px,.55vw + 13px,19px);font-weight:800;line-height:1.5;
+}
+.bubble .who-says{font-size:.82em;font-weight:700;color:var(--ink-soft);margin-left:4px}
+.chunk:disabled,.opt:disabled{cursor:default}
+.chunk.dim{border-color:transparent}
+.q-hint{
+  margin-top:14px;text-align:center;font-size:clamp(14px,.45vw + 12px,17px);
+  color:var(--ink-soft);line-height:1.6;padding:0 8px;min-height:1.6em;
+}
+.result .mascot-lg{width:clamp(96px,13vw,138px);height:auto}
+.mode-head svg{max-width:100%}
+.footer-note{margin-top:26px;text-align:center;font-size:13px;color:var(--ink-soft);line-height:1.7}
+.nowrap{white-space:nowrap}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important;transition-duration:.001ms !important}
+}
+@media(max-width:420px){
+  .brand-sub{display:none}
+  .topbar .brand svg{width:38px;height:38px}
+  .icon-btn{width:46px;height:46px;border-radius:14px}
+  .icon-btn svg{width:23px;height:23px}
+}
+</style>
+</head>
+<body>
+<div id="app" data-generated-by="aurora-frontend-design">
+
+  <header class="topbar">
+    <button class="icon-btn" id="btn-home" aria-label="回到首頁" title="回到首頁">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V20h13V9.5"/><path d="M9.5 20v-6h5v6"/></svg>
+    </button>
+    <div class="brand">
+      <span id="brand-mascot" aria-hidden="true"></span>
+      <div class="brand-text">
+        <div class="brand-title">副詞小精靈</div>
+        <div class="brand-sub">小學副詞互動學習樂園</div>
+      </div>
+    </div>
+    <button class="icon-btn" id="btn-sound" aria-label="關閉音效" aria-pressed="true" title="音效開關">
+      <svg id="sound-on-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h4L13 5v14L8 14.5H4z"/><path d="M17 8.5a5 5 0 0 1 0 7"/><path d="M19.5 6a8.5 8.5 0 0 1 0 12"/></svg>
+      <svg id="sound-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M4 9.5h4L13 5v14L8 14.5H4z"/><path d="m17 9.5 5 5"/><path d="m22 9.5-5 5"/></svg>
+    </button>
+  </header>
+
+  <main>
+    <!-- 首頁 -->
+    <section class="screen on" id="screen-home">
+      <div class="wrap">
+        <div class="hero">
+          <div class="hero-inner">
+            <div class="hero-copy">
+              <span class="kicker"><span class="dot"></span>小一至小四 · 中文科 · 副詞</span>
+              <h1>副詞<br><span class="hl">小精靈</span>出動！</h1>
+              <p class="lead">五位小精靈分別掌管<b>程度、時間、範圍、否定、情態</b>五類副詞。先跟他們學一學，再接受<b>兩種挑戰</b>，把星星統統收集回來！</p>
+              <div class="hero-actions">
+                <button class="btn btn-primary btn-lg" id="go-teach">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v18H6.5A2.5 2.5 0 0 1 4 18.5z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v18h5.5A2.5 2.5 0 0 0 20 18.5z"/></svg>
+                  先學一學
+                </button>
+                <button class="btn btn-lg" id="go-play">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5.5 19 12 8 18.5z"/></svg>
+                  直接挑戰
+                </button>
+              </div>
+            </div>
+            <div class="hero-visual">
+              <div class="mascot-row" id="home-mascots"></div>
+              <p class="visual-note">五類副詞 · 五位小精靈</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="home-grid">
+          <div class="panel quick-card">
+            <h3>
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
+              玩法很簡單
+            </h3>
+            <ul class="mini-list">
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#FF7A52" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 6.5"/></svg>
+                <span><b>第一步：</b>選一類副詞，看看小精靈的圖示和例句。</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#3E93E8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 6.5"/></svg>
+                <span><b>第二步：</b>選一種遊戲模式，每種模式有六組題目。</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#1FAF8F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 6.5"/></svg>
+                <span><b>第三步：</b>揭曉答案時會解釋原因，答對可收集星星。</span>
+              </li>
+            </ul>
+          </div>
+          <div class="panel quick-card">
+            <h3>
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.7 6.3.9-4.6 4.4 1.1 6.2-5.5-3-5.5 3 1.1-6.2L3 9.6l6.3-.9z"/></svg>
+              你會學到
+            </h3>
+            <p id="home-cat-list">程度副詞、時間副詞、範圍副詞、否定副詞、情態副詞，共五類、十種玩法、六十組題目。</p>
+            <p style="margin-top:2px">用字參考《香港小學學習字詞表》，全部以繁體字顯示。</p>
+          </div>
+        </div>
+        <p class="footer-note">用眼距離 40 厘米以上 · 每玩 15 分鐘休息一下</p>
+      </div>
+    </section>
+
+    <!-- 教學 -->
+    <section class="screen" id="screen-teach">
+      <div class="wrap">
+        <div class="cat-tabs" id="cat-tabs" role="tablist" aria-label="副詞類別"></div>
+        <div id="teach-body"></div>
+      </div>
+    </section>
+
+    <!-- 模式選擇 -->
+    <section class="screen" id="screen-modes">
+      <div class="wrap">
+        <div id="modes-body"></div>
+      </div>
+    </section>
+
+    <!-- 遊戲 -->
+    <section class="screen" id="screen-play">
+      <div class="wrap" style="padding-bottom:230px">
+        <div class="play-top">
+          <div class="who" id="play-who"></div>
+          <span class="mode-name" id="play-mode"></span>
+          <div class="progress" id="play-progress" aria-hidden="true"></div>
+          <div class="score-chip">
+            <svg viewBox="0 0 24 24" fill="#F5B32E" stroke="#2B2440" stroke-width="1.8" stroke-linejoin="round"><path d="m12 3 2.7 5.7 6.3.9-4.6 4.4 1.1 6.2-5.5-3-5.5 3 1.1-6.2L3 9.6l6.3-.9z"/></svg>
+            <span id="play-score">0</span>
+          </div>
+        </div>
+        <div id="play-body"></div>
+      </div>
+    </section>
+
+    <!-- 結果 -->
+    <section class="screen" id="screen-result">
+      <div class="wrap">
+        <div id="result-body"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 揭曉答案面板 -->
+  <div class="feedback" id="feedback" role="status" aria-live="polite">
+    <div class="feedback-inner">
+      <div class="fb-icon" id="fb-icon"></div>
+      <div class="fb-main">
+        <div class="fb-title" id="fb-title"></div>
+        <p class="fb-text" id="fb-text"></p>
+      </div>
+      <div class="fb-actions">
+        <button class="btn btn-primary" id="fb-next">下一題</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+/* ===== 課程與題庫資料 ===== */
+const CATS = [
+  {
+    id: 'degree', name: '程度副詞', short: '程度', tag: '有多深？有多強？',
+    color: '#FF7A52', soft: '#FFE4D9', deep: '#B23A18',
+    mascotName: '多多', hook: '程度有幾深？問我就知！',
+    def: '程度副詞用來說明<b>程度有多深、有多強</b>，通常放在形容詞或表示心理的動詞前面，例如「很高」、「非常喜歡」。',
+    words: [
+      { w: '很', icon: 'sun', mean: '表示程度高，是日常最常用的程度副詞。', ex: '這朵花<mark>很</mark>美。' },
+      { w: '十分', icon: 'spark', mean: '表示程度很高，跟「非常」意思相近，語氣較書面。', ex: '妹妹的畫<mark>十分</mark>漂亮。' },
+      { w: '非常', icon: 'star', mean: '表示程度很高，比「很」更強，常用於書面或正式場合。', ex: '老師<mark>非常</mark>滿意我的作品。' },
+      { w: '太', icon: 'flame', mean: '表示程度過分，超過了合適的程度，句末常配「了」。', ex: '這杯水<mark>太</mark>燙了。' },
+      { w: '最', icon: 'crown', mean: '在同類事物之中程度最高，獨一無二。', ex: '這是我<mark>最</mark>喜歡的季節。' }
+    ],
+    tip: { t: '「太」和「最」怎樣分？', d: '「太」是超過了合適的程度，例如「這件衣服太大」，不合身；「最」是在同類中排第一，例如「這件衣服最大」，是全部之中最大的一件。' },
+    m1: {
+      name: '眼明手快', sub: '在句子中點出副詞',
+      qs: [
+        { chunks: ['這碗湯', '太', '鹹了，', '我', '喝不下去。'], a: 1, why: '「太」是程度副詞，表示程度過分，超過了合適的程度。湯鹹得令人喝不下去，正因為「太」修飾了「鹹」。' },
+        { chunks: ['妹妹的畫', '十分', '漂亮。'], a: 1, why: '「十分」表示程度很高，等於「非常」，用來修飾形容詞「漂亮」。' },
+        { chunks: ['今天的天氣', '非常', '炎熱。'], a: 1, why: '「非常」修飾「炎熱」，說明熱的程度很高，並不是時間詞。' },
+        { chunks: ['這', '是', '我', '最', '喜歡的', '一本書。'], a: 3, why: '「最」表示在同類之中程度最高。所有書之中，我喜歡這一本的程度最高。' },
+        { chunks: ['爸爸跑得', '很', '快。'], a: 1, why: '「很」修飾形容詞「快」，說明爸爸跑得快到甚麼程度。' },
+        { chunks: ['我覺得', '這件外套', '非常', '好看。'], a: 2, why: '「非常」修飾「好看」，表示這件外套好看的程度很高。' }
+      ]
+    },
+    m2: {
+      name: '句子填空', sub: '選出最合適的副詞',
+      qs: [
+        { s: '這本書的情節＿＿有趣，我一口氣就看完。', opts: ['已經', '非常', '一起'], a: 1, why: '「非常」表示程度很高，修飾「有趣」。「已經」是時間副詞，「一起」表示共同做某事，都不能說明有趣的程度。' },
+        { s: '弟弟今天＿＿開心，因為他收到生日禮物。', opts: ['很', '沒有', '正在'], a: 0, why: '「很」修飾「開心」，表示開心的程度高。「沒有」是否定副詞，「正在」表示動作進行中，都不合句意。' },
+        { s: '這道數學題＿＿難了，我算了三遍也做不出來。', opts: ['都', '常常', '太'], a: 2, why: '「太……了」表示程度過分。題目難得令學生做不出來，用「太」最貼切。「都」是範圍副詞，「常常」是時間副詞。' },
+        { s: '全班同學中，小明跑得＿＿快。', opts: ['也', '最', '別'], a: 1, why: '句中有「全班同學中」這個範圍，用「最」表示在所有人之中程度最高。「也」表示相同，「別」表示勸阻。' },
+        { s: '妹妹畫的圖畫＿＿漂亮，老師也稱讚她。', opts: ['十分', '已經', '一起'], a: 0, why: '「十分」等於「非常」，修飾「漂亮」，說明圖畫漂亮的程度很高。「已經」和「一起」都不能修飾形容詞。' },
+        { s: '這杯水＿＿燙了，我等一會再喝。', opts: ['最', '太', '也'], a: 1, why: '「太……了」表示水燙得超過了合適的程度，所以現在不能喝。「最」是在同類中排第一，「也」表示相同，都不合句意。' }
+      ]
+    }
+  },
+  {
+    id: 'time', name: '時間副詞', short: '時間', tag: '幾時發生？',
+    color: '#3E93E8', soft: '#D9EBFF', deep: '#1B5E9E',
+    mascotName: '滴滴', hook: '幾時發生？我幫你排好時間表！',
+    def: '時間副詞用來說明事情<b>甚麼時候發生、進行到甚麼階段</b>，例如開始、完成、即將發生，或發生的次數。',
+    words: [
+      { w: '已經', icon: 'check', mean: '事情完成了，或到了某個階段。', ex: '我<mark>已經</mark>吃過午飯。' },
+      { w: '正在', icon: 'clock', mean: '事情此刻正在進行。', ex: '媽媽<mark>正在</mark>講電話。' },
+      { w: '快要', icon: 'hourglass', mean: '事情不久之後就會發生，句末常配「了」。', ex: '校車<mark>快要</mark>到了。' },
+      { w: '常常', icon: 'repeat', mean: '事情發生的次數多。', ex: '我<mark>常常</mark>到圖書館看書。' },
+      { w: '剛剛', icon: 'bell', mean: '事情發生在不久之前。', ex: '妹妹<mark>剛剛</mark>睡着。' }
+    ],
+    tip: { t: '「已經」和「快要」是一對好拍檔', d: '「已經」表示事情完成了；「快要」表示事情還未發生、即將發生。比較：「校車已經到了」（車來了）和「校車快要到了」（車還未來）。' },
+    m1: {
+      name: '眼明手快', sub: '在句子中點出副詞',
+      qs: [
+        { chunks: ['放學後，', '我', '已經', '做完功課了。'], a: 2, why: '「已經」是時間副詞，表示做完功課這件事完成了。' },
+        { chunks: ['早上，', '媽媽', '正在', '廚房煮飯。'], a: 2, why: '「正在」表示煮飯這個動作此刻進行中。' },
+        { chunks: ['校車', '快要', '到了，', '我們快點走吧。'], a: 1, why: '「快要」表示事情不久就會發生，配合句末的「了」，說明校車即將到達。' },
+        { chunks: ['每個週末，', '爺爺', '常常', '帶我到公園散步。'], a: 2, why: '「常常」表示次數多，說明爺爺帶我到公園的次數很頻密。' },
+        { chunks: ['經過三個月的練習，', '我', '已經', '學會游泳了。'], a: 2, why: '「已經」表示經過三個月的練習之後，學會游泳這件事完成了。' },
+        { chunks: ['妹妹', '剛剛', '睡着，', '請你小聲一點。'], a: 1, why: '「剛剛」表示事情發生在不久之前，妹妹才睡着不久。' }
+      ]
+    },
+    m2: {
+      name: '句子填空', sub: '選出最合適的副詞',
+      qs: [
+        { s: '天色愈來愈暗，看樣子＿＿下雨了。', opts: ['快要', '已經', '常常'], a: 0, why: '天色暗是下雨前的徵兆，雨還未落下，所以用「快要」，表示即將發生。「已經」表示完成了，前後矛盾。' },
+        { s: '我＿＿去過日本兩次，那裏的櫻花很美。', opts: ['正在', '已經', '剛剛'], a: 1, why: '「已經」配合「去過」，表示到現在為止有過兩次這樣的經歷。「正在」是此刻，「剛剛」是不久之前，都不合句意。' },
+        { s: '電話響了，哥哥＿＿在房間做功課，沒有聽到。', opts: ['正在', '已經', '常常'], a: 0, why: '電話響的時候，哥哥做功課這個動作正在進行，所以用「正在」。「已經」表示完成，「常常」表示次數多。' },
+        { s: '爸爸＿＿戒煙了，家裏再也沒有煙味。', opts: ['已經', '快要', '常常'], a: 0, why: '家裏再沒有煙味，說明戒煙這件事已經完成，所以用「已經」。「快要」表示還未發生。' },
+        { s: '我＿＿看書，請你不要打擾我。', opts: ['剛剛', '正在', '常常'], a: 1, why: '說話的這一刻正在看書，用「正在」表示動作進行中。「剛剛」表示不久之前，「常常」表示次數多。' },
+        { s: '這間小店＿＿有人排隊，食物一定很好吃。', opts: ['剛剛', '常常', '快要'], a: 1, why: '「常常」表示次數多，說明這間店經常有人排隊，是人氣之選。「剛剛」只說不久之前，「快要」說即將發生。' }
+      ]
+    }
+  },
+  {
+    id: 'scope', name: '範圍副詞', short: '範圍', tag: '全部？定係一部分？',
+    color: '#1FAF8F', soft: '#D2F4E9', deep: '#0C6E59',
+    mascotName: '圈圈', hook: '全部定係一部分？我幫你數清楚！',
+    def: '範圍副詞用來說明動作或事物<b>包括哪些、數量有多少</b>——是全部、只有一部分，還是跟前面的情況相同。',
+    words: [
+      { w: '都', icon: 'ring', mean: '表示前面提到的全部對象，無一例外。', ex: '同學們<mark>都</mark>笑了。' },
+      { w: '也', icon: 'layers', mean: '表示和前面所說的情況相同。', ex: '我喜歡畫畫，妹妹<mark>也</mark>喜歡。' },
+      { w: '只', icon: 'dot', mean: '表示限於某個範圍，數量少。', ex: '我<mark>只</mark>剩下一顆糖。' },
+      { w: '一共', icon: 'sum', mean: '把各部分的數量合起來計算。', ex: '我們<mark>一共</mark>收集了三十個汽水罐。' }
+    ],
+    tip: { t: '「都」要放對位置', d: '「都」要放在所指對象的後面，例如「我們都贊成」。不能說「都我們贊成」，這樣就倒轉了次序。「全都」就是「全部」加「都」，意思跟「都」相近。' },
+    m1: {
+      name: '眼明手快', sub: '在句子中點出副詞',
+      qs: [
+        { chunks: ['同學們', '都', '舉手', '回答問題。'], a: 1, why: '「都」表示全班同學無一例外，全部舉手，是範圍副詞。' },
+        { chunks: ['我', '不喜歡吃苦瓜，', '弟弟', '也', '不喜歡。'], a: 3, why: '「也」表示弟弟的情況和「我」相同，同樣不喜歡吃苦瓜。' },
+        { chunks: ['雪櫃裏', '只', '剩下', '一個蘋果。'], a: 1, why: '「只」把範圍收窄到「一個蘋果」，表示數量少。' },
+        { chunks: ['這個月，', '我們', '一共', '讀了五本書。'], a: 2, why: '「一共」把這個月讀過的書合起來計算，總數是五本。' },
+        { chunks: ['下課鐘聲一響，', '同學們', '全都', '跑到操場去。'], a: 2, why: '「全都」是「全部」加「都」，表示所有同學一起跑到操場，無一例外，同屬範圍副詞。' },
+        { chunks: ['哥哥', '報名參加了朗誦比賽，', '我', '也', '報名了。'], a: 3, why: '「也」表示「我」的情況和哥哥相同，同樣報名參加了比賽。' }
+      ]
+    },
+    m2: {
+      name: '句子填空', sub: '選出最合適的副詞',
+      qs: [
+        { s: '哥哥和我＿＿喜歡吃巧克力。', opts: ['都', '只', '一共'], a: 0, why: '主語是「哥哥和我」兩個人，用「都」表示兩個人都喜歡。「只」表示只有一部分，與句意相反。' },
+        { s: '這盒蠟筆＿＿有十二種顏色。', opts: ['也', '一共', '都'], a: 1, why: '這裏要計算蠟筆的總數，用「一共」最準確。「都」表示全部，但句子重點是合起來的數量。' },
+        { s: '媽媽說：「你＿＿可以玩十分鐘，之後就要做功課。」', opts: ['只', '都', '也'], a: 0, why: '「只」表示限制在十分鐘之內，不能多玩，突出範圍很小。' },
+        { s: '我沒有去過海洋公園，妹妹＿＿沒有去過。', opts: ['一共', '也', '只'], a: 1, why: '妹妹的情況和「我」相同，所以用「也」。' },
+        { s: '這個月我＿＿讀了一本書，因為功課太忙。', opts: ['只', '都', '一共'], a: 0, why: '「只」把數量限制在一本，表示比一般情況少，配合「因為功課太忙」的解釋。' },
+        { s: '運動會那天，同學們＿＿準時回到學校。', opts: ['都', '只', '一共'], a: 0, why: '「都」總括「同學們」全部，表示沒有一個人遲到。「只」表示範圍小，「一共」用來計算總數。' }
+      ]
+    }
+  },
+  {
+    id: 'neg', name: '否定副詞', short: '否定', tag: '唔係、唔好、未有',
+    color: '#8C6BEF', soft: '#E8E0FF', deep: '#5636BF',
+    mascotName: '不不', hook: '唔好、未有、唔係……全部歸我管！',
+    def: '否定副詞用來說明<b>「不是、沒有、不要」</b>，把句子的意思反過來，變成否定。',
+    words: [
+      { w: '不', icon: 'ban', mean: '表示不這樣做、不是這樣，常用於習慣、意願或判斷。', ex: '我<mark>不</mark>吃辣。' },
+      { w: '沒有', icon: 'xcircle', mean: '表示事情沒有發生，或東西不存在。', ex: '我<mark>沒有</mark>帶功課。' },
+      { w: '別', icon: 'hand', mean: '表示勸阻，叫別人不要做某事。', ex: '<mark>別</mark>在走廊奔跑。' },
+      { w: '未', icon: 'hourglass', mean: '表示事情還沒有完成，語氣比較書面。', ex: '火車<mark>未</mark>到站。' }
+    ],
+    tip: { t: '「不」和「沒有」怎樣分？', d: '「我不吃辣」說的是習慣，平時也不吃；「我沒有吃辣」說的是這一次沒有吃。前者否定習慣，後者否定已經發生的事。' },
+    m1: {
+      name: '眼明手快', sub: '在句子中點出副詞',
+      qs: [
+        { chunks: ['我', '今天', '不', '想', '去公園。'], a: 2, why: '「不」否定「想」，表示今天沒有這個意願，是否定副詞。' },
+        { chunks: ['弟弟', '沒有', '做完功課，', '所以不能看電視。'], a: 1, why: '「沒有」表示「做完功課」這件事尚未發生。' },
+        { chunks: ['請你', '別', '在走廊奔跑。'], a: 1, why: '「別」表示勸阻，叫對方不要做，語氣比「不要」口語化。' },
+        { chunks: ['這本書', '我', '未', '看完，', '明天再還給你。'], a: 2, why: '「未」表示「看完」這件事還沒有完成，語氣較書面。' },
+        { chunks: ['小貓', '不', '吃紅蘿蔔。'], a: 1, why: '「不」否定小貓吃紅蘿蔔這個習慣，表示牠平時也不吃。' },
+        { chunks: ['媽媽', '沒有', '買到', '我最愛吃的蛋糕。'], a: 1, why: '「沒有」否定「買到蛋糕」這件事，表示這件事沒有發生。' }
+      ]
+    },
+    m2: {
+      name: '句子填空', sub: '選出最合適的副詞',
+      qs: [
+        { s: '天氣這麼冷，你＿＿穿外套會着涼的。', opts: ['不', '沒', '別'], a: 0, why: '「不穿外套」是假設的情況，用「不」否定這個動作。「別」用來勸阻，但句中是在說後果，不是叫對方不要穿。' },
+        { s: '我＿＿帶雨傘，結果被雨淋濕了。', opts: ['不', '沒有', '未'], a: 1, why: '「沒有帶雨傘」表示這件事沒有發生，所以被雨淋濕。「不帶」多說習慣或意願；「未帶」語氣較書面，不合這裏的語感。' },
+        { s: '圖書館裏請＿＿大聲說話。', opts: ['別', '不', '沒'], a: 0, why: '「請別……」是禮貌的勸阻，叫大家不要大聲說話。' },
+        { s: '這份功課我＿＿完成，要留到明天再做。', opts: ['不', '未', '別'], a: 1, why: '「未完成」表示還未做完，語氣較書面。「不完成」會變成不願意完成，意思不同。' },
+        { s: '妹妹＿＿喜歡吃青椒，她說味道很怪。', opts: ['沒', '別', '不'], a: 2, why: '「不喜歡」說的是妹妹的喜好和習慣，用「不」最合適。「沒喜歡」在普通話和粵語中都不自然。' },
+        { s: '昨天我＿＿看到那隻流浪貓。', opts: ['沒有', '不', '別'], a: 0, why: '「昨天」是過去的事，用「沒有」否定「看到」這件事發生。「不」多用於現在或習慣。' }
+      ]
+    }
+  },
+  {
+    id: 'manner', name: '情態副詞', short: '情態', tag: '點樣做？',
+    color: '#D99A12', soft: '#FFEFC9', deep: '#8A5A00',
+    mascotName: '拖拖', hook: '一齊做、親自做、慢慢做——點樣做，問我啦！',
+    def: '情態副詞用來說明動作<b>「怎樣做」</b>——是幾個人一起、由誰親自做，還是用甚麼態度、速度去做。',
+    words: [
+      { w: '一起', icon: 'users', mean: '幾個人共同做同一件事。', ex: '我們<mark>一起</mark>打掃課室。' },
+      { w: '親自', icon: 'hand', mean: '由本人自己做，不假手於人。', ex: '校長<mark>親自</mark>迎接嘉賓。' },
+      { w: '互相', icon: 'repeat', mean: '彼此對對方做同樣的事。', ex: '同學要<mark>互相</mark>尊重。' },
+      { w: '慢慢', icon: 'snail', mean: '表示動作的速度慢。', ex: '小龜<mark>慢慢</mark>爬過石頭。' }
+    ],
+    tip: { t: '「一起」和「互相」不同', d: '「一起」是幾個人同時做同一件事，例如「一起唱歌」；「互相」是你對我、我對你，例如「互相幫助」——你幫我，我也幫你。' },
+    m1: {
+      name: '眼明手快', sub: '在句子中點出副詞',
+      qs: [
+        { chunks: ['放學後，', '我們', '一起', '到圖書館借書。'], a: 2, why: '「一起」表示幾個同學共同做「到圖書館借書」這件事。' },
+        { chunks: ['校長', '親自', '為我們頒獎。'], a: 1, why: '「親自」表示由校長本人做，不是請別人代勞。' },
+        { chunks: ['同學之間', '要', '互相', '幫助。'], a: 2, why: '「互相」表示你幫我、我幫你，彼此對對方做同樣的事。' },
+        { chunks: ['小貓', '慢慢', '走到我身邊。'], a: 1, why: '「慢慢」修飾「走」，說明小貓走路的速度很慢。' },
+        { chunks: ['做錯事', '要', '親自', '向對方道歉。'], a: 2, why: '「親自」表示由自己做，不是請別人代為道歉，顯示誠意。' },
+        { chunks: ['下雨了，', '我們', '一起', '撐着雨傘回家。'], a: 2, why: '「一起」表示幾個人共同做「撐着雨傘回家」這件事。' }
+      ]
+    },
+    m2: {
+      name: '句子填空', sub: '選出最合適的副詞',
+      qs: [
+        { s: '做專題研習時，同學們＿＿討論問題。', opts: ['一起', '親自', '互相'], a: 0, why: '幾位同學共同做「討論問題」這件事，用「一起」最合適。「親自」強調本人動手，「互相」強調彼此對對方。' },
+        { s: '爺爺生病了，爸爸＿＿帶他去看醫生。', opts: ['一起', '互相', '親自'], a: 2, why: '「親自」表示由爸爸本人帶爺爺去，不是拜託別人，最能表達這份心意。' },
+        { s: '中秋節晚上，一家人＿＿到公園賞月。', opts: ['親自', '一起', '慢慢'], a: 1, why: '一家人共同做賞月這件事，用「一起」最合適。「親自」和「慢慢」都不合句意。' },
+        { s: '兄弟姐妹之間應該＿＿愛護。', opts: ['互相', '一起', '親自'], a: 0, why: '哥哥愛護弟弟，弟弟也愛護哥哥，彼此對對方好，所以用「互相」。' },
+        { s: '爺爺＿＿種了一盆蘭花，天天細心照料。', opts: ['親自', '互相', '一起'], a: 0, why: '「親自」表示由爺爺本人動手種，不是請別人幫忙。' },
+        { s: '小寶寶＿＿閉上眼睛，睡着了。', opts: ['互相', '慢慢', '一起'], a: 1, why: '小寶寶入睡的過程是漸進、緩慢的，用「慢慢」最貼切。' }
+      ]
+    }
+  }
+];
+
+/* ===== 圖示 ===== */
+const ICON = {
+  sun: '<circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.4M12 19v2.4M2.6 12h2.4M19 12h2.4M5.4 5.4 7 7M17 17l1.6 1.6M18.6 5.4 17 7M7 17l-1.6 1.6"/>',
+  star: '<path d="m12 3 2.7 5.7 6.3.9-4.6 4.4 1.1 6.2-5.5-3-5.5 3 1.1-6.2L3 9.6l6.3-.9z"/>',
+  spark: '<path d="M12 3v5.5M12 15.5V21M3 12h5.5M15.5 12H21M6.2 6.2l3.6 3.6M14.2 14.2l3.6 3.6M17.8 6.2l-3.6 3.6M9.8 14.2l-3.6 3.6"/>',
+  flame: '<path d="M12 3c1 3-1 4.2-2.4 6A7.6 7.6 0 0 0 8 14a4 4 0 0 0 8 0c0-2-1-3.4-2-4.6-.7 1.4-1.6 2-2.4 2.3.8-2.6.7-5.8.4-8.7z"/>',
+  crown: '<path d="M3.5 18h17l-1.4-9-4.4 3L12 5.5 9.3 12l-4.4-3z"/><path d="M3.5 18v2h17v-2"/>',
+  check: '<path d="m4.5 12.5 4.6 4.6L19.5 6.8"/>',
+  clock: '<circle cx="12" cy="12" r="8.6"/><path d="M12 7.4V12l3.2 2"/>',
+  hourglass: '<path d="M7 3h10M7 21h10"/><path d="M8 3c0 4 4 5.4 4 9s-4 5-4 9M16 3c0 4-4 5.4-4 9s4 5 4 9"/>',
+  bell: '<path d="M18 15.5H6l1.4-1.9V9a4.6 4.6 0 0 1 9.2 0v4.6z"/><path d="M10 18.5a2 2 0 0 0 4 0"/><path d="M12 4.4v-1"/>',
+  repeat: '<path d="M4 9a8 8 0 0 1 13.6-4.3L20 7"/><path d="M20 3.5V7h-3.5"/><path d="M20 15a8 8 0 0 1-13.6 4.3L4 17"/><path d="M4 20.5V17h3.5"/>',
+  ring: '<circle cx="12" cy="12" r="7.6" stroke-width="5"/>',
+  layers: '<path d="m12 3 9 5-9 5-9-5z"/><path d="m3.5 12.5 8.5 4.7 8.5-4.7"/><path d="m3.5 17 8.5 4.7 8.5-4.7"/>',
+  dot: '<circle cx="12" cy="12" r="5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="9" stroke-dasharray="2 4"/>',
+  sum: '<path d="M18 4H7l6 8-6 8h11"/><path d="M17 4v16"/>',
+  ban: '<circle cx="12" cy="12" r="8.6"/><path d="m6 6 12 12"/>',
+  xcircle: '<circle cx="12" cy="12" r="8.6"/><path d="m9 9 6 6M15 9l-6 6"/>',
+  hand: '<path d="M9 11V5.6a1.6 1.6 0 0 1 3.2 0V11"/><path d="M12.2 11V4.6a1.6 1.6 0 0 1 3.2 0V11"/><path d="M15.4 11.2V7.4a1.6 1.6 0 0 1 3.2 0V15a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6v-3.4a1.6 1.6 0 0 1 3.2 0V13"/>',
+  users: '<circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c0-3.2 2.5-5.4 5.5-5.4s5.5 2.2 5.5 5.4"/><circle cx="17" cy="9" r="2.6"/><path d="M16 14.2c2.6.2 4.5 2.3 4.5 5.2"/>',
+  snail: '<path d="M4 17h13.5a3 3 0 0 0 3-3"/><path d="M7 17c-.5-2 .8-4 3-4"/><circle cx="13" cy="11.5" r="5"/><path d="M13 11.5c-1.6 0-2.4-1-2.4-2.2S11.4 7 13 7s2.6 1 2.6 2.4"/>',
+  magnifier: '<circle cx="10.8" cy="10.8" r="6.4"/><path d="m15.6 15.6 4.6 4.6"/>',
+  puzzle: '<path d="M10 3.5h4v2a2 2 0 1 0 4 0v-2h2.5V10h-2a2 2 0 1 0 0 4h2v6.5H14v-2a2 2 0 1 0-4 0v2H3.5V14h2a2 2 0 1 0 0-4h-2V3.5H10z"/>',
+  lightbulb: '<path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 1 3.5 10.7c-.6.5-1 1.2-1 2H9.5c0-.8-.4-1.5-1-2A6 6 0 0 1 12 3z"/>',
+  arrow: '<path d="M4 12h15"/><path d="m13 6 6 6-6 6"/>',
+  cross: '<path d="m6 6 12 12M18 6 6 18"/>',
+  trophy: '<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 5.5H5.5V7a3 3 0 0 0 3 3M16 5.5h2.5V7a3 3 0 0 1-3 3"/><path d="M12 13v4M8.5 21h7l-.8-4h-5.4z"/>',
+  book: '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v18H6.5A2.5 2.5 0 0 1 4 18.5z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v18h5.5A2.5 2.5 0 0 0 20 18.5z"/>',
+  speaker: '<path d="M4 9.5h4L13 5v14L8 14.5H4z"/><path d="M16.5 9a4.5 4.5 0 0 1 0 6"/>'
+};
+function icon(name, cls) {
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="' + (cls || '') + '">' + (ICON[name] || ICON.star) + '</svg>';
+}
+
+/* ===== 小精靈 ===== */
+const ACC = {
+  degree: '<path d="M60 27c-6-4-9-9-7-14 4 2 6 0 7-5 3 5 7 7 6 12-1 4-3 6-6 7z" fill="#FFC53D" stroke="#2B2440" stroke-width="3.2" stroke-linejoin="round"/>',
+  time: '<circle cx="60" cy="92" r="14" fill="#fff" stroke="#2B2440" stroke-width="3.4"/><path d="M60 84.5v8l5.5 3.5" fill="none" stroke="#2B2440" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>',
+  scope: '<ellipse cx="60" cy="62" rx="52" ry="50" fill="none" stroke="#2B2440" stroke-width="3.6" stroke-dasharray="9 8" opacity=".5"/>',
+  neg: '<circle cx="60" cy="92" r="13.5" fill="#fff" stroke="#2B2440" stroke-width="3.4"/><path d="m51.5 83.5 17 17" stroke="#D9432A" stroke-width="4.2" stroke-linecap="round"/>',
+  manner: '<path d="M60 104c-8 0-14-5.6-14-13s6-13 14-13 12 4.6 12 11-4.6 10-10 10-8.4-3.4-8.4-8 2.8-6.6 6.4-6.6" fill="none" stroke="#2B2440" stroke-width="3.2" stroke-linecap="round" opacity=".8"/>'
+};
+function mascotSVG(cat, cls) {
+  return '<svg viewBox="0 0 120 132" role="img" aria-label="' + cat.mascotName + '小精靈" class="' + (cls || '') + '">' +
+    '<ellipse cx="60" cy="122" rx="30" ry="6" fill="#2B2440" opacity=".13"/>' +
+    '<path d="M60 18c22.5 0 39 16.6 39 40.5C99 84.6 81.5 105 60 105S21 84.6 21 58.5C21 34.6 37.5 18 60 18z" fill="' + cat.color + '" stroke="#2B2440" stroke-width="4"/>' +
+    (ACC[cat.id] || '') +
+    '<circle cx="47" cy="55" r="7.2" fill="#2B2440"/><circle cx="73" cy="55" r="7.2" fill="#2B2440"/>' +
+    '<circle cx="49.4" cy="52.2" r="2.4" fill="#fff"/><circle cx="75.4" cy="52.2" r="2.4" fill="#fff"/>' +
+    '<circle cx="35" cy="67" r="6" fill="#fff" opacity=".45"/><circle cx="85" cy="67" r="6" fill="#fff" opacity=".45"/>' +
+    '<path d="M52 66q8 8 16 0" fill="none" stroke="#2B2440" stroke-width="3.6" stroke-linecap="round"/>' +
+    '</svg>';
+}
+
+/* ===== 音效 ===== */
+const Sound = (function () {
+  let on = true, ctx = null;
+  function ensure() {
+    if (!ctx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (AC) ctx = new AC();
+    }
+    if (ctx && ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  }
+  function tone(freq, dur, type, delay, vol) {
+    if (!on) return;
+    const c = ensure(); if (!c) return;
+    const t0 = c.currentTime + (delay || 0);
+    const osc = c.createOscillator(), g = c.createGain();
+    osc.type = type || 'sine';
+    osc.frequency.setValueAtTime(freq, t0);
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(vol || 0.16, t0 + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    osc.connect(g); g.connect(c.destination);
+    osc.start(t0); osc.stop(t0 + dur + 0.05);
+  }
+  return {
+    isOn: function () { return on; },
+    toggle: function () { on = !on; if (!on && 'speechSynthesis' in window) { try { window.speechSynthesis.cancel(); } catch (e) {} } if (on) tone(660, .12, 'sine', 0, .12); return on; },
+    tap: function () { tone(520, .08, 'triangle', 0, .10); },
+    correct: function () { tone(523.25, .16, 'sine', 0, .18); tone(659.25, .16, 'sine', .1, .16); tone(783.99, .3, 'sine', .2, .16); },
+    wrong: function () { tone(311.13, .18, 'sine', 0, .13); tone(261.63, .26, 'sine', .13, .12); },
+    win: function () { [523.25, 659.25, 783.99, 1046.5].forEach(function (f, i) { tone(f, .28, 'triangle', i * .13, .15); }); },
+    speak: function (text) {
+      if (!on || !('speechSynthesis' in window)) return;
+      try {
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'zh-HK'; u.rate = .86; u.pitch = 1.05;
+        const vs = window.speechSynthesis.getVoices();
+        const v = vs.find(function (x) { return /zh[-_]HK/i.test(x.lang); }) || vs.find(function (x) { return /zh[-_](TW|Hant)/i.test(x.lang); });
+        if (v) u.voice = v;
+        window.speechSynthesis.speak(u);
+      } catch (e) { /* 不支援語音時靜靜略過 */ }
+    }
+  };
+})();
+
+/* ===== 狀態 ===== */
+const state = { cat: 'degree', mode: 1, i: 0, attempts: 0, solved: false, score: 0, stars: 0, locked: false };
+const best = (function () {
+  try { return JSON.parse(window.localStorage.getItem('adverb-best') || '{}'); }
+  catch (e) { return {}; }
+})();
+function saveBest() { try { window.localStorage.setItem('adverb-best', JSON.stringify(best)); } catch (e) {} }
+
+const $ = function (s) { return document.querySelector(s); };
+const $$ = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
+function catById(id) { return CATS.filter(function (c) { return c.id === id; })[0]; }
+function esc(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function plain(html) { return String(html).replace(/<[^>]+>/g, ''); }
+function gk(catId, mode) { return catId + '-m' + mode; }
+
+/* ===== 畫面切換 ===== */
+function show(name) {
+  $$('.screen').forEach(function (s) { s.classList.toggle('on', s.id === 'screen-' + name); });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  hideFeedback();
+}
+
+/* ===== 首頁 ===== */
+function renderHome() {
+  $('#home-mascots').innerHTML = CATS.map(function (c, i) {
+    return '<div class="mascot-chip" style="--i:' + i + '">' + mascotSVG(c) + '<span>' + c.short + '</span></div>';
+  }).join('');
+  $('#home-cat-list').textContent = '程度副詞、時間副詞、範圍副詞、否定副詞、情態副詞，共五類、十種玩法、六十組題目。';
+  $('#brand-mascot').innerHTML = mascotSVG(CATS[0]);
+}
+
+/* ===== 教學 ===== */
+function renderTeachTabs() {
+  $('#cat-tabs').innerHTML = CATS.map(function (c) {
+    const on = c.id === state.cat;
+    return '<button class="cat-tab' + (on ? ' on' : '') + '" data-cat="' + c.id + '" role="tab" aria-selected="' + on + '" style="--soft:' + c.soft + '">' +
+      mascotSVG(c) + '<span>' + c.name + '</span></button>';
+  }).join('');
+}
+
+function renderTeach() {
+  const c = catById(state.cat);
+  renderTeachTabs();
+  const words = c.words.map(function (w) {
+    return '<div class="word-card" style="--soft:' + c.soft + '">' +
+      '<div class="badge" style="color:' + c.deep + '">' + icon(w.icon) + '</div>' +
+      '<div class="word-body">' +
+        '<div class="word-title"><span class="w">' + w.w + '</span></div>' +
+        '<p class="word-mean">' + w.mean + '</p>' +
+        '<p class="word-ex">' + w.ex + '</p>' +
+      '</div>' +
+      '<button class="speak" data-say="' + esc(plain(w.ex)) + '" aria-label="讀出例句">' + icon('speaker') + '</button>' +
+    '</div>';
+  }).join('');
+
+  $('#teach-body').innerHTML =
+    '<div class="panel teach-head" style="--soft:' + c.soft + '">' +
+      '<div class="big-mascot">' + mascotSVG(c) + '</div>' +
+      '<div>' +
+        '<div class="cat-name">' + c.name + '<span class="tag">' + c.tag + '</span></div>' +
+        '<p class="bubble">「' + c.hook + '」<span class="who-says">— ' + c.mascotName + '</span></p>' +
+        '<p class="cat-def">' + c.def + '</p>' +
+      '</div>' +
+    '</div>' +
+    '<div class="word-grid">' + words + '</div>' +
+    '<div class="tip-card"><div class="tip-icon">' + icon('lightbulb') + '</div><div><h4>' + c.tip.t + '</h4><p>' + c.tip.d + '</p></div></div>' +
+    '<div class="teach-actions">' +
+      '<button class="btn btn-primary btn-lg" data-act="play-cat">' + icon('puzzle') + '去玩遊戲</button>' +
+      '<button class="btn btn-ghost" data-act="read-all">' + icon('speaker') + '聽一次全部例句</button>' +
+    '</div>' +
+    '<p class="footer-note">用字參考《香港小學學習字詞表》· 按一按句子旁的喇叭可以聽發音</p>';
+}
+
+/* ===== 模式選擇 ===== */
+function renderModes() {
+  const c = catById(state.cat);
+  const m1 = best[gk(c.id, 1)] || 0, m2 = best[gk(c.id, 2)] || 0;
+  $('#modes-body').innerHTML =
+    '<div class="mode-head" style="--soft:' + c.soft + '">' + mascotSVG(c) +
+      '<h2>' + c.name + '</h2><p>選一種玩法，每種玩法有六組題目。答對可以收集星星，揭曉答案時會告訴你為甚麼。</p>' +
+    '</div>' +
+    '<div class="mode-grid">' +
+      '<button class="mode-card" data-mode="1" style="--soft:' + c.soft + '">' +
+        '<span class="mode-ill" style="color:' + c.deep + '">' + icon('magnifier') + '</span>' +
+        '<span class="mode-title">玩法一：眼明手快</span>' +
+        '<span class="mode-desc">句子會分成幾個詞語，請你點出其中哪一個是副詞。適合用來認字和辨詞。</span>' +
+        '<span class="mode-meta"><span class="pill">6 組題目</span><span class="pill">點一點作答</span><span class="pill">最佳 ' + m1 + ' / 6 星</span></span>' +
+        '<span class="go">開始挑戰' + icon('arrow') + '</span>' +
+      '</button>' +
+      '<button class="mode-card" data-mode="2" style="--soft:' + c.soft + '">' +
+        '<span class="mode-ill" style="color:' + c.deep + '">' + icon('puzzle') + '</span>' +
+        '<span class="mode-title">玩法二：句子填空</span>' +
+        '<span class="mode-desc">句子留了一個空格，請從三個副詞中選出最合適的一個，考驗你對句意的理解。</span>' +
+        '<span class="mode-meta"><span class="pill">6 組題目</span><span class="pill">三選一</span><span class="pill">最佳 ' + m2 + ' / 6 星</span></span>' +
+        '<span class="go">開始挑戰' + icon('arrow') + '</span>' +
+      '</button>' +
+    '</div>' +
+    '<div class="teach-actions"><button class="btn btn-ghost" data-act="back-teach">' + icon('book') + '先回去看教學</button></div>';
+}
+
+/* ===== 遊戲 ===== */
+function startGame(catId, mode) {
+  state.cat = catId; state.mode = mode; state.i = 0; state.score = 0; state.stars = 0;
+  show('play');
+  renderPlayTop();
+  renderQuestion();
+}
+
+function renderPlayTop() {
+  const c = catById(state.cat);
+  $('#play-who').innerHTML = mascotSVG(c) + '<span>' + c.name + ' · ' + c.mascotName + '</span>';
+  $('#play-mode').textContent = state.mode === 1 ? '玩法一：眼明手快' : '玩法二：句子填空';
+  $('#play-progress').innerHTML = [0, 1, 2, 3, 4, 5].map(function (n) {
+    let cls = 'pdot';
+    if (n < state.i) cls += ' done';
+    if (n === state.i) cls += ' now';
+    return '<span class="' + cls + '"></span>';
+  }).join('');
+  $('#play-score').textContent = state.score;
+}
+
+function currentQ() {
+  const c = catById(state.cat);
+  return (state.mode === 1 ? c.m1.qs : c.m2.qs)[state.i];
+}
+
+function renderQuestion() {
+  const c = catById(state.cat);
+  const q = currentQ();
+  state.attempts = 0; state.solved = false; state.locked = false;
+  hideFeedback();
+  renderPlayTop();
+
+  if (state.mode === 1) {
+    $('#play-body').innerHTML =
+      '<div class="q-card">' +
+        '<div class="q-no">第 ' + (state.i + 1) + ' 題 / 共 6 題</div>' +
+        '<p class="q-prompt">請點出句子中的<b>副詞</b>　·　本關：' + c.name + '</p>' +
+        '<div class="chunks" id="chunks">' + q.chunks.map(function (t, idx) {
+          return '<button class="chunk" data-idx="' + idx + '">' + t + '</button>';
+        }).join('') + '</div>' +
+      '</div>' +
+      '<p class="q-hint" id="q-hint">小提示：副詞會修飾動詞或形容詞，不會修飾名詞。</p>';
+  } else {
+    const parts = q.s.split('＿＿');
+    $('#play-body').innerHTML =
+      '<div class="q-card">' +
+        '<div class="q-no">第 ' + (state.i + 1) + ' 題 / 共 6 題</div>' +
+        '<p class="q-prompt">選一個最合適的副詞，填進空格裏。</p>' +
+        '<div class="blank-sentence">' + esc(parts[0]) + '<span class="blank" id="blank">　</span>' + esc(parts[1] || '') + '</div>' +
+        '<div class="options" id="options">' + q.opts.map(function (t, idx) {
+          return '<button class="opt" data-idx="' + idx + '">' + t + '</button>';
+        }).join('') + '</div>' +
+      '</div>' +
+      '<p class="q-hint" id="q-hint">小提示：先把整句讀一次，想想句子想表達的意思。</p>';
+  }
+}
+
+function setHint(t) {
+  const h = $('#q-hint');
+  if (h) h.textContent = t;
+}
+
+function markSolvedVisual(q) {
+  if (state.mode === 1) {
+    $$('#chunks .chunk').forEach(function (b) {
+      const idx = Number(b.dataset.idx);
+      if (idx === q.a) b.classList.add('correct');
+      else if (!b.classList.contains('chosen-wrong')) b.classList.add('dim');
+      b.disabled = true;
+    });
+  } else {
+    $$('#options .opt').forEach(function (b) {
+      const idx = Number(b.dataset.idx);
+      if (idx === q.a) b.classList.add('correct');
+      else if (!b.classList.contains('wrong')) b.classList.add('rest');
+      b.disabled = true;
+    });
+    const bl = $('#blank');
+    if (bl) { bl.textContent = q.opts[q.a]; bl.classList.add('filled'); }
+  }
+}
+
+function showFeedback(ok, title, text, isLast) {
+  const fb = $('#feedback');
+  $('#fb-icon').className = 'fb-icon' + (ok ? '' : ' bad');
+  $('#fb-icon').innerHTML = ok ? icon('check') : icon('lightbulb');
+  $('#fb-title').textContent = title;
+  $('#fb-text').innerHTML = text;
+  $('#fb-next').textContent = isLast ? '看成績' : '下一題';
+  fb.classList.add('show');
+  state.locked = true;
+}
+
+/* 玩法一作答 */
+function answerM1(btn) {
+  if (state.locked || state.solved) return;
+  const q = currentQ();
+  const idx = Number(btn.dataset.idx);
+  if (idx === q.a) {
+    state.solved = true;
+    btn.classList.add('correct');
+    const first = state.attempts === 0;
+    state.score += first ? 10 : 4;
+    if (first) state.stars += 1;
+    $('#play-score').textContent = state.score;
+    Sound.correct();
+    markSolvedVisual(q);
+    const head = first ? '答對了！' : '這次答對了！';
+    showFeedback(true, head, q.why, state.i === 5);
+  } else {
+    state.attempts += 1;
+    btn.classList.add('chosen-wrong');
+    btn.disabled = true;
+    Sound.wrong();
+    if (state.attempts >= 2) {
+      state.solved = true;
+      markSolvedVisual(q);
+      showFeedback(false, '答案揭曉：' + q.chunks[q.a], q.why + '（下一次先找出動詞或形容詞，再想想哪個詞在修飾它。）', state.i === 5);
+    } else {
+      setHint('再想一想：' + (state.mode === 1 ? '副詞通常放在動詞或形容詞前面，不會單獨修飾人物或物件。' : '把每個選項讀進句子裏，看看哪一個最通順。'));
+    }
+  }
+}
+
+/* 玩法二作答 */
+function answerM2(btn) {
+  if (state.locked || state.solved) return;
+  const q = currentQ();
+  const idx = Number(btn.dataset.idx);
+  if (idx === q.a) {
+    state.solved = true;
+    btn.classList.add('correct');
+    const first = state.attempts === 0;
+    state.score += first ? 10 : 4;
+    if (first) state.stars += 1;
+    $('#play-score').textContent = state.score;
+    Sound.correct();
+    markSolvedVisual(q);
+    showFeedback(true, first ? '答對了！' : '這次答對了！', '正確答案是「<b>' + q.opts[q.a] + '</b>」。' + q.why, state.i === 5);
+  } else {
+    state.attempts += 1;
+    btn.classList.add('wrong');
+    btn.disabled = true;
+    Sound.wrong();
+    if (state.attempts >= 2) {
+      state.solved = true;
+      markSolvedVisual(q);
+      showFeedback(false, '答案揭曉', '正確答案是「<b>' + q.opts[q.a] + '</b>」。' + q.why, state.i === 5);
+    } else {
+      setHint('再想一想：把正確的詞讀進空格，整句意思要通順，也要符合句子的時間或程度。');
+    }
+  }
+}
+
+function nextQuestion() {
+  hideFeedback();
+  if (state.i >= 5) { finish(); return; }
+  state.i += 1;
+  renderQuestion();
+}
+
+function finish() {
+  hideFeedback();
+  const c = catById(state.cat);
+  const key = gk(c.id, state.mode);
+  best[key] = Math.max(best[key] || 0, state.stars);
+  saveBest();
+  Sound.win();
+  const qs = state.mode === 1 ? c.m1.qs : c.m2.qs;
+  let msg = '';
+  if (state.stars >= 6) msg = '全部一次答對，你是' + c.name + '的小專家！';
+  else if (state.stars >= 4) msg = '表現很好，只差一點點就滿星了！';
+  else if (state.stars >= 2) msg = '不錯哦，再玩一次會更熟練。';
+  else msg = '別灰心，先回教學區看一看，再來挑戰。';
+
+  const review = qs.map(function (q, i) {
+    const ans = state.mode === 1 ? q.chunks[q.a] : q.opts[q.a];
+    const short = q.why.split('。')[0] + '。';
+    return '<div class="review-item"><span class="rv-no">' + (i + 1) + '.</span><span>正確答案：<span class="rv-ans">' + ans + '</span>　' + short + '</span></div>';
+  }).join('');
+
+  $('#result-body').innerHTML =
+    '<div class="result" style="--soft:' + c.soft + '">' +
+      '<div style="display:flex;justify-content:center;gap:12px;align-items:flex-end">' + mascotSVG(c, 'mascot-lg') + '</div>' +
+      '<h2>' + (state.stars >= 4 ? '太棒了！' : '完成了！') + '</h2>' +
+      '<p class="sub">' + c.name + ' · ' + (state.mode === 1 ? '眼明手快' : '句子填空') + '</p>' +
+      '<div class="stars" aria-label="獲得 ' + state.stars + ' 顆星">' + [0, 1, 2, 3, 4, 5].map(function (n) {
+        return '<svg viewBox="0 0 24 24" class="' + (n < state.stars ? '' : 'off') + '" fill="' + (n < state.stars ? '#F5B32E' : 'none') + '" stroke="#2B2440" stroke-width="1.8" stroke-linejoin="round"><path d="m12 3 2.7 5.7 6.3.9-4.6 4.4 1.1 6.2-5.5-3-5.5 3 1.1-6.2L3 9.6l6.3-.9z"/></svg>';
+      }).join('') + '</div>' +
+      '<p class="sub"><b>' + state.stars + ' / 6</b> 顆星 · 得分 ' + state.score + '</p>' +
+      '<p class="sub" style="margin-top:6px">' + msg + '</p>' +
+      '<div class="review">' + review + '</div>' +
+      '<div class="result-actions">' +
+        '<button class="btn btn-primary" data-act="again">' + icon('repeat') + '再玩一次</button>' +
+        '<button class="btn btn-mint" data-act="other">' + icon('puzzle') + '挑戰另一模式</button>' +
+        '<button class="btn btn-ghost" data-act="teach">' + icon('book') + '換一類副詞</button>' +
+      '</div>' +
+    '</div>';
+  show('result');
+}
+
+/* ===== 提示面板 ===== */
+function hideFeedback() { $('#feedback').classList.remove('show'); }
+
+/* ===== 事件 ===== */
+document.addEventListener('click', function (e) {
+  const t = e.target.closest('button');
+  if (!t) return;
+
+  if (t.id === 'btn-home') { Sound.tap(); show('home'); return; }
+  if (t.id === 'btn-sound') {
+    const on = Sound.toggle();
+    $('#sound-on-icon').style.display = on ? '' : 'none';
+    $('#sound-off-icon').style.display = on ? 'none' : '';
+    $('#btn-sound').classList.toggle('off', !on);
+    $('#btn-sound').setAttribute('aria-pressed', String(on));
+    $('#btn-sound').setAttribute('aria-label', on ? '關閉音效' : '開啟音效');
+    return;
+  }
+  if (t.id === 'go-teach') { Sound.tap(); state.cat = state.cat || 'degree'; renderTeach(); show('teach'); return; }
+  if (t.id === 'go-play') { Sound.tap(); renderModes(); show('modes'); return; }
+  if (t.id === 'fb-next') { Sound.tap(); nextQuestion(); return; }
+
+  if (t.classList.contains('cat-tab')) {
+    Sound.tap(); state.cat = t.dataset.cat; renderTeach(); return;
+  }
+  if (t.dataset.say) { Sound.speak(t.dataset.say); return; }
+  if (t.dataset.mode) {
+    Sound.tap(); startGame(state.cat, Number(t.dataset.mode)); return;
+  }
+  if (t.dataset.act) {
+    const act = t.dataset.act;
+    Sound.tap();
+    if (act === 'play-cat') { renderModes(); show('modes'); }
+    if (act === 'back-teach') { renderTeach(); show('teach'); }
+    if (act === 'read-all') {
+      const c = catById(state.cat);
+      Sound.speak(c.words.map(function (w) { return plain(w.ex); }).join('。'));
+    }
+    if (act === 'again') { startGame(state.cat, state.mode); }
+    if (act === 'other') { renderModes(); show('modes'); }
+    if (act === 'teach') { renderTeach(); show('teach'); }
+    return;
+  }
+  if (t.classList.contains('chunk')) { answerM1(t); return; }
+  if (t.classList.contains('opt')) { answerM2(t); return; }
+});
+
+document.addEventListener('keydown', function (e) {
+  if (!document.getElementById('screen-play').classList.contains('on')) return;
+  if (e.key === 'Enter' && $('#feedback').classList.contains('show')) { nextQuestion(); }
+  if (state.mode === 2 && ['1', '2', '3'].indexOf(e.key) > -1) {
+    const btn = $$('#options .opt')[Number(e.key) - 1];
+    if (btn && !btn.disabled) { btn.focus(); btn.click(); }
+  }
+});
+
+/* ===== 啟動 ===== */
+renderHome();
+renderTeach();
+renderPlayTop();
+</script>
+</body>
+</html>

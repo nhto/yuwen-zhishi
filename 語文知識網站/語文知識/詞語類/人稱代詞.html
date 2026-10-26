@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>人稱代詞大冒險｜小學白話文互動遊戲</title>
+<meta name="description" content="小學白話文人稱代詞互動教材：圖卡教學，加上「找出代詞」與「選一選」兩種模式各十題，即時講解，適合手機、平板及電腦。">
+<style>
+  :root{
+    --ink:#243447;
+    --ink-soft:#5f7186;
+    --paper:#fffdf8;
+    --blue:#3aa0ff;
+    --blue-d:#1a6fc0;
+    --orange:#ff8a3d;
+    --green:#28b46b;
+    --pink:#f0679f;
+    --line:#dbe8f4;
+    --radius:24px;
+  }
+  *{box-sizing:border-box}
+  html{
+    font-size:clamp(16px, 0.42vw + 13.4px, 20px);
+    -webkit-text-size-adjust:100%;
+  }
+  body{
+    margin:0;
+    min-height:100vh;
+    color:var(--ink);
+    line-break:strict;
+    overflow-wrap:break-word;
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei","Heiti TC","Noto Sans CJK TC",system-ui,-apple-system,sans-serif;
+    background:
+      radial-gradient(60rem 40rem at 8% -8%, #dff1ff 0%, rgba(223,241,255,0) 62%),
+      radial-gradient(52rem 34rem at 100% 0%, #fff0d8 0%, rgba(255,240,216,0) 58%),
+      linear-gradient(180deg,#f2f9ff 0%,#fbfdff 45%,#fff9ef 100%);
+    overflow-x:hidden;
+    -webkit-tap-highlight-color:transparent;
+  }
+  [hidden]{display:none !important}
+  .sprite{position:absolute;width:0;height:0;overflow:hidden}
+  .wrap{
+    width:100%;
+    max-width:1120px;
+    margin:0 auto;
+    padding:clamp(.7rem,2vw,1.4rem) clamp(.75rem,3vw,2rem) 3rem;
+  }
+  .view[hidden]{display:none}
+  .ic{width:1.4em;height:1.4em;display:block;flex:0 0 auto}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:.6rem;margin-bottom:clamp(.8rem,2.4vw,1.6rem);
+  }
+  .brand{display:flex;align-items:center;gap:.55rem;min-width:0}
+  .brand .mark{
+    width:2.7rem;height:2.7rem;border-radius:50%;
+    background:#fff;border:3px solid #ffe0bd;overflow:hidden;flex:0 0 auto;
+    display:grid;place-items:center;
+  }
+  .brand .mark svg{width:100%;height:100%;display:block}
+  .brand b{font-size:clamp(.98rem,2.6vw,1.15rem);letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .icon-btn{
+    width:2.9rem;height:2.9rem;flex:0 0 auto;border-radius:50%;
+    border:2px solid #dfeaf6;background:#fff;color:var(--ink);
+    display:grid;place-items:center;cursor:pointer;
+    box-shadow:0 4px 0 rgba(36,52,71,.07);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .icon-btn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(36,52,71,.07)}
+  .icon-btn[aria-pressed="false"]{color:#9fb0c2}
+  .icon-btn:disabled{opacity:.45;cursor:not-allowed}
+  :focus-visible{outline:3px solid #1a6fc0;outline-offset:3px;border-radius:8px}
+  .topbar .tools{display:flex;gap:.5rem;align-items:center}
+  .ic-lg{width:1.45rem;height:1.45rem}
+
+  /* ---------- download ---------- */
+  .save-row{
+    margin-top:clamp(1rem,3vw,1.5rem);
+    display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+    gap:.65rem .9rem;
+    background:#fff;border:2px solid var(--line);border-radius:18px;
+    padding:.8rem .95rem;
+  }
+  .save-row p{margin:0;flex:1 1 13rem;min-width:0;color:var(--ink-soft);font-size:.9rem;line-height:1.65}
+  .btn-save{
+    flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:.45rem;
+    min-height:2.9rem;padding:.6rem 1rem;border-radius:14px;
+    border:2px solid #b9dcff;background:#f4faff;color:var(--blue-d);
+    font-family:inherit;font-weight:900;font-size:.95rem;cursor:pointer;
+    box-shadow:0 4px 0 rgba(36,52,71,.06);
+    transition:transform .12s ease,box-shadow .12s ease,background .12s ease,color .12s ease;
+  }
+  .btn-save svg{width:1.2rem;height:1.2rem}
+  .btn-save:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(36,52,71,.06)}
+  .btn-save.is-done{background:#eefaf2;border-color:#9ee5c0;color:#1d8f55}
+  .icon-btn.is-done{background:#eefaf2;border-color:#9ee5c0;color:#1d8f55}
+  #saveNote{flex:1 1 100%;margin:0;font-size:.8rem;line-height:1.6;color:#1d8f55}
+  #saveNote:empty{display:none}
+
+  /* ---------- home ---------- */
+  .hero{text-align:center;margin-bottom:clamp(1.2rem,4vw,2.2rem)}
+  .badge{
+    display:inline-flex;align-items:center;gap:.4rem;
+    background:#fff;border:2px solid #d9ecff;color:var(--blue-d);
+    font-weight:800;font-size:.86rem;padding:.35rem .85rem;border-radius:99px;
+  }
+  .hero h1{
+    margin:.7rem 0 .4rem;
+    font-size:clamp(1.9rem,6.2vw,3.2rem);
+    line-height:1.2;letter-spacing:.02em;
+    color:#1d3550;
+  }
+  .hero h1 em{font-style:normal;color:var(--orange)}
+  .hero p{margin:0 auto;max-width:34em;color:var(--ink-soft);font-size:clamp(.98rem,2.6vw,1.15rem);line-height:1.7}
+
+  .menu{display:grid;gap:clamp(.8rem,2.4vw,1.2rem);grid-template-columns:1fr}
+  @media (min-width:720px){.menu{grid-template-columns:repeat(3,1fr)}}
+  .menu-card{
+    position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:.55rem;
+    text-align:left;width:100%;
+    background:var(--paper);border:3px solid #fff;border-radius:26px;
+    padding:clamp(1.05rem,3vw,1.5rem);
+    box-shadow:0 8px 0 rgba(36,52,71,.06), 0 16px 34px rgba(36,52,71,.08);
+    cursor:pointer;color:inherit;font-family:inherit;
+    transition:transform .16s ease, box-shadow .16s ease;
+  }
+  .menu-card:hover{transform:translateY(-3px);box-shadow:0 10px 0 rgba(36,52,71,.06),0 20px 40px rgba(36,52,71,.12)}
+  .menu-card:active{transform:translateY(1px)}
+  .menu-card .blob{
+    width:4.4rem;height:4.4rem;border-radius:1.4rem;display:grid;place-items:center;
+    margin-bottom:.3rem;
+  }
+  .menu-card .blob svg{width:2.5rem;height:2.5rem}
+  .menu-card h2{margin:0;font-size:clamp(1.18rem,3vw,1.4rem);letter-spacing:.01em}
+  .menu-card p{margin:0;color:var(--ink-soft);font-size:.95rem;line-height:1.6}
+  .menu-card .tag{
+    margin-top:.35rem;font-size:.82rem;font-weight:800;padding:.22rem .6rem;border-radius:99px;
+    background:#f2f6fb;color:#5c7189;
+  }
+  .menu-card.c-teach .blob{background:#fff0dc;color:#c9761f}
+  .menu-card.c-find .blob{background:#e5f3ff;color:#1a6fc0}
+  .menu-card.c-pick .blob{background:#eaf9ef;color:#1d8f55}
+  .menu-card.c-teach{border-top:6px solid #ffc078}
+  .menu-card.c-find{border-top:6px solid #8cc9ff}
+  .menu-card.c-pick{border-top:6px solid #8fdcae}
+
+  .hint{
+    margin-top:clamp(1rem,3vw,1.6rem);
+    display:flex;gap:.6rem;align-items:flex-start;
+    background:#fff;border:2px dashed #e2d3bb;border-radius:18px;
+    padding:.85rem 1rem;color:#7a6753;font-size:.92rem;line-height:1.65;
+  }
+  .hint svg{width:1.35rem;height:1.35rem;flex:0 0 auto;margin-top:.1rem;color:#e09b3d}
+
+  /* ---------- teach ---------- */
+  .page-head{margin:0 0 1rem}
+  .page-head h2{margin:0 0 .3rem;font-size:clamp(1.5rem,4.4vw,2.1rem)}
+  .page-head p{margin:0;color:var(--ink-soft);font-size:.98rem}
+  .tabs{
+    display:flex;flex-wrap:wrap;gap:.45rem;
+    padding:.25rem .1rem .6rem;margin-bottom:.9rem;
+  }
+  .tab{
+    flex:0 0 auto;padding:.66rem 1rem;border-radius:99px;
+    border:2px solid var(--line);background:#fff;color:#4c6076;
+    font-family:inherit;font-size:.95rem;font-weight:800;white-space:nowrap;cursor:pointer;
+    transition:all .15s ease;
+  }
+  .tab[aria-selected="true"]{background:var(--blue-d);border-color:var(--blue-d);color:#fff;box-shadow:0 4px 0 #135a9e}
+  .teach-card{
+    background:var(--paper);border:3px solid #fff;border-radius:28px;
+    padding:clamp(1rem,3vw,1.8rem);
+    box-shadow:0 14px 34px rgba(36,52,71,.09);
+  }
+  .teach-grid{display:grid;grid-template-columns:1fr;gap:clamp(1rem,3vw,1.6rem);align-items:center}
+  @media (min-width:820px){.teach-grid{grid-template-columns:.82fr 1.18fr}}
+  .illus{
+    background:linear-gradient(160deg,#e9f5ff,#fff2e0);
+    border-radius:22px;
+    display:flex;align-items:center;justify-content:center;gap:.4rem;
+    padding:clamp(1.1rem,4vw,1.8rem);flex-wrap:wrap;
+  }
+  .illus > svg{width:min(9rem,26vw,38%);height:auto;aspect-ratio:1 / 1;display:block}
+  .illus > svg.solo{width:min(11rem,52vw,62%)}
+  @media (min-width:1000px){
+    .illus > svg{width:min(9.5rem,40%)}
+    .illus > svg.solo{width:min(12rem,64%)}
+    .illus > svg.av-wide{width:min(17rem,82%)}
+    .illus .arrow{width:1.8rem;height:1.8rem}
+  }
+  .illus > svg.av-wide{width:clamp(9rem,74%,15rem);height:auto;aspect-ratio:4 / 3}
+  .illus .arrow{width:2rem;height:2rem;color:#9ab0c6;flex:0 0 auto}
+  .teach-title{margin:0 0 .3rem;font-size:clamp(1.3rem,3.6vw,1.7rem)}
+  .teach-lead{margin:0 0 .9rem;color:var(--ink-soft);font-size:1rem;line-height:1.75}
+  .eg{
+    background:#fff;border:2px dashed #cfe4f7;border-radius:16px;
+    padding:.75rem .9rem;font-size:clamp(1.02rem,2.7vw,1.16rem);line-height:1.85;
+    display:flex;gap:.6rem;align-items:flex-start;margin-bottom:.6rem;
+  }
+  .eg .say{
+    flex:0 0 auto;width:2.1rem;height:2.1rem;border-radius:50%;border:2px solid #d9e8f6;
+    background:#f7fbff;color:#3d7fb5;display:grid;place-items:center;cursor:pointer;
+  }
+  .eg .say svg{width:1.05rem;height:1.05rem}
+  .eg .say[hidden]{display:none}
+  .pron{
+    background:#fff1c9;border-bottom:3px solid #ffb020;border-radius:5px;
+    padding:0 .12em;font-weight:900;color:#9a5b00;white-space:nowrap;
+  }
+  .tip{
+    display:flex;gap:.55rem;align-items:flex-start;
+    background:#eefaf1;border-radius:14px;padding:.7rem .85rem;
+    font-size:.95rem;line-height:1.7;color:#2c6b45;margin-top:.2rem;
+  }
+  .tip svg{width:1.25rem;height:1.25rem;flex:0 0 auto;margin-top:.1rem;color:#28b46b}
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:.4rem 0 .2rem}
+  table.pron-table{border-collapse:separate;border-spacing:.2rem;width:100%;min-width:14rem}
+  table.pron-table th,table.pron-table td{
+    padding:.55rem .4rem;text-align:center;border-radius:12px;font-size:clamp(.95rem,2.5vw,1.1rem);
+  }
+  table.pron-table thead th{background:#eaf5ff;color:#245c8e;font-size:.86rem;letter-spacing:.04em}
+  table.pron-table td{background:#fff;font-weight:800;border:2px solid #e6f0f9}
+  table.pron-table td.blank-cell{background:transparent;border:none}
+  .note{margin:.7rem 0 0;font-size:.9rem;color:#7d6a55;line-height:1.65}
+
+  /* ---------- game ---------- */
+  .game-head{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;justify-content:space-between;margin-bottom:.4rem}
+  .game-head h2{margin:0;font-size:clamp(1.2rem,3.4vw,1.5rem)}
+  .stats{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+  .chip{
+    background:#fff;border:2px solid var(--line);border-radius:99px;
+    padding:.28rem .75rem;font-size:.86rem;font-weight:800;color:#4c6076;
+    white-space:nowrap;
+  }
+  .chip b{color:var(--blue-d);font-size:1rem}
+  .bar{height:.8rem;background:#e3eef8;border-radius:99px;overflow:hidden;margin:.55rem 0 clamp(.9rem,2.5vw,1.3rem)}
+  .bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#63c8ff,#28b46b);transition:width .35s ease}
+
+  .qcard{
+    background:var(--paper);border:3px solid #fff;border-radius:28px;
+    padding:clamp(1rem,3vw,1.7rem);
+    box-shadow:0 14px 34px rgba(36,52,71,.09);
+  }
+  .qtag{
+    display:inline-block;font-size:.84rem;font-weight:900;color:var(--blue-d);
+    background:#e7f3ff;padding:.3rem .75rem;border-radius:99px;
+  }
+  .sentence{
+    font-size:clamp(1.22rem,3.5vw,1.8rem);line-height:1.9;font-weight:800;
+    margin:.75rem 0 clamp(1rem,3vw,1.4rem);color:#1d3550;
+  }
+  .blank{
+    display:inline-block;min-width:4.2em;text-align:center;
+    border-bottom:4px solid var(--orange);color:var(--orange);font-weight:900;
+  }
+  .opts{display:grid;gap:.7rem;grid-template-columns:1fr}
+  @media (min-width:640px){.opts{grid-template-columns:1fr 1fr}}
+  .opt{
+    display:flex;align-items:center;gap:.7rem;width:100%;text-align:left;
+    padding:.85rem .95rem;min-height:3.5rem;
+    border:3px solid #dbe8f4;border-radius:18px;background:#fff;
+    font-family:inherit;font-size:clamp(1.05rem,2.9vw,1.2rem);font-weight:800;color:var(--ink);
+    cursor:pointer;transition:transform .12s ease,border-color .12s ease,background .12s ease;
+  }
+  .opt .key{
+    flex:0 0 auto;width:2rem;height:2rem;border-radius:50%;
+    background:#eef6ff;color:#3d7fb5;display:grid;place-items:center;
+    font-size:.85rem;font-weight:900;
+  }
+  .opt:hover:not(:disabled){border-color:#9fd0ff;transform:translateY(-2px)}
+  .opt:focus-visible{outline:3px solid #8cc9ff;outline-offset:2px}
+  .opt:disabled{cursor:default}
+  .opt.correct{border-color:var(--green);background:#eefaf2}
+  .opt.correct .key{background:#1d8f55;color:#fff}
+  .opt.wrong{border-color:#d64545;background:#fff2f2}
+  .opt.wrong .key{background:#c33b3b;color:#fff}
+  .opt.dim{opacity:.62}
+
+  .feedback{
+    margin-top:1rem;border-radius:20px;padding:.95rem 1.05rem;
+    border:3px solid var(--line);background:#fff;display:none;
+  }
+  .feedback.show{display:block;animation:pop .22s ease-out}
+  @keyframes pop{from{transform:translateY(6px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .feedback.ok{border-color:#9ee5c0;background:#f3fdf7}
+  .feedback.no{border-color:#ffc6c6;background:#fff7f7}
+  .fb-title{display:flex;align-items:center;gap:.5rem;font-size:1.1rem;font-weight:900}
+  .fb-title svg{width:1.5rem;height:1.5rem;flex:0 0 auto}
+  .feedback.ok .fb-title{color:#1d8f55}
+  .feedback.no .fb-title{color:#c94b4b}
+  .fb-text{margin:.45rem 0 .9rem;font-size:1rem;line-height:1.8;color:#33465c}
+  .fb-text b{color:#9a5b00;background:#fff1c9;border-radius:5px;padding:0 .2em}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+    font-family:inherit;font-weight:900;font-size:1.05rem;
+    padding:.8rem 1.3rem;min-height:3.2rem;border-radius:16px;border:none;cursor:pointer;
+    transition:transform .12s ease,box-shadow .12s ease,background .12s ease;
+  }
+  .btn svg{width:1.25rem;height:1.25rem}
+  .btn-primary{background:var(--blue-d);color:#fff;box-shadow:0 5px 0 #135a9e}
+  .btn-primary:active{transform:translateY(3px);box-shadow:0 2px 0 #135a9e}
+  .btn-ghost{background:#fff;color:#3d5468;border:2px solid var(--line);box-shadow:0 4px 0 rgba(36,52,71,.06)}
+  .btn-ghost:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(36,52,71,.06)}
+  .btn-block{width:100%}
+  @media (min-width:640px){.btn-block{width:auto;min-width:12rem}}
+  .fb-actions{display:flex;gap:.6rem;flex-wrap:wrap}
+
+  /* ---------- result ---------- */
+  .result-card{
+    background:var(--paper);border:3px solid #fff;border-radius:28px;
+    padding:clamp(1.2rem,4vw,2.2rem);text-align:center;
+    box-shadow:0 14px 34px rgba(36,52,71,.09);
+  }
+  .stars{display:flex;justify-content:center;gap:.4rem;margin-bottom:.5rem}
+  .stars svg{width:clamp(2.4rem,8vw,3.4rem);height:clamp(2.4rem,8vw,3.4rem)}
+  .stars .off{color:#e3ebf3}
+  .stars .on{color:#ffb62e}
+  .score-big{
+    font-size:clamp(2.6rem,9vw,4rem);font-weight:900;line-height:1;
+    color:var(--blue-d);margin:.3rem 0 .2rem;
+  }
+  .score-big small{font-size:.35em;color:#7b8ea3;font-weight:800}
+  .result-card h2{margin:.4rem 0 .3rem;font-size:clamp(1.3rem,4vw,1.8rem)}
+  .result-card > p{margin:0 auto;max-width:30em;color:var(--ink-soft);line-height:1.7}
+  .review{
+    text-align:left;margin:1.4rem 0 0;background:#fff;border:2px solid var(--line);
+    border-radius:20px;padding:1rem;
+  }
+  .review h3{margin:0 0 .7rem;font-size:1.05rem;display:flex;align-items:center;gap:.45rem}
+  .review h3 svg{width:1.3rem;height:1.3rem;color:#e09b3d}
+  .review ul{list-style:none;margin:0;padding:0;display:grid;gap:.7rem}
+  .review li{border-left:4px solid #ffd08a;padding:.1rem 0 .1rem .75rem;font-size:.96rem;line-height:1.7;color:#3d5468}
+  .review li .ans{color:#1d8f55;font-weight:900}
+  .review li .why{display:block;color:#7b8ea3;font-size:.9rem;margin-top:.15rem}
+  .result-actions{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;margin-top:1.4rem}
+
+  .footer{
+    margin-top:2rem;text-align:center;color:#93a5b8;font-size:.8rem;line-height:1.7;
+  }
+
+  @media (max-width:380px){
+    .wrap{padding-left:.7rem;padding-right:.7rem}
+    .topbar{gap:.4rem}
+    .brand{gap:.4rem}
+    .brand .mark{width:2.25rem;height:2.25rem;border-width:2px}
+    .brand b{font-size:.9rem;letter-spacing:0}
+    .topbar .tools{gap:.3rem}
+    .icon-btn{width:2.75rem;height:2.75rem}
+    .icon-btn .ic-lg{width:1.3rem;height:1.3rem}
+    .save-row{padding:.75rem .8rem}
+    .save-row p{text-align:center}
+    .btn-save{width:100%}
+  }
+  .footer span{display:inline-block;padding:0 .3rem}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important;transition-duration:.001ms !important}
+  }
+</style>
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="g-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8fd0ff"/><stop offset="1" stop-color="#56aef7"/>
+    </linearGradient>
+    <linearGradient id="g-pink" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff9ec4"/><stop offset="1" stop-color="#f0679f"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 小男孩 -->
+  <symbol id="av-boy" viewBox="0 0 120 120">
+    <ellipse cx="60" cy="109" rx="34" ry="13" fill="#cfeeff" opacity=".7"/>
+    <path d="M30 114c0-16 13-24 30-24s30 8 30 24z" fill="url(#g-sky)"/>
+    <path d="M30 114c0-16 13-24 30-24s30 8 30 24z" fill="none" stroke="#2b7fc4" stroke-width="2.4"/>
+    <circle cx="60" cy="58" r="32" fill="#ffd9bc"/>
+    <path d="M28 55c0-19 14-30 32-30s32 11 32 30c-7-9-17-13-32-13s-25 4-32 13z" fill="#4a3b32"/>
+    <path d="M34 46c4-9 14-14 26-14s22 5 26 14" fill="none" stroke="#6b5546" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+    <circle cx="48" cy="60" r="4.6" fill="#33404f"/><circle cx="72" cy="60" r="4.6" fill="#33404f"/>
+    <circle cx="49.6" cy="58.2" r="1.7" fill="#fff"/><circle cx="73.6" cy="58.2" r="1.7" fill="#fff"/>
+    <path d="M53 72c2.5 3.4 11.5 3.4 14 0" fill="none" stroke="#33404f" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="38" cy="69" r="5" fill="#ffb3b3" opacity=".66"/>
+    <circle cx="82" cy="69" r="5" fill="#ffb3b3" opacity=".66"/>
+  </symbol>
+
+  <!-- 小女孩 -->
+  <symbol id="av-girl" viewBox="0 0 120 120">
+    <ellipse cx="60" cy="109" rx="34" ry="13" fill="#ffe3ef" opacity=".85"/>
+    <path d="M30 114c0-16 13-24 30-24s30 8 30 24z" fill="url(#g-pink)"/>
+    <path d="M30 114c0-16 13-24 30-24s30 8 30 24z" fill="none" stroke="#cc4f84" stroke-width="2.4"/>
+    <circle cx="60" cy="58" r="32" fill="#ffdcc4"/>
+    <circle cx="26" cy="66" r="12" fill="#4a3b32"/><circle cx="94" cy="66" r="12" fill="#4a3b32"/>
+    <path d="M28 56c0-19 14-30 32-30s32 11 32 30c-7-10-17-15-32-15s-25 5-32 15z" fill="#4a3b32"/>
+    <path d="M42 38c6-4 30-4 36 0" fill="none" stroke="#ff8fb8" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="48" cy="60" r="4.8" fill="#33404f"/><circle cx="72" cy="60" r="4.8" fill="#33404f"/>
+    <circle cx="49.8" cy="58.2" r="1.8" fill="#fff"/><circle cx="73.8" cy="58.2" r="1.8" fill="#fff"/>
+    <path d="M33 55l6-2M87 53l-6 2" stroke="#33404f" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M54 72c2 3 10 3 12 0" fill="none" stroke="#33404f" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="38" cy="69" r="5" fill="#ffa3b9" opacity=".7"/>
+    <circle cx="82" cy="69" r="5" fill="#ffa3b9" opacity=".7"/>
+  </symbol>
+
+  <!-- 小男孩（戴眼鏡，代表另一位小朋友） -->
+  <symbol id="av-boy2" viewBox="0 0 120 120">
+    <ellipse cx="60" cy="109" rx="34" ry="13" fill="#e3f7ea" opacity=".85"/>
+    <path d="M30 114c0-16 13-24 30-24s30 8 30 24z" fill="#63cf96"/>
+    <path d="M30 114c0-16 13-24 30-24s30 8 30 24z" fill="none" stroke="#2f9c66" stroke-width="2.4"/>
+    <circle cx="60" cy="58" r="32" fill="#f6d2b3"/>
+    <path d="M28 55c0-19 14-30 32-30s32 11 32 30c-7-9-17-13-32-13s-25 4-32 13z" fill="#2f2a26"/>
+    <circle cx="48" cy="60" r="4.6" fill="#33404f"/><circle cx="72" cy="60" r="4.6" fill="#33404f"/>
+    <circle cx="49.6" cy="58.2" r="1.7" fill="#fff"/><circle cx="73.6" cy="58.2" r="1.7" fill="#fff"/>
+    <circle cx="48" cy="60" r="11" fill="none" stroke="#3f5a72" stroke-width="2.6"/>
+    <circle cx="72" cy="60" r="11" fill="none" stroke="#3f5a72" stroke-width="2.6"/>
+    <path d="M59 60h2" stroke="#3f5a72" stroke-width="2.6"/>
+    <path d="M54 73c2 3 10 3 12 0" fill="none" stroke="#33404f" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="38" cy="70" r="4.6" fill="#ffb3b3" opacity=".6"/>
+    <circle cx="82" cy="70" r="4.6" fill="#ffb3b3" opacity=".6"/>
+  </symbol>
+
+  <!-- 小女孩（短髮） -->
+  <symbol id="av-girl2" viewBox="0 0 120 120">
+    <ellipse cx="60" cy="109" rx="34" ry="13" fill="#fff3d6" opacity=".9"/>
+    <path d="M30 114c0-16 13-24 30-24s30 8 30 24z" fill="#ffc46b"/>
+    <path d="M30 114c0-16 13-24 30-24s30 8 30 24z" fill="none" stroke="#d7912c" stroke-width="2.4"/>
+    <circle cx="60" cy="58" r="32" fill="#ffdcc4"/>
+    <path d="M27 60c0-21 15-33 33-33s33 12 33 33c-6-12-16-17-33-17s-27 5-33 17z" fill="#6b4a2f"/>
+    <path d="M27 60c-2 8 0 14 3 16 3-6 3-12 2-16zM93 60c2 8 0 14-3 16-3-6-3-12-2-16z" fill="#6b4a2f"/>
+    <circle cx="48" cy="60" r="4.8" fill="#33404f"/><circle cx="72" cy="60" r="4.8" fill="#33404f"/>
+    <circle cx="49.8" cy="58.2" r="1.8" fill="#fff"/><circle cx="73.8" cy="58.2" r="1.8" fill="#fff"/>
+    <path d="M54 72c2 3 10 3 12 0" fill="none" stroke="#33404f" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="38" cy="69" r="5" fill="#ffa3b9" opacity=".7"/>
+    <circle cx="82" cy="69" r="5" fill="#ffa3b9" opacity=".7"/>
+  </symbol>
+
+  <!-- 圖書（代表「它」） -->
+  <symbol id="av-book" viewBox="0 0 120 120">
+    <ellipse cx="60" cy="110" rx="34" ry="9" fill="#dff0ff" opacity=".9"/>
+    <rect x="24" y="26" width="72" height="78" rx="10" fill="#ff9a5a"/>
+    <rect x="24" y="26" width="16" height="78" rx="8" fill="#e97c3a"/>
+    <rect x="46" y="40" width="42" height="30" rx="8" fill="#fff8ec"/>
+    <circle cx="56" cy="53" r="4" fill="#33404f"/><circle cx="78" cy="53" r="4" fill="#33404f"/>
+    <circle cx="57.4" cy="51.5" r="1.5" fill="#fff"/><circle cx="79.4" cy="51.5" r="1.5" fill="#fff"/>
+    <path d="M62 63c2 2.6 8 2.6 10 0" fill="none" stroke="#33404f" stroke-width="2.6" stroke-linecap="round"/>
+    <circle cx="49" cy="60" r="3.4" fill="#ffb3b3" opacity=".8"/>
+    <circle cx="85" cy="60" r="3.4" fill="#ffb3b3" opacity=".8"/>
+    <rect x="46" y="80" width="42" height="7" rx="3.5" fill="#ffe0c4"/>
+    <rect x="46" y="91" width="28" height="7" rx="3.5" fill="#ffe0c4"/>
+  </symbol>
+
+  <!-- 一組人（代表「他們／她們」） -->
+  <symbol id="av-group" viewBox="0 0 160 120">
+    <ellipse cx="80" cy="110" rx="66" ry="9" fill="#dff0ff" opacity=".9"/>
+    <g>
+      <path d="M8 112c0-13 10-20 24-20s24 7 24 20z" fill="#8fd0ff"/>
+      <circle cx="32" cy="72" r="21" fill="#ffd9bc"/>
+      <path d="M11 70c0-13 9-21 21-21s21 8 21 21c-5-6-11-9-21-9s-16 3-21 9z" fill="#4a3b32"/>
+      <circle cx="24" cy="74" r="3" fill="#33404f"/><circle cx="40" cy="74" r="3" fill="#33404f"/>
+      <path d="M27 82c1.6 2 8.4 2 10 0" fill="none" stroke="#33404f" stroke-width="2.2" stroke-linecap="round"/>
+    </g>
+    <g>
+      <path d="M56 112c0-16 11-25 26-25s26 9 26 25z" fill="#63cf96"/>
+      <circle cx="82" cy="66" r="25" fill="#f6d2b3"/>
+      <path d="M57 64c0-15 11-24 25-24s25 9 25 24c-6-7-13-11-25-11s-19 4-25 11z" fill="#2f2a26"/>
+      <circle cx="73" cy="68" r="3.6" fill="#33404f"/><circle cx="91" cy="68" r="3.6" fill="#33404f"/>
+      <path d="M76 78c1.8 2.4 10.2 2.4 12 0" fill="none" stroke="#33404f" stroke-width="2.4" stroke-linecap="round"/>
+    </g>
+    <g>
+      <path d="M108 112c0-13 10-20 24-20s24 7 24 20z" fill="#ff9ec4"/>
+      <circle cx="132" cy="72" r="21" fill="#ffdcc4"/>
+      <path d="M111 70c0-13 9-21 21-21s21 8 21 21c-5-6-11-9-21-9s-16 3-21 9z" fill="#6b4a2f"/>
+      <circle cx="125" cy="74" r="3" fill="#33404f"/><circle cx="139" cy="74" r="3" fill="#33404f"/>
+      <path d="M128 82c1.6 2 8.4 2 10 0" fill="none" stroke="#33404f" stroke-width="2.2" stroke-linecap="round"/>
+    </g>
+  </symbol>
+
+  <!-- icons -->
+  <symbol id="ic-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5H6.5A2.5 2.5 0 0 0 4 21z"/><path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20"/>
+  </symbol>
+  <symbol id="ic-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+    <circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/>
+  </symbol>
+  <symbol id="ic-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12a8 8 0 0 1-8 8H8l-5 3 1.4-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01" stroke-width="2.6"/>
+  </symbol>
+  <symbol id="ic-sound-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 9.5h3.5L13 5v14L7.5 14.5H4z"/><path d="M17 8.5a5 5 0 0 1 0 7"/><path d="M19.5 6a8.5 8.5 0 0 1 0 12"/>
+  </symbol>
+  <symbol id="ic-sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 9.5h3.5L13 5v14L7.5 14.5H4z"/><path d="m17 9.5 5 5M22 9.5l-5 5"/>
+  </symbol>
+  <symbol id="ic-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/>
+  </symbol>
+  <symbol id="ic-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3.5v10.5"/><path d="m7.5 9.8 4.5 4.5 4.5-4.5"/><path d="M4.5 17.2V19a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-1.8"/>
+  </symbol>
+  <symbol id="ic-bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 1.1 1 1.9V16h5v-.2c0-.8.4-1.5 1-1.9A6 6 0 0 0 12 3z"/>
+  </symbol>
+  <symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="9.2" stroke-width="2"/><path d="m8 12.4 2.7 2.6L16.2 9"/>
+  </symbol>
+  <symbol id="ic-cross" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
+    <circle cx="12" cy="12" r="9.2" stroke-width="2"/><path d="m9 9 6 6M15 9l-6 6"/>
+  </symbol>
+  <symbol id="ic-next" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12h13"/><path d="m13 6 6 6-6 6"/>
+  </symbol>
+  <symbol id="ic-star" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.45L12 17.4l-5.8 3.05 1.1-6.45-4.7-4.6 6.5-.95z"/>
+  </symbol>
+  <symbol id="ic-speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 9.5h3.5L13 5v14L7.5 14.5H4z"/><path d="M17 8.5a5 5 0 0 1 0 7"/>
+  </symbol>
+</svg>
+
+<main class="wrap" data-generated-by="vibe-coding-frontend-design">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="mark"><svg aria-hidden="true"><use href="#av-boy"></use></svg></span>
+      <b>人稱代詞大冒險</b>
+    </div>
+    <div class="tools">
+      <button id="dlBtn" class="icon-btn" type="button" aria-label="下載這份教材（HTML）" title="下載這份教材">
+        <svg class="ic ic-lg" aria-hidden="true"><use href="#ic-download"></use></svg>
+      </button>
+      <button id="soundBtn" class="icon-btn" type="button" aria-pressed="true" aria-label="音效開關（現時開啟）" title="音效開關">
+        <svg class="ic ic-lg" aria-hidden="true"><use href="#ic-sound-on"></use></svg>
+      </button>
+      <button id="homeBtn" class="icon-btn" type="button" aria-label="返回主頁" title="返回主頁" hidden>
+        <svg class="ic ic-lg" aria-hidden="true"><use href="#ic-home"></use></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= HOME ================= -->
+  <section id="view-home" class="view" aria-labelledby="homeTitle">
+    <div class="hero">
+      <span class="badge"><svg class="ic" style="width:1rem;height:1rem" aria-hidden="true"><use href="#ic-bulb"></use></svg>小學 · 白話文 · 人稱代詞</span>
+      <h1 id="homeTitle">人稱代詞<em>大冒險</em></h1>
+      <p>代詞小隊陪你認識「我、你、他、她、它」。先看圖卡學一學，再挑戰兩種遊戲，每題都會告訴你為甚麼。</p>
+    </div>
+
+    <div class="menu">
+      <button class="menu-card c-teach" type="button" data-go="teach">
+        <span class="blob"><svg aria-hidden="true"><use href="#ic-book"></use></svg></span>
+        <h2>教學園地</h2>
+        <p>用圖卡和例句，認識第一、第二、第三人稱代詞。</p>
+        <span class="tag">5 張圖卡</span>
+      </button>
+      <button class="menu-card c-find" type="button" data-mode="find">
+        <span class="blob"><svg aria-hidden="true"><use href="#ic-search"></use></svg></span>
+        <h2>模式一 · 找出代詞</h2>
+        <p>讀一讀句子，把句中的「人稱代詞」找出來。</p>
+        <span class="tag">10 題 · 每題有講解</span>
+      </button>
+      <button class="menu-card c-pick" type="button" data-mode="pick">
+        <span class="blob"><svg aria-hidden="true"><use href="#ic-chat"></use></svg></span>
+        <h2>模式二 · 選一選</h2>
+        <p>看情境，選出最合適的人稱代詞填進空格。</p>
+        <span class="tag">10 題 · 每題有講解</span>
+      </button>
+    </div>
+
+    <div class="save-row">
+      <p>想把教材帶回家？下載後雙擊檔案即可開啟，離線、不用上網。</p>
+      <button class="btn-save" type="button" id="dlBtnHome" aria-label="下載教材 HTML 檔">
+        <svg aria-hidden="true"><use href="#ic-download"></use></svg><span class="save-label">下載教材 HTML</span>
+      </button>
+      <p id="saveNote" role="status" aria-live="polite"></p>
+    </div>
+
+    <div class="hint">
+      <svg aria-hidden="true"><use href="#ic-bulb"></use></svg>
+      <span>小提示：答題後會顯示正確答案和解釋，讀完再按「下一題」。電腦上可按鍵盤 <b>1–4</b> 選答案，按 <b>Enter</b> 繼續；按右上角的下載鍵也可保存一份教材。</span>
+    </div>
+  </section>
+
+  <!-- ================= TEACH ================= -->
+  <section id="view-teach" class="view" hidden aria-labelledby="teachTitle">
+    <div class="page-head">
+      <h2 id="teachTitle">教學園地</h2>
+      <p>點選下面的圖卡，一張一張慢慢看。</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="教學圖卡">
+      <button class="tab" type="button" role="tab" aria-selected="true" id="tab-what" aria-controls="panel-what" data-tab="what">① 甚麼是代詞</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" id="tab-first" aria-controls="panel-first" data-tab="first">② 第一人稱</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" id="tab-second" aria-controls="panel-second" data-tab="second">③ 第二人稱</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" id="tab-third" aria-controls="panel-third" data-tab="third">④ 第三人稱</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" id="tab-sum" aria-controls="panel-sum" data-tab="sum">⑤ 小總結</button>
+    </div>
+
+    <div class="teach-card">
+      <!-- panel 1 -->
+      <div class="panel" id="panel-what" role="tabpanel" aria-labelledby="tab-what">
+        <div class="teach-grid">
+          <div class="illus">
+            <svg aria-hidden="true"><use href="#av-boy"></use></svg>
+            <svg class="arrow" aria-hidden="true"><use href="#ic-next"></use></svg>
+            <svg aria-hidden="true"><use href="#av-book"></use></svg>
+          </div>
+          <div>
+            <h3 class="teach-title">人稱代詞：代替名字的詞</h3>
+            <p class="teach-lead">說話或寫文章時，我們會用「我、你、他、她、它」等詞語代替人物或事物的名稱，令句子更簡潔，不會一直重複名字。</p>
+            <div class="eg"><span>小明很喜歡看書。<br>小明每天都看書。</span></div>
+            <div class="eg"><span>小明很喜歡看書，<span class="pron">他</span>每天都看書。</span></div>
+            <div class="tip">
+              <svg aria-hidden="true"><use href="#ic-bulb"></use></svg>
+              <span>「他」代替了本來要再說一次的「小明」，句子就不用重複名字，這就是人稱代詞的用途。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- panel 2 -->
+      <div class="panel" id="panel-first" role="tabpanel" aria-labelledby="tab-first" hidden>
+        <div class="teach-grid">
+          <div class="illus"><svg class="solo" aria-hidden="true"><use href="#av-boy"></use></svg></div>
+          <div>
+            <h3 class="teach-title">第一人稱：我、我們</h3>
+            <p class="teach-lead">說話的人<b>自己</b>，就是第一人稱。一個人是「我」，多於一個人（包括自己）就是「我們」。</p>
+            <div class="eg">
+              <button class="say" type="button" data-say="我是三年級的學生。" aria-label="朗讀例句"><svg aria-hidden="true"><use href="#ic-speaker"></use></svg></button>
+              <span><span class="pron">我</span>是三年級的學生。</span>
+            </div>
+            <div class="eg">
+              <button class="say" type="button" data-say="我們一起打掃課室。" aria-label="朗讀例句"><svg aria-hidden="true"><use href="#ic-speaker"></use></svg></button>
+              <span><span class="pron">我們</span>一起打掃課室。</span>
+            </div>
+            <div class="tip">
+              <svg aria-hidden="true"><use href="#ic-bulb"></use></svg>
+              <span>「我們」一定包括說話的人自己。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- panel 3 -->
+      <div class="panel" id="panel-second" role="tabpanel" aria-labelledby="tab-second" hidden>
+        <div class="teach-grid">
+          <div class="illus">
+            <svg aria-hidden="true"><use href="#av-boy"></use></svg>
+            <svg class="arrow" aria-hidden="true"><use href="#ic-next"></use></svg>
+            <svg aria-hidden="true"><use href="#av-girl2"></use></svg>
+          </div>
+          <div>
+            <h3 class="teach-title">第二人稱：你、你們、您</h3>
+            <p class="teach-lead">說話的<b>對方</b>，就是第二人稱。一個人是「你」，多於一個人就是「你們」；對長輩、老師或客人，我們用敬稱「您」。</p>
+            <div class="eg">
+              <button class="say" type="button" data-say="你的書包很漂亮。" aria-label="朗讀例句"><svg aria-hidden="true"><use href="#ic-speaker"></use></svg></button>
+              <span><span class="pron">你</span>的書包很漂亮。</span>
+            </div>
+            <div class="eg">
+              <button class="say" type="button" data-say="老師，您早！" aria-label="朗讀例句"><svg aria-hidden="true"><use href="#ic-speaker"></use></svg></button>
+              <span>老師，<span class="pron">您</span>早！</span>
+            </div>
+            <div class="tip">
+              <svg aria-hidden="true"><use href="#ic-bulb"></use></svg>
+              <span>「您」是「你」的敬稱，用來說話有禮貌；它通常只用於單數，同時稱呼幾位長輩，可說「各位老師」、「各位長輩」。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- panel 4 -->
+      <div class="panel" id="panel-third" role="tabpanel" aria-labelledby="tab-third" hidden>
+        <div class="teach-grid">
+          <div class="illus"><svg class="av-wide" aria-hidden="true"><use href="#av-group"></use></svg></div>
+          <div>
+            <h3 class="teach-title">第三人稱：他、她、它</h3>
+            <p class="teach-lead">說話時談到的<b>第三者</b>，就是第三人稱。男孩子用「他」，女孩子用「她」，事物用「它」；多於一個就加「們」。</p>
+            <div class="table-wrap">
+              <table class="pron-table">
+                <thead><tr><th></th><th>男孩子</th><th>女孩子</th><th>事物</th></tr></thead>
+                <tbody>
+                  <tr><th>單數</th><td>他</td><td>她</td><td>它</td></tr>
+                  <tr><th>複數</th><td>他們</td><td>她們</td><td>它們</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="note">小知識：香港部分課本用「牠」專指動物；本教材統一用「它」指事物，不另教「牠」，以免混淆。</p>
+            <div class="eg" style="margin-top:.7rem">
+              <button class="say" type="button" data-say="哥哥在打球，他很開心。" aria-label="朗讀例句"><svg aria-hidden="true"><use href="#ic-speaker"></use></svg></button>
+              <span>哥哥在打球，<span class="pron">他</span>很開心。</span>
+            </div>
+            <div class="tip">
+              <svg aria-hidden="true"><use href="#ic-bulb"></use></svg>
+              <span>一班人裏有男也有女，我們用「他們」。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- panel 5 -->
+      <div class="panel" id="panel-sum" role="tabpanel" aria-labelledby="tab-sum" hidden>
+        <h3 class="teach-title">小總結：記住這幾句</h3>
+        <p class="teach-lead">把這幾句讀一次，再去玩遊戲，就會更容易記得。</p>
+        <div class="eg"><span>我、你、他，單數只有一個；後面加「們」，就表示多於一個。</span></div>
+        <div class="eg"><span>男孩子用「他」，女孩子用「她」，事物用「它」。</span></div>
+        <div class="eg"><span>長輩、老師用「您」；動作回到自己身上，用「自己」；指在場所有人時，用「大家」。</span></div>
+        <div class="tip">
+          <svg aria-hidden="true"><use href="#ic-bulb"></use></svg>
+          <span>常見錯誤：有男有女時，誤用「她們」；正確是用「他們」。</span>
+        </div>
+        <div style="display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.1rem">
+          <button class="btn btn-primary" type="button" data-mode="find"><svg aria-hidden="true"><use href="#ic-search"></use></svg>挑戰模式一</button>
+          <button class="btn btn-ghost" type="button" data-mode="pick"><svg aria-hidden="true"><use href="#ic-chat"></use></svg>挑戰模式二</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GAME ================= -->
+  <section id="view-game" class="view" hidden aria-labelledby="gameTitle">
+    <div class="game-head">
+      <h2 id="gameTitle">模式一 · 找出代詞</h2>
+      <div class="stats">
+        <span class="chip">第 <b id="qIndex">1</b> / 10 題</span>
+        <span class="chip">得分 <b id="scoreVal">0</b></span>
+      </div>
+    </div>
+    <div class="bar" role="progressbar" aria-label="答題進度" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" id="progressBar"><i id="barFill"></i></div>
+
+    <div class="qcard">
+      <span class="qtag" id="taskTag">請找出句中的一個「人稱代詞」</span>
+      <p class="sentence" id="sentence"></p>
+      <div class="opts" id="options" role="group" aria-label="答案選項"></div>
+
+      <div class="feedback" id="feedback" aria-live="polite">
+        <div class="fb-title" id="fbTitle"></div>
+        <p class="fb-text" id="fbText"></p>
+        <div class="fb-actions">
+          <button class="btn btn-primary btn-block" type="button" id="nextBtn">
+            <span id="nextLabel">下一題</span><svg aria-hidden="true"><use href="#ic-next"></use></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RESULT ================= -->
+  <section id="view-result" class="view" hidden aria-labelledby="resultTitle">
+    <div class="result-card">
+      <div class="stars" id="stars" aria-hidden="true"></div>
+      <div class="score-big"><span id="finalScore">0</span><small> / 100</small></div>
+      <h2 id="resultTitle" tabindex="-1">完成挑戰！</h2>
+      <p id="resultMsg"></p>
+      <div class="review" id="reviewBox">
+        <h3><svg aria-hidden="true"><use href="#ic-bulb"></use></svg><span id="reviewTitle">溫習一下</span></h3>
+        <ul id="reviewList"></ul>
+      </div>
+      <div class="result-actions">
+        <button class="btn btn-primary" type="button" id="againBtn"><svg aria-hidden="true"><use href="#ic-next"></use></svg>再玩一次</button>
+        <button class="btn btn-ghost" type="button" id="otherModeBtn"><svg aria-hidden="true"><use href="#ic-chat"></use></svg>試另一模式</button>
+        <button class="btn btn-ghost" type="button" id="backHomeBtn"><svg aria-hidden="true"><use href="#ic-home"></use></svg>返回主頁</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span>繁體用字參考《香港小學學習字詞表》</span>·<span>小學白話文 · 人稱代詞</span>
+  </footer>
+</main>
+
+<noscript>
+  <p style="padding:1rem;text-align:center">請開啟 JavaScript 才能使用這個互動教材。</p>
+</noscript>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------------- data ---------------- */
+  var BLANK = '＿＿＿';
+
+  var QUIZ = {
+    find: [
+      {
+        s: '今天早上，我和媽媽一起乘巴士上學。',
+        opts: ['今天', '我', '媽媽', '巴士'],
+        a: '我',
+        tip: '「我」是說話的人自己，屬於第一人稱單數。'
+      },
+      {
+        s: '老師稱讚你們的壁報設計得很漂亮。',
+        opts: ['老師', '你們', '壁報', '漂亮'],
+        a: '你們',
+        tip: '「你們」指老師說話的對象，是第二人稱複數。'
+      },
+      {
+        s: '妹妹拿起姐姐的圖書，說：「這本是她的。」',
+        opts: ['妹妹', '姐姐', '圖書', '她'],
+        a: '她',
+        tip: '「她」指姐姐，是女性第三者，屬於第三人稱單數。'
+      },
+      {
+        s: '爺爺和奶奶住在元朗，每逢週末，爸爸都會帶弟弟去探望他們。',
+        opts: ['元朗', '週末', '弟弟', '他們'],
+        a: '他們',
+        tip: '「他們」指爺爺和奶奶兩個人，是第三人稱複數。'
+      },
+      {
+        s: '請問，您是不是陳老師？',
+        opts: ['請問', '您', '陳老師', '是不是'],
+        a: '您',
+        tip: '「您」是「你」的敬稱，用來稱呼長輩、老師或客人。'
+      },
+      {
+        s: '這幅圖畫很美，妹妹很喜歡它。',
+        opts: ['圖畫', '它', '很美', '妹妹'],
+        a: '它',
+        tip: '「它」指事物（這幅圖畫），不是人，所以用「它」。'
+      },
+      {
+        s: '哥哥說：「我們放學後一起去圖書館吧。」',
+        opts: ['哥哥', '我們', '放學', '圖書館'],
+        a: '我們',
+        tip: '「我們」包括說話的人和身邊的人，是第一人稱複數。'
+      },
+      {
+        s: '小美，你的雨傘留在課室，放學記得拿回。',
+        opts: ['小美', '你', '雨傘', '課室'],
+        a: '你',
+        tip: '「你」指聽話的對方，是第二人稱單數。'
+      },
+      {
+        s: '班長提醒大家：「請安靜，老師快到了。」',
+        opts: ['班長', '大家', '老師', '安靜'],
+        a: '大家',
+        tip: '「大家」指在場所有人，包括說話的人和聽話的人，是泛指的人稱代詞。'
+      },
+      {
+        s: '妹妹自己做功課，不用媽媽幫忙。',
+        opts: ['妹妹', '自己', '功課', '媽媽'],
+        a: '自己',
+        tip: '「自己」是反身代詞，指動作的發出者（妹妹）本身。'
+      }
+    ],
+    pick: [
+      {
+        s: '小明和小美是好朋友，' + BLANK + '每天都一起步行回家。',
+        opts: ['他', '她', '他們', '她們'],
+        a: '他們',
+        tip: '小明是男孩子、小美是女孩子，一男一女合起來用「他們」。'
+      },
+      {
+        s: '姐姐和妹妹都喜歡畫畫，' + BLANK + '一起參加了學校的美術班。',
+        opts: ['他', '他們', '她們', '大家'],
+        a: '她們',
+        tip: '姐姐和妹妹都是女孩子，所以用「她們」。'
+      },
+      {
+        s: '老師對我和小強說：「' + BLANK + '要準時交功課。」',
+        opts: ['我們', '你們', '他們', '她們'],
+        a: '你們',
+        tip: '引號內是老師對「我和小強」說的話，所以用第二人稱「你們」。'
+      },
+      {
+        s: '我和爸爸媽媽到茶樓飲茶，' + BLANK + '點了很多點心。',
+        opts: ['我們', '你們', '他們', '她們'],
+        a: '我們',
+        tip: '句子包括說話的「我」，所以用第一人稱「我們」。'
+      },
+      {
+        s: '這些圖書是新的，' + BLANK + '整齊地放在書架上。',
+        opts: ['他', '她', '它們', '她們'],
+        a: '它們',
+        tip: '圖書是事物，不是人，複數要用「它們」。'
+      },
+      {
+        s: '陳同學，' + BLANK + '的鉛筆掉在地上了。',
+        opts: ['我', '你', '他', '您'],
+        a: '你',
+        tip: '陳同學是平輩，直接稱呼對方用「你」；「您」用來稱呼長輩。'
+      },
+      {
+        s: '爺爺，' + BLANK + '今天精神真好！',
+        opts: ['你', '您', '他', '我們'],
+        a: '您',
+        tip: '爺爺是長輩，用敬稱「您」更有禮貌。'
+      },
+      {
+        s: '弟弟站在鏡子前，對' + BLANK + '說：「我要努力！」',
+        opts: ['我', '你', '自己', '大家'],
+        a: '自己',
+        tip: '弟弟對鏡中的自己說話，用反身代詞「自己」。'
+      },
+      {
+        s: '小美把禮物遞給小明，說：「這是送給' + BLANK + '的，請收下。」',
+        opts: ['我', '你', '她', '您'],
+        a: '你',
+        tip: '小美正向小明說話，所以用「你」指聽話的小明；平輩之間不用「您」。'
+      },
+      {
+        s: '姐姐很喜歡畫畫，' + BLANK + '每天都練習一小時。',
+        opts: ['他', '她', '它', '他們'],
+        a: '她',
+        tip: '姐姐是女孩子，只有一個人，所以用第三人稱單數「她」。'
+      }
+    ]
+  };
+
+  var MODE_INFO = {
+    find: { name: '模式一 · 找出代詞', tag: '請找出句中的一個「人稱代詞」', task: 'find' },
+    pick: { name: '模式二 · 選一選', tag: '請選出最合適的代詞填進空格', task: 'pick' }
+  };
+
+  /* ---------------- dom ---------------- */
+  var $ = function (sel) { return document.querySelector(sel); };
+  var viewEls = {
+    home: $('#view-home'),
+    teach: $('#view-teach'),
+    game: $('#view-game'),
+    result: $('#view-result')
+  };
+  var sentenceEl = $('#sentence');
+  var optionsEl = $('#options');
+  var feedbackEl = $('#feedback');
+  var fbTitleEl = $('#fbTitle');
+  var fbTextEl = $('#fbText');
+  var nextBtn = $('#nextBtn');
+  var nextLabel = $('#nextLabel');
+  var progressBar = $('#progressBar');
+  var barFill = $('#barFill');
+  var qIndexEl = $('#qIndex');
+  var scoreEl = $('#scoreVal');
+  var gameTitle = $('#gameTitle');
+  var taskTag = $('#taskTag');
+  var soundBtn = $('#soundBtn');
+  var homeBtn = $('#homeBtn');
+
+  /* ---------------- state ---------------- */
+  var state = {
+    view: 'home',
+    mode: 'find',
+    idx: 0,
+    score: 0,
+    answered: false,
+    options: [],
+    wrong: []
+  };
+
+  /* ---------------- audio ---------------- */
+  var actx = null;
+  var soundOn = true;
+
+  function ensureAudio() {
+    if (actx) {
+      if (actx.state === 'suspended') { actx.resume(); }
+      return actx;
+    }
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) { return null; }
+    try { actx = new AC(); } catch (e) { actx = null; }
+    return actx;
+  }
+
+  function tone(freq, delay, dur, type, vol) {
+    if (!actx) { return; }
+    var t0 = actx.currentTime + delay;
+    var osc = actx.createOscillator();
+    var gain = actx.createGain();
+    osc.type = type || 'sine';
+    osc.frequency.setValueAtTime(freq, t0);
+    gain.gain.setValueAtTime(0.0001, t0);
+    gain.gain.exponentialRampToValueAtTime(vol || 0.14, t0 + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    osc.connect(gain);
+    gain.connect(actx.destination);
+    osc.start(t0);
+    osc.stop(t0 + dur + 0.06);
+  }
+
+  function sfx(name) {
+    if (!soundOn) { return; }
+    if (!ensureAudio()) { return; }
+    if (name === 'click') { tone(560, 0, 0.08, 'triangle', 0.07); }
+    if (name === 'right') {
+      tone(659.25, 0, 0.13, 'sine', 0.13);
+      tone(783.99, 0.1, 0.13, 'sine', 0.13);
+      tone(1046.5, 0.2, 0.24, 'sine', 0.13);
+    }
+    if (name === 'wrong') {
+      tone(233.08, 0, 0.16, 'triangle', 0.12);
+      tone(174.61, 0.13, 0.26, 'triangle', 0.11);
+    }
+    if (name === 'win') {
+      var notes = [523.25, 659.25, 783.99, 1046.5];
+      for (var i = 0; i < notes.length; i++) { tone(notes[i], i * 0.11, 0.2, 'sine', 0.12); }
+    }
+  }
+
+  function updateSoundBtn() {
+    soundBtn.setAttribute('aria-pressed', soundOn ? 'true' : 'false');
+    soundBtn.setAttribute('aria-label', soundOn ? '音效開關（現時開啟）' : '音效開關（現時關閉）');
+    var use = soundBtn.querySelector('use');
+    if (use) { use.setAttribute('href', soundOn ? '#ic-sound-on' : '#ic-sound-off'); }
+  }
+
+  /* ---------------- speech (optional) ---------------- */
+  var speechOK = ('speechSynthesis' in window) && typeof window.SpeechSynthesisUtterance === 'function';
+  var voiceReady = false;
+
+  function pickZhVoice() {
+    if (!speechOK) { return null; }
+    var voices = window.speechSynthesis.getVoices() || [];
+    for (var i = 0; i < voices.length; i++) {
+      var lang = (voices[i].lang || '').toLowerCase();
+      if (lang.indexOf('zh') === 0 || lang.indexOf('yue') === 0) { return voices[i]; }
+    }
+    return null;
+  }
+
+  function checkVoices() {
+    if (!speechOK) { return false; }
+    var voices = window.speechSynthesis.getVoices() || [];
+    if (voices.length > 0) { voiceReady = true; }
+    return voiceReady;
+  }
+
+  function speak(text) {
+    if (!speechOK) { return; }
+    try {
+      window.speechSynthesis.cancel();
+      var u = new window.SpeechSynthesisUtterance(text);
+      var v = pickZhVoice();
+      if (v) { u.voice = v; u.lang = v.lang; } else { u.lang = 'zh-HK'; }
+      u.rate = 0.9;
+      u.pitch = 1.05;
+      window.speechSynthesis.speak(u);
+    } catch (e) { /* 靜默降級：沒有語音時不影響其他功能 */ }
+  }
+
+  /* ---------------- views ---------------- */
+  function showView(name) {
+    state.view = name;
+    Object.keys(viewEls).forEach(function (k) {
+      viewEls[k].hidden = (k !== name);
+    });
+    homeBtn.hidden = (name === 'home');
+    if (window.scrollTo) { window.scrollTo(0, 0); }
+  }
+
+  /* ---------------- helpers ---------------- */
+  function shuffle(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+
+  function buildSentence(text, withBlank) {
+    sentenceEl.textContent = '';
+    if (!withBlank) {
+      sentenceEl.textContent = text;
+      return;
+    }
+    var parts = text.split(BLANK);
+    var frag = document.createDocumentFragment();
+    for (var i = 0; i < parts.length; i++) {
+      if (parts[i]) { frag.appendChild(document.createTextNode(parts[i])); }
+      if (i < parts.length - 1) {
+        var span = document.createElement('span');
+        span.className = 'blank';
+        span.textContent = '？';
+        frag.appendChild(span);
+      }
+    }
+    sentenceEl.appendChild(frag);
+  }
+
+  function setProgress(done) {
+    var pct = Math.round((done / 10) * 100);
+    barFill.style.width = pct + '%';
+    progressBar.setAttribute('aria-valuenow', String(done));
+    progressBar.setAttribute('aria-valuetext', '已回答 ' + done + ' 題，共 10 題');
+  }
+
+  /* ---------------- game ---------------- */
+  function startGame(mode) {
+    if (!QUIZ[mode]) { return; }
+    state.mode = mode;
+    state.idx = 0;
+    state.score = 0;
+    state.answered = false;
+    state.wrong = [];
+    gameTitle.textContent = MODE_INFO[mode].name;
+    taskTag.textContent = MODE_INFO[mode].tag;
+    showView('game');
+    renderQuestion();
+    sfx('click');
+  }
+
+  function currentQuestion() {
+    return QUIZ[state.mode][state.idx];
+  }
+
+  function renderQuestion() {
+    var q = currentQuestion();
+    state.answered = false;
+    state.options = shuffle(q.opts.slice());
+
+    qIndexEl.textContent = String(state.idx + 1);
+    scoreEl.textContent = String(state.score);
+    setProgress(state.idx);
+
+    buildSentence(q.s, state.mode === 'pick');
+
+    optionsEl.textContent = '';
+    state.options.forEach(function (word, i) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'opt';
+      btn.dataset.value = word;
+
+      var key = document.createElement('span');
+      key.className = 'key';
+      key.textContent = String(i + 1);
+
+      var label = document.createElement('span');
+      label.textContent = word;
+
+      btn.appendChild(key);
+      btn.appendChild(label);
+      btn.addEventListener('click', function () { answer(word, btn); });
+      optionsEl.appendChild(btn);
+    });
+
+    feedbackEl.className = 'feedback';
+    feedbackEl.setAttribute('aria-hidden', 'true');
+    fbTitleEl.textContent = '';
+    fbTextEl.textContent = '';
+    nextLabel.textContent = (state.idx === 9) ? '看成績' : '下一題';
+  }
+
+  function answer(word, btn) {
+    if (state.answered) { return; }
+    state.answered = true;
+
+    var q = currentQuestion();
+    var ok = (word === q.a);
+    var allOpts = Array.prototype.slice.call(optionsEl.querySelectorAll('.opt'));
+
+    allOpts.forEach(function (b) {
+      b.disabled = true;
+      if (b.dataset.value === q.a) { b.classList.add('correct'); }
+      else if (b === btn) { b.classList.add('wrong'); }
+      else { b.classList.add('dim'); }
+    });
+
+    if (ok) {
+      state.score += 10;
+      scoreEl.textContent = String(state.score);
+      sfx('right');
+    } else {
+      state.wrong.push({ s: q.s, a: q.a, tip: q.tip, chose: word });
+      sfx('wrong');
+    }
+
+    setProgress(state.idx + 1);
+
+    feedbackEl.className = 'feedback show ' + (ok ? 'ok' : 'no');
+    feedbackEl.setAttribute('aria-hidden', 'false');
+
+    fbTitleEl.textContent = '';
+    var icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    icon.setAttribute('aria-hidden', 'true');
+    var use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    use.setAttribute('href', ok ? '#ic-check' : '#ic-cross');
+    icon.appendChild(use);
+    fbTitleEl.appendChild(icon);
+    fbTitleEl.appendChild(document.createTextNode(ok ? '答對了！' : '再想一想～'));
+
+    fbTextEl.textContent = '';
+    fbTextEl.appendChild(document.createTextNode('正確答案：'));
+    var strong = document.createElement('b');
+    strong.textContent = q.a;
+    fbTextEl.appendChild(strong);
+    fbTextEl.appendChild(document.createTextNode('。'));
+    fbTextEl.appendChild(document.createElement('br'));
+    fbTextEl.appendChild(document.createTextNode(q.tip));
+
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (feedbackEl.scrollIntoView) {
+      feedbackEl.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+    }
+    if (window.matchMedia && window.matchMedia('(hover: hover)').matches) {
+      nextBtn.focus({ preventScroll: true });
+    }
+  }
+
+  function goNext() {
+    if (!state.answered) { return; }
+    if (state.idx >= 9) {
+      showResult();
+      return;
+    }
+    state.idx += 1;
+    renderQuestion();
+    if (window.scrollTo) { window.scrollTo(0, 0); }
+    sfx('click');
+  }
+
+  function showResult() {
+    var score = state.score;
+    var stars = score >= 90 ? 3 : (score >= 70 ? 2 : (score >= 40 ? 1 : 0));
+
+    var starsEl = $('#stars');
+    starsEl.textContent = '';
+    for (var i = 0; i < 3; i++) {
+      var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('viewBox', '0 0 24 24');
+      svg.setAttribute('class', i < stars ? 'on' : 'off');
+      var use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+      use.setAttribute('href', '#ic-star');
+      svg.appendChild(use);
+      starsEl.appendChild(svg);
+    }
+
+    $('#finalScore').textContent = String(score);
+
+    var msg;
+    if (score === 100) { msg = '全部答對！你已經完全掌握人稱代詞，可以教其他同學了。'; }
+    else if (score >= 90) { msg = '很出色！只差一點就全對，看看錯題就完全明白了。'; }
+    else if (score >= 70) { msg = '表現不錯！再溫習一下做錯的題目，下次一定更順利。'; }
+    else { msg = '不要灰心，先看一次教學圖卡，再慢慢做一次就會明白。'; }
+    $('#resultMsg').textContent = msg;
+
+    var reviewBox = $('#reviewBox');
+    var list = $('#reviewList');
+    list.textContent = '';
+    if (state.wrong.length === 0) {
+      reviewBox.hidden = true;
+    } else {
+      reviewBox.hidden = false;
+      $('#reviewTitle').textContent = '溫習一下（' + state.wrong.length + ' 題）';
+      state.wrong.forEach(function (w) {
+        var li = document.createElement('li');
+        var p = document.createElement('div');
+        p.textContent = w.s.replace(BLANK, '（　）');
+        li.appendChild(p);
+        var ans = document.createElement('span');
+        ans.className = 'ans';
+        ans.textContent = '正確答案：' + w.a + (w.chose ? '（你選了：' + w.chose + '）' : '');
+        li.appendChild(ans);
+        var why = document.createElement('span');
+        why.className = 'why';
+        why.textContent = w.tip;
+        li.appendChild(why);
+        list.appendChild(li);
+      });
+    }
+
+    $('#otherModeBtn').textContent = '';
+    var oIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    oIcon.setAttribute('aria-hidden', 'true');
+    var oUse = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    oUse.setAttribute('href', '#ic-chat');
+    oIcon.appendChild(oUse);
+    $('#otherModeBtn').appendChild(oIcon);
+    $('#otherModeBtn').appendChild(document.createTextNode(state.mode === 'find' ? '試模式二' : '試模式一'));
+
+    showView('result');
+    if ($('#resultTitle').focus) { $('#resultTitle').focus({ preventScroll: true }); }
+    sfx('win');
+  }
+
+  /* ---------------- download ---------------- */
+  var dlBtn = $('#dlBtn');
+  var dlBtnHome = $('#dlBtnHome');
+  var saveNote = $('#saveNote');
+  var dlTimer = null;
+
+  function clearDownloadState() {
+    [dlBtn, dlBtnHome].forEach(function (b) {
+      if (!b) { return; }
+      b.classList.remove('is-done');
+      var use = b.querySelector('use');
+      if (use) { use.setAttribute('href', '#ic-download'); }
+    });
+    if (dlBtnHome) {
+      var t = dlBtnHome.querySelector('.save-label');
+      if (t) { t.textContent = '下載教材 HTML'; }
+    }
+    if (dlBtn) {
+      dlBtn.setAttribute('aria-label', '下載這份教材（HTML）');
+      dlBtn.title = '下載這份教材';
+    }
+  }
+
+  function showDownloadState(ok) {
+    [dlBtn, dlBtnHome].forEach(function (b) {
+      if (!b) { return; }
+      b.classList.toggle('is-done', ok);
+      var use = b.querySelector('use');
+      if (use) { use.setAttribute('href', ok ? '#ic-check' : '#ic-download'); }
+    });
+    if (dlBtnHome) {
+      var t = dlBtnHome.querySelector('.save-label');
+      if (t) { t.textContent = ok ? '已開始下載' : '下載失敗，請再試'; }
+    }
+    if (saveNote) {
+      saveNote.textContent = ok
+        ? '檔案已開始下載，可在「下載」資料夾找到「人稱代詞大冒險.html」。'
+        : '這個瀏覽器未能直接下載，請用瀏覽器選單的「儲存頁面」功能。';
+    }
+    if (dlTimer) { window.clearTimeout(dlTimer); }
+    dlTimer = window.setTimeout(clearDownloadState, ok ? 4200 : 5600);
+  }
+
+  /* 匯出時把畫面重設回「首頁＋未開始」的乾淨狀態，避免把當前進度寫進檔案 */
+  function buildStandaloneHTML() {
+    var clone = document.documentElement.cloneNode(true);
+    function q(sel) { return clone.querySelector(sel); }
+    function qa(sel) { return Array.prototype.slice.call(clone.querySelectorAll(sel)); }
+
+    qa('.view').forEach(function (v) { v.hidden = (v.id !== 'view-home'); });
+    var hb = q('#homeBtn'); if (hb) { hb.hidden = true; }
+
+    var opts = q('#options'); if (opts) { opts.textContent = ''; }
+    var sent = q('#sentence'); if (sent) { sent.textContent = ''; }
+    var fb = q('#feedback');
+    if (fb) { fb.className = 'feedback'; fb.setAttribute('aria-hidden', 'true'); }
+    var fbt = q('#fbTitle'); if (fbt) { fbt.textContent = ''; }
+    var fbx = q('#fbText'); if (fbx) { fbx.textContent = ''; }
+    var nl = q('#nextLabel'); if (nl) { nl.textContent = '下一題'; }
+    var qi = q('#qIndex'); if (qi) { qi.textContent = '1'; }
+    var sc = q('#scoreVal'); if (sc) { sc.textContent = '0'; }
+    var bf = q('#barFill'); if (bf) { bf.removeAttribute('style'); }
+    var pb = q('#progressBar');
+    if (pb) {
+      pb.setAttribute('aria-valuenow', '0');
+      pb.setAttribute('aria-valuetext', '已回答 0 題，共 10 題');
+    }
+    var gt = q('#gameTitle'); if (gt) { gt.textContent = '模式一 · 找出代詞'; }
+    var tt = q('#taskTag'); if (tt) { tt.textContent = '請找出句中的一個「人稱代詞」'; }
+
+    var stars = q('#stars'); if (stars) { stars.textContent = ''; }
+    var fs = q('#finalScore'); if (fs) { fs.textContent = '0'; }
+    var rm = q('#resultMsg'); if (rm) { rm.textContent = ''; }
+    var rb = q('#reviewBox'); if (rb) { rb.hidden = true; }
+    var rl = q('#reviewList'); if (rl) { rl.textContent = ''; }
+    var rt = q('#reviewTitle'); if (rt) { rt.textContent = '溫習一下'; }
+
+    qa('.tab').forEach(function (t, i) { t.setAttribute('aria-selected', i === 0 ? 'true' : 'false'); });
+    qa('.panel').forEach(function (panel, i) { panel.hidden = (i !== 0); });
+
+    qa('.say').forEach(function (b) { b.hidden = false; });
+    var sb = q('#soundBtn');
+    if (sb) {
+      sb.disabled = false;
+      sb.setAttribute('aria-pressed', 'true');
+      sb.setAttribute('aria-label', '音效開關（現時開啟）');
+      sb.title = '音效開關';
+      var suse = sb.querySelector('use');
+      if (suse) { suse.setAttribute('href', '#ic-sound-on'); }
+    }
+    [q('#dlBtn'), q('#dlBtnHome')].forEach(function (b) {
+      if (!b) { return; }
+      b.classList.remove('is-done');
+      var use = b.querySelector('use');
+      if (use) { use.setAttribute('href', '#ic-download'); }
+    });
+    var homeLabel = q('#dlBtnHome .save-label');
+    if (homeLabel) { homeLabel.textContent = '下載教材 HTML'; }
+    var note = q('#saveNote'); if (note) { note.textContent = ''; }
+    var dlb = q('#dlBtn');
+    if (dlb) {
+      dlb.setAttribute('aria-label', '下載這份教材（HTML）');
+      dlb.title = '下載這份教材';
+    }
+
+    return '<!DOCTYPE html>\n' + clone.outerHTML;
+  }
+
+  function downloadHTML() {
+    sfx('click');
+    try {
+      var html = buildStandaloneHTML();
+      var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+      var probe = document.createElement('a');
+      if (!('download' in probe) || !window.URL || !window.URL.createObjectURL) {
+        throw new Error('download-unsupported');
+      }
+      var url = window.URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = '人稱代詞大冒險.html';
+      a.rel = 'noopener';
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.setTimeout(function () { window.URL.revokeObjectURL(url); }, 8000);
+      showDownloadState(true);
+    } catch (err) {
+      showDownloadState(false);
+    }
+  }
+
+  if (dlBtn) { dlBtn.addEventListener('click', downloadHTML); }
+  if (dlBtnHome) { dlBtnHome.addEventListener('click', downloadHTML); }
+
+  /* ---------------- events ---------------- */
+  document.addEventListener('click', function (e) {
+    var goBtn = e.target.closest ? e.target.closest('[data-go]') : null;
+    if (goBtn) {
+      sfx('click');
+      showView('teach');
+      return;
+    }
+    var modeBtn = e.target.closest ? e.target.closest('[data-mode]') : null;
+    if (modeBtn) {
+      startGame(modeBtn.dataset.mode);
+    }
+  });
+
+  /* tabs */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      sfx('click');
+      tabs.forEach(function (t) {
+        t.setAttribute('aria-selected', 'false');
+        var panel = document.getElementById(t.getAttribute('aria-controls'));
+        if (panel) { panel.hidden = true; }
+      });
+      tab.setAttribute('aria-selected', 'true');
+      if (tab.scrollIntoView) { tab.scrollIntoView({ block: 'nearest' }); }
+      var target = document.getElementById(tab.getAttribute('aria-controls'));
+      if (target) { target.hidden = false; }
+    });
+  });
+
+  /* keyboard navigation for tabs */
+  var tablist = document.querySelector('.tabs');
+  if (tablist) {
+    tablist.addEventListener('keydown', function (e) {
+      var keys = ['ArrowRight', 'ArrowLeft', 'Home', 'End'];
+      if (keys.indexOf(e.key) < 0) { return; }
+      var i = tabs.indexOf(document.activeElement);
+      if (i < 0) { return; }
+      e.preventDefault();
+      var n = e.key === 'Home' ? 0 : (e.key === 'End' ? tabs.length - 1 : (i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length);
+      tabs[n].focus();
+      tabs[n].click();
+    });
+  }
+
+  /* speech buttons */
+  var sayButtons = Array.prototype.slice.call(document.querySelectorAll('.say'));
+  function hideSayButtons() {
+    sayButtons.forEach(function (btn) { btn.hidden = true; });
+  }
+  sayButtons.forEach(function (btn) {
+    if (!speechOK) { btn.hidden = true; return; }
+    btn.addEventListener('click', function () {
+      sfx('click');
+      speak(btn.dataset.say || '');
+    });
+  });
+  function showSayButtons() {
+    if (!speechOK) { return; }
+    sayButtons.forEach(function (btn) { btn.hidden = false; });
+  }
+  if (speechOK) {
+    checkVoices();
+    if (window.speechSynthesis.addEventListener) {
+      window.speechSynthesis.addEventListener('voiceschanged', function () {
+        if (checkVoices()) { showSayButtons(); }
+      });
+    }
+    window.setTimeout(function () {
+      if (!checkVoices()) { hideSayButtons(); }
+    }, 2500);
+  }
+
+  /* sound toggle */
+  soundBtn.addEventListener('click', function () {
+    soundOn = !soundOn;
+    updateSoundBtn();
+    if (soundOn) { sfx('click'); }
+  });
+
+  homeBtn.addEventListener('click', function () {
+    sfx('click');
+    showView('home');
+  });
+
+  nextBtn.addEventListener('click', function () {
+    goNext();
+  });
+
+  $('#againBtn').addEventListener('click', function () {
+    startGame(state.mode);
+  });
+
+  $('#otherModeBtn').addEventListener('click', function () {
+    startGame(state.mode === 'find' ? 'pick' : 'find');
+  });
+
+  $('#backHomeBtn').addEventListener('click', function () {
+    sfx('click');
+    showView('home');
+  });
+
+  /* keyboard shortcuts for desktop / projector */
+  document.addEventListener('keydown', function (e) {
+    if (state.view !== 'game') { return; }
+    if (state.answered) {
+      /* 焦點在「下一題」時交由按鈕原生啟動，避免同一次 Enter 前進兩題 */
+      if ((e.key === 'Enter' || e.key === ' ') && document.activeElement !== nextBtn) {
+        e.preventDefault();
+        goNext();
+      }
+      return;
+    }
+    if (e.key >= '1' && e.key <= '4') {
+      var btns = optionsEl.querySelectorAll('.opt');
+      var i = Number(e.key) - 1;
+      if (btns[i]) { e.preventDefault(); btns[i].click(); }
+    }
+  });
+
+  /* unlock audio on first gesture */
+  function unlockAudio() {
+    ensureAudio();
+    document.removeEventListener('pointerdown', unlockAudio);
+    document.removeEventListener('keydown', unlockAudio);
+  }
+  document.addEventListener('pointerdown', unlockAudio, { once: true });
+  document.addEventListener('keydown', unlockAudio, { once: true });
+
+  /* ---------------- init ---------------- */
+  updateSoundBtn();
+  if (!(window.AudioContext || window.webkitAudioContext)) {
+    soundBtn.disabled = true;
+    soundBtn.setAttribute('aria-label', '此瀏覽器不支援音效');
+    soundBtn.title = '此瀏覽器不支援音效';
+  }
+  showView('home');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>呼告小偵探｜小學呼告修辭互動教室</title>
+<meta name="description" content="跟著小偵探呼呼學會呼告修辭：圖文教學、初階與高階雙版本、三種互動遊戲各六題，答題即時解說，手機、平板、電腦都能玩。">
+<style>
+  :root{
+    --ink:#1f3350;
+    --ink2:#5a7292;
+    --paper:#ffffff;
+    --cream:#fffaf0;
+    --blue:#3aa0ff;
+    --blue-soft:#dff1ff;
+    --yellow:#ffc94d;
+    --yellow-soft:#fff2cc;
+    --coral:#ff8a75;
+    --green:#2fbf8a;
+    --green-soft:#e2fbf1;
+    --red:#e0563f;
+    --red-soft:#ffefec;
+    --purple:#a78bfa;
+    --shadow:0 8px 0 rgba(31,51,80,.16);
+    --radius:26px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{font-size:18px;}
+  html[data-fs="lg"]{font-size:20px;}
+  html[data-fs="xl"]{font-size:22px;}
+  body{
+    margin:0;
+    font-family:"Noto Sans TC","Noto Sans CJK TC","PingFang TC","Microsoft JhengHei","Heiti TC",system-ui,-apple-system,sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(1100px 600px at 12% -8%, #ffffff 0%, rgba(255,255,255,0) 60%),
+      radial-gradient(900px 520px at 92% 4%, #fff3d6 0%, rgba(255,243,214,0) 62%),
+      linear-gradient(180deg,#e7f6ff 0%,#f3fbff 46%,#fff7e8 100%);
+    background-attachment:fixed;
+    min-height:100dvh;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  body::before,body::after{
+    content:"";position:fixed;z-index:0;border-radius:50%;pointer-events:none;
+    background:rgba(255,255,255,.72);filter:blur(.5px);
+  }
+  body::before{width:220px;height:110px;left:-70px;top:16%;box-shadow:90px 18px 0 -12px rgba(255,255,255,.72),170px -16px 0 -22px rgba(255,255,255,.72);}
+  body::after{width:180px;height:90px;right:-60px;bottom:14%;box-shadow:-80px -20px 0 -14px rgba(255,255,255,.6);}
+  button{font-family:inherit;color:inherit;cursor:pointer;}
+  .app{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:clamp(10px,1.8vw,22px) clamp(12px,2.4vw,26px) 28px;min-height:100dvh;display:flex;flex-direction:column;gap:clamp(10px,1.4vw,18px);}
+  /* ---------- top bar ---------- */
+  .topbar{display:flex;align-items:center;gap:.6rem;min-height:52px;}
+  .icon-btn{
+    flex:0 0 auto;width:2.9rem;height:2.9rem;border-radius:50%;
+    border:3px solid var(--ink);background:var(--paper);box-shadow:0 4px 0 rgba(31,51,80,.18);
+    display:inline-flex;align-items:center;justify-content:center;font-size:1.15rem;font-weight:900;
+    transition:transform .12s ease,box-shadow .12s ease;line-height:1;
+  }
+  .icon-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(31,51,80,.18);}
+  .icon-btn[hidden]{display:none;}
+  .brand{display:flex;flex-direction:column;min-width:0;flex:1;}
+  .brand b{font-size:1.05rem;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .brand span{font-size:.72rem;color:var(--ink2);line-height:1.2;}
+  .level-pill{
+    flex:0 0 auto;font-size:.8rem;font-weight:900;padding:.35rem .85rem;border-radius:999px;
+    border:2px solid var(--ink);background:var(--yellow);box-shadow:0 3px 0 rgba(31,51,80,.18);
+  }
+  /* ---------- screens ---------- */
+  .stage{flex:1;display:flex;}
+  .screen{display:none;width:100%;flex-direction:column;gap:clamp(12px,1.8vw,20px);}
+  .screen.active{display:flex;animation:pop .32s cubic-bezier(.2,.9,.3,1.2);}
+  @keyframes pop{from{opacity:0;transform:translateY(14px) scale(.985);}to{opacity:1;transform:none;}}
+  /* ---------- home ---------- */
+  .hero{
+    display:flex;align-items:center;gap:clamp(8px,2vw,26px);
+    background:var(--paper);border:4px solid var(--ink);border-radius:var(--radius);
+    padding:clamp(14px,2.4vw,28px);box-shadow:var(--shadow);position:relative;overflow:hidden;
+  }
+  .hero::after{content:"";position:absolute;inset:auto -40px -70px auto;width:200px;height:200px;border-radius:50%;background:var(--blue-soft);z-index:0;}
+  .hero-copy{position:relative;z-index:1;min-width:0;flex:1;}
+  .kicker{display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:900;letter-spacing:.18em;color:#2b7fc4;background:var(--blue-soft);border-radius:999px;padding:.25rem .8rem;}
+  .hero h1{margin:.45rem 0 .2rem;font-size:clamp(1.58rem,6vw,3.1rem);line-height:1.2;letter-spacing:.02em;}
+  .hero h1 em{font-style:normal;color:#2b7fc4;position:relative;}
+  .hero h1 .nb{white-space:nowrap;}
+  .hero h1 em::after{content:"";position:absolute;left:0;right:0;bottom:.04em;height:.22em;background:var(--yellow);z-index:-1;border-radius:4px;}
+  .hero p{margin:.3rem 0 0;color:var(--ink2);font-size:.95rem;max-width:34em;}
+  .mascot{flex:0 0 auto;width:clamp(110px,19vw,190px);height:auto;display:block;position:relative;z-index:1;}
+  .level-grid{display:grid;grid-template-columns:1fr;gap:clamp(12px,1.6vw,18px);}
+  @media(min-width:720px){.level-grid{grid-template-columns:1fr 1fr;}}
+  .level-card{
+    text-align:left;display:flex;align-items:center;gap:clamp(10px,1.6vw,18px);
+    background:var(--paper);border:4px solid var(--ink);border-radius:var(--radius);
+    padding:clamp(14px,2vw,22px);box-shadow:var(--shadow);transition:transform .14s ease,box-shadow .14s ease;
+    width:100%;
+  }
+  .level-card:hover{transform:translateY(-3px);box-shadow:0 11px 0 rgba(31,51,80,.16);}
+  .level-card:active{transform:translateY(3px);box-shadow:0 4px 0 rgba(31,51,80,.16);}
+  .level-card .lv-icon{flex:0 0 auto;width:clamp(56px,8vw,76px);height:clamp(56px,8vw,76px);}
+  .level-card h2{margin:0;font-size:1.28rem;}
+  .level-card p{margin:.15rem 0 .45rem;font-size:.82rem;color:var(--ink2);line-height:1.45;}
+  .lv-tags{display:flex;flex-wrap:wrap;gap:.35rem;}
+  .lv-tags span{font-size:.68rem;font-weight:800;padding:.12rem .55rem;border-radius:999px;background:var(--blue-soft);color:#22618f;}
+  .level-card[data-level="advanced"] .lv-tags span{background:#efe6ff;color:#5b3fa8;}
+  .foot-note{text-align:center;font-size:.72rem;color:#7d90a8;}
+  /* ---------- hub ---------- */
+  .hub-head{display:flex;align-items:center;gap:clamp(10px,2vw,18px);background:var(--paper);border:4px solid var(--ink);border-radius:var(--radius);padding:clamp(12px,2vw,20px);box-shadow:var(--shadow);}
+  .hub-head .mascot{width:clamp(76px,11vw,110px);}
+  .hub-head h2{margin:0;font-size:clamp(1.2rem,2.6vw,1.6rem);}
+  .hub-head p{margin:.15rem 0 0;font-size:.84rem;color:var(--ink2);}
+  .section-title{display:flex;align-items:center;gap:.5rem;font-size:.86rem;font-weight:900;letter-spacing:.06em;color:var(--ink2);margin:.2rem 0 -.2rem;}
+  .section-title::before{content:"";width:8px;height:18px;border-radius:6px;background:var(--yellow);border:2px solid var(--ink);}
+  .teach-entry{
+    width:100%;display:flex;align-items:center;gap:clamp(10px,1.6vw,16px);text-align:left;
+    background:linear-gradient(120deg,#fffef7,#fff5d8);border:4px solid var(--ink);border-radius:var(--radius);
+    padding:clamp(12px,1.8vw,18px);box-shadow:var(--shadow);
+  }
+  .teach-entry:active{transform:translateY(3px);box-shadow:0 4px 0 rgba(31,51,80,.16);}
+  .teach-entry .te-icon{flex:0 0 auto;width:clamp(52px,7vw,64px);height:clamp(52px,7vw,64px);}
+  .teach-entry b{display:block;font-size:1.1rem;}
+  .teach-entry small{display:block;font-size:.78rem;color:var(--ink2);line-height:1.4;}
+  .teach-entry .go{margin-left:auto;flex:0 0 auto;font-weight:900;font-size:.8rem;background:var(--ink);color:#fff;border-radius:999px;padding:.4rem .8rem;white-space:nowrap;}
+  .mode-grid{display:grid;grid-template-columns:1fr;gap:clamp(10px,1.5vw,16px);}
+  @media(min-width:760px){.mode-grid{grid-template-columns:repeat(3,1fr);}}
+  .mode-card{
+    text-align:left;display:flex;flex-direction:column;gap:.4rem;background:var(--paper);
+    border:4px solid var(--ink);border-radius:var(--radius);padding:clamp(12px,1.8vw,18px);box-shadow:var(--shadow);
+    transition:transform .14s ease,box-shadow .14s ease;
+  }
+  .mode-card:hover{transform:translateY(-3px);}
+  .mode-card:active{transform:translateY(3px);box-shadow:0 4px 0 rgba(31,51,80,.16);}
+  .mode-card .mc-top{display:flex;align-items:center;gap:.6rem;}
+  .mode-card .mc-icon{width:3rem;height:3rem;flex:0 0 auto;border-radius:14px;border:3px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:1.35rem;font-weight:900;background:var(--blue-soft);}
+  .mode-card[data-mode="b"] .mc-icon{background:var(--green-soft);}
+  .mode-card[data-mode="c"] .mc-icon{background:#f1e9ff;}
+  .mode-card b{font-size:1.05rem;line-height:1.25;}
+  .mode-card small{color:var(--ink2);font-size:.76rem;line-height:1.45;}
+  .stars{font-size:.9rem;letter-spacing:.12em;color:#d9a400;min-height:1.3em;}
+  .stars .off{color:#c9d4e0;}
+  .stat-row{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;font-size:.78rem;color:var(--ink2);}
+  .chip{background:var(--paper);border:2px solid #cfe0ee;border-radius:999px;padding:.28rem .7rem;font-weight:800;color:var(--ink);}
+  .seg{display:inline-flex;border:3px solid var(--ink);border-radius:999px;overflow:hidden;background:var(--paper);}
+  .seg button{border:0;background:transparent;padding:.4rem .75rem;font-weight:900;font-size:.78rem;border-right:2px solid #dbe6f0;}
+  .seg button:last-child{border-right:0;}
+  .seg button[aria-pressed="true"]{background:var(--yellow);}
+  /* ---------- teach ---------- */
+  .teach-card{background:var(--paper);border:4px solid var(--ink);border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(14px,2.2vw,26px);display:grid;gap:clamp(10px,2vw,22px);grid-template-columns:1fr;}
+  @media(min-width:760px){.teach-card{grid-template-columns:1.02fr 1fr;align-items:center;}}
+  .teach-art{background:linear-gradient(160deg,#f4fbff,#fff8e6);border:3px dashed #b9d7ee;border-radius:22px;padding:8px;display:flex;align-items:center;justify-content:center;min-height:clamp(170px,26vh,290px);}
+  .teach-art svg{width:100%;height:auto;max-height:clamp(170px,26vh,290px);display:block;}
+  .teach-copy h2{margin:0 0 .3rem;font-size:clamp(1.35rem,3vw,1.9rem);line-height:1.25;}
+  .teach-copy .lead{font-size:clamp(1rem,1.7vw,1.15rem);margin:0 0 .6rem;}
+  .teach-copy ul{margin:.2rem 0 .5rem;padding-left:1.2rem;}
+  .teach-copy li{margin:.2rem 0;font-size:.94rem;}
+  .example{background:var(--yellow-soft);border-left:8px solid var(--yellow);border-radius:12px;padding:.6rem .8rem;font-size:.92rem;margin:.4rem 0 0;}
+  .example b{display:block;font-size:.68rem;letter-spacing:.14em;color:#9a7300;margin-bottom:.15rem;}
+  .teach-nav{display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap;}
+  .teach-nav .btn{flex:0 1 auto;min-width:0;}
+  .teach-nav .dots{order:3;flex:1 1 100%;justify-content:center;}
+  .dots{display:flex;gap:.35rem;margin:0 auto;}
+  .dot{width:.62rem;height:.62rem;border-radius:50%;border:2px solid var(--ink);background:#fff;padding:0;}
+  .dot[aria-current="true"]{background:var(--yellow);transform:scale(1.15);}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
+    border:3px solid var(--ink);border-radius:18px;background:var(--yellow);
+    padding:.75rem 1.25rem;font-size:1rem;font-weight:900;box-shadow:0 6px 0 rgba(31,51,80,.22);
+    transition:transform .1s ease,box-shadow .1s ease;min-height:56px;
+  }
+  .btn:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(31,51,80,.22);}
+  .btn.blue{background:var(--blue);color:#fff;}
+  .btn.ghost{background:#fff;}
+  .btn:disabled{opacity:.45;box-shadow:0 6px 0 rgba(31,51,80,.12);}
+  /* ---------- game ---------- */
+  .game-top{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;}
+  .qcount{font-weight:900;font-size:.9rem;background:var(--paper);border:3px solid var(--ink);border-radius:999px;padding:.25rem .8rem;box-shadow:0 3px 0 rgba(31,51,80,.16);}
+  .score-pill{margin-left:auto;font-weight:900;font-size:.9rem;background:var(--yellow);border:3px solid var(--ink);border-radius:999px;padding:.25rem .85rem;box-shadow:0 3px 0 rgba(31,51,80,.16);}
+  .bar{height:.78rem;border:3px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden;}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#7cc7ff,#3aa0ff);border-radius:999px;transition:width .35s ease;}
+  .q-card{background:var(--paper);border:4px solid var(--ink);border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(14px,2.2vw,24px);display:flex;flex-direction:column;gap:clamp(10px,1.6vw,16px);}
+  .q-tag{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;font-weight:900;letter-spacing:.1em;color:#22618f;background:var(--blue-soft);border-radius:999px;padding:.2rem .7rem;align-self:flex-start;}
+  .q-stem{margin:0;font-size:clamp(1.12rem,2.4vw,1.5rem);line-height:1.55;font-weight:900;}
+  .q-stem .hl{color:#1f6fb2;border-bottom:4px solid var(--yellow);}
+  .q-sub{margin:-.3rem 0 0;font-size:.82rem;color:var(--ink2);display:flex;align-items:center;gap:.5rem;}
+  .speak{border:2px solid #bcd8ee;background:#f2faff;color:#22618f;border-radius:999px;padding:.2rem .7rem;font-size:.74rem;font-weight:900;}
+  .opts{display:grid;grid-template-columns:1fr;gap:.65rem;}
+  @media(min-width:760px){.opts.two{grid-template-columns:1fr 1fr;}}
+  .opt{
+    display:flex;align-items:center;gap:.7rem;text-align:left;width:100%;
+    background:#fff;border:3px solid #c9dced;border-radius:18px;padding:.85rem .9rem;
+    font-size:clamp(.95rem,1.9vw,1.1rem);line-height:1.5;font-weight:700;
+    transition:transform .1s ease,border-color .15s ease,background .15s ease;min-height:60px;
+  }
+  .opt .idx{flex:0 0 auto;width:2rem;height:2rem;border-radius:50%;border:2px solid var(--ink);background:var(--blue-soft);display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:900;}
+  .opt:hover:not(:disabled){border-color:var(--blue);transform:translateY(-2px);}
+  .opt:disabled{cursor:default;}
+  .opt.correct{background:var(--green-soft);border-color:var(--green);}
+  .opt.correct .idx{background:var(--green);color:#fff;border-color:var(--green);}
+  .opt.wrong{background:var(--red-soft);border-color:var(--red);}
+  .opt.wrong .idx{background:var(--red);color:#fff;border-color:var(--red);}
+  .opt.dim{opacity:.5;}
+  .cats{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;}
+  .cat{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.25rem;
+    background:#fff;border:3px solid #c9dced;border-radius:18px;padding:.75rem .5rem;min-height:88px;
+    font-size:clamp(.9rem,2vw,1.05rem);font-weight:900;
+  }
+  .cat .badge{width:2.3rem;height:2.3rem;border-radius:12px;background:var(--blue-soft);border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:1.05rem;}
+  .cat:hover:not(:disabled){border-color:var(--blue);transform:translateY(-2px);}
+  .cat.correct{background:var(--green-soft);border-color:var(--green);}
+  .cat.wrong{background:var(--red-soft);border-color:var(--red);}
+  .cat.dim{opacity:.5;}
+  .feedback{border:3px solid var(--ink);border-radius:22px;padding:clamp(12px,1.8vw,18px);background:var(--cream);display:none;flex-direction:column;gap:.45rem;animation:pop .28s ease;}
+  .feedback.show{display:flex;}
+  .feedback.ok{background:var(--green-soft);border-color:#1f9d63;}
+  .feedback.no{background:var(--red-soft);border-color:var(--red);}
+  .fb-head{display:flex;align-items:center;gap:.5rem;font-weight:900;font-size:1.08rem;}
+  .fb-mark{width:1.9rem;height:1.9rem;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;font-weight:900;flex:0 0 auto;}
+  .feedback.ok .fb-mark{background:#1f9d63;}
+  .feedback.no .fb-mark{background:var(--red);}
+  .fb-ans{font-size:.95rem;font-weight:900;}
+  .fb-ans span{background:rgba(255,255,255,.75);border-radius:8px;padding:.1rem .45rem;}
+  .fb-why{font-size:.92rem;line-height:1.65;margin:0;}
+  .fb-why b{color:#1f6fb2;}
+  .fb-actions{display:flex;justify-content:flex-end;margin-top:.2rem;}
+  /* ---------- result ---------- */
+  .result-card{background:var(--paper);border:4px solid var(--ink);border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(18px,3vw,32px);text-align:center;display:flex;flex-direction:column;align-items:center;gap:.6rem;}
+  .result-card h2{margin:0;font-size:clamp(1.4rem,3.2vw,2rem);}
+  .big-stars{font-size:clamp(2rem,6vw,3rem);letter-spacing:.18em;color:#e8b400;line-height:1.1;}
+  .big-stars .off{color:#d6dfe9;}
+  .result-score{font-size:1.05rem;font-weight:900;}
+  .result-score em{font-style:normal;color:#2b7fc4;font-size:1.5em;}
+  .result-tip{font-size:.88rem;color:var(--ink2);max-width:32em;margin:0;}
+  .result-actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-top:.4rem;}
+  .review{width:100%;text-align:left;border-top:3px dashed #d7e3ee;padding-top:.8rem;margin-top:.4rem;}
+  .review h3{font-size:.86rem;margin:0 0 .4rem;color:var(--ink2);letter-spacing:.08em;}
+  .review-item{display:flex;gap:.5rem;font-size:.84rem;padding:.32rem 0;border-bottom:1px dashed #e6eef6;}
+  .review-item:last-child{border-bottom:0;}
+  .review-item .ri-mark{flex:0 0 auto;width:1.35rem;height:1.35rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:900;color:#fff;}
+  .ri-ok{background:#1f9d63;}
+  .ri-no{background:var(--red);}
+  /* ---------- toast ---------- */
+  #toast{
+    position:fixed;left:50%;top:calc(74px + env(safe-area-inset-top));transform:translate(-50%,-16px);
+    background:rgba(31,51,80,.94);color:#fff;font-size:.82rem;font-weight:700;
+    padding:.6rem 1rem;border-radius:999px;opacity:0;pointer-events:none;transition:.25s ease;z-index:50;
+    max-width:88vw;text-align:center;
+  }
+  #toast.show{opacity:1;transform:translate(-50%,0);}
+  .confetti{position:fixed;top:-14px;width:10px;height:16px;border-radius:3px;z-index:40;pointer-events:none;animation:fall linear forwards;}
+  @keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.9;}}
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important;transition-duration:.001ms !important;}
+  }
+</style>
+</head>
+<body>
+<main class="app" data-generated-by="vibe-coding-frontend-design">
+  <header class="topbar">
+    <button class="icon-btn" id="backBtn" aria-label="返回上一頁" hidden>←</button>
+    <div class="brand">
+      <b id="brandTitle">呼告小偵探</b>
+      <span id="brandSub">小學修辭 · 互動學習教室</span>
+    </div>
+    <span class="level-pill" id="levelPill" hidden>初階版</span>
+    <button class="icon-btn" id="soundBtn" aria-label="開關音效" aria-pressed="true">♪</button>
+  </header>
+
+  <div class="stage">
+    <!-- ============ HOME ============ -->
+    <section class="screen active" id="screen-home" aria-label="首頁">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="kicker">修辭偵探所 · 任務 01</span>
+          <h1>呼叫<em>呼告</em><span class="nb">小偵探</span></h1>
+          <p>誰在說話？向誰說話？說了什麼？<br>跟著呼呼找出句子裡的「呼告」，一路破案拿星星！</p>
+        </div>
+        <div class="mascot" id="homeMascot" aria-hidden="true"></div>
+      </div>
+
+      <div class="section-title">先選一個版本</div>
+      <div class="level-grid">
+        <button class="level-card" data-level="basic">
+          <div class="lv-icon" aria-hidden="true">
+            <svg viewBox="0 0 80 80"><rect x="4" y="4" width="72" height="72" rx="22" fill="#dff1ff" stroke="#1f3350" stroke-width="4"/><circle cx="40" cy="34" r="12" fill="#fff" stroke="#1f3350" stroke-width="3.4"/><path d="M22 66c3-10 10-14 18-14s15 4 18 14" fill="#fff" stroke="#1f3350" stroke-width="3.4" stroke-linecap="round"/><circle cx="36" cy="33" r="1.8" fill="#1f3350"/><circle cx="44" cy="33" r="1.8" fill="#1f3350"/></svg>
+          </div>
+          <div>
+            <h2>初階版</h2>
+            <p>認識呼告、找出呼告對象，適合四年級第一次接觸。</p>
+            <div class="lv-tags"><span>辨認</span><span>分類</span><span>選句</span></div>
+          </div>
+        </button>
+        <button class="level-card" data-level="advanced">
+          <div class="lv-icon" aria-hidden="true">
+            <svg viewBox="0 0 80 80"><rect x="4" y="4" width="72" height="72" rx="22" fill="#efe6ff" stroke="#1f3350" stroke-width="4"/><path d="M24 56l10-30 10 30" fill="none" stroke="#1f3350" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M28 46h12" stroke="#1f3350" stroke-width="4.4" stroke-linecap="round"/><circle cx="58" cy="26" r="6" fill="#ffc94d" stroke="#1f3350" stroke-width="3"/><path d="M58 34v22" stroke="#1f3350" stroke-width="4" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <h2>高階版</h2>
+            <p>辨析呼告與擬人、判斷作用與情感，適合五至六年級複習深化。</p>
+            <div class="lv-tags"><span>辨析</span><span>改寫</span><span>賞析</span></div>
+          </div>
+        </button>
+      </div>
+      <p class="foot-note">建議使用平板或電腦投影教學；手機可直向操作，全部題目與插畫都在這個檔案內，語音由瀏覽器朗讀。</p>
+    </section>
+
+    <!-- ============ HUB ============ -->
+    <section class="screen" id="screen-hub" aria-label="學習選單">
+      <div class="hub-head">
+        <div class="mascot" id="hubMascot" aria-hidden="true"></div>
+        <div>
+          <h2 id="hubTitle">初階版 · 偵探訓練</h2>
+          <p id="hubDesc">先看 5 分鐘圖文教學，再挑一種遊戲模式挑戰。</p>
+          <div class="stat-row" style="margin-top:.4rem">
+            <span class="chip" id="starTotal">★ 0 / 27</span>
+            <span class="chip" id="starHint">三種模式各 6 題</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="teach-entry" id="teachEntry">
+        <div class="te-icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><rect x="4" y="6" width="56" height="52" rx="12" fill="#fff2cc" stroke="#1f3350" stroke-width="4"/><path d="M32 6v52" stroke="#1f3350" stroke-width="3"/><path d="M12 18h14M12 26h14M12 34h10M38 18h14M38 26h14M38 34h10" stroke="#1f3350" stroke-width="3" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <b>教學小教室</b>
+          <small>5 張圖卡，看懂呼告的定義、三要素與易錯點</small>
+        </div>
+        <span class="go">開始 →</span>
+      </button>
+
+      <div class="section-title">三種破案模式</div>
+      <div class="mode-grid" id="modeGrid"></div>
+
+      <div class="stat-row" style="justify-content:space-between">
+        <span style="font-weight:900">字級（投影用）</span>
+        <div class="seg" id="fsSeg">
+          <button data-fs="md" aria-pressed="true">一般</button>
+          <button data-fs="lg" aria-pressed="false">大</button>
+          <button data-fs="xl" aria-pressed="false">特大</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TEACH ============ -->
+    <section class="screen" id="screen-teach" aria-label="教學">
+      <div class="teach-card">
+        <div class="teach-art" id="teachArt"></div>
+        <div class="teach-copy">
+          <div class="q-tag" id="teachTag">第 1 張 · 概念</div>
+          <h2 id="teachTitle"></h2>
+          <div id="teachBody"></div>
+        </div>
+      </div>
+      <div class="teach-nav">
+        <button class="btn ghost" id="teachPrev" style="min-width:0">← 上一張</button>
+        <div class="dots" id="teachDots"></div>
+        <button class="btn blue" id="teachNext" style="min-width:0">下一張 →</button>
+      </div>
+    </section>
+
+    <!-- ============ GAME ============ -->
+    <section class="screen" id="screen-game" aria-label="遊戲">
+      <div class="game-top">
+        <span class="qcount" id="qCount">第 1 / 6 題</span>
+        <span class="score-pill" id="qScore">★ 0</span>
+      </div>
+      <div class="bar"><i id="qBar"></i></div>
+
+      <div class="q-card">
+        <span class="q-tag" id="qTag">模式一 · 火眼金睛</span>
+        <h2 class="q-stem" id="qStem"></h2>
+        <div class="q-sub" id="qSub" hidden>
+          <button class="speak" id="speakBtn">♪ 讀一次題目</button>
+        </div>
+        <div id="qOptions" class="opts"></div>
+        <div class="feedback" id="feedback" role="status" aria-live="polite">
+          <div class="fb-head"><span class="fb-mark" id="fbMark">✓</span><span id="fbTitle">答對了！</span></div>
+          <div class="fb-ans" id="fbAns"></div>
+          <p class="fb-why" id="fbWhy"></p>
+          <div class="fb-actions"><button class="btn blue" id="nextBtn">下一題 →</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RESULT ============ -->
+    <section class="screen" id="screen-result" aria-label="成績">
+      <div class="result-card">
+        <div class="mascot" id="resultMascot" aria-hidden="true" style="width:clamp(96px,15vw,140px)"></div>
+        <h2 id="resultTitle">破案成功！</h2>
+        <div class="big-stars" id="resultStars" aria-label="獲得星星"></div>
+        <div class="result-score" id="resultScore"></div>
+        <p class="result-tip" id="resultTip"></p>
+        <div class="result-actions">
+          <button class="btn" id="againBtn">再玩一次</button>
+          <button class="btn ghost" id="otherBtn">換個模式</button>
+          <button class="btn ghost" id="teachBtn2">回看教學</button>
+        </div>
+        <div class="review" id="reviewBox"></div>
+      </div>
+    </section>
+  </div>
+</main>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* =========================================================
+     1. 題庫：兩個版本 × 三種模式 × 每種 6 題
+     ========================================================= */
+  var CATS = {
+    basic: [
+      {label:"人物", badge:"人"},
+      {label:"物件", badge:"物"},
+      {label:"大自然", badge:"山"},
+      {label:"上天神明", badge:"天"}
+    ],
+    advanced: [
+      {label:"呼告", badge:"呼"},
+      {label:"擬人", badge:"擬"},
+      {label:"一般陳述", badge:"述"}
+    ]
+  };
+
+  var MODES = [
+    {id:"a", name:"火眼金睛", icon:"眼", desc:"讀句子，找出正確答案。", tip:"每題 4 個選項"},
+    {id:"b", name:"對號入座", icon:"座", desc:"把句子放進正確的類別。", tip:"每題 1 個分類"},
+    {id:"c", name:"呼告魔法師", icon:"魔", desc:"選出最合適的呼告說法。", tip:"每題 4 個選項"}
+  ];
+
+  var BANK = {
+    "basic": {
+      "a": [
+        {
+          "stem": "下列哪一句是「呼告」？",
+          "options": [
+            "小明，快點做功課。",
+            "太陽公公啊，請你快點出來吧！",
+            "今天天氣很好。",
+            "我最喜歡吃蘋果。"
+          ],
+          "answer": 1,
+          "explain": "② 直接稱呼「太陽公公」，還對它說話，所以是呼告。① 是面對面交談的稱呼；③、④ 只是陳述事情，沒有稱呼誰。"
+        },
+        {
+          "stem": "「月亮啊，你可知道我想念家鄉？」這句的呼告對象是誰？",
+          "options": [
+            "我",
+            "讀者",
+            "家鄉",
+            "月亮"
+          ],
+          "answer": 3,
+          "explain": "句首的「月亮啊」就是直接稱呼的對象，後面「你可知道……」是對月亮說的話，所以對象是月亮。"
+        },
+        {
+          "stem": "下列哪一句「不是」呼告？",
+          "options": [
+            "妹妹在公園裡跑步。",
+            "祖國啊，我的母親！",
+            "春風呀，你快快吹吧！",
+            "小河，你唱著什麼歌？"
+          ],
+          "answer": 0,
+          "explain": "① 只是描述妹妹的動作，沒有稱呼對象，也沒有對誰說話。其餘三句都在直接稱呼並傾訴。"
+        },
+        {
+          "stem": "「小草啊，你為什麼低著頭？」作者把誰當成說話對象？",
+          "options": [
+            "風",
+            "自己",
+            "小草",
+            "大地"
+          ],
+          "answer": 2,
+          "explain": "句子一開口就喊「小草啊」，所以說話對象是小草。作者把不會說話的小草，當成可以傾訴的對象。"
+        },
+        {
+          "stem": "呼告句最明顯的特徵是什麼？",
+          "options": [
+            "一定出現三個人",
+            "直接稱呼對方，並對它說話",
+            "一定要用問號",
+            "一定放在文章最後"
+          ],
+          "answer": 1,
+          "explain": "呼告的重點是「稱呼＋傾訴」。句末可以用問號、感嘆號，甚至句號，位置也不一定在最後。"
+        },
+        {
+          "stem": "下列哪一句的呼告對象是「物」？",
+          "options": [
+            "朋友們，我們一起加油！",
+            "老天爺啊，求你下雨吧！",
+            "爸爸，幫我拿一下杯子。",
+            "老樹啊，你經歷了多少風雨！"
+          ],
+          "answer": 3,
+          "explain": "④ 的對象是老樹，屬於「物」。③ 是面對面稱呼爸爸；① 是向在場的朋友說話；② 的對象是上天神明。"
+        }
+      ],
+      "b": [
+        {
+          "stem": "「媽媽啊，你為什麼還不回家？」",
+          "options": [
+            "人物",
+            "物件",
+            "大自然",
+            "上天神明"
+          ],
+          "answer": 0,
+          "explain": "媽媽是「人物」。句子直接稱呼媽媽，並問她為什麼還不回家，是典型的呼告。"
+        },
+        {
+          "stem": "「小貓咪呀，你別跑！」",
+          "options": [
+            "人物",
+            "物件",
+            "大自然",
+            "上天神明"
+          ],
+          "answer": 1,
+          "explain": "小貓咪屬於「物件（動物）」。作者對小貓說話，希望牠不要跑走。"
+        },
+        {
+          "stem": "「大海啊，你真壯闊！」",
+          "options": [
+            "人物",
+            "物件",
+            "大自然",
+            "上天神明"
+          ],
+          "answer": 2,
+          "explain": "大海是「大自然」。把大海當成說話對象，直接讚美它，就是呼告。"
+        },
+        {
+          "stem": "「老天爺啊，請保佑我們！」",
+          "options": [
+            "人物",
+            "物件",
+            "大自然",
+            "上天神明"
+          ],
+          "answer": 3,
+          "explain": "老天爺屬於「上天神明」。這是向神明祈求的呼告，常見於祈福或感嘆。"
+        },
+        {
+          "stem": "「國旗啊，你永遠飄揚在我心中！」",
+          "options": [
+            "人物",
+            "物件",
+            "大自然",
+            "上天神明"
+          ],
+          "answer": 1,
+          "explain": "國旗是「物件」。作者直接向國旗表白，表達敬意與熱愛。"
+        },
+        {
+          "stem": "「風兒呀，請你輕輕地吹。」",
+          "options": [
+            "人物",
+            "物件",
+            "大自然",
+            "上天神明"
+          ],
+          "answer": 2,
+          "explain": "風是「大自然」。句子直接請求風兒輕輕地吹，是呼告。"
+        }
+      ],
+      "c": [
+        {
+          "stem": "連日下雨，你想請太陽出來。哪一句最合適？",
+          "options": [
+            "今天下雨了。",
+            "太陽不出來。",
+            "太陽公公呀，請把雨停了吧！",
+            "我喜歡晴天。"
+          ],
+          "answer": 2,
+          "explain": "只有 ③ 先稱呼「太陽公公」，再對它說話，符合呼告。其餘三句都只是在陳述天氣或心情。"
+        },
+        {
+          "stem": "奶奶搬去很遠的地方，你想對她說想念。哪一句最合適？",
+          "options": [
+            "奶奶啊，我多想再聽見你的聲音！",
+            "奶奶搬家了。",
+            "我很想念。",
+            "奶奶住在很遠的地方。"
+          ],
+          "answer": 0,
+          "explain": "① 直接稱呼奶奶並傾訴思念，情感最直接。②、④ 只是說明事實，③ 沒有指出想念誰。"
+        },
+        {
+          "stem": "比賽前，你想向老天爺祈求勇氣。哪一句最合適？",
+          "options": [
+            "我們要比賽了。",
+            "勇氣很重要。",
+            "請你加油。",
+            "老天爺啊，請賜給我們勇氣！"
+          ],
+          "answer": 3,
+          "explain": "④ 有稱呼「老天爺啊」，也有祈求的內容，是完整的呼告。③ 沒有稱呼對象，不知道在對誰說。"
+        },
+        {
+          "stem": "校園的老榕樹被鋸掉了，你很難過。哪一句最合適？",
+          "options": [
+            "我很難過。",
+            "老榕樹啊，你為什麼要離開我們？",
+            "老榕樹被鋸掉了。",
+            "校園裡有很多樹。"
+          ],
+          "answer": 1,
+          "explain": "② 把老榕樹當成說話對象，直接問它為什麼離開，是呼告。③ 只是記敘，① 沒有指出對象。"
+        },
+        {
+          "stem": "你對著遠處的大山呼喊。哪一句最合適？",
+          "options": [
+            "大山很高。",
+            "我去了山裡。",
+            "遠處有山。",
+            "大山啊，你可聽見我的呼喚？"
+          ],
+          "answer": 3,
+          "explain": "④ 直接稱呼大山，並問它有沒有聽見，是呼告。其餘三句都只是描述山或行程。"
+        },
+        {
+          "stem": "生日吹蠟燭前，你想對時間說話。哪一句最合適？",
+          "options": [
+            "時間啊，請你走得慢一些！",
+            "時間過得很快。",
+            "今天是我的生日。",
+            "我長大一歲了。"
+          ],
+          "answer": 0,
+          "explain": "① 把「時間」當成可以請求的對象，是呼告。② 只是陳述時間過得快，沒有稱呼。"
+        }
+      ]
+    },
+    "advanced": {
+      "a": [
+        {
+          "stem": "下列哪一句只是「擬人」，沒有用到「呼告」？",
+          "options": [
+            "花兒啊，你為什麼紅著臉？",
+            "花兒在風中笑。",
+            "花兒呀，請你開得久一點。",
+            "春天啊，你終於來了！"
+          ],
+          "answer": 1,
+          "explain": "② 把花寫得像人一樣會笑，但沒有直接稱呼它說話，所以只有擬人。①、③、④ 都有「啊／呀」直接向對方傾訴，屬於呼告。"
+        },
+        {
+          "stem": "「祖國啊，我親愛的母親！」這句呼告最主要的作用是什麼？",
+          "options": [
+            "介紹母親的工作",
+            "記敘一件往事",
+            "說明祖國的地理位置",
+            "直接抒發對祖國的熱愛"
+          ],
+          "answer": 3,
+          "explain": "作者把祖國直接稱為「親愛的母親」，把情感集中在稱呼裡，作用是強烈抒情，而不是說明或記敘。"
+        },
+        {
+          "stem": "「小明，你過來一下。」這句是不是呼告？",
+          "options": [
+            "不是，因為小明就在面前，只是一般對話",
+            "是，因為句子有逗號",
+            "不是，因為沒有感嘆號",
+            "是，因為有稱呼名字"
+          ],
+          "answer": 0,
+          "explain": "呼告的對象通常不在面前、不能回應。面對面說話只是「稱呼語」，不算修辭上的呼告；有沒有逗號、感嘆號也不是判斷標準。"
+        },
+        {
+          "stem": "下列哪一句的呼告對象是「抽象概念」？",
+          "options": [
+            "小狗呀，你別叫！",
+            "月亮啊，你真圓！",
+            "時間啊，請你慢一點走！",
+            "媽媽啊，你辛苦了！"
+          ],
+          "answer": 2,
+          "explain": "「時間」看不見、摸不到，是抽象概念。④ 是人物，① 是動物，② 是自然景物。"
+        },
+        {
+          "stem": "「風啊，你刮吧！雨啊，你下吧！」連用兩次呼告，主要表達什麼？",
+          "options": [
+            "害怕躲雨",
+            "堅定的決心與豪邁的氣勢",
+            "無聊的心情",
+            "天氣預報"
+          ],
+          "answer": 1,
+          "explain": "連續呼喊「風啊」「雨啊」，語氣急促有力，把面對風雨不退縮的決心推到高點，這是呼告製造氣勢的作用。"
+        },
+        {
+          "stem": "「啊，黃河！你是中華民族的搖籃！」這句同時用了哪兩種修辭？",
+          "options": [
+            "呼告和排比",
+            "擬人和誇張",
+            "設問和反問",
+            "呼告和比喻"
+          ],
+          "answer": 3,
+          "explain": "直接向黃河呼喊是呼告；把黃河比作「搖籃」，用「你是……」直接把甲說成乙，是暗喻。兩種修辭可以同時出現在一句話裡。"
+        }
+      ],
+      "b": [
+        {
+          "stem": "「大海啊，你為什麼這樣深沉？」",
+          "options": [
+            "呼告",
+            "擬人",
+            "一般陳述"
+          ],
+          "answer": 0,
+          "explain": "有稱呼「大海啊」，也有對大海說的話，是呼告。句中的「深沉」只是形容，沒有把大海寫成人。"
+        },
+        {
+          "stem": "「大海在月光下輕輕地嘆息。」",
+          "options": [
+            "呼告",
+            "擬人",
+            "一般陳述"
+          ],
+          "answer": 1,
+          "explain": "「嘆息」是人的動作，作者把它給了大海，是擬人；但沒有直接向大海說話，所以不是呼告。"
+        },
+        {
+          "stem": "「大海一望無際。」",
+          "options": [
+            "呼告",
+            "擬人",
+            "一般陳述"
+          ],
+          "answer": 2,
+          "explain": "只是客觀說明大海的樣子，既沒有稱呼，也沒有把物當人寫，屬於一般陳述。"
+        },
+        {
+          "stem": "「時間啊，你能否倒流？」",
+          "options": [
+            "呼告",
+            "擬人",
+            "一般陳述"
+          ],
+          "answer": 0,
+          "explain": "直接稱呼「時間啊」並向它發問，是呼告。這裡沒有把時間寫成會做動作的人，所以不算擬人。"
+        },
+        {
+          "stem": "「時間悄悄地溜走了。」",
+          "options": [
+            "呼告",
+            "擬人",
+            "一般陳述"
+          ],
+          "answer": 1,
+          "explain": "「悄悄地溜走」是人的動作，把時間寫得像人，是擬人；句子沒有稱呼時間，因此不是呼告。"
+        },
+        {
+          "stem": "「我們昨天去了海邊。」",
+          "options": [
+            "呼告",
+            "擬人",
+            "一般陳述"
+          ],
+          "answer": 2,
+          "explain": "只是敘述昨天去海邊這件事，沒有稱呼、沒有擬人，是一般陳述句。"
+        }
+      ],
+      "c": [
+        {
+          "stem": "把「小草低著頭。」改寫成呼告句，哪一句最好？",
+          "options": [
+            "我看見小草低著頭。",
+            "小草被風吹得低下頭。",
+            "小草啊，你為什麼低著頭？",
+            "小草低著頭，好像很傷心。"
+          ],
+          "answer": 2,
+          "explain": "③ 補上稱呼「小草啊」，再對它發問，才成為呼告。④ 只是擬人化的描寫，①、② 仍是陳述句。"
+        },
+        {
+          "stem": "把「時間過得很快。」改寫成呼告句，哪一句最好？",
+          "options": [
+            "時間啊，請你走得慢一些吧！",
+            "時間過得真快。",
+            "時間像流水一樣。",
+            "我沒有時間。"
+          ],
+          "answer": 0,
+          "explain": "① 把時間當成可以請求的對象，直接向它說話，是呼告。② 仍是陳述，③ 是比喻，④ 與原句意思無關。"
+        },
+        {
+          "stem": "把「花兒開了。」改寫成呼告句，哪一句最好？",
+          "options": [
+            "花兒開了，很美麗。",
+            "花兒像一張笑臉。",
+            "春天來了，花兒開了。",
+            "花兒啊，你為什麼開得這樣燦爛？"
+          ],
+          "answer": 3,
+          "explain": "④ 有稱呼、有傾訴，是呼告。①、③ 只是描述，② 是比喻，都沒有直接對花說話。"
+        },
+        {
+          "stem": "想向外婆表達思念，哪一句最合適？",
+          "options": [
+            "外婆住在很遠的地方。",
+            "外婆啊，我多想再吃到你做的菜！",
+            "外婆做的菜很好吃。",
+            "我昨天想起外婆。"
+          ],
+          "answer": 1,
+          "explain": "② 直接呼喚外婆並說出心裡話，情感最強。③ 是評價菜色，④、① 只是敘述，都沒有把外婆當成說話對象。"
+        },
+        {
+          "stem": "下列四句都是呼告，哪一句的情感最強烈？",
+          "options": [
+            "媽媽啊，今天吃什麼？",
+            "媽媽啊，你回來了。",
+            "媽媽啊，請你聽我說。",
+            "媽媽啊！我親愛的媽媽！我終於見到你了！"
+          ],
+          "answer": 3,
+          "explain": "④ 連續兩次呼告，加上感嘆號與「終於」，語氣最急切、情感最強。②、③、① 語氣較平穩，① 甚至是日常問句。"
+        },
+        {
+          "stem": "以「保護地球」為主題，哪一句呼告最合適？",
+          "options": [
+            "地球啊，請你原諒我們的無知吧！",
+            "地球是我們的家。",
+            "我們要保護地球。",
+            "地球很大。"
+          ],
+          "answer": 0,
+          "explain": "① 直接向地球呼喚並道歉，既有呼告，也點出反省與保護的意思。②、③ 是說明與口號，④ 只是描述大小。"
+        }
+      ]
+    }
+  };
+
+  /* =========================================================
+     2. 狀態
+     ========================================================= */
+  var state = {
+    level:"basic",
+    mode:null,
+    index:0,
+    score:0,
+    locked:false,
+    answers:[],
+    teachIndex:0,
+    sound:true,
+    fs:"md",
+    best:{basic:{a:0,b:0,c:0},advanced:{a:0,b:0,c:0}}
+  };
+
+  var STORE_KEY = "hugao_detective_v1";
+  var $ = function(id){ return document.getElementById(id); };
+
+  function validateBank(){
+    ["basic","advanced"].forEach(function(lv){
+      ["a","b","c"].forEach(function(m){
+        BANK[lv][m] = BANK[lv][m].filter(function(q, i){
+          var ok = q && typeof q.stem === "string" && q.stem &&
+            Array.isArray(q.options) && q.options.length >= 3 &&
+            typeof q.answer === "number" && q.answer % 1 === 0 &&
+            q.answer >= 0 && q.answer < q.options.length &&
+            typeof q.explain === "string" && q.explain;
+          if(!ok && window.console) console.warn("題庫資料異常，已略過：" + lv + "/" + m + "/" + i);
+          return ok;
+        });
+      });
+    });
+  }
+
+  function loadStore(){
+    try{
+      var raw = localStorage.getItem(STORE_KEY);
+      if(!raw) return;
+      var data = JSON.parse(raw);
+      if(data && data.best){
+        state.best = {
+          basic:{a:data.best.basic&&data.best.basic.a||0, b:data.best.basic&&data.best.basic.b||0, c:data.best.basic&&data.best.basic.c||0},
+          advanced:{a:data.best.advanced&&data.best.advanced.a||0, b:data.best.advanced&&data.best.advanced.b||0, c:data.best.advanced&&data.best.advanced.c||0}
+        };
+      }
+      if(typeof data.sound === "boolean") state.sound = data.sound;
+      if(data.fs) state.fs = data.fs;
+    }catch(e){ /* 忽略損壞的存檔 */ }
+  }
+  function saveStore(){
+    try{ localStorage.setItem(STORE_KEY, JSON.stringify({best:state.best, sound:state.sound, fs:state.fs})); }catch(e){}
+  }
+
+  /* =========================================================
+     3. 音效與語音
+     ========================================================= */
+  var actx = null;
+  function ensureAudio(){
+    if(!state.sound) return null;
+    try{
+      if(!actx){
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if(!AC) return null;
+        actx = new AC();
+      }
+      if(actx.state === "suspended") actx.resume();
+      return actx;
+    }catch(e){ return null; }
+  }
+  function tone(freq, at, dur, type, vol){
+    var ctx = ensureAudio();
+    if(!ctx) return;
+    try{
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = type || "sine";
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + at);
+      gain.gain.setValueAtTime(0.0001, ctx.currentTime + at);
+      gain.gain.exponentialRampToValueAtTime(vol || 0.16, ctx.currentTime + at + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + at + dur);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(ctx.currentTime + at);
+      osc.stop(ctx.currentTime + at + dur + 0.02);
+    }catch(e){}
+  }
+  function sfx(name){
+    if(!state.sound) return;
+    if(name === "click"){ tone(660, 0, 0.07, "triangle", 0.09); }
+    else if(name === "correct"){ tone(523.25,0,0.12,"sine",0.14); tone(659.25,0.09,0.12,"sine",0.14); tone(783.99,0.18,0.22,"sine",0.16); }
+    else if(name === "wrong"){ tone(220,0,0.16,"square",0.07); tone(174.61,0.13,0.24,"square",0.07); }
+    else if(name === "win"){ [523.25,659.25,783.99,1046.5,1318.5].forEach(function(f,i){ tone(f, i*0.11, 0.24, "sine", 0.15); }); }
+    else if(name === "star"){ tone(1046.5,0,0.1,"sine",0.1); tone(1318.5,0.08,0.16,"sine",0.1); }
+  }
+  function speak(text){
+    if(!("speechSynthesis" in window)){ toast("這個瀏覽器不支援語音朗讀，請看文字題目"); return; }
+    try{
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = "zh-TW";
+      u.rate = 0.88;
+      u.pitch = 1.05;
+      var voices = window.speechSynthesis.getVoices() || [];
+      for(var i=0;i<voices.length;i++){
+        if(/zh[-_]?(TW|Hant)/i.test(voices[i].lang) || /台灣|臺灣|繁體/.test(voices[i].name)){ u.voice = voices[i]; break; }
+      }
+      window.speechSynthesis.speak(u);
+    }catch(e){ toast("語音暫時無法使用，請看文字題目"); }
+  }
+  var toastTimer = null;
+  function toast(msg){
+    var el = $("toast");
+    el.textContent = msg;
+    el.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ el.classList.remove("show"); }, 2100);
+  }
+
+  /* =========================================================
+     4. 吉祥物與教學插圖（全部內嵌 SVG）
+     ========================================================= */
+  function mascot(mood){
+    var mouth = '<path d="M84 126 Q100 143 116 126" stroke="#1f3350" stroke-width="6" fill="none" stroke-linecap="round"/>';
+    if(mood === "wow"){ mouth = '<ellipse cx="100" cy="131" rx="11" ry="13" fill="#1f3350"/>'; }
+    if(mood === "sad"){ mouth = '<path d="M86 138 Q100 124 114 138" stroke="#1f3350" stroke-width="6" fill="none" stroke-linecap="round"/>'; }
+    return '<svg viewBox="0 0 200 210" role="img" aria-label="吉祥物呼呼">' +
+      '<ellipse cx="100" cy="196" rx="56" ry="9" fill="rgba(31,51,80,.12)"/>' +
+      '<path d="M100 26 C92 10 78 8 70 12 C82 14 86 22 86 32" fill="#8fd8ff" stroke="#1f3350" stroke-width="4" stroke-linejoin="round"/>' +
+      '<ellipse cx="100" cy="112" rx="66" ry="62" fill="#8fd8ff" stroke="#1f3350" stroke-width="6"/>' +
+      '<ellipse cx="100" cy="138" rx="40" ry="30" fill="#ffffff" opacity=".85"/>' +
+      '<circle cx="74" cy="96" r="10" fill="#1f3350"/><circle cx="77" cy="92" r="3.4" fill="#fff"/>' +
+      '<circle cx="126" cy="96" r="10" fill="#1f3350"/><circle cx="129" cy="92" r="3.4" fill="#fff"/>' +
+      '<ellipse cx="58" cy="122" rx="11" ry="7" fill="#ff9aa2" opacity=".85"/>' +
+      '<ellipse cx="142" cy="122" rx="11" ry="7" fill="#ff9aa2" opacity=".85"/>' +
+      mouth +
+      '<path d="M40 118 C22 116 16 132 24 144" stroke="#1f3350" stroke-width="5" fill="none" stroke-linecap="round"/>' +
+      '<path d="M160 118 C178 116 184 132 176 144" stroke="#1f3350" stroke-width="5" fill="none" stroke-linecap="round"/>' +
+      '<circle cx="168" cy="160" r="17" fill="none" stroke="#1f3350" stroke-width="6"/>' +
+      '<path d="M180 172 L192 184" stroke="#1f3350" stroke-width="7" stroke-linecap="round"/>' +
+      '</svg>';
+  }
+
+  var ART = {
+    basic:[
+      '<svg viewBox="0 0 340 250"><rect width="340" height="250" fill="none"/>' +
+        '<circle cx="278" cy="56" r="26" fill="#ffd970"/><path d="M24 196 L92 104 L150 196 Z" fill="#bfe4c6" stroke="#1f3350" stroke-width="4" stroke-linejoin="round"/><path d="M120 196 L206 78 L292 196 Z" fill="#8fd0b0" stroke="#1f3350" stroke-width="4" stroke-linejoin="round"/><rect x="0" y="196" width="340" height="54" fill="#d8f0d2"/>' +
+        '<g><path d="M70 196 v-34" stroke="#1f3350" stroke-width="5"/><circle cx="70" cy="146" r="16" fill="#ffd9a8" stroke="#1f3350" stroke-width="4"/><path d="M58 196 q12 -18 24 0" fill="#8fd8ff" stroke="#1f3350" stroke-width="4"/></g>' +
+        '<path d="M96 92 q22 -16 44 0" stroke="#1f3350" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+        '<g><rect x="168" y="26" width="128" height="52" rx="18" fill="#fff" stroke="#1f3350" stroke-width="4"/><path d="M188 78 l-6 18 l22 -14" fill="#fff" stroke="#1f3350" stroke-width="4" stroke-linejoin="round"/><text x="232" y="60" text-anchor="middle" font-size="24" font-weight="700" fill="#1f3350">啊——！</text></g>' +
+        '</svg>',
+      '<svg viewBox="0 0 340 250"><g><rect x="16" y="40" width="92" height="140" rx="18" fill="#fff" stroke="#1f3350" stroke-width="4"/><circle cx="62" cy="80" r="17" fill="#ffd9a8" stroke="#1f3350" stroke-width="3.6"/><path d="M38 140 q24 -34 48 0" fill="#8fd8ff" stroke="#1f3350" stroke-width="3.6"/><text x="62" y="166" text-anchor="middle" font-size="16" font-weight="700" fill="#1f3350">誰在說</text></g>' +
+        '<g><rect x="124" y="40" width="92" height="140" rx="18" fill="#fff8e6" stroke="#1f3350" stroke-width="4"/><path d="M150 128 l16 -34 l16 34" fill="none" stroke="#1f3350" stroke-width="4"/><circle cx="188" cy="80" r="12" fill="#ffd970" stroke="#1f3350" stroke-width="3.6"/><text x="170" y="166" text-anchor="middle" font-size="16" font-weight="700" fill="#1f3350">向誰說</text></g>' +
+        '<g><rect x="232" y="40" width="92" height="140" rx="18" fill="#eef7ff" stroke="#1f3350" stroke-width="4"/><rect x="250" y="62" width="56" height="40" rx="10" fill="#fff" stroke="#1f3350" stroke-width="3.4"/><path d="M262 80 h30 M262 90 h20" stroke="#9bb4ca" stroke-width="4" stroke-linecap="round"/><text x="278" y="166" text-anchor="middle" font-size="16" font-weight="700" fill="#1f3350">說什麼</text></g>' +
+        '<path d="M108 110 h14 M216 110 h14" stroke="#1f3350" stroke-width="4" stroke-linecap="round"/><text x="170" y="216" text-anchor="middle" font-size="15" fill="#5a7292">稱呼 ＋ 傾訴＝呼告</text></svg>',
+      '<svg viewBox="0 0 340 250"><g><circle cx="60" cy="62" r="26" fill="#dff1ff" stroke="#1f3350" stroke-width="4"/><circle cx="60" cy="56" r="9" fill="#1f3350"/><path d="M40 84 q20 -18 40 0" fill="#8fd8ff" stroke="#1f3350" stroke-width="3.4"/><text x="60" y="118" text-anchor="middle" font-size="15" font-weight="700" fill="#1f3350">人物</text></g>' +
+        '<g><rect x="146" y="34" width="52" height="52" rx="12" fill="#fff2cc" stroke="#1f3350" stroke-width="4"/><path d="M156 60 h32 M172 46 v28" stroke="#1f3350" stroke-width="4" stroke-linecap="round"/><text x="172" y="118" text-anchor="middle" font-size="15" font-weight="700" fill="#1f3350">物件</text></g>' +
+        '<g><path d="M232 84 l30 -40 l30 40 z" fill="#c8eccd" stroke="#1f3350" stroke-width="4" stroke-linejoin="round"/><circle cx="288" cy="48" r="10" fill="#ffd970" stroke="#1f3350" stroke-width="3"/><text x="262" y="118" text-anchor="middle" font-size="15" font-weight="700" fill="#1f3350">大自然</text></g>' +
+        '<g><circle cx="110" cy="178" r="30" fill="#fff" stroke="#1f3350" stroke-width="4"/><path d="M110 158 l7 14 l15 2 l-11 11 l3 15 l-14 -8 l-14 8 l3 -15 l-11 -11 l15 -2 z" fill="#ffd970" stroke="#1f3350" stroke-width="2.6" stroke-linejoin="round"/><text x="110" y="234" text-anchor="middle" font-size="15" font-weight="700" fill="#1f3350">上天神明</text></g>' +
+        '</svg>',
+      '<svg viewBox="0 0 340 250"><rect x="10" y="26" width="150" height="196" rx="18" fill="#f6fbff" stroke="#1f3350" stroke-width="4"/><text x="85" y="52" text-anchor="middle" font-size="15" font-weight="700" fill="#2b7fc4">面對面 · 稱呼語</text>' +
+        '<circle cx="60" cy="98" r="16" fill="#ffd9a8" stroke="#1f3350" stroke-width="3.4"/><circle cx="106" cy="98" r="16" fill="#ffd9a8" stroke="#1f3350" stroke-width="3.4"/><path d="M46 140 q14 -16 28 0 M92 140 q14 -16 28 0" fill="#8fd8ff" stroke="#1f3350" stroke-width="3.4"/><path d="M78 104 h14" stroke="#1f3350" stroke-width="4" stroke-linecap="round"/><text x="85" y="186" text-anchor="middle" font-size="13" fill="#5a7292">「小明，過來一下。」</text><text x="85" y="208" text-anchor="middle" font-size="12" fill="#8a9db3">對方就在眼前</text>' +
+        '<rect x="180" y="26" width="150" height="196" rx="18" fill="#fffdf4" stroke="#1f3350" stroke-width="4"/><text x="255" y="52" text-anchor="middle" font-size="15" font-weight="700" fill="#b07d00">向遠方 · 呼告</text>' +
+        '<circle cx="255" cy="86" r="15" fill="#ffd970" stroke="#1f3350" stroke-width="3.4"/><path d="M196 168 l24 -33 l24 33 z M236 168 l26 -42 l26 42 z" fill="#c8eccd" stroke="#1f3350" stroke-width="3.4" stroke-linejoin="round"/><path d="M228 150 q14 -14 26 0" stroke="#1f3350" stroke-width="3.4" fill="none" stroke-linecap="round"/><text x="255" y="196" text-anchor="middle" font-size="13" fill="#5a7292">「月亮啊，你想我嗎？」</text><text x="255" y="216" text-anchor="middle" font-size="12" fill="#8a9db3">對方不會回答</text></svg>',
+      '<svg viewBox="0 0 340 250"><text x="60" y="170" font-size="120" font-weight="700" fill="#ffc94d" stroke="#1f3350" stroke-width="4" paint-order="stroke">！</text>' +
+        '<g stroke="#3aa0ff" stroke-width="5" fill="none" stroke-linecap="round"><path d="M150 70 q26 56 0 112"/><path d="M186 52 q40 76 0 148"/><path d="M222 34 q54 96 0 184"/></g>' +
+        '<rect x="256" y="70" width="66" height="110" rx="18" fill="#fff" stroke="#1f3350" stroke-width="3.6"/><text x="289" y="104" text-anchor="middle" font-size="15" font-weight="700" fill="#1f3350">啊</text><text x="289" y="128" text-anchor="middle" font-size="15" font-weight="700" fill="#1f3350">呀</text><text x="289" y="152" text-anchor="middle" font-size="15" font-weight="700" fill="#1f3350">吧</text><text x="289" y="176" text-anchor="middle" font-size="12" fill="#8a9db3">語氣詞</text>' +
+        '<text x="150" y="230" text-anchor="middle" font-size="14" fill="#5a7292">讀出聲，感情就出來了</text></svg>'
+    ],
+    advanced:[
+      '<svg viewBox="0 0 340 250"><rect x="18" y="30" width="140" height="188" rx="18" fill="#eef7ff" stroke="#1f3350" stroke-width="4"/><text x="88" y="56" text-anchor="middle" font-size="14" font-weight="700" fill="#2b7fc4">具體對象</text>' +
+        '<circle cx="88" cy="92" r="16" fill="#ffd9a8" stroke="#1f3350" stroke-width="3.4"/><path d="M64 140 q24 -28 48 0" fill="#8fd8ff" stroke="#1f3350" stroke-width="3.4"/><text x="88" y="172" text-anchor="middle" font-size="13" fill="#5a7292">媽媽、老樹、大海</text><text x="88" y="194" text-anchor="middle" font-size="12" fill="#8a9db3">看得見、叫得出</text>' +
+        '<rect x="182" y="30" width="140" height="188" rx="18" fill="#fff2f6" stroke="#1f3350" stroke-width="4"/><text x="252" y="56" text-anchor="middle" font-size="14" font-weight="700" fill="#b5507a">抽象對象</text>' +
+        '<circle cx="252" cy="96" r="24" fill="#f1e9ff" stroke="#1f3350" stroke-width="3.4"/><path d="M252 80 v22 M252 112 v4" stroke="#1f3350" stroke-width="4" stroke-linecap="round"/><text x="252" y="150" text-anchor="middle" font-size="13" fill="#5a7292">時間、自由、青春</text><text x="252" y="172" text-anchor="middle" font-size="12" fill="#8a9db3">看不見、摸不到</text><text x="252" y="200" text-anchor="middle" font-size="13" font-weight="700" fill="#1f3350">也可以呼告</text></svg>',
+      '<svg viewBox="0 0 340 250"><rect x="10" y="28" width="150" height="196" rx="18" fill="#f6fbff" stroke="#1f3350" stroke-width="4"/><text x="85" y="54" text-anchor="middle" font-size="14" font-weight="700" fill="#2b7fc4">擬人</text>' +
+        '<circle cx="85" cy="96" r="18" fill="#ffe6a8" stroke="#1f3350" stroke-width="3.4"/><path d="M85 78 q-4 -14 -14 -16" stroke="#1f3350" stroke-width="3.4" fill="none"/><path d="M79 96 a6 6 0 0 0 12 0" stroke="#1f3350" stroke-width="3.4" fill="none"/><path d="M62 140 q23 22 46 0" fill="#c8eccd" stroke="#1f3350" stroke-width="3.4"/><text x="85" y="180" text-anchor="middle" font-size="13" fill="#5a7292">「花兒在風中笑。」</text><text x="85" y="204" text-anchor="middle" font-size="12" fill="#8a9db3">把物當人寫，沒有稱呼</text>' +
+        '<rect x="180" y="28" width="150" height="196" rx="18" fill="#fffdf4" stroke="#1f3350" stroke-width="4"/><text x="255" y="54" text-anchor="middle" font-size="14" font-weight="700" fill="#b07d00">呼告</text>' +
+        '<circle cx="228" cy="98" r="15" fill="#ffd9a8" stroke="#1f3350" stroke-width="3.4"/><path d="M204 142 q24 -26 48 0" fill="#8fd8ff" stroke="#1f3350" stroke-width="3.4"/><rect x="248" y="72" width="66" height="40" rx="12" fill="#fff" stroke="#1f3350" stroke-width="3.2"/><text x="281" y="98" text-anchor="middle" font-size="13" fill="#1f3350">花兒啊！</text><text x="255" y="180" text-anchor="middle" font-size="13" fill="#5a7292">「花兒啊，你為誰紅了臉？」</text><text x="255" y="204" text-anchor="middle" font-size="12" fill="#8a9db3">直接稱呼，還要對它說</text></svg>',
+      '<svg viewBox="0 0 340 250"><circle cx="170" cy="120" r="74" fill="#fff8e6" stroke="#1f3350" stroke-width="4"/><path d="M170 66 v58" stroke="#1f3350" stroke-width="6" stroke-linecap="round"/><circle cx="170" cy="146" r="7" fill="#1f3350"/>' +
+        '<g><rect x="18" y="52" width="78" height="40" rx="12" fill="#fff" stroke="#1f3350" stroke-width="3.4"/><text x="57" y="78" text-anchor="middle" font-size="14" fill="#1f3350">抒情</text></g>' +
+        '<g><rect x="244" y="52" width="78" height="40" rx="12" fill="#fff" stroke="#1f3350" stroke-width="3.4"/><text x="283" y="78" text-anchor="middle" font-size="14" fill="#1f3350">呼籲</text></g>' +
+        '<g><rect x="18" y="160" width="88" height="40" rx="12" fill="#fff" stroke="#1f3350" stroke-width="3.4"/><text x="62" y="186" text-anchor="middle" font-size="14" fill="#1f3350">營造氣勢</text></g>' +
+        '<g><rect x="234" y="160" width="88" height="40" rx="12" fill="#fff" stroke="#1f3350" stroke-width="3.4"/><text x="278" y="186" text-anchor="middle" font-size="14" fill="#1f3350">拉近距離</text></g>' +
+        '<text x="170" y="228" text-anchor="middle" font-size="14" fill="#5a7292">同一個呼告，可以有不同的力量</text></svg>',
+      '<svg viewBox="0 0 340 250"><rect x="20" y="26" width="130" height="196" rx="18" fill="#eef7ff" stroke="#1f3350" stroke-width="4"/><text x="85" y="52" text-anchor="middle" font-size="14" font-weight="700" fill="#2b7fc4">「把物當人寫」</text><circle cx="85" cy="96" r="18" fill="#ffe6a8" stroke="#1f3350" stroke-width="3.4"/><path d="M62 142 q23 20 46 0" fill="#c8eccd" stroke="#1f3350" stroke-width="3.4"/><text x="85" y="186" text-anchor="middle" font-size="13" fill="#5a7292">擬人</text>' +
+        '<path d="M160 120 h20" stroke="#1f3350" stroke-width="4" stroke-linecap="round"/><path d="M172 112 l10 8 l-10 8" fill="none" stroke="#1f3350" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>' +
+        '<rect x="190" y="26" width="130" height="196" rx="18" fill="#fffdf4" stroke="#1f3350" stroke-width="4"/><text x="255" y="52" text-anchor="middle" font-size="14" font-weight="700" fill="#b07d00">「直接向它說話」</text><circle cx="234" cy="96" r="16" fill="#ffd9a8" stroke="#1f3350" stroke-width="3.4"/><path d="M214 142 q20 -22 40 0" fill="#8fd8ff" stroke="#1f3350" stroke-width="3.4"/><rect x="252" y="76" width="56" height="34" rx="10" fill="#fff" stroke="#1f3350" stroke-width="3"/><text x="280" y="99" text-anchor="middle" font-size="12" fill="#1f3350">啊！</text><text x="255" y="186" text-anchor="middle" font-size="13" fill="#5a7292">呼告</text><text x="170" y="238" text-anchor="middle" font-size="12" fill="#8a9db3">兩者可同時使用</text></svg>',
+      '<svg viewBox="0 0 340 250"><rect x="16" y="24" width="308" height="46" rx="16" fill="#dff1ff" stroke="#1f3350" stroke-width="3.6"/><text x="170" y="54" text-anchor="middle" font-size="15" font-weight="700" fill="#1f3350">① 有沒有直接稱呼？</text>' +
+        '<rect x="16" y="84" width="308" height="46" rx="16" fill="#fff2cc" stroke="#1f3350" stroke-width="3.6"/><text x="170" y="114" text-anchor="middle" font-size="15" font-weight="700" fill="#1f3350">② 對象在不在面前？能不能回答？</text>' +
+        '<rect x="16" y="144" width="308" height="46" rx="16" fill="#e2fbf1" stroke="#1f3350" stroke-width="3.6"/><text x="170" y="174" text-anchor="middle" font-size="15" font-weight="700" fill="#1f3350">③ 有沒有對它說話的內容？</text>' +
+        '<text x="170" y="224" text-anchor="middle" font-size="14" fill="#5a7292">三題都「是」→ 就是呼告</text></svg>'
+    ]
+  };
+
+  var TEACH = {
+    basic:[
+      {tag:"第 1 張 · 概念", title:"什麼是呼告？", body:'<p class="lead">把不在面前的人或物，當作就在眼前，<b>直接稱呼它、對它說話</b>。</p><ul><li>不一定要對方聽得到</li><li>重點是「稱呼 ＋ 傾訴」</li></ul><div class="example"><b>例子</b>「太陽公公啊，請你快點出來吧！」</div>'},
+      {tag:"第 2 張 · 三要素", title:"一句呼告，有三個部分", body:'<p class="lead">拆開來看，就一點也不難。</p><ul><li><b>誰在說</b>：寫句子的人（作者）</li><li><b>向誰說</b>：被稱呼的對象</li><li><b>說什麼</b>：祈求、讚美、思念或提問</li></ul><div class="example"><b>例子</b>「小草啊，你為什麼低著頭？」→ 作者向小草發問。</div>'},
+      {tag:"第 3 張 · 對象", title:"可以呼告的四類對象", body:'<ul><li><b>人物</b>：媽媽、奶奶、朋友</li><li><b>物件</b>：國旗、老樹、小貓</li><li><b>大自然</b>：大海、風、月亮</li><li><b>上天神明</b>：老天爺</li></ul><div class="example"><b>小提示</b>對象可以是看得見的，也可以是看不見的。</div>'},
+      {tag:"第 4 張 · 易錯點", title:"面對面說話，不算呼告", body:'<p class="lead">「小明，你過來一下。」只是<b>稱呼語</b>，因為小明就在面前，能立刻回答。</p><ul><li>呼告的對象：通常不在面前、不會回答</li><li>有沒有逗號、感嘆號，不是判斷標準</li></ul><div class="example"><b>對比</b>「月亮啊，你想我嗎？」← 月亮不會回答，是呼告。</div>'},
+      {tag:"第 5 張 · 語氣", title:"讀出聲，感情就出來了", body:'<p class="lead">呼告常用「啊、呀、吧、呢」等語氣詞，配合感嘆號。</p><ul><li>祈求：請你……吧！</li><li>讚美：你真……！</li><li>思念：你可知道……？</li></ul><div class="example"><b>試試看</b>先小聲讀，再大聲讀，比較哪一種更像在呼喚。</div>'}
+    ],
+    advanced:[
+      {tag:"第 1 張 · 再認識", title:"呼告＝稱呼 ＋ 傾訴", body:'<p class="lead">對象可以是具體的人、物、景物，也可以是<b>抽象概念</b>。</p><ul><li>具體：媽媽、老樹、大海</li><li>抽象：時間、自由、青春、祖國</li></ul><div class="example"><b>例子</b>「時間啊，請你慢一點走！」</div>'},
+      {tag:"第 2 張 · 辨析", title:"呼告與擬人，差在哪裡？", body:'<ul><li><b>擬人</b>：把物當人寫，不一定稱呼它</li><li><b>呼告</b>：一定直接稱呼，並對它說話</li><li>兩者可以同時出現，例如「花兒啊，你為什麼紅著臉？」</li></ul><div class="example"><b>對比</b>「花兒在風中笑。」是擬人；「花兒啊，你為誰紅了臉？」是呼告。</div>'},
+      {tag:"第 3 張 · 作用", title:"作者為什麼要呼告？", body:'<ul><li><b>抒情</b>：把強烈情感直接說出來</li><li><b>呼籲</b>：號召讀者一起行動</li><li><b>營造氣勢</b>：連續呼喊，語氣更有力</li><li><b>拉近距離</b>：像面對面說話，更親切</li></ul><div class="example"><b>例子</b>「風啊，你刮吧！雨啊，你下吧！」→ 氣勢豪邁。</div>'},
+      {tag:"第 4 張 · 判斷", title:"三個問題，快速判斷", body:'<ul><li>① 有沒有直接稱呼？</li><li>② 對象在不在面前？能不能回答？</li><li>③ 有沒有對它說話的內容？</li></ul><div class="example"><b>口訣</b>有稱呼、不在場、有話說 → 呼告。</div>'},
+      {tag:"第 5 張 · 賞析", title:"讀出呼告的力量", body:'<p class="lead">同一個對象，寫法不同，力量也不同。</p><ul><li>平淡：媽媽回來了。</li><li>呼告：媽媽啊，你終於回來了！</li></ul><div class="example"><b>想一想</b>加了稱呼與感嘆，句子多了什麼？（期待、驚喜、思念）</div>'}
+    ]
+  };
+
+  /* =========================================================
+     5. 畫面切換
+     ========================================================= */
+  var screens = ["home","hub","teach","game","result"];
+  var current = "home";
+
+  function show(name){
+    current = name;
+    screens.forEach(function(k){
+      var el = $("screen-" + k);
+      if(el) el.classList.toggle("active", k === name);
+    });
+    $("backBtn").hidden = (name === "home");
+    $("levelPill").hidden = (name === "home");
+    window.scrollTo({top:0, behavior:"smooth"});
+    if(name === "hub") renderStars();
+  }
+
+  function setLevel(level){
+    state.level = level;
+    $("levelPill").textContent = level === "basic" ? "初階版" : "高階版";
+    $("hubTitle").textContent = (level === "basic" ? "初階版" : "高階版") + " · 偵探訓練";
+    $("hubDesc").textContent = level === "basic"
+      ? "先看 5 分鐘圖文教學，再挑一種遊戲模式挑戰。"
+      : "先複習呼告與擬人的分別，再挑戰高階辨析。";
+    renderModes();
+    renderStars();
+  }
+
+  /* =========================================================
+     6. 首頁 / 選單
+     ========================================================= */
+  function renderModes(){
+    var grid = $("modeGrid");
+    grid.innerHTML = "";
+    MODES.forEach(function(m, i){
+      var btn = document.createElement("button");
+      btn.className = "mode-card";
+      btn.setAttribute("data-mode", m.id);
+      btn.innerHTML =
+        '<div class="mc-top"><div class="mc-icon">' + m.icon + '</div><b>模式' + "一二三".charAt(i) + " · " + m.name + '</b></div>' +
+        '<small>' + m.desc + '</small>' +
+        '<div class="stars" data-stars="' + m.id + '"></div>' +
+        '<div class="stat-row"><span class="chip">' + m.tip + '</span><span class="chip">6 題</span></div>';
+      btn.addEventListener("click", function(){ startGame(m.id); });
+      grid.appendChild(btn);
+    });
+  }
+
+  function renderStars(){
+    var total = 0;
+    MODES.forEach(function(m){
+      var n = state.best[state.level][m.id] || 0;
+      total += n;
+      var el = document.querySelector('[data-stars="' + m.id + '"]');
+      if(el){
+        var html = "";
+        for(var i=0;i<3;i++){ html += '<span class="' + (i < n ? "" : "off") + '">★</span>'; }
+        el.innerHTML = html;
+        el.setAttribute("aria-label", "最佳成績 " + n + " 顆星");
+      }
+    });
+    $("starTotal").textContent = "★ " + total + " / 9";
+    $("starHint").textContent = state.level === "basic" ? "初階三模式" : "高階三模式";
+  }
+
+  /* =========================================================
+     7. 教學
+     ========================================================= */
+  function openTeach(idx){
+    state.teachIndex = idx || 0;
+    renderTeach();
+    show("teach");
+  }
+  function renderTeach(){
+    var list = TEACH[state.level];
+    var i = state.teachIndex;
+    var item = list[i];
+    $("teachArt").innerHTML = ART[state.level][i];
+    $("teachTag").textContent = item.tag;
+    $("teachTitle").textContent = item.title;
+    $("teachBody").innerHTML = item.body;
+    var dots = $("teachDots");
+    dots.innerHTML = "";
+    list.forEach(function(_, j){
+      var b = document.createElement("button");
+      b.className = "dot";
+      b.setAttribute("aria-label", "第 " + (j+1) + " 張");
+      b.setAttribute("aria-current", j === i ? "true" : "false");
+      b.addEventListener("click", function(){ state.teachIndex = j; renderTeach(); sfx("click"); });
+      dots.appendChild(b);
+    });
+    $("teachPrev").disabled = (i === 0);
+    var last = (i === list.length - 1);
+    $("teachNext").textContent = last ? "去挑戰 →" : "下一張 →";
+    $("teachNext").classList.toggle("blue", true);
+  }
+
+  /* =========================================================
+     8. 遊戲
+     ========================================================= */
+  function questions(){
+    return BANK[state.level][state.mode];
+  }
+
+  function startGame(mode){
+    state.mode = mode;
+    state.index = 0;
+    state.score = 0;
+    state.answers = [];
+    state.locked = false;
+    show("game");
+    renderQuestion();
+  }
+
+  function renderQuestion(){
+    clearTimeout(toastTimer);
+    $("toast").classList.remove("show");
+    var qs = questions();
+    var q = qs[state.index];
+    state.locked = false;
+
+    $("qCount").textContent = "第 " + (state.index + 1) + " / " + qs.length + " 題";
+    $("qScore").textContent = "★ " + state.score;
+    $("qBar").style.width = ((state.index) / qs.length * 100) + "%";
+
+    var m = MODES.filter(function(x){ return x.id === state.mode; })[0];
+    $("qTag").textContent = "模式" + "一二三".charAt(MODES.indexOf(m)) + " · " + m.name;
+    $("qStem").textContent = q.stem;
+
+    $("qSub").hidden = false;
+    $("qOptions").className = "opts" + (state.mode === "b" ? "" : " two");
+
+    var fb = $("feedback");
+    fb.className = "feedback";
+    fb.classList.remove("show");
+
+    var box = $("qOptions");
+    box.innerHTML = "";
+
+    if(state.mode === "b"){
+      var cats = CATS[state.level];
+      cats.forEach(function(cat, i){
+        var b = document.createElement("button");
+        b.className = "cat";
+        b.type = "button";
+        b.innerHTML = '<span class="badge">' + cat.badge + '</span><span>' + cat.label + '</span>';
+        b.addEventListener("click", function(){ pick(i, b); });
+        box.appendChild(b);
+      });
+    }else{
+      q.options.forEach(function(text, i){
+        var b = document.createElement("button");
+        b.className = "opt";
+        b.type = "button";
+        b.innerHTML = '<span class="idx">' + "①②③④".charAt(i) + '</span><span class="opt-text"></span>';
+        b.querySelector(".opt-text").textContent = text;
+        b.addEventListener("click", function(){ pick(i, b); });
+        box.appendChild(b);
+      });
+    }
+  }
+
+  function pick(choice, btn){
+    if(state.locked) return;
+    state.locked = true;
+
+    var qs = questions();
+    var q = qs[state.index];
+    var ok = (choice === q.answer);
+
+    var buttons = Array.prototype.slice.call($("qOptions").children);
+    buttons.forEach(function(el, i){
+      el.disabled = true;
+      if(i === q.answer) el.classList.add("correct");
+      else if(i === choice) el.classList.add("wrong");
+      else el.classList.add("dim");
+    });
+
+    if(ok){
+      state.score += 1;
+      sfx("correct");
+    }else{
+      sfx("wrong");
+    }
+    $("qScore").textContent = "★ " + state.score;
+    state.answers.push({ok:ok, stem:q.stem, answer:q.options[q.answer], explain:q.explain});
+
+    var fb = $("feedback");
+    fb.className = "feedback show " + (ok ? "ok" : "no");
+    $("fbMark").textContent = ok ? "✓" : "!";
+    $("fbTitle").textContent = ok ? "答對了！" : "再想一想";
+    $("fbAns").innerHTML = '正解：<span></span>';
+    $("fbAns").querySelector("span").textContent = q.options[q.answer];
+    $("fbWhy").textContent = q.explain;
+    $("nextBtn").textContent = (state.index === qs.length - 1) ? "看成績 →" : "下一題 →";
+
+    if(ok){ burst(); }
+
+    setTimeout(function(){
+      try{
+        var r = $("feedback").getBoundingClientRect();
+        var over = r.bottom - (window.innerHeight - 16);
+        if(over > 0){
+          window.scrollBy({top: Math.min(over, 220), behavior:"smooth"});
+        }
+      }catch(e){}
+    }, 120);
+  }
+
+  function nextQuestion(){
+    var qs = questions();
+    state.index += 1;
+    if(state.index >= qs.length){
+      finish();
+      return;
+    }
+    sfx("click");
+    renderQuestion();
+  }
+
+  /* =========================================================
+     9. 結算
+     ========================================================= */
+  function starsFor(score, total){
+    var rate = score / total;
+    if(score >= total - 1) return 3;
+    if(rate >= 0.5) return 2;
+    return 1;
+  }
+
+  function finish(){
+    var qs = questions();
+    var total = qs.length;
+    var stars = starsFor(state.score, total);
+
+    if(stars > (state.best[state.level][state.mode] || 0)){
+      state.best[state.level][state.mode] = stars;
+      saveStore();
+    }
+
+    $("resultStars").innerHTML = "";
+    for(var i=0;i<3;i++){
+      var s = document.createElement("span");
+      s.textContent = "★";
+      if(i >= stars) s.className = "off";
+      $("resultStars").appendChild(s);
+    }
+    $("resultStars").setAttribute("aria-label", "獲得 " + stars + " 顆星");
+
+    $("resultScore").innerHTML = "答對 <em>" + state.score + "</em> / " + total + " 題";
+    var titles = ["再接再厲，偵探實習生！","不錯喔，快要破案了！","太厲害了，呼告小偵探！"];
+    $("resultTitle").textContent = titles[stars - 1];
+    var tips = [
+      "先回教學小教室看一次「稱呼＋傾訴」，再回來挑戰，你會發現題目變簡單了。",
+      "你已經抓到重點了！再玩一次，試著把每題的解釋讀出聲。",
+      "太厲害了！可以挑戰另一個版本，看看高階的呼告與擬人辨析。"
+    ];
+    $("resultTip").textContent = (stars === 3 && state.score < total)
+      ? "只差一題就全對！再玩一次，把錯的那一題解析讀一遍。"
+      : tips[stars - 1];
+    $("resultMascot").innerHTML = mascot(stars >= 3 ? "wow" : (stars === 2 ? "happy" : "sad"));
+
+    var box = $("reviewBox");
+    box.innerHTML = "";
+    if(state.score < total){
+      var h = document.createElement("h3");
+      h.textContent = "再想一次的題目";
+      box.appendChild(h);
+      state.answers.forEach(function(a){
+        if(a.ok) return;
+        var row = document.createElement("div");
+        row.className = "review-item";
+        var mark = document.createElement("span");
+        mark.className = "ri-mark ri-no";
+        mark.textContent = "!";
+        var txt = document.createElement("span");
+        txt.textContent = a.stem + "　正解：" + a.answer;
+        row.appendChild(mark); row.appendChild(txt);
+        box.appendChild(row);
+      });
+    }
+
+    sfx("win");
+    if(stars === 3){ burst(); setTimeout(burst, 420); }
+    show("result");
+  }
+
+  /* =========================================================
+     10. 彩帶
+     ========================================================= */
+  var COLORS = ["#ffc94d","#3aa0ff","#ff8a75","#2fbf8a","#a78bfa"];
+  function burst(){
+    if(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    for(var i=0;i<18;i++){
+      var d = document.createElement("div");
+      d.className = "confetti";
+      d.style.left = (Math.random()*100) + "vw";
+      d.style.background = COLORS[i % COLORS.length];
+      d.style.animationDuration = (1.6 + Math.random()*1.1) + "s";
+      d.style.animationDelay = (Math.random()*0.25) + "s";
+      d.style.transform = "rotate(" + Math.random()*180 + "deg)";
+      document.body.appendChild(d);
+      (function(node){
+        setTimeout(function(){ if(node.parentNode) node.parentNode.removeChild(node); }, 3200);
+      })(d);
+    }
+  }
+
+  /* =========================================================
+     11. 事件綁定
+     ========================================================= */
+  function applyFs(){
+    document.documentElement.setAttribute("data-fs", state.fs);
+    Array.prototype.forEach.call($("fsSeg").children, function(b){
+      b.setAttribute("aria-pressed", b.getAttribute("data-fs") === state.fs ? "true" : "false");
+    });
+  }
+
+  function updateSoundBtn(){
+    $("soundBtn").textContent = state.sound ? "♪" : "×";
+    $("soundBtn").setAttribute("aria-pressed", state.sound ? "true" : "false");
+    $("soundBtn").setAttribute("aria-label", state.sound ? "關閉音效" : "開啟音效");
+  }
+
+  function init(){
+    validateBank();
+    loadStore();
+    applyFs();
+    updateSoundBtn();
+
+    $("homeMascot").innerHTML = mascot("happy");
+    $("hubMascot").innerHTML = mascot("wow");
+    $("resultMascot").innerHTML = mascot("happy");
+
+    Array.prototype.forEach.call(document.querySelectorAll(".level-card"), function(card){
+      card.addEventListener("click", function(){
+        ensureAudio();
+        sfx("click");
+        setLevel(card.getAttribute("data-level"));
+        show("hub");
+      });
+    });
+
+    $("backBtn").addEventListener("click", function(){
+      sfx("click");
+      if(current === "game"){ show("hub"); }
+      else if(current === "result"){ show("hub"); }
+      else if(current === "teach"){ show("hub"); }
+      else if(current === "hub"){ show("home"); }
+    });
+
+    $("soundBtn").addEventListener("click", function(){
+      state.sound = !state.sound;
+      updateSoundBtn();
+      saveStore();
+      if(state.sound){ sfx("click"); toast("音效已開啟"); }
+      else{ toast("音效已關閉"); }
+    });
+
+    $("teachEntry").addEventListener("click", function(){ sfx("click"); openTeach(0); });
+
+    $("teachPrev").addEventListener("click", function(){
+      if(state.teachIndex > 0){ state.teachIndex -= 1; sfx("click"); renderTeach(); }
+    });
+    $("teachNext").addEventListener("click", function(){
+      var list = TEACH[state.level];
+      if(state.teachIndex < list.length - 1){ state.teachIndex += 1; sfx("click"); renderTeach(); }
+      else{ sfx("click"); show("hub"); toast("選一種模式，開始挑戰吧！"); }
+    });
+
+    $("speakBtn").addEventListener("click", function(){
+      var qs = questions();
+      var q = qs[state.index];
+      var text = q.stem;
+      if(state.mode !== "b"){
+        text += "。選項：" + q.options.join("；");
+      }else{
+        text += "。請選擇類別：" + q.options.join("、");
+      }
+      speak(text);
+    });
+
+    $("nextBtn").addEventListener("click", nextQuestion);
+
+    $("againBtn").addEventListener("click", function(){ sfx("click"); startGame(state.mode); });
+    $("otherBtn").addEventListener("click", function(){ sfx("click"); show("hub"); });
+    $("teachBtn2").addEventListener("click", function(){ sfx("click"); openTeach(0); });
+
+    Array.prototype.forEach.call($("fsSeg").children, function(b){
+      b.addEventListener("click", function(){
+        state.fs = b.getAttribute("data-fs");
+        applyFs();
+        saveStore();
+        sfx("click");
+      });
+    });
+
+    // 教學區左右滑動（手機）
+    var touchX = null;
+    var teachScreen = $("screen-teach");
+    teachScreen.addEventListener("touchstart", function(e){
+      if(e.touches.length === 1) touchX = e.touches[0].clientX;
+    }, {passive:true});
+    teachScreen.addEventListener("touchend", function(e){
+      if(touchX === null) return;
+      var dx = (e.changedTouches[0].clientX - touchX);
+      touchX = null;
+      if(Math.abs(dx) < 50) return;
+      var list = TEACH[state.level];
+      if(dx < 0 && state.teachIndex < list.length - 1){ state.teachIndex += 1; renderTeach(); }
+      else if(dx > 0 && state.teachIndex > 0){ state.teachIndex -= 1; renderTeach(); }
+    }, {passive:true});
+
+    // 鍵盤：1-4 選答、Enter 下一題
+    document.addEventListener("keydown", function(e){
+      if(current !== "game") return;
+      if(e.key === "Enter" && $("feedback").classList.contains("show")){
+        e.preventDefault();
+        nextQuestion();
+        return;
+      }
+      var n = parseInt(e.key, 10);
+      if(n >= 1 && n <= 4 && !state.locked){
+        var btns = $("qOptions").children;
+        if(btns[n-1]) btns[n-1].click();
+      }
+    });
+
+    show("home");
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

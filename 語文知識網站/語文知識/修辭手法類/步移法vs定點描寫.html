@@ -1,0 +1,2127 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>描寫小達人｜步移法 × 定點描寫</title>
+<meta name="description" content="小學中文描寫手法互動遊戲：透過教學卡、路線排序、層次標籤與兩種挑戰模式，學會步移法與定點描寫。">
+<meta name="theme-color" content="#FFF6E6">
+<style>
+:root{
+  --ink:#2F2A44;
+  --ink-soft:#5A5470;
+  --cream:#FFF6E6;
+  --paper:#FFFDF8;
+  --coral:#FF7A6B;
+  --coral-soft:#FFE3DE;
+  --teal:#2FBFAD;
+  --teal-soft:#D9F5F0;
+  --sun:#FFC94A;
+  --sun-soft:#FFF0C9;
+  --sky:#6EC1E4;
+  --sky-soft:#DDF1FA;
+  --purple:#9B8CFF;
+  --purple-soft:#ECE8FF;
+  --green:#5FBF6E;
+  --green-soft:#DDF4DF;
+  --red:#E4574C;
+  --red-soft:#FFE1DE;
+  --shadow:0 6px 0 rgba(47,42,68,.14);
+  --line:3px solid var(--ink);
+}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0;
+  font-family:"Noto Sans TC","PingFang TC","Hiragino Sans CNS","Microsoft JhengHei","Heiti TC",system-ui,-apple-system,sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  font-size:clamp(18px,1.7vw,21px);
+  line-height:1.65;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(255,201,74,.28) 0 9px, transparent 10px),
+    radial-gradient(circle at 88% 12%, rgba(110,193,228,.26) 0 7px, transparent 8px),
+    radial-gradient(circle at 78% 82%, rgba(255,122,107,.20) 0 8px, transparent 9px),
+    radial-gradient(circle at 8% 76%, rgba(47,191,173,.20) 0 10px, transparent 11px),
+    radial-gradient(rgba(47,42,68,.09) 1.2px, transparent 1.3px);
+  background-size:auto,auto,auto,auto,26px 26px;
+  pointer-events:none;
+  z-index:0;
+}
+button{font-family:inherit;font-size:inherit;color:inherit;cursor:pointer;touch-action:manipulation;}
+h1,h2,h3,h4,p{margin:0;}
+ul{margin:0;padding:0;list-style:none;}
+svg{display:block;}
+:focus-visible{outline:4px solid var(--sky);outline-offset:3px;border-radius:8px;}
+
+.app{position:relative;z-index:1;padding-bottom:calc(28px + env(safe-area-inset-bottom));}
+.wrap{width:min(100%,1040px);margin:0 auto;padding:0 clamp(14px,3vw,26px);}
+
+/* ---------- header ---------- */
+.topbar{
+  position:sticky;top:0;z-index:40;
+  background:rgba(255,246,230,.92);
+  backdrop-filter:blur(10px);
+  border-bottom:3px solid var(--ink);
+}
+.topbar-in{
+  width:min(100%,1040px);margin:0 auto;
+  padding:8px clamp(14px,3vw,26px);
+  display:flex;align-items:center;gap:10px;
+}
+.brand{display:flex;align-items:center;gap:9px;min-width:0;flex:1;}
+.brand-mark{width:clamp(38px,6vw,46px);flex:0 0 auto;}
+.brand-txt{min-width:0;}
+.brand-txt strong{
+  display:block;font-size:clamp(17px,2.2vw,21px);font-weight:900;letter-spacing:.02em;white-space:nowrap;
+}
+.brand-txt span{display:block;font-size:clamp(11px,1.4vw,13px);color:var(--ink-soft);font-weight:700;letter-spacing:.08em;white-space:nowrap;}
+.icon-btn{
+  width:clamp(44px,7vw,50px);height:clamp(44px,7vw,50px);
+  flex:0 0 auto;display:grid;place-items:center;
+  background:var(--paper);border:var(--line);border-radius:14px;
+  box-shadow:0 4px 0 rgba(47,42,68,.16);
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.icon-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(47,42,68,.16);}
+.icon-btn svg{width:60%;height:60%;}
+.icon-btn.is-off{background:#EFE8DA;}
+.icon-btn.is-off::after{
+  content:"";position:absolute;left:50%;top:50%;width:60%;height:3px;background:var(--red);
+  transform:translate(-50%,-50%) rotate(-45deg);border-radius:3px;
+}
+.icon-btn{position:relative;}
+
+/* ---------- generic ---------- */
+.screen{display:none;}
+.screen.active{display:block;animation:fadeUp .3s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.panel{
+  background:var(--paper);
+  border:var(--line);
+  border-radius:clamp(18px,3vw,26px);
+  box-shadow:var(--shadow);
+}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:clamp(48px,7vw,56px);
+  padding:10px clamp(18px,3.2vw,28px);
+  border:var(--line);border-radius:999px;
+  background:var(--paper);font-weight:900;
+  box-shadow:0 5px 0 rgba(47,42,68,.22);
+  transition:transform .12s ease, box-shadow .12s ease, background .15s ease;
+  text-align:center;line-height:1.25;
+}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(47,42,68,.22);}
+.btn.primary{background:var(--coral);color:var(--ink);}
+.btn.teal{background:var(--teal);color:var(--ink);}
+.btn.sun{background:var(--sun);}
+.btn.ghost{background:var(--paper);}
+.btn:disabled{opacity:.45;box-shadow:0 5px 0 rgba(47,42,68,.12);cursor:not-allowed;}
+.btn-lg{min-height:clamp(54px,8vw,64px);font-size:clamp(18px,2.1vw,21px);}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--sun-soft);border:2.5px solid var(--ink);border-radius:999px;
+  padding:3px 14px;font-size:clamp(12px,1.5vw,14px);font-weight:900;letter-spacing:.12em;
+}
+
+/* ---------- home ---------- */
+.home{padding-top:clamp(14px,2.6vw,26px);}
+.hero{
+  display:grid;gap:clamp(14px,2.5vw,22px);
+  align-items:center;
+  margin-bottom:clamp(18px,3vw,26px);
+}
+@media(min-width:760px){.hero{grid-template-columns:1.05fr .95fr;}}
+.hero-copy h1{
+  font-size:clamp(30px,5.6vw,52px);
+  line-height:1.16;font-weight:900;letter-spacing:.01em;
+  margin:10px 0 10px;
+}
+.hero-copy h1 em{font-style:normal;color:var(--coral);position:relative;white-space:nowrap;}
+.hero-copy h1 em::after{
+  content:"";position:absolute;left:0;right:0;bottom:.02em;height:.16em;
+  background:var(--sun);z-index:-1;border-radius:4px;opacity:.85;
+}
+.hero-copy p{color:var(--ink-soft);font-weight:700;font-size:clamp(15px,1.9vw,18px);max-width:34em;}
+.hero-facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.fact{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#fff;border:2.5px solid var(--ink);border-radius:999px;
+  padding:5px 12px;font-size:clamp(12px,1.6vw,14px);font-weight:900;
+}
+.fact svg{width:1.15em;height:1.15em;flex:0 0 auto;}
+.hero-art{position:relative;}
+.hero-art .panel{padding:0;overflow:hidden;background:#C7EBF7;}
+.hero-art svg{width:100%;height:auto;}
+.hero-badge{
+  position:absolute;right:-6px;top:-14px;transform:rotate(7deg);
+  background:var(--sun);border:3px solid var(--ink);border-radius:16px;
+  padding:6px 14px;font-weight:900;font-size:clamp(12px,1.7vw,15px);
+  box-shadow:0 4px 0 rgba(47,42,68,.2);
+}
+
+.section-title{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+.section-title h2{font-size:clamp(20px,2.7vw,26px);font-weight:900;letter-spacing:.02em;}
+.section-title .dash{flex:1;height:3px;background:repeating-linear-gradient(90deg,var(--ink) 0 8px,transparent 8px 16px);opacity:.3;border-radius:2px;}
+
+.mode-grid{display:grid;gap:clamp(12px,2vw,18px);grid-template-columns:1fr;}
+@media(min-width:640px){.mode-grid{grid-template-columns:1fr 1fr;}}
+.mode-card{
+  position:relative;display:flex;align-items:flex-start;gap:clamp(10px,1.8vw,16px);
+  padding:clamp(14px,2.2vw,20px);
+  text-align:left;width:100%;
+  background:var(--paper);border:var(--line);border-radius:24px;
+  box-shadow:var(--shadow);
+  transition:transform .14s ease, box-shadow .14s ease;
+  overflow:hidden;
+}
+.mode-card:hover{transform:translateY(-3px);box-shadow:0 9px 0 rgba(47,42,68,.15);}
+.mode-card:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(47,42,68,.15);}
+.mode-ico{
+  width:clamp(54px,8vw,68px);height:clamp(54px,8vw,68px);flex:0 0 auto;
+  border:3px solid var(--ink);border-radius:18px;display:grid;place-items:center;
+}
+.mode-ico svg{width:66%;height:66%;}
+.mode-body{min-width:0;flex:1;}
+.mode-body .mh{display:block;font-size:clamp(18px,2.3vw,22px);font-weight:900;line-height:1.25;margin-bottom:4px;}
+.mode-body .mp{text-wrap:balance;display:block;font-size:clamp(13.5px,1.7vw,15.5px);color:var(--ink-soft);font-weight:700;line-height:1.5;}
+.mode-tag{
+  position:absolute;right:14px;top:12px;
+  font-size:clamp(11px,1.4vw,12.5px);font-weight:900;letter-spacing:.06em;
+  background:var(--sun-soft);border:2px solid var(--ink);border-radius:999px;padding:2px 9px;
+}
+.mode-card.c1 .mode-ico{background:var(--coral-soft);}
+.mode-card.c2 .mode-ico{background:var(--teal-soft);}
+.mode-card.c3 .mode-ico{background:var(--sky-soft);}
+.mode-card.c4 .mode-ico{background:var(--purple-soft);}
+.mode-card.best{padding-bottom:clamp(30px,3.4vw,38px);}
+.mode-card.best::after{
+  content:"最佳 " attr(data-best) "%";
+  position:absolute;right:12px;bottom:10px;
+  font-size:11px;font-weight:900;color:var(--ink-soft);
+  background:#F3EEDF;border-radius:999px;padding:2px 9px;
+}
+
+/* ---------- teach ---------- */
+.screen-head{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:clamp(12px,2vw,18px) 0 12px;
+}
+.back-btn{display:inline-flex;align-items:center;gap:6px;background:#fff;border:2.5px solid var(--ink);border-radius:999px;padding:7px 14px;font-weight:900;font-size:clamp(13px,1.7vw,15px);box-shadow:0 3px 0 rgba(47,42,68,.15);}
+.back-btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(47,42,68,.15);}
+.back-btn svg{width:16px;height:16px;}
+.screen-head h2{font-size:clamp(20px,3vw,28px);font-weight:900;margin-left:2px;}
+.teach-progress{display:flex;gap:6px;margin-left:auto;}
+.teach-progress i{width:9px;height:9px;border-radius:50%;background:#DCD3C2;display:block;}
+.teach-progress i.on{background:var(--coral);}
+
+.challenge-lead{font-weight:800;font-size:clamp(16px,2.1vw,19px);line-height:1.6;margin:2px 0 14px;}
+.teach-card{display:grid;gap:clamp(14px,2.4vw,22px);padding:clamp(14px,2.2vw,20px);}
+#screen-teach.active{display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 72px);min-height:calc(100dvh - 72px);}
+@media(min-width:820px){.teach-card{grid-template-columns:1.02fr .98fr;align-items:stretch;}}
+.teach-art{border:3px solid var(--ink);border-radius:20px;overflow:hidden;background:#C7EBF7;position:relative;}
+.teach-art svg{width:100%;height:100%;min-height:clamp(200px,34vw,320px);}
+.teach-txt{min-width:0;display:flex;flex-direction:column;gap:10px;}
+.teach-txt h3{font-size:clamp(24px,4vw,34px);font-weight:900;line-height:1.2;}
+.teach-txt .lead{font-size:clamp(17px,2.1vw,19px);font-weight:800;color:var(--ink-soft);}
+.chant{
+  text-wrap:balance;
+  background:var(--sun-soft);border:2.5px dashed var(--ink);border-radius:16px;
+  padding:10px 14px;font-weight:900;font-size:clamp(16px,2.1vw,19px);line-height:1.5;
+}
+.points{display:flex;flex-direction:column;gap:8px;}
+.points li{display:flex;align-items:flex-start;gap:9px;font-weight:700;font-size:clamp(16px,2vw,18px);line-height:1.5;}
+.points .num{
+  flex:0 0 auto;width:1.65em;height:1.65em;border-radius:50%;background:var(--teal);color:var(--ink);
+  display:grid;place-items:center;font-weight:900;font-size:.86em;border:2px solid var(--ink);margin-top:.1em;
+}
+.points .dot{flex:0 0 auto;width:9px;height:9px;border-radius:50%;background:var(--coral);margin-top:.55em;}
+.tagline{display:flex;flex-wrap:wrap;gap:6px;}
+.tagline span{background:#fff;border:2px solid var(--ink);border-radius:999px;padding:2px 10px;font-size:clamp(12.5px,1.6vw,14px);font-weight:900;}
+.compare{width:100%;border-collapse:separate;border-spacing:0;font-size:clamp(15px,1.9vw,17.5px);}
+.compare th,.compare td{border-bottom:2px solid rgba(47,42,68,.16);padding:8px 10px;text-align:left;vertical-align:top;}
+.compare thead th{background:var(--sun-soft);font-weight:900;border-bottom:2.5px solid var(--ink);}
+.compare thead th:first-child{border-top-left-radius:12px;}
+.compare thead th:last-child{border-top-right-radius:12px;}
+.compare td:first-child{font-weight:900;color:var(--ink-soft);white-space:nowrap;}
+.compare tr:last-child td{border-bottom:none;}
+.teach-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;}
+.teach-nav .btn{flex:1;max-width:220px;}
+
+/* ---------- game ---------- */
+.game-top{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:clamp(10px,1.8vw,16px) 0 10px;
+}
+.game-title{display:flex;align-items:center;gap:8px;font-weight:900;font-size:clamp(16px,2.1vw,19px);min-width:0;}
+.game-title .pill{background:var(--sun);border:2.5px solid var(--ink);border-radius:999px;padding:1px 10px;font-size:.8em;}
+.progress-dots{display:flex;gap:6px;margin-left:auto;}
+.progress-dots i{width:clamp(9px,1.5vw,11px);height:clamp(9px,1.5vw,11px);border-radius:50%;background:#E2D9C8;border:2px solid rgba(47,42,68,.18);display:block;}
+.progress-dots i.done{background:var(--teal);border-color:var(--ink);}
+.progress-dots i.now{background:var(--coral);border-color:var(--ink);transform:scale(1.15);}
+@media(max-width:560px){
+  .game-title{flex:1 1 auto;font-size:clamp(15.5px,4.2vw,18px);}
+  .score-chip{order:3;margin-left:auto;}
+  .progress-dots{order:5;flex-basis:100%;margin-left:0;justify-content:flex-end;}
+}
+.score-chip{display:inline-flex;align-items:center;gap:5px;background:#fff;border:2.5px solid var(--ink);border-radius:999px;padding:2px 11px;font-weight:900;font-size:clamp(13px,1.7vw,15px);}
+.score-chip svg{width:1.1em;height:1.1em;}
+
+.game-main{display:grid;gap:clamp(12px,2vw,20px);align-items:start;}
+@media(min-width:900px){.game-main{grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);}}
+.game-visual{position:sticky;top:78px;}
+@media(max-width:899px){.game-visual{position:static;}}
+.game-visual .panel{overflow:hidden;padding:0;background:#C7EBF7;}
+.game-visual svg{width:100%;height:auto;display:block;}
+.visual-cap{
+  display:flex;align-items:center;gap:8px;padding:8px 12px;background:#fff;
+  border-top:3px solid var(--ink);font-weight:800;font-size:clamp(13px,1.7vw,15px);color:var(--ink-soft);
+}
+.visual-cap .pin{width:1.3em;height:1.3em;flex:0 0 auto;}
+
+.q-card{padding:clamp(14px,2.2vw,20px);}
+.q-kicker{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.q-kicker span{background:var(--coral-soft);border:2px solid var(--ink);border-radius:999px;padding:1px 10px;font-size:clamp(12px,1.5vw,13.5px);font-weight:900;letter-spacing:.06em;}
+.q-text{text-wrap:balance;font-size:clamp(21px,2.8vw,28px);font-weight:900;line-height:1.5;}
+.q-sub{font-size:clamp(15px,1.9vw,17px);color:var(--ink-soft);font-weight:700;margin-top:4px;}
+
+/* step game */
+.slots{display:grid;gap:8px;margin:12px 0;}
+.slot{
+  display:flex;align-items:center;gap:10px;
+  min-height:clamp(50px,7vw,56px);
+  padding:8px 12px;border:2.5px dashed rgba(47,42,68,.35);border-radius:14px;
+  background:#FBF6EA;font-weight:800;font-size:clamp(16px,2vw,18.5px);
+  color:#6E6659;text-align:left;width:100%;
+}
+.slot .idx{
+  flex:0 0 auto;width:1.8em;height:1.8em;border-radius:50%;
+  background:#E6DECE;border:2px solid rgba(47,42,68,.25);
+  display:grid;place-items:center;font-weight:900;font-size:.86em;color:var(--ink-soft);
+}
+.slot.filled{border-style:solid;border-color:var(--ink);background:#fff;color:var(--ink);box-shadow:0 3px 0 rgba(47,42,68,.12);}
+.slot.filled .idx{background:var(--sun);border-color:var(--ink);color:var(--ink);}
+.slot.ok{background:var(--green-soft);border-color:var(--green);}
+.slot.no{background:var(--red-soft);border-color:var(--red);}
+.slot .mark{margin-left:auto;font-weight:900;font-size:1.1em;}
+.slot .mark.ok{color:var(--green);}
+.slot .mark.no{color:var(--red);}
+
+.opt-list{display:grid;gap:8px;margin-top:6px;}
+.opt{
+  display:flex;align-items:flex-start;gap:10px;
+  min-height:clamp(50px,7vw,56px);
+  padding:10px 13px;text-align:left;width:100%;
+  background:#fff;border:2.5px solid var(--ink);border-radius:14px;
+  font-weight:800;font-size:clamp(16px,2.1vw,19px);line-height:1.45;
+  box-shadow:0 3px 0 rgba(47,42,68,.14);
+  transition:transform .1s ease, background .15s ease;
+}
+.opt:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(47,42,68,.14);}
+.opt .bul{
+  flex:0 0 auto;width:1.55em;height:1.55em;border-radius:8px;
+  background:var(--sky-soft);border:2px solid var(--ink);
+  display:grid;place-items:center;font-weight:900;font-size:.8em;margin-top:.1em;
+}
+.opt.used{opacity:.4;}
+.opt.ok{background:var(--green-soft);border-color:var(--green);}
+.opt.no{background:var(--red-soft);border-color:var(--red);}
+.opt:disabled{cursor:default;}
+.q-card.locked .opt,.q-card.locked .pick,.q-card.locked .chip,.q-card.locked .slot{pointer-events:none;}
+
+/* point game */
+.sentence-list{display:grid;gap:10px;margin-top:12px;}
+.sent{
+  background:#fff;border:2.5px solid var(--ink);border-radius:16px;
+  padding:10px 12px;box-shadow:0 3px 0 rgba(47,42,68,.12);
+}
+.sent p{font-weight:800;font-size:clamp(17px,2.2vw,20px);line-height:1.55;}
+.sent .lv-row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+.chip{
+  flex:1 1 0;min-width:74px;min-height:clamp(44px,6vw,48px);
+  border:2.5px solid var(--ink);border-radius:11px;background:#FBF6EA;
+  font-weight:900;font-size:clamp(14.5px,1.85vw,16px);
+  display:inline-flex;align-items:center;justify-content:center;gap:4px;
+  transition:background .14s ease, transform .1s ease;
+}
+.chip:active{transform:translateY(2px);}
+.chip.on{background:var(--sun);box-shadow:inset 0 0 0 2px #fff;}
+.chip.ok{background:var(--green-soft);border-color:var(--green);}
+.chip.no{background:var(--red-soft);border-color:var(--red);}
+.sent-why{margin-top:8px;font-size:clamp(13px,1.7vw,15px);font-weight:700;color:var(--ink-soft);border-top:2px dashed rgba(47,42,68,.2);padding-top:7px;display:none;}
+.sent.revealed .sent-why{display:block;}
+.sent.revealed .lv-row{opacity:.55;}
+
+/* challenge */
+.passage{
+  background:#FBF6EA;border:2.5px solid var(--ink);border-radius:16px;
+  padding:clamp(12px,2vw,16px);font-size:clamp(18px,2.3vw,21px);font-weight:800;line-height:1.8;
+}
+.passage b{background:var(--sun);border-radius:4px;padding:0 3px;}
+.pick-row{display:grid;gap:10px;grid-template-columns:1fr 1fr;margin-top:14px;}
+@media(max-width:360px){.pick-row{grid-template-columns:1fr;}}
+.pick{
+  min-height:clamp(64px,10vw,76px);border:3px solid var(--ink);border-radius:18px;
+  background:#fff;font-weight:900;font-size:clamp(17px,2.3vw,21px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  box-shadow:0 4px 0 rgba(47,42,68,.16);
+  transition:transform .1s ease, background .15s ease;
+}
+.pick:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(47,42,68,.16);}
+.pick small{font-size:.62em;font-weight:700;color:var(--ink-soft);letter-spacing:.04em;}
+.pick.ok{background:var(--green-soft);border-color:var(--green);}
+.pick.no{background:var(--red-soft);border-color:var(--red);}
+.pick:disabled{cursor:default;}
+
+/* feedback */
+.feedback{display:none;margin-top:14px;}
+.feedback.show{display:block;animation:pop .25s ease both;}
+@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
+.fb-box{
+  border:3px solid var(--ink);border-radius:18px;padding:clamp(12px,2vw,16px);
+  background:var(--green-soft);
+}
+.fb-box.bad{background:var(--red-soft);}
+.fb-head{display:flex;align-items:center;gap:9px;font-weight:900;font-size:clamp(17px,2.2vw,20px);margin-bottom:6px;}
+.fb-ico{width:1.7em;height:1.7em;flex:0 0 auto;border-radius:50%;border:2.5px solid var(--ink);display:grid;place-items:center;background:#fff;}
+.fb-ico svg{width:70%;height:70%;}
+.fb-body{text-wrap:pretty;font-weight:700;font-size:clamp(14.5px,1.9vw,17px);line-height:1.7;}
+.fb-body strong{background:#fff;border-radius:5px;padding:0 4px;}
+.fb-list{margin-top:6px;display:grid;gap:3px;}
+.fb-list li{font-size:clamp(13.5px,1.75vw,15.5px);font-weight:700;padding-left:1.1em;position:relative;}
+.fb-list li::before{content:"·";position:absolute;left:.25em;font-weight:900;}
+.fb-next{display:flex;justify-content:flex-end;margin-top:10px;}
+.fb-next .btn{width:100%;}
+@media(min-width:520px){.fb-next .btn{width:auto;min-width:180px;}}
+
+/* result */
+.result-wrap{max-width:640px;margin:clamp(16px,4vw,40px) auto;padding:clamp(18px,3vw,30px);text-align:center;}
+.result-stars{display:flex;justify-content:center;gap:8px;margin:6px 0 8px;}
+.result-stars svg{width:clamp(44px,8vw,60px);height:clamp(44px,8vw,60px);}
+.result-stars .off{opacity:.22;}
+.result-wrap h2{text-wrap:balance;font-size:clamp(24px,4.4vw,34px);font-weight:900;line-height:1.25;}
+.result-score{font-size:clamp(40px,8vw,64px);font-weight:900;color:var(--coral);line-height:1.1;margin:6px 0;}
+.result-score small{font-size:.35em;color:var(--ink-soft);font-weight:800;}
+.result-msg{font-weight:800;color:var(--ink-soft);font-size:clamp(15px,2vw,18px);margin-bottom:16px;}
+.result-stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;}
+.stat{background:#FBF6EA;border:2.5px solid var(--ink);border-radius:14px;padding:7px 16px;min-width:96px;}
+.stat b{display:block;font-size:clamp(20px,3.2vw,26px);line-height:1.2;}
+.stat span{font-size:clamp(11.5px,1.6vw,13px);font-weight:800;color:var(--ink-soft);}
+
+/* confetti */
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:80;overflow:hidden;}
+.confetti i{position:absolute;top:-20px;width:10px;height:14px;border-radius:2px;animation:fall linear forwards;}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.9}}
+
+/* misc */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+.hint-line{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:clamp(13px,1.7vw,15px);font-weight:800;color:var(--ink-soft);}
+.hint-line svg{width:1.25em;height:1.25em;flex:0 0 auto;}
+.footer-note{text-align:center;color:var(--ink-soft);font-size:clamp(12.5px,1.6vw,13.5px);font-weight:700;margin-top:22px;}
+
+@media(max-width:380px){.chip{min-width:0;font-size:13.5px;}}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-sound" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 9.5h3.2L12 5.6v12.8L7.2 14.5H4z"/><path d="M15.6 9a4.2 4.2 0 0 1 0 6"/><path d="M18.4 6.4a8 8 0 0 1 0 11.2"/>
+    </symbol>
+    <symbol id="i-mute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 9.5h3.2L12 5.6v12.8L7.2 14.5H4z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/>
+    </symbol>
+    <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3.5 10.8 12 3.8l8.5 7"/><path d="M5.6 9.6v10h12.8v-10"/><path d="M9.6 19.6v-5.4h4.8v5.4"/>
+    </symbol>
+    <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 6.4C10 4.8 7.3 4.4 4.2 4.7v13.6c3.1-.3 5.8.1 7.8 1.7 2-1.6 4.7-2 7.8-1.7V4.7c-3.1-.3-5.8.1-7.8 1.7z"/><path d="M12 6.4v13.6"/>
+    </symbol>
+    <symbol id="i-route" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="5.6" cy="18.4" r="2.4"/><circle cx="18.4" cy="5.6" r="2.4"/>
+      <path d="M8 18.4h5.2a3 3 0 0 0 0-6H11a3 3 0 0 1 0-6h5"/>
+    </symbol>
+    <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="8.4"/><circle cx="12" cy="12" r="4.6"/><circle cx="12" cy="12" r="1.1" fill="currentColor" stroke="none"/>
+    </symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 4.4h8v5.2a4 4 0 0 1-8 0z"/><path d="M8 6H5.2v1.6A3.2 3.2 0 0 0 8.4 10.8M16 6h2.8v1.6a3.2 3.2 0 0 1-3.2 3.2"/>
+      <path d="M12 13.8v3.4M8.6 19.8h6.8M10 17.2h4"/>
+    </symbol>
+    <symbol id="i-star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round">
+      <path d="M12 2.8l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3.1-5.8 3.1 1.1-6.5L2.6 9.6l6.5-.9z"/>
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4.8 12.6l4.8 4.8L19.4 7"/>
+    </symbol>
+    <symbol id="i-cross" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+      <path d="M6 6l12 12M18 6L6 18"/>
+    </symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 21.2s6.4-6 6.4-10.4A6.4 6.4 0 0 0 5.6 10.8C5.6 15.2 12 21.2 12 21.2z"/><circle cx="12" cy="10.6" r="2.4"/>
+    </symbol>
+    <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14.5 5.5 8 12l6.5 6.5"/>
+    </symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9.5 5.5 16 12l-6.5 6.5"/>
+    </symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 18.2h6M9.8 20.8h4.4"/><path d="M8.2 14.6a6 6 0 1 1 7.6 0c-.7.6-1.1 1.2-1.2 2.1H9.4c-.1-.9-.5-1.5-1.2-2.1z"/>
+    </symbol>
+    <symbol id="i-hand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8.4 11V5.6a1.8 1.8 0 0 1 3.6 0V11"/><path d="M12 10.4V4.8a1.8 1.8 0 0 1 3.6 0v6"/><path d="M15.6 11V7.4a1.8 1.8 0 0 1 3.6 0v6.2c0 4.2-2.8 7-6.8 7-3.6 0-5.2-1.8-6.4-3.8L4 12.6a1.9 1.9 0 0 1 3.1-2.1l1.3 1.6"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="app">
+  <header class="topbar">
+    <div class="topbar-in">
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true">
+          <rect x="4" y="8" width="40" height="34" rx="10" fill="#FFC94A" stroke="#2F2A44" stroke-width="3"/>
+          <path d="M12 20h18M12 27h12" stroke="#2F2A44" stroke-width="3" stroke-linecap="round"/>
+          <path d="M31 30l9-9 5 5-9 9-6 1z" fill="#FF7A6B" stroke="#2F2A44" stroke-width="2.6" stroke-linejoin="round"/>
+          <circle cx="16" cy="35" r="2" fill="#2F2A44"/><circle cx="22" cy="35" r="2" fill="#2F2A44"/>
+          <path d="M17 38.6c1.6 1.4 3.4 1.4 5 0" stroke="#2F2A44" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div class="brand-txt">
+          <strong>描寫小達人</strong>
+          <span>步移法 × 定點描寫</span>
+        </div>
+      </div>
+      <button class="icon-btn" id="soundBtn" type="button" aria-label="關閉音效" aria-pressed="true">
+        <svg><use href="#i-sound"/></svg>
+      </button>
+      <button class="icon-btn" id="homeBtn" type="button" data-go="home" aria-label="返回主頁">
+        <svg><use href="#i-home"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="wrap" data-generated-by="vibe-coding-frontend-design">
+
+    <section class="screen active home" id="screen-home" aria-label="主頁">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">小學中文 · 描寫手法</span>
+          <h1>跟著小豆，<br>用眼睛<em>寫風景</em></h1>
+          <p>一邊走、一邊看，是「步移法」；站定不動、慢慢看，是「定點描寫」。玩完四個關卡，你也能把風景寫得又清楚又生動。</p>
+          <div class="hero-facts">
+            <span class="fact"><svg><use href="#i-book"/></svg>教學 6 卡</span>
+            <span class="fact"><svg><use href="#i-route"/></svg>4 個遊戲區</span>
+            <span class="fact"><svg><use href="#i-star"/></svg>24 組題目</span>
+          </div>
+        </div>
+        <div class="hero-art">
+          <div class="panel" id="heroArt"></div>
+          <div class="hero-badge">邊玩邊學！</div>
+        </div>
+      </div>
+
+      <div class="section-title"><h2>選一個開始</h2><div class="dash"></div></div>
+      <div class="mode-grid">
+        <button class="mode-card c1" type="button" data-mode="teach" aria-label="進入教學基地">
+          <span class="mode-ico"><svg style="color:#FF7A6B"><use href="#i-book"/></svg></span>
+          <span class="mode-body">
+            <span class="mh">教學基地</span>
+            <span class="mp">6 張圖文卡，先學會口訣和竅門。</span>
+          </span>
+          <span class="mode-tag" style="background:#FFE3DE">先學</span>
+        </button>
+        <button class="mode-card c2" type="button" data-mode="step" aria-label="進入步移法練習">
+          <span class="mode-ico"><svg style="color:#2FBFAD"><use href="#i-route"/></svg></span>
+          <span class="mode-body">
+            <span class="mh">步移法練習</span>
+            <span class="mp">路線排序：把走過的地方排好隊。</span>
+          </span>
+          <span class="mode-tag" style="background:#D9F5F0">6 題</span>
+        </button>
+        <button class="mode-card c3" type="button" data-mode="point" aria-label="進入定點描寫練習">
+          <span class="mode-ico"><svg style="color:#3D9CC9"><use href="#i-target"/></svg></span>
+          <span class="mode-body">
+            <span class="mh">定點描寫練習</span>
+            <span class="mp">層次標籤：替每句話貼上遠、中、近。</span>
+          </span>
+          <span class="mode-tag" style="background:#DDF1FA">6 題</span>
+        </button>
+        <button class="mode-card c4" type="button" data-go="challenge" aria-label="進入挑戰區">
+          <span class="mode-ico"><svg style="color:#8A78F5"><use href="#i-trophy"/></svg></span>
+          <span class="mode-body">
+            <span class="mh">挑戰區</span>
+            <span class="mp">兩種模式：快閃判斷、句子分類。</span>
+          </span>
+          <span class="mode-tag" style="background:#ECE8FF">2 模式</span>
+        </button>
+      </div>
+      <p class="footer-note">建議用平板或電腦作課堂示範；手機可直向單手操作。</p>
+    </section>
+
+    <section class="screen" id="screen-teach" aria-label="教學基地">
+      <div class="screen-head">
+        <button class="back-btn" type="button" data-go="home"><svg><use href="#i-arrow-left"/></svg>主頁</button>
+        <h2>教學基地</h2>
+        <div class="teach-progress" id="teachDots" aria-hidden="true"></div>
+      </div>
+      <div class="panel teach-card">
+        <div class="teach-art" id="teachArt"></div>
+        <div class="teach-txt" id="teachTxt"></div>
+      </div>
+      <div class="teach-nav">
+        <button class="btn ghost" type="button" id="teachPrev">上一步</button>
+        <span class="hint-line" id="teachCount"></span>
+        <button class="btn primary" type="button" id="teachNext">下一步</button>
+      </div>
+    </section>
+
+
+    <section class="screen" id="screen-challenge" aria-label="挑戰區選單">
+      <div class="screen-head">
+        <button class="back-btn" type="button" data-go="home"><svg><use href="#i-arrow-left"/></svg>主頁</button>
+        <h2>挑戰區</h2>
+      </div>
+      <div class="panel" style="padding:clamp(14px,2.4vw,22px)">
+        <p class="challenge-lead">兩種模式，每種六組題目。看看你能不能一眼分辨「步移法」和「定點描寫」！</p>
+        <div class="mode-grid">
+          <button class="mode-card c4" type="button" data-mode="c1" aria-label="開始快閃判斷">
+            <span class="mode-ico"><svg style="color:#8A78F5"><use href="#i-bulb"/></svg></span>
+            <span class="mode-body">
+              <span class="mh">模式一：快閃判斷</span>
+              <span class="mp">讀一段話，二選一：步移法還是定點描寫？</span>
+            </span>
+            <span class="mode-tag" style="background:#ECE8FF">6 題</span>
+          </button>
+          <button class="mode-card c2" type="button" data-mode="c2" aria-label="開始句子分類">
+            <span class="mode-ico"><svg style="color:#2FBFAD"><use href="#i-hand"/></svg></span>
+            <span class="mode-body">
+              <span class="mh">模式二：句子分類</span>
+              <span class="mp">每回合三句，逐句貼上正確的方法標籤。</span>
+            </span>
+            <span class="mode-tag" style="background:#D9F5F0">6 回合</span>
+          </button>
+        </div>
+        <p class="hint-line"><svg style="color:#FF7A6B"><use href="#i-bulb"/></svg>小提示：先找句子裏有沒有「位置移動」。</p>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-game" aria-label="遊戲區">
+      <div class="game-top">
+        <button class="back-btn" type="button" data-go="home"><svg><use href="#i-arrow-left"/></svg>主頁</button>
+        <div class="game-title" id="gameTitle"></div>
+        <div class="progress-dots" id="progressDots" aria-hidden="true"></div>
+        <div class="score-chip"><svg style="color:#FFC94A"><use href="#i-star"/></svg><span id="scoreTxt">0</span></div>
+      </div>
+      <div class="game-main">
+        <div class="game-visual">
+          <div class="panel">
+            <div id="gameArt"></div>
+            <div class="visual-cap"><svg class="pin" style="color:#FF7A6B"><use href="#i-pin"/></svg><span id="visualCap"></span></div>
+          </div>
+        </div>
+        <div class="panel q-card" id="qCard"></div>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-result" aria-label="練習結果">
+      <div class="panel result-wrap" id="resultBox" aria-live="polite"></div>
+    </section>
+
+  </main>
+</div>
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+<script>
+/* =========================================================
+   描寫小達人 — 內嵌資料與插畫
+   ========================================================= */
+const INK = "#2F2A44";
+
+function cloud(x, y, s, op) {
+  s = s || 1; op = (op == null ? 1 : op);
+  return `<g transform="translate(${x},${y}) scale(${s})" opacity="${op}">
+    <ellipse cx="0" cy="0" rx="19" ry="11" fill="#FFFFFF"/>
+    <ellipse cx="17" cy="3" rx="14" ry="9" fill="#FFFFFF"/>
+    <ellipse cx="-17" cy="4" rx="13" ry="8" fill="#FFFFFF"/>
+  </g>`;
+}
+function sun(x, y, r) {
+  return `<circle cx="${x}" cy="${y}" r="${r + 7}" fill="#FFD86B" opacity=".28"/>
+    <circle cx="${x}" cy="${y}" r="${r}" fill="#FFD86B"/>`;
+}
+function tree(x, y, s, c) {
+  s = s || 1; c = c || "#5FB86A";
+  return `<g transform="translate(${x},${y}) scale(${s})">
+    <rect x="-5" y="-36" width="10" height="38" rx="4" fill="#A97752"/>
+    <path d="M0 -80a26 26 0 0 1 23 13 19 19 0 0 1 3 36h-52a19 19 0 0 1 3-36 26 26 0 0 1 23-13z" fill="${c}" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/>
+  </g>`;
+}
+function bush(x, y, s, c) {
+  s = s || 1; c = c || "#7FCB7A";
+  return `<g transform="translate(${x},${y}) scale(${s})">
+    <path d="M-20 0a12 12 0 0 1 4-22 15 15 0 0 1 27-4 13 13 0 0 1 9 26z" fill="${c}" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
+  </g>`;
+}
+function kid(x, y, s, shirt) {
+  s = s || 1; shirt = shirt || "#FF7A6B";
+  return `<g transform="translate(${x},${y}) scale(${s})">
+    <ellipse cx="0" cy="35" rx="17" ry="4.5" fill="#2F2A44" opacity=".12"/>
+    <path d="M-11 12 L-15 31" stroke="#3A3A5C" stroke-width="7" stroke-linecap="round"/>
+    <path d="M11 12 L15 31" stroke="#3A3A5C" stroke-width="7" stroke-linecap="round"/>
+    <rect x="-15" y="0" width="30" height="22" rx="10" fill="${shirt}" stroke="${INK}" stroke-width="2.6"/>
+    <path d="M-14 5 L-23 18" stroke="${shirt}" stroke-width="7" stroke-linecap="round"/>
+    <path d="M14 5 L23 18" stroke="${shirt}" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="-23" cy="19" r="4.6" fill="#FFD9B8" stroke="${INK}" stroke-width="2"/>
+    <circle cx="23" cy="19" r="4.6" fill="#FFD9B8" stroke="${INK}" stroke-width="2"/>
+    <circle cx="0" cy="-15" r="18" fill="#FFD9B8" stroke="${INK}" stroke-width="2.6"/>
+    <path d="M-18 -17a18 18 0 0 1 36 0q-8-10-18-10t-18 10z" fill="#4A3B32"/>
+    <circle cx="-6.5" cy="-14" r="2.3" fill="${INK}"/>
+    <circle cx="6.5" cy="-14" r="2.3" fill="${INK}"/>
+    <path d="M-4 -6q4 4 8 0" stroke="${INK}" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <circle cx="-12" cy="-8" r="3.2" fill="#FFB3A7" opacity=".75"/>
+    <circle cx="12" cy="-8" r="3.2" fill="#FFB3A7" opacity=".75"/>
+  </g>`;
+}
+function bird(x, y, s) {
+  s = s || 1;
+  return `<g transform="translate(${x},${y}) scale(${s})" stroke="#5A5470" stroke-width="2" fill="none" stroke-linecap="round">
+    <path d="M-9 0q4-6 9 0"/><path d="M0 0q4-6 9 0"/>
+  </g>`;
+}
+function pin(x, y, c) {
+  c = c || "#FF7A6B";
+  return `<g transform="translate(${x},${y})">
+    <path d="M0 0c0 0 11-10 11-18A11 11 0 0 0-11-18C-11-10 0 0 0 0z" fill="${c}" stroke="${INK}" stroke-width="2.4"/>
+    <circle cx="0" cy="-18" r="4" fill="#FFFFFF"/>
+  </g>`;
+}
+
+const SCENES = {
+
+  hero() {
+    return `<svg viewBox="0 0 400 260" role="img" aria-label="小豆拿著放大鏡，沿著小路觀察風景">
+      <rect width="400" height="260" fill="#C7EBF7"/>
+      ${sun(330, 46, 20)}
+      ${cloud(70, 44, 1.05)}${cloud(250, 30, .72, .9)}
+      <path d="M0 166q90-26 190-4t210-6v104H0z" fill="#C4E6AE"/>
+      <rect y="180" width="400" height="80" fill="#A9DE94"/>
+      <path d="M60 260q40-52 96-64t78-38" stroke="#F7E3BC" stroke-width="26" fill="none" stroke-linecap="round"/>
+      <path d="M60 260q40-52 96-64t78-38" stroke="#E9CFA0" stroke-width="3" fill="none" stroke-dasharray="10 10" stroke-linecap="round"/>
+      ${tree(46, 196, .9)}${tree(368, 200, .82, "#4FAE6A")}
+      ${bush(120, 236, 1)}${bush(300, 240, .9, "#6FC97C")}
+      <g fill="#FF9F8F"><circle cx="150" cy="240" r="5"/><circle cx="164" cy="246" r="4"/><circle cx="286" cy="228" r="5"/></g>
+      <g fill="#FFD86B"><circle cx="158" cy="248" r="3"/><circle cx="294" cy="234" r="3"/></g>
+      ${pin(170, 168, "#FF7A6B")}${pin(248, 138, "#2FBFAD")}
+      ${kid(96, 214, 1.15)}
+      <g transform="translate(132,178) rotate(-14)">
+        <circle cx="0" cy="0" r="19" fill="#FFFFFF" fill-opacity=".55" stroke="#2F2A44" stroke-width="5"/>
+        <path d="M13 13l16 16" stroke="#2F2A44" stroke-width="7" stroke-linecap="round"/>
+        <path d="M-8 -6a9 9 0 0 1 7-6" stroke="#FFFFFF" stroke-width="4" fill="none" stroke-linecap="round"/>
+      </g>
+      <g transform="translate(318,120)">
+        <path d="M0 0l5 13 13 5-13 5-5 13-5-13-13-5 13-5z" fill="#FFC94A" stroke="${INK}" stroke-width="2.2" stroke-linejoin="round"/>
+      </g>
+      <g transform="translate(300,74)">
+        <rect x="-20" y="-14" width="40" height="30" rx="6" fill="#FFFFFF" stroke="${INK}" stroke-width="2.6"/>
+        <path d="M-12-4h24M-12 4h14" stroke="${INK}" stroke-width="2.4" stroke-linecap="round"/>
+      </g>
+    </svg>`;
+  },
+
+  campus() {
+    return `<svg viewBox="0 0 400 240" role="img" aria-label="卡通校園，有校舍、花圃、旗杆和小豆">
+      <rect width="400" height="240" fill="#C7EBF7"/>
+      ${sun(338, 40, 17)}
+      ${cloud(64, 38, 1)}${cloud(250, 26, .68, .9)}
+      <path d="M0 152q90-24 190-2t210-4v94H0z" fill="#C4E6AE"/>
+      <rect y="168" width="400" height="72" fill="#A9DE94"/>
+      <rect x="98" y="78" width="204" height="92" rx="9" fill="#FFF1D8" stroke="${INK}" stroke-width="3"/>
+      <path d="M86 80 200 38l114 42z" fill="#FF8A7A" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/>
+      <rect x="186" y="128" width="30" height="42" rx="4" fill="#7AC7DA" stroke="${INK}" stroke-width="2.4"/>
+      <g fill="#BFE6F4" stroke="${INK}" stroke-width="2.2">
+        <rect x="118" y="96" width="24" height="22" rx="3"/><rect x="154" y="96" width="24" height="22" rx="3"/>
+        <rect x="224" y="96" width="24" height="22" rx="3"/><rect x="260" y="96" width="24" height="22" rx="3"/>
+        <rect x="118" y="132" width="24" height="22" rx="3"/><rect x="260" y="132" width="24" height="22" rx="3"/>
+      </g>
+      <rect x="330" y="108" width="4" height="62" fill="${INK}"/>
+      <path d="M334 110h30v19h-30z" fill="#FF7A6B" stroke="${INK}" stroke-width="2.2"/>
+      <path d="M150 170h100l18 70H132z" fill="#F4E3C4" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
+      ${tree(44, 172, .8)}${tree(360, 174, .72)}
+      <g fill="#FF9F8F"><circle cx="122" cy="166" r="5"/><circle cx="136" cy="171" r="4.2"/><circle cx="270" cy="168" r="5"/><circle cx="284" cy="173" r="4"/></g>
+      <g fill="#FFD86B"><circle cx="129" cy="173" r="3"/><circle cx="277" cy="175" r="3"/></g>
+      ${kid(66, 192, .92)}
+    </svg>`;
+  },
+
+  park() {
+    return `<svg viewBox="0 0 400 240" role="img" aria-label="卡通公園，有池塘、木橋、長椅和大樹">
+      <rect width="400" height="240" fill="#CBEEF6"/>
+      ${sun(60, 40, 16)}${cloud(300, 34, .9)}${cloud(210, 22, .6, .85)}
+      <path d="M0 150q100-20 200 2t200-2v90H0z" fill="#BFE3A9"/>
+      <rect y="166" width="400" height="74" fill="#A9DE94"/>
+      <ellipse cx="282" cy="196" rx="86" ry="30" fill="#8FD6E8" stroke="${INK}" stroke-width="2.6"/>
+      <ellipse cx="282" cy="194" rx="66" ry="19" fill="#A8E3F0" opacity=".7"/>
+      <path d="M40 240q46-40 92-30t78-26" stroke="#F7E3BC" stroke-width="24" fill="none" stroke-linecap="round"/>
+      <g stroke="${INK}" stroke-width="2.4" fill="#D9A96F">
+        <rect x="176" y="212" width="46" height="8" rx="3"/><rect x="180" y="220" width="6" height="16"/><rect x="212" y="220" width="6" height="16"/>
+      </g>
+      <path d="M172 210q24-18 54 0" stroke="${INK}" stroke-width="4" fill="none"/>
+      ${tree(56, 174, 1)}${tree(150, 160, .7, "#4FAE6A")}${tree(366, 166, .9)}
+      ${bush(104, 236, .9)}${bush(336, 238, .8, "#6FC97C")}
+      <g fill="#FF9F8F"><circle cx="124" cy="186" r="4.5"/><circle cx="136" cy="190" r="3.6"/></g>
+      <ellipse cx="300" cy="196" rx="6" ry="3.4" fill="#FFF6E6" stroke="${INK}" stroke-width="1.8"/>
+      <path d="M300 196l-8-7" stroke="${INK}" stroke-width="2" stroke-linecap="round"/>
+      ${kid(86, 206, .86, "#2FBFAD")}
+      ${bird(220, 52, 1)}${bird(250, 44, .8)}
+    </svg>`;
+  },
+
+  market() {
+    return `<svg viewBox="0 0 400 240" role="img" aria-label="卡通街市，有彩色帳篷攤檔、水果箱和小販">
+      <rect width="400" height="240" fill="#FFE9C9"/>
+      ${cloud(320, 34, .8, .8)}
+      <rect y="150" width="400" height="90" fill="#E7D3B0"/>
+      <g fill="#F6E2C6" stroke="${INK}" stroke-width="2.2">
+        <rect x="8" y="66" width="76" height="88" rx="4"/><rect x="318" y="60" width="74" height="94" rx="4"/>
+      </g>
+      <g fill="#BFE6F4" stroke="${INK}" stroke-width="2"><rect x="20" y="80" width="22" height="20"/><rect x="52" y="80" width="22" height="20"/><rect x="330" y="74" width="20" height="18"/><rect x="358" y="74" width="20" height="18"/></g>
+      <g>
+        <rect x="86" y="120" width="110" height="62" fill="#FFFBF2" stroke="${INK}" stroke-width="2.6"/>
+        <path d="M80 120V98h122v22z" fill="#FF8A7A" stroke="${INK}" stroke-width="2.6"/>
+        <g fill="#FFF6E6"><rect x="88" y="98" width="14" height="22"/><rect x="116" y="98" width="14" height="22"/><rect x="144" y="98" width="14" height="22"/><rect x="172" y="98" width="14" height="22"/></g>
+        <g fill="#FFC94A" stroke="${INK}" stroke-width="1.8"><circle cx="106" cy="146" r="7"/><circle cx="126" cy="146" r="7"/><circle cx="146" cy="146" r="7"/></g>
+        <g fill="#E4574C" stroke="${INK}" stroke-width="1.8"><circle cx="106" cy="164" r="6"/><circle cx="124" cy="164" r="6"/></g>
+        <g fill="#5FBF6E" stroke="${INK}" stroke-width="1.8"><circle cx="152" cy="164" r="6"/><circle cx="170" cy="164" r="6"/></g>
+      </g>
+      <g>
+        <rect x="228" y="126" width="96" height="56" fill="#FFFBF2" stroke="${INK}" stroke-width="2.6"/>
+        <path d="M222 126v-20h108v20z" fill="#2FBFAD" stroke="${INK}" stroke-width="2.6"/>
+        <g fill="#FFF6E6"><rect x="230" y="106" width="13" height="20"/><rect x="256" y="106" width="13" height="20"/><rect x="282" y="106" width="13" height="20"/><rect x="308" y="106" width="13" height="20"/></g>
+        <g stroke="${INK}" stroke-width="2" fill="#D9A96F"><rect x="238" y="150" width="34" height="26" rx="2"/><rect x="280" y="150" width="34" height="26" rx="2"/></g>
+        <g fill="#FF9F8F"><circle cx="248" cy="158" r="4"/><circle cx="262" cy="158" r="4"/><circle cx="290" cy="158" r="4"/><circle cx="304" cy="158" r="4"/></g>
+      </g>
+      <g stroke="${INK}" stroke-width="2.2" fill="#FFF6E6">
+        <rect x="200" y="86" width="34" height="24" rx="3"/><path d="M200 92h34" fill="none"/>
+      </g>
+      <path d="M0 216h400" stroke="${INK}" stroke-width="2.2" stroke-dasharray="8 10" opacity=".4"/>
+      ${kid(206, 196, .82, "#FFC94A")}${kid(360, 200, .78, "#2FBFAD")}
+    </svg>`;
+  },
+
+  seaside() {
+    return `<svg viewBox="0 0 400 240" role="img" aria-label="卡通海邊，有帆船、浪花、沙灘和小豆">
+      <rect width="400" height="240" fill="#BFE9F7"/>
+      ${sun(326, 44, 18)}${cloud(90, 40, .9)}${cloud(210, 28, .6, .85)}
+      <rect y="116" width="400" height="66" fill="#6FC6E8"/>
+      <path d="M0 150q30-8 60 0t60 0 60 0 60 0 60 0 60 0v32H0z" fill="#8FD6EE" opacity=".8"/>
+      <g stroke="#FFFFFF" stroke-width="2.6" fill="none" opacity=".85" stroke-linecap="round">
+        <path d="M40 138q10-6 20 0t20 0"/><path d="M130 158q10-6 20 0t20 0"/><path d="M250 140q10-6 20 0t20 0"/>
+      </g>
+      <path d="M0 176q100-14 200 0t200-4v68H0z" fill="#F7E3BC"/>
+      <g transform="translate(292,116)">
+        <path d="M-24 0h48l-8 14h-32z" fill="#FFFFFF" stroke="${INK}" stroke-width="2.4"/>
+        <path d="M0 0v-34l22 26z" fill="#FF8A7A" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
+        <path d="M-2 0v-30l-18 24z" fill="#FFF1D8" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
+      </g>
+      <g fill="#FFB3A7" stroke="${INK}" stroke-width="1.8">
+        <path d="M120 214q10-12 20 0-10 12-20 0z"/>
+        <path d="M330 224q9-10 18 0-9 10-18 0z"/>
+      </g>
+      <path d="M150 206q6-10 12 0" stroke="${INK}" stroke-width="2" fill="none"/>
+      ${kid(76, 192, .98)}
+      ${bird(250, 54, 1)}${bird(280, 46, .8)}
+    </svg>`;
+  },
+
+  hill() {
+    return `<svg viewBox="0 0 400 240" role="img" aria-label="卡通山上，有山峰、石階小徑和小豆遠足">
+      <rect width="400" height="240" fill="#CDEEF8"/>
+      ${sun(330, 40, 16)}${cloud(80, 42, .9)}${cloud(220, 30, .65, .85)}
+      <path d="M-10 190 88 74l72 84 44-46 96 78z" fill="#9BCBA9" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/>
+      <path d="M78 86l10-12 12 12-12 6z" fill="#FFFFFF"/>
+      <path d="M0 200q100-26 200 4t200-12v48H0z" fill="#A9DE94"/>
+      <path d="M120 240q30-46 70-66t50-46" stroke="#E8D6B0" stroke-width="20" fill="none" stroke-linecap="round"/>
+      <path d="M120 240q30-46 70-66t50-46" stroke="#D3BC90" stroke-width="2.6" fill="none" stroke-dasharray="8 8"/>
+      ${tree(44, 206, .8)}${tree(250, 150, .55, "#4FAE6A")}${tree(360, 200, .75)}
+      ${bush(200, 232, .9)}${bush(320, 226, .8, "#6FC97C")}
+      ${kid(196, 156, .78, "#2FBFAD")}
+      ${bird(280, 62, .9)}${bird(304, 54, .7)}
+      <path d="M0 132q40-8 80 0" stroke="#FFFFFF" stroke-width="2.4" fill="none" opacity=".7"/>
+    </svg>`;
+  },
+
+  library() {
+    return `<svg viewBox="0 0 400 240" role="img" aria-label="卡通圖書館，有書架、窗戶和看書的小豆">
+      <rect width="400" height="240" fill="#F8EBD3"/>
+      <rect y="188" width="400" height="52" fill="#E2C79E"/>
+      <rect x="26" y="52" width="118" height="140" rx="5" fill="#D9A96F" stroke="${INK}" stroke-width="2.8"/>
+      <g stroke="${INK}" stroke-width="2.4"><path d="M26 88h118M26 124h118M26 158h118"/></g>
+      <g stroke="${INK}" stroke-width="1.6">
+        <rect x="36" y="60" width="12" height="26" fill="#FF8A7A"/><rect x="52" y="64" width="10" height="22" fill="#6EC1E4"/>
+        <rect x="66" y="58" width="13" height="28" fill="#FFC94A"/><rect x="84" y="64" width="11" height="22" fill="#2FBFAD"/>
+        <rect x="100" y="60" width="12" height="26" fill="#9B8CFF"/><rect x="118" y="66" width="10" height="20" fill="#FF8A7A"/>
+        <rect x="36" y="96" width="14" height="26" fill="#FFC94A"/><rect x="56" y="98" width="11" height="24" fill="#9B8CFF"/>
+        <rect x="72" y="94" width="12" height="28" fill="#2FBFAD"/><rect x="90" y="100" width="10" height="22" fill="#FF8A7A"/>
+        <rect x="106" y="96" width="14" height="26" fill="#6EC1E4"/>
+        <rect x="36" y="132" width="12" height="24" fill="#2FBFAD"/><rect x="54" y="134" width="13" height="22" fill="#FFC94A"/>
+        <rect x="74" y="130" width="10" height="26" fill="#FF8A7A"/><rect x="90" y="136" width="14" height="20" fill="#9B8CFF"/>
+      </g>
+      <g>
+        <rect x="246" y="44" width="112" height="94" rx="4" fill="#BFE6F4" stroke="${INK}" stroke-width="3"/>
+        <path d="M302 44v94M246 91h112" stroke="${INK}" stroke-width="2.6"/>
+        <path d="M258 118q14-18 28 0t24-10" stroke="#FFFFFF" stroke-width="2.4" fill="none" opacity=".8"/>
+      </g>
+      <g stroke="${INK}" stroke-width="2.6" fill="#B98A5E">
+        <rect x="176" y="166" width="126" height="10" rx="4"/>
+        <rect x="186" y="176" width="8" height="34"/><rect x="286" y="176" width="8" height="34"/>
+      </g>
+      <g transform="translate(210,144)">
+        <path d="M0 0h30v18H0z" fill="#FFFFFF" stroke="${INK}" stroke-width="2.2"/>
+        <path d="M15 0v18" stroke="${INK}" stroke-width="1.8"/>
+      </g>
+      ${kid(348, 190, .92, "#9B8CFF")}
+      ${bush(150, 236, .62, "#7FCB7A")}
+    </svg>`;
+  },
+
+  classroom() {
+    return `<svg viewBox="0 0 400 240" role="img" aria-label="卡通課室，有黑板、課桌和窗外陽光">
+      <rect width="400" height="240" fill="#FBF0D9"/>
+      <rect y="186" width="400" height="54" fill="#E2C79E"/>
+      <rect x="30" y="40" width="206" height="112" rx="6" fill="#3E6B5A" stroke="${INK}" stroke-width="5"/>
+      <g stroke="#DDF4DF" stroke-width="3" stroke-linecap="round" opacity=".85">
+        <path d="M52 66h96M52 86h140M52 106h72"/>
+      </g>
+      <g stroke="#FFF6E6" stroke-width="2.6" stroke-linecap="round" opacity=".8">
+        <path d="M170 104q8-10 16 0t16 0"/>
+      </g>
+      <rect x="24" y="152" width="218" height="7" rx="3" fill="#B98A5E" stroke="${INK}" stroke-width="2"/>
+      <g>
+        <rect x="262" y="42" width="106" height="90" rx="4" fill="#BFE6F4" stroke="${INK}" stroke-width="3"/>
+        <path d="M315 42v90M262 87h106" stroke="${INK}" stroke-width="2.6"/>
+        ${cloud(292, 66, .5, .9)}
+        <path d="M240 132h150" stroke="${INK}" stroke-width="4"/>
+      </g>
+      <g stroke="${INK}" stroke-width="2.6">
+        <rect x="50" y="176" width="72" height="10" rx="3" fill="#E8B36A"/>
+        <rect x="58" y="186" width="6" height="26" fill="#B98A5E"/><rect x="108" y="186" width="6" height="26" fill="#B98A5E"/>
+        <rect x="150" y="176" width="72" height="10" rx="3" fill="#E8B36A"/>
+        <rect x="158" y="186" width="6" height="26" fill="#B98A5E"/><rect x="208" y="186" width="6" height="26" fill="#B98A5E"/>
+      </g>
+      <g fill="#FFFFFF" stroke="${INK}" stroke-width="2"><rect x="62" y="164" width="26" height="12" rx="2"/><rect x="162" y="164" width="26" height="12" rx="2"/></g>
+      ${kid(320, 196, .95, "#2FBFAD")}
+    </svg>`;
+  },
+
+  playground() {
+    return `<svg viewBox="0 0 400 240" role="img" aria-label="卡通操場，有紅色跑道、足球門和跑步的同學">
+      <rect width="400" height="240" fill="#C7EBF7"/>
+      ${sun(66, 40, 16)}${cloud(280, 34, .95)}${cloud(190, 22, .6, .85)}
+      <rect y="132" width="400" height="108" fill="#A9DE94"/>
+      <ellipse cx="200" cy="204" rx="182" ry="52" fill="#F08A7A" stroke="${INK}" stroke-width="2.8"/>
+      <ellipse cx="200" cy="204" rx="136" ry="34" fill="#A9DE94"/>
+      <g stroke="#FFFFFF" stroke-width="2.4" fill="none" opacity=".9">
+        <ellipse cx="200" cy="204" rx="158" ry="43"/>
+      </g>
+      <g stroke="${INK}" stroke-width="2.8" fill="none">
+        <path d="M320 172v34M320 172h40v34h-40"/>
+        <path d="M306 166v46"/>
+      </g>
+      <g stroke="${INK}" stroke-width="2.4" fill="#FFFFFF"><rect x="352" y="184" width="6" height="12"/></g>
+      <path d="M36 150v-44" stroke="${INK}" stroke-width="3.4"/>
+      <path d="M36 106h40v26H36z" fill="#FFC94A" stroke="${INK}" stroke-width="2.4"/>
+      <g>
+        <circle cx="196" cy="196" r="6" fill="#FFFFFF" stroke="${INK}" stroke-width="2.2"/>
+        <path d="M196 196l-8-6M196 196l8-6M196 196l0 9" stroke="${INK}" stroke-width="2"/>
+      </g>
+      ${kid(120, 196, .9, "#FF7A6B")}${kid(268, 202, .8, "#FFC94A")}
+      ${tree(374, 158, .6)}${bush(60, 232, .85)}
+    </svg>`;
+  },
+
+  nightmarket() {
+    return `<svg viewBox="0 0 400 240" role="img" aria-label="卡通夜市，有紅燈籠、冒煙的攤檔和人群">
+      <rect width="400" height="240" fill="#2E2A4A"/>
+      <g fill="#FFF6E6" opacity=".9">
+        <circle cx="40" cy="30" r="2"/><circle cx="120" cy="20" r="1.6"/><circle cx="240" cy="34" r="2.2"/><circle cx="330" cy="22" r="1.6"/><circle cx="370" cy="54" r="2"/>
+      </g>
+      <path d="M0 74q100-10 200 2t200-2" stroke="${INK}" stroke-width="2" fill="none" opacity=".8"/>
+      <g fill="#FF6B5B" stroke="#1E1B33" stroke-width="2.2">
+        <ellipse cx="52" cy="84" rx="10" ry="13"/><ellipse cx="100" cy="90" rx="10" ry="13"/>
+        <ellipse cx="148" cy="92" rx="10" ry="13"/><ellipse cx="248" cy="92" rx="10" ry="13"/>
+        <ellipse cx="296" cy="90" rx="10" ry="13"/><ellipse cx="344" cy="84" rx="10" ry="13"/>
+      </g>
+      <g fill="#FFD98A">
+        <rect x="20" y="118" width="96" height="58" rx="4"/>
+        <rect x="190" y="112" width="104" height="64" rx="4"/>
+        <rect x="308" y="120" width="82" height="56" rx="4"/>
+      </g>
+      <g fill="#423C63" stroke="#1E1B33" stroke-width="2.2">
+        <path d="M14 118h108l-8-16H22z"/><path d="M184 112h116l-8-18H192z"/><path d="M302 120h94l-8-16h-78z"/>
+      </g>
+      <g stroke="#1E1B33" stroke-width="2.2" fill="#5A527F">
+        <rect x="36" y="176" width="60" height="10"/><rect x="206" y="176" width="70" height="10"/><rect x="320" y="176" width="56" height="10"/>
+      </g>
+      <rect y="186" width="400" height="54" fill="#3A3456"/>
+      <g fill="#FFD98A" opacity=".28"><ellipse cx="60" cy="180" rx="52" ry="24"/><ellipse cx="240" cy="178" rx="58" ry="24"/></g>
+      <g fill="#241F3D">
+        <circle cx="120" cy="168" r="9"/><rect x="112" y="176" width="16" height="26" rx="7"/>
+        <circle cx="172" cy="172" r="8"/><rect x="165" y="179" width="14" height="22" rx="6"/>
+        <circle cx="286" cy="170" r="9"/><rect x="278" y="178" width="16" height="24" rx="7"/>
+      </g>
+      <g fill="#FFC94A"><circle cx="56" cy="140" r="5"/><circle cx="80" cy="148" r="4"/><circle cx="236" cy="138" r="5"/><circle cx="258" cy="146" r="4"/></g>
+    </svg>`;
+  },
+
+  rainwindow() {
+    return `<svg viewBox="0 0 400 240" role="img" aria-label="卡通雨天窗前，玻璃上有雨珠和遠處樓房">
+      <rect width="400" height="240" fill="#EFE1C8"/>
+      <rect x="34" y="24" width="332" height="176" rx="6" fill="#AFC9D8" stroke="${INK}" stroke-width="5"/>
+      <rect x="46" y="36" width="308" height="152" fill="#C3DCE8"/>
+      <g fill="#9FB3C2" opacity=".85">
+        <rect x="64" y="92" width="46" height="96"/><rect x="120" y="74" width="40" height="114"/>
+        <rect x="176" y="104" width="52" height="84"/><rect x="242" y="82" width="42" height="106"/>
+        <rect x="298" y="96" width="44" height="92"/>
+      </g>
+      <g fill="#C3DCE8" opacity=".55">
+        <rect x="70" y="104" width="12" height="14"/><rect x="90" y="104" width="12" height="14"/>
+        <rect x="126" y="88" width="10" height="12"/><rect x="146" y="88" width="10" height="12"/>
+        <rect x="250" y="96" width="10" height="12"/><rect x="266" y="96" width="10" height="12"/>
+      </g>
+      <g stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" opacity=".9">
+        <path d="M60 46l-8 22M108 40l-8 22M156 50l-8 22M204 42l-8 22M252 52l-8 22M300 44l-8 22M344 54l-8 22"/>
+        <path d="M84 96l-6 16M180 110l-6 16M268 104l-6 16M330 116l-6 16"/>
+      </g>
+      <g fill="#FFFFFF" opacity=".85">
+        <circle cx="132" cy="132" r="3"/><circle cx="214" cy="150" r="2.6"/><circle cx="286" cy="126" r="3"/>
+      </g>
+      <path d="M200 24v176M34 112h332" stroke="${INK}" stroke-width="4"/>
+      <rect x="22" y="198" width="356" height="14" rx="5" fill="#E2C79E" stroke="${INK}" stroke-width="3"/>
+      <g transform="translate(48,168)">
+        <path d="M-14 30h28l-4-18h-20z" fill="#E07B5F" stroke="${INK}" stroke-width="2.2"/>
+        <path d="M0 12q-10-12 0-20 4 8 10 8t4 8-14 4z" fill="#5FBF6E" stroke="${INK}" stroke-width="2"/>
+      </g>
+      ${kid(330, 196, .85, "#9B8CFF")}
+    </svg>`;
+  },
+
+  street() {
+    return `<svg viewBox="0 0 400 240" role="img" aria-label="卡通街道，有彩色樓房、斑馬線和路燈">
+      <rect width="400" height="240" fill="#D6EEF8"/>
+      ${cloud(70, 36, .8)}${sun(348, 34, 14)}
+      <g stroke="${INK}" stroke-width="2.6">
+        <rect x="16" y="66" width="86" height="112" fill="#F7D9C4"/>
+        <rect x="110" y="46" width="78" height="132" fill="#CFE5D8"/>
+        <rect x="196" y="74" width="88" height="104" fill="#E7D6F5"/>
+        <rect x="292" y="58" width="92" height="120" fill="#FFE7B8"/>
+      </g>
+      <g fill="#BFE6F4" stroke="${INK}" stroke-width="1.8">
+        <rect x="30" y="82" width="20" height="18"/><rect x="60" y="82" width="20" height="18"/>
+        <rect x="30" y="112" width="20" height="18"/><rect x="60" y="112" width="20" height="18"/>
+        <rect x="124" y="62" width="18" height="16"/><rect x="152" y="62" width="18" height="16"/>
+        <rect x="124" y="92" width="18" height="16"/><rect x="212" y="90" width="18" height="16"/>
+        <rect x="242" y="90" width="18" height="16"/><rect x="306" y="74" width="18" height="16"/>
+        <rect x="336" y="74" width="18" height="16"/><rect x="306" y="104" width="18" height="16"/>
+      </g>
+      <path d="M16 134h86v10H16z" fill="#FF8A7A" stroke="${INK}" stroke-width="2.2"/>
+      <path d="M292 128h92v12h-92z" fill="#2FBFAD" stroke="${INK}" stroke-width="2.2"/>
+      <rect y="178" width="400" height="62" fill="#C9C4D6"/>
+      <path d="M0 178h400" stroke="${INK}" stroke-width="3"/>
+      <g fill="#FFFFFF"><rect x="40" y="190" width="34" height="10" rx="2"/><rect x="96" y="190" width="34" height="10" rx="2"/><rect x="152" y="190" width="34" height="10" rx="2"/><rect x="208" y="190" width="34" height="10" rx="2"/><rect x="264" y="190" width="34" height="10" rx="2"/><rect x="320" y="190" width="34" height="10" rx="2"/></g>
+      <g transform="translate(240,120)">
+        <rect x="-6" y="0" width="12" height="58" rx="4" fill="${INK}"/>
+        <rect x="-13" y="-26" width="26" height="30" rx="6" fill="#FFF6E6" stroke="${INK}" stroke-width="2.4"/>
+        <circle cx="0" cy="-18" r="4.6" fill="#E4574C"/><circle cx="0" cy="-8" r="4.6" fill="#5FBF6E"/>
+      </g>
+      ${kid(80, 210, .82, "#FFC94A")}
+    </svg>`;
+  },
+
+  river() {
+    return `<svg viewBox="0 0 400 240" role="img" aria-label="卡通河邊，有石橋、蘆葦和小船">
+      <rect width="400" height="240" fill="#CBEEF6"/>
+      ${sun(300, 40, 16)}${cloud(80, 36, .9)}${cloud(210, 26, .6, .85)}
+      <path d="M0 132q90-26 190 2t210-6v54H0z" fill="#BFE3A9"/>
+      <rect y="158" width="400" height="82" fill="#7FC9E0"/>
+      <path d="M0 158q100 10 200 0t200 4v12q-100 8-200 0t-200 0z" fill="#A6DFF0" opacity=".8"/>
+      <g stroke="#FFFFFF" stroke-width="2.6" fill="none" opacity=".8" stroke-linecap="round">
+        <path d="M40 196q12-6 24 0t24 0"/><path d="M270 208q12-6 24 0t24 0"/>
+      </g>
+      <path d="M96 158q54-40 108 0" stroke="${INK}" stroke-width="3" fill="none"/>
+      <path d="M92 158h116v10H92z" fill="#D9A96F" stroke="${INK}" stroke-width="2.6"/>
+      <path d="M96 168v14M204 168v14" stroke="${INK}" stroke-width="3"/>
+      <g transform="translate(310,178)">
+        <path d="M-22 0h44l-7 12h-30z" fill="#E8B36A" stroke="${INK}" stroke-width="2.2"/>
+        <path d="M0-2v-20l16 18z" fill="#FFFFFF" stroke="${INK}" stroke-width="2.2"/>
+      </g>
+      <g stroke="#5FBF6E" stroke-width="3" stroke-linecap="round" fill="none">
+        <path d="M30 224v-34M40 224v-26M50 224v-30"/>
+      </g>
+      <g fill="#A97752"><ellipse cx="30" cy="190" rx="3" ry="8"/><ellipse cx="50" cy="194" rx="3" ry="8"/></g>
+      ${tree(140, 156, .6, "#4FAE6A")}${tree(370, 160, .8)}
+      ${kid(250, 220, .8, "#2FBFAD")}
+    </svg>`;
+  },
+
+  compare() {
+    return `<svg viewBox="0 0 400 240" role="img" aria-label="左邊是步移法的路線圖，右邊是定點描寫的取景框">
+      <rect width="400" height="240" fill="#FFF6E6"/>
+      <g>
+        <rect x="14" y="18" width="176" height="204" rx="18" fill="#E6F7F3" stroke="${INK}" stroke-width="3"/>
+        <path d="M48 186q14-48 48-58t42-40" stroke="#FFC94A" stroke-width="16" fill="none" stroke-linecap="round"/>
+        <path d="M48 186q14-48 48-58t42-40" stroke="${INK}" stroke-width="2.6" fill="none" stroke-dasharray="8 9"/>
+        ${pin(50, 186, "#FF7A6B")}${pin(96, 128, "#FFC94A")}${pin(138, 88, "#2FBFAD")}
+        <circle cx="138" cy="60" r="14" fill="#FFFFFF" stroke="${INK}" stroke-width="2.6"/>
+        <circle cx="138" cy="60" r="6" fill="${INK}"/>
+        <text x="102" y="214" text-anchor="middle" font-size="17" font-weight="700" fill="${INK}">步移法</text>
+      </g>
+      <g>
+        <rect x="210" y="18" width="176" height="204" rx="18" fill="#E9F4FB" stroke="${INK}" stroke-width="3"/>
+        <rect x="232" y="46" width="132" height="132" rx="8" fill="#FFFFFF" stroke="${INK}" stroke-width="2.6"/>
+        <path d="M232 62V46h16M348 46h16v16M364 162v16h-16M248 178h-16v-16" stroke="${INK}" stroke-width="4" fill="none"/>
+        <circle cx="298" cy="112" r="34" fill="#DDF1FA" stroke="${INK}" stroke-width="2.6"/>
+        <circle cx="298" cy="112" r="16" fill="#6EC1E4" stroke="${INK}" stroke-width="2.4"/>
+        <circle cx="298" cy="112" r="5" fill="${INK}"/>
+        <text x="298" y="214" text-anchor="middle" font-size="17" font-weight="700" fill="${INK}">定點描寫</text>
+      </g>
+    </svg>`;
+  }
+};
+
+/* =========================================================
+   教學卡
+   ========================================================= */
+const TEACH = [
+  {
+    art: "hero",
+    title: "兩種描寫法寶",
+    lead: "寫風景有兩種好方法。學會它們，平凡的地方也會變得好看。",
+    blocks: [
+      { t: "points", items: [
+        "步移法：人一邊走，景物一邊換。",
+        "定點描寫：人站定不動，眼睛像鏡頭。"
+      ]},
+      { t: "chant", text: "走一走，看一看；站定定，看仔細。" },
+      { t: "tags", items: ["步移法", "定點描寫", "小學必學"] }
+    ]
+  },
+  {
+    art: "campus",
+    title: "步移法：邊走邊看",
+    lead: "人走到哪裏，就寫到哪裏；位置一變，眼前的景物也跟著變。",
+    blocks: [
+      { t: "chant", text: "走一走，看一看；位置變，景物換。" },
+      { t: "points", items: [
+        "先用一句話交代路線。",
+        "每到一個地方，只寫一兩個重點。",
+        "用位置詞把景物串起來。"
+      ]},
+      { t: "tags", items: ["走進", "經過", "來到", "穿過", "繞過", "沿著"] }
+    ]
+  },
+  {
+    art: "park",
+    title: "步移法三步曲",
+    lead: "動筆之前，先在腦海裏走一次，路線就會清清楚楚。",
+    blocks: [
+      { t: "points", items: [
+        "定路線：由入口走到終點。",
+        "選景點：每一站挑最難忘的一樣東西。",
+        "串起來：用「先……再……最後……」連接。"
+      ]},
+      { t: "chant", text: "先走進，再經過，最後來到……" },
+      { t: "tags", items: ["路線清楚", "一站一景", "順序分明"] }
+    ]
+  },
+  {
+    art: "seaside",
+    title: "定點描寫：站定慢慢看",
+    lead: "人站在同一個位置，眼睛像鏡頭一樣，慢慢掃過整個畫面。",
+    blocks: [
+      { t: "chant", text: "站定定，慢慢看；有次序，寫得清。" },
+      { t: "points", items: [
+        "先寫整體，再寫局部。",
+        "選一種順序：由遠到近、由上到下、由左到右。",
+        "加上五官感受和比喻，畫面就活起來。"
+      ]},
+      { t: "tags", items: ["遠處", "中間", "身旁", "腳邊"] }
+    ]
+  },
+  {
+    art: "classroom",
+    title: "定點描寫三步曲",
+    lead: "位置不變，視線要有路可走，讀者才不會迷路。",
+    blocks: [
+      { t: "points", items: [
+        "選位置：我站在哪裏看？",
+        "選順序：由上到下，或由遠到近。",
+        "加細節：顏色、聲音、氣味、感覺。"
+      ]},
+      { t: "chant", text: "遠→中→近；上→下；整體→局部。" },
+      { t: "tags", items: ["一個位置", "一種順序", "五官觀察"] }
+    ]
+  },
+  {
+    art: "playground",
+    title: "兩種方法比一比",
+    lead: "同一個地方，用兩種方法寫，效果完全不一樣。",
+    blocks: [
+      { t: "table", head: ["比較項目", "步移法", "定點描寫"], rows: [
+        ["人", "一直走動", "站定不動"],
+        ["景物", "隨位置改變", "同一個畫面"],
+        ["關鍵", "位置詞", "觀察順序"],
+        ["像甚麼", "邊走邊拍的影片", "慢慢放大看的照片"]
+      ]},
+      { t: "chant", text: "會走會站，描寫就好看！" }
+    ]
+  }
+];
+
+/* =========================================================
+   步移法練習：路線排序（6 組）
+   ========================================================= */
+const STEP = [
+  {
+    scene: "campus", cap: "校園 · 花圃與操場",
+    prompt: "小豆走進校園。請按他的遊覽順序，依次點選四句話。",
+    steps: [
+      { id: "s1a", t: "走進校門，兩旁的花圃開滿了向日葵。" },
+      { id: "s1b", t: "繞過花圃，來到圓形的噴水池旁。" },
+      { id: "s1c", t: "再往前走，操場上同學正在跑步。" },
+      { id: "s1d", t: "最後走上樓梯，來到三樓的課室。" }
+    ],
+    disp: [2, 0, 3, 1],
+    why: "「走進→繞過→再往前走→最後走上」把路線交代得很清楚，每到一個地方就換一個景物，這就是步移法。"
+  },
+  {
+    scene: "park", cap: "公園 · 小徑與涼亭",
+    prompt: "小豆在公園散步。請按他走過的地方，依次點選四句話。",
+    steps: [
+      { id: "s2a", t: "從公園大門進去，先看見一排大榕樹。" },
+      { id: "s2b", t: "沿著小徑往前走，經過一個小池塘。" },
+      { id: "s2c", t: "走過木橋，來到兒童遊樂場。" },
+      { id: "s2d", t: "再往山坡上走，就到達觀景亭。" }
+    ],
+    disp: [1, 3, 2, 0],
+    why: "「進去→沿著小徑→走過木橋→再往山坡上走」，每一步都有位置詞，讀者跟著小豆的腳步走，畫面自然一個接一個。"
+  },
+  {
+    scene: "market", cap: "街市 · 攤檔與香味",
+    prompt: "小豆第一次逛街市。請按他經過的攤檔，依次點選四句話。",
+    steps: [
+      { id: "s3a", t: "一踏進街市，就先聽到魚販的叫賣聲。" },
+      { id: "s3b", t: "沿著通道往左走，蔬菜攤上堆滿了青菜。" },
+      { id: "s3c", t: "再往前走幾步，陣陣燒味香味飄過來。" },
+      { id: "s3d", t: "走到街市盡頭，是一家小小的花店。" }
+    ],
+    disp: [3, 1, 0, 2],
+    why: "「一踏進→沿著通道→再往前走→走到盡頭」，不只有位置，還加入聲音和香味，令步移的過程更立體。"
+  },
+  {
+    scene: "seaside", cap: "海邊 · 沙灘與燈塔",
+    prompt: "小豆沿著海邊走。請按他走過的順序，依次點選四句話。",
+    steps: [
+      { id: "s4a", t: "走上沙灘，先脫下鞋子提在手上。" },
+      { id: "s4b", t: "沿著海邊往前走，浪花輕輕打在小腿上。" },
+      { id: "s4c", t: "走過一堆礁石，看見幾隻小螃蟹。" },
+      { id: "s4d", t: "一直走到燈塔下，才停下來看日落。" }
+    ],
+    disp: [2, 0, 1, 3],
+    why: "「走上沙灘→沿著海邊→走過礁石→走到燈塔下」，位置一路推進，景物也由浪花換成螃蟹，再換成日落。"
+  },
+  {
+    scene: "hill", cap: "山上 · 石階與竹林",
+    prompt: "小豆去遠足。請按他登山的路線，依次點選四句話。",
+    steps: [
+      { id: "s5a", t: "從山腳出發，沿著石階一步步往上走。" },
+      { id: "s5b", t: "走到半山腰，回頭看見整片村莊。" },
+      { id: "s5c", t: "穿過一片竹林，風吹得竹葉沙沙作響。" },
+      { id: "s5d", t: "終於登上山頂，雲朵就在腳邊。" }
+    ],
+    disp: [1, 3, 0, 2],
+    why: "「從山腳→走到半山腰→穿過竹林→登上山頂」，由低到高，路線清楚，還用了「回頭看」交代視線方向。"
+  },
+  {
+    scene: "library", cap: "圖書館 · 書架與窗邊",
+    prompt: "小豆去圖書館。請按他進館後的路線，依次點選四句話。",
+    steps: [
+      { id: "s6a", t: "推開圖書館的大門，先聞到淡淡的書香味。" },
+      { id: "s6b", t: "走過櫃檯，來到一排排高大的書架前。" },
+      { id: "s6c", t: "繞到書架後面，找到靠窗的閱讀桌。" },
+      { id: "s6d", t: "坐下以後，窗外正好傳來鳥叫聲。" }
+    ],
+    disp: [3, 2, 0, 1],
+    why: "「推開大門→走過櫃檯→繞到書架後面→坐下」，室內也可以用步移法，關鍵同樣是位置詞和先後次序。"
+  }
+];
+
+/* =========================================================
+   定點描寫練習：層次標籤（6 組）
+   ========================================================= */
+const POINT = [
+  {
+    scene: "seaside", cap: "沙灘 · 面向大海",
+    prompt: "小豆站在沙灘上不動。請替四句話貼上「遠景 / 中景 / 近景」標籤。",
+    disp: [1, 3, 0, 2],
+    items: [
+      { t: "遠處的海平線上，一艘白色帆船慢慢駛過。", lv: "far", why: "「海平線」是視線最遠的地方，所以是遠景。" },
+      { t: "海中央，一道道浪花正朝岸邊湧來。", lv: "mid", why: "浪花在「海中央」，比海平線近、又比腳邊遠，所以是中景。" },
+      { t: "腳邊的細沙上，幾隻小螃蟹匆匆爬過。", lv: "near", why: "「腳邊」是最近的位置，所以是近景。" },
+      { t: "身旁，妹妹正蹲著堆沙堡。", lv: "near", why: "「身旁」也是近距離，所以同樣是近景。" }
+    ],
+    why: "由海平線、海中央，到腳邊和身旁，就是「由遠到近」的觀察順序；站的位置一直沒有變。"
+  },
+  {
+    scene: "park", cap: "公園 · 池塘與長椅",
+    prompt: "小豆站在公園的長椅旁。請替四句話貼上「遠景 / 中景 / 近景」標籤。",
+    disp: [2, 0, 3, 1],
+    items: [
+      { t: "遠處的山坡上，一排榕樹像綠色的大傘。", lv: "far", why: "「遠處的山坡」是畫面最遠的一層，所以是遠景。" },
+      { t: "池塘中央，幾隻鴨子正悠閒地游著。", lv: "mid", why: "池塘在長椅與山坡之間，所以鴨子屬於中景。" },
+      { t: "身旁的長椅上，放著一袋剛買的麵包。", lv: "near", why: "長椅就在小豆身邊，所以是近景。" },
+      { t: "腳邊的石階旁，一隊螞蟻正在搬麵包屑。", lv: "near", why: "「腳邊」是最近的細節，所以是近景。" }
+    ],
+    why: "先寫遠處山坡，再寫池塘，最後寫身旁的長椅和腳邊，視線由遠慢慢拉近。"
+  },
+  {
+    scene: "classroom", cap: "課室 · 坐在窗邊",
+    prompt: "小豆坐在窗邊。請替四句話貼上「遠景 / 中景 / 近景」標籤。",
+    disp: [1, 3, 2, 0],
+    items: [
+      { t: "窗外遠處，幾座高樓在陽光下閃閃發亮。", lv: "far", why: "「窗外遠處」的高樓是畫面最遠的一層，所以是遠景。" },
+      { t: "操場上，同學們正在打球，笑聲一陣陣傳來。", lv: "mid", why: "操場在窗與高樓之間，所以是中景。" },
+      { t: "窗台上，一盆小盆栽剛長出兩片新葉。", lv: "near", why: "窗台就在手邊，所以是近景。" },
+      { t: "桌上，課本正翻到第七頁。", lv: "near", why: "桌子在身前，是最近的景物，所以是近景。" }
+    ],
+    why: "由窗外的高樓、操場，到窗台和桌面，位置固定不變，鏡頭一層一層拉近。"
+  },
+  {
+    scene: "playground", cap: "操場 · 站在跑道邊",
+    prompt: "小豆站在跑道邊。請替四句話貼上「遠景 / 中景 / 近景」標籤。",
+    disp: [3, 0, 2, 1],
+    items: [
+      { t: "遠處的旗桿上，國旗隨風飄揚。", lv: "far", why: "「遠處的旗桿」在操場另一端，所以是遠景。" },
+      { t: "球場中央，幾個同學正在踢足球。", lv: "mid", why: "球場中央在跑道與旗桿之間，所以是中景。" },
+      { t: "跑道邊的草地上，一顆足球靜靜地躺著。", lv: "near", why: "草地就在跑道邊，離小豆很近，所以是近景。" },
+      { t: "腳下，白色的起跑線筆直地伸向前方。", lv: "near", why: "「腳下」是最近的位置，所以是近景。" }
+    ],
+    why: "旗桿、球場、草地、腳下，四層由遠至近，站在同一點的觀察特別有現場感。"
+  },
+  {
+    scene: "nightmarket", cap: "夜市 · 站在入口",
+    prompt: "小豆站在夜市入口。請替四句話貼上「遠景 / 中景 / 近景」標籤。",
+    disp: [2, 1, 0, 3],
+    items: [
+      { t: "街道盡頭，一盞盞紅燈籠連成一條光河。", lv: "far", why: "「街道盡頭」是視線最遠處，所以是遠景。" },
+      { t: "街道中間，人們擠在攤位前挑選小吃。", lv: "mid", why: "街道中間在入口與盡頭之間，所以是中景。" },
+      { t: "身旁的攤子，鐵板上的雞蛋仔正滋滋作響。", lv: "near", why: "「身旁的攤子」就在入口旁邊，所以是近景。" },
+      { t: "手裏那杯珍珠奶茶，冰塊還輕輕碰撞著杯壁。", lv: "near", why: "拿在手上的東西最近，所以是近景。" }
+    ],
+    why: "由街道盡頭、街道中間，到身旁攤子和手中飲品，熱鬧的夜市就有了層次。"
+  },
+  {
+    scene: "rainwindow", cap: "窗前 · 下雨天",
+    prompt: "小豆站在窗前。請替四句話貼上「遠景 / 中景 / 近景」標籤。",
+    disp: [0, 2, 3, 1],
+    items: [
+      { t: "遠處的樓房，被雨霧抹成一片淡淡的灰色。", lv: "far", why: "「遠處的樓房」在雨霧中最遠，所以是遠景。" },
+      { t: "對面的街道上，一把把雨傘像移動的小花。", lv: "mid", why: "對面街道在窗與遠樓之間，所以是中景。" },
+      { t: "窗玻璃上，雨珠一顆顆滑下來，留下一道道水痕。", lv: "near", why: "玻璃就在眼前，所以是近景。" },
+      { t: "窗台邊，手指正跟著雨點輕輕敲打。", lv: "near", why: "手指在窗台邊，是最近的細節，所以是近景。" }
+    ],
+    why: "雨霧中的遠樓、對面的雨傘、眼前的玻璃和手指，由遠而近，安靜的雨天也寫得很有層次。"
+  }
+];
+
+/* =========================================================
+   挑戰一：快閃判斷（6 組）
+   ========================================================= */
+const C1 = [
+  {
+    scene: "street", cap: "街口 · 抬頭與遠望",
+    passage: "我站在街口，抬頭看見行人指示燈正亮著綠燈。不遠處的斑馬線上，幾個路人匆匆走過；再遠一點，小巴站排著長長的人龍。",
+    answer: "point",
+    why: "小豆一直「站在街口」，沒有換位置；他只是由近到遠看：指示燈→斑馬線→小巴站。所以是定點描寫。"
+  },
+  {
+    scene: "playground", cap: "操場 · 體育課路線",
+    passage: "體育課開始，我們從課室排隊走到操場，先繞著跑道熱身，再走到足球門前練習射門，最後在草地旁坐下來休息。",
+    answer: "step",
+    why: "「走到→繞著→走到→坐下來」都是位置移動，景物由跑道換到足球門，再換到草地，所以是步移法。"
+  },
+  {
+    scene: "hill", cap: "山上 · 營地與山徑",
+    passage: "我們從營地出發，沿著山徑往上走，跨過一根倒下的樹幹，再繞過長滿青苔的大石，最後來到一片開闊的草地。",
+    answer: "step",
+    why: "「從營地出發→沿著山徑→跨過樹幹→繞過大石→來到草地」，位置一路向上移動，所以是步移法。"
+  },
+  {
+    scene: "river", cap: "河邊 · 橋上遠眺",
+    passage: "我扶著橋欄站著。橋下是緩緩流過的河水，河中央有一隻小木船；對岸的蘆葦叢裏，不時傳來幾聲鳥叫。",
+    answer: "point",
+    why: "「扶著橋欄站著」說明位置固定；橋下→河中央→對岸，是由近到遠的空間順序，所以是定點描寫。"
+  },
+  {
+    scene: "classroom", cap: "課室 · 下課之後",
+    passage: "下課後，我從座位走到黑板前，把黑板擦乾淨，再繞過講台，走到窗邊關好窗，最後回到座位收拾書包。",
+    answer: "step",
+    why: "「從座位→黑板前→繞過講台→窗邊→回到座位」每一步都換了位置，所以是步移法。"
+  },
+  {
+    scene: "nightmarket", cap: "夜市 · 入口所見",
+    passage: "站在夜市入口，頭頂是一整排紅燈籠；不遠處的攤位冒著白煙；最裏面，人群的笑聲一陣陣傳來。",
+    answer: "point",
+    why: "「站在夜市入口」表示沒有移動；頭頂→不遠處→最裏面，是按空間層次觀察，所以是定點描寫。"
+  }
+];
+
+/* =========================================================
+   挑戰二：句子分類（6 回合 × 3 句）
+   ========================================================= */
+const C2 = [
+  {
+    scene: "compare", cap: "挑戰 · 句子分類",
+    prompt: "請判斷每一句用了哪一種描寫方法。",
+    items: [
+      { t: "我沿著河邊的小路慢慢走，走過石橋，來到一片蘆葦叢。", a: "step", why: "「沿著→走過→來到」是連續的移動，位置一直在變。" },
+      { t: "穿過校園的後門，再往左轉，就到了我們的秘密基地。", a: "step", why: "「穿過→往左轉→到了」清楚交代行走路線。" },
+      { t: "我站在橋上，橋下是緩緩流過的河水，遠處是連綿的山。", a: "point", why: "「站在橋上」位置固定，再按橋下、遠處的次序觀察。" }
+    ]
+  },
+  {
+    scene: "compare", cap: "挑戰 · 句子分類",
+    prompt: "請判斷每一句用了哪一種描寫方法。",
+    items: [
+      { t: "坐在樹蔭下，我看見頭頂的樹葉一層層疊著，腳邊的草叢裏開著小黃花。", a: "point", why: "「坐在樹蔭下」沒有移動，視線由頭頂移到腳邊。" },
+      { t: "我坐在座位上，黑板在前方，講台在中間，同學們的桌椅排成四行。", a: "point", why: "「坐在座位上」位置固定，按前方、中間、四行的空間順序描寫。" },
+      { t: "我們先爬上斜坡，再穿過果園，最後到達山頂的涼亭。", a: "step", why: "「爬上→穿過→到達」是明顯的步移路線。" }
+    ]
+  },
+  {
+    scene: "compare", cap: "挑戰 · 句子分類",
+    prompt: "請判斷每一句用了哪一種描寫方法。",
+    items: [
+      { t: "站在陽台上，近處是晾著的衣服，遠處是密密麻麻的樓房。", a: "point", why: "「站在陽台上」位置不變，由近處寫到遠處。" },
+      { t: "走進老街，腳下的石板路越來越窄，兩旁的老店一間接一間。", a: "step", why: "「走進老街」之後，景物隨腳步一路展開。" },
+      { t: "繞過水池，我沿著小徑走到花園的盡頭。", a: "step", why: "「繞過→沿著→走到」都是移動的位置詞。" }
+    ]
+  },
+  {
+    scene: "compare", cap: "挑戰 · 句子分類",
+    prompt: "請判斷每一句用了哪一種描寫方法。",
+    items: [
+      { t: "從碼頭出發，船先駛過燈塔，再繞過小島，最後停在海灣。", a: "step", why: "船一路前行，「駛過→繞過→停在」是移動的過程。" },
+      { t: "我蹲在池塘邊，水面上浮著幾片荷葉，荷葉下有小魚游過。", a: "point", why: "「蹲在池塘邊」固定不動，由上而下觀察水面和荷葉下。" },
+      { t: "我站在窗前，窗台上擺著一排小盆栽，窗外是鄰居的屋頂。", a: "point", why: "「站在窗前」沒有移動，由窗台寫到窗外，是定點描寫。" }
+    ]
+  },
+  {
+    scene: "compare", cap: "挑戰 · 句子分類",
+    prompt: "請判斷每一句用了哪一種描寫方法。",
+    items: [
+      { t: "穿過隧道，眼前忽然亮了起來，一片稻田一直鋪到山腳。", a: "step", why: "「穿過隧道」表示人由隧道走到另一邊，位置改變了。" },
+      { t: "我們沿著城牆走，走過三個烽火台，來到了最高的那一座。", a: "step", why: "「沿著→走過→來到」把行走過程寫得很清楚。" },
+      { t: "站在操場邊，腳下是紅色的跑道，前方是升旗台，頭頂是藍天。", a: "point", why: "「站在操場邊」不動，按腳下、前方、頭頂的順序描寫。" }
+    ]
+  },
+  {
+    scene: "compare", cap: "挑戰 · 句子分類",
+    prompt: "請判斷每一句用了哪一種描寫方法。",
+    items: [
+      { t: "坐在戲院裏，銀幕在前方，身旁是捧著爆米花的妹妹。", a: "point", why: "「坐在戲院裏」位置固定，由前方寫到身旁。" },
+      { t: "站在花市門口，左邊是一桶桶百合，右邊是一整片紅色的桃花。", a: "point", why: "「站在花市門口」不動，按左、右的空間順序描寫。" },
+      { t: "從山腳到山頂，我們走了兩個小時，經過瀑布，也經過吊橋。", a: "step", why: "由山腳走到山頂，途中經過不同景物，是步移法。" }
+    ]
+  }
+];
+
+const MODES = {
+  step: { name: "步移法練習", sub: "路線排序", total: STEP.length },
+  point: { name: "定點描寫練習", sub: "層次標籤", total: POINT.length },
+  c1: { name: "挑戰區", sub: "快閃判斷", total: C1.length },
+  c2: { name: "挑戰區", sub: "句子分類", total: C2.length }
+};
+</script>
+<script>
+(function () {
+  "use strict";
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  var state = {
+    screen: "home",
+    teachIdx: 0,
+    mode: null,
+    idx: 0,
+    score: 0,
+    total: 0,
+    answered: false,
+    selection: [],
+    labels: {},
+    picks: {}
+  };
+
+  /* 為每句描寫建立穩定識別碼（判定與畫面位置脫鉤） */
+  POINT.forEach(function (q, qi) {
+    q.items.forEach(function (it, ii) { it.id = "p" + (qi + 1) + "abcd".charAt(ii); });
+  });
+  C2.forEach(function (q, qi) {
+    q.items.forEach(function (it, ii) { it.id = "c" + (qi + 1) + "abcd".charAt(ii); });
+  });
+
+  /* ---------------- 音效（Web Audio 即時合成，無外部檔案） ---------------- */
+  var Sound = {
+    ctx: null,
+    on: true,
+    init: function () {
+      if (!this.ctx) {
+        try {
+          var AC = window.AudioContext || window.webkitAudioContext;
+          if (AC) this.ctx = new AC();
+        } catch (e) { this.ctx = null; }
+      }
+      if (this.ctx && this.ctx.state === "suspended") {
+        this.ctx.resume().catch(function () {});
+      }
+    },
+    tone: function (freq, delay, dur, type, vol) {
+      if (!this.ctx) return;
+      var t0 = this.ctx.currentTime + delay;
+      var o = this.ctx.createOscillator();
+      var g = this.ctx.createGain();
+      o.type = type || "sine";
+      o.frequency.setValueAtTime(freq, t0);
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.linearRampToValueAtTime(vol || 0.11, t0 + 0.014);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+      o.connect(g);
+      g.connect(this.ctx.destination);
+      o.start(t0);
+      o.stop(t0 + dur + 0.03);
+    },
+    play: function (name) {
+      if (!this.on) return;
+      this.init();
+      if (!this.ctx) return;
+      if (name === "click") {
+        this.tone(640, 0, 0.07, "triangle", 0.08);
+      } else if (name === "select") {
+        this.tone(520, 0, 0.06, "triangle", 0.07);
+        this.tone(780, 0.05, 0.08, "triangle", 0.06);
+      } else if (name === "correct") {
+        this.tone(523.25, 0, 0.16, "sine", 0.12);
+        this.tone(659.25, 0.09, 0.16, "sine", 0.12);
+        this.tone(783.99, 0.18, 0.24, "sine", 0.13);
+      } else if (name === "partial") {
+        this.tone(587.33, 0, 0.14, "sine", 0.1);
+        this.tone(698.46, 0.1, 0.18, "sine", 0.1);
+      } else if (name === "wrong") {
+        this.tone(220, 0, 0.14, "sawtooth", 0.07);
+        this.tone(164.81, 0.1, 0.22, "sawtooth", 0.06);
+      } else if (name === "next") {
+        this.tone(440, 0, 0.07, "triangle", 0.07);
+      } else if (name === "finish") {
+        [523.25, 659.25, 783.99, 1046.5].forEach(function (f, i) {
+          Sound.tone(f, i * 0.12, 0.3, "sine", 0.12);
+        });
+      }
+    }
+  };
+
+  /* ---------------- 本機最佳成績 ---------------- */
+  function lsGet(k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } }
+  function lsSet(k, v) { try { window.localStorage.setItem(k, v); } catch (e) {} }
+  var BEST_KEY = "miao_best_v1_";
+
+  function refreshBest() {
+    ["step", "point", "c1", "c2"].forEach(function (m) {
+      var card = document.querySelector('.mode-card[data-mode="' + m + '"]');
+      if (!card) return;
+      var v = lsGet(BEST_KEY + m);
+      if (v !== null && v !== "") {
+        card.classList.add("best");
+        card.setAttribute("data-best", v);
+      }
+    });
+  }
+
+  /* ---------------- 畫面切換 ---------------- */
+  function show(name) {
+    var all = document.querySelectorAll(".screen");
+    for (var i = 0; i < all.length; i++) {
+      all[i].classList.toggle("active", all[i].id === "screen-" + name);
+    }
+    state.screen = name;
+    window.scrollTo(0, 0);
+  }
+
+  /* ---------------- 教學區 ---------------- */
+  function renderTeach() {
+    var t = TEACH[state.teachIdx];
+    $("teachArt").innerHTML = SCENES[t.art]();
+    var html = "<h3>" + t.title + "</h3>";
+    html += '<p class="lead">' + t.lead + "</p>";
+    t.blocks.forEach(function (b) {
+      if (b.t === "chant") {
+        html += '<div class="chant">口訣：' + b.text + "</div>";
+      } else if (b.t === "points") {
+        html += '<ul class="points">';
+        b.items.forEach(function (it, i) {
+          html += '<li><span class="num">' + (i + 1) + "</span><span>" + it + "</span></li>";
+        });
+        html += "</ul>";
+      } else if (b.t === "tags") {
+        html += '<div class="tagline">';
+        b.items.forEach(function (it) { html += "<span>" + it + "</span>"; });
+        html += "</div>";
+      } else if (b.t === "table") {
+        html += '<div style="overflow-x:auto"><table class="compare"><thead><tr>';
+        b.head.forEach(function (h) { html += "<th>" + h + "</th>"; });
+        html += "</tr></thead><tbody>";
+        b.rows.forEach(function (r) {
+          html += "<tr>";
+          r.forEach(function (c) { html += "<td>" + c + "</td>"; });
+          html += "</tr>";
+        });
+        html += "</tbody></table></div>";
+      }
+    });
+    $("teachTxt").innerHTML = html;
+
+    var dots = "";
+    TEACH.forEach(function (_, i) {
+      dots += '<i class="' + (i === state.teachIdx ? "on" : "") + '"></i>';
+    });
+    $("teachDots").innerHTML = dots;
+    $("teachCount").textContent = (state.teachIdx + 1) + " / " + TEACH.length;
+    $("teachPrev").disabled = state.teachIdx === 0;
+    $("teachNext").textContent = state.teachIdx === TEACH.length - 1 ? "去練習" : "下一步";
+  }
+
+  function openTeach(i) {
+    state.teachIdx = i;
+    renderTeach();
+    show("teach");
+    Sound.play("click");
+  }
+
+  $("teachPrev").addEventListener("click", function () {
+    if (state.teachIdx > 0) {
+      state.teachIdx--;
+      renderTeach();
+      Sound.play("click");
+    }
+  });
+  $("teachNext").addEventListener("click", function () {
+    if (state.teachIdx < TEACH.length - 1) {
+      state.teachIdx++;
+      renderTeach();
+      Sound.play("click");
+    } else {
+      startMode("step");
+    }
+  });
+
+  /* ---------------- 遊戲共用 ---------------- */
+  function startMode(mode) {
+    state.mode = mode;
+    state.idx = 0;
+    state.score = 0;
+    state.total = 0;
+    resetRound();
+    show("game");
+    renderGame();
+    Sound.play("select");
+  }
+
+  function resetRound() {
+    state.answered = false;
+    state.selection = [];
+    state.labels = {};
+    state.picks = {};
+  }
+
+  function renderDots() {
+    var html = "";
+    for (var i = 0; i < MODES[state.mode].total; i++) {
+      var cls = i < state.idx ? "done" : (i === state.idx ? "now" : "");
+      html += '<i class="' + cls + '"></i>';
+    }
+    $("progressDots").innerHTML = html;
+    $("scoreTxt").textContent = state.score;
+  }
+
+  function renderGame() {
+    var mode = state.mode;
+    var meta = MODES[mode];
+    $("qCard").classList.remove("locked");
+    $("gameTitle").innerHTML = meta.name + ' <span class="pill">' + meta.sub + "</span>";
+    renderDots();
+
+    if (mode === "step") {
+      var qs = STEP[state.idx];
+      $("gameArt").innerHTML = SCENES[qs.scene]();
+      $("visualCap").textContent = qs.cap;
+      buildStep(qs);
+    } else if (mode === "point") {
+      var qp = POINT[state.idx];
+      $("gameArt").innerHTML = SCENES[qp.scene]();
+      $("visualCap").textContent = qp.cap;
+      buildPoint(qp);
+    } else if (mode === "c1") {
+      var q1 = C1[state.idx];
+      $("gameArt").innerHTML = SCENES[q1.scene]();
+      $("visualCap").textContent = q1.cap;
+      buildC1(q1);
+    } else {
+      var q2 = C2[state.idx];
+      $("gameArt").innerHTML = SCENES[q2.scene]();
+      $("visualCap").textContent = q2.cap;
+      buildC2(q2);
+    }
+  }
+
+  function headHTML(label, tone, unit) {
+    return '<div class="q-kicker"><span>第 ' + (state.idx + 1) + " " + (unit || "題") + "</span>" +
+      '<span style="background:' + tone + '">' + label + "</span></div>";
+  }
+
+  /* ---------------- 步移法：路線排序 ---------------- */
+  function buildStep(q) {
+    var html = headHTML("路線排序", "#D9F5F0");
+    html += '<p class="q-text">' + q.prompt + "</p>";
+    html += '<p class="q-sub">提示：留意「走進、經過、來到、最後」這些位置詞。</p>';
+    html += '<div class="slots" id="stepSlots">';
+    for (var i = 0; i < 4; i++) {
+      html += '<button class="slot" type="button" data-act="slot" data-slot="' + i + '">' +
+        '<span class="idx">' + (i + 1) + '</span><span class="txt">點選下面的句子</span>' +
+        '<span class="mark"></span></button>';
+    }
+    html += "</div>";
+    html += '<div class="opt-list">';
+    q.disp.forEach(function (di) {
+      var s = q.steps[di];
+      html += '<button class="opt" type="button" data-act="opt" data-opt="' + s.id + '">' +
+        '<span class="bul">＋</span><span>' + s.t + "</span></button>";
+    });
+    html += "</div>";
+    html += '<div class="btn-row" id="actionRow" style="margin-top:14px">' +
+      '<button class="btn primary btn-lg" type="button" data-act="check" id="checkBtn" disabled>確定答案</button></div>';
+    html += '<div class="feedback" id="fb" aria-live="polite"></div>';
+    $("qCard").innerHTML = html;
+    paintStep();
+  }
+
+  function paintStep() {
+    var q = STEP[state.idx];
+    var slots = document.querySelectorAll("#stepSlots .slot");
+    for (var i = 0; i < slots.length; i++) {
+      var el = slots[i];
+      var id = state.selection[i];
+      var step = null;
+      if (id) {
+        for (var j = 0; j < q.steps.length; j++) {
+          if (q.steps[j].id === id) step = q.steps[j];
+        }
+      }
+      el.classList.toggle("filled", !!step);
+      el.querySelector(".txt").textContent = step ? step.t : "點選下面的句子";
+      el.querySelector(".mark").textContent = "";
+    }
+    var opts = document.querySelectorAll("#qCard .opt");
+    for (var k = 0; k < opts.length; k++) {
+      var used = state.selection.indexOf(opts[k].getAttribute("data-opt")) >= 0;
+      opts[k].classList.toggle("used", used);
+    }
+    var btn = $("checkBtn");
+    if (btn) btn.disabled = state.selection.length !== 4;
+  }
+
+  function checkStep() {
+    var q = STEP[state.idx];
+    var ok = 0;
+    var slots = document.querySelectorAll("#stepSlots .slot");
+    for (var i = 0; i < 4; i++) {
+      var chosen = state.selection[i];
+      var right = q.steps[i].id;
+      var good = chosen === right;
+      if (good) ok++;
+      slots[i].classList.add(good ? "ok" : "no");
+      slots[i].querySelector(".mark").textContent = good ? "✓" : "✗";
+      slots[i].querySelector(".mark").className = "mark " + (good ? "ok" : "no");
+    }
+    finishRound(ok, 4, q.why, buildRouteList(q));
+  }
+
+  function buildRouteList(q) {
+    var out = '<ul class="fb-list">';
+    q.steps.forEach(function (s, i) {
+      out += "<li>" + "①②③④".charAt(i) + " " + s.t + "</li>";
+    });
+    return out + "</ul>";
+  }
+
+  /* ---------------- 定點描寫：層次標籤 ---------------- */
+  function buildPoint(q) {
+    var html = headHTML("層次標籤", "#DDF1FA");
+    html += '<p class="q-text">' + q.prompt + "</p>";
+    html += '<p class="q-sub">提示：先找最遠的景物，再一路拉近到身邊。</p>';
+    html += '<div class="sentence-list">';
+    var order = q.disp || q.items.map(function (_, i) { return i; });
+    order.forEach(function (di) {
+      var it = q.items[di];
+      html += '<div class="sent" id="sent-' + it.id + '">';
+      html += "<p>" + it.t + "</p>";
+      html += '<div class="lv-row">';
+      [["far", "遠景"], ["mid", "中景"], ["near", "近景"]].forEach(function (lv) {
+        html += '<button class="chip" type="button" data-act="label" data-id="' + it.id + '" data-lv="' + lv[0] + '">' + lv[1] + "</button>";
+      });
+      html += "</div>";
+      html += '<p class="sent-why">' + it.why + "</p>";
+      html += "</div>";
+    });
+    html += "</div>";
+    html += '<div class="btn-row" id="actionRow" style="margin-top:14px">' +
+      '<button class="btn primary btn-lg" type="button" data-act="check" id="checkBtn" disabled>確定答案</button></div>';
+    html += '<div class="feedback" id="fb" aria-live="polite"></div>';
+    $("qCard").innerHTML = html;
+    paintPoint();
+  }
+
+  function paintPoint() {
+    var q = POINT[state.idx];
+    var chips = document.querySelectorAll('[data-act="label"]');
+    for (var i = 0; i < chips.length; i++) {
+      var id = chips[i].getAttribute("data-id");
+      var lv = chips[i].getAttribute("data-lv");
+      chips[i].classList.toggle("on", state.labels[id] === lv);
+    }
+    var btn = $("checkBtn");
+    if (btn) btn.disabled = Object.keys(state.labels).length < q.items.length;
+  }
+
+  function checkPoint() {
+    var q = POINT[state.idx];
+    var ok = 0;
+    q.items.forEach(function (it) {
+      var chosen = state.labels[it.id];
+      var good = chosen === it.lv;
+      if (good) ok++;
+      var box = $("sent-" + it.id);
+      box.classList.add("revealed");
+      var chips = box.querySelectorAll('[data-act="label"]');
+      for (var i = 0; i < chips.length; i++) {
+        var lv = chips[i].getAttribute("data-lv");
+        if (lv === it.lv) chips[i].classList.add("ok");
+        if (lv === chosen && !good) chips[i].classList.add("no");
+      }
+    });
+    finishRound(ok, q.items.length, q.why, '<p style="font-size:.92em;opacity:.85">每句下方的說明，就是判斷的依據。</p>');
+  }
+
+  /* ---------------- 挑戰一：快閃判斷 ---------------- */
+  function buildC1(q) {
+    var html = headHTML("快閃判斷", "#ECE8FF");
+    html += '<p class="q-text">讀一讀，這段話用了哪一種描寫方法？</p>';
+    html += '<div class="passage">' + q.passage + "</div>";
+    html += '<div class="pick-row">';
+    html += '<button class="pick" type="button" data-act="answer" data-a="step">步移法<small>人一直走動</small></button>';
+    html += '<button class="pick" type="button" data-act="answer" data-a="point">定點描寫<small>站定一個位置</small></button>';
+    html += "</div>";
+    html += '<div class="feedback" id="fb" aria-live="polite"></div>';
+    $("qCard").innerHTML = html;
+  }
+
+  function checkC1(chosen) {
+    var q = C1[state.idx];
+    var good = chosen === q.answer;
+    var picks = document.querySelectorAll("#qCard .pick");
+    for (var i = 0; i < picks.length; i++) {
+      var a = picks[i].getAttribute("data-a");
+      picks[i].disabled = true;
+      if (a === q.answer) picks[i].classList.add("ok");
+      if (a === chosen && !good) picks[i].classList.add("no");
+    }
+    finishRound(good ? 1 : 0, 1, q.why, "");
+  }
+
+  /* ---------------- 挑戰二：句子分類 ---------------- */
+  function buildC2(q) {
+    var html = headHTML("句子分類", "#ECE8FF", "回合");
+    html += '<p class="q-text">' + q.prompt + "</p>";
+    html += '<div class="sentence-list">';
+    q.items.forEach(function (it) {
+      html += '<div class="sent" id="sent-' + it.id + '">';
+      html += "<p>" + it.t + "</p>";
+      html += '<div class="lv-row">';
+      html += '<button class="chip" type="button" data-act="pick" data-id="' + it.id + '" data-a="step">步移法</button>';
+      html += '<button class="chip" type="button" data-act="pick" data-id="' + it.id + '" data-a="point">定點描寫</button>';
+      html += "</div>";
+      html += '<p class="sent-why">' + it.why + "</p>";
+      html += "</div>";
+    });
+    html += "</div>";
+    html += '<div class="btn-row" id="actionRow" style="margin-top:14px">' +
+      '<button class="btn primary btn-lg" type="button" data-act="check" id="checkBtn" disabled>確定答案</button></div>';
+    html += '<div class="feedback" id="fb" aria-live="polite"></div>';
+    $("qCard").innerHTML = html;
+    paintC2();
+  }
+
+  function paintC2() {
+    var q = C2[state.idx];
+    var chips = document.querySelectorAll('[data-act="pick"]');
+    for (var i = 0; i < chips.length; i++) {
+      var id = chips[i].getAttribute("data-id");
+      var a = chips[i].getAttribute("data-a");
+      chips[i].classList.toggle("on", state.picks[id] === a);
+    }
+    var btn = $("checkBtn");
+    if (btn) btn.disabled = Object.keys(state.picks).length < q.items.length;
+  }
+
+  function checkC2() {
+    var q = C2[state.idx];
+    var ok = 0;
+    q.items.forEach(function (it) {
+      var chosen = state.picks[it.id];
+      var good = chosen === it.a;
+      if (good) ok++;
+      var box = $("sent-" + it.id);
+      box.classList.add("revealed");
+      var chips = box.querySelectorAll('[data-act="pick"]');
+      for (var i = 0; i < chips.length; i++) {
+        var a = chips[i].getAttribute("data-a");
+        if (a === it.a) chips[i].classList.add("ok");
+        if (a === chosen && !good) chips[i].classList.add("no");
+      }
+    });
+    finishRound(ok, q.items.length, "分辨的關鍵：句子裏有沒有「位置移動」。有移動就是步移法；站定一處、按空間順序描寫，就是定點描寫。", '<p style="font-size:.92em;opacity:.85">每句下方的說明，就是判斷的依據。</p>');
+  }
+
+  /* ---------------- 結算與回饋 ---------------- */
+  function finishRound(ok, total, why, extra) {
+    state.answered = true;
+    $("qCard").classList.add("locked");
+    state.score += ok;
+    state.total += total;
+    $("scoreTxt").textContent = state.score;
+
+    var row = $("actionRow");
+    if (row) row.style.display = "none";
+
+    var full = ok === total;
+    if (full) Sound.play("correct");
+    else if (ok > 0) Sound.play("partial");
+    else Sound.play("wrong");
+
+    var label = full ? "全對了！" : (ok > 0 ? "答對 " + ok + " / " + total : "再看一次講解");
+    var mark = full ? "✓" : (ok > 0 ? "◆" : "✗");
+    var fb = $("fb");
+    fb.innerHTML = '<div class="fb-box ' + (full ? "" : "bad") + '">' +
+      '<div class="fb-head"><span class="fb-ico">' + mark + "</span>" + label + "</div>" +
+      '<div class="fb-body">' + extra + "<p>" + why + "</p></div>" +
+      '<div class="fb-next"><button class="btn ' + (full ? "teal" : "primary") + '" type="button" data-act="next">' +
+      (state.idx === MODES[state.mode].total - 1 ? "看成績" : "下一題") + "</button></div>" +
+      "</div>";
+    fb.classList.add("show");
+
+    if (fb.getBoundingClientRect().bottom > window.innerHeight + 40) {
+      fb.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }
+
+  function nextQuestion() {
+    Sound.play("next");
+    if (state.idx >= MODES[state.mode].total - 1) {
+      showResult();
+      return;
+    }
+    state.idx++;
+    resetRound();
+    renderGame();
+    window.scrollTo(0, 0);
+  }
+
+  function showResult() {
+    var pct = state.total ? Math.round((state.score / state.total) * 100) : 0;
+    var stars = pct >= 90 ? 3 : (pct >= 70 ? 2 : (pct >= 40 ? 1 : 0));
+    var title, msg;
+    if (stars === 3) {
+      title = "太厲害了！";
+      msg = "你已經是一位小描寫家，步移法和定點描寫都難不倒你。";
+    } else if (stars === 2) {
+      title = "做得不錯！";
+      msg = "大部分都答對了。回到教學基地再看一次口訣，下次一定更熟練。";
+    } else if (stars === 1) {
+      title = "繼續加油！";
+      msg = "有些地方還沒分清。記住：有位置移動就是步移法；站定一處、按順序看就是定點描寫。";
+    } else {
+      title = "先複習一下";
+      msg = "別灰心，回到教學基地再看一次口訣，然後回來挑戰。";
+    }
+
+    var prev = parseInt(lsGet(BEST_KEY + state.mode) || "0", 10);
+    if (pct > prev) lsSet(BEST_KEY + state.mode, String(pct));
+    refreshBest();
+
+    var starHTML = "";
+    for (var i = 0; i < 3; i++) {
+      starHTML += '<svg class="' + (i < stars ? "" : "off") + '" style="color:#FFC94A" aria-hidden="true"><use href="#i-star"/></svg>';
+    }
+
+    $("resultBox").innerHTML =
+      '<div class="result-stars">' + starHTML + "</div>" +
+      "<h2>" + title + "</h2>" +
+      '<div class="result-score">' + pct + "<small>%</small></div>" +
+      '<p class="result-msg">' + msg + "</p>" +
+      '<div class="result-stats">' +
+      '<div class="stat"><b>' + state.score + "</b><span>答對小題</span></div>" +
+      '<div class="stat"><b>' + state.total + "</b><span>小題總數</span></div>" +
+      '<div class="stat"><b>' + MODES[state.mode].sub + "</b><span>遊戲模式</span></div>" +
+      "</div>" +
+      '<div class="btn-row">' +
+      '<button class="btn primary btn-lg" type="button" data-act="again">再玩一次</button>' +
+      (stars <= 1 ? '<button class="btn teal btn-lg" type="button" data-act="teach">看教學</button>' : '') +
+      '<button class="btn ghost btn-lg" type="button" data-act="home">返回主頁</button>' +
+      "</div>";
+
+    show("result");
+    Sound.play("finish");
+    if (stars >= 2) confetti();
+  }
+
+  function confetti() {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var box = $("confetti");
+    var colors = ["#FF7A6B", "#FFC94A", "#2FBFAD", "#6EC1E4", "#9B8CFF", "#5FBF6E"];
+    var html = "";
+    for (var i = 0; i < 46; i++) {
+      var left = Math.random() * 100;
+      var delay = Math.random() * 0.7;
+      var dur = 2.1 + Math.random() * 1.4;
+      var c = colors[i % colors.length];
+      var w = 7 + Math.round(Math.random() * 7);
+      html += '<i style="left:' + left.toFixed(1) + "%;background:" + c + ";width:" + w +
+        "px;height:" + (w + 5) + "px;animation-delay:" + delay.toFixed(2) + "s;animation-duration:" + dur.toFixed(2) + 's"></i>';
+    }
+    box.innerHTML = html;
+    window.setTimeout(function () { box.innerHTML = ""; }, 4400);
+  }
+
+  /* ---------------- 事件 ---------------- */
+  $("qCard").addEventListener("click", function (e) {
+    var el = e.target.closest("[data-act]");
+    if (!el) return;
+    var act = el.getAttribute("data-act");
+
+    if (act === "next") { nextQuestion(); return; }
+    if (state.answered) return;
+
+    if (act === "opt") {
+      var id = el.getAttribute("data-opt");
+      if (state.selection.indexOf(id) >= 0) return;
+      if (state.selection.length >= 4) return;
+      state.selection.push(id);
+      Sound.play("select");
+      paintStep();
+    } else if (act === "slot") {
+      var i = parseInt(el.getAttribute("data-slot"), 10);
+      if (i < state.selection.length) {
+        state.selection.splice(i, 1);
+        Sound.play("click");
+        paintStep();
+      }
+    } else if (act === "label") {
+      state.labels[el.getAttribute("data-id")] = el.getAttribute("data-lv");
+      Sound.play("select");
+      paintPoint();
+    } else if (act === "pick") {
+      state.picks[el.getAttribute("data-id")] = el.getAttribute("data-a");
+      Sound.play("select");
+      paintC2();
+    } else if (act === "answer") {
+      checkC1(el.getAttribute("data-a"));
+    } else if (act === "check") {
+      if (state.mode === "step") checkStep();
+      else if (state.mode === "point") checkPoint();
+      else if (state.mode === "c2") checkC2();
+    }
+  });
+
+  $("resultBox").addEventListener("click", function (e) {
+    var el = e.target.closest("[data-act]");
+    if (!el) return;
+    var act = el.getAttribute("data-act");
+    if (act === "again") {
+      startMode(state.mode);
+    } else if (act === "teach") {
+      openTeach(0);
+    } else {
+      Sound.play("click");
+      show("home");
+    }
+  });
+
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-mode]");
+    if (b) {
+      var mode = b.getAttribute("data-mode");
+      if (mode === "teach") openTeach(0);
+      else if (mode === "c1") { startMode("c1"); }
+      else startMode(mode);
+      return;
+    }
+    var g = e.target.closest("[data-go]");
+    if (g) {
+      Sound.play("click");
+      show(g.getAttribute("data-go"));
+    }
+  });
+
+  $("soundBtn").addEventListener("click", function () {
+    Sound.on = !Sound.on;
+    lsSet("miao_sound", Sound.on ? "1" : "0");
+    paintSound();
+    if (Sound.on) Sound.play("click");
+  });
+
+  function paintSound() {
+    var btn = $("soundBtn");
+    btn.classList.toggle("is-off", !Sound.on);
+    btn.setAttribute("aria-pressed", Sound.on ? "true" : "false");
+    btn.setAttribute("aria-label", Sound.on ? "關閉音效" : "開啟音效");
+    btn.querySelector("use").setAttribute("href", Sound.on ? "#i-sound" : "#i-mute");
+  }
+
+  document.addEventListener("pointerdown", function () { Sound.init(); }, { once: true });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && state.screen !== "home") {
+      show("home");
+    }
+  });
+
+  /* ---------------- 初始化 ---------------- */
+  var savedSound = lsGet("miao_sound");
+  Sound.on = savedSound !== "0";
+  paintSound();
+  refreshBest();
+  $("heroArt").innerHTML = SCENES.hero();
+  document.body.setAttribute("data-ready", "1");
+})();
+</script>
+</body>
+</html>

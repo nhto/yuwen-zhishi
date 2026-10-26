@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>故事時光機｜順敘法・倒敘法繪本教室</title>
+<meta name="description" content="香港小學中文科順敘法與倒敘法繪本式互動教材：圖文教學、兩種模式各十題、即時解說與音效，適合手機、平板與電腦。">
+<style>
+  :root{
+    --paper:#FBF4E6; --paper-2:#F5EAD8; --card:#FFFDF7;
+    --ink:#4A3B31; --ink-2:#7C6A5B; --ink-3:#A89786;
+    --line:rgba(74,59,49,.15); --line-2:rgba(74,59,49,.30);
+    --sage:#7C9C74; --sage-d:#5B7A55; --sage-l:#E8EFE2;
+    --terra:#C0724F; --terra-d:#994F33; --terra-l:#F8E3D7;
+    --must:#E3B45E; --must-l:#FBEED2;
+    --sky:#9BB8C9; --sky-l:#E5EFF4;
+    --rose:#D99C93;
+    --serif:"Kaiti TC","BiauKai","DFKai-SB","AR PL UKai HK","Noto Serif HK","Source Han Serif HK","Noto Serif TC","Songti TC",serif;
+    --sans:"PingFang HK","Noto Sans HK","Source Han Sans HK","Noto Sans TC","Microsoft JhengHei","LiHei Pro",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  @media(min-width:900px){html{font-size:18.5px}}
+  @media(min-width:1320px){html{font-size:20px}}
+  body{
+    margin:0;min-height:100vh;color:var(--ink);background:var(--paper);
+    font-family:var(--sans);font-size:17px;line-height:1.72;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  .grain{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='0.14'/></svg>");}
+  .washes{position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(60% 45% at 8% 2%, rgba(155,184,201,.30), rgba(155,184,201,0) 70%),
+      radial-gradient(55% 40% at 96% 10%, rgba(227,180,94,.22), rgba(227,180,94,0) 72%),
+      radial-gradient(60% 45% at 90% 96%, rgba(217,156,147,.20), rgba(217,156,147,0) 70%),
+      radial-gradient(50% 40% at 4% 88%, rgba(124,156,116,.20), rgba(124,156,116,0) 72%);}
+  .app{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 clamp(12px,3vw,22px) 30px}
+
+  /* ---------- top bar ---------- */
+  .topbar{position:sticky;top:0;z-index:40;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;
+    padding:9px 0 8px;background:rgba(251,244,230,.90);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border-bottom:2px dashed var(--line)}
+  .iconbtn{width:46px;height:46px;padding:0;border-radius:15px;border:2px solid var(--line-2);background:var(--card);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 3px 0 rgba(74,59,49,.14);color:var(--ink)}
+  .iconbtn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+  .iconbtn:active{transform:translateY(2px);box-shadow:none}
+  .iconbtn.invisible{visibility:hidden}
+  .brand{text-align:center;font-family:var(--serif);font-weight:700;font-size:1.04rem;letter-spacing:.10em;line-height:1.25}
+  .brand small{display:block;font-family:var(--sans);font-size:.6rem;font-weight:600;color:var(--ink-2);letter-spacing:.2em;margin-top:1px}
+  .topright{display:flex;align-items:center;gap:6px;justify-content:flex-end}
+  .score-chip{font-size:.78rem;font-weight:700;color:var(--terra-d);background:var(--must-l);border:1.5px solid rgba(227,180,94,.7);
+    border-radius:999px;padding:3px 10px;white-space:nowrap}
+
+  /* ---------- screens ---------- */
+  .screen{display:none}
+  .screen.on{display:block;animation:pageIn .4s ease both}
+  @keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms !important;transition-duration:.01ms !important}}
+
+  /* ---------- shared ---------- */
+  .card{background:var(--card);border:2px solid var(--line-2);border-radius:22px;box-shadow:0 12px 26px rgba(74,59,49,.10)}
+  .kicker{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.18em;color:var(--terra-d);
+    background:var(--terra-l);border-radius:999px;padding:3px 12px}
+  .btn{font-family:inherit;font-weight:700;font-size:1rem;letter-spacing:.05em;color:var(--ink);background:var(--card);
+    border:2px solid var(--line-2);border-radius:16px;padding:13px 18px;min-height:54px;cursor:pointer;
+    box-shadow:0 4px 0 rgba(74,59,49,.16);transition:transform .12s ease,box-shadow .12s ease}
+  .btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(74,59,49,.16)}
+  .btn.sage{background:var(--sage);border-color:var(--sage-d);color:#FFFDF7;box-shadow:0 4px 0 var(--sage-d)}
+  .btn.sage:active{box-shadow:0 1px 0 var(--sage-d)}
+  .btn.terra{background:var(--terra);border-color:var(--terra-d);color:#FFFDF7;box-shadow:0 4px 0 var(--terra-d)}
+  .btn.terra:active{box-shadow:0 1px 0 var(--terra-d)}
+  .btn[disabled]{background:#E7DFD0;border-color:#CFC5B4;color:#8E8272;box-shadow:0 4px 0 #CFC5B4;cursor:not-allowed}
+  .btn.wide{width:100%}
+  .btn:focus-visible,.iconbtn:focus-visible,.slot:focus-visible,.pcard:focus-visible,.opt:focus-visible,.mode-card:focus-visible{
+    outline:3px solid var(--sky);outline-offset:3px}
+
+  /* ---------- home ---------- */
+  .home{padding:16px 0 4px}
+  .cover{overflow:hidden;border-radius:26px;position:relative;transform:rotate(-.5deg)}
+  @media(min-width:820px){.cover{display:grid;grid-template-columns:1.08fr .92fr;align-items:center}
+    .cover-art{height:100%;object-fit:cover}
+    .cover-body{padding:26px 26px 28px;text-align:left}
+    .cover-body .tagline{margin-left:0}
+    .cover-body h1{font-size:clamp(2.4rem,3.6vw,3.2rem)}}
+  .cover-art{display:block;width:100%;height:auto;background:#EAF1EE}
+  .cover-body{padding:18px 20px 22px;text-align:center;position:relative}
+  .cover-body h1{font-family:var(--serif);font-size:clamp(2.2rem,7.6vw,3.3rem);line-height:1.1;margin:6px 0 0;letter-spacing:.10em;font-weight:700}
+  .cover-body .sub{font-size:1.02rem;font-weight:700;letter-spacing:.22em;color:var(--terra-d);margin:8px 0 0}
+  .cover-body .tagline{font-size:.95rem;color:var(--ink-2);margin:10px auto 0;max-width:30em;line-height:1.7}
+  .home-actions{display:grid;gap:12px;margin:18px auto 0;max-width:560px}
+  .big-btn{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:14px;row-gap:1px;
+    align-items:center;text-align:left;padding:14px 18px;min-height:88px;border-radius:20px;border:2px solid;cursor:pointer;
+    font-family:inherit;transition:transform .12s ease,box-shadow .12s ease}
+  .big-btn .bb-ic{grid-row:1/3;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    background:rgba(255,253,247,.25);border:2px solid rgba(255,253,247,.55)}
+  .big-btn .bb-ic svg{width:28px;height:28px;fill:none;stroke:#FFFDF7;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  .big-btn .bb-t{font-size:1.22rem;font-weight:800;letter-spacing:.12em;color:#FFFDF7;align-self:end}
+  .big-btn .bb-s{font-size:.8rem;font-weight:600;color:rgba(255,253,247,.85);letter-spacing:.06em;align-self:start}
+  .big-btn.sage{background:var(--sage);border-color:var(--sage-d);box-shadow:0 6px 0 var(--sage-d)}
+  .big-btn.terra{background:var(--terra);border-color:var(--terra-d);box-shadow:0 6px 0 var(--terra-d)}
+  .big-btn:active{transform:translateY(4px);box-shadow:0 2px 0 var(--sage-d)}
+  .big-btn.terra:active{box-shadow:0 2px 0 var(--terra-d)}
+  .home-foot{margin:16px 0 0;text-align:center;font-size:.78rem;color:var(--ink-2);line-height:1.9}
+  .home-foot span{white-space:nowrap}
+
+  /* ---------- learn ---------- */
+  .learn{padding:14px 0 0}
+  .learn-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+  .dots{display:flex;gap:7px;align-items:center}
+  .dots i{display:block;width:10px;height:10px;border-radius:50%;background:#DCD2C0;transition:width .2s ease,background .2s ease}
+  .dots i.on{width:26px;border-radius:6px;background:var(--terra)}
+  .slide{display:none}
+  .slide.on{display:block;animation:pageIn .35s ease both}
+  .st{font-family:var(--serif);font-size:clamp(1.5rem,4.6vw,2.15rem);line-height:1.35;margin:0 0 6px;font-weight:700;letter-spacing:.03em}
+  .sd{margin:0 0 14px;color:var(--ink-2);font-size:.98rem;line-height:1.7}
+  .tl{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(min-width:760px){.tl{grid-template-columns:repeat(4,1fr);gap:12px}}
+  .tl-card{position:relative;background:var(--card);border:2px solid var(--line-2);border-radius:18px;
+    padding:12px 8px 10px;text-align:center;box-shadow:0 5px 0 rgba(74,59,49,.10)}
+  .tl-card:nth-child(odd){transform:rotate(-.5deg)}
+  .tl-card:nth-child(even){transform:rotate(.5deg)}
+  .tl-card .art{width:100%;max-width:104px;margin:0 auto}
+  .tl-card b{display:block;font-family:var(--serif);font-size:1.08rem;margin-top:2px;letter-spacing:.06em}
+  .tl-card small{display:block;font-size:.76rem;color:var(--ink-2);line-height:1.4}
+  .tl-n{position:absolute;top:-11px;left:-7px;width:26px;height:26px;border-radius:50%;background:var(--terra);color:#FFFDF7;
+    font-family:var(--sans);font-size:.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid #FFFDF7}
+  .tl-card.arrow{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:10px;background:var(--must-l);
+    border-style:dashed;border-color:rgba(227,180,94,.85);box-shadow:none;padding:8px}
+  .tl-card.arrow svg{width:56px;height:18px;flex:none}
+  .tl-card.arrow b{font-size:.92rem;margin:0}
+  .tl-card.arrow small{display:none}
+  @media(min-width:760px){.tl-card.arrow{grid-column:auto;flex-direction:column;gap:2px;padding:12px 6px}
+    .tl-card.arrow small{display:block}}
+  .quote{margin-top:14px;background:var(--must-l);border-left:6px solid var(--must);border-radius:14px;
+    padding:12px 16px;font-size:.98rem;line-height:1.8}
+  .quote b{font-family:var(--serif);letter-spacing:.04em}
+  .keys{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+  .keys span{background:var(--card);border:1.5px solid rgba(124,156,116,.6);color:var(--sage-d);border-radius:999px;
+    padding:4px 12px;font-size:.82rem;font-weight:700}
+  .loop{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px}
+  .loop-card{position:relative;background:var(--card);border:2px solid var(--line-2);border-radius:16px;padding:8px 4px 6px;text-align:center;box-shadow:0 4px 0 rgba(74,59,49,.09)}
+  .loop-card .art{width:100%;max-width:84px;margin:0 auto}
+  .loop-card b{display:block;font-family:var(--serif);font-size:.98rem;letter-spacing:.04em}
+  .loop-card small{display:block;font-size:.72rem;color:var(--ink-2);line-height:1.35}
+  .loop-card.now{border-color:var(--terra);background:var(--terra-l)}
+  .loop-card .mark{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--terra);color:#FFFDF7;
+    font-size:.66rem;font-weight:700;padding:1px 9px;border-radius:999px;white-space:nowrap;border:2px solid var(--card)}
+  .loop-arrow{display:block;width:100%;height:auto;margin:2px 0 0}
+  .loop-cap{text-align:center;font-size:.8rem;font-weight:700;color:var(--terra-d);margin:0 0 4px}
+  .note{margin-top:10px;font-size:.86rem;color:var(--ink-2);background:var(--sky-l);border-radius:12px;padding:9px 13px;line-height:1.65}
+  .steps{list-style:none;padding:0;margin:0;display:grid;gap:9px}
+  .steps li{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:2px solid var(--line);border-radius:16px;padding:11px 14px}
+  .steps .sn{width:32px;height:32px;flex:none;border-radius:50%;background:var(--sage-l);color:var(--sage-d);
+    font-weight:800;display:flex;align-items:center;justify-content:center;font-size:.95rem;border:2px solid rgba(124,156,116,.55)}
+  .steps b{display:block;font-family:var(--serif);font-size:1.04rem;letter-spacing:.04em}
+  .steps p{margin:1px 0 0;font-size:.88rem;color:var(--ink-2);line-height:1.65}
+  .learn-nav{display:flex;gap:10px;margin:18px 0 0}
+  .learn-nav .btn{flex:1}
+  .learn-nav .btn.invisible{visibility:hidden}
+
+  /* ---------- modes ---------- */
+  .modes{padding:14px 0 0}
+  .modes h2{font-family:var(--serif);font-size:clamp(1.5rem,4.6vw,2.1rem);margin:0 0 4px;font-weight:700;letter-spacing:.04em}
+  .modes .lead{margin:0 0 16px;color:var(--ink-2);font-size:.94rem}
+  .mode-grid{display:grid;gap:14px}
+  @media(min-width:760px){.mode-grid{grid-template-columns:1fr 1fr;gap:16px}}
+  .mode-card{display:grid;grid-template-columns:92px 1fr;gap:14px;align-items:center;text-align:left;padding:16px;
+    background:var(--card);border:2px solid var(--line-2);border-radius:22px;cursor:pointer;font-family:inherit;color:var(--ink);
+    box-shadow:0 7px 0 rgba(74,59,49,.12);transition:transform .12s ease,box-shadow .12s ease}
+  .mode-card:active{transform:translateY(4px);box-shadow:0 3px 0 rgba(74,59,49,.12)}
+  .mode-card .art{width:92px}
+  .mode-card b{display:block;font-family:var(--serif);font-size:1.35rem;letter-spacing:.1em;line-height:1.3}
+  .mode-card p{margin:4px 0 8px;font-size:.88rem;color:var(--ink-2);line-height:1.6}
+  .mode-card .meta{display:inline-block;background:var(--sage-l);color:var(--sage-d);border-radius:999px;
+    padding:2px 10px;font-size:.72rem;font-weight:700;letter-spacing:.06em}
+  .mode-card.two .meta{background:var(--terra-l);color:var(--terra-d)}
+
+  /* ---------- game ---------- */
+  .game{padding:12px 0 0}
+  .ghead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+  .qbadge{background:var(--card);border:2px solid var(--line-2);border-radius:999px;padding:3px 13px;
+    font-size:.78rem;font-weight:700;letter-spacing:.06em}
+  .qcount{font-size:.84rem;color:var(--ink-2);font-weight:600}
+  .qcount b{color:var(--terra-d);font-size:1rem}
+  .qdots{display:flex;gap:4px;margin:2px 0 12px}
+  .qdots i{flex:1;height:7px;border-radius:4px;background:#E2D8C6;display:block}
+  .qdots i.done{background:var(--sage)}
+  .qdots i.cur{background:var(--terra)}
+  .prompt{font-family:var(--serif);font-size:clamp(1.16rem,3.4vw,1.42rem);line-height:1.55;margin:0 0 12px;letter-spacing:.03em;font-weight:700}
+  .prompt .hl{color:var(--terra-d);border-bottom:4px solid var(--must-l)}
+  .board{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  @media(min-width:760px){.board{grid-template-columns:repeat(4,1fr);gap:12px}}
+  .slot{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:4px;
+    min-height:146px;padding:16px 6px 8px;border:2.5px dashed rgba(74,59,49,.28);border-radius:18px;background:#FFFCF3;
+    font-family:inherit;color:var(--ink);cursor:pointer;transition:border-color .15s ease,background .15s ease}
+  @media(min-width:760px){.slot{min-height:176px;padding:20px 8px 10px}}
+  .slot .num{position:absolute;top:-10px;left:8px;width:26px;height:26px;border-radius:50%;background:#F0E6D3;
+    color:var(--ink-2);font-size:.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid var(--card)}
+  .slot .art{width:100%;max-width:88px}
+  @media(min-width:760px){.slot .art{max-width:112px}}
+  .slot .ph{font-size:.8rem;color:var(--ink-3);font-weight:600;margin:auto 0;text-align:center;line-height:1.5;padding:0 4px}
+  .slot .txt{font-size:.84rem;font-weight:700;line-height:1.35;text-align:center;min-height:2.5em;display:flex;align-items:center}
+  @media(min-width:760px){.slot .txt{font-size:.92rem}}
+  .slot.filled{border-style:solid;border-color:rgba(124,156,116,.75);background:var(--sage-l)}
+  .slot.filled .num{background:var(--sage);color:#FFFDF7}
+  .slot.ok{border-style:solid;border-color:var(--sage);background:#EEF5E9}
+  .slot.bad{border-style:solid;border-color:var(--terra);background:var(--terra-l);animation:shake .3s}
+  @keyframes shake{0%,100%{transform:translateX(0)}30%{transform:translateX(-4px)}70%{transform:translateX(4px)}}
+  .slot .flag{position:absolute;top:-9px;right:6px;width:24px;height:24px;border-radius:50%;background:var(--sage);color:#FFF;
+    display:none;align-items:center;justify-content:center;border:2px solid var(--card)}
+  .slot .flag svg{width:13px;height:13px;fill:none;stroke:#FFF;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+  .slot.bad .flag{background:var(--terra);display:flex}
+  .slot.ok .flag{display:flex}
+  .slot.bad .flag svg{stroke:#FFF}
+  .tray-label{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:14px 0 6px;
+    font-size:.8rem;font-weight:700;color:var(--ink-2)}
+  .tray-label .sel-tip{color:var(--terra-d);font-weight:700}
+  .tray{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  @media(min-width:760px){.tray{grid-template-columns:repeat(4,1fr);gap:12px}}
+  .pcard{display:flex;align-items:center;gap:8px;padding:8px;border:2px solid var(--line-2);border-radius:16px;
+    background:var(--card);cursor:pointer;font-family:inherit;color:var(--ink);text-align:left;
+    box-shadow:0 4px 0 rgba(74,59,49,.13);transition:transform .12s ease,box-shadow .12s ease,border-color .12s ease}
+  .pcard .art{width:56px;flex:none}
+  .pcard .txt{font-size:.82rem;font-weight:700;line-height:1.35}
+  @media(min-width:760px){.pcard{flex-direction:column;text-align:center;gap:2px;padding:10px 6px}
+    .pcard .art{width:72px}.pcard .txt{font-size:.88rem;min-height:2.6em;display:flex;align-items:center}}
+  .pcard:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(74,59,49,.13)}
+  .pcard.sel{border-color:var(--terra);background:var(--terra-l);transform:translateY(-3px);box-shadow:0 7px 0 rgba(192,114,79,.35)}
+  .tray-empty{grid-column:1/-1;text-align:center;color:var(--ink-3);font-size:.84rem;padding:12px;
+    border:2px dashed var(--line);border-radius:14px}
+  .tools{display:flex;gap:8px;margin-top:12px}
+  .tool{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:2px dashed var(--line-2);
+    border-radius:999px;padding:7px 14px;font-family:inherit;font-size:.82rem;font-weight:700;color:var(--ink-2);cursor:pointer;min-height:42px}
+  .tool svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .tool:active{transform:translateY(2px)}
+  .hint{margin-top:10px;background:var(--must-l);border:2px solid rgba(227,180,94,.7);border-radius:14px;
+    padding:10px 14px;font-size:.9rem;line-height:1.65}
+  .hint b{color:var(--terra-d)}
+  .submit-row{margin-top:14px}
+  .fb{margin-top:14px;border:2px solid;border-radius:20px;padding:14px 16px;animation:pageIn .3s ease both}
+  .fb.ok{background:#F0F6EB;border-color:rgba(124,156,116,.75)}
+  .fb.no{background:var(--terra-l);border-color:rgba(192,114,79,.65)}
+  .fb h3{margin:0 0 6px;font-family:var(--serif);font-size:1.16rem;display:flex;align-items:center;gap:8px;letter-spacing:.04em}
+  .fb h3 svg{width:24px;height:24px;flex:none;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+  .fb.ok h3 svg{stroke:var(--sage-d)}
+  .fb.no h3 svg{stroke:var(--terra-d)}
+  .fb .why{margin:0;font-size:.92rem;line-height:1.8;color:var(--ink)}
+  .fb .ans-label{margin:10px 0 6px;font-size:.8rem;font-weight:700;color:var(--terra-d);letter-spacing:.06em}
+  .ans-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px}
+  .ans-item{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:4px 2px;text-align:center}
+  .ans-item .art{width:100%;max-width:54px;margin:0 auto}
+  .ans-item span{display:block;font-size:.66rem;font-weight:700;line-height:1.3;color:var(--ink-2)}
+  .ans-item i{font-style:normal;font-size:.62rem;font-weight:800;color:var(--terra-d)}
+  .fb .btn{margin-top:6px}
+
+  /* mode 2 */
+  .story{background:var(--card);border:2px solid var(--line-2);border-radius:22px;padding:12px;box-shadow:var(--shadow)}
+  @media(min-width:760px){.story{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:center;padding:16px}}
+  .story .art-slot{margin:0 0 10px}
+  .story .art{width:100%;max-width:112px;margin:0 auto;display:block}
+  @media(min-width:760px){.story .art-slot{margin:0}.story .art{max-width:140px;margin:0}}
+  .passage{margin:0;font-family:var(--serif);font-size:clamp(1.06rem,2.9vw,1.24rem);line-height:2.05;letter-spacing:.03em}
+  @media(min-width:760px){.passage{font-size:clamp(1.12rem,1.9vw,1.3rem)}}
+  .passage mark{background:linear-gradient(transparent 55%,rgba(227,180,94,.75) 55%);color:inherit;padding:0 2px;border-radius:3px;font-weight:700}
+  .opts{display:grid;gap:9px;margin-top:13px}
+  @media(min-width:700px){.opts{grid-template-columns:1fr 1fr;gap:12px}}
+  .opt{display:flex;flex-direction:column;gap:2px;align-items:flex-start;text-align:left;padding:13px 16px;
+    border:2px solid var(--line-2);border-radius:18px;background:var(--card);font-family:inherit;color:var(--ink);cursor:pointer;
+    box-shadow:0 5px 0 rgba(74,59,49,.13);transition:transform .12s ease,box-shadow .12s ease}
+  .opt b{font-family:var(--serif);font-size:1.22rem;letter-spacing:.1em}
+  .opt span{font-size:.78rem;color:var(--ink-2);line-height:1.4}
+  .opt:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(74,59,49,.13)}
+  .opt.ok{border-color:var(--sage);background:var(--sage-l);box-shadow:0 5px 0 rgba(124,156,116,.6)}
+  .opt.bad{border-color:var(--terra);background:var(--terra-l);box-shadow:0 5px 0 rgba(192,114,79,.45)}
+  .opt[disabled]{cursor:default;opacity:.96}
+
+  /* ---------- result ---------- */
+  .result{padding:14px 0 0}
+  .cert{background:var(--card);border:2px solid var(--line-2);border-radius:24px;padding:20px 16px 18px;text-align:center;
+    box-shadow:var(--shadow);position:relative;overflow:hidden}
+  .cert::before{content:"";position:absolute;inset:8px;border:2px dashed rgba(227,180,94,.6);border-radius:18px;pointer-events:none}
+  .cert-top{font-size:.72rem;letter-spacing:.24em;color:var(--ink-3);font-weight:700}
+  .medal{width:132px;height:132px;margin:10px auto 0;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .medal svg{position:absolute;inset:0;width:100%;height:100%}
+  .medal b{font-family:var(--serif);font-size:2.5rem;line-height:1;color:var(--terra-d);position:relative}
+  .medal small{position:relative;font-size:.7rem;font-weight:700;color:var(--ink-2);letter-spacing:.16em;margin-top:2px}
+  .stars{display:flex;justify-content:center;gap:6px;margin:6px 0 2px}
+  .stars svg{width:32px;height:32px;fill:#EDE3D0;stroke:var(--line-2);stroke-width:1.6}
+  .stars svg.on{fill:var(--must);stroke:#C39338}
+  .cert h2{font-family:var(--serif);font-size:1.45rem;margin:4px 0 2px;letter-spacing:.05em;font-weight:700}
+  .cert .sub{margin:0;font-size:.88rem;color:var(--ink-2)}
+  .review{margin-top:16px;text-align:left}
+  .review h3{font-size:.92rem;margin:0 0 7px;letter-spacing:.08em;color:var(--ink-2)}
+  .rlist{display:grid;gap:7px;max-height:270px;overflow-y:auto;padding-right:2px}
+  .ritem{background:#FFFCF3;border:1.5px solid var(--line);border-radius:12px;padding:9px 12px;font-size:.84rem;line-height:1.6}
+  .ritem b{color:var(--terra-d);font-family:var(--sans)}
+  .r-none{background:var(--sage-l);border:1.5px solid rgba(124,156,116,.6);border-radius:12px;padding:10px 12px;font-size:.86rem}
+  .r-actions{display:grid;gap:9px;margin-top:14px}
+  @media(min-width:640px){.r-actions{grid-template-columns:1fr 1fr}}
+  .mini{font-size:.76rem;color:var(--ink-2);text-align:center;margin-top:12px;line-height:1.7}
+
+  /* ---------- modal ---------- */
+  .modal{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:20px;
+    background:rgba(74,59,49,.42);animation:fadeIn .2s ease both}
+  .modal[hidden]{display:none}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  .modal-card{background:var(--card);border:2px solid var(--line-2);border-radius:22px;padding:22px 20px;max-width:400px;width:100%;
+    box-shadow:0 18px 40px rgba(74,59,49,.22);text-align:center}
+  .modal-card h3{font-family:var(--serif);font-size:1.25rem;margin:0 0 6px;letter-spacing:.04em}
+  .modal-card p{margin:0 0 16px;font-size:.9rem;color:var(--ink-2);line-height:1.7}
+  .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+  /* art */
+  .art{display:block;width:100%;height:auto}
+  .art-slot{display:block;line-height:0}
+  .slot .fix{display:block;font-size:.64rem;line-height:1.3;font-weight:700;color:var(--terra-d);margin-top:1px}
+  .foot{margin:26px 0 0;text-align:center;font-size:.72rem;color:var(--ink-3);letter-spacing:.08em}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<div class="washes" aria-hidden="true"></div>
+<div class="app" data-generated-by="vibe-coding-frontend-design">
+
+  <header class="topbar">
+    <button class="iconbtn invisible" id="btnBack" aria-label="返回上一頁">
+      <svg viewBox="0 0 24 24"><path d="M14.5 5 8 12l6.5 7"/></svg>
+    </button>
+    <div class="brand">故事時光機<small>順敘法 · 倒敘法</small></div>
+    <div class="topright">
+      <span class="score-chip" id="scoreChip" hidden>0 分</span>
+      <button class="iconbtn" id="btnSound" aria-label="關閉音效" aria-pressed="true">
+        <svg id="soundIcon" viewBox="0 0 24 24"><path d="M4 9.5h3.4L12 5.5v13l-4.6-4H4z"/><path d="M15.6 8.8a4.4 4.4 0 0 1 0 6.4"/><path d="M18 6.4a7.6 7.6 0 0 1 0 11.2"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ HOME ============ -->
+    <section class="screen on" id="scr-home">
+      <div class="home">
+        <div class="cover card">
+          <svg class="cover-art" viewBox="0 0 400 230" role="img" aria-label="時光仔站在山丘上，身旁有房子、大樹和太陽">
+            <defs>
+              <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#DCEBF0"/><stop offset=".55" stop-color="#F2EFDA"/><stop offset="1" stop-color="#FBF4E6"/>
+              </linearGradient>
+            </defs>
+            <rect width="400" height="230" fill="url(#skyG)"/>
+            <circle cx="322" cy="50" r="38" fill="#F3CE7E" opacity=".20"/>
+            <circle cx="322" cy="50" r="25" fill="#F3CE7E"/>
+            <g fill="#FFFDF7" opacity=".92">
+              <path d="M62 62c0-9 7-16 16-16 3-8 11-13 20-13 12 0 21 8 23 19 8 1 13 7 13 14H62z"/>
+              <path d="M240 40c0-6 5-11 11-11 2-6 8-10 15-9 8 0 14 6 15 14 6 1 9 5 9 10h-50z" opacity=".7"/>
+            </g>
+            <g fill="none" stroke="#8FA9B0" stroke-width="2.2" stroke-linecap="round">
+              <path d="M150 58c4-5 8-5 12 0"/><path d="M162 58c4-5 8-5 12 0"/><path d="M198 46c3-4 6-4 9 0"/>
+            </g>
+            <path d="M0 168c46-34 92-44 140-38 54 7 96 30 146 24 42-5 80-18 114-6v82H0z" fill="#D3E2C9"/>
+            <path d="M0 192c54-20 104-14 154-4 56 11 104 12 154-2 34-9 62-8 92 2v42H0z" fill="#BFD6B4"/>
+            <path d="M148 230c12-24 30-36 54-48" fill="none" stroke="#EBD9BC" stroke-width="15" stroke-linecap="round"/>
+            <g transform="translate(54,148)">
+              <path d="M-2 4 22-16 46 4z" fill="#C97B57"/>
+              <rect x="1" y="4" width="42" height="28" fill="#F6E7C9" stroke="#5A4638" stroke-width="2" stroke-linejoin="round"/>
+              <rect x="17" y="15" width="12" height="17" fill="#8FAE8B" stroke="#5A4638" stroke-width="1.8"/>
+              <rect x="6" y="10" width="7" height="7" fill="#CFE4E9" stroke="#5A4638" stroke-width="1.6"/>
+            </g>
+            <g transform="translate(340,150)">
+              <rect x="-3" y="6" width="6" height="24" fill="#B08258"/>
+              <circle cx="0" cy="-2" r="17" fill="#8FAE8B"/>
+              <circle cx="-11" cy="7" r="11" fill="#A3BE99"/>
+              <circle cx="11" cy="7" r="11" fill="#A3BE99"/>
+            </g>
+            <g transform="translate(206,148)">
+              <ellipse cx="0" cy="45" rx="36" ry="8" fill="#5A4638" opacity=".12"/>
+              <path d="M0-38v-7" stroke="#5A4638" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="0" cy="-49" r="6" fill="#E3B45E" stroke="#5A4638" stroke-width="2.4"/>
+              <circle cx="0" cy="2" r="34" fill="#F8E7BE" stroke="#5A4638" stroke-width="3"/>
+              <circle cx="0" cy="2" r="27" fill="#FFFDF7" stroke="#C9A96A" stroke-width="1.4"/>
+              <g stroke="#C9A96A" stroke-width="2" stroke-linecap="round">
+                <path d="M0-22v4"/><path d="M22 2h-4"/><path d="M0 22v-4"/><path d="M-22 2h4"/>
+              </g>
+              <ellipse cx="-10" cy="-4" rx="3.1" ry="3.6" fill="#4A3B31"/>
+              <ellipse cx="10" cy="-4" rx="3.1" ry="3.6" fill="#4A3B31"/>
+              <circle cx="-9" cy="-5.4" r="1" fill="#FFFDF7"/>
+              <circle cx="11" cy="-5.4" r="1" fill="#FFFDF7"/>
+              <circle cx="-18" cy="8" r="5" fill="#F0A99A" opacity=".75"/>
+              <circle cx="18" cy="8" r="5" fill="#F0A99A" opacity=".75"/>
+              <path d="M-6 9c2.4 4 9.6 4 12 0" fill="none" stroke="#4A3B31" stroke-width="2.6" stroke-linecap="round"/>
+              <path d="M-32 4c-8 4-11 12-9 18" fill="none" stroke="#5A4638" stroke-width="3" stroke-linecap="round"/>
+              <path d="M32 4c8 4 11 12 9 18" fill="none" stroke="#5A4638" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="-41" cy="24" r="5.5" fill="#F8E7BE" stroke="#5A4638" stroke-width="2.4"/>
+              <circle cx="41" cy="24" r="5.5" fill="#F8E7BE" stroke="#5A4638" stroke-width="2.4"/>
+              <ellipse cx="-13" cy="38" rx="9" ry="5.5" fill="#5A4638"/>
+              <ellipse cx="13" cy="38" rx="9" ry="5.5" fill="#5A4638"/>
+            </g>
+            <g fill="#E3B45E" opacity=".9">
+              <path d="M112 96l2.6 6.4 6.4 2.6-6.4 2.6L112 114l-2.6-6.4L103 105l6.4-2.6z" transform="scale(.8) translate(30,22)"/>
+              <path d="M270 96l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/>
+            </g>
+          </svg>
+          <div class="cover-body">
+            <span class="kicker">小學中文 · 記敘文</span>
+            <h1>故事時光機</h1>
+            <p class="sub">順敘法 · 倒敘法</p>
+            <p class="tagline">翻開故事，把打亂的圖卡排好；<br>看看時間是向前走，還是倒帶一次。</p>
+          </div>
+        </div>
+
+        <div class="home-actions">
+          <button class="big-btn sage" data-go="learn">
+            <span class="bb-ic"><svg viewBox="0 0 24 24"><path d="M4 5.4A2.4 2.4 0 0 1 6.4 3H20v14.6H6.4A2.4 2.4 0 0 0 4 20V5.4Z"/><path d="M8 7.4h8M8 10.8h5"/></svg></span>
+            <span class="bb-t">學一學</span>
+            <span class="bb-s">三頁繪本 · 約三分鐘</span>
+          </button>
+          <button class="big-btn terra" data-go="modes">
+            <span class="bb-ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="7" height="7" rx="1.8"/><rect x="14" y="5" width="7" height="7" rx="1.8"/><rect x="3" y="15" width="7" height="5" rx="1.8"/><rect x="14" y="15" width="7" height="5" rx="1.8"/></svg></span>
+            <span class="bb-t">玩一玩</span>
+            <span class="bb-s">兩種玩法 · 共二十題</span>
+          </button>
+        </div>
+        <p class="home-foot"><span>適合小學三至六年級</span>　·　<span>手機、平板、電腦皆可</span><br>上課時可把音量開大；右上角可隨時關掉音效。</p>
+      </div>
+    </section>
+
+    <!-- ============ LEARN ============ -->
+    <section class="screen" id="scr-learn">
+      <div class="learn">
+        <div class="learn-top">
+          <span class="kicker">繪本教室</span>
+          <div class="dots" id="learnDots"><i class="on"></i><i></i><i></i></div>
+        </div>
+
+        <article class="slide on" data-slide="0">
+          <h2 class="st">順敘法：時間一直向前走</h2>
+          <p class="sd">先發生的事先寫，後發生的事後寫，一件接一件說下去。</p>
+          <div class="tl">
+            <div class="tl-card"><span class="tl-n">1</span><div class="art-slot" data-art="flag" data-tone="0"></div><b>起因</b><small>事情開始</small></div>
+            <div class="tl-card"><span class="tl-n">2</span><div class="art-slot" data-art="run" data-tone="1"></div><b>經過</b><small>發生甚麼</small></div>
+            <div class="tl-card"><span class="tl-n">3</span><div class="art-slot" data-art="medal" data-tone="2"></div><b>結果</b><small>最後怎樣</small></div>
+            <div class="tl-card arrow">
+              <svg viewBox="0 0 60 18" aria-hidden="true"><path d="M2 9h50" stroke="#C0724F" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 6"/><path d="M44 2l8 7-8 7" fill="none" stroke="#C0724F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <b>時間向前</b><small>不會倒回去</small>
+            </div>
+          </div>
+          <div class="quote"><b>例子：</b>早上，我先刷牙，然後吃早餐，接着背書包出門。</div>
+          <div class="keys"><span>先…</span><span>然後…</span><span>接着…</span><span>最後…</span></div>
+        </article>
+
+        <article class="slide" data-slide="1">
+          <h2 class="st">倒敘法：時間倒帶一次</h2>
+          <p class="sd">先把結果（或現在）寫出來，再回到從前說起。</p>
+          <div class="loop">
+            <div class="loop-card"><div class="art-slot" data-art="book" data-tone="3"></div><b>從前</b><small>三個月前</small></div>
+            <div class="loop-card"><div class="art-slot" data-art="run" data-tone="1"></div><b>經過</b><small>每天練習</small></div>
+            <div class="loop-card now"><span class="mark">先寫這個</span><div class="art-slot" data-art="medal" data-tone="4"></div><b>結果</b><small>得到獎狀</small></div>
+          </div>
+          <svg class="loop-arrow" viewBox="0 0 360 58" aria-hidden="true">
+            <path d="M334 6c0 36-56 44-150 44S54 42 30 18" fill="none" stroke="#C0724F" stroke-width="3" stroke-dasharray="8 7" stroke-linecap="round"/>
+            <path d="M44 6 30 18l16 10" fill="none" stroke="#C0724F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <p class="loop-cap">時間倒帶一次，再順着說回去</p>
+          <div class="quote"><b>例子：</b>我得到一張獎狀。這要從三個月前說起……</div>
+          <div class="keys"><span>原來…</span><span>這要從…說起</span><span>記得…的時候</span><span>現在想起來</span></div>
+          <p class="note"><b>要留意：</b>倒敘只倒一次。回到從前之後，仍然要順着時間說，不可以一下子跳到更早、又跳回現在。</p>
+        </article>
+
+        <article class="slide" data-slide="2">
+          <h2 class="st">三步分辨順敘與倒敘</h2>
+          <p class="sd">不用死記，問自己三個問題。</p>
+          <ol class="steps">
+            <li><span class="sn">1</span><div><b>看開頭</b><p>開頭寫的是「最先發生」的事，就是順敘；一開始就寫「最後的結果」，多數是倒敘。</p></div></li>
+            <li><span class="sn">2</span><div><b>找標誌詞</b><p>見到「原來」、「這要從…說起」、「記得…的時候」、「現在想起來」，多數是倒敘。</p></div></li>
+            <li><span class="sn">3</span><div><b>問一句</b><p>文章的時間有沒有「倒帶」一次？有，就是倒敘。</p></div></li>
+          </ol>
+          <div class="quote"><b>口訣：</b>先寫結果，再回從前，就是倒敘。</div>
+        </article>
+
+        <div class="learn-nav">
+          <button class="btn" id="prevSlide">上一步</button>
+          <button class="btn sage" id="nextSlide">下一步</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MODES ============ -->
+    <section class="screen" id="scr-modes">
+      <div class="modes">
+        <h2>選一種玩法</h2>
+        <p class="lead">兩種玩法，練兩種本領。每種十題，題目不重複。</p>
+        <div class="mode-grid">
+          <button class="mode-card one" data-mode="1">
+            <div class="art-slot" data-art="cards" data-tone="1"></div>
+            <div>
+              <b>排一排</b>
+              <p>四張圖卡打亂了，按事情發生的先後排好。</p>
+              <span class="meta">模式一 · 10 題 · 排序</span>
+            </div>
+          </button>
+          <button class="mode-card two" data-mode="2">
+            <div class="art-slot" data-art="search" data-tone="3"></div>
+            <div>
+              <b>找一找</b>
+              <p>讀一段文字，判斷它用了順敘法還是倒敘法。</p>
+              <span class="meta">模式二 · 10 題 · 判斷</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ GAME ============ -->
+    <section class="screen" id="scr-game">
+      <div class="game">
+        <div class="ghead">
+          <span class="qbadge" id="qBadge">模式一 · 排一排</span>
+          <span class="qcount">第 <b id="qNow">1</b> / 10 題</span>
+        </div>
+        <div class="qdots" id="qDots" aria-hidden="true"></div>
+        <div id="gameBody"></div>
+      </div>
+    </section>
+
+    <!-- ============ RESULT ============ -->
+    <section class="screen" id="scr-result">
+      <div class="result">
+        <div class="cert">
+          <p class="cert-top">學 習 紀 錄</p>
+          <div class="medal">
+            <svg viewBox="0 0 140 140" aria-hidden="true">
+              <circle cx="70" cy="70" r="64" fill="#FBEED2" stroke="#E3B45E" stroke-width="2.5" stroke-dasharray="3 7"/>
+              <circle cx="70" cy="70" r="52" fill="#FFFDF7" stroke="#E3B45E" stroke-width="2"/>
+            </svg>
+            <b id="resScore">0</b><small>分</small>
+          </div>
+          <div class="stars" id="resStars"></div>
+          <h2 id="resTitle">完成了！</h2>
+          <p class="sub" id="resSub"></p>
+          <div class="review" id="resReview"></div>
+        </div>
+        <div class="r-actions">
+          <button class="btn sage" data-act="again">再玩一次</button>
+          <button class="btn" data-act="modes">換個模式</button>
+          <button class="btn" data-act="learn">看教學</button>
+          <button class="btn" data-act="home">回到首頁</button>
+        </div>
+        <p class="mini">答錯不要緊，看清楚解釋，再玩一次就會記得。</p>
+      </div>
+    </section>
+  </main>
+
+  <p class="foot">故事時光機 · 香港小學中文科閱讀教學</p>
+</div>
+
+<div class="modal" id="modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h3 id="modalTitle">要離開這一輪嗎？</h3>
+    <p>離開之後，這一輪的進度不會保留。</p>
+    <div class="modal-actions">
+      <button class="btn" data-modal="stay">繼續作答</button>
+      <button class="btn terra" data-modal="leave">離開</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  "use strict";
+
+  /* ================= 繪本插畫（內嵌 SVG，離線可用） ================= */
+  var ART = {
+    wash: '<path d="M-30 -2h60c0 17-13 26-30 26S-30 15-30 -2z" fill="#CFE4E9"/>' +
+          '<path d="M-30 -2c10 5 20 7 30 7s20-2 30-7" fill="none"/>' +
+          '<path d="M-2 -6v-14h15v7" fill="none" stroke-width="4"/>' +
+          '<circle cx="-12" cy="-26" r="2.6" fill="#9AC7D6" stroke="none"/>' +
+          '<circle cx="-6" cy="-30" r="2" fill="#9AC7D6" stroke="none"/>',
+    cup: '<path d="M-15 -10h30l-4 32h-22z" fill="#F7E9CB"/>' +
+         '<ellipse cx="0" cy="-10" rx="15" ry="4.6" fill="#FFFDF7"/>' +
+         '<path d="M-7 -18c3-4 3-7 0-10M5 -18c3-4 3-7 0-10" fill="none" stroke="#C9B79A" stroke-width="2.8"/>' +
+         '<circle cx="-6" cy="6" r="2.2" fill="#EBD9BC" stroke="none"/>',
+    bag: '<rect x="-24" y="-14" width="48" height="42" rx="12" fill="#D98E63"/>' +
+         '<path d="M-24 -1c8-17 40-17 48 0" fill="#E8A87C"/>' +
+         '<rect x="-9" y="4" width="18" height="14" rx="4" fill="#F6D9A8"/>' +
+         '<path d="M-14 28v5M14 28v5" stroke-width="4"/>' +
+         '<path d="M-15 -12c-6 4-8 10-8 16M15 -12c6 4 8 10 8 16" fill="none" stroke-width="3"/>',
+    school: '<path d="M-32 -2 0 -30 32 -2z" fill="#C97B57"/>' +
+            '<rect x="-26" y="-2" width="52" height="34" rx="3" fill="#F3E3C7"/>' +
+            '<rect x="-9" y="12" width="18" height="20" fill="#8FAE8B"/>' +
+            '<circle cx="0" cy="-11" r="5.5" fill="#FFFDF7"/>' +
+            '<path d="M0 -30v-8" stroke-width="3"/>' +
+            '<path d="M0 -38h11v7H0z" fill="#E3B45E"/>' +
+            '<rect x="-21" y="6" width="7" height="7" fill="#CFE4E9"/>' +
+            '<rect x="14" y="6" width="7" height="7" fill="#CFE4E9"/>',
+    seed: '<path d="M-20 6h40l-6 26h-28z" fill="#D08A63"/>' +
+          '<rect x="-21" y="2" width="42" height="7" rx="3" fill="#C0724F"/>' +
+          '<ellipse cx="0" cy="3" rx="17" ry="4.2" fill="#8B6A4F"/>' +
+          '<ellipse cx="-6" cy="-1" rx="5" ry="3.4" fill="#A9C47E" stroke-width="2.4"/>' +
+          '<ellipse cx="4" cy="-3" rx="5" ry="3.4" fill="#A9C47E" stroke-width="2.4"/>',
+    sprout: '<path d="M-20 6h40l-6 26h-28z" fill="#D08A63"/>' +
+            '<rect x="-21" y="2" width="42" height="7" rx="3" fill="#C0724F"/>' +
+            '<path d="M0 3v-24" fill="none" stroke="#6E8F5E" stroke-width="3.4"/>' +
+            '<path d="M0 -8c-12 0-16-5-16-12 10 0 16 4 16 12z" fill="#9DBE7E"/>' +
+            '<path d="M0 -15c10 0 14-4 14-10-9 0-14 3-14 10z" fill="#B4CE93"/>',
+    leaf: '<path d="M-20 6h40l-6 26h-28z" fill="#D08A63"/>' +
+          '<rect x="-21" y="2" width="42" height="7" rx="3" fill="#C0724F"/>' +
+          '<path d="M0 3v-32" fill="none" stroke="#6E8F5E" stroke-width="3.4"/>' +
+          '<path d="M0 -12c-12 0-16-5-16-11 10 0 16 4 16 11z" fill="#9DBE7E"/>' +
+          '<path d="M0 -18c10 0 14-4 14-10-9 0-14 3-14 10z" fill="#B4CE93"/>' +
+          '<path d="M0 -24c-10 0-14-4-14-9 9 0 14 3 14 9z" fill="#B4CE93"/>',
+    flower: '<path d="M-20 6h40l-6 26h-28z" fill="#D08A63"/>' +
+            '<rect x="-21" y="2" width="42" height="7" rx="3" fill="#C0724F"/>' +
+            '<path d="M0 3v-20" fill="none" stroke="#6E8F5E" stroke-width="3.4"/>' +
+            '<circle cx="0" cy="-31" r="7" fill="#E9A0A0"/>' +
+            '<circle cx="-9" cy="-25" r="7" fill="#E9A0A0"/>' +
+            '<circle cx="9" cy="-25" r="7" fill="#E9A0A0"/>' +
+            '<circle cx="-6" cy="-16" r="7" fill="#E9A0A0"/>' +
+            '<circle cx="6" cy="-16" r="7" fill="#E9A0A0"/>' +
+            '<circle cx="0" cy="-23" r="5" fill="#E3B45E"/>',
+    egg: '<path d="M-28 2h56c0 14-13 22-28 22S-28 16-28 2z" fill="#CFE4E9"/>' +
+         '<ellipse cx="0" cy="2" rx="28" ry="6" fill="#EAF3F6"/>' +
+         '<ellipse cx="-12" cy="-15" rx="9.5" ry="12" fill="#FFF8E8"/>' +
+         '<ellipse cx="-12" cy="-13" rx="4" ry="5" fill="#F0C04E" stroke="none"/>' +
+         '<path d="M-21 -10c4 3 6 8 4 13" fill="none" stroke-width="2.4"/>' +
+         '<path d="M16 -28l6 9" stroke-width="4"/>' +
+         '<path d="M10 -24c-5 6-3 12 4 15 7-4 8-10 3-15z" fill="#D9CFC0"/>',
+    bowl: '<circle cx="0" cy="0" r="26" fill="#C9B49A"/>' +
+          '<circle cx="0" cy="0" r="19" fill="#F2DDAE"/>' +
+          '<path d="M-19 -13c4 8 4 18 0 26M19 -13c-4 8-4 18 0 26" fill="none" stroke="#B39A7E" stroke-width="2.2"/>' +
+          '<path d="M-30 0h-5M30 0h5" stroke-width="4"/>',
+    oven: '<rect x="-26" y="-24" width="52" height="52" rx="8" fill="#D8CFC2"/>' +
+          '<rect x="-19" y="-5" width="38" height="25" rx="5" fill="#F7DCA8"/>' +
+          '<rect x="-12" y="6" width="24" height="14" rx="3" fill="#E8B45E"/>' +
+          '<path d="M-19 3h38" stroke="#C9A96A" stroke-width="2.2"/>' +
+          '<circle cx="-12" cy="-15" r="3.4" fill="#8A7A66"/>' +
+          '<circle cx="0" cy="-15" r="3.4" fill="#8A7A66"/>' +
+          '<path d="M10 -15h9" stroke-width="3"/>',
+    cake: '<ellipse cx="0" cy="30" rx="31" ry="5.5" fill="#E4D6C0"/>' +
+          '<path d="M-24 4h48v18a6 6 0 0 1-6 6h-36a6 6 0 0 1-6-6z" fill="#F3D9A8"/>' +
+          '<path d="M-24 8c4 6 8 6 12 0 4 6 8 6 12 0 4 6 8 6 12 0 4 6 8 6 12 0" fill="#FBEED6" stroke-width="2.4"/>' +
+          '<path d="M0 4v-10" stroke-width="3.4"/>' +
+          '<path d="M0 -20c4 4 4 8 0 10-4-2-4-6 0-10z" fill="#E8A24B"/>',
+    rain: '<g fill="#CFDDE4" stroke="none"><circle cx="-14" cy="-10" r="12"/><circle cx="2" cy="-16" r="16"/>' +
+          '<circle cx="18" cy="-8" r="11"/><rect x="-24" y="-10" width="44" height="12" rx="6"/></g>' +
+          '<path d="M-16 4v12M-4 6v14M8 4v12M20 6v12" stroke="#7FA9BF" stroke-width="4"/>',
+    umbrella: '<path d="M-32 2a32 30 0 0 1 64 0z" fill="#D98E63"/>' +
+              '<path d="M-32 2c5 6 11 6 16 0 5 6 11 6 16 0 5 6 11 6 16 0 5 6 11 6 16 0" fill="none"/>' +
+              '<path d="M0 2v26a6 6 0 0 0 12 0" fill="none" stroke-width="3.4"/>' +
+              '<path d="M0 -30v-6" stroke-width="3"/>',
+    home: '<rect x="-22" y="0" width="44" height="28" fill="#F3E3C7"/>' +
+          '<path d="M-28 0 0-24 28 0z" fill="#C97B57"/>' +
+          '<rect x="-6" y="12" width="12" height="16" fill="#8FAE8B"/>' +
+          '<rect x="-18" y="7" width="9" height="9" fill="#CFE4E9"/>' +
+          '<rect x="9" y="7" width="9" height="9" fill="#CFE4E9"/>' +
+          '<path d="M10 -18v-8h7v12" fill="#C97B57"/>',
+    lantern: '<path d="M0 -30v6" stroke-width="3"/>' +
+             '<rect x="-11" y="-24" width="22" height="6" rx="2" fill="#E3B45E"/>' +
+             '<ellipse cx="0" cy="2" rx="18" ry="21" fill="#E07A5F"/>' +
+             '<path d="M-9 -12c3 10 3 20 0 28M9 -12c-3 10-3 20 0 28" fill="none" stroke="#F6C7B8" stroke-width="2.2"/>' +
+             '<rect x="-11" y="22" width="22" height="6" rx="2" fill="#E3B45E"/>' +
+             '<path d="M0 28v8" stroke-width="3"/>',
+    moon: '<circle cx="4" cy="-8" r="19" fill="#F7DE9E"/>' +
+          '<circle cx="12" cy="-15" r="4" fill="#EBCB80" stroke="none"/>' +
+          '<circle cx="-4" cy="-3" r="3" fill="#EBCB80" stroke="none"/>' +
+          '<path d="M-28 -24l1.6 4 4 1.6-4 1.6-1.6 4-1.6-4-4-1.6 4-1.6z" fill="#E3B45E" stroke="none"/>' +
+          '<path d="M22 -30l1.2 3 3 1.2-3 1.2-1.2 3-1.2-3-3-1.2 3-1.2z" fill="#E3B45E" stroke="none"/>' +
+          '<path d="M-34 22c10-8 24-8 34 0 10-8 24-8 34 0" fill="none" stroke="#8FAE8B" stroke-width="3.4"/>',
+    mooncake: '<circle cx="0" cy="0" r="24" fill="#D9A05B"/>' +
+              '<circle cx="0" cy="0" r="16" fill="none" stroke="#B9823F" stroke-width="2.4"/>' +
+              '<path d="M-8 -6h16M-8 1h16M-8 8h16" stroke="#B9823F" stroke-width="2.4"/>' +
+              '<path d="M0 -24v-5" stroke-width="3"/>',
+    bed: '<path d="M-30 26v-32" stroke-width="4"/>' +
+         '<rect x="-30" y="6" width="60" height="14" rx="5" fill="#F7E9CB"/>' +
+         '<rect x="-26" y="-2" width="20" height="10" rx="5" fill="#FFFDF7"/>' +
+         '<path d="M-3 2h25a6 6 0 0 1 6 6v10H-3z" fill="#A9C6D4"/>' +
+         '<path d="M-24 20v7M18 20v7" stroke-width="4"/>' +
+         '<path d="M13 -28a7.5 7.5 0 1 0 4 13 9 9 0 0 1-4-13z" fill="#E3B45E" stroke="none"/>',
+    flag: '<ellipse cx="0" cy="16" rx="32" ry="14" fill="#E7C9A9"/>' +
+          '<ellipse cx="0" cy="16" rx="18" ry="7" fill="#C3D8B8"/>' +
+          '<path d="M-26 -32v30" stroke-width="4"/>' +
+          '<path d="M-26 -32h20l-4 7 4 7h-20z" fill="#E07A5F"/>',
+    run: '<circle cx="3" cy="-19" r="9" fill="#F6D3B0"/>' +
+         '<path d="M-4 -23c3-6 10-7 14-2-4 0-7 1-9 4-2-2-3-2-5-2z" fill="#5A4638" stroke="none"/>' +
+         '<path d="M2 -10l-2 15" stroke-width="5"/>' +
+         '<path d="M1 -7l-12 5M1 -7l10 7" stroke-width="4"/>' +
+         '<path d="M0 5l-9 12M0 5l9 11" stroke-width="4"/>' +
+         '<path d="M-34 -10h8M-32 6h7" stroke="#C9B79A" stroke-width="2.4"/>',
+    finish: '<path d="M-24 -30v54M24 -30v54" stroke-width="4"/>' +
+            '<rect x="-24" y="-14" width="48" height="16" fill="#FFFDF7" stroke-width="2"/>' +
+            '<rect x="-24" y="-14" width="8" height="8" fill="#E07A5F" stroke="none"/>' +
+            '<rect x="-8" y="-14" width="8" height="8" fill="#E07A5F" stroke="none"/>' +
+            '<rect x="8" y="-14" width="8" height="8" fill="#E07A5F" stroke="none"/>' +
+            '<rect x="-16" y="-6" width="8" height="8" fill="#E07A5F" stroke="none"/>' +
+            '<rect x="0" y="-6" width="8" height="8" fill="#E07A5F" stroke="none"/>' +
+            '<rect x="16" y="-6" width="8" height="8" fill="#E07A5F" stroke="none"/>',
+    medal: '<path d="M-10 -30l4 16M10 -30l-4 16" stroke="#E07A5F" stroke-width="8" stroke-linecap="round"/>' +
+           '<circle cx="0" cy="8" r="19" fill="#E3B45E"/>' +
+           '<circle cx="0" cy="8" r="13" fill="#FBEED2" stroke="#C39338" stroke-width="2"/>' +
+           '<path d="M0 -1l3.2 6.6 7 1-5 5 1.2 7L0 15.8l-6.4 3.8 1.2-7-5-5 7-1z" fill="#C39338" stroke="none"/>',
+    wallet: '<rect x="-26" y="-14" width="52" height="34" rx="8" fill="#C97B57"/>' +
+            '<path d="M-26 -5h52" stroke="#A35E3E" stroke-width="2.6"/>' +
+            '<rect x="4" y="2" width="22" height="13" rx="5" fill="#E3B45E"/>' +
+            '<circle cx="15" cy="8.5" r="2.6" fill="#5A4638" stroke="none"/>',
+    search: '<circle cx="-4" cy="-6" r="18" fill="#E7F2F5"/>' +
+            '<path d="M9 10l17 18" stroke-width="7"/>' +
+            '<path d="M-14 -13a11 11 0 0 1 7-3" stroke="#FFFDF7" stroke-width="3"/>',
+    office: '<rect x="-28" y="2" width="56" height="11" rx="3" fill="#C9A87E"/>' +
+            '<path d="M-22 13v18M22 13v18" stroke-width="4"/>' +
+            '<path d="M-8 -4a8 8 0 0 1 16 0v6H-8z" fill="#E3B45E"/>' +
+            '<path d="M0 -12v4" stroke-width="3"/>' +
+            '<rect x="-27" y="-28" width="26" height="16" rx="3" fill="#FFFDF7"/>' +
+            '<path d="M-22 -23h16M-22 -18h11" stroke="#B9A58C" stroke-width="2.2"/>',
+    book: '<path d="M0 18c-9-6-18-8-28-6v-32c10-2 19 0 28 6z" fill="#FFFDF7"/>' +
+          '<path d="M0 18c9-6 18-8 28-6v-32c-10-2-19 0-28 6z" fill="#FFFDF7"/>' +
+          '<path d="M0 18v-32" stroke-width="3"/>' +
+          '<path d="M-22 -22c6-1 11 0 16 3M-22 -15c6-1 11 0 16 3M8 -19c5-3 10-4 16-3M8 -12c5-3 10-4 16-3" fill="none" stroke="#C9B79A" stroke-width="2.2"/>',
+    hand: '<path d="M-30 22h60" stroke="#8A7A66" stroke-width="7"/>' +
+          '<path d="M-14 10v-8a6 6 0 0 1 12 0v-5a6 6 0 0 1 12 0v15a12 12 0 0 1-24 0z" fill="#F6D3B0"/>' +
+          '<path d="M-18 12c-5-4-5-11 0-13" fill="none" stroke-width="3"/>',
+    bike: '<circle cx="-18" cy="14" r="12" fill="none" stroke-width="4"/>' +
+          '<circle cx="18" cy="14" r="12" fill="none" stroke-width="4"/>' +
+          '<path d="M-18 14L-6-8h14l10 22M-6-8l-4 22M8-8l-6 22" fill="none" stroke-width="3.4"/>' +
+          '<path d="M-12-11h10M16-11h9" stroke-width="4"/>',
+    away: '<path d="M-14 10v-9a6 6 0 0 1 12 0v-4a6 6 0 0 1 12 0v15a12 12 0 0 1-24 0z" fill="#F6D3B0"/>' +
+          '<path d="M14 -4c8 3 12 8 14 15M10 -16c8 0 13 2 17 7" fill="none" stroke="#C0724F" stroke-width="2.8" stroke-dasharray="5 5"/>' +
+          '<path d="M-6 24h16" stroke-width="3"/>',
+    tree: '<rect x="-4" y="2" width="8" height="30" fill="#B08258"/>' +
+          '<circle cx="0" cy="-8" r="19" fill="#8FAE8B"/>' +
+          '<circle cx="-13" cy="0" r="11" fill="#A3BE99"/>' +
+          '<circle cx="13" cy="0" r="11" fill="#A3BE99"/>' +
+          '<ellipse cx="0" cy="32" rx="26" ry="4" fill="#C3D8B8" stroke="none"/>',
+    bolt: '<circle cx="0" cy="0" r="30" fill="#6E6357" stroke="none"/>' +
+          '<path d="M4 -21l-14 21h10l-4 19 16-23H2z" fill="#F3CE7E" stroke="#5A4638" stroke-width="2"/>',
+    candle: '<ellipse cx="0" cy="30" rx="17" ry="4" fill="#E4D6C0"/>' +
+            '<rect x="-7" y="-2" width="14" height="30" rx="3" fill="#F7E9CB"/>' +
+            '<path d="M0 -2v-4" stroke-width="3"/>' +
+            '<circle cx="0" cy="-10" r="14" fill="#F7D98F" opacity=".33" stroke="none"/>' +
+            '<path d="M0 -20c5 5 5 9 0 12-5-3-5-7 0-12z" fill="#F0A24B"/>',
+    bulb: '<circle cx="0" cy="-4" r="17" fill="#FBE38C"/>' +
+          '<path d="M-7 13h14v6H-7z" fill="#C9B79A"/>' +
+          '<path d="M-5 20h10" stroke-width="3"/>' +
+          '<path d="M0 -30v-6M24 -14h6M-24 -14h-6M17 -22l5-5M-17 -22l-5-5" stroke="#E3B45E" stroke-width="3"/>',
+    cat: '<circle cx="0" cy="6" r="20" fill="#E8B98C"/>' +
+         '<path d="M-18 -4l-3-15 14 6z" fill="#E8B98C"/>' +
+         '<path d="M18 -4l3-15-14 6z" fill="#E8B98C"/>' +
+         '<ellipse cx="-7" cy="3" rx="2.2" ry="2.6" fill="#4A3B31" stroke="none"/>' +
+         '<ellipse cx="7" cy="3" rx="2.2" ry="2.6" fill="#4A3B31" stroke="none"/>' +
+         '<path d="M0 8l-2.5 3h5z" fill="#C0724F" stroke="none"/>' +
+         '<path d="M-5 13c2 3 8 3 10 0" fill="none" stroke-width="2.2"/>' +
+         '<path d="M-30 6h-6M-30 11h-6M30 6h6M30 11h6" stroke-width="2"/>',
+    vet: '<rect x="-24" y="-10" width="48" height="36" rx="9" fill="#FFFDF7"/>' +
+         '<path d="M-9 -10v-8a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8" fill="none" stroke-width="3"/>' +
+         '<rect x="-3" y="-2" width="6" height="20" fill="#7FA98A" stroke="none"/>' +
+         '<rect x="-13" y="7" width="26" height="6" fill="#7FA98A" stroke="none"/>',
+    dish: '<path d="M-24 2h48c0 13-11 20-24 20S-24 15-24 2z" fill="#CFE4E9"/>' +
+          '<ellipse cx="0" cy="2" rx="24" ry="5.5" fill="#E8B98C"/>' +
+          '<circle cx="-6" cy="0" r="3" fill="#C0724F" stroke="none"/>' +
+          '<circle cx="4" cy="-1" r="3" fill="#C0724F" stroke="none"/>',
+    chubby: '<circle cx="0" cy="6" r="19" fill="#E8B98C"/>' +
+            '<path d="M-17 -3l-3-14 13 6z" fill="#E8B98C"/>' +
+            '<path d="M17 -3l3-14-13 6z" fill="#E8B98C"/>' +
+            '<ellipse cx="-7" cy="3" rx="2" ry="2.4" fill="#4A3B31" stroke="none"/>' +
+            '<ellipse cx="7" cy="3" rx="2" ry="2.4" fill="#4A3B31" stroke="none"/>' +
+            '<path d="M-5 12c2 3 8 3 10 0" fill="none" stroke-width="2.2"/>' +
+            '<path d="M0 -22c-4-5-11-3-11 3 0 5 7 9 11 12 4-3 11-7 11-12 0-6-7-8-11-3z" fill="#E0A69B"/>',
+    mic: '<rect x="-6" y="-30" width="12" height="22" rx="6" fill="#C9D9E2"/>' +
+         '<path d="M-14 -12a14 14 0 0 0 28 0" fill="none" stroke-width="3.6"/>' +
+         '<path d="M0 2v14M-10 18h20" stroke-width="3.6"/>' +
+         '<path d="M-2 -25v12M2 -25v12" stroke="#FFFDF7" stroke-width="1.6"/>',
+    bird: '<ellipse cx="0" cy="6" rx="20" ry="15" fill="#9BB8C9"/>' +
+          '<circle cx="14" cy="-8" r="10" fill="#AECBD8"/>' +
+          '<path d="M23 -8l9 3-9 4z" fill="#E3B45E"/>' +
+          '<circle cx="17" cy="-11" r="2.2" fill="#4A3B31" stroke="none"/>' +
+          '<path d="M-8 2c6 2 10 6 10 12-6 0-11-4-12-10z" fill="#7FA3B8"/>' +
+          '<path d="M-19 6l-9-4 9-2z" fill="#7FA3B8"/>',
+    certificate: '<rect x="-23" y="-28" width="46" height="50" rx="4" fill="#FFFDF7"/>' +
+                 '<path d="M-16 -20h32M-16 -13h32M-16 -6h20" stroke="#C9B79A" stroke-width="2.4"/>' +
+                 '<circle cx="8" cy="10" r="9" fill="#E0A69B"/>' +
+                 '<path d="M8 19v12M8 31l-6-5M8 31l6-5" stroke="#E0A69B" stroke-width="4"/>',
+    bus: '<rect x="-28" y="-22" width="56" height="42" rx="9" fill="#D9584A"/>' +
+         '<rect x="-22" y="-15" width="18" height="12" rx="3" fill="#E7F0F4"/>' +
+         '<rect x="0" y="-15" width="18" height="12" rx="3" fill="#E7F0F4"/>' +
+         '<rect x="-22" y="2" width="44" height="9" rx="3" fill="#F7E9CB"/>' +
+         '<circle cx="-16" cy="22" r="7" fill="#5A4638"/>' +
+         '<circle cx="16" cy="22" r="7" fill="#5A4638"/>' +
+         '<rect x="-4" y="-26" width="8" height="4" rx="2" fill="#D9584A"/>',
+    cry: '<circle cx="0" cy="0" r="24" fill="#F6D3B0"/>' +
+         '<path d="M-14 -7c3 3 7 3 10 0M4 -7c3 3 7 3 10 0" fill="none" stroke-width="2.6"/>' +
+         '<ellipse cx="0" cy="10" rx="6" ry="5.5" fill="#C0724F" stroke-width="2.4"/>' +
+         '<path d="M-18 2c-3 6-2 10 2 11 3-3 3-8-2-11z" fill="#8FC4D8" stroke="none"/>' +
+         '<path d="M18 2c3 6 2 10-2 11-3-3-3-8 2-11z" fill="#8FC4D8" stroke="none"/>',
+    rainbow: '<path d="M-30 16a30 30 0 0 1 60 0" fill="none" stroke="#E0A69B" stroke-width="5"/>' +
+             '<path d="M-25 16a25 25 0 0 1 50 0" fill="none" stroke="#E3B45E" stroke-width="5"/>' +
+             '<path d="M-20 16a20 20 0 0 1 40 0" fill="none" stroke="#9DBE7E" stroke-width="5"/>' +
+             '<path d="M-15 16a15 15 0 0 1 30 0" fill="none" stroke="#9BB8C9" stroke-width="5"/>' +
+             '<g fill="#FFFDF7" stroke="none"><circle cx="-27" cy="18" r="7"/><circle cx="-20" cy="20" r="5"/>' +
+             '<circle cx="27" cy="18" r="7"/><circle cx="20" cy="20" r="5"/></g>',
+    cards: '<rect x="-31" y="-20" width="26" height="34" rx="4" fill="#FFFDF7" transform="rotate(-12 -18 -3)"/>' +
+           '<rect x="-13" y="-26" width="26" height="34" rx="4" fill="#F7E9CB"/>' +
+           '<rect x="5" y="-18" width="26" height="34" rx="4" fill="#E8EFE2" transform="rotate(10 18 -1)"/>' +
+           '<circle cx="-4" cy="-12" r="5" fill="#C0724F" stroke="none"/>' +
+           '<path d="M-11 -3l7-6 6 6" fill="none" stroke="#8FAE8B" stroke-width="2"/>' +
+           '<circle cx="17" cy="-6" r="4" fill="#E3B45E" stroke="none"/>'
+  };
+  var TONES = ['#F6E9D2', '#E6EFE1', '#E5EFF4', '#F8E4D8', '#F3EBDD'];
+
+  function art(name, tone) {
+    var t = TONES[((tone || 0) % TONES.length + TONES.length) % TONES.length];
+    return '<svg class="art" viewBox="0 0 120 120" aria-hidden="true" focusable="false">' +
+      '<circle cx="60" cy="58" r="46" fill="' + t + '"/>' +
+      '<ellipse cx="60" cy="100" rx="27" ry="5.5" fill="#5A4638" opacity=".08"/>' +
+      '<g transform="translate(60,58)" stroke="#5A4638" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">' +
+      (ART[name] || ART.book) + '</g></svg>';
+  }
+
+  /* ================= 題庫 ================= */
+  var BANK1 = [
+    { id: 'm1-01', events: [
+        { t: '洗臉刷牙', ic: 'wash' }, { t: '吃早餐', ic: 'cup' },
+        { t: '背書包出門', ic: 'bag' }, { t: '回校上課', ic: 'school' } ],
+      why: '每天早上都是先梳洗、再吃早餐，然後才出門上學。做完前一件事，才有下一件事。',
+      hint: '想一想：出門之前，你還要完成哪兩件事？' },
+
+    { id: 'm1-02', events: [
+        { t: '放綠豆在濕棉花上', ic: 'seed' }, { t: '綠豆發芽', ic: 'sprout' },
+        { t: '長出小葉', ic: 'leaf' }, { t: '開花', ic: 'flower' } ],
+      why: '綠豆一定先發芽，才長出小葉，最後才開花。植物生長的次序不可以倒轉。',
+      hint: '如果沒有發芽，還會有花嗎？' },
+
+    { id: 'm1-03', events: [
+        { t: '打蛋拌麵粉', ic: 'egg' }, { t: '倒進模具', ic: 'bowl' },
+        { t: '放進焗爐', ic: 'oven' }, { t: '蛋糕出爐', ic: 'cake' } ],
+      why: '材料拌好，才可以倒進模具；放進焗爐焗好了，蛋糕才會出爐。',
+      hint: '「出爐」之前，蛋糕一定在甚麼地方？' },
+
+    { id: 'm1-04', events: [
+        { t: '放學時下大雨', ic: 'rain' }, { t: '在校門等雨停', ic: 'school' },
+        { t: '媽媽送傘來', ic: 'umbrella' }, { t: '一起回家', ic: 'home' } ],
+      why: '先下大雨，才有等雨和送傘；有了傘，才可以一起回家。',
+      hint: '如果沒有下雨，媽媽會特地送傘來嗎？' },
+
+    { id: 'm1-05', events: [
+        { t: '提燈籠去公園', ic: 'lantern' }, { t: '和家人賞月', ic: 'moon' },
+        { t: '一起吃月餅', ic: 'mooncake' }, { t: '回家睡覺', ic: 'bed' } ],
+      why: '中秋晚上先到公園提燈籠，再賞月、吃月餅，最後回家睡覺。',
+      hint: '回家睡覺，通常是一天裏最後一件事。' },
+
+    { id: 'm1-06', events: [
+        { t: '到達運動場', ic: 'flag' }, { t: '做熱身運動', ic: 'run' },
+        { t: '參加六十米賽跑', ic: 'finish' }, { t: '上台領獎牌', ic: 'medal' } ],
+      why: '要先到場、做好熱身，才可以比賽；比賽完了，才有獎牌。',
+      hint: '獎牌是比賽之前，還是比賽之後得到的？' },
+
+    { id: 'm1-07', events: [
+        { t: '發現錢包不見了', ic: 'wallet' }, { t: '沿路尋找', ic: 'search' },
+        { t: '到校務處查詢', ic: 'office' }, { t: '在圖書館找回', ic: 'book' } ],
+      why: '先發現錢包不見，才會開始找；找過幾個地方，最後在圖書館找回。',
+      hint: '如果沒有發現錢包不見，你會去找嗎？' },
+
+    { id: 'm1-08', events: [
+        { t: '爸爸扶着車尾', ic: 'hand' }, { t: '我用力踩腳踏', ic: 'bike' },
+        { t: '爸爸悄悄放手', ic: 'away' }, { t: '我騎到公園盡頭', ic: 'tree' } ],
+      why: '爸爸先扶着，我才敢踩；我踩得穩，爸爸才放手；放手之後，我才騎到公園盡頭。',
+      hint: '「放手」要在「扶着」之前，還是之後？' },
+
+    { id: 'm1-09', events: [
+        { t: '突然停電', ic: 'bolt' }, { t: '點起蠟燭', ic: 'candle' },
+        { t: '一家人說故事', ic: 'book' }, { t: '電燈再次亮起', ic: 'bulb' } ],
+      why: '停電是因，點蠟燭是果；有燭光才可以說故事，最後電才回來。',
+      hint: '如果沒有停電，還會點蠟燭嗎？' },
+
+    { id: 'm1-10', events: [
+        { t: '在樓下發現小貓', ic: 'cat' }, { t: '帶牠去獸醫診所', ic: 'vet' },
+        { t: '每天餵牠吃東西', ic: 'dish' }, { t: '小貓長胖了', ic: 'chubby' } ],
+      why: '先發現小貓、帶牠看醫生，再每天照顧，牠才會慢慢長胖。',
+      hint: '「長胖」是第一天發生，還是很多天之後？' }
+  ];
+
+  var BANK2 = [
+    { id: 'm2-01', art: 'mic', a: '順敘',
+      p: '今天是我第一次上台朗誦。我深呼吸，走到台中央。我大聲念出詩句。台下響起熱烈的掌聲。',
+      k: ['走到台中央', '大聲念出', '掌聲'],
+      why: '由「走上台」寫到「響起掌聲」，時間一直向前，沒有倒回去，所以是順敘法。',
+      hint: '看看第一句寫的是「開始」，還是「結果」。' },
+
+    { id: 'm2-02', art: 'bird', a: '倒敘',
+      p: '那隻小鳥現在住在我家的窗台上。原來，上星期牠從樹上的巢掉了下來。我在樓下發現牠，把牠放進紙盒，帶回家照顧。',
+      k: ['現在', '原來', '上星期'],
+      why: '先寫「現在」小鳥住在窗台，再用「原來」回到上星期，把時間倒回去說，所以是倒敘法。',
+      hint: '「原來」之後，時間是往前走，還是回到過去？' },
+
+    { id: 'm2-03', art: 'certificate', a: '倒敘',
+      p: '我得到了一張獎狀。這要從三個月前說起。那天老師選我參加書法比賽。我每天放學後練習，比賽時手也不再發抖。',
+      k: ['獎狀', '這要從三個月前說起'],
+      why: '開頭先寫結果（得到獎狀），再用「這要從三個月前說起」回到過去，所以是倒敘法。',
+      hint: '第一句已經是整件事的結果了嗎？' },
+
+    { id: 'm2-04', art: 'bus', a: '順敘',
+      p: '早上，媽媽叫醒我。我吃完早餐，坐巴士上學。我在課室裏看見新同學。',
+      k: ['早上', '吃完早餐', '坐巴士', '課室'],
+      why: '由早上起床寫到回校上課，一件接一件向前推進，所以是順敘法。',
+      hint: '這幾句的時間，是不是一直往後推？' },
+
+    { id: 'm2-05', art: 'cry', a: '倒敘',
+      p: '晚飯時，弟弟忽然哭了起來。原來他剛才在公園跌倒，膝蓋擦傷了。媽媽帶他去診所包紮，護士替他清洗傷口。',
+      k: ['哭了起來', '原來', '剛才'],
+      why: '先寫弟弟哭（結果），再用「原來」補充他跌倒的經過，時間倒回去了，所以是倒敘法。',
+      hint: '弟弟哭之前，發生了甚麼事？' },
+
+    { id: 'm2-06', art: 'rainbow', a: '順敘',
+      p: '雨停了。天空出現一道彩虹。我和姐姐跑到天台看彩虹。不久，彩虹慢慢消失了。',
+      k: ['雨停了', '出現', '消失'],
+      why: '雨停、彩虹出現、去看彩虹、彩虹消失，時間順着走，所以是順敘法。',
+      hint: '「雨停」和「彩虹消失」，哪一個先發生？' },
+
+    { id: 'm2-07', art: 'book', a: '倒敘',
+      p: '這是我最喜歡的一本書。上個月，我在圖書館借了它。我用了三個晚上讀完。讀完後，我請媽媽買一本給我。',
+      k: ['最喜歡', '上個月', '圖書館'],
+      why: '先寫現在「最喜歡」，再回到上個月借書的經過，時間倒回去了，所以是倒敘法。',
+      hint: '「最喜歡」是現在的感覺，還是上個月的感覺？' },
+
+    { id: 'm2-08', art: 'seed', a: '順敘',
+      p: '首先，老師派給我們每人一顆種子。然後，我們把種子埋進泥土。接着，我們每天澆水。最後，種子長出了幼苗。',
+      k: ['首先', '然後', '接着', '最後'],
+      why: '「首先、然後、接着、最後」是明顯的順敘標誌詞，時間一路向前，所以是順敘法。',
+      hint: '這四個詞之中，哪一個表示最後？' },
+
+    { id: 'm2-09', art: 'bed', a: '倒敘',
+      p: '我現在已經不再怕黑。記得一年級的時候，我晚上不敢一個人睡，媽媽每晚陪我。後來，我學會開着小燈睡覺。',
+      k: ['現在', '記得', '一年級'],
+      why: '先寫現在的結果，再用「記得…的時候」回到一年級，所以是倒敘法。',
+      hint: '「記得」之後，是不是回到了小時候？' },
+
+    { id: 'm2-10', art: 'finish', a: '順敘',
+      p: '運動會那天，我緊張得手心冒汗。輪到我比賽時，我全力向前跑。我第一個衝過終點，同學們都跑來抱住我。',
+      k: ['那天', '輪到我', '衝過終點'],
+      why: '由比賽前的緊張寫到衝過終點，時間順着走，所以是順敘法。',
+      hint: '緊張是在跑步之前，還是之後？' }
+  ];
+
+  /* ================= 狀態 ================= */
+  var TOTAL = 10;
+  var S = { screen: 'home', mode: 1, qi: 0, score: 0, wrong: [],
+            answered: false, placed: [null, null, null, null], pool: [], sel: null,
+            hinted: false, sound: true, slide: 0 };
+
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function shuffle(a) {
+    var r = a.slice();
+    for (var i = r.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1)), t = r[i]; r[i] = r[j]; r[j] = t;
+    }
+    return r;
+  }
+  function highlight(text, keys) {
+    var s = esc(text);
+    var order = keys.slice().sort(function (a, b) { return b.length - a.length; });
+    order.forEach(function (k, i) { s = s.split(esc(k)).join('\u0001' + i + '\u0002'); });
+    order.forEach(function (k, i) { s = s.split('\u0001' + i + '\u0002').join('<mark>' + esc(k) + '</mark>'); });
+    return s;
+  }
+
+  /* ================= 音效（Web Audio 合成，無外部檔案） ================= */
+  var actx = null;
+  function ctx() {
+    if (!actx) {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      try { actx = new AC(); } catch (e) { return null; }
+    }
+    if (actx.state === 'suspended') { try { actx.resume(); } catch (e) {} }
+    return actx;
+  }
+  function tone(freq, dur, type, vol, delay) {
+    if (!S.sound) return;
+    var c = ctx(); if (!c) return;
+    var o = c.createOscillator(), g = c.createGain();
+    o.type = type || 'sine';
+    o.frequency.value = freq;
+    o.connect(g); g.connect(c.destination);
+    var t = c.currentTime + (delay || 0);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol || 0.13, t + 0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.start(t); o.stop(t + dur + 0.04);
+  }
+  var SFX = {
+    tap:   function () { tone(600, 0.07, 'sine', 0.09); tone(900, 0.06, 'sine', 0.04, 0.04); },
+    pick:  function () { tone(520, 0.07, 'triangle', 0.09); },
+    place: function () { tone(520, 0.08, 'triangle', 0.10); tone(780, 0.09, 'triangle', 0.07, 0.06); },
+    page:  function () { tone(420, 0.07, 'sine', 0.07); tone(640, 0.09, 'sine', 0.05, 0.06); },
+    ok:    function () { [660, 880, 1046].forEach(function (f, i) { tone(f, 0.16, 'sine', 0.12, i * 0.09); }); },
+    no:    function () { tone(310, 0.14, 'sine', 0.11); tone(230, 0.2, 'sine', 0.09, 0.11); },
+    win:   function () { [523, 659, 784, 1046].forEach(function (f, i) { tone(f, 0.24, 'sine', 0.12, i * 0.12); }); }
+  };
+
+  /* ================= 畫面切換 ================= */
+  function show(name) {
+    S.screen = name;
+    ['home', 'learn', 'modes', 'game', 'result'].forEach(function (n) {
+      var el = document.getElementById('scr-' + n);
+      if (el) el.classList.toggle('on', n === name);
+    });
+    $('#btnBack').classList.toggle('invisible', name === 'home');
+    $('#scoreChip').hidden = (name !== 'game');
+    if (name === 'game') $('#scoreChip').textContent = S.score + ' 分';
+    window.scrollTo(0, 0);
+  }
+
+  function setSlide(n) {
+    S.slide = Math.max(0, Math.min(2, n));
+    $$('.slide').forEach(function (el, i) { el.classList.toggle('on', i === S.slide); });
+    $$('#learnDots i').forEach(function (el, i) { el.classList.toggle('on', i === S.slide); });
+    var prev = $('#prevSlide');
+    prev.style.display = S.slide === 0 ? 'none' : '';
+    prev.tabIndex = S.slide === 0 ? -1 : 0;
+    prev.setAttribute('aria-hidden', S.slide === 0 ? 'true' : 'false');
+    $('#nextSlide').textContent = S.slide === 2 ? '去玩' : '下一步';
+    window.scrollTo(0, 0);
+  }
+
+  /* ================= 模式一：排一排 ================= */
+  function renderDots() {
+    var html = '';
+    for (var i = 0; i < TOTAL; i++) {
+      html += '<i class="' + (i < S.qi ? 'done' : (i === S.qi ? 'cur' : '')) + '"></i>';
+    }
+    $('#qDots').innerHTML = html;
+    $('#qNow').textContent = String(S.qi + 1);
+  }
+
+  function renderQ() {
+    var bank = S.mode === 1 ? BANK1 : BANK2;
+    var q = bank[S.qi];
+    S.answered = false; S.hinted = false; S.sel = null;
+    S.placed = [null, null, null, null]; S.pool = [];
+    renderDots();
+    if (S.mode === 1) renderMode1(q); else renderMode2(q);
+  }
+
+  function slotInner(i, idx, q) {
+    var flag = '<span class="flag"><svg viewBox="0 0 24 24"><path d="m4.5 12.5 5 5L19.5 6.5"/></svg></span>';
+    var num = '<span class="num">' + (i + 1) + '</span>';
+    if (idx === null || idx === undefined) {
+      return num + flag + '<span class="ph">先點圖卡<br>再點這裏</span>';
+    }
+    return num + flag + art(q.events[idx].ic, i) + '<span class="txt">' + esc(q.events[idx].t) + '</span>';
+  }
+
+  function renderMode1(q) {
+    S.pool = shuffle(q.events.map(function (_, i) { return i; }));
+    var slots = '';
+    for (var i = 0; i < 4; i++) {
+      slots += '<button class="slot" data-slot="' + i + '" aria-label="第' + (i + 1) + '格"></button>';
+    }
+    $('#gameBody').innerHTML =
+      '<p class="prompt">把四張圖卡，按事情發生的<span class="hl">先後</span>排好。</p>' +
+      '<div class="board" id="board">' + slots + '</div>' +
+      '<div class="tray-label"><span>圖卡 · 點一張，再點上面的空格</span><span class="sel-tip" id="trayTip"></span></div>' +
+      '<div class="tray" id="tray"></div>' +
+      '<div class="tools"><button class="tool" data-act="hint"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 11.2V17h7.2v-2.8A6 6 0 0 0 12 3Z"/></svg>提示</button>' +
+      '<button class="tool" data-act="reset"><svg viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 2 7"/><path d="M4 4v6h6"/></svg>重排</button></div>' +
+      '<div id="hintBox"></div>' +
+      '<div class="submit-row"><button class="btn sage wide" data-act="submit" id="btnSubmit" disabled>提交答案</button></div>' +
+      '<div id="fbArea" aria-live="polite"></div>';
+    paintMode1(q);
+  }
+
+  function paintMode1(q) {
+    var slots = $$('.slot');
+    for (var i = 0; i < slots.length; i++) {
+      var idx = S.placed[i];
+      slots[i].classList.toggle('filled', idx !== null);
+      slots[i].innerHTML = slotInner(i, idx, q);
+    }
+    var tray = $('#tray');
+    if (!S.pool.length) {
+      tray.innerHTML = '<div class="tray-empty">圖卡都放好了，可以提交答案。</div>';
+    } else {
+      tray.innerHTML = S.pool.map(function (idx) {
+        return '<button class="pcard' + (S.sel === idx ? ' sel' : '') + '" data-card="' + idx + '">' +
+          art(q.events[idx].ic, idx) + '<span class="txt">' + esc(q.events[idx].t) + '</span></button>';
+      }).join('');
+    }
+    var placedCount = S.placed.filter(function (x) { return x !== null; }).length;
+    var tip = $('#trayTip');
+    if (S.sel !== null) {
+      tip.textContent = '已選「' + q.events[S.sel].t + '」，點空格放入';
+    } else {
+      tip.textContent = '已放 ' + placedCount + ' / 4';
+    }
+    var btn = $('#btnSubmit');
+    if (btn) btn.disabled = S.answered || placedCount < 4;
+  }
+
+  function placeAt(slot, idx) {
+    S.placed[slot] = idx;
+    S.pool = S.pool.filter(function (x) { return x !== idx; });
+    S.sel = null;
+    SFX.place();
+    paintMode1(BANK1[S.qi]);
+  }
+
+  function tapCard(idx) {
+    if (S.answered) return;
+    var q = BANK1[S.qi];
+    if (S.sel === idx) { S.sel = null; SFX.tap(); paintMode1(q); return; }
+    var empties = [];
+    for (var i = 0; i < 4; i++) { if (S.placed[i] === null) empties.push(i); }
+    if (empties.length === 1) { placeAt(empties[0], idx); return; }
+    S.sel = idx;
+    SFX.pick();
+    paintMode1(q);
+  }
+
+  function tapSlot(i) {
+    if (S.answered) return;
+    var q = BANK1[S.qi];
+    if (S.sel !== null) {
+      var cur = S.placed[i];
+      if (cur !== null) S.pool.push(cur);
+      S.placed[i] = S.sel;
+      S.pool = S.pool.filter(function (x) { return x !== S.sel; });
+      S.sel = null;
+      SFX.place();
+      paintMode1(q);
+      return;
+    }
+    if (S.placed[i] !== null) {
+      S.pool.push(S.placed[i]);
+      S.placed[i] = null;
+      SFX.tap();
+      paintMode1(q);
+      return;
+    }
+    var tip = $('#trayTip');
+    if (tip) tip.textContent = '先點下面的圖卡，再點這個空格';
+  }
+
+  function ansStrip(events) {
+    return '<div class="ans-strip">' + events.map(function (e, i) {
+      return '<div class="ans-item">' + art(e.ic, i) + '<i>' + (i + 1) + '</i><span>' + esc(e.t) + '</span></div>';
+    }).join('') + '</div>';
+  }
+
+  function showFeedback(o) {
+    var area = $('#fbArea');
+    var icon = o.ok
+      ? '<svg viewBox="0 0 24 24"><path d="m4.5 12.5 5 5L19.5 6.5"/></svg>'
+      : '<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>';
+    area.innerHTML =
+      '<div class="fb ' + (o.ok ? 'ok' : 'no') + '">' +
+        '<h3>' + icon + (o.ok ? '答對了！' : '再看一次') + '</h3>' +
+        (o.label ? '<p class="ans-label">' + esc(o.label) + '</p>' : '') +
+        (o.strip || '') +
+        '<p class="why">' + esc(o.why) + '</p>' +
+        '<button class="btn sage wide" data-act="next">' + (S.qi === TOTAL - 1 ? '看成績' : '下一題') + '</button>' +
+      '</div>';
+    SFX[(o.ok ? 'ok' : 'no')]();
+    try { area.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) { area.scrollIntoView(); }
+  }
+
+  function submitMode1() {
+    if (S.answered) return;
+    var filled = S.placed.filter(function (x) { return x !== null; }).length;
+    if (filled < 4) return;
+    S.answered = true;
+    var q = BANK1[S.qi], allRight = true;
+    var slots = $$('.slot');
+    for (var i = 0; i < 4; i++) {
+      slots[i].classList.remove('filled');
+      if (S.placed[i] === i) {
+        slots[i].classList.add('ok');
+      } else {
+        allRight = false;
+        slots[i].classList.add('bad');
+        var p = slots[i].querySelector('.flag path');
+        if (p) p.setAttribute('d', 'M6 6l12 12M18 6 6 18');
+        var fix = document.createElement('span');
+        fix.className = 'fix';
+        fix.textContent = '這張應放第 ' + (S.placed[i] + 1) + ' 格';
+        slots[i].appendChild(fix);
+      }
+    }
+    if (allRight) S.score += 10;
+    else S.wrong.push({ n: S.qi + 1, text: '正確次序：' + q.events.map(function (e) { return e.t; }).join(' → ') });
+    $('#scoreChip').textContent = S.score + ' 分';
+    var btn = $('#btnSubmit');
+    if (btn) { btn.disabled = true; btn.textContent = '已提交'; }
+    var hintBtn = $('[data-act="hint"]');
+    if (hintBtn) hintBtn.disabled = true;
+    showFeedback({
+      ok: allRight,
+      label: allRight ? '正確次序（你已排對）' : '正確次序是這樣的',
+      strip: ansStrip(q.events),
+      why: q.why
+    });
+  }
+
+  /* ================= 模式二：找一找 ================= */
+  function optHtml(ans) {
+    var desc = ans === '順敘' ? '按事情先後，一步步說' : '先寫結果，再回到從前';
+    return '<button class="opt" data-ans="' + ans + '"><b>' + ans + '法</b><span>' + desc + '</span></button>';
+  }
+
+  function renderMode2(q) {
+    var order = Math.random() < 0.5 ? ['順敘', '倒敘'] : ['倒敘', '順敘'];
+    $('#gameBody').innerHTML =
+      '<p class="prompt">讀一讀，這段文字用了<span class="hl">哪一種</span>寫法？</p>' +
+      '<div class="story"><div class="art-slot">' + art(q.art, S.qi) + '</div>' +
+        '<p class="passage" id="passage">' + esc(q.p) + '</p></div>' +
+      '<div class="opts" id="options">' + order.map(optHtml).join('') + '</div>' +
+      '<div class="tools"><button class="tool" data-act="hint"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 11.2V17h7.2v-2.8A6 6 0 0 0 12 3Z"/></svg>提示</button></div>' +
+      '<div id="hintBox"></div>' +
+      '<div id="fbArea" aria-live="polite"></div>';
+  }
+
+  function answerMode2(choice) {
+    if (S.answered) return;
+    S.answered = true;
+    var q = BANK2[S.qi];
+    var right = choice === q.a;
+    $$('.opt').forEach(function (el) {
+      el.disabled = true;
+      var a = el.getAttribute('data-ans');
+      if (a === q.a) el.classList.add('ok');
+      else if (a === choice) el.classList.add('bad');
+    });
+    $('#passage').innerHTML = highlight(q.p, q.k);
+    if (right) S.score += 10;
+    else S.wrong.push({ n: S.qi + 1, text: '正確答案：' + q.a + '法' });
+    $('#scoreChip').textContent = S.score + ' 分';
+    var hintBtn = $('[data-act="hint"]');
+    if (hintBtn) hintBtn.disabled = true;
+    showFeedback({
+      ok: right,
+      label: (right ? '' : '正確答案：' + q.a + '法　') + '文中提示：' + q.k.join('、'),
+      strip: '',
+      why: q.why
+    });
+  }
+
+  /* ================= 結算 ================= */
+  function finish() {
+    var pct = S.score;
+    var stars = pct >= 90 ? 3 : (pct >= 70 ? 2 : 1);
+    $('#resScore').textContent = String(pct);
+    $('#resStars').innerHTML = [0, 1, 2].map(function (i) {
+      return '<svg viewBox="0 0 24 24" class="' + (i < stars ? 'on' : '') + '" aria-hidden="true"><path d="m12 3.4 2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.9l6.1-.9Z"/></svg>';
+    }).join('');
+    var titles = ['別急，慢慢再看一次。', '很好，時間線抓得準！', '太厲害了，你是時光小達人！'];
+    var correct = pct / 10;
+    var subs = [
+      '答對 ' + correct + ' 題（共 10 題），先看看解釋，再玩一次。',
+      '答對 ' + correct + ' 題（共 10 題），把錯的再看一次就更好。',
+      '答對 ' + correct + ' 題（共 10 題），全部答對！'
+    ];
+    $('#resTitle').textContent = titles[stars - 1];
+    $('#resSub').textContent = (S.mode === 1 ? '模式一 · 排一排　' : '模式二 · 找一找　') + subs[stars - 1];
+    var rev = $('#resReview');
+    if (S.wrong.length) {
+      rev.innerHTML = '<h3>要留意的題目</h3><div class="rlist">' + S.wrong.map(function (w) {
+        return '<div class="ritem"><b>第 ' + w.n + ' 題</b>　' + esc(w.text) + '</div>';
+      }).join('') + '</div>';
+    } else {
+      rev.innerHTML = '<h3>要留意的題目</h3><div class="r-none">全部答對，沒有錯題。</div>';
+    }
+    show('result');
+    SFX.win();
+  }
+
+  function nextQ() {
+    if (S.qi >= TOTAL - 1) { finish(); return; }
+    S.qi += 1;
+    SFX.page();
+    renderQ();
+    window.scrollTo(0, 0);
+  }
+
+  function startMode(m) {
+    S.mode = m; S.qi = 0; S.score = 0; S.wrong = [];
+    S.answered = false; S.sel = null; S.placed = [null, null, null, null]; S.pool = [];
+    $('#qBadge').textContent = m === 1 ? '模式一 · 排一排' : '模式二 · 找一找';
+    $('#scoreChip').textContent = '0 分';
+    show('game');
+    renderQ();
+    SFX.page();
+  }
+
+  /* ================= 離開提示 ================= */
+  var lastFocus = null;
+  function openModal() {
+    lastFocus = document.activeElement;
+    $('#modal').hidden = false;
+    document.body.style.overflow = 'hidden';
+    var b = $('[data-modal="stay"]');
+    if (b) b.focus();
+  }
+  function closeModal() {
+    $('#modal').hidden = true;
+    document.body.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  function goBack() {
+    if (S.screen === 'game') {
+      var progress = S.qi > 0 || S.answered || S.placed.some(function (x) { return x !== null; });
+      if (progress) { openModal(); return; }
+      show('modes');
+    } else if (S.screen === 'result') {
+      show('modes');
+    } else if (S.screen === 'modes' || S.screen === 'learn') {
+      show('home');
+    }
+  }
+
+  /* ================= 事件 ================= */
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest ? e.target.closest('[data-go],[data-mode],[data-slot],[data-card],[data-act],[data-ans],[data-modal]') : null;
+    if (!t) return;
+
+    if (t.hasAttribute('data-modal')) {
+      if (t.getAttribute('data-modal') === 'leave') { closeModal(); show('modes'); }
+      else { closeModal(); }
+      return;
+    }
+    if (t.hasAttribute('data-go')) {
+      var go = t.getAttribute('data-go');
+      SFX.tap();
+      if (go === 'learn') { setSlide(0); show('learn'); }
+      else if (go === 'modes') { show('modes'); }
+      else if (go === 'home') { show('home'); }
+      return;
+    }
+    if (t.hasAttribute('data-mode')) { startMode(parseInt(t.getAttribute('data-mode'), 10)); return; }
+    if (t.hasAttribute('data-ans')) { answerMode2(t.getAttribute('data-ans')); return; }
+    if (t.hasAttribute('data-card')) { tapCard(parseInt(t.getAttribute('data-card'), 10)); return; }
+    if (t.hasAttribute('data-slot')) { tapSlot(parseInt(t.getAttribute('data-slot'), 10)); return; }
+
+    var act = t.getAttribute('data-act');
+    if (!act) return;
+    if (act === 'reset') {
+      if (S.answered) return;
+      S.placed = [null, null, null, null];
+      S.pool = shuffle(BANK1[S.qi].events.map(function (_, i) { return i; }));
+      S.sel = null;
+      var fb = $('#fbArea'); if (fb) fb.innerHTML = '';
+      SFX.tap();
+      paintMode1(BANK1[S.qi]);
+    } else if (act === 'submit') {
+      submitMode1();
+    } else if (act === 'hint') {
+      if (S.hinted) return;
+      S.hinted = true;
+      var q = S.mode === 1 ? BANK1[S.qi] : BANK2[S.qi];
+      var box = $('#hintBox');
+      if (box) box.innerHTML = '<div class="hint"><b>小提示：</b>' + esc(q.hint) + '</div>';
+      SFX.tap();
+    } else if (act === 'next') {
+      nextQ();
+    } else if (act === 'again') {
+      SFX.tap(); startMode(S.mode);
+    } else if (act === 'modes') {
+      SFX.tap(); show('modes');
+    } else if (act === 'learn') {
+      SFX.tap(); setSlide(0); show('learn');
+    } else if (act === 'home') {
+      SFX.tap(); show('home');
+    }
+  });
+
+  $('#btnBack').addEventListener('click', function () { SFX.tap(); goBack(); });
+
+  $('#btnSound').addEventListener('click', function () {
+    S.sound = !S.sound;
+    var use = $('#soundIcon');
+    use.innerHTML = S.sound
+      ? '<path d="M4 9.5h3.4L12 5.5v13l-4.6-4H4z"/><path d="M15.6 8.8a4.4 4.4 0 0 1 0 6.4"/><path d="M18 6.4a7.6 7.6 0 0 1 0 11.2"/>'
+      : '<path d="M4 9.5h3.4L12 5.5v13l-4.6-4H4z"/><path d="m16 9.5 5 5M21 9.5l-5 5"/>';
+    this.setAttribute('aria-label', S.sound ? '關閉音效' : '開啟音效');
+    this.setAttribute('aria-pressed', S.sound ? 'true' : 'false');
+    if (S.sound) SFX.tap();
+  });
+
+  $('#prevSlide').addEventListener('click', function () {
+    if (S.slide === 0) return;
+    SFX.page(); setSlide(S.slide - 1);
+  });
+  $('#nextSlide').addEventListener('click', function () {
+    SFX.page();
+    if (S.slide === 2) { show('modes'); } else { setSlide(S.slide + 1); }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !$('#modal').hidden) { closeModal(); return; }
+    if (S.screen === 'learn') {
+      if (e.key === 'ArrowRight' && S.slide < 2) { setSlide(S.slide + 1); }
+      if (e.key === 'ArrowLeft' && S.slide > 0) { setSlide(S.slide - 1); }
+    }
+  });
+
+  /* ================= 初始化 ================= */
+  $$('[data-art]').forEach(function (el) {
+    el.innerHTML = art(el.getAttribute('data-art'), parseInt(el.getAttribute('data-tone') || '0', 10));
+  });
+  setSlide(0);
+  show('home');
+})();
+</script>
+</body>
+</html>

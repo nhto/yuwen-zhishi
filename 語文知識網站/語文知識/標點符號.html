@@ -1,0 +1,2752 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>標點精靈大冒險｜小學標點符號互動學習</title>
+<meta name="description" content="為香港小學生設計的標點符號互動學習遊戲：12 種標點圖文教學（含括號）、兩種互動練習、初階與高階混合挑戰，對應《香港小學學習字詞表》標準用字，附即時解說與音效，支援手機、平板及電腦。">
+<style>
+  :root{
+    --cream:#FFF8EC;
+    --paper:#FFFFFF;
+    --ink:#2E2A26;
+    --muted:#6F665C;
+    --line:rgba(46,42,38,.14);
+    --teal:#2FBF9B;
+    --teal-deep:#1E9C7C;
+    --coral:#FF7A59;
+    --yellow:#FFC94D;
+    --purple:#9B8CF5;
+    --ok-bg:#E4F7F0;
+    --no-bg:#FFF0E9;
+    --radius:24px;
+    --shadow:0 6px 0 rgba(46,42,38,.14);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    font-family:"Noto Sans HK","Noto Sans TC","PingFang HK","PingFang TC","Microsoft JhengHei","Heiti TC","Source Han Sans HK","Source Han Sans TC",system-ui,-apple-system,sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.7;
+    font-size:clamp(18px,1.15vw,19px);
+    -webkit-tap-highlight-color:transparent;
+    text-rendering:optimizeLegibility;
+  }
+  button{touch-action:manipulation;-webkit-user-select:none;user-select:none}
+  body::before{
+    content:"";
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:radial-gradient(rgba(46,42,38,.055) 1.3px, transparent 1.3px);
+    background-size:24px 24px;
+  }
+  #app{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:clamp(12px,2vw,24px) clamp(14px,3vw,32px) 56px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  .screen{animation:fadeUp .28s ease both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){
+    .screen{animation:none}
+    *{transition-duration:.01ms !important;animation-duration:.01ms !important}
+  }
+
+  /* ---------- top bar ---------- */
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 0 clamp(12px,2vw,20px)}
+  .brand{display:flex;align-items:center;gap:10px;background:none;border:0;padding:6px;margin:0;font:inherit;font-weight:900;color:var(--ink);cursor:pointer;border-radius:14px;font-size:clamp(15px,1.4vw,19px)}
+  .brand:focus-visible{outline:3px solid var(--purple);outline-offset:2px}
+  .logo-dot{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:13px;background:var(--teal);border:3px solid var(--ink);color:var(--ink);font-weight:900;font-size:20px;box-shadow:0 3px 0 rgba(46,42,38,.2)}
+  .icon-btn{width:52px;height:52px;border-radius:50%;border:3px solid var(--ink);background:var(--paper);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink);box-shadow:0 4px 0 rgba(46,42,38,.18);transition:transform .12s}
+  .icon-btn:active{transform:translateY(3px);box-shadow:none}
+  .icon-btn svg{width:26px;height:26px}
+  .icon-btn[aria-pressed="false"]{background:#EFE9DF;color:#8C8378}
+
+  /* ---------- buttons ---------- */
+  .btn{
+    font:inherit;font-weight:900;color:var(--ink);background:var(--paper);
+    border:3px solid var(--ink);border-radius:999px;
+    padding:12px 26px;min-height:54px;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    cursor:pointer;box-shadow:0 4px 0 rgba(46,42,38,.9);
+    transition:transform .12s ease, box-shadow .12s ease;
+    font-size:clamp(16px,1.5vw,19px);line-height:1.2;
+  }
+  .btn:active{transform:translateY(4px);box-shadow:0 0 0 rgba(46,42,38,.9)}
+  .btn:focus-visible{outline:3px solid var(--purple);outline-offset:3px}
+  .btn.primary{background:var(--teal)}
+  .btn.accent{background:var(--yellow)}
+  .btn.coral{background:var(--coral)}
+  .btn.ghost{box-shadow:0 4px 0 rgba(46,42,38,.18)}
+  .btn.big{min-height:62px;padding:14px 34px;font-size:clamp(18px,1.9vw,22px)}
+  .btn.small{min-height:46px;padding:8px 18px;font-size:clamp(14px,1.3vw,16px);border-width:2.5px;box-shadow:0 3px 0 rgba(46,42,38,.9)}
+  .btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none;transform:none}
+  .btn-row{display:flex;flex-wrap:wrap;gap:12px}
+
+  /* ---------- cards ---------- */
+  .card{background:var(--paper);border:3px solid var(--ink);border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(18px,2.4vw,28px)}
+  .card h3{margin:0 0 10px;font-size:clamp(19px,1.85vw,23px);line-height:1.3}
+  .card p{margin:0}
+
+  /* ---------- hero ---------- */
+  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(16px,3vw,40px);align-items:center;padding:clamp(8px,2vw,24px) 0 clamp(18px,3vw,32px)}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(155,140,245,.18);color:#5B4CB8;border-radius:999px;padding:6px 16px;font-weight:800;font-size:clamp(13px,1.2vw,15px);letter-spacing:.04em}
+  .hero h1{margin:14px 0 10px;font-size:clamp(40px,6vw,72px);line-height:1.1;letter-spacing:.01em;font-weight:900}
+  .hero h1 em{font-style:normal;color:var(--coral)}
+  .lead{margin:0 0 22px;color:var(--muted);font-size:clamp(17px,1.6vw,21px);max-width:30em}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .chip{background:#fff;border:2px solid var(--line);border-radius:999px;padding:5px 14px;font-size:clamp(13px,1.2vw,15px);font-weight:700;color:var(--muted)}
+  .hero-art{position:relative;display:flex;align-items:center;justify-content:center;min-height:260px}
+  .hero-art svg.mascot{width:min(100%,420px);height:auto;filter:drop-shadow(0 10px 0 rgba(46,42,38,.08))}
+  .float-mark{position:absolute;font-weight:900;color:var(--ink);opacity:.9;text-shadow:2px 3px 0 rgba(255,255,255,.9);user-select:none}
+  .float-mark.m1{font-size:clamp(26px,3.4vw,44px);color:var(--coral);top:6%;left:4%;transform:rotate(-12deg)}
+  .float-mark.m2{font-size:clamp(24px,3vw,40px);color:var(--purple);bottom:12%;right:4%;transform:rotate(10deg)}
+  .float-mark.m3{font-size:clamp(20px,2.4vw,32px);color:var(--teal-deep);top:18%;right:10%;transform:rotate(8deg)}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:clamp(10px,1.6vw,16px);margin:6px 0 26px}
+  .stat{background:#fff;border:3px solid var(--ink);border-radius:20px;padding:14px 18px;box-shadow:0 5px 0 rgba(46,42,38,.14)}
+  .stat b{display:block;font-size:clamp(22px,2.4vw,30px);line-height:1.2}
+  .stat span{color:var(--muted);font-size:clamp(13px,1.2vw,15px);font-weight:700}
+  .home-note{display:flex;gap:12px;align-items:flex-start;background:rgba(47,191,155,.10);border:2px dashed rgba(30,156,124,.4);border-radius:18px;padding:14px 18px;color:#28695A;font-size:clamp(14px,1.25vw,16px)}
+  .home-note svg{flex:0 0 auto;width:22px;height:22px;margin-top:2px}
+  .home-tools{display:flex;justify-content:center;margin-top:18px}
+  .link-btn{background:none;border:0;font:inherit;font-size:clamp(13px,1.15vw,15px);font-weight:700;color:var(--muted);text-decoration:underline;text-underline-offset:4px;cursor:pointer;padding:10px 14px;border-radius:12px}
+  .link-btn:hover{color:var(--ink)}
+  .link-btn:focus-visible{outline:3px solid var(--purple);outline-offset:2px}
+
+  /* ---------- page header ---------- */
+  .page-head{display:flex;align-items:center;gap:12px;margin:0 0 clamp(14px,2vw,22px);flex-wrap:wrap}
+  .page-head h2{margin:0;font-size:clamp(24px,3vw,36px);line-height:1.2}
+  .page-head .sub{margin:0;color:var(--muted);font-weight:600;font-size:clamp(14px,1.3vw,17px)}
+  .back-btn{width:50px;height:50px;border-radius:50%;border:3px solid var(--ink);background:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 0 rgba(46,42,38,.18);flex:0 0 auto;color:var(--ink)}
+  .back-btn:active{transform:translateY(3px);box-shadow:none}
+  .back-btn svg{width:24px;height:24px}
+
+  /* ---------- map ---------- */
+  .mark-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:clamp(10px,1.6vw,18px)}
+  .mark-card{
+    position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;
+    background:#fff;border:3px solid var(--ink);border-radius:24px;padding:16px 10px 14px;
+    cursor:pointer;font:inherit;color:var(--ink);text-align:center;
+    box-shadow:0 5px 0 rgba(46,42,38,.16);
+    transition:transform .14s ease, box-shadow .14s ease;
+  }
+  .mark-card:hover{transform:translateY(-4px);box-shadow:0 9px 0 rgba(46,42,38,.16)}
+  .mark-card:active{transform:translateY(1px);box-shadow:0 2px 0 rgba(46,42,38,.16)}
+  .mark-card:focus-visible{outline:3px solid var(--purple);outline-offset:3px}
+  .mc-name{font-weight:900;font-size:clamp(18px,1.65vw,21px);line-height:1.2}
+  .mc-tag{color:var(--muted);font-size:clamp(13px,1.15vw,15px);line-height:1.45;min-height:2.7em;display:flex;align-items:center}
+  .mc-go{margin-top:2px;font-size:clamp(12px,1.1vw,14px);font-weight:800;color:var(--teal-deep);background:rgba(47,191,155,.14);border-radius:999px;padding:3px 12px}
+  .mc-done{margin-top:2px;font-size:clamp(12px,1.1vw,14px);font-weight:800;color:#fff;background:var(--teal-deep);border-radius:999px;padding:3px 12px}
+  .sticker{display:block}
+
+  /* ---------- teach ---------- */
+  .teach-grid{display:grid;grid-template-columns:minmax(230px,.82fr) 1.5fr;gap:clamp(14px,2.4vw,26px);align-items:start}
+  .teach-hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;position:sticky;top:12px}
+  .teach-hero h2{margin:10px 0 0;font-size:clamp(28px,3.2vw,40px);line-height:1.15}
+  .tagline{color:var(--muted);font-weight:700;margin:0}
+  .mode-pill{display:inline-flex;align-items:center;gap:6px;margin-top:10px;background:rgba(155,140,245,.16);color:#5B4CB8;border-radius:999px;padding:6px 14px;font-weight:800;font-size:clamp(12px,1.15vw,14px)}
+  .teach-body{display:flex;flex-direction:column;gap:clamp(12px,1.8vw,18px)}
+  .def{background:linear-gradient(180deg,#FFFDF6,#FFF6E4)}
+  .def p{font-size:clamp(20px,2vw,25px);font-weight:800;line-height:1.6}
+  .points{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+  .points li{display:flex;gap:12px;align-items:flex-start;font-weight:600;font-size:clamp(17px,1.45vw,19px)}
+  .num{flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:var(--teal);border:2.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;margin-top:2px}
+  .examples{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+  .examples li{background:#FFF9EF;border:2px solid var(--line);border-radius:14px;padding:12px 16px;font-size:clamp(19px,1.75vw,23px);font-weight:700;line-height:1.95}
+  .hl{color:#C2410C;background:#FFE3D2;border-radius:6px;padding:0 2px}
+  .mk-dash{display:inline-block;width:1.72em;height:.17em;background:currentColor;border-radius:999px;vertical-align:.30em;margin:0 .04em}
+  .tip{background:#FFF4D6;border-color:#E0A93B}
+  .tip h3{color:#8A5A00}
+  .teach-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;margin-top:clamp(16px,2.4vw,26px)}
+  .teach-actions .side{display:flex;gap:10px;flex-wrap:wrap}
+
+  /* ---------- challenge ---------- */
+  .level-card{margin-bottom:clamp(16px,2.4vw,26px)}
+  .level-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+  .level-badge{display:inline-flex;align-items:center;justify-content:center;border:3px solid var(--ink);border-radius:14px;padding:6px 16px;font-weight:900;font-size:clamp(16px,1.6vw,20px);box-shadow:0 3px 0 rgba(46,42,38,.2)}
+  .level-badge.easy{background:var(--teal)}
+  .level-badge.hard{background:var(--coral)}
+  .level-head p{margin:0;color:var(--muted);font-weight:600;font-size:clamp(13px,1.25vw,16px)}
+  .group-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:clamp(10px,1.6vw,16px)}
+  .group-btn{display:flex;flex-direction:column;align-items:flex-start;gap:4px;background:#fff;border:3px solid var(--ink);border-radius:20px;padding:14px 16px;cursor:pointer;font:inherit;color:var(--ink);text-align:left;box-shadow:0 4px 0 rgba(46,42,38,.16);transition:transform .14s}
+  .group-btn:hover{transform:translateY(-3px)}
+  .group-btn:active{transform:translateY(1px);box-shadow:0 1px 0 rgba(46,42,38,.16)}
+  .g-top{display:flex;align-items:center;justify-content:space-between;gap:4px;width:100%;flex-wrap:nowrap}
+  .g-mode{flex:0 0 auto;font-size:clamp(9px,.95vw,11px);font-weight:900;padding:2px 6px;border-radius:999px;background:rgba(47,191,155,.16);color:#1E7A63;border:1.5px solid rgba(30,156,124,.4);line-height:1.5;white-space:nowrap}
+  .g-mode.multi{background:rgba(155,140,245,.18);color:#5B4CB8;border-color:rgba(123,107,224,.45)}
+  .mode-legend{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 clamp(12px,2vw,18px)}
+  .mode-legend span{display:inline-flex;align-items:center;gap:7px;background:#fff;border:2px solid var(--line);border-radius:999px;padding:5px 14px;font-size:clamp(12px,1.15vw,14px);font-weight:800;color:var(--muted)}
+  .mode-legend i{width:10px;height:10px;border-radius:50%;background:var(--teal);display:inline-block}
+  .mode-legend i.multi{background:var(--purple)}
+  .group-btn b{font-size:clamp(16px,1.5vw,19px);white-space:nowrap}
+  .group-btn small{color:var(--muted);font-size:clamp(13px,1.15vw,15px);font-weight:600;line-height:1.45}
+  .stars{display:flex;gap:2px;margin-top:4px}
+  .stars svg{width:18px;height:18px}
+
+  /* ---------- quiz ---------- */
+  .quiz-wrap{max-width:900px;margin:0 auto}
+  .quiz-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .quiz-meta{flex:1;min-width:0}
+  .quiz-meta h2{margin:0;font-size:clamp(17px,1.7vw,21px);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .quiz-meta p{margin:2px 0 0;color:var(--muted);font-size:clamp(12px,1.15vw,14px);font-weight:700}
+  .counter{font-weight:900;font-size:clamp(15px,1.5vw,18px);background:#fff;border:2.5px solid var(--ink);border-radius:999px;padding:4px 14px;white-space:nowrap}
+  .bar{height:14px;background:#EDE5D8;border-radius:999px;overflow:hidden;margin:0 0 clamp(14px,2vw,20px);border:2px solid rgba(46,42,38,.12)}
+  .bar > i{display:block;height:100%;background:var(--teal);border-radius:999px;transition:width .3s ease}
+  .q-card{padding:clamp(18px,2.6vw,30px)}
+  .q-type{display:inline-flex;align-items:center;gap:6px;font-size:clamp(12px,1.15vw,14px);font-weight:800;color:#5B4CB8;background:rgba(155,140,245,.14);border-radius:999px;padding:4px 14px;margin-bottom:12px}
+  .sentence{font-size:clamp(26px,2.9vw,38px);line-height:2.15;font-weight:800;margin:4px 0 clamp(16px,2vw,22px);word-break:normal;overflow-wrap:break-word}
+  .slot{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-width:1.5em;height:1.45em;padding:0 .1em;margin:0 .04em;
+    border:0;border-bottom:5px dashed var(--coral);
+    background:rgba(255,122,89,.10);border-radius:10px 10px 4px 4px;
+    font:inherit;font-size:.9em;font-weight:900;color:var(--ink);
+    vertical-align:-0.12em;cursor:pointer;line-height:1;
+  }
+  .slot.wide{min-width:2.1em}
+  .keep{white-space:nowrap;word-break:keep-all;overflow-wrap:normal}
+  .slot.filled{border-bottom-style:solid;border-bottom-color:var(--teal-deep);background:rgba(47,191,155,.16)}
+  .slot.wrong{border-bottom-color:#D93B3B;background:rgba(217,59,59,.13)}
+  .slot.reveal{border-bottom-color:#D93B3B;background:rgba(217,59,59,.08)}
+  .slot:focus-visible{outline:3px solid var(--purple);outline-offset:2px}
+  .options{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(10px,1.4vw,14px)}
+  .tray{grid-template-columns:repeat(3,1fr)}
+  .opt{
+    min-height:clamp(74px,10vw,100px);
+    font-family:inherit;font-weight:900;font-size:clamp(30px,4.2vw,46px);
+    color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:20px;
+    box-shadow:0 5px 0 rgba(46,42,38,.18);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .12s, box-shadow .12s, background .12s;
+    line-height:1;
+  }
+  .tray .opt{font-size:clamp(26px,3.4vw,38px);min-height:clamp(62px,8vw,84px)}
+  .opt:hover:not([disabled]){transform:translateY(-2px)}
+  .opt:active:not([disabled]){transform:translateY(3px);box-shadow:0 1px 0 rgba(46,42,38,.18)}
+  .opt:focus-visible{outline:3px solid var(--purple);outline-offset:3px}
+  .opt.correct{background:#D6F5E8;border-color:var(--teal-deep);box-shadow:0 5px 0 var(--teal-deep);animation:pop .3s ease}
+  .opt.dim{opacity:.4}
+  .opt.wrong{background:#F2EDE7;color:#9C9388;border-color:#C6BDB2;box-shadow:none;opacity:.65}
+  .opt[disabled]{cursor:default}
+  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.07)}100%{transform:scale(1)}}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .shake{animation:shake .3s ease}
+
+  .feedback{margin-top:clamp(14px,2vw,20px);border-radius:18px;padding:16px 18px;border:3px solid;display:flex;gap:12px;align-items:flex-start}
+  .feedback.ok{background:var(--ok-bg);border-color:var(--teal-deep)}
+  .feedback.no{background:var(--no-bg);border-color:#E8845F}
+  .feedback.hint{background:#FFF8E3;border-color:#E0A93B}
+  .feedback .fb-icon{flex:0 0 auto;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fff;border:2.5px solid currentColor}
+  .feedback.ok .fb-icon{color:var(--teal-deep)}
+  .feedback.no .fb-icon{color:#C9542F}
+  .feedback.hint .fb-icon{color:#A9761B}
+  .feedback .fb-icon svg{width:22px;height:22px}
+  .feedback h4{margin:0 0 4px;font-size:clamp(16px,1.55vw,19px);line-height:1.3}
+  .feedback p{margin:0;font-size:clamp(16px,1.45vw,18px);line-height:1.7;font-weight:600}
+  .feedback .ans{font-weight:900;color:#B03A1C;background:#FFE2D3;border-radius:6px;padding:0 5px}
+
+  .quiz-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:clamp(14px,2vw,20px);flex-wrap:wrap}
+  .quiz-actions .btn{min-width:150px}
+
+  /* ---------- result ---------- */
+  .result{max-width:720px;margin:0 auto;text-align:center}
+  .result .big-stars{display:flex;justify-content:center;gap:10px;margin:6px 0 4px}
+  .result .big-stars svg{width:clamp(58px,8vw,84px);height:clamp(58px,8vw,84px)}
+  .result h2{font-size:clamp(28px,3.6vw,42px);margin:6px 0 4px;line-height:1.2}
+  .result .scoreline{font-size:clamp(18px,1.9vw,22px);font-weight:800;color:var(--muted);margin:0 0 6px}
+  .result .msg{font-size:clamp(16px,1.5vw,19px);margin:0 auto 20px;max-width:26em;color:var(--muted);font-weight:600}
+  .result .btn-row{justify-content:center}
+  .result-art{display:flex;justify-content:center;margin-bottom:4px}
+  .result-art svg{width:clamp(130px,18vw,180px);height:auto}
+
+  /* ---------- modal & toast ---------- */
+  .overlay{position:fixed;inset:0;background:rgba(46,42,38,.45);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
+  .modal{background:#fff;border:3px solid var(--ink);border-radius:24px;max-width:460px;width:100%;padding:24px;box-shadow:0 10px 0 rgba(46,42,38,.2)}
+  .modal h3{margin:0 0 8px;font-size:clamp(19px,2vw,23px)}
+  .modal p{margin:0 0 20px;color:var(--muted);font-weight:600}
+  .modal .btn-row{justify-content:flex-end}
+  .toast{
+    position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));
+    transform:translate(-50%,20px);opacity:0;pointer-events:none;
+    background:var(--ink);color:#FFF8EC;padding:12px 22px;border-radius:999px;
+    font-weight:700;font-size:15px;z-index:60;transition:all .25s ease;max-width:88vw;text-align:center;
+  }
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .teach-grid{grid-template-columns:1fr}
+    .teach-hero{position:static;flex-direction:row;justify-content:flex-start;text-align:left;flex-wrap:wrap}
+    .teach-hero h2{margin:0}
+    .teach-hero .tagline{width:100%}
+    .hero{grid-template-columns:1fr}
+    .hero-art{order:-1;min-height:0}
+    .hero-art svg.mascot{width:min(72%,300px)}
+  }
+  @media (max-width:640px){
+    .stats{grid-template-columns:repeat(3,1fr);gap:8px}
+    .stat{padding:12px 8px;text-align:center}
+    .stat b{font-size:clamp(18px,5.2vw,22px)}
+    .stat span{font-size:clamp(10.5px,2.9vw,12px);line-height:1.35;display:block}
+    .options{grid-template-columns:repeat(2,1fr)}
+    .tray{grid-template-columns:repeat(3,1fr)}
+    .mark-grid{grid-template-columns:repeat(2,1fr)}
+    .group-grid{grid-template-columns:repeat(2,1fr)}
+    .sentence{font-size:clamp(24px,6.4vw,30px);line-height:2.2}
+    .hero h1{font-size:clamp(38px,11vw,52px)}
+    .quiz-actions{flex-direction:column-reverse}
+    .quiz-actions .btn{width:100%}
+    .teach-actions{flex-direction:column}
+    .teach-actions .btn{width:100%}
+    .teach-actions .side{width:100%}
+    .teach-actions .side .btn{flex:1}
+    .result .btn-row .btn{width:100%}
+  }
+  @media (min-width:721px){
+    .options{grid-template-columns:repeat(4,1fr)}
+    .tray{grid-template-columns:repeat(6,1fr)}
+  }
+  @media (min-width:1100px){
+    .hero{padding-top:36px}
+  }
+</style>
+</head>
+<body>
+<main id="app" data-generated-by="vibe-coding-frontend-design"></main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<noscript><p style="padding:24px;text-align:center;font-family:sans-serif">本遊戲需要開啟 JavaScript 才能遊玩。</p></noscript>
+<script>
+(function(){
+'use strict';
+
+/* ======================= 資料 ======================= */
+const DATA = {
+  "marks": [
+    {
+      "id": "comma",
+      "glyph": "，",
+      "name": "逗號",
+      "color": "#E2694A",
+      "bg": "#FFE7DC",
+      "tagline": "句子中間的小休息",
+      "definition": "表示句子中間的停頓，讓句子讀起來更順暢。",
+      "points": [
+        "句子中間需要停一停，就用逗號。",
+        "停頓比頓號長，比句號短。",
+        "一句話還未說完，不要用句號。"
+      ],
+      "examples": [
+        "放學後，我和媽媽一起到公園散步。",
+        "妹妹喜歡畫畫，也喜歡唱歌。"
+      ],
+      "tip": "不要把整段話只用逗號連到底，句子說完要寫句號。",
+      "hl": [
+        "，"
+      ],
+      "modeLabel": "選一選 · 句子填空",
+      "practice": [
+        {
+          "mode": "single",
+          "text": "早上起來▢我先刷牙，再吃早餐。",
+          "answer": "，",
+          "options": [
+            "，",
+            "。",
+            "、",
+            "；"
+          ],
+          "explain": "句子還未說完，中間停一停，用逗號。"
+        },
+        {
+          "mode": "single",
+          "text": "爺爺年紀大了▢走路卻很有精神。",
+          "answer": "，",
+          "options": [
+            "，",
+            "。",
+            "；",
+            "！"
+          ],
+          "explain": "兩個分句關係緊密，中間用逗號；整句說完才用句號。"
+        },
+        {
+          "mode": "single",
+          "text": "這本書▢我已經看過三次了。",
+          "answer": "，",
+          "options": [
+            "，",
+            "。",
+            "：",
+            "？"
+          ],
+          "explain": "主語「這本書」後面稍作停頓，用逗號；句子到最後才用句號。"
+        }
+      ]
+    },
+    {
+      "id": "period",
+      "glyph": "。",
+      "name": "句號",
+      "color": "#3C86C4",
+      "bg": "#E3F1FC",
+      "tagline": "一句話的完結",
+      "definition": "一句話說完，就在末尾用句號。",
+      "points": [
+        "意思完整的句子，末尾用句號。",
+        "句號是一個小圓圈，不要寫成一點。",
+        "句子說完才用，未說完用逗號。"
+      ],
+      "examples": [
+        "今天的天氣十分晴朗。",
+        "弟弟正在房間裏看圖書。"
+      ],
+      "tip": "看到「嗎」、「呢」等疑問語氣詞，句末要用問號，不是句號。",
+      "hl": [
+        "。"
+      ],
+      "modeLabel": "選一選 · 句子填空",
+      "practice": [
+        {
+          "mode": "single",
+          "text": "我最喜歡的科目是常識▢",
+          "answer": "。",
+          "options": [
+            "。",
+            "，",
+            "？",
+            "！"
+          ],
+          "explain": "一句話完整說完，句末用句號。"
+        },
+        {
+          "mode": "single",
+          "text": "放學後，同學們排隊離開課室▢",
+          "answer": "。",
+          "options": [
+            "。",
+            "，",
+            "！",
+            "？"
+          ],
+          "explain": "陳述一件事，語氣平靜，用句號。"
+        },
+        {
+          "mode": "single",
+          "text": "姐姐每天早上七時半乘校車上學▢",
+          "answer": "。",
+          "options": [
+            "。",
+            "！",
+            "？",
+            "，"
+          ],
+          "explain": "陳述姐姐上學的時間，句子完整，用句號。"
+        }
+      ]
+    },
+    {
+      "id": "question",
+      "glyph": "？",
+      "name": "問號",
+      "color": "#7B6BE0",
+      "bg": "#ECE8FF",
+      "tagline": "把疑問提出來",
+      "definition": "表示疑問，用在問句的末尾。",
+      "points": [
+        "有疑問、要發問，句末用問號。",
+        "句末有「嗎」、「呢」、「甚麼」等詞，多數是問句。",
+        "問號只寫一個，不要連寫幾個。"
+      ],
+      "examples": [
+        "你吃過午飯了嗎？",
+        "這本書是誰的？"
+      ],
+      "tip": "不是所有帶「甚麼」的句子都是問句，要看是否真的在發問。",
+      "hl": [
+        "？"
+      ],
+      "modeLabel": "選一選 · 句子填空",
+      "practice": [
+        {
+          "mode": "single",
+          "text": "你昨天有沒有完成功課▢",
+          "answer": "？",
+          "options": [
+            "？",
+            "。",
+            "！",
+            "，"
+          ],
+          "explain": "這是一條問句，句末要用問號。"
+        },
+        {
+          "mode": "single",
+          "text": "為甚麼天空是藍色的▢",
+          "answer": "？",
+          "options": [
+            "？",
+            "。",
+            "，",
+            "！"
+          ],
+          "explain": "有「為甚麼」，表示疑問，用問號。"
+        },
+        {
+          "mode": "single",
+          "text": "請問圖書館是不是在禮堂旁邊▢",
+          "answer": "？",
+          "options": [
+            "？",
+            "。",
+            "！",
+            "："
+          ],
+          "explain": "「請問」開頭，句子在發問，用問號。"
+        }
+      ]
+    },
+    {
+      "id": "exclaim",
+      "glyph": "！",
+      "name": "感嘆號",
+      "color": "#D94A6A",
+      "bg": "#FFE4EA",
+      "tagline": "把感情放大",
+      "definition": "表示強烈的感情，例如驚喜、讚嘆、生氣或命令。",
+      "points": [
+        "讚嘆、驚喜、生氣、命令，句末用感嘆號。",
+        "感嘆號只寫一個，不要寫成「！！！」。",
+        "語氣平淡的陳述句用句號。"
+      ],
+      "examples": [
+        "這幅畫真漂亮啊！",
+        "小心，前面有車！"
+      ],
+      "tip": "有「啊」、「真」、「多麼」等詞，語氣強烈時多用感嘆號。",
+      "hl": [
+        "！"
+      ],
+      "modeLabel": "選一選 · 句子填空",
+      "practice": [
+        {
+          "mode": "single",
+          "text": "這道菜真香啊▢",
+          "answer": "！",
+          "options": [
+            "！",
+            "。",
+            "？",
+            "，"
+          ],
+          "explain": "有「真……啊」，表示讚嘆，用感嘆號。"
+        },
+        {
+          "mode": "single",
+          "text": "弟弟考了第一名，真厲害▢",
+          "answer": "！",
+          "options": [
+            "！",
+            "。",
+            "？",
+            "；"
+          ],
+          "explain": "語氣強烈，表示驚喜和讚賞，用感嘆號。"
+        },
+        {
+          "mode": "single",
+          "text": "班長大聲說：「起立▢」",
+          "answer": "！",
+          "options": [
+            "！",
+            "。",
+            "？",
+            "，"
+          ],
+          "explain": "這是口令，語氣強烈，用感嘆號。"
+        }
+      ]
+    },
+    {
+      "id": "enumeration",
+      "glyph": "、",
+      "name": "頓號",
+      "color": "#1E9C7C",
+      "bg": "#DFF6EF",
+      "tagline": "並列詞語排排坐",
+      "definition": "表示並列詞語之間的停頓。",
+      "points": [
+        "並列的詞語之間用頓號。",
+        "最後兩項之間可用「和」代替頓號。",
+        "分句之間用逗號，不用頓號。"
+      ],
+      "examples": [
+        "我愛吃蘋果、香蕉和橙。",
+        "書包裏有課本、鉛筆和擦膠。"
+      ],
+      "tip": "頓號只隔開詞語，不隔開句子。",
+      "hl": [
+        "、"
+      ],
+      "modeLabel": "選一選 · 句子填空",
+      "practice": [
+        {
+          "mode": "single",
+          "text": "廚房裏有番茄▢雞蛋和青瓜。",
+          "answer": "、",
+          "options": [
+            "、",
+            "，",
+            "。",
+            "；"
+          ],
+          "explain": "番茄、雞蛋、青瓜是並列詞語，中間用頓號。"
+        },
+        {
+          "mode": "single",
+          "text": "運動會設有跑步▢跳遠和擲豆袋三個項目。",
+          "answer": "、",
+          "options": [
+            "、",
+            "，",
+            "？",
+            "。"
+          ],
+          "explain": "項目名稱並列，用頓號。"
+        },
+        {
+          "mode": "single",
+          "text": "文具店裏有鉛筆▢顏色筆和畫紙。",
+          "answer": "、",
+          "options": [
+            "、",
+            "，",
+            "。",
+            "："
+          ],
+          "explain": "三種文具並列，用頓號。"
+        }
+      ]
+    },
+    {
+      "id": "colon",
+      "glyph": "：",
+      "name": "冒號",
+      "color": "#C98A12",
+      "bg": "#FFF2D6",
+      "tagline": "提示下文要來了",
+      "definition": "提示下文，用在說話內容、列舉或補充說明之前。",
+      "points": [
+        "提示下面的說話內容，用冒號。",
+        "提示列舉，用冒號。",
+        "後面的話補充說明前面的意思，也可以用冒號。",
+        "冒號後面不再加逗號。"
+      ],
+      "examples": [
+        "媽媽說：「快點吃飯。」",
+        "我最喜歡的水果有：蘋果、香蕉和西瓜。",
+        "這次比賽我們贏了：這是三年來第一次。"
+      ],
+      "tip": "冒號要寫在提示語之後，不能放在句子開頭。冒號和破折號都可以引出補充說明，題目只會提供其中一個。",
+      "hl": [
+        "："
+      ],
+      "modeLabel": "選一選 · 句子填空",
+      "practice": [
+        {
+          "mode": "single",
+          "text": "媽媽提醒我▢「過馬路要小心。」",
+          "answer": "：",
+          "options": [
+            "：",
+            "，",
+            "。",
+            "；"
+          ],
+          "explain": "提示媽媽提醒的說話內容，用冒號。"
+        },
+        {
+          "mode": "single",
+          "text": "今天的值日生有▢小明、小美和小強。",
+          "answer": "：",
+          "options": [
+            "：",
+            "，",
+            "、",
+            "。"
+          ],
+          "explain": "冒號提示下面的名單。"
+        },
+        {
+          "mode": "single",
+          "text": "這次比賽我們贏了▢這是三年來第一次。",
+          "answer": "：",
+          "options": [
+            "：",
+            "、",
+            "；",
+            "！"
+          ],
+          "explain": "後面的話補充說明「贏了」有甚麼特別，用冒號；冒號也可以引出補充說明。"
+        }
+      ]
+    },
+    {
+      "id": "quote",
+      "glyph": "「」",
+      "name": "引號",
+      "color": "#5C8F4B",
+      "bg": "#E9F3E3",
+      "tagline": "把說話包起來",
+      "definition": "標示說話內容，或特別強調的詞語。",
+      "points": [
+        "直接引述別人說的話，用引號包住。",
+        "引號要成對使用，前後各一個。",
+        "引號內再用引號，內層改用『』。"
+      ],
+      "examples": [
+        "老師說：「你們要努力學習。」",
+        "媽媽稱讚我是一個「小幫手」。",
+        "老師說：「媽媽常說『早睡早起身體好』。」"
+      ],
+      "tip": "引述完整的一句話，句號放在後引號之內；如果引文只是句子的一部分，句號放在引號之外。",
+      "hl": [
+        "「",
+        "」",
+        "『",
+        "』"
+      ],
+      "modeLabel": "排一排 · 配對填空",
+      "practice": [
+        {
+          "mode": "multi",
+          "text": "班長說▢▢排好隊。▢",
+          "answers": [
+            "：",
+            "「",
+            "」"
+          ],
+          "tray": [
+            "：",
+            "「",
+            "」",
+            "，",
+            "。",
+            "；"
+          ],
+          "explain": "先冒號提示說話，說話內容用引號包住，前後成對。"
+        },
+        {
+          "mode": "multi",
+          "text": "同學都叫我▢小博士▢。",
+          "answers": [
+            "「",
+            "」"
+          ],
+          "tray": [
+            "「",
+            "」",
+            "《",
+            "》",
+            "〈",
+            "〉"
+          ],
+          "explain": "「小博士」是特別強調的稱號，用引號包住。"
+        },
+        {
+          "mode": "multi",
+          "text": "媽媽說：「老師常常稱讚我是一個▢好孩子▢。」",
+          "answers": [
+            "『",
+            "』"
+          ],
+          "tray": [
+            "『",
+            "』",
+            "「",
+            "」",
+            "《",
+            "》"
+          ],
+          "explain": "引號內再用引號，內層改用『』，外層仍是「」。"
+        }
+      ]
+    },
+    {
+      "id": "title",
+      "glyph": "《》",
+      "name": "書名號",
+      "color": "#8E5AA8",
+      "bg": "#F3E8F8",
+      "tagline": "書名篇名穿外套",
+      "definition": "標示書名、篇名、報刊名或歌曲名。",
+      "points": [
+        "書名、報刊名用《》。",
+        "篇章名、詩名用〈〉。",
+        "書名號要成對使用。"
+      ],
+      "examples": [
+        "我最喜歡看《西遊記》。",
+        "今天我們學了〈靜夜思〉這首詩。"
+      ],
+      "tip": "書名號不是引號，不要把書名寫成「西遊記」。",
+      "hl": [
+        "《",
+        "》",
+        "〈",
+        "〉"
+      ],
+      "modeLabel": "排一排 · 配對填空",
+      "practice": [
+        {
+          "mode": "multi",
+          "text": "爸爸買了一本▢成語故事▢給我。",
+          "answers": [
+            "《",
+            "》"
+          ],
+          "tray": [
+            "《",
+            "》",
+            "〈",
+            "〉",
+            "「",
+            "」"
+          ],
+          "explain": "書名用《》，前後成對。"
+        },
+        {
+          "mode": "multi",
+          "text": "老師教我們朗讀▢詠鵝▢這首詩。",
+          "answers": [
+            "〈",
+            "〉"
+          ],
+          "tray": [
+            "〈",
+            "〉",
+            "《",
+            "》",
+            "「",
+            "」"
+          ],
+          "explain": "詩篇名用〈〉，書名才用《》。"
+        },
+        {
+          "mode": "multi",
+          "text": "爺爺每天都會看▢大公報▢。",
+          "answers": [
+            "《",
+            "》"
+          ],
+          "tray": [
+            "《",
+            "》",
+            "〈",
+            "〉",
+            "「",
+            "」"
+          ],
+          "explain": "報刊名用《》。"
+        }
+      ]
+    },
+    {
+      "id": "dash",
+      "glyph": "——",
+      "name": "破折號",
+      "color": "#2E8FA3",
+      "bg": "#E1F4F7",
+      "tagline": "解釋與拉長聲音",
+      "definition": "表示解釋說明或聲音延長。",
+      "points": [
+        "後面是解釋說明，用破折號。",
+        "說話聲音拉長，用破折號。",
+        "破折號是一條連續的長線，佔兩個字位。"
+      ],
+      "examples": [
+        "他只有一個願望——到迪士尼玩一天。",
+        "「快——點回來！」媽媽大叫。"
+      ],
+      "tip": "破折號是一條連起來的長線，中間不要斷開。補充說明也可以用冒號，兩種寫法都通；題目只會提供其中一種。",
+      "hl": [
+        "——"
+      ],
+      "modeLabel": "選一選 · 句子填空",
+      "practice": [
+        {
+          "mode": "single",
+          "text": "這次比賽的冠軍是▢我們班的班長。",
+          "answer": "——",
+          "options": [
+            "——",
+            "……",
+            "，",
+            "。"
+          ],
+          "explain": "後面補充說明冠軍是誰，用破折號。"
+        },
+        {
+          "mode": "single",
+          "text": "我們班的班長是▢小明。",
+          "answer": "——",
+          "options": [
+            "——",
+            "，",
+            "。",
+            "？"
+          ],
+          "explain": "後面補充說明班長是誰，用破折號。"
+        },
+        {
+          "mode": "single",
+          "text": "「加▢油！」同學們大聲打氣。",
+          "answer": "——",
+          "options": [
+            "——",
+            "，",
+            "。",
+            "；"
+          ],
+          "explain": "聲音拉長，用破折號；破折號要寫成一條連續的長線。"
+        }
+      ]
+    },
+    {
+      "id": "ellipsis",
+      "glyph": "……",
+      "name": "省略號",
+      "color": "#6B7688",
+      "bg": "#ECEFF3",
+      "tagline": "未說完的話",
+      "definition": "表示省略的內容，或說話斷斷續續。",
+      "points": [
+        "文中省略部分內容，用省略號。",
+        "說話斷斷續續，用省略號。",
+        "中文省略號是六點，佔兩個字位。"
+      ],
+      "examples": [
+        "天空中有星星、月亮、雲朵……",
+        "「我……我忘記帶功課了。」"
+      ],
+      "tip": "省略號是六個點「……」，不是三個點「...」。",
+      "hl": [
+        "……"
+      ],
+      "modeLabel": "選一選 · 句子填空",
+      "practice": [
+        {
+          "mode": "single",
+          "text": "妹妹指着天空數：一、二、三▢",
+          "answer": "……",
+          "options": [
+            "……",
+            "。",
+            "，",
+            "、"
+          ],
+          "explain": "數目還沒有數完，用省略號表示省略。"
+        },
+        {
+          "mode": "single",
+          "text": "「我▢我……」他緊張得說不出話來。",
+          "answer": "……",
+          "options": [
+            "……",
+            "，",
+            "。",
+            "？"
+          ],
+          "explain": "說話斷斷續續，用省略號。"
+        },
+        {
+          "mode": "single",
+          "text": "「明天我們一起▢」話還沒說完，媽媽就叫我回家了。",
+          "answer": "……",
+          "options": [
+            "……",
+            "。",
+            "，",
+            "？"
+          ],
+          "explain": "話還沒有說完，用省略號表示聲音未完。"
+        }
+      ]
+    },
+    {
+      "id": "semicolon",
+      "glyph": "；",
+      "name": "分號",
+      "color": "#B0673D",
+      "bg": "#F8E8DC",
+      "tagline": "並列分句的分界",
+      "definition": "表示並列分句之間的停頓。",
+      "points": [
+        "兩個並列的分句之間，用分號。",
+        "分號表示的停頓比逗號長、比句號短。",
+        "分句裏已經用了逗號，並列分句之間就用分號。",
+        "分號前後通常是結構相近的句子。"
+      ],
+      "examples": [
+        "春天，花兒開了；夏天，陽光很猛烈。",
+        "哥哥喜歡踢足球，常常到公園練習；妹妹喜歡跳芭蕾舞，每個週末都去上課。"
+      ],
+      "tip": "分號用在句子之間，頓號用在詞語之間，不要混淆。",
+      "hl": [
+        "；"
+      ],
+      "modeLabel": "選一選 · 句子填空",
+      "practice": [
+        {
+          "mode": "single",
+          "text": "早上，我搭校車回校▢下午，我走路回家。",
+          "answer": "；",
+          "options": [
+            "；",
+            "，",
+            "。",
+            "、"
+          ],
+          "explain": "兩個並列分句，分句內已有逗號，中間用分號。"
+        },
+        {
+          "mode": "single",
+          "text": "姐姐做事細心，從不馬虎▢弟弟做事粗心，常常出錯。",
+          "answer": "；",
+          "options": [
+            "；",
+            "，",
+            "。",
+            "："
+          ],
+          "explain": "前後是結構相近的並列分句，分句內已有逗號，用分號。"
+        },
+        {
+          "mode": "single",
+          "text": "秋天，樹葉變黃▢冬天，天氣寒冷。",
+          "answer": "；",
+          "options": [
+            "；",
+            "，",
+            "。",
+            "！"
+          ],
+          "explain": "兩個並列分句，分句內已有逗號，用分號。"
+        }
+      ]
+    },
+    {
+      "id": "bracket",
+      "glyph": "（）",
+      "name": "括號",
+      "color": "#C0504D",
+      "bg": "#FBE9E7",
+      "tagline": "註解補充放這裏",
+      "definition": "標示文中註釋、補充說明的部分，要前後成對使用。",
+      "points": [
+        "補充說明或註釋的文字，用括號包住。",
+        "括號要成對使用，有「（」就有「）」。",
+        "註釋句子中某個詞語，括號緊貼在該詞語之後。",
+        "註釋整句話，括號放在句末標點之後。"
+      ],
+      "examples": [
+        "李白（唐代大詩人）寫了很多有名的詩。",
+        "明天（星期六）我們會去郊遊。"
+      ],
+      "tip": "括號裏的內容是補充說明，就算刪掉，句子仍然通順。",
+      "hl": [
+        "（",
+        "）"
+      ],
+      "modeLabel": "排一排 · 配對填空",
+      "practice": [
+        {
+          "mode": "multi",
+          "text": "弟弟▢小明▢今年讀三年級。",
+          "answers": [
+            "（",
+            "）"
+          ],
+          "tray": [
+            "（",
+            "）",
+            "「",
+            "」",
+            "《",
+            "》"
+          ],
+          "explain": "「小明」是補充說明弟弟的名字，用括號包住。"
+        },
+        {
+          "mode": "multi",
+          "text": "端午節▢農曆五月初五▢是中國的傳統節日。",
+          "answers": [
+            "（",
+            "）"
+          ],
+          "tray": [
+            "（",
+            "）",
+            "「",
+            "」",
+            "：",
+            "——"
+          ],
+          "explain": "後面是補充說明端午節的日期，用括號包住。"
+        },
+        {
+          "mode": "multi",
+          "text": "我們明天到海洋公園▢香港最著名的主題公園▢遊玩。",
+          "answers": [
+            "（",
+            "）"
+          ],
+          "tray": [
+            "（",
+            "）",
+            "「",
+            "」",
+            "《",
+            "》"
+          ],
+          "explain": "「香港最著名的主題公園」是補充說明海洋公園，用括號包住。"
+        }
+      ]
+    }
+  ],
+  "challenges": {
+    "easy": {
+      "title": "初階版",
+      "subtitle": "7 關 · 每關 4 題 · 包含括號練習",
+      "groups": [
+        {
+          "name": "第 1 關",
+          "theme": "句末三兄弟",
+          "qs": [
+            {
+              "mode": "single",
+              "text": "你今天為甚麼遲到▢",
+              "answer": "？",
+              "options": [
+                "？",
+                "。",
+                "！",
+                "，"
+              ],
+              "explain": "有「為甚麼」，是問句，用問號。"
+            },
+            {
+              "mode": "single",
+              "text": "這朵花開得真美▢",
+              "answer": "！",
+              "options": [
+                "！",
+                "。",
+                "？",
+                "，"
+              ],
+              "explain": "表示讚嘆，用感嘆號。"
+            },
+            {
+              "mode": "single",
+              "text": "我每天七時起床▢",
+              "answer": "。",
+              "options": [
+                "。",
+                "，",
+                "？",
+                "！"
+              ],
+              "explain": "陳述習慣，句子完整，用句號。"
+            },
+            {
+              "mode": "single",
+              "text": "地球圍着太陽轉▢",
+              "answer": "。",
+              "options": [
+                "。",
+                "！",
+                "？",
+                "，"
+              ],
+              "explain": "陳述一個事實，句子完整，用句號。"
+            }
+          ]
+        },
+        {
+          "name": "第 2 關",
+          "theme": "句中的小休息",
+          "qs": [
+            {
+              "mode": "single",
+              "text": "下課後▢我們一起到操場玩耍。",
+              "answer": "，",
+              "options": [
+                "，",
+                "。",
+                "、",
+                "；"
+              ],
+              "explain": "「下課後」是時間背景，句子還未說完，用逗號。"
+            },
+            {
+              "mode": "single",
+              "text": "媽媽走進廚房▢開始準備晚飯。",
+              "answer": "，",
+              "options": [
+                "，",
+                "。",
+                "、",
+                "！"
+              ],
+              "explain": "兩個動作連續發生，中間用逗號。"
+            },
+            {
+              "mode": "single",
+              "text": "雖然今天下雨▢但是同學們都很開心。",
+              "answer": "，",
+              "options": [
+                "，",
+                "；",
+                "。",
+                "、"
+              ],
+              "explain": "關聯詞「雖然……但是」之間用逗號。"
+            },
+            {
+              "mode": "single",
+              "text": "因為明天要早起▢我今晚要早點睡。",
+              "answer": "，",
+              "options": [
+                "，",
+                "。",
+                "；",
+                "、"
+              ],
+              "explain": "「因為」引出原因，句子還未說完，中間用逗號。"
+            }
+          ]
+        },
+        {
+          "name": "第 3 關",
+          "theme": "並列詞語",
+          "qs": [
+            {
+              "mode": "single",
+              "text": "小賣部有糖果▢餅乾和飲品。",
+              "answer": "、",
+              "options": [
+                "、",
+                "，",
+                "。",
+                "；"
+              ],
+              "explain": "三個並列詞語，用頓號。"
+            },
+            {
+              "mode": "single",
+              "text": "運動會設有跑步▢跳遠和擲豆袋三個項目。",
+              "answer": "、",
+              "options": [
+                "、",
+                "，",
+                "？",
+                "。"
+              ],
+              "explain": "項目名稱並列，用頓號。"
+            },
+            {
+              "mode": "single",
+              "text": "我喜歡紅色▢藍色和綠色。",
+              "answer": "、",
+              "options": [
+                "、",
+                "，",
+                "。",
+                "："
+              ],
+              "explain": "顏色並列，用頓號。"
+            },
+            {
+              "mode": "single",
+              "text": "筆袋裏有鉛筆▢間尺和擦膠。",
+              "answer": "、",
+              "options": [
+                "、",
+                "，",
+                "！",
+                "。"
+              ],
+              "explain": "文具並列，用頓號。"
+            }
+          ]
+        },
+        {
+          "name": "第 4 關",
+          "theme": "提示與說話",
+          "qs": [
+            {
+              "mode": "single",
+              "text": "老師說▢「大家要準時交功課。」",
+              "answer": "：",
+              "options": [
+                "：",
+                "，",
+                "。",
+                "；"
+              ],
+              "explain": "提示說話內容，用冒號。"
+            },
+            {
+              "mode": "single",
+              "text": "圖書館的開放時間如下▢上午九時至下午五時。",
+              "answer": "：",
+              "options": [
+                "：",
+                "，",
+                "、",
+                "。"
+              ],
+              "explain": "「如下」提示下面的內容，用冒號。"
+            },
+            {
+              "mode": "single",
+              "text": "爸爸問我▢「你做完功課了嗎？」",
+              "answer": "：",
+              "options": [
+                "：",
+                "，",
+                "？",
+                "！"
+              ],
+              "explain": "提示爸爸問的內容，用冒號。"
+            },
+            {
+              "mode": "single",
+              "text": "這本書只有一個缺點▢字太小。",
+              "answer": "：",
+              "options": [
+                "：",
+                "、",
+                "；",
+                "！"
+              ],
+              "explain": "後面的話補充說明「缺點」是甚麼，用冒號；冒號也可以引出補充說明。"
+            }
+          ]
+        },
+        {
+          "name": "第 5 關",
+          "theme": "書名與篇名",
+          "qs": [
+            {
+              "mode": "multi",
+              "text": "我最喜歡看▢西遊記▢。",
+              "answers": [
+                "《",
+                "》"
+              ],
+              "tray": [
+                "《",
+                "》",
+                "〈",
+                "〉",
+                "「",
+                "」"
+              ],
+              "explain": "書名用《》，前後成對。"
+            },
+            {
+              "mode": "multi",
+              "text": "今天我們學了▢靜夜思▢這首詩。",
+              "answers": [
+                "〈",
+                "〉"
+              ],
+              "tray": [
+                "〈",
+                "〉",
+                "《",
+                "》",
+                "「",
+                "」"
+              ],
+              "explain": "詩篇名用〈〉。"
+            },
+            {
+              "mode": "multi",
+              "text": "圖書館裏有一份▢兒童週報▢。",
+              "answers": [
+                "《",
+                "》"
+              ],
+              "tray": [
+                "《",
+                "》",
+                "〈",
+                "〉",
+                "「",
+                "」"
+              ],
+              "explain": "報刊名用《》。"
+            },
+            {
+              "mode": "multi",
+              "text": "姐姐在閱讀▢小紅帽▢這個故事。",
+              "answers": [
+                "《",
+                "》"
+              ],
+              "tray": [
+                "《",
+                "》",
+                "〈",
+                "〉",
+                "「",
+                "」"
+              ],
+              "explain": "故事名用《》。"
+            }
+          ]
+        },
+        {
+          "name": "第 6 關",
+          "theme": "綜合複習",
+          "qs": [
+            {
+              "mode": "single",
+              "text": "你喜歡吃蘋果還是香蕉▢",
+              "answer": "？",
+              "options": [
+                "？",
+                "，",
+                "。",
+                "、"
+              ],
+              "explain": "「還是」表示選擇疑問，用問號。"
+            },
+            {
+              "mode": "single",
+              "text": "花園裏有玫瑰▢百合和菊花。",
+              "answer": "、",
+              "options": [
+                "、",
+                "，",
+                "。",
+                "；"
+              ],
+              "explain": "花名並列，用頓號。"
+            },
+            {
+              "mode": "single",
+              "text": "媽媽說▢「你要早點睡。」",
+              "answer": "：",
+              "options": [
+                "：",
+                "，",
+                "。",
+                "？"
+              ],
+              "explain": "提示說話內容，用冒號。"
+            },
+            {
+              "mode": "single",
+              "text": "這幅畫真漂亮▢",
+              "answer": "！",
+              "options": [
+                "！",
+                "。",
+                "？",
+                "，"
+              ],
+              "explain": "表示讚嘆，用感嘆號。"
+            }
+          ]
+        },
+        {
+          "name": "第 7 關",
+          "theme": "括號補充",
+          "qs": [
+            {
+              "mode": "multi",
+              "text": "我的姐姐▢小美▢今年讀六年級。",
+              "answers": [
+                "（",
+                "）"
+              ],
+              "tray": [
+                "（",
+                "）",
+                "「",
+                "」",
+                "《",
+                "》"
+              ],
+              "explain": "「小美」是補充說明姐姐的名字，用括號包住。"
+            },
+            {
+              "mode": "multi",
+              "text": "中國的首都▢北京▢是一個美麗的城市。",
+              "answers": [
+                "（",
+                "）"
+              ],
+              "tray": [
+                "（",
+                "）",
+                "「",
+                "」",
+                "《",
+                "》"
+              ],
+              "explain": "「北京」是補充說明中國的首都，用括號包住。"
+            },
+            {
+              "mode": "multi",
+              "text": "今天是復活節▢紀念耶穌復活的節日▢。",
+              "answers": [
+                "（",
+                "）"
+              ],
+              "tray": [
+                "（",
+                "）",
+                "：",
+                "——",
+                "「",
+                "」"
+              ],
+              "explain": "中間是補充說明復活節，用括號包住。"
+            },
+            {
+              "mode": "multi",
+              "text": "李白▢詩仙▢寫了很多有名的詩。",
+              "answers": [
+                "（",
+                "）"
+              ],
+              "tray": [
+                "（",
+                "）",
+                "「",
+                "」",
+                "《",
+                "》"
+              ],
+              "explain": "「詩仙」是補充說明李白的稱號，用括號包住。"
+            }
+          ]
+        }
+      ]
+    },
+    "hard": {
+      "title": "高階版",
+      "subtitle": "7 關 · 每關 3-4 題 · 多空格與綜合運用",
+      "groups": [
+        {
+          "name": "第 1 關",
+          "theme": "逗號 vs 頓號",
+          "qs": [
+            {
+              "mode": "multi",
+              "text": "我喜歡吃蘋果▢香蕉▢橙和西瓜。",
+              "answers": [
+                "、",
+                "、"
+              ],
+              "tray": [
+                "、",
+                "，",
+                "。",
+                "；",
+                "：",
+                "？"
+              ],
+              "explain": "並列詞語之間全部用頓號。"
+            },
+            {
+              "mode": "multi",
+              "text": "放學後▢我和妹妹到公園玩▢因為那裏有很多花草樹木。",
+              "answers": [
+                "，",
+                "，"
+              ],
+              "tray": [
+                "，",
+                "、",
+                "。",
+                "；",
+                "：",
+                "！"
+              ],
+              "explain": "時間背景後用逗號；「因為」引出原因，前面也用逗號。"
+            },
+            {
+              "mode": "multi",
+              "text": "超級市場裏有牛奶▢麵包▢雞蛋▢水果和蔬菜。",
+              "answers": [
+                "、",
+                "、",
+                "、"
+              ],
+              "tray": [
+                "、",
+                "，",
+                "。",
+                "；",
+                "：",
+                "？"
+              ],
+              "explain": "五種食物並列，用頓號隔開，最後兩項用「和」連接。"
+            }
+          ]
+        },
+        {
+          "name": "第 2 關",
+          "theme": "冒號 vs 分號",
+          "qs": [
+            {
+              "mode": "multi",
+              "text": "老師說▢「你們要努力▢才會成功。」",
+              "answers": [
+                "：",
+                "，"
+              ],
+              "tray": [
+                "：",
+                "，",
+                "；",
+                "。",
+                "「",
+                "」"
+              ],
+              "explain": "冒號提示說話；「要努力」後面停一停，用逗號。"
+            },
+            {
+              "mode": "multi",
+              "text": "春天，花兒開了▢夏天，陽光很猛烈▢秋天，天氣涼爽。",
+              "answers": [
+                "；",
+                "；"
+              ],
+              "tray": [
+                "；",
+                "，",
+                "。",
+                "、",
+                "：",
+                "！"
+              ],
+              "explain": "三個並列分句之間用分號。"
+            },
+            {
+              "mode": "multi",
+              "text": "老師提醒大家▢「明天運動會▢記得穿運動服。」",
+              "answers": [
+                "：",
+                "，"
+              ],
+              "tray": [
+                "：",
+                "，",
+                "；",
+                "。",
+                "、",
+                "「"
+              ],
+              "explain": "冒號提示說話內容，引號內的分句用逗號。"
+            }
+          ]
+        },
+        {
+          "name": "第 3 關",
+          "theme": "引號與書名號",
+          "qs": [
+            {
+              "mode": "multi",
+              "text": "老師說▢▢你們要多讀《西遊記》。▢",
+              "answers": [
+                "：",
+                "「",
+                "」"
+              ],
+              "tray": [
+                "：",
+                "「",
+                "」",
+                "《",
+                "》",
+                "，"
+              ],
+              "explain": "冒號提示說話，引號成對包住說話內容。"
+            },
+            {
+              "mode": "multi",
+              "text": "圖書館有▢小小科學家▢這本雜誌。",
+              "answers": [
+                "《",
+                "》"
+              ],
+              "tray": [
+                "《",
+                "》",
+                "〈",
+                "〉",
+                "「",
+                "」"
+              ],
+              "explain": "雜誌名用《》。"
+            },
+            {
+              "mode": "multi",
+              "text": "大家都稱讚哥哥是一個▢小英雄▢。",
+              "answers": [
+                "「",
+                "」"
+              ],
+              "tray": [
+                "「",
+                "」",
+                "《",
+                "》",
+                "〈",
+                "〉"
+              ],
+              "explain": "特別強調的詞語用引號，不是書名號。"
+            }
+          ]
+        },
+        {
+          "name": "第 4 關",
+          "theme": "破折號與省略號",
+          "qs": [
+            {
+              "mode": "single",
+              "text": "這份禮物是▢媽媽親手做的。",
+              "answer": "——",
+              "options": [
+                "——",
+                "……",
+                "，",
+                "。"
+              ],
+              "explain": "後面補充說明禮物是誰做的，用破折號。"
+            },
+            {
+              "mode": "single",
+              "text": "「我▢我……」小明低着頭說。",
+              "answer": "……",
+              "options": [
+                "……",
+                "，",
+                "。",
+                "？"
+              ],
+              "explain": "說話斷斷續續，用省略號。"
+            },
+            {
+              "mode": "single",
+              "text": "籃子裏有蘋果、橙、香蕉▢數也數不完。",
+              "answer": "……",
+              "options": [
+                "……",
+                "。",
+                "，",
+                "？"
+              ],
+              "explain": "列舉未盡，用省略號表示還有其他水果。"
+            }
+          ]
+        },
+        {
+          "name": "第 5 關",
+          "theme": "一段話多空格",
+          "qs": [
+            {
+              "mode": "multi",
+              "text": "早上▢我背着書包出門▢媽媽說▢「路上小心。」",
+              "answers": [
+                "，",
+                "。",
+                "："
+              ],
+              "tray": [
+                "，",
+                "。",
+                "：",
+                "「",
+                "」",
+                "；"
+              ],
+              "explain": "時間背景後用逗號，一句話說完用句號，提示說話用冒號。"
+            },
+            {
+              "mode": "multi",
+              "text": "今天的早餐很豐富▢有麵包▢雞蛋和牛奶。",
+              "answers": [
+                "：",
+                "、",
+                "。"
+              ],
+              "tray": [
+                "：",
+                "、",
+                "。",
+                "，",
+                "；",
+                "！"
+              ],
+              "explain": "冒號提示列舉，並列詞語用頓號，句末用句號。"
+            },
+            {
+              "mode": "multi",
+              "text": "春天▢花兒開了▢夏天▢陽光很猛烈。",
+              "answers": [
+                "，",
+                "；",
+                "，"
+              ],
+              "tray": [
+                "，",
+                "；",
+                "。",
+                "、",
+                "：",
+                "！"
+              ],
+              "explain": "分句內停頓用逗號，並列分句之間用分號。"
+            }
+          ]
+        },
+        {
+          "name": "第 6 關",
+          "theme": "綜合挑戰",
+          "qs": [
+            {
+              "mode": "multi",
+              "text": "老師說▢▢你們要記住『團結就是力量』這句話。▢",
+              "answers": [
+                "：",
+                "「",
+                "」"
+              ],
+              "tray": [
+                "：",
+                "「",
+                "」",
+                "，",
+                "。",
+                "《"
+              ],
+              "explain": "冒號提示說話，外層用「」包住說話內容；說話中再引述的詞語，內層改用『』。"
+            },
+            {
+              "mode": "multi",
+              "text": "圖書館裏有《西遊記》▢《三國演義》和〈靜夜思〉▢",
+              "answers": [
+                "、",
+                "。"
+              ],
+              "tray": [
+                "、",
+                "，",
+                "。",
+                "；",
+                "：",
+                "！"
+              ],
+              "explain": "並列書名之間用頓號，句末用句號。"
+            },
+            {
+              "mode": "multi",
+              "text": "媽媽大聲喊▢「快點回來▢」",
+              "answers": [
+                "：",
+                "！"
+              ],
+              "tray": [
+                "：",
+                "！",
+                "。",
+                "，",
+                "「",
+                "」"
+              ],
+              "explain": "提示說話用冒號，命令語氣用感嘆號。"
+            }
+          ]
+        },
+        {
+          "name": "第 7 關",
+          "theme": "括號與綜合運用",
+          "qs": [
+            {
+              "mode": "multi",
+              "text": "媽媽說：「明天▢星期日▢我們去海洋公園。」",
+              "answers": [
+                "（",
+                "）"
+              ],
+              "tray": [
+                "（",
+                "）",
+                "「",
+                "」",
+                "，",
+                "。"
+              ],
+              "explain": "引號內對日期的補充說明，用括號包住；外層已經有成對的「」引號。"
+            },
+            {
+              "mode": "multi",
+              "text": "我最愛讀▢西遊記▢▢吳承恩寫的▢。",
+              "answers": [
+                "《",
+                "》",
+                "（",
+                "）"
+              ],
+              "tray": [
+                "《",
+                "》",
+                "（",
+                "）",
+                "「",
+                "」"
+              ],
+              "explain": "書名用《》，作者補充說明用括號（）包住。"
+            },
+            {
+              "mode": "multi",
+              "text": "今天是祖母的生日▢農曆八月十六▢我們一起去吃大餐吧▢",
+              "answers": [
+                "（",
+                "）",
+                "！"
+              ],
+              "tray": [
+                "（",
+                "）",
+                "！",
+                "。",
+                "，",
+                "："
+              ],
+              "explain": "「農曆八月十六」是補充說明生日日期，用括號包住；句末提議一起吃大餐，語氣興奮用感嘆號。"
+            }
+          ]
+        }
+      ]
+    }
+  }
+};
+
+/* ======================= 狀態 ======================= */
+const app = document.getElementById('app');
+const toastEl = document.getElementById('toast');
+const KEY = 'punctuation-adventure-v2-hk';
+
+const state = {
+  screen: 'home',
+  markIndex: 0,
+  quiz: null,
+  result: null,
+  modal: null,
+  soundOn: true,
+  progress: { learned: [], cleared: {} }
+};
+
+let lastScreen = null;
+let lastQuizIndex = -1;
+let toastTimer = null;
+
+/* ======================= 儲存 ======================= */
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem(KEY);
+    if(!raw) return;
+    const o = JSON.parse(raw);
+    if(!o || typeof o !== 'object') return;
+    if(Array.isArray(o.learned)) state.progress.learned = o.learned.filter(function(x){ return typeof x === 'string'; });
+    if(o.cleared && typeof o.cleared === 'object' && !Array.isArray(o.cleared)) state.progress.cleared = o.cleared;
+    if(typeof o.soundOn === 'boolean') state.soundOn = o.soundOn;
+  }catch(e){ /* 忽略損壞資料 */ }
+}
+function saveProgress(){
+  try{
+    localStorage.setItem(KEY, JSON.stringify({
+      learned: state.progress.learned,
+      cleared: state.progress.cleared,
+      soundOn: state.soundOn
+    }));
+  }catch(e){ /* 私隱模式下降級為本次記憶 */ }
+}
+
+/* ======================= 音效 ======================= */
+let actx = null;
+function audioCtx(){
+  if(!state.soundOn) return null;
+  try{
+    if(!actx){
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return null;
+      actx = new AC();
+    }
+    if(actx.state === 'suspended') actx.resume();
+    return actx;
+  }catch(e){ return null; }
+}
+function beep(freq, delay, dur, type, vol){
+  const ctx = audioCtx();
+  if(!ctx) return;
+  try{
+    const t0 = ctx.currentTime + delay;
+    const osc = ctx.createOscillator();
+    const g = ctx.createGain();
+    osc.type = type || 'sine';
+    osc.frequency.setValueAtTime(freq, t0);
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(vol || 0.12, t0 + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    osc.connect(g);
+    g.connect(ctx.destination);
+    osc.start(t0);
+    osc.stop(t0 + dur + 0.05);
+  }catch(e){ /* 靜默降級 */ }
+}
+function sfx(kind){
+  if(!state.soundOn) return;
+  if(kind === 'tap'){ beep(660, 0, 0.07, 'sine', 0.06); }
+  else if(kind === 'ok'){ beep(523.25, 0, 0.12, 'sine', 0.11); beep(659.25, 0.1, 0.2, 'sine', 0.11); }
+  else if(kind === 'no'){ beep(196, 0, 0.12, 'triangle', 0.09); beep(146.83, 0.1, 0.2, 'triangle', 0.08); }
+  else if(kind === 'win'){ [523.25, 659.25, 783.99, 1046.5].forEach(function(f, i){ beep(f, i * 0.11, 0.2, 'sine', 0.1); }); }
+}
+
+/* ======================= 小工具 ======================= */
+function esc(s){
+  return String(s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+function toast(msg){
+  if(!toastEl) return;
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 1900);
+}
+function starsSVG(n, size){
+  let out = '<span class="stars" aria-label="' + n + ' 星">';
+  for(let i = 0; i < 3; i++){
+    out += '<svg viewBox="0 0 24 24" width="' + (size || 18) + '" height="' + (size || 18) + '" aria-hidden="true">' +
+      '<path d="M12 2.6l2.9 6 6.6.9-4.8 4.6 1.2 6.5-5.9-3.2-5.9 3.2 1.2-6.5L2.5 9.5l6.6-.9z" ' +
+      (i < n ? 'fill="#FFC94D" stroke="#2E2A26" stroke-width="1.4" stroke-linejoin="round"' : 'fill="#EFE7DA" stroke="#C9C0B3" stroke-width="1.2" stroke-linejoin="round"') + '/></svg>';
+  }
+  return out + '</span>';
+}
+const ICON = {
+  back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>',
+  soundOn: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor" stroke="none"/><path d="M16.5 8.5a5 5 0 010 7"/><path d="M19 6a8.5 8.5 0 010 12"/></svg>',
+  soundOff: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor" stroke="none"/><path d="M17 9l5 6M22 9l-5 6"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>',
+  cross: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  bulb: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 00-3.5 10.9c.6.4 1 1.1 1 1.8V16h5v-.3c0-.7.4-1.4 1-1.8A6 6 0 0012 3z"/></svg>',
+  arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
+};
+
+/* ======================= 插畫 ======================= */
+function sticker(m, size){
+  const g = m.glyph;
+  // 破折號、省略號是水平長線/點，需縮小並垂直居中；
+  // 成對標點（「」『』《》〈〉（））高度正常，用大字體即可
+  const isWide = /^(——|……)$/.test(g);
+  const fs = isWide ? 30 : 44;
+  const y = isWide ? 72 : 78;
+  const isDash = /^—+$/.test(g);
+  const glyph = isDash
+    ? '<rect x="21" y="61" width="58" height="8.5" rx="4.25" fill="' + m.color + '"/>'
+    : '<text x="50" y="' + y + '" text-anchor="middle" font-size="' + fs + '" font-weight="900" fill="' + m.color + '" font-family="inherit" letter-spacing="' + (g.length >= 2 && !isWide ? '-1' : '0') + '">' + esc(g) + '</text>';
+  return '<svg class="sticker" viewBox="0 0 100 100" width="' + (size || 64) + '" height="' + (size || 64) + '" aria-hidden="true">' +
+    '<rect x="4" y="4" width="92" height="92" rx="26" fill="' + m.bg + '" stroke="' + m.color + '" stroke-width="4"/>' +
+    '<circle cx="32" cy="24" r="4.4" fill="#2E2A26"/>' +
+    '<circle cx="68" cy="24" r="4.4" fill="#2E2A26"/>' +
+    '<circle cx="33.6" cy="22.4" r="1.5" fill="#fff"/>' +
+    '<circle cx="69.6" cy="22.4" r="1.5" fill="#fff"/>' +
+    '<ellipse cx="22" cy="66" rx="6.5" ry="3.8" fill="' + m.color + '" opacity=".28"/>' +
+    '<ellipse cx="78" cy="66" rx="6.5" ry="3.8" fill="' + m.color + '" opacity=".28"/>' +
+    glyph +
+    '</svg>';
+}
+function mascot(){
+  return '<svg class="mascot" viewBox="0 0 340 300" aria-label="標點精靈點點" role="img">' +
+    '<ellipse cx="168" cy="276" rx="92" ry="14" fill="#2E2A26" opacity=".10"/>' +
+    '<circle cx="104" cy="82" r="22" fill="#2FBF9B" stroke="#2E2A26" stroke-width="6"/>' +
+    '<circle cx="232" cy="82" r="22" fill="#2FBF9B" stroke="#2E2A26" stroke-width="6"/>' +
+    '<path d="M84 176c-22 10-30 34-20 52" stroke="#2E2A26" stroke-width="13" stroke-linecap="round" fill="none"/>' +
+    '<path d="M252 176c22 10 30 34 20 52" stroke="#2E2A26" stroke-width="13" stroke-linecap="round" fill="none"/>' +
+    '<rect x="112" y="238" width="42" height="30" rx="15" fill="#2FBF9B" stroke="#2E2A26" stroke-width="6"/>' +
+    '<rect x="186" y="238" width="42" height="30" rx="15" fill="#2FBF9B" stroke="#2E2A26" stroke-width="6"/>' +
+    '<circle cx="168" cy="160" r="92" fill="#2FBF9B" stroke="#2E2A26" stroke-width="7"/>' +
+    '<ellipse cx="168" cy="196" rx="58" ry="46" fill="#DFF6EF"/>' +
+    '<ellipse cx="140" cy="146" rx="19" ry="21" fill="#fff" stroke="#2E2A26" stroke-width="4"/>' +
+    '<ellipse cx="196" cy="146" rx="19" ry="21" fill="#fff" stroke="#2E2A26" stroke-width="4"/>' +
+    '<circle cx="142" cy="150" r="9" fill="#2E2A26"/><circle cx="198" cy="150" r="9" fill="#2E2A26"/>' +
+    '<circle cx="145" cy="146" r="3.2" fill="#fff"/><circle cx="201" cy="146" r="3.2" fill="#fff"/>' +
+    '<ellipse cx="112" cy="180" rx="11" ry="6.5" fill="#FF9C86" opacity=".85"/>' +
+    '<ellipse cx="224" cy="180" rx="11" ry="6.5" fill="#FF9C86" opacity=".85"/>' +
+    '<path d="M154 186q14 14 28 0" stroke="#2E2A26" stroke-width="6" fill="none" stroke-linecap="round"/>' +
+    '<circle cx="276" cy="58" r="34" fill="#fff" stroke="#2E2A26" stroke-width="5"/>' +
+    '<path d="M262 78l-8 14 20-6" fill="#fff" stroke="#2E2A26" stroke-width="5" stroke-linejoin="round"/>' +
+    '<text x="276" y="70" text-anchor="middle" font-size="36" font-weight="900" fill="#FF7A59" font-family="inherit">？</text>' +
+    '<path d="M56 52l3.5 8 8 3.5-8 3.5-3.5 8-3.5-8-8-3.5 8-3.5z" fill="#FFC94D" stroke="#2E2A26" stroke-width="3"/>' +
+    '</svg>';
+}
+
+/* ======================= 共用零件 ======================= */
+function topbar(){
+  return '<header class="topbar">' +
+    '<button class="brand" data-action="go-home" aria-label="返回首頁">' +
+      '<span class="logo-dot">，</span><span>標點精靈大冒險</span>' +
+    '</button>' +
+    '<button class="icon-btn" data-action="toggle-sound" aria-pressed="' + (state.soundOn ? 'true' : 'false') + '" aria-label="' + (state.soundOn ? '關閉音效' : '開啟音效') + '">' +
+      (state.soundOn ? ICON.soundOn : ICON.soundOff) +
+    '</button>' +
+  '</header>';
+}
+function pageHead(title, sub, backAction, backLabel){
+  return '<div class="page-head">' +
+    '<button class="back-btn" data-action="' + backAction + '" aria-label="' + (backLabel || '返回') + '">' + ICON.back + '</button>' +
+    '<div><h2>' + esc(title) + '</h2>' + (sub ? '<p class="sub">' + esc(sub) + '</p>' : '') + '</div>' +
+  '</div>';
+}
+function markHTML(v){
+  if(/^—+$/.test(v)) return '<span class="mk-dash" role="img" aria-label="破折號"></span>';
+  return esc(v);
+}
+function richText(v){
+  let s = esc(v);
+  s = s.split('——').join(markHTML('——'));
+  s = s.split('—').join(markHTML('—'));
+  return s;
+}
+function highlight(text, m){
+  let s = esc(text);
+  const toks = m.hl || [m.glyph];
+  toks.forEach(function(t){
+    if(!t) return;
+    s = s.split(esc(t)).join('<span class="hl">' + esc(t) + '</span>');
+  });
+  s = s.split('——').join(markHTML('——'));
+  s = s.split('—').join(markHTML('—'));
+  return s;
+}
+
+/* ======================= 首頁 ======================= */
+function viewHome(){
+  const learned = state.progress.learned.length;
+  const cleared = Object.keys(state.progress.cleared).filter(function(k){ return /^(easy|hard)-\d+$/.test(k); }).length;
+  return '<section class="screen">' + topbar() +
+    '<div class="hero">' +
+      '<div class="hero-copy">' +
+        '<span class="eyebrow">小學中文 · 標點符號</span>' +
+        '<h1>標點精靈<br><em>大冒險</em></h1>' +
+        '<p class="lead">12 種標點，先學後玩。每一題都會告訴你為甚麼，讓你真正學會用標點。</p>' +
+        '<div class="hero-actions">' +
+          '<button class="btn primary big" data-action="go-map">開始學習</button>' +
+          '<button class="btn accent big" data-action="go-challenge">混合挑戰</button>' +
+        '</div>' +
+        '<div class="chips"><span class="chip">圖文教學</span><span class="chip">兩種玩法</span><span class="chip">即時解說</span><span class="chip">85 道題目</span></div>' +
+      '</div>' +
+      '<div class="hero-art">' + mascot() +
+        '<span class="float-mark m1">（）</span><span class="float-mark m2">！</span><span class="float-mark m3">？</span>' +
+      '</div>' +
+    '</div>' +
+    '<div class="stats">' +
+      '<div class="stat"><b>' + learned + ' / 12</b><span>已認識的標點</span></div>' +
+      '<div class="stat"><b>' + cleared + ' / 14</b><span>已完成的挑戰</span></div>' +
+      '<div class="stat"><b>85</b><span>道練習題目</span></div>' +
+    '</div>' +
+    '<div class="home-note">' + ICON.bulb + '<span>建議玩法：先到「標點地圖」逐個學習（共12種，含括號），完成每類的即學即練，再到「混合挑戰」測試實力。用字對應《香港小學學習字詞表》，教師可投屏到課室大屏，與全班一起作答。</span></div>' +
+    '<div class="home-tools"><button class="link-btn" data-action="reset-progress">重置學習進度</button></div>' +
+  '</section>';
+}
+
+/* ======================= 標點地圖 ======================= */
+function viewMap(){
+  const cards = DATA.marks.map(function(m, i){
+    const learned = state.progress.learned.indexOf(m.id) >= 0;
+    return '<button class="mark-card" data-action="open-teach" data-i="' + i + '">' +
+      sticker(m, 68) +
+      '<span class="mc-name">' + esc(m.name) + '</span>' +
+      '<span class="mc-tag">' + esc(m.tagline) + '</span>' +
+      (learned ? '<span class="mc-done">已學會</span>' : '<span class="mc-go">學習 →</span>') +
+    '</button>';
+  }).join('');
+  return '<section class="screen">' + topbar() +
+    pageHead('標點地圖', '揀一種標點，先看教學，再即學即練', 'go-home', '返回首頁') +
+    '<div class="mark-grid">' + cards + '</div>' +
+    '<div class="home-note" style="margin-top:24px">' + ICON.bulb + '<span>12 種標點各自成類。每類有 3 題即學即練，完成後可到「混合挑戰」挑戰初階與高階關卡。</span></div>' +
+  '</section>';
+}
+
+/* ======================= 教學頁 ======================= */
+function viewTeach(){
+  const m = DATA.marks[state.markIndex];
+  if(!m) return viewMap();
+  const points = m.points.map(function(p, i){
+    return '<li><span class="num">' + (i + 1) + '</span><span>' + esc(p) + '</span></li>';
+  }).join('');
+  const examples = m.examples.map(function(e){
+    return '<li>' + highlight(e, m) + '</li>';
+  }).join('');
+  const prev = (state.markIndex - 1 + DATA.marks.length) % DATA.marks.length;
+  const next = (state.markIndex + 1) % DATA.marks.length;
+  return '<section class="screen">' + topbar() +
+    pageHead(m.name, '教學 · 約 1 分鐘', 'go-map', '返回地圖') +
+    '<div class="teach-grid">' +
+      '<div class="card teach-hero">' + sticker(m, 168) +
+        '<h2>' + esc(m.name) + '</h2>' +
+        '<p class="tagline">' + esc(m.tagline) + '</p>' +
+        '<span class="mode-pill">練習模式：' + esc(m.modeLabel) + '</span>' +
+      '</div>' +
+      '<div class="teach-body">' +
+        '<div class="card def"><h3>一句話記住</h3><p>' + esc(m.definition) + '</p></div>' +
+        '<div class="card"><h3>用法小錦囊</h3><ol class="points">' + points + '</ol></div>' +
+        '<div class="card"><h3>看例子</h3><ul class="examples">' + examples + '</ul></div>' +
+        '<div class="card tip"><h3>小提醒</h3><p>' + esc(m.tip) + '</p></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="teach-actions">' +
+      '<div class="side">' +
+        '<button class="btn small ghost" data-action="teach-prev">← ' + esc(DATA.marks[prev].name) + '</button>' +
+        '<button class="btn small ghost" data-action="teach-next">' + esc(DATA.marks[next].name) + ' →</button>' +
+      '</div>' +
+      '<button class="btn primary big" data-action="start-practice">即學即練（3 題）</button>' +
+    '</div>' +
+  '</section>';
+}
+
+/* ======================= 挑戰選單 ======================= */
+function viewChallenge(){
+  const modeOf = function(g){
+    const single = g.qs.filter(function(q){ return q.mode === 'single'; }).length;
+    if(single === g.qs.length) return 'single';
+    if(single === 0) return 'multi';
+    return 'mixed';
+  };
+  const countMode = function(want){
+    let n = 0;
+    ['easy','hard'].forEach(function(k){
+      DATA.challenges[k].groups.forEach(function(g){ if(modeOf(g) === want) n += 1; });
+    });
+    return n;
+  };
+  function levelBlock(key){
+    const lv = DATA.challenges[key];
+    const groups = lv.groups.map(function(g, i){
+      const starN = state.progress.cleared[key + '-' + (i + 1)] || 0;
+      const mm = modeOf(g);
+      const badge = mm === 'multi'
+        ? '<span class="g-mode multi">排一排</span>'
+        : (mm === 'single' ? '<span class="g-mode">選一選</span>' : '<span class="g-mode multi">混合</span>');
+      return '<button class="group-btn" data-action="start-group" data-level="' + key + '" data-g="' + i + '">' +
+        '<span class="g-top"><b>' + esc(g.name) + '</b>' + badge + '</span>' +
+        '<small>' + esc(g.theme) + ' · ' + g.qs.length + ' 題</small>' +
+        starsSVG(starN, 16) +
+      '</button>';
+    }).join('');
+    const done = lv.groups.filter(function(_, i){ return (state.progress.cleared[key + '-' + (i + 1)] || 0) > 0; }).length;
+    return '<div class="card level-card">' +
+      '<div class="level-head">' +
+        '<span class="level-badge ' + key + '">' + esc(lv.title) + '</span>' +
+        '<p>' + esc(lv.subtitle) + '　·　已通關 ' + done + ' / 7</p>' +
+      '</div>' +
+      '<div class="group-grid">' + groups + '</div>' +
+    '</div>';
+  }
+  return '<section class="screen">' + topbar() +
+    pageHead('混合挑戰', '兩種難度，各 7 關，題庫不重複', 'go-home', '返回首頁') +
+    '<div class="mode-legend"><span><i></i>選一選：' + countMode('single') + ' 關</span><span><i class="multi"></i>排一排：' + countMode('multi') + ' 關</span></div>' +
+    levelBlock('easy') +
+    levelBlock('hard') +
+    '<div class="home-note">' + ICON.bulb + '<span>初階版以單空格判斷為主，高階版以多空格推理為主；全個挑戰區共有 14 關（初階7關 + 高階7關）。每題揭曉答案時都會說明理由。</span></div>' +
+  '</section>';
+}
+
+/* ======================= 答題引擎 ======================= */
+function resetQuestionView(){
+  const qz = state.quiz;
+  if(!qz) return;
+  const q = qz.questions[qz.index];
+  const n = (q.text.match(/▢/g) || []).length;
+  qz.filled = new Array(n).fill('');
+  qz.attempts = 0;
+  qz.wrongOpts = [];
+  qz.wrongSlots = [];
+  qz.status = 'answering';
+}
+function startQuiz(config){
+  state.quiz = {
+    config: config,
+    title: config.title,
+    subtitle: config.subtitle || '',
+    questions: config.questions,
+    kind: config.kind,
+    key: config.key,
+    backTo: config.backTo,
+    index: 0,
+    score: 0,
+    status: 'answering',
+    attempts: 0,
+    filled: [],
+    wrongOpts: [],
+    wrongSlots: [],
+    results: []
+  };
+  lastQuizIndex = 0;
+  resetQuestionView();
+  state.screen = 'quiz';
+  render();
+}
+function currentQ(){
+  return state.quiz ? state.quiz.questions[state.quiz.index] : null;
+}
+function chooseOption(mark){
+  const qz = state.quiz;
+  if(!qz || qz.status !== 'answering') return;
+  const q = currentQ();
+  if(!q || q.mode !== 'single') return;
+  if(qz.wrongOpts.indexOf(mark) >= 0) return;
+  if(mark === q.answer){
+    qz.filled = [mark];
+    qz.score += (qz.attempts === 0 ? 2 : 1);
+    qz.results.push({ first: qz.attempts === 0 });
+    qz.status = 'resolved';
+    sfx('ok');
+    render();
+  }else{
+    qz.attempts += 1;
+    qz.wrongOpts.push(mark);
+    if(qz.attempts >= 2){
+      qz.filled = [q.answer];
+      qz.status = 'resolved';
+      qz.results.push({ first: false });
+      sfx('no');
+      render();
+    }else{
+      sfx('no');
+      render();
+      const opt = app.querySelector('.opt[data-mark="' + cssEscape(mark) + '"]');
+      if(opt){ opt.classList.add('shake'); setTimeout(function(){ opt.classList.remove('shake'); }, 320); }
+    }
+  }
+}
+function cssEscape(s){
+  return String(s).replace(/["\\]/g, '\\$&');
+}
+function tapSlot(i){
+  const qz = state.quiz;
+  if(!qz || qz.status !== 'answering') return;
+  const q = currentQ();
+  if(!q || q.mode !== 'multi') return;
+  if(qz.filled[i]){
+    qz.filled[i] = '';
+    qz.wrongSlots = [];
+    sfx('tap');
+    render();
+  }
+}
+function pickTray(mark){
+  const qz = state.quiz;
+  if(!qz || qz.status !== 'answering') return;
+  const q = currentQ();
+  if(!q || q.mode !== 'multi') return;
+  let idx = -1;
+  for(let i = 0; i < qz.filled.length; i++){ if(!qz.filled[i]){ idx = i; break; } }
+  if(idx < 0){ toast('空格已填滿，點一下空格可以取回再選。'); return; }
+  qz.filled[idx] = mark;
+  qz.wrongSlots = [];
+  sfx('tap');
+  render();
+}
+function checkAnswer(){
+  const qz = state.quiz;
+  if(!qz || qz.status !== 'answering') return;
+  const q = currentQ();
+  if(!q || q.mode !== 'multi') return;
+  if(qz.filled.some(function(v){ return !v; })){ toast('還有空格未填啊！'); return; }
+  const wrong = [];
+  q.answers.forEach(function(a, i){ if(qz.filled[i] !== a) wrong.push(i); });
+  if(wrong.length === 0){
+    qz.score += (qz.attempts === 0 ? 2 : 1);
+    qz.results.push({ first: qz.attempts === 0 });
+    qz.status = 'resolved';
+    qz.wrongSlots = [];
+    sfx('ok');
+    render();
+  }else{
+    qz.attempts += 1;
+    qz.wrongSlots = wrong;
+    sfx('no');
+    if(qz.attempts >= 2){
+      qz.filled = q.answers.slice();
+      qz.status = 'resolved';
+      qz.results.push({ first: false });
+    }
+    render();
+  }
+}
+function nextQuestion(){
+  const qz = state.quiz;
+  if(!qz) return;
+  if(qz.index < qz.questions.length - 1){
+    qz.index += 1;
+    lastQuizIndex = qz.index;
+    resetQuestionView();
+    sfx('tap');
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }else{
+    finishQuiz();
+  }
+}
+function finishQuiz(){
+  const qz = state.quiz;
+  const total = qz.questions.length;
+  const max = total * 2;
+  const rate = qz.score / max;
+  const stars = rate >= 0.9 ? 3 : (rate >= 0.7 ? 2 : 1);
+  if(qz.kind === 'challenge' && qz.key){
+    const prev = Number(state.progress.cleared[qz.key]) || 0;
+    state.progress.cleared[qz.key] = Math.max(prev, stars);
+    saveProgress();
+  }
+  if(qz.kind === 'practice' && qz.config.markId){
+    if(state.progress.learned.indexOf(qz.config.markId) < 0){
+      state.progress.learned.push(qz.config.markId);
+    }
+    saveProgress();
+  }
+  state.result = {
+    stars: stars,
+    score: qz.score,
+    max: max,
+    total: total,
+    firstTry: qz.results.filter(function(r){ return r.first; }).length,
+    kind: qz.kind,
+    title: qz.title,
+    backTo: qz.backTo,
+    config: qz.config
+  };
+  state.screen = 'result';
+  sfx(stars === 3 ? 'win' : 'ok');
+  render();
+}
+
+/* ======================= 答題頁 ======================= */
+function renderSentence(q, qz){
+  const parts = q.text.split('▢');
+  let html = '';
+  parts.forEach(function(p, i){
+    if(i >= parts.length - 1){ html += richText(p); return; }
+    const cut = Math.max(0, p.length - 2);
+    html += richText(p.slice(0, cut)) + '<span class="keep">' + richText(p.slice(cut));
+    {
+      const val = qz.filled[i] || '';
+      const expected = q.mode === 'single' ? q.answer : (q.answers[i] || '');
+      const wide = (expected === '——' || expected === '……') ? ' wide' : '';
+      let cls = 'slot' + wide;
+      if(val){
+        cls += ' filled';
+        if(qz.status === 'resolved'){
+          if(q.mode === 'multi' && qz.wrongSlots.indexOf(i) >= 0){ cls += ' reveal'; }
+        }else if(qz.wrongSlots.indexOf(i) >= 0){
+          cls += ' wrong';
+        }
+      }
+      html += '<button class="' + cls + '" data-action="tap-slot" data-i="' + i + '" aria-label="' + esc('第 ' + (i + 1) + ' 個空格' + (val ? '，已填 ' + (val === '——' ? '破折號' : val) : '')) + '">' + markHTML(val) + '</button>';
+    }
+    html += '</span>';
+  });
+  return html;
+}
+function feedbackHTML(q, qz){
+  if(qz.status === 'answering'){
+    if(qz.attempts > 0){
+      return '<div class="feedback hint" role="status">' +
+        '<span class="fb-icon">' + ICON.bulb + '</span>' +
+        '<div><h4>再想一想</h4><p>' +
+        (q.mode === 'single'
+          ? '讀一讀整句：這個位置是句子中間、句子末尾，還是說話內容之前？'
+          : '有空格放錯了。點一下放錯的空格取回，再想想每個位置的作用。') +
+        '</p></div></div>';
+    }
+    return '';
+  }
+  const first = qz.results.length ? qz.results[qz.results.length - 1].first : false;
+  if(first){
+    return '<div class="feedback ok" role="status"><span class="fb-icon">' + ICON.check + '</span>' +
+      '<div><h4>答對了！</h4><p>' + esc(q.explain) + '</p></div></div>';
+  }
+  const ans = q.mode === 'single' ? markHTML(q.answer) : q.answers.map(markHTML).join('　');
+  return '<div class="feedback no" role="status"><span class="fb-icon">' + ICON.cross + '</span>' +
+    '<div><h4>正確答案是 <span class="ans">' + ans + '</span></h4><p>' + richText(q.explain) + '</p></div></div>';
+}
+function viewQuiz(){
+  const qz = state.quiz;
+  if(!qz) return viewHome();
+  const q = currentQ();
+  const total = qz.questions.length;
+  const pct = Math.round((qz.index / total) * 100);
+  let optionsHTML = '';
+  if(q.mode === 'single'){
+    optionsHTML = '<div class="options">' + q.options.map(function(o){
+      let cls = 'opt';
+      if(qz.status === 'resolved'){
+        if(o === q.answer) cls += ' correct';
+        else cls += ' dim';
+      }else if(qz.wrongOpts.indexOf(o) >= 0){
+        cls += ' wrong';
+      }
+      const dis = (qz.status !== 'answering' || qz.wrongOpts.indexOf(o) >= 0) ? ' disabled' : '';
+      return '<button class="' + cls + '" data-action="choose" data-mark="' + esc(o) + '"' + dis + '>' + markHTML(o) + '</button>';
+    }).join('') + '</div>';
+  }else{
+    optionsHTML = '<div class="options tray">' + q.tray.map(function(o){
+      const dis = qz.status !== 'answering' ? ' disabled' : '';
+      return '<button class="opt" data-action="pick-tray" data-mark="' + esc(o) + '"' + dis + '>' + markHTML(o) + '</button>';
+    }).join('') + '</div>';
+  }
+  const resolved = qz.status === 'resolved';
+  const isLast = qz.index === total - 1;
+  const actions = q.mode === 'multi' && !resolved
+    ? '<button class="btn primary big" data-action="check">檢查答案</button>'
+    : (resolved ? '<button class="btn primary big" data-action="next">' + (isLast ? '看成績' : '下一題') + '</button>' : '');
+  return '<section class="screen">' + topbar() +
+    '<div class="quiz-wrap">' +
+      '<div class="quiz-head">' +
+        '<button class="back-btn" data-action="quiz-exit" aria-label="離開練習">' + ICON.back + '</button>' +
+        '<div class="quiz-meta"><h2>' + esc(qz.title) + '</h2><p>' + esc(qz.subtitle) + '</p></div>' +
+        '<span class="counter">第 ' + (qz.index + 1) + ' / ' + total + ' 題</span>' +
+      '</div>' +
+      '<div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '"><i style="width:' + pct + '%"></i></div>' +
+      '<div class="card q-card">' +
+        '<span class="q-type">' + (q.mode === 'single' ? '選一選：把正確標點填入空格' : '排一排：依序點選標點；點已填空格可取回') + '</span>' +
+        '<p class="sentence">' + renderSentence(q, qz) + '</p>' +
+        optionsHTML +
+        '<div aria-live="polite">' + feedbackHTML(q, qz) + '</div>' +
+        '<div class="quiz-actions">' + actions + '</div>' +
+      '</div>' +
+    '</div>' +
+  '</section>';
+}
+
+/* ======================= 結算頁 ======================= */
+function viewResult(){
+  const r = state.result;
+  if(!r) return viewHome();
+  const msgs = {
+    3: '太厲害了！你已經是標點小專家，可以去挑戰更高難度了。',
+    2: '做得很好！再看看解說，下一次就可以拿到三顆星。',
+    1: '完成挑戰！先讀一讀每題的解說，再試一次一定會更好。'
+  };
+  const isPractice = r.kind === 'practice';
+  return '<section class="screen">' + topbar() +
+    '<div class="result card">' +
+      '<div class="result-art">' + mascot() + '</div>' +
+      '<div class="big-stars">' + starsSVG(r.stars, 64).replace('class="stars"', 'class="stars" style="display:contents"').replace(/width="64" height="64"/g, 'width="64" height="64"') + '</div>' +
+      '<h2>' + (r.stars === 3 ? '完美通關！' : (r.stars === 2 ? '做得好！' : '完成了！')) + '</h2>' +
+      '<p class="scoreline">' + esc(r.title) + '</p>' +
+      '<p class="scoreline">首次答對 ' + r.firstTry + ' / ' + r.total + ' 題　·　得分 ' + r.score + ' / ' + r.max + '</p>' +
+      '<p class="msg">' + msgs[r.stars] + '</p>' +
+      '<div class="btn-row">' +
+        '<button class="btn primary" data-action="restart">再玩一次</button>' +
+        '<button class="btn ghost" data-action="result-back">' + (isPractice ? '返回教學' : '返回挑戰選單') + '</button>' +
+      '</div>' +
+    '</div>' +
+  '</section>';
+}
+
+/* ======================= 彈窗 ======================= */
+function viewModal(){
+  if(!state.modal) return '';
+  return '<div class="overlay" data-action="modal-bg">' +
+    '<div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">' +
+      '<h3 id="modal-title">' + esc(state.modal.title) + '</h3>' +
+      '<p>' + esc(state.modal.text) + '</p>' +
+      '<div class="btn-row">' +
+        '<button class="btn ghost small" data-action="modal-cancel">' + (state.modal.kind === 'reset' ? '取消' : '繼續作答') + '</button>' +
+        '<button class="btn coral small" data-action="modal-ok">' + (state.modal.kind === 'reset' ? '確定重置' : '確定離開') + '</button>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+/* ======================= 主渲染 ======================= */
+function render(){
+  let html = '';
+  if(state.screen === 'home') html = viewHome();
+  else if(state.screen === 'map') html = viewMap();
+  else if(state.screen === 'teach') html = viewTeach();
+  else if(state.screen === 'challenge') html = viewChallenge();
+  else if(state.screen === 'quiz') html = viewQuiz();
+  else if(state.screen === 'result') html = viewResult();
+  else html = viewHome();
+  app.innerHTML = html + viewModal();
+  if(state.screen !== lastScreen){
+    window.scrollTo(0, 0);
+    lastScreen = state.screen;
+  }else if(state.screen === 'quiz' && lastQuizIndex !== (state.quiz ? state.quiz.index : -1)){
+    lastQuizIndex = state.quiz ? state.quiz.index : -1;
+  }
+  if(state.screen === 'quiz'){ lastQuizIndex = state.quiz.index; }
+}
+
+/* ======================= 導航 ======================= */
+function requestQuizExit(){
+  const qz = state.quiz;
+  if(!qz){ goHome(); return; }
+  /* 如果已做完最後一題（result 頁），直接返回；否則彈確認 */
+  if(qz.status === 'resolved' && qz.index >= qz.questions.length - 1){
+    state.modal = null;
+    if(qz.backTo){
+      if(qz.backTo.screen === 'teach'){ state.markIndex = qz.backTo.markIndex; state.screen = 'teach'; }
+      else { state.screen = 'challenge'; }
+    }else{ state.screen = 'home'; }
+    render();
+    return;
+  }
+  state.modal = { kind: 'exit', title: '離開練習？', text: '本題組的作答進度不會保存，確定要離開嗎？' };
+  render();
+}
+function goHome(){
+  if(state.screen === 'quiz'){ requestQuizExit(); return; }
+  state.modal = null;
+  state.screen = 'home';
+  render();
+}
+function resetProgress(){
+  state.progress = { learned: [], cleared: {} };
+  saveProgress();
+  state.modal = null;
+  toast('學習進度已重置');
+  render();
+}
+function goMap(){
+  state.modal = null;
+  state.screen = 'map';
+  render();
+}
+function openTeach(i){
+  state.markIndex = i;
+  state.screen = 'teach';
+  render();
+}
+function goChallenge(){
+  state.modal = null;
+  state.screen = 'challenge';
+  render();
+}
+function startPractice(){
+  const m = DATA.marks[state.markIndex];
+  if(!m) return;
+  sfx('tap');
+  startQuiz({
+    title: m.name + ' · 即學即練',
+    subtitle: m.modeLabel + ' · 3 題',
+    questions: m.practice,
+    kind: 'practice',
+    markId: m.id,
+    key: 'practice-' + m.id,
+    backTo: { screen: 'teach', markIndex: state.markIndex }
+  });
+}
+function startGroup(level, gi){
+  const lv = DATA.challenges[level];
+  if(!lv) return;
+  const g = lv.groups[gi];
+  if(!g) return;
+  sfx('tap');
+  startQuiz({
+    title: (level === 'easy' ? '初階版' : '高階版') + ' · ' + g.name,
+    subtitle: g.theme + ' · ' + g.qs.length + ' 題',
+    questions: g.qs,
+    kind: 'challenge',
+    key: level + '-' + (gi + 1),
+    backTo: { screen: 'challenge' }
+  });
+}
+function resultBack(){
+  const r = state.result;
+  if(!r){ goHome(); return; }
+  if(r.kind === 'practice'){
+    state.markIndex = r.backTo.markIndex;
+    state.screen = 'teach';
+  }else{
+    state.screen = 'challenge';
+  }
+  state.result = null;
+  render();
+}
+function restartQuiz(){
+  if(!state.result) return;
+  const cfg = state.result.config;
+  state.result = null;
+  startQuiz(cfg);
+}
+
+/* ======================= 事件 ======================= */
+app.addEventListener('click', function(e){
+  const el = e.target.closest('[data-action]');
+  if(!el) return;
+  const action = el.getAttribute('data-action');
+
+  if(action === 'go-home'){ sfx('tap'); goHome(); return; }
+  if(action === 'go-map'){ sfx('tap'); goMap(); return; }
+  if(action === 'go-challenge'){ sfx('tap'); goChallenge(); return; }
+  if(action === 'toggle-sound'){
+    state.soundOn = !state.soundOn;
+    saveProgress();
+    if(state.soundOn){ sfx('ok'); }
+    render();
+    toast(state.soundOn ? '音效已開啟' : '音效已關閉');
+    return;
+  }
+  if(action === 'open-teach'){ sfx('tap'); openTeach(Number(el.getAttribute('data-i'))); return; }
+  if(action === 'teach-prev'){ sfx('tap'); openTeach((state.markIndex - 1 + DATA.marks.length) % DATA.marks.length); return; }
+  if(action === 'teach-next'){ sfx('tap'); openTeach((state.markIndex + 1) % DATA.marks.length); return; }
+  if(action === 'start-practice'){ startPractice(); return; }
+  if(action === 'start-group'){ startGroup(el.getAttribute('data-level'), Number(el.getAttribute('data-g'))); return; }
+  if(action === 'choose'){ chooseOption(el.getAttribute('data-mark')); return; }
+  if(action === 'pick-tray'){ pickTray(el.getAttribute('data-mark')); return; }
+  if(action === 'tap-slot'){ tapSlot(Number(el.getAttribute('data-i'))); return; }
+  if(action === 'check'){ checkAnswer(); return; }
+  if(action === 'next'){ nextQuestion(); return; }
+  if(action === 'quiz-exit'){ requestQuizExit(); return; }
+  if(action === 'reset-progress'){
+    state.modal = { kind: 'reset', title: '重置學習進度？', text: '所有「已學會」與「已完成」的紀錄都會清除，此操作不能復原。' };
+    render();
+    return;
+  }
+  if(action === 'modal-cancel'){ state.modal = null; render(); return; }
+  if(action === 'modal-ok'){
+    if(state.modal && state.modal.kind === 'reset'){ resetProgress(); return; }
+    state.modal = null;
+    const qz = state.quiz;
+    if(qz && qz.backTo){
+      if(qz.backTo.screen === 'teach'){ state.markIndex = qz.backTo.markIndex; state.screen = 'teach'; }
+      else { state.screen = 'challenge'; }
+    }else{ state.screen = 'home'; }
+    render();
+    return;
+  }
+  if(action === 'modal-bg'){ return; }
+  if(action === 'restart'){ restartQuiz(); return; }
+  if(action === 'result-back'){ resultBack(); return; }
+});
+
+/* ======================= 啟動 ======================= */
+loadProgress();
+render();
+})();
+</script>
+</body>
+</html>

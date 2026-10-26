@@ -1,0 +1,2141 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>誇張放大鏡｜超乎常理的誇張修辭（修訂版）</title>
+<meta name="description" content="用 13 幅卡通情境圖與三種互動遊戲，學會誇張修辭。分初小版與高小版，每題附詳細解說，可離線遊玩。">
+<style>
+  :root{
+    --cream:#FFF8EC;
+    --paper:#FFFDF8;
+    --ink:#3B3026;
+    --ink-soft:#6E5C4B;
+    --yellow:#FFD25A;
+    --yellow-soft:#FFF0BE;
+    --coral:#FF8A6B;
+    --coral-soft:#FFE3DA;
+    --mint:#66D3A3;
+    --mint-soft:#DDF7EA;
+    --sky:#67C1F5;
+    --sky-soft:#DDF1FF;
+    --grape:#B79CF0;
+    --grape-soft:#EEE5FF;
+    --line:3px solid var(--ink);
+    --shadow:0 6px 0 rgba(59,48,38,.14);
+    --shadow-sm:0 4px 0 rgba(59,48,38,.12);
+    --r-lg:26px;
+    --r-md:18px;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    min-height:100vh;
+    min-height:100dvh;
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Microsoft JhengHei","Heiti TC","Noto Sans TC",sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 12% 8%, #FFE9B8 0, rgba(255,233,184,0) 34%),
+      radial-gradient(circle at 88% 18%, #DDF1FF 0, rgba(221,241,255,0) 36%),
+      radial-gradient(circle at 50% 100%, #FFE3DA 0, rgba(255,227,218,0) 46%),
+      var(--cream);
+    -webkit-tap-highlight-color:transparent;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background-image:radial-gradient(rgba(59,48,38,.10) 1.2px, transparent 1.2px);
+    background-size:22px 22px;
+    opacity:.35;
+    z-index:0;
+  }
+  .app{
+    position:relative;
+    z-index:1;
+    width:100%;
+    max-width:480px;
+    margin:0 auto;
+    padding:0 18px calc(26px + env(safe-area-inset-bottom));
+    min-height:100vh;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+  }
+  .screen{display:block;animation:screenIn .3s ease both;}
+  .screen[hidden]{display:none;}
+  @keyframes screenIn{from{opacity:.94;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:sticky;
+    top:0;
+    z-index:30;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:calc(11px + env(safe-area-inset-top)) 0 10px;
+    background:rgba(255,248,236,.96);
+    -webkit-backdrop-filter:blur(8px);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(59,48,38,.08);
+  }
+  .topbar[hidden]{display:none;}
+  .icon-btn{
+    flex:0 0 auto;
+    width:44px;height:44px;
+    display:grid;place-items:center;
+    border:2.5px solid var(--ink);
+    border-radius:15px;
+    background:var(--paper);
+    color:var(--ink);
+    box-shadow:0 3px 0 rgba(59,48,38,.16);
+    cursor:pointer;
+    transition:transform .12s ease,box-shadow .12s ease;
+  }
+  .icon-btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(59,48,38,.16);}
+  .icon-btn svg{width:22px;height:22px;}
+  .topbar-mid{flex:1;min-width:0;text-align:center;line-height:1.2;}
+  .topbar-title{display:block;font-size:15px;font-weight:900;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .topbar-sub{display:block;font-size:11px;color:var(--ink-soft);font-weight:700;margin-top:2px;}
+  .sound-float{
+    position:fixed;
+    right:calc(50% - 240px + 18px);
+    right:max(14px, calc(50vw - 240px + 14px));
+    bottom:calc(16px + env(safe-area-inset-bottom));
+    z-index:45;
+    width:46px;height:46px;
+    background:rgba(255,253,248,.94);
+    -webkit-backdrop-filter:blur(6px);
+    backdrop-filter:blur(6px);
+  }
+  .sound-float[hidden]{display:none;}
+  @media (max-width:520px){
+    .sound-float{right:14px;}
+  }
+
+  /* ---------- home ---------- */
+  .home{padding:8px 0 54px;display:flex;flex-direction:column;justify-content:center;gap:16px;flex:1;}
+  .brand{text-align:center;}
+  .mascot-wrap{width:min(50vw,196px);margin:0 auto -2px;}
+  .mascot{width:100%;height:auto;display:block;animation:bob 3.6s ease-in-out infinite;filter:drop-shadow(0 10px 0 rgba(59,48,38,.06));}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-1deg);}50%{transform:translateY(-7px) rotate(1.2deg);}}
+  .kicker{
+    display:inline-flex;align-items:center;gap:6px;
+    margin:0 0 6px;padding:5px 12px;
+    font-size:12px;font-weight:800;letter-spacing:1.5px;
+    color:var(--ink);background:var(--yellow);
+    border:2px solid var(--ink);border-radius:999px;
+    box-shadow:0 3px 0 rgba(59,48,38,.14);
+  }
+  h1{
+    margin:8px 0 4px;
+    font-size:clamp(30px,9.2vw,42px);
+    line-height:1.12;
+    letter-spacing:2px;
+    font-weight:900;
+    text-shadow:3px 3px 0 var(--yellow);
+  }
+  .tagline{
+    margin:8px auto 0;
+    max-width:310px;
+    font-size:14px;line-height:1.6;
+    color:var(--ink-soft);font-weight:600;
+  }
+  .level-picker{
+    display:grid;grid-template-columns:1fr 1fr;gap:10px;
+    background:rgba(255,255,255,.55);
+    padding:6px;border:2px solid rgba(59,48,38,.14);border-radius:22px;
+  }
+  .level-btn{
+    min-height:58px;
+    border:2.5px solid transparent;
+    border-radius:16px;
+    background:transparent;
+    color:var(--ink-soft);
+    font-family:inherit;
+    font-size:16px;font-weight:900;
+    cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+    transition:all .16s ease;
+  }
+  .level-btn span{font-size:10.5px;font-weight:700;opacity:.8;letter-spacing:.4px;}
+  .level-btn.is-active{
+    background:var(--yellow);
+    border-color:var(--ink);
+    color:var(--ink);
+    box-shadow:0 4px 0 rgba(59,48,38,.16);
+    transform:translateY(-1px);
+  }
+  .home-actions{display:flex;flex-direction:column;gap:10px;}
+  .btn{
+    min-height:52px;
+    padding:12px 18px;
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    border:var(--line);
+    border-radius:var(--r-md);
+    font-family:inherit;
+    font-size:16.5px;font-weight:900;letter-spacing:.5px;
+    color:var(--ink);
+    background:var(--paper);
+    box-shadow:0 5px 0 rgba(59,48,38,.18);
+    cursor:pointer;
+    transition:transform .12s ease,box-shadow .12s ease,background .16s ease;
+  }
+  .btn:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(59,48,38,.18);}
+  .btn svg{width:20px;height:20px;flex:0 0 auto;}
+  .btn-primary{background:var(--coral);}
+  .btn-yellow{background:var(--yellow);}
+  .btn-ghost{background:var(--paper);}
+  .btn-block{width:100%;}
+  .btn[disabled]{opacity:.38;box-shadow:0 2px 0 rgba(59,48,38,.12);cursor:default;}
+  .btn[disabled]:active{transform:none;}
+  .home-note{
+    margin:0;text-align:center;font-size:11.5px;font-weight:700;
+    color:var(--ink-soft);letter-spacing:.4px;
+  }
+  .home-chips{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;}
+  .chip{
+    font-size:11px;font-weight:800;padding:5px 10px;
+    border:1.5px solid rgba(59,48,38,.28);border-radius:999px;
+    background:rgba(255,255,255,.7);color:var(--ink-soft);
+  }
+
+  /* ---------- menu ---------- */
+  .menu-hero{
+    display:flex;align-items:center;gap:12px;
+    padding:12px 14px 12px 8px;
+    background:var(--paper);
+    border:var(--line);border-radius:var(--r-lg);
+    box-shadow:var(--shadow);
+    margin-bottom:14px;
+  }
+  .menu-mascot{width:84px;flex:0 0 auto;}
+  .menu-mascot svg{width:100%;height:auto;display:block;animation:bob 4s ease-in-out infinite;}
+  .eyebrow{margin:0 0 3px;font-size:11.5px;font-weight:900;letter-spacing:1px;color:var(--ink-soft);}
+  .menu-hero h2{margin:0;font-size:21px;line-height:1.25;font-weight:900;letter-spacing:.5px;}
+  .menu-sub{margin:5px 0 0;font-size:12px;line-height:1.5;color:var(--ink-soft);font-weight:600;}
+  .star-total{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:10px 14px;margin-bottom:12px;
+    background:var(--yellow-soft);
+    border:2px dashed rgba(59,48,38,.35);border-radius:16px;
+    font-size:12.5px;font-weight:800;color:var(--ink);
+  }
+  .star-total b{font-size:17px;}
+  .star-total .starrow{display:flex;align-items:center;gap:4px;}
+  .star-total svg{width:17px;height:17px;color:#E0A21B;}
+  .lesson-entry{
+    width:100%;display:flex;align-items:center;gap:13px;
+    padding:14px;margin-bottom:18px;
+    background:var(--grape-soft);
+    border:var(--line);border-radius:22px;
+    box-shadow:var(--shadow-sm);
+    font-family:inherit;color:var(--ink);
+    text-align:left;cursor:pointer;
+    transition:transform .12s ease,box-shadow .12s ease;
+  }
+  .lesson-entry:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(59,48,38,.14);}
+  .entry-icon{
+    width:54px;height:54px;flex:0 0 auto;display:grid;place-items:center;
+    background:var(--paper);border:2.5px solid var(--ink);border-radius:16px;color:var(--grape);
+  }
+  .entry-icon svg{width:28px;height:28px;}
+  .entry-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}
+  .entry-body strong{font-size:15.5px;font-weight:900;}
+  .entry-body span{font-size:11.5px;color:var(--ink-soft);font-weight:700;}
+  .entry-arrow{width:22px;height:22px;flex:0 0 auto;color:var(--ink);}
+  .section-title{
+    margin:0 0 4px;font-size:13px;font-weight:900;letter-spacing:1.5px;color:var(--ink-soft);
+    display:flex;align-items:center;gap:8px;
+  }
+  .section-title::after{content:"";height:2px;flex:1;background:rgba(59,48,38,.16);border-radius:2px;}
+  .section-note{margin:0 0 10px;font-size:11px;font-weight:700;color:var(--ink-soft);line-height:1.5;}
+  .mode-list{display:flex;flex-direction:column;gap:11px;}
+  .mode-card{
+    width:100%;display:flex;align-items:center;gap:12px;
+    padding:14px 13px;
+    background:var(--paper);
+    border:var(--line);border-radius:22px;
+    box-shadow:var(--shadow-sm);
+    font-family:inherit;color:var(--ink);text-align:left;
+    cursor:pointer;transition:transform .12s ease,box-shadow .12s ease;
+  }
+  .mode-card:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(59,48,38,.14);}
+  .mode-icon{
+    width:56px;height:56px;flex:0 0 auto;display:grid;place-items:center;
+    border:2.5px solid var(--ink);border-radius:18px;
+  }
+  .mode-icon svg{width:30px;height:30px;}
+  .tone-yellow{background:var(--yellow);}
+  .tone-coral{background:var(--coral);}
+  .tone-mint{background:var(--mint);}
+  .tone-sky{background:var(--sky);}
+  .tone-grape{background:var(--grape);}
+  .mode-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
+  .mode-top{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+  .mode-top strong{font-size:15.5px;font-weight:900;}
+  .mode-badge{
+    font-size:9.5px;font-weight:900;padding:2px 7px;border-radius:999px;
+    background:rgba(59,48,38,.08);color:var(--ink-soft);letter-spacing:.5px;
+  }
+  .mode-desc{font-size:11.5px;line-height:1.45;color:var(--ink-soft);font-weight:600;}
+  .mode-progress{display:flex;align-items:center;gap:4px;margin-top:2px;flex-wrap:wrap;}
+  .mode-progress i{width:7px;height:7px;border-radius:50%;background:rgba(59,48,38,.16);display:block;}
+  .mode-progress i.on{background:var(--coral);}
+  .mode-progress em{font-style:normal;font-size:10.5px;font-weight:800;color:var(--ink-soft);margin-left:4px;}
+  .mode-arrow{width:20px;height:20px;flex:0 0 auto;color:var(--ink-soft);}
+
+  /* ---------- learn ---------- */
+  .learn-tabs{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:5px;
+    padding:5px;margin-bottom:14px;
+    background:rgba(255,255,255,.72);
+    border:2px solid rgba(59,48,38,.16);border-radius:18px;
+    position:sticky;top:calc(68px + env(safe-area-inset-top));z-index:20;
+    -webkit-backdrop-filter:blur(8px);
+    backdrop-filter:blur(8px);
+  }
+  .learn-tab{
+    min-height:44px;padding:5px 2px;
+    border:none;border-radius:12px;background:transparent;
+    font-family:inherit;font-size:11.5px;line-height:1.2;font-weight:900;color:var(--ink-soft);
+    cursor:pointer;transition:all .16s ease;
+  }
+  .learn-tab.is-active{background:var(--ink);color:var(--cream);box-shadow:0 3px 0 rgba(59,48,38,.2);}
+  .learn-card{
+    background:var(--paper);border:var(--line);border-radius:var(--r-lg);
+    box-shadow:var(--shadow);padding:18px 16px 16px;
+  }
+  .lesson-mark{
+    display:inline-flex;align-items:center;gap:5px;
+    margin:0 0 7px;padding:4px 9px;
+    font-size:10px;font-weight:900;letter-spacing:1px;color:var(--ink-soft);
+    background:rgba(59,48,38,.07);border-radius:999px;
+  }
+  .lesson-title{margin:0 0 7px;font-size:22px;line-height:1.35;font-weight:900;letter-spacing:.3px;}
+  .lesson-lead{margin:0 0 13px;font-size:13.5px;line-height:1.75;color:var(--ink-soft);font-weight:600;}
+  .scene{
+    margin:0 0 12px;border:2.5px solid var(--ink);border-radius:17px;
+    overflow:hidden;background:#fff;box-shadow:0 4px 0 rgba(59,48,38,.12);
+  }
+  .scene-svg{display:block;width:100%;height:auto;}
+  .scene figcaption{
+    display:block;padding:7px 10px;
+    font-size:11.5px;line-height:1.45;font-weight:700;color:var(--ink-soft);
+    background:var(--yellow-soft);border-top:2px solid rgba(59,48,38,.18);
+  }
+  .scene-grid{display:grid;grid-template-columns:1fr;gap:9px;margin:0 0 12px;}
+  .compare-panel{
+    padding:8px;border:2.5px dashed rgba(59,48,38,.4);border-radius:16px;
+    background:#FFF9EE;
+  }
+  .compare-panel.is-hyper{background:var(--coral-soft);border-style:solid;border-color:var(--ink);}
+  .compare-tag{
+    display:inline-block;margin-bottom:6px;padding:2px 8px;
+    font-size:10px;font-weight:900;letter-spacing:1px;
+    background:var(--paper);border:2px solid var(--ink);border-radius:999px;
+  }
+  .compare-panel .scene{margin:0 0 6px;border-width:2px;border-radius:11px;box-shadow:none;}
+  .compare-text{margin:0;font-size:12.5px;line-height:1.55;font-weight:800;}
+  .vs-arrow{display:flex;justify-content:center;align-items:center;color:var(--coral);padding:1px 0;}
+  .vs-arrow svg{width:22px;height:22px;}
+  .stamp{
+    display:inline-block;margin:0 0 12px;padding:7px 12px;
+    font-size:13px;font-weight:900;letter-spacing:.5px;
+    background:var(--yellow);border:2.5px solid var(--ink);border-radius:11px;
+    box-shadow:0 3px 0 rgba(59,48,38,.16);transform:rotate(-2deg);
+  }
+  .point-list{list-style:none;margin:0 0 13px;padding:0;display:flex;flex-direction:column;gap:9px;}
+  .point-list li{
+    display:flex;gap:9px;align-items:flex-start;
+    font-size:13px;line-height:1.65;font-weight:600;color:var(--ink);
+  }
+  .point-list li .dot{
+    flex:0 0 auto;width:20px;height:20px;margin-top:2px;
+    display:grid;place-items:center;border-radius:50%;
+    background:var(--mint-soft);color:#1F7A55;
+    border:1.5px solid rgba(31,122,85,.4);
+  }
+  .point-list li .dot svg{width:12px;height:12px;}
+  .example-box{
+    background:var(--yellow-soft);
+    border:2px dashed rgba(59,48,38,.4);
+    border-radius:16px;padding:12px 13px;margin-bottom:12px;
+  }
+  .example-label{display:block;font-size:10px;font-weight:900;letter-spacing:1.5px;color:var(--ink-soft);margin-bottom:4px;}
+  .example-text{margin:0;font-size:15px;line-height:1.7;font-weight:800;}
+  .example-text mark{background:var(--yellow);color:var(--ink);padding:0 3px;border-radius:4px;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
+  .example-note{margin:6px 0 0;font-size:12px;line-height:1.65;color:var(--ink-soft);font-weight:600;}
+  .check-list{display:flex;flex-direction:column;gap:8px;margin:0 0 12px;}
+  .check-item{
+    display:flex;gap:9px;align-items:flex-start;
+    padding:10px;border-radius:14px;
+    background:#FFF9EE;border:2px solid rgba(59,48,38,.16);
+  }
+  .check-num{
+    flex:0 0 auto;width:25px;height:25px;display:grid;place-items:center;
+    background:var(--coral);color:#fff;border:2px solid var(--ink);border-radius:50%;
+    font-size:12px;font-weight:900;
+  }
+  .check-copy{min-width:0;flex:1;}
+  .check-copy strong{display:block;font-size:13px;font-weight:900;margin-bottom:1px;}
+  .check-copy span{display:block;font-size:12px;line-height:1.6;font-weight:600;color:var(--ink-soft);}
+  .move-list{display:flex;flex-direction:column;gap:12px;margin-top:2px;}
+  .move-item{
+    overflow:hidden;background:#fff;
+    border:2.5px solid var(--ink);border-radius:18px;
+    box-shadow:0 4px 0 rgba(59,48,38,.1);
+  }
+  .move-head{display:flex;gap:10px;align-items:center;padding:10px 11px 7px;}
+  .move-icon{
+    width:44px;height:44px;flex:0 0 auto;display:grid;place-items:center;
+    border:2px solid var(--ink);border-radius:13px;
+  }
+  .move-icon svg{width:24px;height:24px;}
+  .move-copy{min-width:0;flex:1;}
+  .move-copy strong{display:block;font-size:15px;font-weight:900;margin-bottom:1px;}
+  .move-copy em{display:block;font-style:normal;font-size:11.5px;color:var(--ink-soft);font-weight:700;line-height:1.45;}
+  .move-body{padding:0 11px 11px;}
+  .move-body .scene{margin:0 0 8px;border-width:2px;border-radius:11px;box-shadow:none;}
+  .move-body .scene figcaption{font-size:10.5px;padding:5px 8px;}
+  .move-normal{
+    margin:0 0 5px;font-size:11.5px;line-height:1.55;font-weight:600;color:var(--ink-soft);
+  }
+  .move-normal b{color:var(--ink);}
+  .move-ex{margin:0;font-size:12.5px;line-height:1.6;font-weight:800;}
+  .move-ex .tag{
+    display:inline-block;margin-right:4px;padding:1px 6px;
+    font-size:9.5px;font-weight:900;border-radius:999px;
+    background:var(--yellow);border:1.5px solid var(--ink);
+  }
+  .effect-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+  .effect-item{
+    display:flex;gap:10px;align-items:flex-start;
+    padding:10px;border-radius:15px;
+    background:#FFF9EE;border:2px solid rgba(59,48,38,.16);
+  }
+  .effect-ico{
+    width:44px;height:44px;flex:0 0 auto;display:grid;place-items:center;
+    border:2px solid var(--ink);border-radius:13px;
+  }
+  .effect-ico svg{width:23px;height:23px;}
+  .effect-copy{min-width:0;flex:1;}
+  .effect-copy strong{display:block;font-size:13.5px;font-weight:900;}
+  .effect-copy p{margin:1px 0 3px;font-size:11.5px;line-height:1.55;color:var(--ink-soft);font-weight:600;}
+  .effect-copy em{display:block;font-style:normal;font-size:12px;line-height:1.55;font-weight:800;}
+  .mantra{
+    margin:4px 0 14px;padding:18px 14px;text-align:center;
+    background:var(--sky-soft);
+    border:2.5px solid var(--ink);border-radius:22px;
+    font-size:clamp(21px,6.2vw,26px);line-height:1.55;font-weight:900;letter-spacing:1px;
+    position:relative;
+  }
+  .mantra::before,.mantra::after{
+    content:"“";position:absolute;font-size:44px;line-height:1;color:var(--sky);
+    font-family:Georgia,serif;opacity:.7;
+  }
+  .mantra::before{left:10px;top:4px;}
+  .mantra::after{right:10px;bottom:-12px;transform:rotate(180deg);}
+  .flow{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+  .flow-step{
+    display:flex;gap:10px;align-items:center;
+    padding:9px 11px;background:#fff;border:2px solid rgba(59,48,38,.18);border-radius:14px;
+  }
+  .flow-ico{
+    width:38px;height:38px;flex:0 0 auto;display:grid;place-items:center;
+    border:2px solid var(--ink);border-radius:12px;
+  }
+  .flow-ico svg{width:20px;height:20px;}
+  .flow-copy{min-width:0;flex:1;}
+  .flow-copy strong{display:block;font-size:12.5px;font-weight:900;}
+  .flow-copy span{display:block;font-size:11.5px;line-height:1.55;color:var(--ink-soft);font-weight:600;}
+  .tip-box{
+    display:flex;gap:9px;align-items:flex-start;
+    padding:10px 11px;border-radius:14px;margin-bottom:8px;
+    background:#FFF9EE;border:2px solid rgba(59,48,38,.14);
+  }
+  .tip-box:last-child{margin-bottom:0;}
+  .tip-box .tip-ico{flex:0 0 auto;width:24px;height:24px;color:var(--coral);}
+  .tip-box p{margin:0;font-size:12.5px;line-height:1.65;font-weight:600;}
+  .fit-grid{display:grid;grid-template-columns:1fr;gap:8px;margin:4px 0 13px;}
+  .fit-card{padding:11px 12px;border:2.5px solid;border-radius:16px;}
+  .fit-card h4{margin:0 0 6px;font-size:13px;font-weight:900;display:flex;align-items:center;gap:5px;}
+  .fit-card h4 svg{width:17px;height:17px;}
+  .fit-card ul{margin:0;padding-left:16px;}
+  .fit-card li{font-size:11.5px;line-height:1.65;font-weight:600;margin-bottom:2px;}
+  .fit-yes{background:var(--mint-soft);border-color:#2E9468;}
+  .fit-no{background:var(--coral-soft);border-color:#D95F42;}
+  .mini-note{
+    margin:0 0 12px;padding:9px 11px;
+    font-size:11.5px;line-height:1.65;font-weight:700;
+    background:var(--sky-soft);border-left:4px solid var(--sky);border-radius:0 10px 10px 0;
+  }
+  .myth-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+  .myth-item{
+    padding:9px 11px;border-radius:14px;
+    background:#FFF6F1;border:2px dashed rgba(217,95,66,.5);
+  }
+  .myth-item strong{display:block;font-size:12.5px;font-weight:900;color:#B34327;margin-bottom:2px;}
+  .myth-item span{display:block;font-size:11.5px;line-height:1.6;font-weight:600;}
+  .learn-nav{display:flex;gap:8px;margin-top:13px;}
+  .learn-nav .btn{flex:1;min-width:0;min-height:48px;font-size:14px;padding:10px 8px;}
+  .learn-cta{margin-top:9px;}
+
+  /* ---------- play ---------- */
+  .play-wrap{min-height:calc(100vh - 104px);min-height:calc(100dvh - 104px);display:flex;flex-direction:column;}
+  .play-inner{width:100%;margin:auto 0;padding:2px 0 4px;}
+  .play-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;}
+  .play-head .eyebrow{margin:0;}
+  .mode-hint{
+    margin:0 0 10px;padding:7px 10px;
+    font-size:11px;font-weight:800;color:var(--ink-soft);
+    background:rgba(255,255,255,.6);border:1.5px dashed rgba(59,48,38,.25);
+    border-radius:12px;text-align:center;
+  }
+  .dots{display:flex;gap:5px;align-items:center;}
+  .dots i{width:9px;height:9px;border-radius:50%;background:rgba(59,48,38,.16);display:block;transition:background .2s ease,transform .2s ease;}
+  .dots i.done{background:var(--mint);}
+  .dots i.now{background:var(--coral);transform:scale(1.35);box-shadow:0 0 0 3px rgba(255,138,107,.2);}
+  .q-count{margin:0;font-size:11.5px;font-weight:800;color:var(--ink-soft);letter-spacing:.5px;text-align:right;}
+  .play-tip{margin:11px 0 0;text-align:center;font-size:11.5px;font-weight:700;color:var(--ink-soft);}
+  .q-card{
+    background:var(--paper);border:var(--line);border-radius:var(--r-lg);
+    box-shadow:var(--shadow);padding:18px 16px 20px;
+  }
+  .q-icon{
+    width:76px;height:76px;margin:0 auto 13px;
+    display:grid;place-items:center;
+    border:2.5px solid var(--ink);border-radius:50%;
+    box-shadow:0 4px 0 rgba(59,48,38,.12);
+  }
+  .q-icon svg{width:40px;height:40px;}
+  .q-text{
+    margin:0;font-size:clamp(18px,5.1vw,21px);line-height:1.75;
+    font-weight:800;text-align:center;letter-spacing:.3px;
+  }
+  .q-hint{
+    display:block;margin-top:8px;font-size:12px;font-weight:700;
+    color:var(--ink-soft);text-align:center;
+  }
+  .blank{
+    display:inline-block;min-width:4.2em;padding:0 8px;margin:0 2px;
+    border-bottom:3px solid var(--coral);color:var(--coral);text-align:center;font-weight:900;
+  }
+  .blank.is-filled{border-bottom-color:var(--mint);color:#1F7A55;background:var(--mint-soft);border-radius:8px 8px 0 0;}
+  .options{display:flex;flex-direction:column;gap:9px;margin-top:14px;}
+  .opt{
+    width:100%;min-height:56px;
+    display:flex;align-items:center;gap:11px;
+    padding:10px 13px;
+    background:var(--paper);
+    border:2.5px solid var(--ink);
+    border-radius:17px;
+    box-shadow:0 4px 0 rgba(59,48,38,.14);
+    font-family:inherit;font-size:14.5px;font-weight:700;line-height:1.5;color:var(--ink);
+    text-align:left;cursor:pointer;
+    transition:transform .12s ease,box-shadow .12s ease,background .18s ease,border-color .18s ease;
+  }
+  .opt:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(59,48,38,.14);}
+  .opt-key{
+    flex:0 0 auto;width:30px;height:30px;display:grid;place-items:center;
+    border:2px solid var(--ink);border-radius:50%;
+    background:var(--yellow);font-size:13px;font-weight:900;
+  }
+  .opt-text{flex:1;min-width:0;}
+  .opt-mark{flex:0 0 auto;width:22px;height:22px;display:none;}
+  .opt-mark svg{width:22px;height:22px;}
+  .opt.is-correct{background:var(--mint-soft);border-color:#2E9468;}
+  .opt.is-correct .opt-key{background:#2E9468;border-color:#2E9468;color:#fff;}
+  .opt.is-correct .opt-mark{display:block;color:#2E9468;}
+  .opt.is-wrong{background:var(--coral-soft);border-color:#D95F42;}
+  .opt.is-wrong .opt-key{background:#D95F42;border-color:#D95F42;color:#fff;}
+  .opt.is-wrong .opt-mark{display:block;color:#D95F42;}
+  .opt:disabled{opacity:1;cursor:default;}
+  .feedback{
+    margin-top:14px;padding:15px 15px 16px;
+    scroll-margin-top:88px;
+    background:var(--paper);
+    border:var(--line);border-radius:22px;
+    box-shadow:var(--shadow);
+    animation:feedbackIn .3s cubic-bezier(.2,.9,.3,1.2) both;
+  }
+  .feedback[hidden]{display:none;}
+  @keyframes feedbackIn{from{opacity:.9;transform:translateY(14px) scale(.98);}to{opacity:1;transform:none;}}
+  .fb-head{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+  .fb-head .fb-badge{
+    width:30px;height:30px;flex:0 0 auto;display:grid;place-items:center;
+    border:2px solid var(--ink);border-radius:50%;
+  }
+  .fb-head strong{font-size:16px;font-weight:900;letter-spacing:.3px;}
+  .feedback.ok{border-color:#2E9468;background:#F2FCF7;}
+  .feedback.ok .fb-badge{background:var(--mint);}
+  .feedback.no{border-color:#E08064;background:#FFF7F3;}
+  .feedback.no .fb-badge{background:var(--coral);}
+  .fb-tag{
+    display:inline-block;margin:0 0 6px;padding:2px 7px;
+    font-size:10px;font-weight:900;letter-spacing:.5px;
+    background:rgba(59,48,38,.08);border-radius:999px;color:var(--ink-soft);
+  }
+  .fb-answer{margin:0 0 5px;font-size:13px;font-weight:700;color:var(--ink);}
+  .fb-answer b{color:#1F7A55;}
+  .feedback.no .fb-answer b{color:#B34327;}
+  .fb-pick{margin:0 0 6px;font-size:12px;font-weight:700;color:var(--ink-soft);}
+  .fb-explain{margin:0 0 12px;font-size:13px;line-height:1.75;font-weight:600;color:var(--ink);}
+  .fb-explain .ex-label{font-weight:900;color:var(--ink-soft);margin-right:2px;}
+  .feedback .btn{min-height:48px;font-size:15.5px;}
+
+  /* ---------- result ---------- */
+  .result-wrap{text-align:center;padding-top:2px;min-height:calc(100vh - 110px);min-height:calc(100dvh - 110px);display:flex;align-items:center;justify-content:center;}
+  .result-card{
+    background:var(--paper);border:var(--line);border-radius:28px;
+    box-shadow:var(--shadow);padding:22px 18px 20px;width:100%;
+  }
+  .result-label{display:inline-block;margin:0 0 10px;font-size:11px;font-weight:900;letter-spacing:1.5px;color:var(--ink-soft);}
+  .star-row{display:flex;justify-content:center;gap:10px;margin:6px 0 10px;}
+  .star-big{width:52px;height:52px;color:rgba(59,48,38,.16);}
+  .star-big.on{color:var(--yellow);filter:drop-shadow(0 3px 0 rgba(59,48,38,.18));animation:pop .45s cubic-bezier(.2,.9,.3,1.5) both;}
+  .star-big.on:nth-child(2){animation-delay:.1s;}
+  .star-big.on:nth-child(3){animation-delay:.2s;}
+  @keyframes pop{0%{transform:scale(.4) rotate(-18deg);opacity:.2;}100%{transform:scale(1) rotate(0);opacity:1;}}
+  .result-score{margin:0;font-size:34px;font-weight:900;letter-spacing:1px;}
+  .result-score span{font-size:15px;color:var(--ink-soft);font-weight:800;}
+  .result-title{margin:8px 0 4px;font-size:20px;font-weight:900;line-height:1.4;}
+  .result-sub{margin:0 auto 16px;max-width:290px;font-size:13px;line-height:1.7;color:var(--ink-soft);font-weight:600;}
+  .result-actions{display:flex;flex-direction:column;gap:9px;}
+  .result-mascot{width:110px;margin:0 auto -4px;}
+  .result-mascot svg{width:100%;height:auto;display:block;animation:bob 3.8s ease-in-out infinite;}
+
+  .sr-only{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+    overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+  }
+  :focus-visible{outline:3px solid #2C8FD1;outline-offset:3px;}
+
+  @media (min-height:700px){
+    .q-card{min-height:270px;}
+    .q-icon{width:84px;height:84px;}
+    .q-icon svg{width:42px;height:42px;}
+    .opt{min-height:58px;}
+  }
+  @media (min-width:420px){
+    .scene-grid{grid-template-columns:1fr 1fr;gap:10px;}
+    .vs-arrow{grid-column:1 / -1;padding:0;}
+    .fit-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (hover:hover){
+    .btn:hover:not([disabled]),.opt:hover:not(:disabled),.mode-card:hover,.lesson-entry:hover,.icon-btn:hover{filter:brightness(1.015);transform:translateY(-1px);}
+    .learn-tab:hover{background:rgba(59,48,38,.07);}
+    .learn-tab.is-active:hover{background:var(--ink);}
+  }
+  @media (min-width:560px){
+    .app{padding-left:22px;padding-right:22px;max-width:520px;}
+    body{background-attachment:fixed;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
+  }
+</style>
+</head>
+<body>
+<main class="app" id="app" data-generated-by="vibe-coding-frontend-design">
+  <header class="topbar" id="topbar" hidden>
+    <button class="icon-btn" type="button" data-action="back" aria-label="返回上一頁">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <div class="topbar-mid">
+      <span class="topbar-title" id="topbar-title">誇張放大鏡</span>
+      <span class="topbar-sub" id="topbar-sub">初小版</span>
+    </div>
+    <button class="icon-btn" type="button" id="sound-btn" data-action="sound" aria-label="關閉音效" aria-pressed="true"></button>
+  </header>
+
+  <section class="screen is-active" id="screen-home" aria-label="首頁">
+    <div class="home">
+      <div class="brand">
+        <div class="mascot-wrap" id="home-mascot" aria-hidden="true"></div>
+        <p class="kicker">中文修辭小教室</p>
+        <h1>誇張放大鏡</h1>
+        <p class="tagline" id="home-tagline">把句子放大一點，讓想像飛起來！</p>
+      </div>
+
+      <div class="level-picker" role="group" aria-label="選擇學習程度">
+        <button type="button" class="level-btn is-active" data-action="set-level" data-level="junior" aria-pressed="true">
+          初小版<span>小一至小三</span>
+        </button>
+        <button type="button" class="level-btn" data-action="set-level" data-level="senior" aria-pressed="false">
+          高小版<span>小四至小六</span>
+        </button>
+      </div>
+
+      <div class="home-actions">
+        <button type="button" class="btn btn-primary btn-block" data-action="start-learn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10 4.8 7 4.2 4 4.7v14c3-.5 6 .1 8 1.8 2-1.7 5-2.3 8-1.8v-14c-3-.5-6 .1-8 1.8Z"/><path d="M12 6.5v14"/></svg>
+          開始學習
+        </button>
+        <button type="button" class="btn btn-ghost btn-block" data-action="start-play">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5.5v13l11-6.5Z"/></svg>
+          直接玩遊戲
+        </button>
+      </div>
+
+      <div class="home-chips" aria-hidden="true">
+        <span class="chip">6 張知識卡</span>
+        <span class="chip">13 幅情境圖</span>
+        <span class="chip">36 道題</span>
+      </div>
+      <p class="home-note">每題附解說 · 可離線遊玩 · 適合 6–12 歲</p>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-menu" aria-label="學習主頁" hidden></section>
+
+  <section class="screen" id="screen-learn" aria-label="教學" hidden>
+    <div class="learn-tabs" id="learn-tabs" role="tablist" aria-label="教學章節"></div>
+    <div id="learn-body" role="tabpanel" tabindex="0" aria-label="教學內容"></div>
+  </section>
+
+  <section class="screen" id="screen-play" aria-label="遊戲" hidden></section>
+
+  <section class="screen" id="screen-result" aria-label="成績" hidden></section>
+
+  <button class="icon-btn sound-float" type="button" id="sound-btn-home" data-action="sound" aria-label="關閉音效" aria-pressed="true"></button>
+</main>
+
+<div class="sr-only" id="live" aria-live="polite"></div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ============ 圖示 ============ */
+  var ICONS = {
+    spark:'<path d="M12 3.2l2.1 6.7 6.7 2.1-6.7 2.1L12 20.8l-2.1-6.7L3.2 12l6.7-2.1Z"/>',
+    sun:'<circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.4M12 19v2.4M2.6 12H5M19 12h2.4M5.4 5.4 7 7M17 17l1.6 1.6M18.6 5.4 17 7M7 17l-1.6 1.6"/>',
+    thermo:'<path d="M10 14.3V5.6a2 2 0 1 1 4 0v8.7a4 4 0 1 1-4 0Z"/><path d="M12 16.4v-3.8"/>',
+    bowl:'<path d="M3.6 11.4h16.8c0 4.5-3.8 7.1-8.4 7.1s-8.4-2.6-8.4-7.1Z"/><path d="M8.2 8.4c0-1.3 1.2-1.7 1.2-2.9M12 8.4c0-1.4 1.3-1.8 1.3-3.1M15.8 8.4c0-1.3 1.2-1.7 1.2-2.9"/>',
+    wind:'<path d="M3 8h8.5a2.8 2.8 0 1 0-2.8-2.8"/><path d="M3 12h12.5a2.8 2.8 0 1 1-2.8 2.8"/><path d="M3 16h6a2.4 2.4 0 1 1-2.4 2.4"/>',
+    book:'<path d="M4 5.4A2.4 2.4 0 0 1 6.4 3H20v14.6H6.4A2.4 2.4 0 0 0 4 20V5.4Z"/><path d="M4 20a2.4 2.4 0 0 1 2.4-2.4H20"/>',
+    speaker:'<path d="M4 9.4h3l4.6-3.6v12.4L7 14.6H4Z"/><path d="M14.8 8.4a5 5 0 0 1 0 7.2"/><path d="M17.8 5.6a8.6 8.6 0 0 1 0 12.8"/>',
+    run:'<circle cx="14.6" cy="5" r="2"/><path d="M12.4 8 9 10.6l2.7 3.2-1.6 5.8"/><path d="M11.7 13.8 15 16l1.6 3.4"/><path d="M9 10.6 5.4 12M15 9l3 1.4"/>',
+    homework:'<path d="M6 3.5h9l4 4V20.5H6Z"/><path d="M15 3.5V8h4"/><path d="M9 12h5M9 15.5h6"/>',
+    flame:'<path d="M12 21c4 0 6.5-2.6 6.5-6 0-4.5-4.5-6.5-4-11-3 1.5-4.5 4-4.5 6.5-1 0-2-1-2.2-2.5C6 10 5.5 12 5.5 14c0 4 2.6 7 6.5 7Z"/><path d="M12 21c-1.7 0-3-1.3-3-3 0-2 2-3 2-5 1.5 1 3 2.5 3 4.5 0 1.9-1 3.5-2 3.5Z"/>',
+    snow:'<path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5 4.2 16.5"/><path d="M9.2 4.6 12 6.2l2.8-1.6M9.2 19.4 12 17.8l2.8 1.6"/>',
+    anger:'<path d="M7 20c-2-2-2-4 0-6s2-4 0-6M12 21c-2-2-2-4 0-6s2-4 0-6M17 20c-2-2-2-4 0-6s2-4 0-6"/>',
+    needle:'<path d="M14 4l6 6M17 7l-9 9-4 1 1-4 9-9"/><circle cx="19.3" cy="4.7" r="1.3"/>',
+    clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.5l3.6 2"/>',
+    stairs:'<path d="M4 20h4v-4h4v-4h4V8h4V4"/>',
+    tears:'<path d="M12 3.5c3.5 4.2 5.5 7 5.5 9.4A5.5 5.5 0 0 1 6.5 13c0-2.4 2-5.2 5.5-9.5Z"/><path d="M18.5 15.5c1.3 1.6 2 2.7 2 3.5a2 2 0 1 1-4 0c0-.8.7-1.9 2-3.5Z"/>',
+    music:'<path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.6"/><circle cx="16.5" cy="16" r="2.6"/>',
+    tunnel:'<path d="M4 20V12a8 8 0 0 1 16 0v8"/><path d="M8 20v-8a4 4 0 0 1 8 0v8"/><path d="M3 20h18"/>',
+    trophy:'<path d="M8 4h8v5a4 4 0 0 1-8 0Z"/><path d="M8 5H5v2a3 3 0 0 0 3 3M16 5h3v2a3 3 0 0 1-3 3"/><path d="M12 13v4M9 20h6M10 17h4v3h-4z"/>',
+    hourglass:'<path d="M7 3h10M7 21h10M8 3c0 4 8 5 8 9s-8 5-8 9M16 3c0 4-8 5-8 9s8 5 8 9"/>',
+    house:'<path d="M4 11 12 4l8 7v8.5a1 1 0 0 1-1 1h-4.5V15h-5v5.5H5a1 1 0 0 1-1-1Z"/>',
+    crowd:'<circle cx="8" cy="8" r="2.6"/><circle cx="16" cy="8" r="2.6"/><path d="M3.5 19c0-3 2-5 4.5-5s4.5 2 4.5 5M11.5 19c0-2.4 1.6-4 3.5-4s4 2 4 4"/>',
+    typhoon:'<path d="M12 12c0-4 3-7 7-6 3 1 4 5 2 7-2 3-6 3-9 1-4-2-8 0-8 4 0 3 3 5 6 4"/>',
+    snail:'<path d="M4 18h13a4 4 0 0 0 0-8 4 4 0 0 0-4 4 2.5 2.5 0 0 0 2.5 2.5"/><path d="M18 10V7M18 7l2-1"/><path d="M6 18c0-1.1.9-2 2-2"/>',
+    ruler:'<path d="M3 8.5 8.5 3 21 15.5 15.5 21Z"/><path d="M7 11l2 2M10 8l2 2M13 11l2 2M16 14l2 2"/>',
+    mountain:'<path d="M3 19 9 7l4 6 3-4 5 10Z"/><path d="M7.5 13.5 9 16l2-2"/>',
+    lightning:'<path d="M13 2 5 13h6l-1 9 8-12h-6Z"/>',
+    brain:'<path d="M9.5 4a3 3 0 0 0-3 3 3 3 0 0 0-1.5 5.6A3 3 0 0 0 7 18a3 3 0 0 0 5 1.5V5.5A2 2 0 0 0 9.5 4Z"/><path d="M14.5 4a3 3 0 0 1 3 3 3 3 0 0 1 1.5 5.6A3 3 0 0 1 17 18a3 3 0 0 1-5 1.5V5.5A2 2 0 0 1 14.5 4Z"/>',
+    rice:'<path d="M12 21V9"/><path d="M12 9c0-3 2-5 5-5-1 3-2 5-5 5ZM12 9c0-3-2-5-5-5 1 3 2 5 5 5ZM12 14c3 0 5-2 5-5-3 1-5 2-5 5ZM12 14c-3 0-5-2-5-5 3 1 5 2 5 5Z"/>',
+    balloon:'<ellipse cx="12" cy="9" rx="5.5" ry="6.5"/><path d="M12 15.5v2.2c0 1.4-1 2.1-2.4 2.6"/><path d="M9 8.4c0-1.5 1.2-2.5 2.6-2.5"/>',
+    shrink:'<path d="M9 4v5H4M15 20v-5h5M4 9l5-5M20 15l-5 5"/>',
+    rocket:'<path d="M12 3c3.4 2.1 5.2 5.6 5.2 9.4L12 18l-5.2-5.6C6.8 8.6 8.6 5.1 12 3Z"/><circle cx="12" cy="9.4" r="2"/><path d="M8.4 15.8 6 19M15.6 15.8 18 19"/>',
+    abacus:'<path d="M4 5h16M4 12h16M4 19h16"/><circle cx="8" cy="5" r="1.8"/><circle cx="15" cy="12" r="1.8"/><circle cx="10" cy="19" r="1.8"/>',
+    detective:'<circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/><path d="M8.2 8.8a3.2 3.2 0 0 1 4.6 0"/>',
+    wand:'<path d="M4 20 14.5 9.5"/><path d="M17.5 3.5l.9 2.6 2.6.9-2.6.9-.9 2.6-.9-2.6-2.6-.9 2.6-.9Z"/><path d="M5 4l.6 1.7 1.7.6-1.7.6L5 8.6l-.6-1.7L2.7 6.3l1.7-.6Z"/>',
+    pencil:'<path d="M4 20l1-4.5L16.5 4a2.1 2.1 0 0 1 3 3L8 18.5Z"/><path d="M14.5 6 18 9.5"/>',
+    bookOpen:'<path d="M12 6.5C10 4.8 7 4.2 4 4.7v14c3-.5 6 .1 8 1.8 2-1.7 5-2.3 8-1.8v-14c-3-.5-6 .1-8 1.8Z"/><path d="M12 6.5v14"/>',
+    check:'<path d="M4.5 12.5 9.5 17.5 19.5 6.5"/>',
+    cross:'<path d="M6 6l12 12M18 6 6 18"/>',
+    arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',
+    arrowDown:'<path d="M12 4v16M6 14l6 6 6-6"/>',
+    play:'<path d="M8 5.5v13l11-6.5Z"/>',
+    refresh:'<path d="M20 12a8 8 0 1 1-2.4-5.7"/><path d="M20 4v4h-4"/>',
+    soundOn:'<path d="M4 9.4h3l4.6-3.6v12.4L7 14.6H4Z"/><path d="M14.8 8.4a5 5 0 0 1 0 7.2"/><path d="M17.8 5.6a8.6 8.6 0 0 1 0 12.8"/>',
+    soundOff:'<path d="M4 9.4h3l4.6-3.6v12.4L7 14.6H4Z"/><path d="M15 9.5l6 6M21 9.5l-6 6"/>',
+    target:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1.3"/>',
+    heart:'<path d="M12 20s-7-4.4-7-9.2A4.2 4.2 0 0 1 12 8a4.2 4.2 0 0 1 7 2.8C19 15.6 12 20 12 20Z"/>',
+    flower:'<circle cx="12" cy="12" r="2.6"/><path d="M12 9.4c0-3 1.2-5 3.4-5 2 0 3 2.2 1.6 4.4M14.2 13.4c2.6 1.5 3.6 3.6 2.4 5.4-1 1.6-3.3 1.4-4.4-.9M9.8 13.4c-2.6 1.5-3.6 3.6-2.4 5.4 1 1.6 3.3 1.4 4.4-.9M9.8 10.6C7.2 9.1 6.2 7 7.4 5.2c1-1.6 3.3-1.4 4.4.9"/>',
+    basket:'<path d="M4 10h16l-1.6 8.4a2 2 0 0 1-2 1.6H7.6a2 2 0 0 1-2-1.6Z"/><path d="M8 10 10 4M16 10 14 4M9 14v3M15 14v3"/>',
+    bridge:'<path d="M3 18V8M17 18V8M3 8c3 6 11 6 14 0"/><path d="M3 18h18"/>',
+    steps:'<path d="M4 20h4v-4h4v-4h4V8h4V4"/>',
+    drop:'<path d="M12 3.5c3.5 4.2 5.5 7 5.5 9.4A5.5 5.5 0 0 1 6.5 13c0-2.4 2-5.2 5.5-9.5Z"/>',
+    question:'<circle cx="12" cy="12" r="8.5"/><path d="M9.4 9.4a2.7 2.7 0 0 1 5.2.9c0 1.9-2.6 2-2.6 4"/><circle cx="12" cy="17.4" r=".9" fill="currentColor"/>',
+    ban:'<circle cx="12" cy="12" r="8.5"/><path d="M6.5 17.5 17.5 6.5"/>',
+    news:'<path d="M4 5h13v14H6a2 2 0 0 1-2-2Z"/><path d="M17 8h3v9a2 2 0 0 1-2 2h-1"/><path d="M7 8h7M7 11h7M7 14h4"/>',
+    eye:'<path d="M2.5 12S6 6.5 12 6.5 21.5 12 21.5 12 18 17.5 12 17.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.8"/>'
+  };
+  function icon(name, cls){
+    var p = ICONS[name] || ICONS.spark;
+    return '<svg class="'+(cls||'')+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>';
+  }
+  function starSVG(on){
+    return '<svg class="star-big '+(on?'on':'')+'" viewBox="0 0 24 24" fill="'+(on?'currentColor':'none')+'" stroke="'+(on?'#3B3026':'currentColor')+'" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.3l2.72 5.72 6.28.9-4.55 4.42 1.08 6.26L12 17.66 6.47 20.6l1.08-6.26L3 9.92l6.28-.9Z"/></svg>';
+  }
+
+  /* ============ 情境插圖（全部內嵌 SVG） ============ */
+  var SCENES = {
+    sunMelt:function(){return ''+
+      '<rect width="320" height="180" fill="#FFEDC9"/>'+
+      '<rect y="118" width="320" height="62" fill="#8FD3F0"/>'+
+      '<path d="M0 118h320" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M8 151c30-10 54 6 88 1s66-13 100-6 76 9 116 1" fill="none" stroke="#FFF8EC" stroke-width="5" stroke-dasharray="16 12" stroke-linecap="round"/>'+
+      '<path d="M52 120c-3 9 4 13 2 22M128 122c-3 9 4 13 2 22M206 120c-3 9 4 13 2 22M278 122c-3 9 4 13 2 22" stroke="#FF8A6B" stroke-width="4" fill="none" stroke-linecap="round"/>'+
+      '<circle cx="252" cy="44" r="27" fill="#FF8A6B" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M252 5v11M252 72v11M213 44h-11M302 44h-11M224 16l8 8M280 64l8 8M280 16l-8 8M224 64l-8 8" stroke="#FFB347" stroke-width="4.5" stroke-linecap="round"/>'+
+      '<circle cx="244" cy="40" r="2.6" fill="#3B3026"/><circle cx="260" cy="40" r="2.6" fill="#3B3026"/>'+
+      '<path d="M243 51c5 4 12 4 17 0" fill="none" stroke="#3B3026" stroke-width="3" stroke-linecap="round"/>'+
+      '<circle cx="82" cy="88" r="16" fill="#FFD9B3" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M66 84c2-14 30-15 32 0-7-6-25-6-32 0Z" fill="#5B3A26"/>'+
+      '<circle cx="77" cy="89" r="2" fill="#3B3026"/><circle cx="88" cy="89" r="2" fill="#3B3026"/>'+
+      '<path d="M79 97c2 2 5 2 7 0" fill="none" stroke="#3B3026" stroke-width="2.4" stroke-linecap="round"/>'+
+      '<path d="M74 103h16v21a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6Z" fill="#FF8A6B" stroke="#3B3026" stroke-width="4" stroke-linejoin="round"/>'+
+      '<path d="M82 130l-7 12M82 130l7 12" stroke="#3B3026" stroke-width="8" stroke-linecap="round"/>'+
+      '<path d="M75 110 60 104M89 110l16-5" stroke="#FFD9B3" stroke-width="7" stroke-linecap="round"/>'+
+      '<path d="M98 94c3 4 3 7 0 10" stroke="#67C1F5" stroke-width="3.5" fill="none" stroke-linecap="round"/>'+
+      '<path d="M120 160h30M180 162h24" stroke="#3B3026" stroke-width="3" stroke-linecap="round" opacity=".3"/>'
+    ;},
+    mountain:function(){return ''+
+      '<rect width="320" height="180" fill="#E4F4FF"/>'+
+      '<circle cx="272" cy="32" r="16" fill="#FFD25A" stroke="#3B3026" stroke-width="3.5"/>'+
+      '<path d="M18 46c8-9 22-9 30 0 6-6 18-5 22 3H14c0-2 2-3 4-3Z" fill="#fff" stroke="#3B3026" stroke-width="3" stroke-linejoin="round"/>'+
+      '<path d="M0 146c52-14 100-8 154-4s112 0 166-8v46H0Z" fill="#C9EDCB"/>'+
+      '<path d="M84 92 138 22l56 70Z" fill="#B79CF0" stroke="#3B3026" stroke-width="4.5" stroke-linejoin="round"/>'+
+      '<path d="M138 22l-14 25 14-4 14 9Z" fill="#fff" stroke="#3B3026" stroke-width="3.5" stroke-linejoin="round"/>'+
+      '<path d="M118 74l-7 9M158 76l8 9" stroke="#8E74C9" stroke-width="4" stroke-linecap="round"/>'+
+      '<circle cx="140" cy="114" r="15" fill="#FFD9B3" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M125 110c2-13 28-14 30 0-6-5-24-5-30 0Z" fill="#5B3A26"/>'+
+      '<circle cx="135" cy="115" r="1.9" fill="#3B3026"/><circle cx="146" cy="115" r="1.9" fill="#3B3026"/>'+
+      '<path d="M136 122c2.5 2 5.5 2 8 0" fill="none" stroke="#3B3026" stroke-width="2.4" stroke-linecap="round"/>'+
+      '<path d="M131 127h19v17a7 7 0 0 1-7 7h-5a7 7 0 0 1-7-7Z" fill="#FF8A6B" stroke="#3B3026" stroke-width="4" stroke-linejoin="round"/>'+
+      '<path d="M136 151l-4 8M145 151l4 8" stroke="#3B3026" stroke-width="7" stroke-linecap="round"/>'+
+      '<path d="M131 130 118 96M150 130l13-34" stroke="#FF8A6B" stroke-width="8" stroke-linecap="round"/>'+
+      '<path d="M118 96l-9-7M163 96l8-7" stroke="#FFD9B3" stroke-width="7" stroke-linecap="round"/>'+
+      '<path d="M96 108l-9-5M186 108l9-5" stroke="#3B3026" stroke-width="3" stroke-linecap="round"/>'+
+      '<path d="M170 122c3 4 3 7 0 10" stroke="#67C1F5" stroke-width="3.5" fill="none" stroke-linecap="round"/>'+
+      '<path d="M64 158h28M196 158h32" stroke="#3B3026" stroke-width="3" stroke-linecap="round" opacity=".28"/>'
+    ;},
+    normalEat:function(){return ''+
+      '<rect width="320" height="180" fill="#EAF7E4"/>'+
+      '<rect y="142" width="320" height="38" fill="#C9EDCB"/>'+
+      '<rect x="48" y="112" width="224" height="13" rx="6" fill="#E0A45E" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M70 125v22M250 125v22" stroke="#3B3026" stroke-width="8" stroke-linecap="round"/>'+
+      '<circle cx="96" cy="82" r="16" fill="#FFD9B3" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M80 78c2-14 30-15 32 0-7-6-25-6-32 0Z" fill="#5B3A26"/>'+
+      '<circle cx="91" cy="83" r="2" fill="#3B3026"/><circle cx="102" cy="83" r="2" fill="#3B3026"/>'+
+      '<path d="M93 91c2 2 5 2 7 0" fill="none" stroke="#3B3026" stroke-width="2.4" stroke-linecap="round"/>'+
+      '<path d="M87 97h18v20a7 7 0 0 1-7 7h-4a7 7 0 0 1-7-7Z" fill="#FF8A6B" stroke="#3B3026" stroke-width="4" stroke-linejoin="round"/>'+
+      '<path d="M92 124l-5 8M100 124l5 8" stroke="#3B3026" stroke-width="8" stroke-linecap="round"/>'+
+      '<path d="M88 105 76 112M104 105l8 8" stroke="#FFD9B3" stroke-width="7" stroke-linecap="round"/>'+
+      '<g stroke="#3B3026" stroke-width="3.2" fill="#FFFDF8">'+
+      '<path d="M146 110a18 18 0 0 0 36 0Z"/><path d="M192 110a18 18 0 0 0 36 0Z"/><path d="M238 110a18 18 0 0 0 36 0Z"/>'+
+      '</g>'+
+      '<path d="M146 110h36M192 110h36M238 110h36" stroke="#3B3026" stroke-width="3.2"/>'+
+      '<path d="M152 104c4-5 24-5 28 0Z" fill="#FFF8EC" stroke="#3B3026" stroke-width="2.4"/>'+
+      '<path d="M198 104c4-5 24-5 28 0Z" fill="#FFF8EC" stroke="#3B3026" stroke-width="2.4"/>'+
+      '<path d="M244 104c4-5 24-5 28 0Z" fill="#FFF8EC" stroke="#3B3026" stroke-width="2.4"/>'+
+      '<path d="M196 34h66a9 9 0 0 1 9 9v18a9 9 0 0 1-9 9h-36l-9 9v-9h-21a9 9 0 0 1-9-9V43a9 9 0 0 1 9-9Z" fill="#fff" stroke="#3B3026" stroke-width="3"/>'+
+      '<text x="229" y="58" text-anchor="middle" font-size="14" font-weight="900" fill="#3B3026" font-family="PingFang TC, Microsoft JhengHei, sans-serif">好餓</text>'+
+      '<path d="M96 148c-6 8-6 14 0 18M96 154c-5 3-5 8 0 11" fill="none" stroke="#3B3026" stroke-width="2.6" stroke-linecap="round" opacity=".4"/>'
+    ;},
+    elephant:function(){return ''+
+      '<rect width="320" height="180" fill="#FFF1D6"/>'+
+      '<rect y="144" width="320" height="36" fill="#F7D9A8"/>'+
+      '<rect x="74" y="118" width="192" height="12" rx="6" fill="#E0A45E" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M94 130v18M246 130v18" stroke="#3B3026" stroke-width="8" stroke-linecap="round"/>'+
+      '<ellipse cx="176" cy="110" rx="66" ry="16" fill="#FFFDF8" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M110 106h132c-4 26-30 38-66 38s-62-12-66-38Z" fill="#FF8A6B" stroke="#3B3026" stroke-width="4"/>'+
+      '<ellipse cx="190" cy="86" rx="44" ry="30" fill="#C7D3E0" stroke="#3B3026" stroke-width="4"/>'+
+      '<circle cx="158" cy="74" r="24" fill="#C7D3E0" stroke="#3B3026" stroke-width="4"/>'+
+      '<ellipse cx="140" cy="72" rx="13" ry="18" fill="#B3C1D1" stroke="#3B3026" stroke-width="3.5"/>'+
+      '<circle cx="165" cy="68" r="2.6" fill="#3B3026"/>'+
+      '<path d="M152 84c0 14 6 20 16 20 4 0 6 2 6 6" fill="none" stroke="#3B3026" stroke-width="7" stroke-linecap="round"/>'+
+      '<path d="M148 88c-2 6 1 10 5 11" fill="none" stroke="#3B3026" stroke-width="3" stroke-linecap="round"/>'+
+      '<path d="M106 112h8M206 112h8" stroke="#3B3026" stroke-width="3" opacity=".35"/>'+
+      '<circle cx="66" cy="92" r="15" fill="#FFD9B3" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M51 88c2-13 28-14 30 0-7-5-23-5-30 0Z" fill="#5B3A26"/>'+
+      '<circle cx="61" cy="93" r="2" fill="#3B3026"/><circle cx="72" cy="93" r="2" fill="#3B3026"/>'+
+      '<ellipse cx="66" cy="101" rx="4" ry="5" fill="#3B3026"/>'+
+      '<path d="M58 106h16v16a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6Z" fill="#FF8A6B" stroke="#3B3026" stroke-width="4" stroke-linejoin="round"/>'+
+      '<path d="M63 128l-5 9M70 128l5 9" stroke="#3B3026" stroke-width="8" stroke-linecap="round"/>'+
+      '<path d="M59 111 50 104M73 111l8-6" stroke="#FFD9B3" stroke-width="6" stroke-linecap="round"/>'+
+      '<path d="M84 96c3 4 3 7 0 10" stroke="#67C1F5" stroke-width="3" fill="none" stroke-linecap="round"/>'+
+      '<path d="M250 94v22M246 94v8M254 94v8" stroke="#3B3026" stroke-width="3" stroke-linecap="round"/>'
+    ;},
+    bigEar:function(){return ''+
+      '<rect width="320" height="180" fill="#E8F7FF"/>'+
+      '<rect y="148" width="320" height="32" fill="#C9EDCB"/>'+
+      '<ellipse cx="62" cy="94" rx="34" ry="46" fill="#FFC1A8" stroke="#3B3026" stroke-width="4"/>'+
+      '<ellipse cx="198" cy="94" rx="34" ry="46" fill="#FFC1A8" stroke="#3B3026" stroke-width="4"/>'+
+      '<ellipse cx="62" cy="94" rx="20" ry="31" fill="#FFE3DA"/>'+
+      '<ellipse cx="198" cy="94" rx="20" ry="31" fill="#FFE3DA"/>'+
+      '<circle cx="130" cy="88" r="36" fill="#FFD9B3" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M96 78c4-26 62-30 70 0-14-10-56-10-70 0Z" fill="#5B3A26"/>'+
+      '<circle cx="118" cy="90" r="2.6" fill="#3B3026"/><circle cx="142" cy="90" r="2.6" fill="#3B3026"/>'+
+      '<path d="M122 102c5 4 11 4 16 0" fill="none" stroke="#3B3026" stroke-width="3" stroke-linecap="round"/>'+
+      '<path d="M121 122h18v20a7 7 0 0 1-7 7h-4a7 7 0 0 1-7-7Z" fill="#FF8A6B" stroke="#3B3026" stroke-width="4" stroke-linejoin="round"/>'+
+      '<path d="M126 149l-5 8M134 149l5 8" stroke="#3B3026" stroke-width="8" stroke-linecap="round"/>'+
+      '<path d="M121 129 109 142M139 129l12 13" stroke="#FFD9B3" stroke-width="7" stroke-linecap="round"/>'+
+      '<path d="M20 64c-8 6-8 18 0 24M300 64c8 6 8 18 0 24M28 120c-6 4-6 12 0 16M292 120c6 4 6 12 0 16" stroke="#67C1F5" stroke-width="4" fill="none" stroke-linecap="round"/>'
+    ;},
+    matchbox:function(){return ''+
+      '<rect width="320" height="180" fill="#FFF3D6"/>'+
+      '<rect y="146" width="320" height="34" fill="#F2DDB4"/>'+
+      '<rect x="26" y="74" width="208" height="78" rx="8" fill="#F5B96B" stroke="#3B3026" stroke-width="4"/>'+
+      '<rect x="40" y="86" width="180" height="54" rx="5" fill="#FFF4E2" stroke="#3B3026" stroke-width="3"/>'+
+      '<rect x="50" y="94" width="62" height="30" rx="2" fill="#3B7A57" stroke="#3B3026" stroke-width="2.4"/>'+
+      '<path d="M56 101h50M56 107h40M56 113h30" stroke="#FFF8EC" stroke-width="2.2" stroke-linecap="round"/>'+
+      '<g fill="#FFD25A" stroke="#3B3026" stroke-width="2">'+
+      '<rect x="124" y="106" width="20" height="12" rx="2"/><rect x="152" y="106" width="20" height="12" rx="2"/><rect x="180" y="106" width="20" height="12" rx="2"/>'+
+      '</g>'+
+      '<g fill="#FFD9B3" stroke="#3B3026" stroke-width="2">'+
+      '<circle cx="134" cy="100" r="5"/><circle cx="162" cy="100" r="5"/><circle cx="190" cy="100" r="5"/>'+
+      '</g>'+
+      '<path d="M28 126h204" stroke="#FF8A6B" stroke-width="4" stroke-dasharray="10 8"/>'+
+      '<circle cx="262" cy="86" r="18" fill="#FFD9B3" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M244 82c2-14 34-15 36 0-8-6-28-6-36 0Z" fill="#5B3A26"/>'+
+      '<circle cx="256" cy="87" r="2.2" fill="#3B3026"/><circle cx="268" cy="87" r="2.2" fill="#3B3026"/>'+
+      '<path d="M257 95c3 2 6 2 9 0" fill="none" stroke="#3B3026" stroke-width="2.4" stroke-linecap="round"/>'+
+      '<path d="M254 103h16v19a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6Z" fill="#FF8A6B" stroke="#3B3026" stroke-width="4" stroke-linejoin="round"/>'+
+      '<path d="M259 128l-6 9M267 128l6 9" stroke="#3B3026" stroke-width="7" stroke-linecap="round"/>'+
+      '<path d="M255 109 236 117M269 109l11 8" stroke="#FFD9B3" stroke-width="7" stroke-linecap="round"/>'+
+      '<circle cx="290" cy="122" r="16" fill="#BFE8FF" fill-opacity=".6" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M306 138 316 148" stroke="#3B3026" stroke-width="8" stroke-linecap="round"/>'+
+      '<path d="M280 114a12 12 0 0 1 9-5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>'
+    ;},
+    runWind:function(){return ''+
+      '<rect width="320" height="180" fill="#DFF3FF"/>'+
+      '<rect y="138" width="320" height="42" fill="#F6C9A8"/>'+
+      '<path d="M0 138h320" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M0 158h320" stroke="#FFF8EC" stroke-width="4" stroke-dasharray="14 12"/>'+
+      '<path d="M22 78c22-26 60-22 64 2 3 20-24 32-40 18" fill="none" stroke="#67C1F5" stroke-width="8" stroke-linecap="round"/>'+
+      '<path d="M30 104c-8 6-8 14 0 18" fill="none" stroke="#67C1F5" stroke-width="5" stroke-linecap="round"/>'+
+      '<circle cx="62" cy="72" r="2.4" fill="#3B3026"/><circle cx="74" cy="72" r="2.4" fill="#3B3026"/>'+
+      '<path d="M64 82c4 3 8 3 12 0" fill="none" stroke="#3B3026" stroke-width="2.5" stroke-linecap="round"/>'+
+      '<circle cx="180" cy="72" r="16" fill="#FFD9B3" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M164 68c2-14 30-15 32 0-7-6-25-6-32 0Z" fill="#5B3A26"/>'+
+      '<circle cx="175" cy="73" r="2" fill="#3B3026"/><circle cx="186" cy="73" r="2" fill="#3B3026"/>'+
+      '<path d="M177 81c2 2 5 2 7 0" fill="none" stroke="#3B3026" stroke-width="2.4" stroke-linecap="round"/>'+
+      '<path d="M173 86h15l6 25h-17Z" fill="#FF8A6B" stroke="#3B3026" stroke-width="4" stroke-linejoin="round"/>'+
+      '<path d="M188 110l-16 18M188 110l14 12" stroke="#3B3026" stroke-width="9" stroke-linecap="round"/>'+
+      '<path d="M177 93 160 88M185 92l17 6" stroke="#FFD9B3" stroke-width="6" stroke-linecap="round"/>'+
+      '<path d="M150 96h-18M146 108h-26M154 120h-16" stroke="#3B3026" stroke-width="3.5" stroke-linecap="round" opacity=".45"/>'+
+      '<path d="M292 138V84" stroke="#3B3026" stroke-width="5" stroke-linecap="round"/>'+
+      '<path d="M292 86h22l-6 10 6 10h-22Z" fill="#FFD25A" stroke="#3B3026" stroke-width="3" stroke-linejoin="round"/>'+
+      '<path d="M64 142h44M240 142h36" stroke="#3B3026" stroke-width="3" opacity=".28"/>'
+    ;},
+    needle:function(){return ''+
+      '<rect width="320" height="180" fill="#EAF1FF"/>'+
+      '<rect y="140" width="320" height="40" fill="#D8E4F7"/>'+
+      '<g fill="#E0A45E" stroke="#3B3026" stroke-width="3">'+
+      '<rect x="18" y="118" width="70" height="10" rx="3"/><rect x="232" y="118" width="70" height="10" rx="3"/>'+
+      '</g>'+
+      '<path d="M28 128v16M78 128v16M242 128v16M292 128v16" stroke="#3B3026" stroke-width="5" stroke-linecap="round"/>'+
+      '<circle cx="52" cy="96" r="14" fill="#FFD9B3" stroke="#3B3026" stroke-width="4"/>'+
+      '<circle cx="47" cy="96" r="2" fill="#3B3026"/><circle cx="57" cy="96" r="2" fill="#3B3026"/>'+
+      '<ellipse cx="52" cy="104" rx="3" ry="4" fill="#3B3026"/>'+
+      '<circle cx="268" cy="96" r="14" fill="#FFD9B3" stroke="#3B3026" stroke-width="4"/>'+
+      '<circle cx="263" cy="96" r="2" fill="#3B3026"/><circle cx="273" cy="96" r="2" fill="#3B3026"/>'+
+      '<ellipse cx="268" cy="104" rx="3" ry="4" fill="#3B3026"/>'+
+      '<path d="M166 24v76" stroke="#3B3026" stroke-width="7" stroke-linecap="round"/>'+
+      '<path d="M166 100l6 14-6-4-6 4Z" fill="#3B3026"/>'+
+      '<circle cx="166" cy="28" r="7" fill="none" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M146 44l-8 8M186 44l8 8M144 70l-9 5M188 70l9 5" stroke="#67C1F5" stroke-width="4" stroke-linecap="round"/>'+
+      '<text x="232" y="82" font-size="22" font-weight="900" fill="#FF8A6B" font-family="PingFang TC, Microsoft JhengHei, sans-serif" transform="rotate(-12 232 82)">叮！</text>'
+    ;},
+    glass:function(){return ''+
+      '<rect width="320" height="180" fill="#FFF0F5"/>'+
+      '<rect y="146" width="320" height="34" fill="#EBD9E8"/>'+
+      '<circle cx="82" cy="82" r="17" fill="#FFD9B3" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M65 78c2-15 32-16 34 0-8-6-26-6-34 0Z" fill="#5B3A26"/>'+
+      '<circle cx="76" cy="83" r="2.1" fill="#3B3026"/><circle cx="88" cy="83" r="2.1" fill="#3B3026"/>'+
+      '<ellipse cx="82" cy="94" rx="6" ry="7" fill="#3B3026"/>'+
+      '<path d="M73 100h18v18a7 7 0 0 1-7 7h-4a7 7 0 0 1-7-7Z" fill="#FF8A6B" stroke="#3B3026" stroke-width="4" stroke-linejoin="round"/>'+
+      '<path d="M78 126l-5 8M86 126l5 8" stroke="#3B3026" stroke-width="8" stroke-linecap="round"/>'+
+      '<path d="M74 106 56 98M90 106l10-4" stroke="#FFD9B3" stroke-width="7" stroke-linecap="round"/>'+
+      '<path d="M54 98 34 84" stroke="#3B3026" stroke-width="5" stroke-linecap="round"/>'+
+      '<circle cx="30" cy="81" r="7" fill="#C7D3E0" stroke="#3B3026" stroke-width="3"/>'+
+      '<path d="M108 72c8-10 8-18 0-26M120 80c14-16 14-32 0-46M132 90c20-24 20-48 0-68" fill="none" stroke="#B79CF0" stroke-width="4" stroke-linecap="round"/>'+
+      '<rect x="204" y="46" width="92" height="86" rx="4" fill="#DFF3FF" stroke="#3B3026" stroke-width="5"/>'+
+      '<path d="M250 46v86M204 89h92" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M214 54l24 28-8-30M236 118l16-22 6 22M266 58l22 26-6-32" fill="none" stroke="#67C1F5" stroke-width="3" stroke-linecap="round"/>'+
+      '<path d="M250 89l12-12-6-10 10-8M250 89l-14-6-8 8M250 89l10 14-4 12" fill="none" stroke="#3B3026" stroke-width="3" stroke-linecap="round"/>'+
+      '<path d="M296 140l6 8 8-2-4 8" fill="none" stroke="#3B3026" stroke-width="3" stroke-linecap="round"/>'
+    ;},
+    thermo:function(){return ''+
+      '<rect width="320" height="180" fill="#FFF7E0"/>'+
+      '<rect y="146" width="320" height="34" fill="#F7E3B6"/>'+
+      '<circle cx="270" cy="38" r="18" fill="#FFD25A" stroke="#3B3026" stroke-width="3.5"/>'+
+      '<rect x="86" y="26" width="34" height="104" rx="17" fill="#FFFDF8" stroke="#3B3026" stroke-width="4"/>'+
+      '<rect x="96" y="38" width="14" height="84" rx="7" fill="#FFE3DA"/>'+
+      '<rect x="96" y="78" width="14" height="44" rx="7" fill="#FF8A6B"/>'+
+      '<circle cx="103" cy="126" r="20" fill="#FF8A6B" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M124 48h12M124 64h10M124 80h12M124 96h10M124 112h12" stroke="#3B3026" stroke-width="3" stroke-linecap="round"/>'+
+      '<text x="58" y="64" text-anchor="middle" font-size="17" font-weight="900" fill="#3B3026" font-family="PingFang TC, Microsoft JhengHei, sans-serif">33°C</text>'+
+      '<circle cx="206" cy="90" r="16" fill="#FFD9B3" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M190 86c2-14 30-15 32 0-7-6-25-6-32 0Z" fill="#5B3A26"/>'+
+      '<circle cx="201" cy="91" r="2" fill="#3B3026"/><circle cx="212" cy="91" r="2" fill="#3B3026"/>'+
+      '<path d="M203 99c2 2 5 2 7 0" fill="none" stroke="#3B3026" stroke-width="2.4" stroke-linecap="round"/>'+
+      '<path d="M197 105h18v18a7 7 0 0 1-7 7h-4a7 7 0 0 1-7-7Z" fill="#FF8A6B" stroke="#3B3026" stroke-width="4" stroke-linejoin="round"/>'+
+      '<path d="M202 131l-6 9M210 131l6 9" stroke="#3B3026" stroke-width="8" stroke-linecap="round"/>'+
+      '<path d="M198 112 184 104M214 112l8-6" stroke="#FFD9B3" stroke-width="6" stroke-linecap="round"/>'+
+      '<path d="M176 100a18 18 0 0 1 20 0l-10 16Z" fill="#67C1F5" stroke="#3B3026" stroke-width="3"/>'+
+      '<path d="M186 116v10" stroke="#3B3026" stroke-width="3"/>'+
+      '<path d="M224 88c3 4 3 8 0 12" stroke="#67C1F5" stroke-width="3" fill="none" stroke-linecap="round"/>'
+    ;},
+    tinyRoom:function(){return ''+
+      '<rect width="320" height="180" fill="#E8F4FF"/>'+
+      '<rect x="46" y="32" width="228" height="128" fill="#FFF8EC" stroke="#3B3026" stroke-width="10"/>'+
+      '<path d="M56 136h208" stroke="#E0A45E" stroke-width="6"/>'+
+      '<rect x="66" y="98" width="46" height="38" rx="4" fill="#B79CF0" stroke="#3B3026" stroke-width="3"/>'+
+      '<path d="M66 110h46M80 110v26" stroke="#3B3026" stroke-width="3"/>'+
+      '<rect x="214" y="104" width="40" height="32" rx="4" fill="#FFD25A" stroke="#3B3026" stroke-width="3"/>'+
+      '<circle cx="160" cy="88" r="17" fill="#FFD9B3" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M143 84c2-15 32-16 34 0-8-6-26-6-34 0Z" fill="#5B3A26"/>'+
+      '<circle cx="154" cy="89" r="2.1" fill="#3B3026"/><circle cx="166" cy="89" r="2.1" fill="#3B3026"/>'+
+      '<path d="M155 98c3 2 7 2 10 0" fill="none" stroke="#3B3026" stroke-width="2.4" stroke-linecap="round"/>'+
+      '<path d="M150 104c-8 8-8 20 0 30h22c8-10 8-22 0-30" fill="#FF8A6B" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M152 134v6M168 134v6" stroke="#3B3026" stroke-width="6" stroke-linecap="round"/>'+
+      '<path d="M142 112 130 120M180 112l12 8" stroke="#FFD9B3" stroke-width="6" stroke-linecap="round"/>'+
+      '<path d="M60 52h20M60 52l8-6M60 52l8 6" stroke="#FF8A6B" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'+
+      '<path d="M260 52h-20M260 52l-8-6M260 52l-8 6" stroke="#FF8A6B" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'+
+      '<path d="M160 44v-8M160 44l-6-6M160 44l6-6" stroke="#FF8A6B" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'+
+      '<path d="M160 148v8M160 148l-6 6M160 148l6 6" stroke="#FF8A6B" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'
+    ;},
+    trophyEarly:function(){return ''+
+      '<rect width="320" height="180" fill="#EAF7E4"/>'+
+      '<rect y="138" width="320" height="42" fill="#F6C9A8"/>'+
+      '<path d="M0 138h320" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M72 138v-52" stroke="#3B3026" stroke-width="4" stroke-dasharray="8 8"/>'+
+      '<path d="M286 138V78" stroke="#3B3026" stroke-width="5" stroke-linecap="round"/>'+
+      '<path d="M286 80h24v16h-24Z" fill="#fff" stroke="#3B3026" stroke-width="2.5"/>'+
+      '<path d="M286 80h8v8h8v8h8" fill="none" stroke="#3B3026" stroke-width="2"/>'+
+      '<circle cx="112" cy="80" r="15" fill="#FFD9B3" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M97 76c2-13 28-14 30 0-7-5-23-5-30 0Z" fill="#5B3A26"/>'+
+      '<circle cx="107" cy="81" r="2" fill="#3B3026"/><circle cx="118" cy="81" r="2" fill="#3B3026"/>'+
+      '<path d="M109 89c2 2 5 2 7 0" fill="none" stroke="#3B3026" stroke-width="2.4" stroke-linecap="round"/>'+
+      '<path d="M106 96c-2 12 4 22 16 24M122 120l-20 12M122 120l16 8" stroke="#3B3026" stroke-width="8" stroke-linecap="round"/>'+
+      '<path d="M108 102 94 110M118 100l8 14" stroke="#FF8A6B" stroke-width="6" stroke-linecap="round"/>'+
+      '<circle cx="158" cy="86" r="5" fill="#fff" stroke="#3B3026" stroke-width="2.5"/>'+
+      '<circle cx="172" cy="72" r="7" fill="#fff" stroke="#3B3026" stroke-width="2.5"/>'+
+      '<path d="M182 58h86a12 12 0 0 1 12 12v34a12 12 0 0 1-12 12h-86a12 12 0 0 1-12-12V70a12 12 0 0 1 12-12Z" fill="#fff" stroke="#3B3026" stroke-width="3"/>'+
+      '<path d="M208 70h26v10a13 13 0 0 1-26 0Z" fill="#FFD25A" stroke="#3B3026" stroke-width="2.6"/>'+
+      '<path d="M208 72h-7v5a8 8 0 0 0 8 8M234 72h7v5a8 8 0 0 1-8 8" fill="none" stroke="#3B3026" stroke-width="2.6"/>'+
+      '<path d="M221 93v8M213 105h16M216 101h10v4h-10z" fill="#FFD25A" stroke="#3B3026" stroke-width="2.6" stroke-linejoin="round"/>'+
+      '<path d="M248 76l3 7 7 3-7 3-3 7-3-7-7-3 7-3Z" fill="#FF8A6B"/>'
+    ;},
+    waitWhite:function(){return ''+
+      '<rect width="320" height="180" fill="#E8E4FF"/>'+
+      '<rect y="146" width="320" height="34" fill="#CFC6F2"/>'+
+      '<rect x="232" y="24" width="62" height="56" rx="4" fill="#3B3A63" stroke="#3B3026" stroke-width="4"/>'+
+      '<circle cx="266" cy="48" r="14" fill="#FFD25A"/>'+
+      '<circle cx="274" cy="42" r="12" fill="#3B3A63"/>'+
+      '<circle cx="84" cy="50" r="22" fill="#FFFDF8" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M84 36v14l10 6" stroke="#3B3026" stroke-width="3" stroke-linecap="round"/>'+
+      '<path d="M84 22v4M84 74v4M56 50h4M108 50h4" stroke="#3B3026" stroke-width="3" stroke-linecap="round"/>'+
+      '<path d="M118 150V96h58v54M118 118h58" fill="none" stroke="#3B3026" stroke-width="7" stroke-linecap="round"/>'+
+      '<circle cx="146" cy="82" r="16" fill="#FFD9B3" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M130 78c2-14 30-15 32 0-7-6-25-6-32 0Z" fill="#5B3A26"/>'+
+      '<circle cx="141" cy="83" r="2" fill="#3B3026"/><circle cx="152" cy="83" r="2" fill="#3B3026"/>'+
+      '<path d="M143 91c2 2 5 2 7 0" fill="none" stroke="#3B3026" stroke-width="2.4" stroke-linecap="round"/>'+
+      '<path d="M139 99c-4 16 2 24 10 26 8 2 12 8 10 14 4 2 6 6 5 10" fill="none" stroke="#F4F1FF" stroke-width="9" stroke-linecap="round"/>'+
+      '<path d="M139 99c-4 16 2 24 10 26 8 2 12 8 10 14 4 2 6 6 5 10" fill="none" stroke="#D8D2F0" stroke-width="4" stroke-linecap="round"/>'+
+      '<path d="M134 98c-8 10-10 24-4 34h32c6-10 4-24-4-34" fill="#67C1F5" stroke="#3B3026" stroke-width="4"/>'+
+      '<path d="M132 112l-14 12M164 112l12 10" stroke="#FFD9B3" stroke-width="6" stroke-linecap="round"/>'+
+      '<path d="M136 132v10M160 132v10" stroke="#3B3026" stroke-width="7" stroke-linecap="round"/>'+
+      '<g fill="#FFFDF8" stroke="#3B3026" stroke-width="2.5">'+
+      '<rect x="196" y="124" width="34" height="24" rx="3"/><rect x="202" y="116" width="34" height="24" rx="3"/><rect x="208" y="108" width="34" height="24" rx="3"/>'+
+      '</g>'+
+      '<path d="M214 114h18M214 120h14" stroke="#3B3026" stroke-width="2"/>'+
+      '<path d="M60 150h40M180 150h36" stroke="#3B3026" stroke-width="3" opacity=".28"/>'
+    ;}
+  };
+  function sceneSVG(name, alt){
+    var fn = SCENES[name] || SCENES.sunMelt;
+    return '<svg class="scene-svg" viewBox="0 0 320 180" role="img" aria-label="'+(alt || '')+'">'+fn()+'</svg>';
+  }
+
+  /* ============ 吉祥物 ============ */
+  function mascotSVG(){
+    return ''+
+    '<svg class="mascot" viewBox="0 0 200 190" role="img" aria-label="誇張熊拿著放大鏡">'+
+      '<ellipse cx="100" cy="178" rx="52" ry="8" fill="#3B3026" opacity=".12"/>'+
+      '<circle cx="52" cy="52" r="24" fill="#F5B96B" stroke="#3B3026" stroke-width="4.5"/>'+
+      '<circle cx="52" cy="52" r="11" fill="#FFE1B5"/>'+
+      '<circle cx="148" cy="52" r="24" fill="#F5B96B" stroke="#3B3026" stroke-width="4.5"/>'+
+      '<circle cx="148" cy="52" r="11" fill="#FFE1B5"/>'+
+      '<ellipse cx="100" cy="94" rx="64" ry="57" fill="#FFC97C" stroke="#3B3026" stroke-width="4.5"/>'+
+      '<ellipse cx="100" cy="117" rx="34" ry="25" fill="#FFF4E2"/>'+
+      '<circle cx="76" cy="86" r="7.5" fill="#3B3026"/><circle cx="124" cy="86" r="7.5" fill="#3B3026"/>'+
+      '<circle cx="78.6" cy="83.4" r="2.4" fill="#fff"/><circle cx="126.6" cy="83.4" r="2.4" fill="#fff"/>'+
+      '<ellipse cx="60" cy="108" rx="9" ry="5.5" fill="#FF9B85" opacity=".55"/>'+
+      '<ellipse cx="140" cy="108" rx="9" ry="5.5" fill="#FF9B85" opacity=".55"/>'+
+      '<path d="M100 104c4 0 7 2.5 7 5.5 0 3-3.5 5.5-7 5.5s-7-2.5-7-5.5c0-3 3-5.5 7-5.5Z" fill="#3B3026"/>'+
+      '<path d="M100 115v4M100 119c-3 5-9 5-12 1M100 119c3 5 9 5 12 1" fill="none" stroke="#3B3026" stroke-width="3.2" stroke-linecap="round"/>'+
+      '<path d="M185 139 199 153" stroke="#3B3026" stroke-width="13" stroke-linecap="round"/>'+
+      '<path d="M185 139 199 153" stroke="#E0A45E" stroke-width="7.5" stroke-linecap="round"/>'+
+      '<circle cx="167" cy="121" r="25" fill="#BFE8FF" fill-opacity=".55" stroke="#3B3026" stroke-width="5"/>'+
+      '<circle cx="167" cy="121" r="25" fill="none" stroke="#67C1F5" stroke-width="2.5"/>'+
+      '<path d="M154 112a16 16 0 0 1 10-6" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".9"/>'+
+      '<path d="M140 140c8 9 17 11 25 6" stroke="#3B3026" stroke-width="4.5" fill="none" stroke-linecap="round"/>'+
+      '<path d="M170 42l3 8 8 3-8 3-3 8-3-8-8-3 8-3Z" fill="#FFD25A" stroke="#3B3026" stroke-width="2.5" stroke-linejoin="round"/>'+
+    '</svg>';
+  }
+
+  /* ============ 程度設定 ============ */
+  var LEVELS = {
+    junior:{
+      label:'初小版', age:'小一至小三',
+      tagline:'把句子放大一點，讓想像飛起來！',
+      menuTitle:'今天想玩哪一關？',
+      menuSub:'先看 6 張知識卡，再接受三種挑戰。'
+    },
+    senior:{
+      label:'高小版', age:'小四至小六',
+      tagline:'言過其實，情在其中。',
+      menuTitle:'挑戰你的修辭眼力',
+      menuSub:'四種誇張手法，三種實戰模式。'
+    }
+  };
+
+  /* ============ 教學內容（6 章） ============ */
+  var LESSONS = {
+    junior:[
+      {
+        tab:'認識', kind:'concept', mark:'第 1 章 · 認識',
+        title:'誇張，就是把話說到「不可能」',
+        lead:'把事物故意說得比真實更大、更小、更快、更久。讀者一看就知道不是真的，卻馬上明白你的感受。',
+        hero:{scene:'sunMelt', alt:'太陽像大火球，曬得馬路也融化的卡通插圖', caption:'太陽像一個大火球，連馬路也好像要融化。'},
+        points:[
+          '不是說謊：說的人、聽的人都知道那不是真的。',
+          '不是報告：它用來表達感受和畫面，不用來記錄事實。',
+          '一句就夠：把一個特點推到極端，比堆十個形容詞更有力。'
+        ],
+        example:'他的力氣大得<mark>可以舉起一座山</mark>。',
+        exampleNote:'沒有人真的舉得起山；但我們立刻明白：他的力氣大得驚人。',
+        exampleScene:{scene:'mountain', alt:'小孩雙手舉起一座山的卡通插圖', caption:'把「力氣大」推到舉山，畫面立刻出來了。'}
+      },
+      {
+        tab:'超乎常理', kind:'impossible', mark:'第 2 章 · 核心',
+        title:'關鍵：一定要「超乎常理」',
+        lead:'常理，就是日常生活中真的會發生的事。誇張，就是故意跨過這條線，把話說到不可能的地步。',
+        stamp:'超乎常理 = 不可能，但很有畫面',
+        compare:{
+          normal:{label:'常理上', scene:'normalEat', alt:'小孩放學回家，肚子餓得看著空碗的插圖', text:'小明放學回家，肚子餓得咕咕叫。'},
+          hyper:{label:'誇張後', scene:'elephant', alt:'小孩面前放著一個裝了一頭大象的大碗的插圖', text:'小明餓得可以吃下一頭大象。'}
+        },
+        checks:[
+          {q:'常理會這樣嗎？', a:'會 → 只是普通描述；不會 → 可能是誇張。'},
+          {q:'有沒有推到極端？', a:'大得離譜、小得誇張、快得不可能，才算跨過常理。'},
+          {q:'刪掉誇張，句子還有力嗎？', a:'刪掉後變得平平無奇，才證明這個誇張用得好。'}
+        ],
+        example:'課室安靜得<mark>連一根針掉在地上也聽得見</mark>。',
+        exampleNote:'常理：課室總有些聲音。誇張：連針落地也聽見，把「靜」推到極端。',
+        exampleScene:{scene:'needle', alt:'課室裏一根針掉在地上，學生瞪大眼睛的插圖', caption:'連針掉地的聲音也聽見，安靜得超乎常理。'},
+        mini:'前兩步判斷「是不是誇張」，第三步判斷「用得好不好」。記住：不是「有一點誇張」，而是「明顯不可能」。'
+      },
+      {
+        tab:'招式', kind:'moves', mark:'第 3 章 · 招式',
+        title:'初小三招圖鑑',
+        lead:'同一個意思，換一個超乎常理的說法，畫面就出來了。',
+        moves:[
+          {icon:'balloon', tone:'tone-coral', name:'放大', desc:'把小的、少的、弱的說得極大。',
+           normal:'常理：他的耳朵比一般人大一點。', ex:'他的耳朵大得像兩把扇子。',
+           scene:'bigEar', alt:'小孩長著一對像扇子般大的耳朵的插圖', caption:'耳朵大得像兩把扇子。'},
+          {icon:'shrink', tone:'tone-sky', name:'縮小', desc:'把大的說得極小。',
+           normal:'常理：課室可以坐三十個同學。', ex:'課室小得像一個火柴盒。',
+           scene:'matchbox', alt:'小孩拿著放大鏡看火柴盒裏的課室的插圖', caption:'課室縮小成一個火柴盒。'},
+          {icon:'rocket', tone:'tone-grape', name:'超前', desc:'把後發生的事說成先發生。',
+           normal:'常理：弟弟要跑一段時間才到樓下。', ex:'我的話還沒說完，弟弟已經跑到樓下。',
+           scene:'runWind', alt:'小孩跑得比風還快，風在後面追的插圖', caption:'話未說完，弟弟已跑到樓下。'}
+        ]
+      },
+      {
+        tab:'效果', kind:'effects', mark:'第 4 章 · 效果',
+        title:'為甚麼要用誇張？',
+        lead:'誇張不是為了熱鬧，而是為了讓讀者「看見」和「感受到」。',
+        effects:[
+          {icon:'target', tone:'tone-yellow', name:'突出特點', text:'把最重要的特徵放大，讓人一眼記住。', ex:'他的耳朵大得像兩把扇子。'},
+          {icon:'heart', tone:'tone-coral', name:'表達感受', text:'把心情寫得更強烈，讀者更容易共鳴。', ex:'我餓得可以吃下一頭大象。'},
+          {icon:'spark', tone:'tone-grape', name:'增添趣味', text:'製造好笑的畫面，令句子好記又好玩。', ex:'他慢得連時鐘也等得睡著了。'}
+        ],
+        mini:'同一個特點，可以因應你想讀者記住甚麼，選擇不同招式和效果。'
+      },
+      {
+        tab:'口訣', kind:'mantra', mark:'第 5 章 · 口訣',
+        title:'一句話記住',
+        lead:'不用背定義，把三個問題順序問一次，就知道這句話是不是誇張。',
+        mantra:'不是真的，<br>但很有感覺。',
+        steps:[
+          {icon:'question', tone:'tone-yellow', q:'先問：這件事在常理上可能嗎？', a:'不可能，才有機會是誇張。'},
+          {icon:'arrowDown', tone:'tone-coral', q:'再看：有沒有推到極端？', a:'只是「很大」不算，要「大得離譜」。'},
+          {icon:'heart', tone:'tone-grape', q:'最後感受：想讓我覺得怎樣？', a:'突出特點、表達心情，還是製造趣味？'}
+        ],
+        example:'太陽像一個大火球，<mark>曬得馬路也要融化</mark>。',
+        exampleNote:'馬路不會真的融化，這句話超乎常理；它把「熱」推到極端，讓我們感受到天氣熱得難受。',
+        mini:'三步口訣：可能嗎？→ 夠極端嗎？→ 想讓你有甚麼感覺？'
+      },
+      {
+        tab:'提醒', kind:'tips', mark:'第 6 章 · 提醒',
+        title:'用的時候要記住',
+        lead:'誇張要用得準，不是越多越好。',
+        tips:[
+          '誇張不是說謊：講故事、寫作文、說笑可以用；回答問題、報道事實要說真話。',
+          '要讓人看得懂：用大家熟悉的東西來比，例如山、風、大海、螞蟻。',
+          '一句一個焦點：同一句不要堆太多誇張，否則讀者會混亂。'
+        ],
+        fitYes:['講故事、寫作文','說笑、畫漫畫','描寫心情和天氣'],
+        fitNo:['新聞報道','科學報告、說明書','回答「你幾歲」等事實問題'],
+        closing:'最好的誇張：讀者明知不可能，卻覺得「就是這個感覺」。'
+      }
+    ],
+    senior:[
+      {
+        tab:'認識', kind:'concept', mark:'第 1 章 · 認識',
+        title:'誇張，是言過其實的藝術',
+        lead:'運用想像，故意把事物說得超過真實，以突出特徵、強化情感、增添幽默。它的力量來自「明知不可能，仍然這樣說」。',
+        hero:{scene:'glass', alt:'小孩對著麥克風唱歌，震得玻璃窗出現裂痕的插圖', caption:'他的歌聲震得禮堂的玻璃窗也在發抖。'},
+        points:[
+          '超乎常理：所說的事在現實中不會發生。',
+          '服務情感：不是越大越好，而是為了突出某個特徵或感受。',
+          '讀者共鳴：讀者要能立刻明白你想強調甚麼。'
+        ],
+        example:'他的噴嚏一響，<mark>整條街的窗也在震動</mark>。',
+        exampleNote:'噴嚏不會震動整條街；但我們馬上感受到噴嚏的威力。'
+      },
+      {
+        tab:'超乎常理', kind:'impossible', mark:'第 2 章 · 核心',
+        title:'三層檢驗：分辨真誇張與假誇張',
+        lead:'高小的難點，是分清「誇張」和「寫得花巧」。用三層檢驗，就不會被數字和形容詞騙到。',
+        stamp:'明知不可能，仍然故意這樣說',
+        compare:{
+          normal:{label:'客觀描述', scene:'thermo', alt:'溫度計顯示三十三度，小孩扇涼的插圖', text:'今日氣溫三十三度，是今年最高。'},
+          hyper:{label:'誇張', scene:'sunMelt', alt:'太陽像大火球，曬得馬路融化的插圖', text:'太陽像一個大火球，曬得馬路也要融化了。'}
+        },
+        checks:[
+          {q:'第一層：常理檢驗', a:'這件事在現實中可能發生嗎？可能 → 不是誇張。'},
+          {q:'第二層：極端檢驗', a:'有沒有把特徵推到極致？只是「很熱」未算；「馬路融化」才算。'},
+          {q:'第三層：情感檢驗', a:'為甚麼要這樣寫？突出天氣之熱，還是只想堆砌形容詞？'}
+        ],
+        example:'他緊張得<mark>心臟也快要從口裏跳出來</mark>。',
+        exampleNote:'心臟不會跳出口，這是超乎常理；把緊張推到極致，讀者立刻感到他慌張得不得了。',
+        myths:[
+          {q:'有數字就是準確？', a:'「等了一萬年」有數字，但一萬年不可能，仍是誇張。'},
+          {q:'有「像」就是誇張？', a:'「月亮像銀盤」是比喻，只求相似，沒有推到極端。'},
+          {q:'寫得華麗就是誇張？', a:'「風輕輕掠過」很優美，但沒有超乎常理。'}
+        ],
+        mini:'判斷關鍵：不是看詞語靚不靚，而是看「可能不可能」。'
+      },
+      {
+        tab:'招式', kind:'moves', mark:'第 3 章 · 招式',
+        title:'高小四招圖鑑',
+        lead:'四種手法，對應不同的表達需要。每一招都要跨過常理。',
+        moves:[
+          {icon:'balloon', tone:'tone-coral', name:'擴大誇張', desc:'把特徵、程度、效果推到極致。',
+           normal:'常理：他的歌聲很響亮。', ex:'他的歌聲震得禮堂的玻璃窗也在發抖。',
+           scene:'glass', alt:'小孩唱歌震裂玻璃窗的插圖', caption:'把歌聲的威力放大到震裂玻璃。'},
+          {icon:'shrink', tone:'tone-sky', name:'縮小誇張', desc:'把事物說得極小、極少、極弱。',
+           normal:'常理：這間屋很小，只放得下一張床。', ex:'這間屋小得像一個鞋盒。',
+           scene:'tinyRoom', alt:'小孩屈膝坐在極小房間裏的插圖', caption:'把屋子的細小推到鞋盒的程度。'},
+          {icon:'rocket', tone:'tone-grape', name:'超前誇張', desc:'把後發生的事說成先發生。',
+           normal:'常理：比賽開始後，他才可能衝過終點。', ex:'哨子還沒響，他已經衝過終點。',
+           scene:'trophyEarly', alt:'起跑線上，選手已望向終點獎盃的插圖', caption:'哨子未響，他已經衝過終點。'},
+          {icon:'abacus', tone:'tone-mint', name:'數量程度', desc:'用驚人的數量、時間或程度來誇大。',
+           normal:'常理：等回覆只等了幾小時。', ex:'我等你的回覆，等到頭髮也白了。',
+           scene:'waitWhite', alt:'小孩等到頭髮變白、時鐘轉不停的插圖', caption:'把等待的時間拉到一生之長。'}
+        ]
+      },
+      {
+        tab:'效果', kind:'effects', mark:'第 4 章 · 效果與分寸',
+        title:'誇張不是越大越好',
+        lead:'好的誇張，讀者明知不可能，卻覺得「就是這個感覺」。',
+        effects:[
+          {icon:'target', tone:'tone-yellow', name:'突出特徵', text:'把最想讀者記住的特點放大。', ex:'他的耳朵大得像兩把扇子。'},
+          {icon:'heart', tone:'tone-coral', name:'強化情感', text:'把情緒推到極致，讓讀者共鳴。', ex:'他傷心到連陽光也變成灰色。'},
+          {icon:'spark', tone:'tone-grape', name:'增添幽默', text:'用荒謬畫面製造趣味。', ex:'他慢得連時鐘也等得睡著了。'}
+        ],
+        failures:[
+          {q:'不夠極端', a:'「他很高」只是描述；「他高得頭頂碰到雲」才跨過常理。'},
+          {q:'句句都誇張', a:'全篇每句都放大，讀者會疲勞，找不到重點。'},
+          {q:'失真到看不懂', a:'誇張仍要讓人明白你想強調甚麼，不能變成無意義的堆砌。'}
+        ],
+        mini:'分寸：一句一個焦點；配合情境和語氣；讀者能立刻還原畫面。'
+      },
+      {
+        tab:'口訣', kind:'mantra', mark:'第 5 章 · 口訣',
+        title:'一句話記住',
+        lead:'四個問題順序問一次：找極端、分招式、說效果、看場合。',
+        mantra:'言過其實，<br>情在其中。',
+        steps:[
+          {icon:'eye', tone:'tone-yellow', q:'找極端：哪個詞把事物推離常理？', a:'先找出句中最不可能的部份。'},
+          {icon:'detective', tone:'tone-sky', q:'分招式：屬於哪一種誇張？', a:'擴大、縮小、超前，還是數量程度？'},
+          {icon:'heart', tone:'tone-coral', q:'說效果：想突出甚麼？', a:'特徵、情感，還是幽默？'},
+          {icon:'news', tone:'tone-grape', q:'看場合：這種寫法適合嗎？', a:'文學可以放膽，實用文體要準確。'}
+        ],
+        example:'「我等你的回覆，等到頭髮也白了。」',
+        exampleNote:'極端：頭髮白了；招式：數量程度（時間）；效果：突出等待之久與焦急。'
+      },
+      {
+        tab:'提醒', kind:'tips', mark:'第 6 章 · 場合',
+        title:'甚麼時候可以用？',
+        lead:'誇張是文學語言，不是通用語言。看場合，才用得漂亮。',
+        tips:[
+          '文學寫作：可以大膽誇張，但要服務情感和主題。',
+          '實用文體：講求準確，寧可平實，不要言過其實。',
+          '改寫示範：「這條隧道長八百米」是說明；「這條隧道長得好像沒有盡頭」才是文學誇張。'
+        ],
+        fitYes:['小說、散文、詩歌','廣告標語、海報','日常說笑、演講'],
+        fitNo:['新聞報道','科學報告、說明書','法律文件、醫療指示'],
+        closing:'同一件事，寫報道要準確，寫散文可以放膽。'
+      }
+    ]
+  };
+
+  /* ============ 題庫（三模式各自獨立，36 題不重複） ============ */
+  var DATA = {
+    junior:{
+      modes:{
+        judge:{
+          name:'誇張偵探', bank:'判斷真假', desc:'判斷句子有沒有用誇張', icon:'detective', tone:'tone-yellow',
+          questions:[
+            {text:'妹妹的笑聲大得連屋頂也要掀起來。', icon:'speaker', answer:true, tag:'擴大誇張',
+             explain:'笑聲不可能掀開屋頂，作者把音量放大到不可能的程度，突出妹妹笑得很大聲。'},
+            {text:'今天陽光普照，氣溫二十八度。', icon:'thermo', answer:false, tag:'客觀描述',
+             explain:'這是準確的天氣記錄，沒有故意放大或縮小，所以不是誇張。'},
+            {text:'我家的狗跑得比飛機還快。', icon:'run', answer:true, tag:'擴大誇張',
+             explain:'狗不可能跑得比飛機快，把速度推到不可能的程度，突出牠跑得飛快。'},
+            {text:'媽媽在超級市場買了兩斤菜。', icon:'basket', answer:false, tag:'客觀描述',
+             explain:'買兩斤菜是日常事實，沒有放大或縮小，只是平實陳述。'},
+            {text:'這碗麵辣得我耳朵也在冒煙。', icon:'flame', answer:true, tag:'擴大誇張',
+             explain:'耳朵不會冒煙，用這個不可能的畫面，寫出辣得受不了的感覺。'},
+            {text:'哥哥的書包重得要把地板壓穿。', icon:'book', answer:true, tag:'擴大誇張',
+             explain:'書包不會壓穿地板，把重量推到極端，突出書包真的很重。'}
+          ]
+        },
+        pick:{
+          name:'誇張變身', bank:'改寫句子', desc:'選出最有誇張效果的一句', icon:'wand', tone:'tone-grape',
+          questions:[
+            {prompt:'他寫字很慢。', icon:'pencil', tag:'擴大誇張（時間）',
+             options:[{text:'他寫字要十分鐘。',ok:false},{text:'他寫字有點慢。',ok:false},{text:'他寫一個字，太陽也下山了。',ok:true}],
+             explain:'「寫一個字，太陽也下山」把時間拉長到不可能，突出慢得驚人；其餘兩句只是平實說明時間和程度。'},
+            {prompt:'這杯水很冰。', icon:'snow', tag:'擴大誇張',
+             options:[{text:'這杯水加了冰。',ok:false},{text:'這杯水只有五度。',ok:false},{text:'這杯水冰得我牙齒也凍僵。',ok:true}],
+             explain:'牙齒不會真的凍僵，用身體感受把「冰」推到極端；加了冰、五度都是客觀描述。'},
+            {prompt:'弟弟很怕打雷。', icon:'lightning', tag:'擴大誇張',
+             options:[{text:'弟弟怕得躲進我的口袋裏。',ok:true},{text:'弟弟會哭。',ok:false},{text:'弟弟用手掩著耳朵。',ok:false}],
+             explain:'人不可能躲進口袋，用不可能的動作誇大害怕的程度；哭和掩耳都是真實會做的事。'},
+            {prompt:'公園裏很多人。', icon:'crowd', tag:'擴大誇張',
+             options:[{text:'公園有一百人。',ok:false},{text:'公園很熱鬧。',ok:false},{text:'公園裏人多得連螞蟻也擠不進去。',ok:true}],
+             explain:'連螞蟻也擠不進去，把擁擠推到極端；一百人和「很熱鬧」只是平實描述。'},
+            {prompt:'他的房間很亂。', icon:'house', tag:'擴大誇張',
+             options:[{text:'他的房間亂得連螞蟻也要排隊找路。',ok:true},{text:'他的房間有雜物。',ok:false},{text:'他的房間不太整齊。',ok:false}],
+             explain:'連螞蟻也要排隊找路，把混亂推到極端；有雜物和不太整齊只是輕輕描述。'},
+            {prompt:'這朵花很香。', icon:'flower', tag:'擴大誇張',
+             options:[{text:'這朵花是紅色的。',ok:false},{text:'這朵花香得連蜜蜂也醉倒。',ok:true},{text:'這朵花有香味。',ok:false}],
+             explain:'蜜蜂不會醉倒，用不可能的結果寫香味濃烈；顏色和「有香味」都不是誇張。'}
+          ]
+        },
+        fill:{
+          name:'誇張填空', bank:'選詞填空', desc:'選出最誇張的詞語填進去', icon:'pencil', tone:'tone-mint',
+          questions:[
+            {sentence:'他渴得可以喝下____。', icon:'drop', tag:'擴大誇張',
+             options:['一整個湖','一杯水','一瓶果汁'], answer:0,
+             explain:'人不可能喝下一整個湖，用極大的水量寫渴的程度；一杯水、一瓶果汁都只是正常分量。'},
+            {sentence:'這條隊伍長得____。', icon:'crowd', tag:'擴大誇張',
+             options:['有十個人','排到街尾','好像永遠也排不完'], answer:2,
+             explain:'「永遠也排不完」把長度和等待時間推到極端；十個人和排到街尾都是可能出現的實況。'},
+            {sentence:'他高興得____。', icon:'spark', tag:'擴大誇張',
+             options:['笑了一下','買了雪糕','可以把屋頂掀翻'], answer:2,
+             explain:'人不會掀翻屋頂，用不可能的力氣寫興奮；笑一下、買雪糕只是普通反應。'},
+            {sentence:'暑假好像____那麼長。', icon:'sun', tag:'擴大誇張',
+             options:['兩個月','一輩子','很快'], answer:1,
+             explain:'暑假不會有一輩子，把時間拉長寫「等得很久」的感覺；兩個月是事實，「很快」方向相反。'},
+            {sentence:'他的膽子小得____。', icon:'shrink', tag:'縮小誇張',
+             options:['不敢說話','連螞蟻也怕','有點害羞'], answer:1,
+             explain:'螞蟻小得幾乎看不見，連牠也怕，把膽子小推到極端；不敢說話和害羞都可能是真的。'},
+            {sentence:'這條樓梯陡得____。', icon:'stairs', tag:'擴大誇張',
+             options:['有十級','要慢慢走','連山羊也不敢走'], answer:2,
+             explain:'山羊最會走陡坡，連牠也不敢走，用比較誇大樓梯之陡；十級和慢慢走都是普通描述。'}
+          ]
+        }
+      }
+    },
+    senior:{
+      modes:{
+        judge:{
+          name:'誇張偵探', bank:'判斷真假', desc:'判斷句子有沒有用誇張', icon:'detective', tone:'tone-yellow',
+          questions:[
+            {text:'他的腳步聲大得連隔鄰的玻璃窗也在震。', icon:'steps', answer:true, tag:'擴大誇張',
+             explain:'腳步聲再響也不會震動隔鄰的玻璃窗，作者把聲量放大到不可能，突出他走路很響。'},
+            {text:'這座橋全長一千二百米，用了三年建成。', icon:'bridge', answer:false, tag:'客觀描述',
+             explain:'長度和工期都是準確資料，沒有故意言過其實，所以不是誇張。'},
+            {text:'哨子還沒響，他已經跑完一圈。', icon:'run', answer:true, tag:'超前誇張',
+             explain:'比賽未開始不可能跑完，把後發生的事說成先發生，表現他快得驚人。'},
+            {text:'妹妹這次考試有八十五分，比上次進步了五分。', icon:'homework', answer:false, tag:'客觀描述',
+             explain:'分數和進步幅度具體準確，是平實記錄，沒有放大。'},
+            {text:'他緊張得連自己的影子也在發抖。', icon:'brain', answer:true, tag:'擴大誇張',
+             explain:'影子不會發抖，把緊張投射到影子上，寫出他慌張得連自己都控制不了。'},
+            {text:'這本書共二百四十頁，分十二章。', icon:'book', answer:false, tag:'客觀描述',
+             explain:'頁數和章數是可核對的資料，沒有誇大，屬於客觀說明。'}
+          ]
+        },
+        pick:{
+          name:'誇張變身', bank:'改寫句子', desc:'選出最有誇張效果的一句', icon:'wand', tone:'tone-grape',
+          questions:[
+            {prompt:'會場很擠。', icon:'crowd', tag:'擴大誇張',
+             options:[{text:'會場有三百人。',ok:false},{text:'會場擠得我連呼吸的空間也沒有。',ok:true},{text:'會場有點擁擠。',ok:false}],
+             explain:'連呼吸空間也沒有，把擁擠推到極端；三百人和「有點擁擠」只是數量與程度描述。'},
+            {prompt:'他很傷心。', icon:'tears', tag:'擴大誇張',
+             options:[{text:'他哭了一會兒。',ok:false},{text:'他沒有吃飯。',ok:false},{text:'他傷心到連陽光也變成灰色。',ok:true}],
+             explain:'陽光不會因心情變灰，把內心感受投射到景物，感染力更強；哭和不吃飯都是可能發生的事。'},
+            {prompt:'這本書很好看。', icon:'book', tag:'擴大誇張',
+             options:[{text:'這本書有二百頁。',ok:false},{text:'我一看就看了兩小時。',ok:false},{text:'這本書好看得連時間也停下來。',ok:true}],
+             explain:'時間不會停下來，用不可能的畫面寫入迷程度；頁數和閱讀時間都是客觀資料。'},
+            {prompt:'颱風很猛烈。', icon:'typhoon', tag:'擴大誇張',
+             options:[{text:'颱風達到十級。',ok:false},{text:'學校因此停課。',ok:false},{text:'颱風把大樹連根拔起，連山也快要被吹走。',ok:true}],
+             explain:'「連山也快要被吹走」不是事實，用巨大的破壞畫面誇大風力；十級和停課都是真實情況。'},
+            {prompt:'他做事很慢。', icon:'snail', tag:'擴大＋擬人',
+             options:[{text:'他做事要半小時。',ok:false},{text:'他常常遲到。',ok:false},{text:'他慢得連時鐘也等得睡著了。',ok:true}],
+             explain:'時鐘不會睡著，用擬人加誇張寫「慢」；半小時和遲到只是事實。'},
+            {prompt:'老師很嚴格。', icon:'ruler', tag:'擴大誇張',
+             options:[{text:'老師要求我們交齊功課。',ok:false},{text:'老師會檢查手冊。',ok:false},{text:'老師嚴格得連我們呼吸也要先報告。',ok:true}],
+             explain:'呼吸也要報告是不可能的事，用極端規矩誇大嚴格的程度，帶點幽默。'}
+          ]
+        },
+        fill:{
+          name:'誇張填空', bank:'選詞填空', desc:'選出最誇張的詞語填進去', icon:'pencil', tone:'tone-mint',
+          questions:[
+            {sentence:'他的脾氣壞得____。', icon:'flame', tag:'擴大誇張',
+             options:['有時會生氣','連火藥也要讓他三分','說話比較大聲'], answer:1,
+             explain:'火藥本身已很火爆，還要讓三分，用比較把壞脾氣誇到極點；其餘兩項只是普通描述。'},
+            {sentence:'那條山路陡得____。', icon:'mountain', tag:'擴大誇張',
+             options:['有點斜','要走半小時','連山羊也腳軟'], answer:2,
+             explain:'山羊最會走陡坡，連牠也腳軟，用比較把陡峭推到極致；有點斜和要走半小時都不夠極端。'},
+            {sentence:'消息傳得比____還快。', icon:'lightning', tag:'擴大誇張',
+             options:['電話','閃電','走路'], answer:1,
+             explain:'用閃電作比較，把傳播速度推到極快；電話和走路都是普通速度。'},
+            {sentence:'這間屋小得____。', icon:'house', tag:'縮小誇張',
+             options:['只有三十平方米','連影子也放不下','沒有窗'], answer:1,
+             explain:'連影子也放不下，把空間的狹小推到極致；面積和沒有窗都是具體描述。'},
+            {sentence:'他的記憶力好得____。', icon:'brain', tag:'擴大誇張',
+             options:['記得做功課','連自己出生第一天的哭聲也記得','成績不錯'], answer:1,
+             explain:'記得自己出生第一天的哭聲，把記憶力推到超乎常人的程度；做功課和成績好都屬正常。'},
+            {sentence:'那片稻田大得____。', icon:'rice', tag:'擴大誇張',
+             options:['有十畝','種了很多米','連風也會迷路'], answer:2,
+             explain:'連風也會迷路，把面積誇大到沒有邊際；十畝和種很多米都是實況。'}
+          ]
+        }
+      }
+    }
+  };
+
+  /* ============ 狀態 ============ */
+  var state = {
+    screen:'home',
+    level:'junior',
+    mode:null,
+    index:0,
+    score:0,
+    correctIndex:-1,
+    selected:null,
+    phase:'answering',
+    lessonIndex:0,
+    soundOn:true,
+    best:{}
+  };
+  var KEY_BEST = 'hyperbole-magnifier-best-v2';
+  var KEY_SOUND = 'hyperbole-magnifier-sound-v1';
+
+  function safeGet(k){
+    try{ return window.localStorage.getItem(k); }catch(e){ return null; }
+  }
+  function safeSet(k,v){
+    try{ window.localStorage.setItem(k,v); }catch(e){ /* 私隱模式或不支援時忽略 */ }
+  }
+  function loadBest(){
+    var raw = safeGet(KEY_BEST);
+    if(!raw) return {};
+    try{
+      var obj = JSON.parse(raw);
+      return (obj && typeof obj === 'object') ? obj : {};
+    }catch(e){ return {}; }
+  }
+  function persistBest(){ safeSet(KEY_BEST, JSON.stringify(state.best)); }
+
+  state.best = loadBest();
+  var savedSound = safeGet(KEY_SOUND);
+  if(savedSound === '0') state.soundOn = false;
+
+  /* ============ 音效 ============ */
+  var audioCtx = null;
+  function getCtx(){
+    if(!state.soundOn) return null;
+    try{
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return null;
+      if(!audioCtx) audioCtx = new AC();
+      if(audioCtx.state === 'suspended'){ audioCtx.resume(); }
+      return audioCtx;
+    }catch(e){ return null; }
+  }
+  function beep(freq, delay, dur, type, vol){
+    var c = getCtx();
+    if(!c) return;
+    try{
+      var t0 = c.currentTime + delay;
+      var o = c.createOscillator();
+      var g = c.createGain();
+      o.type = type || 'sine';
+      o.frequency.setValueAtTime(freq, t0);
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(vol || 0.1, t0 + 0.015);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+      o.connect(g);
+      g.connect(c.destination);
+      o.start(t0);
+      o.stop(t0 + dur + 0.03);
+    }catch(e){ /* 音效失敗不影響流程 */ }
+  }
+  function sfx(name){
+    if(!state.soundOn) return;
+    if(name === 'tap') beep(640, 0, 0.06, 'triangle', 0.05);
+    else if(name === 'correct'){
+      beep(523.25, 0, 0.14, 'sine', 0.10);
+      beep(659.25, 0.10, 0.14, 'sine', 0.10);
+      beep(783.99, 0.20, 0.20, 'sine', 0.10);
+    } else if(name === 'wrong'){
+      beep(330, 0, 0.16, 'sine', 0.06);
+      beep(262, 0.13, 0.22, 'sine', 0.05);
+    } else if(name === 'reveal'){
+      beep(880, 0, 0.10, 'sine', 0.05);
+    } else if(name === 'win'){
+      [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach(function(f, i){
+        beep(f, i * 0.11, 0.22, 'sine', 0.08);
+      });
+    }
+  }
+
+  /* ============ DOM 參考 ============ */
+  var screens = {
+    home: document.getElementById('screen-home'),
+    menu: document.getElementById('screen-menu'),
+    learn: document.getElementById('screen-learn'),
+    play: document.getElementById('screen-play'),
+    result: document.getElementById('screen-result')
+  };
+  var topbar = document.getElementById('topbar');
+  var topbarTitle = document.getElementById('topbar-title');
+  var topbarSub = document.getElementById('topbar-sub');
+  var soundBtn = document.getElementById('sound-btn');
+  var soundHomeBtn = document.getElementById('sound-btn-home');
+  var live = document.getElementById('live');
+  var learnTabs = document.getElementById('learn-tabs');
+  var learnBody = document.getElementById('learn-body');
+  var homeTagline = document.getElementById('home-tagline');
+
+  function getLevel(){ return LEVELS[state.level]; }
+  function getMode(){ return DATA[state.level].modes[state.mode]; }
+  function getLesson(){ return LESSONS[state.level][state.lessonIndex]; }
+
+  /* ============ 畫面切換 ============ */
+  function setTopbar(title, sub){
+    topbarTitle.textContent = title;
+    topbarSub.textContent = sub;
+  }
+  function showScreen(name){
+    Object.keys(screens).forEach(function(k){
+      var el = screens[k];
+      if(k === name){ el.hidden = false; el.classList.add('is-active'); }
+      else { el.hidden = true; el.classList.remove('is-active'); }
+    });
+    state.screen = name;
+    topbar.hidden = (name === 'home');
+    soundHomeBtn.hidden = (name !== 'home');
+    if(name !== 'home'){ setTopbar('誇張放大鏡', getLevel().label); }
+    window.scrollTo(0, 0);
+    if(name === 'menu') renderMenu();
+    else if(name === 'learn') renderLearn();
+    else if(name === 'result') renderResult();
+  }
+
+  /* ============ 首頁 ============ */
+  function syncLevelButtons(){
+    var btns = document.querySelectorAll('.level-btn');
+    for(var i = 0; i < btns.length; i++){
+      var on = btns[i].getAttribute('data-level') === state.level;
+      btns[i].classList.toggle('is-active', on);
+      btns[i].setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+    homeTagline.textContent = getLevel().tagline;
+  }
+
+  /* ============ 學習主頁 ============ */
+  function bestOf(mode){
+    var b = state.best[state.level + ':' + mode];
+    return (b && typeof b.stars === 'number' && typeof b.score === 'number') ? b : null;
+  }
+  function totalStars(){
+    var t = 0;
+    Object.keys(DATA[state.level].modes).forEach(function(m){
+      var b = bestOf(m);
+      t += b ? b.stars : 0;
+    });
+    return t;
+  }
+  function renderMenu(){
+    var lv = getLevel();
+    var modes = DATA[state.level].modes;
+    var keys = ['judge','pick','fill'];
+    var starTotal = totalStars();
+    var html = ''+
+      '<div class="menu-hero">'+
+        '<div class="menu-mascot" aria-hidden="true">'+mascotSVG()+'</div>'+
+        '<div>'+
+          '<p class="eyebrow">'+lv.label+' · '+lv.age+'</p>'+
+          '<h2>'+lv.menuTitle+'</h2>'+
+          '<p class="menu-sub">'+lv.menuSub+'</p>'+
+        '</div>'+
+      '</div>'+
+      '<div class="star-total">'+
+        '<span>已收集星星</span>'+
+        '<span class="starrow">'+starTotal+' / 9 '+icon('spark')+'</span>'+
+      '</div>'+
+      '<button type="button" class="lesson-entry" data-action="go-learn">'+
+        '<span class="entry-icon">'+icon('bookOpen')+'</span>'+
+        '<span class="entry-body"><strong>先看圖學一學</strong><span>6 張知識卡 · 約 6 分鐘</span></span>'+
+        icon('arrow','entry-arrow')+
+      '</button>'+
+      '<h3 class="section-title">三種遊戲</h3>'+
+      '<p class="section-note">三個模式各有 6 題，題庫互不重複；每版 18 題，兩版合共 36 題。</p>'+
+      '<div class="mode-list">';
+
+    keys.forEach(function(k){
+      var m = modes[k];
+      var b = bestOf(k);
+      var dots = '';
+      for(var i = 0; i < 6; i++){
+        dots += '<i class="'+(b && i < b.score ? 'on' : '')+'"></i>';
+      }
+      html += ''+
+        '<button type="button" class="mode-card" data-action="open-mode" data-mode="'+k+'">'+
+          '<span class="mode-icon '+m.tone+'">'+icon(m.icon)+'</span>'+
+          '<span class="mode-body">'+
+            '<span class="mode-top"><strong>'+m.name+'</strong><span class="mode-badge">'+m.bank+' · 6 題</span></span>'+
+            '<span class="mode-desc">'+m.desc+'</span>'+
+            '<span class="mode-progress">'+dots+'<em>'+(b ? ('最佳 '+b.score+'/6') : '未挑戰')+'</em></span>'+
+          '</span>'+
+          icon('arrow','mode-arrow')+
+        '</button>';
+    });
+
+    html += '</div>';
+    screens.menu.innerHTML = html;
+  }
+
+  /* ============ 教學 ============ */
+  function sceneBlock(s, extraClass){
+    if(!s) return '';
+    var cap = s.caption || s.alt || '';
+    return '<figure class="scene '+(extraClass||'')+'">'+sceneSVG(s.scene, s.alt || cap)+(cap ? '<figcaption>'+cap+'</figcaption>' : '')+'</figure>';
+  }
+  function lessonHead(l){
+    return '<span class="lesson-mark">'+l.mark+'</span>'+
+      '<h2 class="lesson-title">'+l.title+'</h2>'+
+      (l.lead ? '<p class="lesson-lead">'+l.lead+'</p>' : '');
+  }
+  function exampleBox(text, note){
+    if(!text) return '';
+    return '<div class="example-box"><span class="example-label">例子</span>'+
+      '<p class="example-text">'+text+'</p>'+
+      (note ? '<p class="example-note">'+note+'</p>' : '')+
+      '</div>';
+  }
+  function renderLearn(){
+    var lessons = LESSONS[state.level];
+    if(state.lessonIndex >= lessons.length) state.lessonIndex = 0;
+    var tabs = '';
+    lessons.forEach(function(l, i){
+      tabs += '<button type="button" role="tab" id="learn-tab-'+i+'" class="learn-tab '+(i === state.lessonIndex ? 'is-active' : '')+'" aria-selected="'+(i === state.lessonIndex)+'" aria-controls="learn-body" tabindex="'+(i === state.lessonIndex ? '0' : '-1')+'" data-action="learn-tab" data-tab="'+i+'">'+l.tab+'</button>';
+    });
+    learnTabs.innerHTML = tabs;
+
+    var l = lessons[state.lessonIndex];
+    learnBody.setAttribute('aria-labelledby', 'learn-tab-' + state.lessonIndex);
+    var body = '';
+
+    if(l.kind === 'concept'){
+      body += lessonHead(l);
+      body += sceneBlock(l.hero);
+      body += '<ul class="point-list">';
+      l.points.forEach(function(p){
+        body += '<li><span class="dot">'+icon('check')+'</span><span>'+p+'</span></li>';
+      });
+      body += '</ul>';
+      body += exampleBox(l.example, l.exampleNote);
+      if(l.exampleScene) body += sceneBlock(l.exampleScene);
+    }
+    else if(l.kind === 'impossible'){
+      body += lessonHead(l);
+      body += '<span class="stamp">'+l.stamp+'</span>';
+      body += '<div class="scene-grid">';
+      body += '<div class="compare-panel">'+
+          '<span class="compare-tag">'+l.compare.normal.label+'</span>'+
+          '<figure class="scene">'+sceneSVG(l.compare.normal.scene, l.compare.normal.alt)+'</figure>'+
+          '<p class="compare-text">'+l.compare.normal.text+'</p>'+
+        '</div>';
+      body += '<div class="vs-arrow" aria-hidden="true">'+icon('arrowDown')+'</div>';
+      body += '<div class="compare-panel is-hyper">'+
+          '<span class="compare-tag">'+l.compare.hyper.label+'</span>'+
+          '<figure class="scene">'+sceneSVG(l.compare.hyper.scene, l.compare.hyper.alt)+'</figure>'+
+          '<p class="compare-text">'+l.compare.hyper.text+'</p>'+
+        '</div>';
+      body += '</div>';
+      body += '<div class="check-list">';
+      l.checks.forEach(function(c, i){
+        body += '<div class="check-item"><span class="check-num">'+(i+1)+'</span><div class="check-copy"><strong>'+c.q+'</strong><span>'+c.a+'</span></div></div>';
+      });
+      body += '</div>';
+      body += exampleBox(l.example, l.exampleNote);
+      if(l.exampleScene) body += sceneBlock(l.exampleScene);
+      if(l.myths){
+        body += '<div class="myth-list">';
+        l.myths.forEach(function(m){
+          body += '<div class="myth-item"><strong>'+m.q+'</strong><span>'+m.a+'</span></div>';
+        });
+        body += '</div>';
+      }
+      if(l.mini) body += '<p class="mini-note">'+l.mini+'</p>';
+    }
+    else if(l.kind === 'moves'){
+      body += lessonHead(l);
+      body += '<div class="move-list">';
+      l.moves.forEach(function(mv){
+        body += '<div class="move-item">'+
+            '<div class="move-head">'+
+              '<span class="move-icon '+mv.tone+'">'+icon(mv.icon)+'</span>'+
+              '<div class="move-copy"><strong>'+mv.name+'</strong><em>'+mv.desc+'</em></div>'+
+            '</div>'+
+            '<div class="move-body">'+
+              sceneBlock({scene:mv.scene, alt:mv.alt, caption:mv.caption})+
+              '<p class="move-normal"><b>'+mv.normal+'</b></p>'+
+              '<p class="move-ex"><span class="tag">誇張</span>'+mv.ex+'</p>'+
+            '</div>'+
+          '</div>';
+      });
+      body += '</div>';
+    }
+    else if(l.kind === 'effects'){
+      body += lessonHead(l);
+      body += '<div class="effect-list">';
+      l.effects.forEach(function(e){
+        body += '<div class="effect-item">'+
+            '<span class="effect-ico '+e.tone+'">'+icon(e.icon)+'</span>'+
+            '<div class="effect-copy"><strong>'+e.name+'</strong><p>'+e.text+'</p><em>例：'+e.ex+'</em></div>'+
+          '</div>';
+      });
+      body += '</div>';
+      if(l.failures){
+        body += '<div class="myth-list">';
+        l.failures.forEach(function(f){
+          body += '<div class="myth-item"><strong>'+f.q+'</strong><span>'+f.a+'</span></div>';
+        });
+        body += '</div>';
+      }
+      if(l.mini) body += '<p class="mini-note">'+l.mini+'</p>';
+    }
+    else if(l.kind === 'mantra'){
+      body += lessonHead(l);
+      body += '<div class="mantra">'+l.mantra+'</div>';
+      body += '<div class="flow">';
+      l.steps.forEach(function(s){
+        body += '<div class="flow-step">'+
+            '<span class="flow-ico '+s.tone+'">'+icon(s.icon)+'</span>'+
+            '<div class="flow-copy"><strong>'+s.q+'</strong><span>'+s.a+'</span></div>'+
+          '</div>';
+      });
+      body += '</div>';
+      body += exampleBox(l.example, l.exampleNote);
+      if(l.mini) body += '<p class="mini-note">'+l.mini+'</p>';
+    }
+    else if(l.kind === 'tips'){
+      body += lessonHead(l);
+      l.tips.forEach(function(t){
+        body += '<div class="tip-box"><span class="tip-ico">'+icon('spark')+'</span><p>'+t+'</p></div>';
+      });
+      body += '<div class="fit-grid">'+
+          '<div class="fit-card fit-yes"><h4>'+icon('check')+' 適合用</h4><ul>'+
+            l.fitYes.map(function(x){ return '<li>'+x+'</li>'; }).join('')+
+          '</ul></div>'+
+          '<div class="fit-card fit-no"><h4>'+icon('ban')+' 不宜用</h4><ul>'+
+            l.fitNo.map(function(x){ return '<li>'+x+'</li>'; }).join('')+
+          '</ul></div>'+
+        '</div>';
+      if(l.closing) body += '<p class="mini-note">'+l.closing+'</p>';
+    }
+
+    var isLast = state.lessonIndex === lessons.length - 1;
+    body += '<div class="learn-nav">'+
+        '<button type="button" class="btn btn-ghost" data-action="learn-prev" '+(state.lessonIndex === 0 ? 'disabled' : '')+'>上一章</button>'+
+        '<button type="button" class="btn btn-primary" data-action="learn-next">'+(isLast ? '去玩遊戲' : '下一章')+icon('arrow')+'</button>'+
+      '</div>';
+    body += '<button type="button" class="btn btn-yellow btn-block learn-cta" data-action="go-menu">'+icon('play')+' 直接去遊戲選單</button>';
+
+    learnBody.innerHTML = '<div class="learn-card">'+body+'</div>';
+  }
+  function goLearn(delta){
+    var total = LESSONS[state.level].length;
+    var next = state.lessonIndex + delta;
+    if(next < 0) return;
+    if(next >= total){
+      showScreen('menu');
+      setTopbar('學習主頁', getLevel().label);
+      return;
+    }
+    state.lessonIndex = next;
+    sfx('tap');
+    renderLearn();
+    window.scrollTo(0, 0);
+  }
+
+  /* ============ 遊戲 ============ */
+  function optionsFor(q){
+    if(state.mode === 'judge'){
+      return [{label:'是誇張'},{label:'不是誇張'}];
+    }
+    if(state.mode === 'pick'){
+      return q.options.map(function(o){ return {label:o.text}; });
+    }
+    return q.options.map(function(t){ return {label:t}; });
+  }
+  function correctIndexOf(q){
+    if(state.mode === 'judge') return q.answer ? 0 : 1;
+    if(state.mode === 'pick') return q.options.map(function(o){ return !!o.ok; }).indexOf(true);
+    return q.answer;
+  }
+  function questionText(q){
+    if(state.mode === 'judge') return q.text;
+    if(state.mode === 'pick') return '「'+q.prompt+'」<span class="q-hint">哪一句改寫最有誇張效果？</span>';
+    var word = state.phase === 'revealed' ? q.options[q.answer] : '＿＿';
+    return q.sentence.replace('____', '<span class="blank '+(state.phase === 'revealed' ? 'is-filled' : '')+'">'+word+'</span>');
+  }
+
+  function renderQuestion(){
+    var mode = getMode();
+    var q = mode.questions[state.index];
+    var total = mode.questions.length;
+    var revealed = state.phase === 'revealed';
+    var opts = optionsFor(q);
+    var cidx = correctIndexOf(q);
+
+    var dots = '';
+    for(var i = 0; i < total; i++){
+      var cls = i < state.index ? 'done' : (i === state.index ? 'now' : '');
+      dots += '<i class="'+cls+'"></i>';
+    }
+
+    var optHTML = '';
+    opts.forEach(function(o, i){
+      var cls = '';
+      var mark = '';
+      if(revealed){
+        if(i === cidx){
+          cls = 'is-correct';
+          mark = icon('check');
+        } else if(i === state.selected){
+          cls = 'is-wrong';
+          mark = icon('cross');
+        }
+      }
+      optHTML += ''+
+        '<button type="button" class="opt '+cls+'" data-action="answer" data-value="'+i+'" '+(revealed ? 'disabled' : '')+'>'+
+          '<span class="opt-key">'+String.fromCharCode(65 + i)+'</span>'+
+          '<span class="opt-text">'+o.label+'</span>'+
+          '<span class="opt-mark">'+mark+'</span>'+
+        '</button>';
+    });
+
+    var fb = '';
+    if(revealed){
+      var right = state.selected === cidx;
+      var correctLabel = opts[cidx].label;
+      var pickedLabel = opts[state.selected] ? opts[state.selected].label : '';
+      fb = ''+
+        '<div class="feedback '+(right ? 'ok' : 'no')+'">'+
+          '<div class="fb-head"><span class="fb-badge">'+icon(right ? 'check' : 'cross')+'</span><strong>'+(right ? '答對了！' : '再看看，也沒關係。')+'</strong></div>'+
+          '<span class="fb-tag">手法：'+q.tag+'</span>'+
+          '<p class="fb-answer">正確答案：<b>'+correctLabel+'</b></p>'+
+          (right ? '' : '<p class="fb-pick">你選了：'+pickedLabel+'</p>')+
+          '<p class="fb-explain"><span class="ex-label">為甚麼：</span>'+q.explain+'</p>'+
+          '<button type="button" class="btn btn-primary btn-block" data-action="next">'+
+            (state.index === total - 1 ? '看成績' : '下一題')+icon('arrow')+
+          '</button>'+
+        '</div>';
+    }
+
+    screens.play.innerHTML = ''+
+      '<div class="play-wrap"><div class="play-inner">'+
+      '<div class="play-head">'+
+        '<div class="dots" role="img" aria-label="第 '+(state.index+1)+' 題，共 '+total+' 題">'+dots+'</div>'+
+        '<p class="q-count">第 '+(state.index+1)+' / '+total+' 題</p>'+
+      '</div>'+
+      '<p class="mode-hint">'+mode.bank+' · '+mode.desc+'</p>'+
+      '<div class="q-card">'+
+        '<div class="q-icon '+mode.tone+'">'+icon(q.icon)+'</div>'+
+        '<p class="q-text">'+questionText(q)+'</p>'+
+      '</div>'+
+      '<div class="options">'+optHTML+'</div>'+
+      (revealed ? '' : '<p class="play-tip">選一個答案，馬上揭曉解釋</p>')+
+      fb+
+      '</div></div>';
+
+    if(revealed){
+      requestAnimationFrame(function(){
+        var el = screens.play.querySelector('.feedback');
+        if(el && el.scrollIntoView){
+          el.scrollIntoView({behavior:'smooth', block:'nearest'});
+        }
+      });
+    }
+  }
+
+  function startMode(modeKey){
+    state.mode = modeKey;
+    state.index = 0;
+    state.score = 0;
+    state.selected = null;
+    state.phase = 'answering';
+    state.correctIndex = -1;
+    showScreen('play');
+    setTopbar(getMode().name, getLevel().label);
+    renderQuestion();
+  }
+
+  function answer(value){
+    if(state.screen !== 'play') return;
+    if(state.phase !== 'answering') return;
+    if(state.mode === null) return;
+    var q = getMode().questions[state.index];
+    if(!q) return;
+    var cidx = correctIndexOf(q);
+    if(value < 0 || value >= optionsFor(q).length) return;
+
+    state.phase = 'revealed';
+    state.selected = value;
+    state.correctIndex = cidx;
+    var right = value === cidx;
+    if(right) state.score += 1;
+    sfx(right ? 'correct' : 'wrong');
+
+    var opts = optionsFor(q);
+    live.textContent = (right ? '答對了。' : '答錯了。') +
+      '正確答案是' + opts[cidx].label + '。手法：' + q.tag + '。' + q.explain;
+
+    renderQuestion();
+  }
+
+  function nextQuestion(){
+    if(state.phase !== 'revealed') return;
+    var total = getMode().questions.length;
+    if(state.index < total - 1){
+      state.index += 1;
+      state.phase = 'answering';
+      state.selected = null;
+      state.correctIndex = -1;
+      sfx('tap');
+      renderQuestion();
+      window.scrollTo(0, 0);
+    } else {
+      showScreen('result');
+    }
+  }
+
+  /* ============ 結算 ============ */
+  function starsFor(score){
+    if(score >= 6) return 3;
+    if(score >= 4) return 2;
+    if(score >= 2) return 1;
+    return 0;
+  }
+  function resultCopy(stars){
+    var jr = state.level === 'junior';
+    if(stars === 3) return {
+      title: jr ? '太厲害了，小誇張偵探！' : '滿分！你已掌握誇張的分寸',
+      sub: jr ? '六題全對，超乎常理的句子完全難不倒你。' : '六題全對，言過其實用得恰到好處。'
+    };
+    if(stars === 2) return {
+      title: '表現不錯，就快滿星了',
+      sub: jr ? '再玩一次，記住每題的解釋，就能拿三顆星。' : '再留意「誇張」與「客觀描述」的分別，就會更準。'
+    };
+    if(stars === 1) return {
+      title: '有進步，繼續加油',
+      sub: jr ? '記住口訣：不是真的，但很有感覺。' : '把每題的解說讀完，你會進步得很快。'
+    };
+    return {
+      title: '先重溫一下，再來挑戰',
+      sub: jr ? '回去看看「超乎常理」和三個招式，再玩一次一定更好。' : '重看三層檢驗與四招圖鑑，再回來挑戰吧。'
+    };
+  }
+  function renderResult(){
+    if(!state.mode) { showScreen('menu'); return; }
+    var total = getMode().questions.length;
+    var stars = starsFor(state.score);
+    var copy = resultCopy(stars);
+    var key = state.level + ':' + state.mode;
+    var prev = state.best[key];
+    if(!prev || typeof prev.stars !== 'number' || typeof prev.score !== 'number' || stars > prev.stars || (stars === prev.stars && state.score > prev.score)){
+      state.best[key] = {stars:stars, score:state.score};
+      persistBest();
+    }
+
+    var starHTML = starSVG(stars >= 1) + starSVG(stars >= 2) + starSVG(stars >= 3);
+
+    screens.result.innerHTML = ''+
+      '<div class="result-wrap">'+
+        '<div class="result-card">'+
+          '<div class="result-mascot" aria-hidden="true">'+mascotSVG()+'</div>'+
+          '<span class="result-label">'+getLevel().label+' · '+getMode().name+'</span>'+
+          '<div class="star-row" aria-label="獲得 '+stars+' 顆星，共 3 顆">'+starHTML+'</div>'+
+          '<p class="result-score">'+state.score+' <span>/ '+total+' 題</span></p>'+
+          '<h2 class="result-title">'+copy.title+'</h2>'+
+          '<p class="result-sub">'+copy.sub+'</p>'+
+          '<div class="result-actions">'+
+            '<button type="button" class="btn btn-primary btn-block" data-action="restart">'+icon('refresh')+' 再玩一次</button>'+
+            '<button type="button" class="btn btn-ghost btn-block" data-action="go-menu">'+icon('arrow')+' 換個模式</button>'+
+            '<button type="button" class="btn btn-ghost btn-block" data-action="go-home">回到首頁</button>'+
+          '</div>'+
+        '</div>'+
+      '</div>';
+
+    setTopbar('成績', getLevel().label + ' · ' + getMode().name);
+    if(stars > 0) sfx('win');
+  }
+
+  /* ============ 音效按鈕 ============ */
+  function syncSoundBtn(){
+    var ic = icon(state.soundOn ? 'soundOn' : 'soundOff');
+    var lab = state.soundOn ? '關閉音效' : '開啟音效';
+    [soundBtn, soundHomeBtn].forEach(function(btn){
+      if(!btn) return;
+      btn.innerHTML = ic;
+      btn.setAttribute('aria-label', lab);
+      btn.setAttribute('aria-pressed', state.soundOn ? 'true' : 'false');
+      btn.style.opacity = state.soundOn ? '1' : '.6';
+    });
+  }
+
+  /* ============ 事件 ============ */
+  document.addEventListener('click', function(e){
+    var target = e.target.closest ? e.target.closest('[data-action]') : null;
+    if(!target) return;
+    var action = target.getAttribute('data-action');
+
+    if(action === 'set-level'){
+      var lv = target.getAttribute('data-level');
+      if(lv === state.level) return;
+      state.level = lv;
+      state.lessonIndex = 0;
+      syncLevelButtons();
+      sfx('tap');
+      return;
+    }
+    if(action === 'start-learn' || action === 'go-learn'){
+      state.lessonIndex = 0;
+      sfx('tap');
+      showScreen('learn');
+      setTopbar('修辭小教室', getLevel().label);
+      return;
+    }
+    if(action === 'start-play'){
+      sfx('tap');
+      showScreen('menu');
+      setTopbar('學習主頁', getLevel().label);
+      return;
+    }
+    if(action === 'go-menu'){
+      sfx('tap');
+      showScreen('menu');
+      setTopbar('學習主頁', getLevel().label);
+      return;
+    }
+    if(action === 'go-home'){
+      sfx('tap');
+      showScreen('home');
+      syncLevelButtons();
+      return;
+    }
+    if(action === 'back'){
+      sfx('tap');
+      if(state.screen === 'learn' || state.screen === 'play' || state.screen === 'result'){
+        showScreen('menu');
+        setTopbar('學習主頁', getLevel().label);
+      } else {
+        showScreen('home');
+        syncLevelButtons();
+      }
+      return;
+    }
+    if(action === 'open-mode'){
+      sfx('tap');
+      startMode(target.getAttribute('data-mode'));
+      return;
+    }
+    if(action === 'learn-tab'){
+      var idx = parseInt(target.getAttribute('data-tab'), 10);
+      if(isNaN(idx)) return;
+      state.lessonIndex = idx;
+      sfx('tap');
+      renderLearn();
+      window.scrollTo(0, 0);
+      return;
+    }
+    if(action === 'learn-prev'){ goLearn(-1); return; }
+    if(action === 'learn-next'){ goLearn(1); return; }
+    if(action === 'answer'){
+      answer(parseInt(target.getAttribute('data-value'), 10));
+      return;
+    }
+    if(action === 'next'){
+      nextQuestion();
+      return;
+    }
+    if(action === 'restart'){
+      sfx('tap');
+      if(state.mode) startMode(state.mode);
+      return;
+    }
+    if(action === 'sound'){
+      state.soundOn = !state.soundOn;
+      safeSet(KEY_SOUND, state.soundOn ? '1' : '0');
+      syncSoundBtn();
+      if(state.soundOn){ sfx('tap'); }
+      return;
+    }
+  });
+
+  document.addEventListener('keydown', function(e){
+    if(state.screen !== 'play' || state.phase !== 'answering') return;
+    if(e.key === '1' || e.key === '2' || e.key === '3'){
+      var idx = parseInt(e.key, 10) - 1;
+      var total = optionsFor(getMode().questions[state.index]).length;
+      if(idx < total){ e.preventDefault(); answer(idx); }
+    }
+  });
+
+  /* ============ 初始化 ============ */
+  document.getElementById('home-mascot').innerHTML = mascotSVG();
+  syncLevelButtons();
+  syncSoundBtn();
+  soundHomeBtn.hidden = false;
+
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    document.documentElement.style.scrollBehavior = 'auto';
+  }
+})();
+</script>
+</body>
+</html>

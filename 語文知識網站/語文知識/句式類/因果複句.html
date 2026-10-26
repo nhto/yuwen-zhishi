@@ -1,0 +1,2570 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>因果複句大冒險｜小學語文互動教室</title>
+<meta name="description" content="小學因果複句互動教學遊戲：七組關聯詞、兩種遊戲模式、八十四道題目，配卡通情境插圖與音效，適合手機、平板及電腦使用。">
+<style>
+:root{
+  --cream:#FFF6E7;
+  --paper:#FFFDF7;
+  --ink:#3E2F2A;
+  --ink-soft:#7C6A60;
+  --line:#EFE1CC;
+  --orange:#FF8A3D;
+  --yellow:#FFC94D;
+  --mint:#3FBFA0;
+  --blue:#4F9FE0;
+  --pink:#F47C9C;
+  --purple:#8E7BE0;
+  --good:#2E9B76;
+  --bad:#D95757;
+  --r-lg:32px;
+  --r-md:22px;
+  --shadow:0 14px 34px rgba(62,47,42,.10);
+  --shadow-sm:0 6px 16px rgba(62,47,42,.08);
+}
+*,*::before,*::after{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0;
+  min-height:100vh;
+  overflow-x:hidden;
+  color:var(--ink);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei","Heiti TC","Source Han Sans TC",system-ui,-apple-system,sans-serif;
+  font-size:clamp(18px,1.02vw + 13.6px,24px);
+  line-height:1.62;
+  background-color:var(--cream);
+  background-image:radial-gradient(rgba(62,47,42,.055) 1.6px, transparent 1.7px);
+  background-size:26px 26px;
+  -webkit-font-smoothing:antialiased;
+}
+html{overflow-x:hidden;}
+button{font-family:inherit;}
+:focus-visible{outline:4px solid var(--blue);outline-offset:3px;border-radius:14px;}
+.app{
+  max-width:1200px;
+  margin:0 auto;
+  padding:clamp(12px,2.2vw,30px) clamp(12px,2.4vw,30px) calc(clamp(18px,3vw,40px) + env(safe-area-inset-bottom));
+}
+.screen{display:none;}
+.screen.is-active{display:block;animation:fadeUp .34s ease both;}
+
+/* ---------- shared bits ---------- */
+.topbar{
+  display:flex;align-items:center;gap:.65rem;
+  margin-bottom:clamp(10px,1.6vw,20px);
+}
+.icon-btn{
+  flex:none;width:clamp(48px,7vw,58px);height:clamp(48px,7vw,58px);
+  display:grid;place-items:center;
+  background:#fff;border:3px solid var(--ink);border-radius:50%;
+  box-shadow:0 5px 0 rgba(62,47,42,.18);cursor:pointer;color:var(--ink);
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.icon-btn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(62,47,42,.18);}
+.icon-btn[aria-pressed="true"]{background:#FFEFD4;}
+.tb-title{
+  flex:1;min-width:0;font-weight:900;font-size:clamp(18px,1.9vw,26px);
+  line-height:1.25;overflow-wrap:anywhere;
+}
+.tb-title small{display:block;font-weight:700;font-size:.66em;color:var(--ink-soft);letter-spacing:.04em;}
+.btn{
+  font:inherit;font-weight:900;color:var(--ink);
+  background:#fff;border:3px solid var(--ink);border-radius:999px;
+  padding:.62em 1.5em;min-height:56px;cursor:pointer;
+  box-shadow:0 6px 0 rgba(62,47,42,.85);
+  transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+  display:inline-flex;align-items:center;justify-content:center;gap:.5em;
+  text-align:center;
+}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 rgba(62,47,42,.85);}
+.btn-primary{background:var(--orange);}
+.btn-mint{background:var(--mint);}
+.btn-yellow{background:var(--yellow);}
+.btn-ghost{background:#fff;}
+.btn-sm{min-height:48px;padding:.45em 1.1em;font-size:.9em;border-width:2.5px;box-shadow:0 4px 0 rgba(62,47,42,.85);}
+.panel{
+  background:var(--paper);border:2px solid var(--line);border-radius:var(--r-lg);
+  box-shadow:var(--shadow);padding:clamp(16px,2.4vw,32px);
+}
+rt{font-size:.46em;color:var(--ink-soft);font-weight:600;letter-spacing:0;line-height:1.1;font-family:"Noto Sans TC",system-ui,sans-serif;}
+.chip{
+  display:inline-flex;align-items:center;gap:.35em;
+  background:#fff;border:2.5px solid var(--ink);border-radius:999px;
+  padding:.28em .85em;font-weight:900;font-size:.82em;
+}
+
+/* ---------- home ---------- */
+.hero{
+  display:grid;gap:clamp(16px,3vw,40px);align-items:center;
+  grid-template-columns:1fr;
+  padding:clamp(18px,3vw,40px) 0 clamp(10px,2vw,22px);
+}
+@media(min-width:920px){.hero{grid-template-columns:1.06fr .94fr;}}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:.5em;
+  background:#fff;border:2.5px solid var(--ink);border-radius:999px;
+  padding:.3em 1em;font-size:.76em;font-weight:900;letter-spacing:.06em;color:var(--ink-soft);
+  margin:0 0 1rem;
+}
+.hero h1{
+  margin:0 0 .5rem;
+  font-size:clamp(36px,6.2vw,72px);
+  line-height:1.12;font-weight:900;letter-spacing:-.01em;
+}
+.hero h1 .hl{position:relative;display:inline-block;isolation:isolate;}
+.hero h1 .hl::after{
+  content:"";position:absolute;left:-2%;right:-2%;bottom:.06em;height:.32em;
+  background:var(--yellow);opacity:.75;border-radius:.2em;z-index:-1;
+}
+.lede{font-size:clamp(16px,1.5vw,22px);color:var(--ink-soft);font-weight:600;margin:0 0 1.4rem;max-width:32em;}
+.hero-actions{display:flex;flex-wrap:wrap;gap:.7rem;}
+.hero-art{position:relative;display:grid;place-items:center;min-height:clamp(240px,42vw,420px);}
+.blob{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(88%,420px);aspect-ratio:1;border-radius:48% 52% 44% 56%/54% 46% 54% 46%;
+  background:linear-gradient(150deg,#FFE7BE,#FFD9E2 60%,#D9F3EA);
+  filter:blur(.3px);animation:blob 14s ease-in-out infinite;
+}
+.mascot{position:relative;width:min(80%,360px);height:auto;filter:drop-shadow(0 12px 18px rgba(62,47,42,.16));animation:floaty 5s ease-in-out infinite;}
+.float-chip{
+  position:absolute;background:#fff;border:3px solid var(--ink);border-radius:18px;
+  padding:.3em .7em;font-weight:900;font-size:clamp(14px,1.5vw,20px);
+  box-shadow:0 5px 0 rgba(62,47,42,.16);animation:floaty 6s ease-in-out infinite;
+}
+.float-chip.a{left:2%;top:14%;color:#B85E1E;animation-delay:-1s;}
+.float-chip.b{right:0%;top:52%;color:#1F7C63;animation-delay:-2.6s;}
+.float-chip.c{left:14%;bottom:6%;color:#3D6FA8;animation-delay:-3.8s;}
+.stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin:clamp(8px,2vw,18px) 0 0;
+}
+@media(min-width:700px){.stats{max-width:660px;gap:1rem;}}
+.stat{
+  background:#fff;border:2px solid var(--line);border-radius:var(--r-md);
+  padding:.7em .5em;text-align:center;box-shadow:var(--shadow-sm);
+}
+.stat b{display:block;font-size:clamp(22px,2.8vw,34px);line-height:1.1;color:var(--orange);}
+.stat span{font-size:.72em;font-weight:800;color:var(--ink-soft);}
+.class-strip{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:clamp(14px,2.6vw,26px);}
+.class-strip button{
+  font:inherit;font-weight:900;cursor:pointer;font-size:.76em;
+  display:inline-flex;align-items:center;gap:.4em;
+  border:2.5px solid var(--ink);border-radius:999px;padding:.32em 1em .32em .35em;background:#fff;color:var(--ink);
+  transition:transform .12s;
+}
+.class-strip .cs-ico{width:2em;height:2em;flex:none;border-radius:50%;display:grid;place-items:center;padding:.18em;border:2px solid rgba(62,47,42,.18);}
+.class-strip .cs-ico svg{width:100%;height:100%;}
+.class-strip button:hover{transform:translateY(-2px);}
+.home-foot{margin-top:clamp(16px,3vw,30px);font-size:.74em;color:var(--ink-soft);font-weight:700;text-align:center;}
+
+/* ---------- learn ---------- */
+.learn-dots{display:flex;justify-content:center;gap:.5rem;flex-wrap:wrap;margin:clamp(10px,1.8vw,18px) 0;}
+.learn-dots button{
+  width:44px;height:44px;border-radius:50%;border:2.5px solid var(--ink);background:#fff;
+  font:inherit;font-weight:900;font-size:.8em;cursor:pointer;color:var(--ink);
+}
+.learn-dots button[aria-current="true"]{background:var(--yellow);}
+.teach-grid{display:grid;gap:clamp(14px,2.6vw,32px);align-items:stretch;grid-template-columns:1fr;}
+@media(min-width:900px){.teach-grid{grid-template-columns:.95fr 1.05fr;}}
+.art-box{border-radius:26px;overflow:hidden;background:#fff;display:flex;align-items:center;justify-content:center;padding:8px;}
+.art-svg{display:block;width:100%;height:auto;}
+.kicker{font-size:.72em;font-weight:900;letter-spacing:.14em;color:var(--ink-soft);text-transform:uppercase;}
+.pattern{
+  margin:.1em 0 .35em;font-size:clamp(28px,4.2vw,52px);font-weight:900;line-height:1.7;
+}
+.intro{margin:0 0 1rem;font-size:clamp(16px,1.45vw,21px);font-weight:600;color:var(--ink-soft);}
+.rules{list-style:none;margin:0 0 1.1rem;padding:0;display:grid;gap:.5rem;}
+.rules li{
+  display:flex;gap:.6rem;align-items:flex-start;
+  background:#fff;border:2px solid var(--line);border-radius:16px;padding:.5em .8em;
+  font-weight:700;font-size:.94em;
+}
+.rules .num{
+  flex:none;width:1.9em;height:1.9em;border-radius:50%;display:grid;place-items:center;
+  font-size:.8em;font-weight:900;color:#fff;background:var(--ink);
+}
+.examples{display:grid;gap:.6rem;margin:0 0 1rem;}
+.ex{
+  background:#FFF9EC;border:2px dashed #E7CE9E;border-radius:18px;padding:.6em .9em;
+  font-size:.98em;font-weight:700;
+}
+.ex .lab{display:block;font-size:.68em;font-weight:900;color:#B98021;letter-spacing:.1em;margin-bottom:.1em;}
+.tip{
+  display:flex;gap:.7rem;align-items:center;
+  background:#EAF8F3;border:2px solid #B9E6D7;border-radius:18px;padding:.7em .9em;
+  font-weight:800;font-size:.94em;color:#1F6B56;
+}
+.tip svg{flex:none;}
+.learn-controls{display:flex;gap:.6rem;align-items:center;justify-content:space-between;margin-top:clamp(12px,2vw,22px);}
+/* ---------- menu ---------- */
+.menu-head{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between;margin-bottom:clamp(10px,2vw,18px);}
+.menu-head h2{margin:0;font-size:clamp(22px,2.6vw,34px);font-weight:900;}
+.menu-grid{display:grid;gap:clamp(10px,1.8vw,20px);grid-template-columns:1fr;}
+@media(min-width:720px){.menu-grid{grid-template-columns:1fr 1fr;}}
+@media(min-width:1080px){.menu-grid{grid-template-columns:repeat(3,1fr);}}
+.mcard{background:#fff;border-radius:26px;box-shadow:var(--shadow-sm);border:2px solid var(--line);overflow:hidden;display:flex;flex-direction:column;}
+.mcard-head{padding:.8em 1em .6em;display:flex;align-items:center;gap:.6rem;}
+.mcard-ico{width:clamp(52px,5vw,64px);height:clamp(52px,5vw,64px);flex:none;border-radius:18px;display:grid;place-items:center;border:2.5px solid var(--ink);}
+.mcard-ico svg{width:70%;height:70%;}
+.mcard-head .t{min-width:0;}
+.mcard-head .t b{display:block;font-size:clamp(17px,1.7vw,22px);line-height:1.25;}
+.mcard-head .t span{font-size:.72em;color:var(--ink-soft);font-weight:800;}
+.mcard-body{padding:0 1em 1em;display:grid;gap:.5rem;margin-top:auto;}
+.mode-btn{
+  display:flex;align-items:center;gap:.6rem;width:100%;text-align:left;
+  font:inherit;font-size:.88em;font-weight:900;color:var(--ink);
+  background:#FFFCF4;border:2.5px solid var(--line);border-radius:18px;
+  padding:.5em .8em;cursor:pointer;min-height:58px;
+  transition:transform .12s, border-color .12s, background .12s;
+}
+.mode-btn:hover{border-color:var(--ink);transform:translateY(-2px);background:#fff;}
+.mode-btn .mt{flex:1;min-width:0;}
+.mode-btn .mt small{display:block;font-size:.76em;font-weight:700;color:var(--ink-soft);}
+.stars{display:flex;gap:.1em;flex:none;}
+.stars svg{width:22px;height:22px;}
+.mode-btn .stars svg{width:18px;height:18px;}
+.menu-note{font-size:.76em;color:var(--ink-soft);font-weight:700;margin-top:clamp(10px,2vw,18px);text-align:center;}
+
+/* ---------- game ---------- */
+.g-wrap{display:grid;gap:clamp(10px,1.8vw,18px);}
+.progress-row{display:flex;align-items:center;gap:.7rem;}
+.pbar{flex:1;height:16px;background:#fff;border:2.5px solid var(--ink);border-radius:999px;overflow:hidden;}
+.pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--yellow),var(--orange));border-radius:999px;transition:width .4s ease;}
+.pnum{font-weight:900;font-size:.82em;white-space:nowrap;color:var(--ink-soft);}
+.qcard{
+  background:var(--paper);border:2px solid var(--line);border-radius:var(--r-lg);
+  box-shadow:var(--shadow);padding:clamp(16px,2.4vw,32px);
+}
+.qlabel{
+  display:inline-flex;align-items:center;gap:.4em;margin:0 0 .6em;
+  font-size:.72em;font-weight:900;letter-spacing:.08em;color:#B85E1E;
+  background:#FFEEDC;border-radius:999px;padding:.25em .9em;
+}
+.qtext{
+  margin:0;font-size:clamp(22px,2.6vw,34px);line-height:1.85;font-weight:800;letter-spacing:.01em;
+}
+.qtext .blank{
+  display:inline-block;min-width:2.6em;text-align:center;
+  border-bottom:5px solid var(--orange);color:var(--orange);
+  margin:0 .12em;font-weight:900;
+}
+.qtext .blank.filled{
+  color:var(--ink);border-bottom-color:var(--ink);background:#FFF0D9;
+  border-radius:10px;padding:0 .25em;animation:pop .28s ease;
+}
+.cause-tag{
+  display:inline-block;font-size:.5em;font-weight:900;vertical-align:middle;
+  padding:.12em .5em;border-radius:999px;margin-left:.3em;
+}
+.cause-tag.c1{background:#E5F1FC;color:#2E6C9E;}
+.cause-tag.c2{background:#FFE9DD;color:#A9531C;}
+/* mode 1 — 貼一貼（詞語貼紙填空） */
+.qtext .fslot{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:3.7em;min-height:1.5em;margin:0 .12em;padding:.04em .38em;
+  font:inherit;font-weight:900;color:#C99655;line-height:1.25;
+  background:#FFF8EC;border:3px dashed #E3B47C;border-radius:16px;
+  vertical-align:middle;cursor:pointer;
+  transition:background .15s,border-color .15s,transform .15s,box-shadow .15s;
+}
+.qtext .fslot .sx{font-size:.6em;letter-spacing:.06em;}
+.qtext .fslot .smk{display:inline-flex;width:1.05em;height:1.05em;margin-left:.22em;}
+.qtext .fslot .smk svg{width:100%;height:100%;}
+.qtext .fslot.on{border-color:var(--orange);background:#FFEFD9;color:#B85E1E;transform:translateY(-2px);box-shadow:0 0 0 5px rgba(255,138,61,.14);}
+.qtext .fslot.set{border-style:solid;border-color:var(--ink);background:#FFF0D9;color:var(--ink);animation:pop .26s ease;}
+.qtext .fslot.ok{border-color:var(--good);background:#E9F8F1;color:var(--good);}
+.qtext .fslot.no{border-color:var(--bad);background:#FDECEC;color:var(--bad);animation:shake .38s;}
+.bank{display:flex;flex-wrap:wrap;gap:.55rem;margin:.95rem 0 0;}
+.wchip{
+  position:relative;font:inherit;font-weight:900;font-size:clamp(17px,1.65vw,23px);color:var(--ink);
+  background:#fff;border:3px solid var(--ink);border-radius:16px;
+  padding:.3em .85em;min-height:58px;cursor:pointer;
+  box-shadow:0 5px 0 rgba(62,47,42,.2);
+  transition:transform .12s,box-shadow .12s,opacity .12s;
+}
+.wchip::after{
+  content:'';position:absolute;left:50%;top:-7px;width:20px;height:10px;margin-left:-10px;border-radius:3px;
+  background:#FFD98A;border:2px solid rgba(62,47,42,.3);transform:rotate(-5deg);
+}
+.wchip:hover:not(:disabled){transform:translateY(-3px) rotate(-1deg);}
+.wchip:active:not(:disabled){transform:translateY(3px);box-shadow:0 2px 0 rgba(62,47,42,.2);}
+.wchip.used{opacity:.22;pointer-events:none;box-shadow:none;}
+.bank-hint{font-size:.8em;font-weight:800;color:var(--ink-soft);margin:.8rem 0 .55rem;}
+.check-row{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;}
+.check-row .btn{flex:1 1 220px;}
+.check-row .btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:0 6px 0 rgba(62,47,42,.35);}
+
+/* mode 2 */
+.slots{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0;align-items:stretch;}
+.slot{
+  flex:1 1 100%;min-height:78px;display:flex;align-items:center;gap:.5rem;
+  border:3px dashed #D9C7AA;border-radius:20px;padding:.4em .6em;background:#FFFCF3;
+  font-weight:800;font-size:.95em;line-height:1.4;text-align:left;color:var(--ink);
+}
+@media(min-width:700px){.slot{flex:1 1 30%;}}
+.slot .sn{
+  flex:none;width:1.7em;height:1.7em;border-radius:50%;background:#EFE2CC;color:#8A6A3E;
+  display:grid;place-items:center;font-size:.8em;font-weight:900;
+}
+.slot.empty{color:#C3B49F;font-weight:700;}
+.slot.filled{border-style:solid;border-color:var(--ink);background:#fff;cursor:pointer;animation:pop .22s ease;}
+.slot.ok{border-color:var(--good);background:#E9F8F1;border-style:solid;}
+.slot.no{border-color:var(--bad);background:#FDECEC;border-style:solid;}
+.pool{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:.2rem;}
+.chunk{
+  font:inherit;font-weight:800;font-size:clamp(16px,1.5vw,21px);line-height:1.45;
+  background:#fff;border:3px solid var(--ink);border-radius:18px;
+  padding:.55em .85em;cursor:pointer;color:var(--ink);text-align:left;
+  box-shadow:0 5px 0 rgba(62,47,42,.16);transition:transform .12s, box-shadow .12s;
+  max-width:100%;
+}
+.chunk:hover{transform:translateY(-2px);}
+.chunk:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(62,47,42,.16);}
+.chunk.used{opacity:0;pointer-events:none;}
+.chunk.dim{opacity:.35;}
+.chunk{line-height:1.9;}
+.pool-hint{font-size:.78em;font-weight:800;color:var(--ink-soft);margin:0 0 .3rem;}
+
+/* feedback */
+.feedback{
+  display:none;border-radius:26px;border:2px solid var(--line);background:#fff;
+  box-shadow:var(--shadow);padding:clamp(14px,2vw,24px);
+}
+.feedback.show{display:block;animation:pop .3s ease both;}
+.feedback .fb-head{display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem;}
+.feedback .fb-ico{flex:none;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;color:#fff;}
+.feedback .fb-title{font-size:clamp(19px,2.1vw,26px);font-weight:900;}
+.feedback.good .fb-ico{background:var(--good);}
+.feedback.good .fb-title{color:var(--good);}
+.feedback.bad .fb-ico{background:var(--bad);}
+.feedback.bad .fb-title{color:var(--bad);}
+.fb-answer{
+  background:#FFF9EC;border:2px dashed #E7CE9E;border-radius:16px;
+  padding:.6em .8em;font-weight:800;font-size:clamp(18px,1.9vw,25px);line-height:1.9;margin:.4rem 0 .6rem;
+}
+.fb-ex{font-size:.98em;font-weight:600;color:var(--ink);margin:0;}
+.fb-ex b{color:var(--orange);}
+.fb-kw{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem;margin:0 0 .55rem;}
+.fb-kw-lab{font-size:.74em;font-weight:900;color:var(--ink-soft);letter-spacing:.06em;}
+.kw-chip{display:inline-flex;align-items:center;font-weight:900;font-size:clamp(17px,1.7vw,22px);color:#8A4B12;background:#FFE8CB;border:2.5px solid #E9B171;border-radius:12px;padding:.04em .55em;animation:pop .3s ease both;}
+.fb-answer em.kw{font-style:normal;color:#A9531C;background:#FFE8CB;border-radius:8px;padding:0 .16em;box-shadow:inset 0 -.3em 0 #FFD7A8;}
+.fb-actions{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.9rem;}
+.fb-actions .btn{flex:1 1 auto;}
+
+/* result */
+.result-wrap{max-width:760px;margin:0 auto;text-align:center;padding-top:clamp(8px,2vw,24px);}
+.result-stars{display:flex;justify-content:center;gap:.3em;margin:clamp(6px,2vw,18px) 0;}
+.result-stars svg{width:clamp(58px,11vw,96px);height:auto;animation:starPop .5s cubic-bezier(.2,1.6,.4,1) both;}
+.result-stars svg:nth-child(2){animation-delay:.14s;}
+.result-stars svg:nth-child(3){animation-delay:.28s;}
+.result-wrap h2{font-size:clamp(28px,4.4vw,50px);margin:.1em 0 .2em;font-weight:900;}
+.score-line{font-size:clamp(19px,2.2vw,26px);font-weight:900;color:var(--ink-soft);}
+.score-line b{color:var(--orange);font-size:1.25em;}
+.score-line .nw{white-space:nowrap;}
+.score-line .dot{margin:0 .45em;color:#C3B49F;}
+.result-actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-top:clamp(16px,3vw,28px);}
+.result-actions .btn{flex:1 1 200px;max-width:320px;}
+
+/* toast */
+.toast{
+  position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);
+  background:var(--ink);color:#fff;font-weight:800;font-size:.86em;
+  padding:.7em 1.3em;border-radius:999px;opacity:0;pointer-events:none;z-index:60;
+  transition:opacity .25s, transform .25s;max-width:88vw;text-align:center;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+@media(min-width:920px){
+  #s-home.is-active,#s-result.is-active{display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 70px);}
+  .result-wrap{width:100%;}
+}
+@media(min-width:900px){
+  #s-game .g-wrap{max-width:1040px;margin:0 auto;padding-top:clamp(0px,3vh,40px);gap:20px;}
+  #s-game .qcard{padding:34px 40px;min-height:200px;display:flex;flex-direction:column;justify-content:center;}
+  #s-game .wchip{min-height:66px;font-size:24px;padding:.4em 1em;}
+  #s-game .chunk{font-size:22px;padding:.7em 1.1em;}
+  #s-game .slot{min-height:92px;font-size:1.02em;}
+  #s-game .qtext{line-height:2;}
+}
+@media(max-width:520px){
+  .slot{min-height:64px;font-size:.9em;padding:.35em .5em;}
+  .qcard{padding:14px 14px;}
+  .learn-controls .btn{font-size:.82em;padding:.4em .7em;}
+  .stats .stat span{font-size:.66em;}
+}
+/* ---------- illustrations ---------- */
+.art-col{display:flex;flex-direction:column;gap:.5rem;min-width:0;}
+.art-box{padding:10px;background:#fff;border:2px solid var(--line);}
+.art-svg{width:100%;height:auto;}
+.scene{display:grid;grid-template-columns:1fr auto 1fr;gap:.45rem;align-items:center;width:100%;}
+.scene .sf{min-width:0;}
+.sframe{display:block;width:100%;height:auto;}
+.sarrow{display:inline-flex;align-items:center;justify-content:center;justify-self:center;align-self:center;width:1.5em;height:1.5em;font-size:clamp(22px,2.6vw,32px);line-height:1;font-weight:900;color:var(--ink);}
+@media(max-width:820px){
+  .scene{grid-template-columns:1fr;gap:.5rem;max-width:520px;margin:0 auto;}
+  .sarrow{transform:rotate(90deg);margin:.1rem 0;}
+}
+.art-cap{margin:0;text-align:center;font-size:.78em;font-weight:800;color:var(--ink-soft);background:#fff;border:2px dashed #E7CE9E;border-radius:999px;padding:.3em .9em;}
+.art-cap b{color:var(--orange);}
+.ex{display:flex;gap:.6rem;align-items:flex-start;}
+.ex-ico{flex:none;width:3em;height:3em;border-radius:16px;background:#fff;border:2px solid #E7CE9E;display:grid;place-items:center;padding:.55em;}
+.ex-ico svg{width:100%;height:100%;}
+.ex .ex-txt{flex:1;min-width:0;}
+.tip .tip-owl{flex:none;width:2em;height:2em;}
+.tip .tip-owl svg{width:100%;height:100%;display:block;}
+.mcard-banner{border-bottom:2px solid var(--line);background:#FFFDF7;line-height:0;}
+.banner-svg{width:100%;height:auto;display:block;}
+.mcard-head{padding-top:.7em;}
+.mcard-ico{width:clamp(44px,4.2vw,54px);height:clamp(44px,4.2vw,54px);}
+.mode-btn .mi{flex:none;width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:#fff;border:2px solid var(--line);padding:5px;}
+.mode-btn .mi svg{width:100%;height:100%;}
+.qbody{display:grid;gap:.9rem;grid-template-columns:1fr;align-items:start;}
+.qfig{margin:0;line-height:normal;border-radius:24px;overflow:hidden;border:2px solid var(--line);background:#fff;box-shadow:var(--shadow-sm);}
+.qfig-svg{width:100%;height:auto;display:block;}
+.qfig-cap{margin:0;padding:.5em .7em .6em;background:#fff;border-top:2px dashed #E7CE9E;text-align:center;font-size:clamp(15px,1.35vw,19px);font-weight:900;color:var(--ink);line-height:1.35;}
+.qcontent{min-width:0;}
+@media(min-width:860px){.qbody{grid-template-columns:330px 1fr;gap:1.3rem;}.qfig{position:sticky;top:12px;}}
+@media(max-width:859px){.qfig{max-width:460px;margin:0 auto;width:100%;}}
+.feedback .fb-owl{flex:none;width:66px;height:66px;margin-left:auto;}
+.feedback .fb-owl svg{width:100%;height:100%;display:block;}
+.result-art{width:min(100%,360px);height:auto;display:block;margin:0 auto;}
+.home-tiles{display:grid;gap:.7rem;grid-template-columns:1fr;margin-top:clamp(12px,2.4vw,22px);}
+@media(min-width:700px){.home-tiles{grid-template-columns:repeat(3,1fr);}}
+.htile{display:flex;align-items:center;gap:.7rem;background:#fff;border:2.5px solid var(--ink);border-radius:22px;padding:.6em .8em;box-shadow:0 5px 0 rgba(62,47,42,.14);}
+.htile .hi{flex:none;width:clamp(52px,6vw,66px);height:clamp(52px,6vw,66px);border-radius:18px;display:grid;place-items:center;padding:6px;}
+.htile .hi svg{width:100%;height:100%;}
+.htile b{display:block;font-size:.95em;line-height:1.3;}
+.htile span{display:block;font-size:.72em;font-weight:700;color:var(--ink-soft);line-height:1.35;}
+/* animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+@keyframes pop{0%{transform:scale(.94);opacity:.6;}60%{transform:scale(1.02);}100%{transform:scale(1);opacity:1;}}
+@keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-7px);}40%{transform:translateX(6px);}60%{transform:translateX(-4px);}80%{transform:translateX(3px);}}
+@keyframes floaty{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+@keyframes blob{0%,100%{border-radius:48% 52% 44% 56%/54% 46% 54% 46%;}50%{border-radius:56% 44% 52% 48%/46% 54% 46% 54%;}}
+@keyframes starPop{0%{transform:scale(0) rotate(-40deg);opacity:0;}70%{transform:scale(1.18) rotate(6deg);opacity:1;}100%{transform:scale(1) rotate(0);opacity:1;}}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
+}
+</style>
+</head>
+<body>
+<div class="app" data-generated-by="vibe-coding-frontend-design">
+
+  <!-- ============ HOME ============ -->
+  <section class="screen is-active" id="s-home" aria-label="首頁">
+    <div class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">小學語文 · 因果複句</p>
+        <h1>因為…所以…<br><span class="hl">邊玩邊學</span>因果句</h1>
+        <p class="lede">七組關聯詞、十四個小遊戲、八十四道題目。看圖學會分清楚「原因」和「結果」，一邊玩一邊把句子說明白。</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-go="learn">開始學習</button>
+          <button class="btn btn-ghost" data-go="menu">挑戰遊戲</button>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>7</b><span>組關聯詞</span></div>
+          <div class="stat"><b>2</b><span>種遊戲模式</span></div>
+          <div class="stat"><b>84</b><span>道練習題</span></div>
+        </div>
+      </div>
+      <div class="hero-art">
+        <div class="blob" aria-hidden="true"></div>
+        <svg class="mascot" viewBox="0 0 320 320" role="img" aria-label="戴眼鏡的卡通貓頭鷹老師">
+          <ellipse cx="160" cy="296" rx="88" ry="13" fill="rgba(62,47,42,.10)"/>
+          <path d="M160 52c-62 0-104 46-104 106 0 64 46 106 104 106s104-42 104-106C264 98 222 52 160 52z" fill="#FFC94D" stroke="#3E2F2A" stroke-width="8"/>
+          <path d="M84 92l-8-46 46 22z" fill="#FFC94D" stroke="#3E2F2A" stroke-width="8" stroke-linejoin="round"/>
+          <path d="M236 92l8-46-46 22z" fill="#FFC94D" stroke="#3E2F2A" stroke-width="8" stroke-linejoin="round"/>
+          <ellipse cx="160" cy="214" rx="60" ry="52" fill="#FFF3D6" stroke="#3E2F2A" stroke-width="6"/>
+          <circle cx="124" cy="146" r="33" fill="#fff" stroke="#3E2F2A" stroke-width="7"/>
+          <circle cx="196" cy="146" r="33" fill="#fff" stroke="#3E2F2A" stroke-width="7"/>
+          <circle cx="128" cy="150" r="13" fill="#3E2F2A"/>
+          <circle cx="192" cy="150" r="13" fill="#3E2F2A"/>
+          <circle cx="133" cy="144" r="4.5" fill="#fff"/>
+          <circle cx="197" cy="144" r="4.5" fill="#fff"/>
+          <path d="M160 170l15 20h-30z" fill="#FF8A3D" stroke="#3E2F2A" stroke-width="6" stroke-linejoin="round"/>
+          <circle cx="124" cy="146" r="39" fill="none" stroke="#3E2F2A" stroke-width="5"/>
+          <circle cx="196" cy="146" r="39" fill="none" stroke="#3E2F2A" stroke-width="5"/>
+          <path d="M163 146h-2" stroke="#3E2F2A" stroke-width="5"/>
+          <path d="M62 160c-16 24-14 54 6 70" fill="none" stroke="#3E2F2A" stroke-width="7" stroke-linecap="round"/>
+          <path d="M258 160c16 24 14 54-6 70" fill="none" stroke="#3E2F2A" stroke-width="7" stroke-linecap="round"/>
+          <path d="M96 62l64-28 64 28-64 28z" fill="#4F9FE0" stroke="#3E2F2A" stroke-width="7" stroke-linejoin="round"/>
+          <path d="M160 90v20" stroke="#3E2F2A" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="160" cy="116" r="7" fill="#FF8A3D" stroke="#3E2F2A" stroke-width="4"/>
+        </svg>
+        <span class="float-chip a">因為</span>
+        <span class="float-chip b">所以</span>
+        <span class="float-chip c">因此</span>
+        <span class="float-chip" style="left:70%;top:20%;color:#C23B5C;animation-delay:-4.5s">由於</span>
+      </div>
+    </div>
+    <div class="home-tiles" aria-label="三種學習方式">
+      <div class="htile"><span class="hi" style="background:#FFF0E2"></span><span><b>看圖學</b><span>兩格漫畫看懂因與果</span></span></div>
+      <div class="htile"><span class="hi" style="background:#E7F2FB"></span><span><b>貼一貼</b><span>把關聯詞貼紙貼進句子</span></span></div>
+      <div class="htile"><span class="hi" style="background:#E4F7F1"></span><span><b>排一排</b><span>把句子卡排回正確次序</span></span></div>
+    </div>
+    <div class="class-strip" id="homeStrip" aria-label="快速進入各組關聯詞教學"></div>
+    <p class="home-foot">適用於手機、平板電腦及電腦 · 支援音效與互動練習</p>
+  </section>
+
+  <!-- ============ LEARN ============ -->
+  <section class="screen" id="s-learn" aria-label="教學部分">
+    <div class="topbar">
+      <button class="icon-btn" data-go="home" aria-label="返回首頁">
+        <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="tb-title">教學小教室<small>看圖學會因果句</small></div>
+      <button class="icon-btn js-sound" aria-pressed="false" aria-label="開啟或關閉音效"></button>
+    </div>
+    <div id="learnRoot"></div>
+  </section>
+
+  <!-- ============ MENU ============ -->
+  <section class="screen" id="s-menu" aria-label="遊戲選單">
+    <div class="topbar">
+      <button class="icon-btn" data-go="home" aria-label="返回首頁">
+        <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="tb-title">挑戰遊戲<small>選一組關聯詞，再選玩法</small></div>
+      <button class="icon-btn js-sound" aria-pressed="false" aria-label="開啟或關閉音效"></button>
+    </div>
+    <div id="menuRoot"></div>
+  </section>
+
+  <!-- ============ GAME ============ -->
+  <section class="screen" id="s-game" aria-label="遊戲進行中">
+    <div class="topbar" id="gameTop"></div>
+    <div id="gameRoot" class="g-wrap"></div>
+  </section>
+
+  <!-- ============ RESULT ============ -->
+  <section class="screen" id="s-result" aria-label="遊戲結果">
+    <div id="resultRoot"></div>
+  </section>
+
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<noscript><p style="padding:24px;text-align:center;font-weight:700;">這個遊戲需要開啟 JavaScript 才能遊玩。</p></noscript>
+<script>
+/* =========================================================
+   六類關聯詞 × 兩種模式 × 每模式六題
+   ========================================================= */
+var DATA = [
+  {
+    id:'c1', no:1,
+    name:'因為……所以……',
+    short:'因為…所以…',
+    tag:'前因後果',
+    color:'#FF8A3D', tint:'#FFF0E2',
+    art:['cloud','umbrella'],
+    flow:{left:'原因', right:'結果', dir:'lr', lw:'因為', rw:'所以'},
+    intro:'最常用、最好懂的因果句式：先把原因說出來，再說結果。',
+    rules:['「因為」放在原因前面','「所以」放在結果前面'],
+    examples:[
+      '因為今天下雨，所以我們改在室內上體育課。',
+      '因為小美忘記帶傘，所以放學時她只好在校門等媽媽。'
+    ],
+    tip:'因為在前，所以在後；一因一果，說得通透。',
+    m1:[
+      {
+        q:'{}小美忘記帶傘，{}放學時她只好在校門等媽媽。',
+        opts:[['因為','所以'],['之所以','是因為'],['既然','就']],
+        ans:0,
+        ex:'「忘記帶傘」是原因，「在校門等媽媽」是結果。原因在前、結果在後，用「因為……所以……」最順。如果換成「之所以……是因為……」，就要把結果放前面：「小美之所以在校門等媽媽，是因為她忘記帶傘。」'
+      },
+      {
+        q:'{}弟弟昨天吃了太多冰淇淋，{}今天肚子不舒服。',
+        opts:[['之所以','是因為'],['因為','所以'],['既然','就']],
+        ans:1,
+        ex:'吃了太多冰淇淋是原因，肚子不舒服是結果。用「因為……所以……」把前因後果直接說清楚。'
+      },
+      {
+        q:'{}今天天氣很冷，{}媽媽讓我多穿一件外套。',
+        opts:[['因為','所以'],['正因為','才'],['既然','就']],
+        ans:0,
+        ex:'「天氣很冷」是原因，「多穿一件外套」是結果。用「因為……所以……」最通順；用「既然……就……」時，後面要接做法或建議，語氣不同。'
+      },
+      {
+        q:'{}小貓把花瓶打破了，{}媽媽很生氣。',
+        opts:[['既然','就'],['因為','所以'],['之所以','是因為']],
+        ans:1,
+        ex:'小貓打破花瓶是原因，媽媽生氣是結果，先因後果，用「因為……所以……」。'
+      },
+      {
+        q:'{}我們班這次表演很成功，{}老師請大家吃冰淇淋。',
+        opts:[['因為','所以'],['既然','就'],['正因為','才']],
+        ans:0,
+        ex:'表演成功是原因，老師請吃冰淇淋是結果。有因有果，用「因為……所以……」。'
+      },
+      {
+        q:'{}哥哥每天六點起床跑步，{}他的身體越來越強壯。',
+        opts:[['之所以','是因為'],['因為','所以'],['既然','就']],
+        ans:1,
+        ex:'每天早起跑步是原因，身體強壯是結果。注意「之所以……是因為……」要把結果放前面，這句不適合。'
+      }
+    ],
+    m2:[
+      {
+        c:['因為小美忘記帶傘，','所以放學時','她只好在校門等媽媽。'],
+        ex:'先說原因「忘記帶傘」，再說結果「在校門等媽媽」。「所以」要放在結果句的開頭。'
+      },
+      {
+        c:['因為弟弟吃了太多冰淇淋，','所以他','整個下午肚子都不舒服。'],
+        ex:'「吃太多冰淇淋」在前，「肚子不舒服」在後，這就是因果順序，不能倒過來。'
+      },
+      {
+        c:['因為今天天氣很冷，','所以媽媽','讓我多穿一件外套。'],
+        ex:'原因句用「因為」開頭，結果句用「所以」開頭，兩句之間用逗號分開。'
+      },
+      {
+        c:['因為小貓把花瓶打破了，','所以媽媽','氣得說不出話來。'],
+        ex:'「打破花瓶」是原因，「媽媽生氣」是結果，先因後果才說得通。'
+      },
+      {
+        c:['因為我們班表演很成功，','所以老師','請全班吃冰淇淋。'],
+        ex:'把「表演成功」放前面，「請吃冰淇淋」放後面，因果關係才清楚。'
+      },
+      {
+        c:['因為哥哥每天早起跑步，','所以他的身體','越來越強壯。'],
+        ex:'「每天跑步」是原因，「身體強壯」是結果，兩句順序就是事情發生的順序。'
+      }
+    ]
+  },
+  {
+    id:'c2', no:2,
+    name:'由於……因此……',
+    short:'由於…因此…',
+    tag:'書面表達',
+    color:'#4F9FE0', tint:'#E7F2FB',
+    art:['wind','school'],
+    flow:{left:'原因', right:'結果', dir:'lr', lw:'由於', rw:'因此'},
+    intro:'意思和「因為……所以……」相近，但語氣比較正式，常用在通知、報告和書面文章。',
+    rules:['「由於」帶出原因，多放在句首','「因此」帶出結果，後面不再配「所以」'],
+    examples:[
+      '由於颱風逐漸接近，因此學校宣布停課一天。',
+      '由於圖書館正在裝修，因此本週暫停開放。'
+    ],
+    tip:'由於開頭講原因，因此收尾說結果。',
+    m1:[
+      {
+        q:'{}颱風逐漸接近，{}學校宣布停課一天。',
+        opts:[['由於','因此'],['既然','就'],['之所以','是因為']],
+        ans:0,
+        ex:'「颱風接近」是原因，「宣布停課」是結果。「由於……因此……」語氣正式，最適合這種像通知的句子。'
+      },
+      {
+        q:'{}圖書館正在裝修，{}本週暫停開放。',
+        opts:[['之所以','是因為'],['由於','因此'],['既然','就']],
+        ans:1,
+        ex:'裝修是原因，暫停開放是結果。用「由於……因此……」說明，比口語的「因為……所以……」更正式。'
+      },
+      {
+        q:'{}連日暴雨沖毀山路，{}車輛不能通行。',
+        opts:[['由於','因此'],['既然','就'],['正因為','才']],
+        ans:0,
+        ex:'「連日暴雨沖毀山路」是原因，「車輛不能通行」是結果。用「由於」帶出原因、「因此」帶出結果，層次很清楚。'
+      },
+      {
+        q:'{}參加人數不足，{}主辦單位取消了這次旅行。',
+        opts:[['既然','就'],['由於','因此'],['之所以','是因為']],
+        ans:1,
+        ex:'人數不足是原因，取消旅行是結果。這種正式通知用「由於……因此……」。'
+      },
+      {
+        q:'{}學校附近進行道路工程，{}校車需要改道行駛。',
+        opts:[['由於','因此'],['之所以','是因為'],['既然','就']],
+        ans:0,
+        ex:'道路工程是原因，校車改道是結果。「由於」放句首，「因此」帶出結果。'
+      },
+      {
+        q:'{}天文台發出暴雨警告，{}運動會延後舉行。',
+        opts:[['正因為','才'],['既然','就'],['由於','因此']],
+        ans:2,
+        ex:'天文台發出暴雨警告是原因，運動會延後是結果。用正式的「由於……因此……」說明最合適。'
+      }
+    ],
+    m2:[
+      {
+        c:['由於颱風逐漸接近，','因此學校','宣布停課一天。'],
+        ex:'先說「颱風接近」這個原因，再用「因此」帶出「停課」的結果。'
+      },
+      {
+        c:['由於圖書館正在裝修，','因此本週','暫停開放。'],
+        ex:'「圖書館裝修」是原因，「暫停開放」是結果，先因後果。'
+      },
+      {
+        c:['由於連日暴雨沖毀山路，','因此','車輛不能通行。'],
+        ex:'先是「暴雨沖毀山路」，再是「車輛不能通行」，「因此」放在結果前面，先因後果很清楚。'
+      },
+      {
+        c:['由於參加人數不足，','因此主辦單位','取消了這次旅行。'],
+        ex:'先說人數不足，再說取消旅行；「因此」放在結果句的動詞前面。'
+      },
+      {
+        c:['由於學校附近進行道路工程，','因此校車','需要改道行駛。'],
+        ex:'道路工程是原因，校車改道是結果，「因此」放中間連接。'
+      },
+      {
+        c:['由於天文台發出暴雨警告，','因此運動會','延後舉行。'],
+        ex:'暴雨警告是原因，運動會延後是結果，先因後果，層次分明。'
+      }
+    ]
+  },
+  {
+    id:'c3', no:3,
+    name:'既然……就……',
+    short:'既然…就…',
+    tag:'由事實推結論',
+    color:'#3FBFA0', tint:'#E4F7F1',
+    art:['book','tree'],
+    flow:{left:'已知事實', right:'結論做法', dir:'lr', lw:'既然', rw:'就'},
+    intro:'先提出一件大家都已經知道的事實，再根據這件事推出結論或做法。',
+    rules:['「既然」後面是已經確定的事實','「就」後面是由此得出的結論或做法'],
+    examples:[
+      '既然你已經做完功課，就可以到公園玩一會兒。',
+      '既然雨下得這麼大，我們就改天再去郊遊吧。'
+    ],
+    tip:'既然事實已擺明，就按事實作決定。',
+    m1:[
+      {
+        q:'{}你已經做完功課，{}可以到公園玩一會兒。',
+        opts:[['既然','就'],['不但','而且'],['之所以','是因為']],
+        ans:0,
+        ex:'「既然」根據已經知道的事實推出結論，後面常配「就」。「做完功課」是大家都知道的事實，所以用「既然……就……」。「因為」只說明原因，後面一般接「所以」。'
+      },
+      {
+        q:'{}天氣這麼熱，我們{}別在太陽下打球了。',
+        opts:[['既然','就'],['之所以','是因為'],['不但','而且']],
+        ans:0,
+        ex:'天氣熱是眼前的事實，由它推出「別在太陽下打球」的建議，用「既然……就……」。'
+      },
+      {
+        q:'{}大家都同意這個方案，我們{}照着做吧。',
+        opts:[['雖然','但是'],['既然','就'],['之所以','是因為']],
+        ans:1,
+        ex:'「大家都同意」是已知事實，後面是根據這個事實作出的決定，「既然……就……」最合適。'
+      },
+      {
+        q:'{}你已經答應老師，{}要把事情做好。',
+        opts:[['既然','就'],['不但','而且'],['之所以','是因為']],
+        ans:0,
+        ex:'答應老師是已經發生的事實，由它推出「要把事情做好」的要求。'
+      },
+      {
+        q:'{}雨下得這麼大，我們{}改天再去郊遊吧。',
+        opts:[['之所以','是因為'],['既然','就'],['雖然','但是']],
+        ans:1,
+        ex:'雨大是眼前的事實，於是改變計劃。「既然……就……」用來表示這種推論。'
+      },
+      {
+        q:'{}妹妹年紀還小，我們{}多照顧她一點。',
+        opts:[['既然','就'],['雖然','但是'],['不但','而且']],
+        ans:0,
+        ex:'妹妹年紀小是事實，由此推出「多照顧她」的做法。注意後面是「就」，不是「所以」。'
+      }
+    ],
+    m2:[
+      {
+        c:['既然你已經做完功課，','就可以','到公園玩一會兒。'],
+        ex:'「既然」先提出已知事實「做完功課」，再說出可以做什麼，「就」放在做法前面。'
+      },
+      {
+        c:['既然天氣這麼熱，','我們就','別在太陽下打球了。'],
+        ex:'先說天氣熱這個事實，再提出建議，「就」帶出結論。'
+      },
+      {
+        c:['既然大家都同意這個方案，','我們就','照着做吧。'],
+        ex:'「大家都同意」是事實，「照着做」是由此作出的決定，先事實後結論。'
+      },
+      {
+        c:['既然你已經答應老師，','就要','把事情做好。'],
+        ex:'先說已經答應老師這件事實，再說要把事情做好。「就」在這裏不能省，它帶出結論。'
+      },
+      {
+        c:['既然雨下得這麼大，','我們就','改天再去郊遊吧。'],
+        ex:'雨大是事實，於是改變計劃，「既然……就……」正好表達這個推論。'
+      },
+      {
+        c:['既然妹妹年紀還小，','我們就','多照顧她一點。'],
+        ex:'妹妹年紀小是事實，所以多照顧她；用「既然……就……」表示由事實推出做法。'
+      }
+    ]
+  },
+  {
+    id:'c4', no:4,
+    name:'之所以……是因為……',
+    short:'之所以…是因為…',
+    tag:'先果後因',
+    color:'#8E7BE0', tint:'#EFEBFC',
+    art:['star','book'],
+    flow:{left:'結果', right:'原因', dir:'rl', lw:'之所以', rw:'是因為'},
+    intro:'先把結果說出來，再解釋背後的原因，重點放在後面的原因上。順序和「因為……所以……」剛好相反。',
+    rules:['「之所以」後面是結果','「是因為」後面是原因'],
+    examples:[
+      '小明這次考試之所以進步很多，是因為他每天放學後都認真複習。',
+      '這條街道之所以這麼乾淨，是因為清潔工人每天清晨都來打掃。'
+    ],
+    tip:'先說結果後說因，之所以…是因為…',
+    m1:[
+      {
+        q:'小明這次考試{}進步很多，{}他每天放學後都認真複習。',
+        opts:[['之所以','是因為'],['因為','所以'],['既然','就']],
+        ans:0,
+        ex:'「進步很多」是結果，「認真複習」是原因。「之所以……是因為……」先說結果，再解釋原因，重點在原因。'
+      },
+      {
+        q:'這間小店{}每天都大排長龍，{}老闆用心製作每一碗麵。',
+        opts:[['因為','所以'],['之所以','是因為'],['正因為','才']],
+        ans:1,
+        ex:'「大排長龍」是結果，「用心製作」是原因，先果後因。「因為……所以……」的順序剛好相反。'
+      },
+      {
+        q:'我{}特別喜歡這本書，{}它讓我明白什麼是友情。',
+        opts:[['既然','就'],['之所以','是因為'],['因為','所以']],
+        ans:1,
+        ex:'「喜歡這本書」是結果，「讓我明白友情」是原因。先說結果、後說原因，用「之所以……是因為……」。'
+      },
+      {
+        q:'爸爸今天{}沒有去上班，{}他要留在家裏照顧生病的奶奶。',
+        opts:[['之所以','是因為'],['既然','就'],['由於','因此']],
+        ans:0,
+        ex:'「沒有上班」是結果，「照顧奶奶」是原因。「之所以……是因為……」把原因放在後面，語氣更強調原因。'
+      },
+      {
+        q:'同學們{}都喜歡林老師，{}她上課既生動又有耐心。',
+        opts:[['因為','所以'],['正因為','才'],['之所以','是因為']],
+        ans:2,
+        ex:'「同學喜歡老師」是結果，「上課生動有耐心」是原因，先果後因。'
+      },
+      {
+        q:'這條街道{}這麼乾淨，{}清潔工人每天清晨都來打掃。',
+        opts:[['既然','就'],['之所以','是因為'],['因為','所以']],
+        ans:1,
+        ex:'「街道乾淨」是結果，「每天打掃」是原因，用「之所以……是因為……」。'
+      }
+    ],
+    m2:[
+      {
+        c:['小明這次考試之所以進步很多，','是因為他','每天放學後都認真複習。'],
+        ex:'先說結果「進步很多」，再說原因「認真複習」。「之所以」放在結果前面，「是因為」帶出原因。'
+      },
+      {
+        c:['這間小店之所以每天大排長龍，','是因為老闆','用心製作每一碗麵。'],
+        ex:'「大排長龍」是結果，「用心製作」是原因，順序不能倒。'
+      },
+      {
+        c:['我之所以特別喜歡這本書，','是因為它','讓我明白什麼是友情。'],
+        ex:'先說「喜歡這本書」，再解釋原因，重點落在後面的原因上。'
+      },
+      {
+        c:['爸爸今天之所以沒有去上班，','是因為他','要留在家裏照顧生病的奶奶。'],
+        ex:'「沒有上班」是結果，「照顧奶奶」是原因，「之所以……是因為……」正好先果後因。'
+      },
+      {
+        c:['同學們之所以都喜歡林老師，','是因為她','上課既生動又有耐心。'],
+        ex:'先說同學喜歡老師，再說原因；「是因為」後面帶出原因。'
+      },
+      {
+        c:['這條街道之所以這麼乾淨，','是因為清潔工人','每天清晨都來打掃。'],
+        ex:'「街道乾淨」是結果，「每天打掃」是原因，先果後因。'
+      }
+    ]
+  },
+  {
+    id:'c5', no:5,
+    name:'正因為……才……',
+    short:'正因為…才…',
+    tag:'強調原因',
+    color:'#F47C9C', tint:'#FDEAF0',
+    art:['heart','trophy'],
+    flow:{left:'關鍵原因', right:'結果', dir:'lr', lw:'正因為', rw:'才'},
+    intro:'特別強調「就是這個原因」，才會有後面的結果，語氣比一般的因果句更強。',
+    rules:['「正因為」強調關鍵原因','「才」帶出結果，不能換成「所以」'],
+    examples:[
+      '正因為老師耐心地教導我們，我們才能一步一步進步。',
+      '正因為大家齊心協力，這次活動才會辦得這麼成功。'
+    ],
+    tip:'正因為…才…，強調原因力量大。',
+    m1:[
+      {
+        q:'{}老師耐心地教導我們，我們{}能一步一步進步。',
+        opts:[['正因為','才'],['因為','所以'],['既然','所以']],
+        ans:0,
+        ex:'「正因為」強調「就是這個原因」，後面用「才」帶出結果，語氣比「因為……所以……」更強。注意「所以」不能放在主語「我們」後面。'
+      },
+      {
+        q:'{}媽媽每天陪我練習，我{}敢站在台上說話。',
+        opts:[['因為','所以'],['正因為','才'],['雖然','但是']],
+        ans:1,
+        ex:'媽媽陪我練習是原因，我敢上台是結果。「正因為……才……」突出這個原因的重要；「所以」不能放在主語「我」後面。'
+      },
+      {
+        q:'{}經歷過那次失敗，他{}明白堅持的重要。',
+        opts:[['之所以','因此'],['正因為','才'],['因為','所以']],
+        ans:1,
+        ex:'經歷失敗是原因，明白堅持是結果，強調那次失敗帶來的作用。'
+      },
+      {
+        q:'{}大家齊心協力，這次活動{}會辦得這麼成功。',
+        opts:[['正因為','才'],['因為','所以'],['既然','所以']],
+        ans:0,
+        ex:'大家齊心協力是原因，活動成功是結果。「才」要和「正因為」呼應，一般不用「就」或「所以」。'
+      },
+      {
+        q:'{}你願意停下來聆聽，{}能明白別人的想法。',
+        opts:[['正因為','才'],['不但','而且'],['之所以','是因為']],
+        ans:0,
+        ex:'願意聆聽是原因，明白別人是結果，用「正因為……才……」強調。'
+      },
+      {
+        q:'{}教練嚴格要求，隊員們{}能在比賽中表現出色。',
+        opts:[['由於','所以'],['正因為','才'],['因為','所以']],
+        ans:1,
+        ex:'教練嚴格是原因，隊員表現出色是結果，用「正因為……才……」突出嚴格要求的作用。'
+      }
+    ],
+    m2:[
+      {
+        c:['正因為老師耐心教導，','我們','才能一步一步進步。'],
+        ex:'「正因為」強調原因，「才」帶出結果，順序是原因在前、結果在後。'
+      },
+      {
+        c:['正因為媽媽每天陪我練習，','我','才敢站在台上說話。'],
+        ex:'先說媽媽陪練習，再說我敢上台，「才」表示有了這個原因才有後面的結果。'
+      },
+      {
+        c:['正因為經歷過那次失敗，','他','才明白堅持的重要。'],
+        ex:'先說經歷失敗，再說明白堅持的重要，強調失敗帶來的結果。'
+      },
+      {
+        c:['正因為大家齊心協力，','這次活動','才會辦得這麼成功。'],
+        ex:'先說大家齊心協力，再說活動成功，「才」不能換成「就」。'
+      },
+      {
+        c:['正因為你願意停下來聆聽，','你','才能明白別人的想法。'],
+        ex:'先說願意聆聽，再說明白別人，「正因為……才……」強調原因。'
+      },
+      {
+        c:['正因為教練嚴格要求，','隊員們','才能在比賽中表現出色。'],
+        ex:'先說教練嚴格，再說隊員表現出色，強調嚴格要求的作用。'
+      }
+    ]
+  },
+  {
+    id:'c6', no:6,
+    name:'……因此……',
+    short:'…因此…',
+    tag:'單用結果連詞',
+    color:'#E8A317', tint:'#FFF6DC',
+    art:['tree','sun'],
+    flow:{left:'原因', right:'結果', dir:'lr', lw:'前一句', rw:'因此'},
+    intro:'前面一句說原因，後面用「因此」帶出結果；只用一個詞就能連接，不必再配「因為」或「所以」。',
+    rules:['「因此」前面是原因','「因此」後面是結果，單用即可'],
+    examples:[
+      '他每天練習演講，因此說話越來越有信心。',
+      '球隊每天認真練習，因此在比賽中取得了好成績。'
+    ],
+    tip:'前句原因後句果，一個「因此」就夠了。',
+    m1:[
+      {
+        q:'他每天練習演講，{}說話越來越有信心。',
+        opts:[['因此'],['因為'],['既然']],
+        ans:0,
+        ex:'「因此」前面是原因，後面是結果；一個詞就能連接，不用再配「因為」或「所以」。'
+      },
+      {
+        q:'昨晚下了一場大雨，{}今天的空氣特別清新。',
+        opts:[['因此'],['雖然'],['之所以']],
+        ans:0,
+        ex:'昨晚大雨是原因，今天空氣清新是結果，用「因此」連接。'
+      },
+      {
+        q:'這本書內容有趣，插圖也很精美，{}深受同學歡迎。',
+        opts:[['因此'],['因為'],['既然']],
+        ans:0,
+        ex:'「內容有趣、插圖精美」都是原因，「受歡迎」是結果，所以用「因此」。'
+      },
+      {
+        q:'巴士司機突然剎車，{}車上的乘客都往前傾。',
+        opts:[['因此'],['正因為'],['雖然']],
+        ans:0,
+        ex:'司機突然剎車是原因，乘客往前傾是結果，先因後果。'
+      },
+      {
+        q:'妹妹主動幫媽媽做家務，{}媽媽誇她懂事。',
+        opts:[['因此'],['因為'],['既然']],
+        ans:0,
+        ex:'妹妹主動做家務是原因，媽媽誇她是結果，用「因此」。'
+      },
+      {
+        q:'球隊每天認真練習，{}在比賽中取得了好成績。',
+        opts:[['因此'],['之所以'],['雖然']],
+        ans:0,
+        ex:'每天認真練習是原因，取得好成績是結果。「因此」放在結果前面。'
+      }
+    ],
+    m2:[
+      {
+        c:['他每天練習演講，','因此說話','越來越有信心。'],
+        ex:'「每天練習演講」是原因，「說話有信心」是結果，中間用「因此」連接。'
+      },
+      {
+        c:['昨晚下了一場大雨，','因此','今天的空氣特別清新。'],
+        ex:'先說昨晚大雨，再說今天空氣清新；「因此」前面是原因，後面是結果。'
+      },
+      {
+        c:['這本書內容有趣，插圖也很精美，','因此','深受同學歡迎。'],
+        ex:'前面兩個優點都是原因，「因此」帶出「受歡迎」這個結果。'
+      },
+      {
+        c:['巴士司機突然剎車，','因此乘客','都往前傾。'],
+        ex:'司機剎車是原因，乘客往前傾是結果，先因後果。'
+      },
+      {
+        c:['妹妹主動幫媽媽做家務，','因此媽媽','誇她懂事。'],
+        ex:'妹妹主動做家務是原因，媽媽誇她是結果。'
+      },
+      {
+        c:['球隊每天認真練習，','因此在比賽中','取得了好成績。'],
+        ex:'每天練習是原因，取得好成績是結果，「因此」放在結果前面。'
+      }
+    ]
+  },
+  {
+    id:'c7', no:7,
+    name:'由於……，所以……',
+    short:'由於…所以…',
+    tag:'先因後果（正式）',
+    color:'#D24B6A', tint:'#FCE6EC',
+    art:['rain','ball'],
+    flow:{left:'原因', right:'結果', dir:'lr', lw:'由於', rw:'所以'},
+    intro:'和「因為……所以……」意思相近，但「由於」帶出的原因比較客觀，語氣稍為正式，適用於說明事情的緣由。',
+    rules:['「由於」放在原因前面，可放在句首或主語後面','「所以」放在結果前面，連接後面的結果'],
+    examples:[
+      '由於今天突然下起大雨，所以足球比賽要改期舉行。',
+      '由於小明早上發高燒，所以他今天請假在家休息。'
+    ],
+    tip:'由於講原因，所以說結果；先因後果，語氣清楚。',
+    m1:[
+      {
+        q:'{}今天突然下起大雨，{}足球比賽要改期舉行。',
+        opts:[['由於','所以'],['之所以','是因為'],['既然','就']],
+        ans:0,
+        ex:'「下大雨」是客觀原因，「比賽改期」是結果。用「由於……所以……」說明，語氣正式，清楚交代事情的因果。'
+      },
+      {
+        q:'{}小明早上發高燒，{}他今天請假在家休息。',
+        opts:[['既然','就'],['由於','所以'],['之所以','是因為']],
+        ans:1,
+        ex:'發高燒是原因，請假休息是結果。「由於」帶出客觀原因，「所以」連接結果，比口語的「因為」稍正式。'
+      },
+      {
+        q:'{}大風吹倒了路旁的花盆，{}路過的伯伯停下來幫忙清理。',
+        opts:[['由於','所以'],['雖然','但是'],['既然','就']],
+        ans:0,
+        ex:'大風吹倒花盆是原因，伯伯幫忙清理是結果。用「由於……所以……」說明事情發生的經過很清楚。'
+      },
+      {
+        q:'{}這個網站的內容很豐富，{}很多同學都喜歡上來找資料。',
+        opts:[['之所以','是因為'],['由於','所以'],['正因為','才']],
+        ans:1,
+        ex:'「內容豐富」是原因，「同學喜歡來找資料」是結果。「由於」可以放在句首，「所以」引出結果。'
+      },
+      {
+        q:'{}老師今天要去開會，{}這一節課改為自習。',
+        opts:[['由於','所以'],['既然','就'],['雖然','但是']],
+        ans:0,
+        ex:'老師要去開會是原因，改為自習是結果。正式交代事情安排，用「由於……所以……」很合適。'
+      },
+      {
+        q:'{}弟弟把果汁灑在地上，{}媽媽叫他拿抹布擦乾淨。',
+        opts:[['之所以','是因為'],['由於','所以'],['既然','就']],
+        ans:1,
+        ex:'弟弟打翻果汁是原因，媽媽叫他擦乾淨是結果。「由於」說明原因，「所以」引出結果。'
+      }
+    ],
+    m2:[
+      {
+        c:['由於今天突然下起大雨，','所以足球比賽','要改期舉行。'],
+        ex:'先說「下大雨」這個原因，再用「所以」帶出「比賽改期」的結果；「由於」放在句首。'
+      },
+      {
+        c:['由於小明早上發高燒，','所以他今天','請假在家休息。'],
+        ex:'先說發高燒，再說請假休息；「由於」帶出客觀原因，「所以」連接結果。'
+      },
+      {
+        c:['由於大風吹倒了路旁的花盆，','所以路過的伯伯','停下來幫忙清理。'],
+        ex:'先是大風吹倒花盆，再是伯伯幫忙清理，先因後果，事情經過很清楚。'
+      },
+      {
+        c:['由於這個網站的內容很豐富，','所以很多同學','都喜歡上來找資料。'],
+        ex:'「內容豐富」是原因，「同學喜歡找資料」是結果，「所以」放在結果前面。'
+      },
+      {
+        c:['由於老師今天要去開會，','所以這一節課','改為自習。'],
+        ex:'老師要開會是原因，改自習是結果；正式交代安排時，常用「由於……所以……」。'
+      },
+      {
+        c:['由於弟弟把果汁灑在地上，','所以媽媽','叫他拿抹布擦乾淨。'],
+        ex:'打翻果汁是原因，媽媽叫他擦乾淨是結果；「由於」說原因，「所以」說結果。'
+      }
+    ]
+  },
+
+];
+
+/* 每組關聯詞的看圖場景：左格／右格的主要圖示＋一句話說明 */
+var SCENES = {
+  c1:{l:['cloud','umbrella'], r:['school','clock'], cap:'忘記帶傘 → 在校門等媽媽'},
+  c2:{l:['typhoon','wind'], r:['school','home'], cap:'颱風接近 → 學校宣布停課'},
+  c3:{l:['homework','clock'], r:['park','ball'], cap:'做完功課 → 到公園玩一會兒'},
+  c4:{l:['progress','exam'], r:['book','clock'], cap:'進步很多 ← 每天認真複習'},
+  c5:{l:['teach','heart'], r:['progress','trophy'], cap:'老師耐心教導 → 一步一步進步'},
+  c6:{l:['book','mic'], r:['speechbubble','star'], cap:'每天練習演講 → 說話更有信心'},
+  c7:{l:['rain','umbrella'], r:['ball','whistle'], cap:'突然下大雨 → 比賽改期舉行'}
+};
+DATA.forEach(function(c){
+  if(SCENES[c.id]){
+    c.scene = SCENES[c.id];
+    c.art = [c.scene.l[0], c.scene.r[0]];
+  }
+});
+function classArt(c){ return sceneFrames(c); }
+
+/* 每題一張情境圖：三個圖示＋一句看圖提示，直接對應句子內容 */
+var PICS = {
+  c1:[
+    {k:['umbrella','school'], cap:'忘記帶傘，在校門等媽媽'},
+    {k:['icecream','tummy'], cap:'吃太多冰淇淋，肚子不舒服'},
+    {k:['wind','coat'], cap:'天氣很冷，多穿一件外套'},
+    {k:['cat','vase','angry'], cap:'小貓打破花瓶，媽媽很生氣'},
+    {k:['stage','icecream'], cap:'表演成功，請大家吃冰淇淋'},
+    {k:['sun','run','muscle'], cap:'早起跑步，身體越來越強壯'}
+  ],
+  c2:[
+    {k:['typhoon','school'], cap:'颱風接近，學校宣布停課'},
+    {k:['library','broom'], cap:'圖書館裝修，暫停開放'},
+    {k:['rain','mountain','road'], cap:'連日暴雨沖毀山路，車輛不能通行'},
+    {k:['luggage','board'], cap:'人數不足，取消旅行'},
+    {k:['road','bus'], cap:'道路工程，校車改道'},
+    {k:['rain','medal'], cap:'暴雨警告，運動會延後'}
+  ],
+  c3:[
+    {k:['homework','park'], cap:'做完功課，到公園玩'},
+    {k:['sun','ball'], cap:'天氣熱，別在太陽下打球'},
+    {k:['team','board'], cap:'大家都同意，照着做'},
+    {k:['promise','teach'], cap:'答應老師，把事情做好'},
+    {k:['rain','park'], cap:'下大雨，改天再去郊遊'},
+    {k:['sister','heart'], cap:'妹妹年紀小，多照顧她'}
+  ],
+  c4:[
+    {k:['progress','book'], cap:'考試進步，每天放學認真複習'},
+    {k:['shop','noodles'], cap:'小店天天排長龍，老闆用心做麵'},
+    {k:['book','heart'], cap:'喜歡這本書，它讓我明白友情'},
+    {k:['home','grandma'], cap:'爸爸沒上班，留在家裏照顧奶奶'},
+    {k:['heart','teach'], cap:'同學喜歡林老師，她上課有耐心'},
+    {k:['broom','leaf'], cap:'街道乾淨，清潔工人天天打掃'}
+  ],
+  c5:[
+    {k:['teach','progress'], cap:'老師耐心教導，我們進步'},
+    {k:['heart','mic','stage'], cap:'媽媽陪練習，敢上台說話'},
+    {k:['bandage','muscle'], cap:'經歷失敗，明白堅持'},
+    {k:['team','trophy'], cap:'齊心協力，活動成功'},
+    {k:['ear','speechbubble'], cap:'願意聆聽，明白別人'},
+    {k:['whistle','trophy'], cap:'教練嚴格，比賽表現出色'}
+  ],
+  c6:[
+    {k:['mic','speechbubble'], cap:'每天練習演講，說話有信心'},
+    {k:['rain','leaf'], cap:'大雨過後，空氣清新'},
+    {k:['book','star'], cap:'書本有趣，受同學歡迎'},
+    {k:['bus','brake'], cap:'巴士突然剎車，乘客前傾'},
+    {k:['broom','heart'], cap:'妹妹做家務，媽媽誇她'},
+    {k:['team','medal'], cap:'球隊練習，取得好成績'}
+  ],
+  c7:[
+    {k:['rain','ball'], cap:'突然下大雨，比賽改期'},
+    {k:['thermometer','home'], cap:'發高燒，請假在家休息'},
+    {k:['wind','flower'], cap:'大風吹倒花盆，伯伯幫忙清理'},
+    {k:['book','star'], cap:'網站內容豐富，同學喜歡找資料'},
+    {k:['teach','book'], cap:'老師去開會，改為自習課'},
+    {k:['juice','broom'], cap:'果汁灑地上，拿抹布擦乾淨'}
+  ]
+
+};
+
+/* 教學例句的配圖：每句兩個圖示 */
+var EXART = {
+  c1:[['rain','ball'],['umbrella','school']],
+  c2:[['typhoon','school'],['library','broom']],
+  c3:[['homework','park'],['rain','park']],
+  c4:[['progress','book'],['broom','leaf']],
+  c5:[['teach','progress'],['team','trophy']],
+  c6:[['mic','speechbubble'],['team','medal']],
+  c7:[['rain','ball'],['thermometer','home']]
+};
+DATA.forEach(function(c){ c.exArt = EXART[c.id] || [c.art, c.art]; });
+
+function picFor(c, idx){
+  var arr = PICS[c.id] || [];
+  return arr[idx] || {k:[c.art[0], c.art[1]], cap:c.scene ? c.scene.cap : ''};
+}
+
+/* =========================================================
+   工具
+   ========================================================= */
+var $ = function(sel, root){ return (root || document).querySelector(sel); };
+var $$ = function(sel, root){ return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
+
+function esc(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function closest(el, sel){
+  while(el && el !== document){
+    if(el.nodeType === 1 && el.matches && el.matches(sel)) return el;
+    el = el.parentNode;
+  }
+  return null;
+}
+function shuffle(arr){
+  var a = arr.slice();
+  for(var i = a.length - 1; i > 0; i--){
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+/* =========================================================
+   圖示（全部內嵌 SVG，不用外部素材）
+   ========================================================= */
+var ICON = {
+  back: '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  sound: '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M4 9.5v5a1 1 0 0 0 1 1h3l4.2 3.6a.8.8 0 0 0 1.3-.6V5.5a.8.8 0 0 0-1.3-.6L8 8.5H5a1 1 0 0 0-1 1z" fill="currentColor"/><path d="M16.6 8.4a5 5 0 0 1 0 7.2M19 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>',
+  muted: '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M4 9.5v5a1 1 0 0 0 1 1h3l4.2 3.6a.8.8 0 0 0 1.3-.6V5.5a.8.8 0 0 0-1.3-.6L8 8.5H5a1 1 0 0 0-1 1z" fill="currentColor"/><path d="M16.5 9.5l5 5M21.5 9.5l-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+  check: '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M4.5 12.6l4.6 4.6L19.6 6.7" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  cross: '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M6.4 6.4l11.2 11.2M17.6 6.4L6.4 17.6" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/></svg>',
+  starPath: 'M12 2.6l2.8 6 6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.2 20.4l1.3-6.5L2.6 9.4l6.6-.8z',
+  bulb: '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M12 3a6 6 0 0 0-3.6 10.8V17h7.2v-3.2A6 6 0 0 0 12 3z" fill="#FFD166" stroke="#1F6B56" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.4 20h5.2" stroke="#1F6B56" stroke-width="1.8" stroke-linecap="round"/></svg>'
+};
+
+function starSvg(filled){
+  return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + ICON.starPath + '" fill="' + (filled ? '#FFC94D' : '#EFE6D6') + '" stroke="#3E2F2A" stroke-width="1.3" stroke-linejoin="round"/></svg>';
+}
+
+/* =========================================================
+   卡通插圖庫：全部內嵌 SVG，統一粗描邊、圓角、Q 版比例
+   座標系：圖示 100×100；小朋友 200×260；場景 760×420
+   ========================================================= */
+var INK = '#3E2F2A';
+
+function picto(name){
+  if(name === 'cloud' || name === 'rain'){
+    return '<path d="M24 68c-9 0-16-7-16-15.5S15 37 24 37c1.5-11 11-19 22-19 12.5 0 22 8.5 23 20 9 .6 16 7.6 16 16.2C85 63 78 68 69 68H24z" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<path d="M32 78l-3 9M49 78l-3 9M66 78l-3 9" stroke="#6FB7E8" stroke-width="5" stroke-linecap="round"/>';
+  }
+  if(name === 'umbrella'){
+    return '<path d="M50 20c19.5 0 35 15 35 34H15c0-19 15.5-34 35-34z" fill="#FF9DB4" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<path d="M50 20v-8" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round"/>'
+      + '<path d="M50 54v20c0 8 5.5 13 13 13s12-4 12-11" fill="none" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round"/>'
+      + '<path d="M36 54c4-8 24-8 28 0" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity=".8"/>';
+  }
+  if(name === 'icecream'){
+    return '<path d="M34 46h32L50 88z" fill="#E8B06A" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<path d="M39 58l6 6M39 70l6 6" stroke="#C98A55" stroke-width="3" stroke-linecap="round"/>'
+      + '<circle cx="40" cy="36" r="15" fill="#FF9DB4" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<circle cx="60" cy="32" r="14" fill="#FFF3D6" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<circle cx="60" cy="14" r="6" fill="#D95757" stroke="#3E2F2A" stroke-width="4"/>';
+  }
+  if(name === 'tummy'){
+    return '<ellipse cx="50" cy="56" rx="30" ry="27" fill="#FFD9B8" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<path d="M50 56a5 5 0 1 1 .1 0z" fill="#C98A55"/>'
+      + '<path d="M30 38q-8 8-6 20M70 38q8 8 6 20" fill="none" stroke="#D95757" stroke-width="4" stroke-linecap="round"/>'
+      + '<path d="M22 66l-8 4M78 66l8 4" stroke="#D95757" stroke-width="4" stroke-linecap="round"/>'
+      + '<path d="M34 34q16-10 32 0" fill="none" stroke="#3E2F2A" stroke-width="4" stroke-linecap="round"/>';
+  }
+  if(name === 'coat'){
+    return '<path d="M36 28q14-9 28 0l12 12-9 12-5-7v37H38V45l-5 7-9-12z" fill="#8FC7F0" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<path d="M50 30v52" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<circle cx="50" cy="50" r="2.6" fill="#3E2F2A"/><circle cx="50" cy="62" r="2.6" fill="#3E2F2A"/><circle cx="50" cy="74" r="2.6" fill="#3E2F2A"/>';
+  }
+  if(name === 'vase'){
+    return '<path d="M40 34h20l-3 10c9 6 13 15 13 24 0 13-9 22-20 22S30 81 30 68c0-9 4-18 13-24z" fill="#BFE3FA" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<path d="M50 30V16" stroke="#3FBFA0" stroke-width="5" stroke-linecap="round"/>'
+      + '<circle cx="50" cy="14" r="9" fill="#FF9DB4" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<path d="M50 24c-8-1-13-5-14-11M50 24c8-1 13-5 14-11" fill="none" stroke="#3FBFA0" stroke-width="4" stroke-linecap="round"/>';
+  }
+  if(name === 'cat'){
+    return '<path d="M32 44l-3-22 22 12h18l22-12-3 22" fill="#FFC94D" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<circle cx="50" cy="58" r="26" fill="#FFC94D" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<circle cx="41" cy="54" r="3.6" fill="#3E2F2A"/><circle cx="59" cy="54" r="3.6" fill="#3E2F2A"/>'
+      + '<path d="M46 64h8l-4 4z" fill="#FF8A3D" stroke="#3E2F2A" stroke-width="2.5" stroke-linejoin="round"/>'
+      + '<path d="M50 68q-4 5-8 2M50 68q4 5 8 2" fill="none" stroke="#3E2F2A" stroke-width="3" stroke-linecap="round"/>'
+      + '<path d="M22 58H8M24 66l-13 4M78 58h14M76 66l13 4" stroke="#3E2F2A" stroke-width="3.5" stroke-linecap="round"/>';
+  }
+  if(name === 'cake'){
+    return '<rect x="24" y="52" width="52" height="28" rx="5" fill="#FFD9E2" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<path d="M24 58q13 12 26 0t26 0" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>'
+      + '<rect x="47" y="26" width="6" height="22" rx="3" fill="#4F9FE0" stroke="#3E2F2A" stroke-width="3"/>'
+      + '<path d="M50 8c5 5 5 9 0 12-5-3-5-7 0-12z" fill="#FFC94D" stroke="#3E2F2A" stroke-width="3" stroke-linejoin="round"/>'
+      + '<circle cx="34" cy="70" r="3" fill="#D95757"/><circle cx="50" cy="70" r="3" fill="#D95757"/><circle cx="66" cy="70" r="3" fill="#D95757"/>';
+  }
+  if(name === 'run' || name === 'shoe'){
+    return '<path d="M16 62h40c8 0 12-4 18-10l8-8 8 8-4 20c-1 8-7 12-15 12H16z" fill="#FF8A3D" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<path d="M18 84h76" stroke="#3E2F2A" stroke-width="8" stroke-linecap="round"/>'
+      + '<path d="M34 62l6-8M46 62l6-8M58 62l6-8" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>';
+  }
+  if(name === 'muscle'){
+    return '<path d="M22 78V58c0-11 7-19 18-21l7-15 12 7-4 12c11 3 18 12 18 23v14z" fill="#FFD9B8" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<path d="M47 48c8-6 18-3 20 5" fill="none" stroke="#3E2F2A" stroke-width="4" stroke-linecap="round"/>';
+  }
+  if(name === 'typhoon'){
+    return '<path d="M54 20c18 0 30 12 30 28 0 17-13 30-30 30-14 0-24-9-24-21 0-11 8-18 18-18 8 0 13 6 13 13" fill="none" stroke="#4F9FE0" stroke-width="7" stroke-linecap="round"/>'
+      + '<circle cx="50" cy="50" r="6" fill="#4F9FE0"/>'
+      + '<path d="M24 78c-6 4-10 8-12 12M80 26c4-4 8-7 13-9" stroke="#4F9FE0" stroke-width="5" stroke-linecap="round" opacity=".7"/>';
+  }
+  if(name === 'school'){
+    return '<rect x="20" y="42" width="60" height="42" rx="5" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<path d="M12 43l38-23 38 23" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<rect x="44" y="60" width="12" height="24" rx="2" fill="#FFC94D" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<rect x="27" y="53" width="11" height="11" rx="2" fill="#BFE3FA" stroke="#3E2F2A" stroke-width="3.5"/>'
+      + '<rect x="62" y="53" width="11" height="11" rx="2" fill="#BFE3FA" stroke="#3E2F2A" stroke-width="3.5"/>';
+  }
+  if(name === 'library'){
+    return '<rect x="18" y="24" width="64" height="58" rx="5" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<path d="M18 43h64M18 62h64" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<rect x="24" y="30" width="7" height="13" fill="#FF9DB4"/><rect x="33" y="28" width="7" height="15" fill="#4F9FE0"/><rect x="42" y="31" width="7" height="12" fill="#FFC94D"/><rect x="51" y="29" width="7" height="14" fill="#3FBFA0"/>'
+      + '<rect x="24" y="48" width="7" height="14" fill="#8E7BE0"/><rect x="33" y="50" width="7" height="12" fill="#FF8A3D"/><rect x="42" y="47" width="7" height="15" fill="#4F9FE0"/>'
+      + '<rect x="24" y="67" width="7" height="10" fill="#FFC94D"/><rect x="33" y="66" width="7" height="11" fill="#3FBFA0"/><rect x="42" y="68" width="7" height="9" fill="#FF9DB4"/><rect x="51" y="66" width="7" height="11" fill="#8E7BE0"/>';
+  }
+  if(name === 'road'){
+    return '<path d="M40 90C52 70 26 56 40 36 50 22 62 20 64 10" fill="none" stroke="#9AA7B5" stroke-width="20" stroke-linecap="round"/>'
+      + '<path d="M40 90C52 70 26 56 40 36 50 22 62 20 64 10" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-dasharray="7 9" stroke-linecap="round"/>';
+  }
+  if(name === 'bus'){
+    return '<rect x="18" y="24" width="64" height="48" rx="9" fill="#FFC94D" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<rect x="25" y="32" width="30" height="18" rx="3" fill="#BFE3FA" stroke="#3E2F2A" stroke-width="3.5"/>'
+      + '<rect x="61" y="32" width="14" height="30" rx="3" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="3.5"/>'
+      + '<circle cx="34" cy="76" r="8" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<circle cx="66" cy="76" r="8" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="4"/>';
+  }
+  if(name === 'trophy'){
+    return '<path d="M32 20h36v23c0 12-8 21-18 21s-18-9-18-21V20z" fill="#FFC94D" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<path d="M32 27H20v7c0 9 6 14 13 14" fill="none" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<path d="M68 27h12v7c0 9-6 14-13 14" fill="none" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<rect x="43" y="64" width="14" height="10" fill="#FFC94D" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<rect x="32" y="74" width="36" height="10" rx="4" fill="#FFC94D" stroke="#3E2F2A" stroke-width="4"/>';
+  }
+  if(name === 'mountain'){
+    return '<path d="M8 82l24-42 14 21 10-14 26 35z" fill="#B9E6D7" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<path d="M32 40l6 10-5 5 6 6" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>'
+      + '<circle cx="76" cy="72" r="6" fill="#C9B79A" stroke="#3E2F2A" stroke-width="3"/>'
+      + '<circle cx="66" cy="78" r="4" fill="#C9B79A" stroke="#3E2F2A" stroke-width="3"/>';
+  }
+  if(name === 'homework' || name === 'exam'){
+    return '<rect x="24" y="18" width="48" height="64" rx="6" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<path d="M34 34h26M34 46h26M34 58h14" stroke="#C9B79A" stroke-width="4" stroke-linecap="round"/>'
+      + '<path d="M56 66l16-16 8 8-16 16-10 2z" fill="#FFC94D" stroke="#3E2F2A" stroke-width="4" stroke-linejoin="round"/>'
+      + '<path d="M56 66l4 4" stroke="#3E2F2A" stroke-width="3"/>';
+  }
+  if(name === 'park'){
+    return '<circle cx="34" cy="34" r="20" fill="#8FD9BE" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<rect x="30" y="52" width="8" height="30" rx="3" fill="#C98A55" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<rect x="52" y="58" width="34" height="7" rx="3" fill="#C98A55" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<path d="M58 65v18M82 65v18" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round"/>'
+      + '<path d="M16 84h72" stroke="#8FD9BE" stroke-width="6" stroke-linecap="round"/>';
+  }
+  if(name === 'sun'){
+    return '<circle cx="50" cy="50" r="18" fill="#FFD166" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<path d="M50 17v9M50 74v9M17 50h9M74 50h9M26 26l6.5 6.5M67.5 67.5L74 74M74 26l-6.5 6.5M32.5 67.5L26 74" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round"/>';
+  }
+  if(name === 'board' || name === 'plan'){
+    return '<rect x="24" y="24" width="52" height="58" rx="6" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<rect x="40" y="18" width="20" height="11" rx="4" fill="#9AA7B5" stroke="#3E2F2A" stroke-width="3.5"/>'
+      + '<path d="M33 43l4 4 7-8M33 57l4 4 7-8" fill="none" stroke="#3FBFA0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>'
+      + '<path d="M50 43h16M50 57h16M33 71h33" stroke="#C9B79A" stroke-width="4" stroke-linecap="round"/>';
+  }
+  if(name === 'promise' || name === 'agree'){
+    return '<circle cx="50" cy="38" r="21" fill="#FFC94D" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<path d="M40 38l7 8 14-16" fill="none" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>'
+      + '<path d="M38 56l-7 30 19-10 19 10-7-30" fill="#FF8A3D" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>';
+  }
+  if(name === 'baby' || name === 'sister'){
+    return '<circle cx="50" cy="56" r="25" fill="#FFD9B8" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<path d="M50 32c7-7 2-14 2-14" fill="none" stroke="#3E2F2A" stroke-width="4" stroke-linecap="round"/>'
+      + '<circle cx="41" cy="54" r="3.6" fill="#3E2F2A"/><circle cx="59" cy="54" r="3.6" fill="#3E2F2A"/>'
+      + '<path d="M44 66q6 6 12 0" fill="none" stroke="#3E2F2A" stroke-width="3.5" stroke-linecap="round"/>'
+      + '<circle cx="32" cy="63" r="4" fill="#FF9DB4" opacity=".7"/><circle cx="68" cy="63" r="4" fill="#FF9DB4" opacity=".7"/>'
+      + '<path d="M22 88h56" stroke="#8FC7F0" stroke-width="8" stroke-linecap="round"/>';
+  }
+  if(name === 'heart'){
+    return '<path d="M50 84S16 63 16 40c0-11 8.5-19 19-19 7 0 12 3.5 15 9.5C53 24.5 58 21 65 21c10.5 0 19 8 19 19 0 23-34 44-34 44z" fill="#FF9DB4" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>';
+  }
+  if(name === 'noodles'){
+    return '<path d="M20 50h60c0 17-13 30-30 30S20 67 20 50z" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<path d="M14 50h72" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round"/>'
+      + '<path d="M30 44c5-12 35-12 40 0" fill="#FFD166" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<path d="M62 20L44 46M72 24L54 48" stroke="#C98A55" stroke-width="4" stroke-linecap="round"/>'
+      + '<circle cx="40" cy="60" r="3" fill="#FF9DB4"/><circle cx="58" cy="64" r="3" fill="#8FD9BE"/>';
+  }
+  if(name === 'book'){
+    return '<path d="M50 32c-10-7-22-9-32-8v44c10-1 22 1 32 8 10-7 22-9 32-8V24c-10-1-22 1-32 8z" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<path d="M50 32v44" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<path d="M26 36c6 0 12 1 17 4M26 48c6 0 12 1 17 4" stroke="#C9B79A" stroke-width="3" stroke-linecap="round"/>'
+      + '<path d="M74 36c-6 0-12 1-17 4M74 48c-6 0-12 1-17 4" stroke="#C9B79A" stroke-width="3" stroke-linecap="round"/>';
+  }
+  if(name === 'teach'){
+    return '<rect x="30" y="18" width="52" height="38" rx="4" fill="#2F6B57" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<path d="M38 29h26M38 39h16" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>'
+      + '<path d="M22 86l14-30 6 4-12 28z" fill="#C98A55" stroke="#3E2F2A" stroke-width="3.5" stroke-linejoin="round"/>'
+      + '<circle cx="42" cy="54" r="3" fill="#FFC94D"/>'
+      + '<path d="M68 62h20M74 70h14" stroke="#9AA7B5" stroke-width="4" stroke-linecap="round"/>';
+  }
+  if(name === 'broom'){
+    return '<path d="M66 12l10 10-32 38-10-10z" fill="#C98A55" stroke="#3E2F2A" stroke-width="4" stroke-linejoin="round"/>'
+      + '<path d="M34 50l16 16-10 18-18-4-3-16z" fill="#FFC94D" stroke="#3E2F2A" stroke-width="4" stroke-linejoin="round"/>'
+      + '<path d="M30 62l8 8M24 70l8 8" stroke="#3E2F2A" stroke-width="3" stroke-linecap="round"/>';
+  }
+  if(name === 'mic' || name === 'speech'){
+    return '<rect x="41" y="16" width="18" height="36" rx="9" fill="#8E7BE0" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<path d="M32 46c0 11 8 19 18 19s18-8 18-19" fill="none" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round"/>'
+      + '<path d="M50 65v14M37 84h26" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round"/>'
+      + '<path d="M22 28l8 4M78 28l-8 4" stroke="#FFC94D" stroke-width="5" stroke-linecap="round"/>';
+  }
+  if(name === 'bandage'){
+    return '<g transform="rotate(-35 50 50)"><rect x="22" y="36" width="56" height="28" rx="14" fill="#FFD9B8" stroke="#3E2F2A" stroke-width="5"/><rect x="42" y="42" width="16" height="16" rx="4" fill="#F2C9A0" stroke="#3E2F2A" stroke-width="3"/>'
+      + '<circle cx="34" cy="50" r="2" fill="#3E2F2A"/><circle cx="40" cy="58" r="2" fill="#3E2F2A"/><circle cx="66" cy="50" r="2" fill="#3E2F2A"/><circle cx="60" cy="58" r="2" fill="#3E2F2A"/></g>';
+  }
+  if(name === 'team'){
+    return '<circle cx="28" cy="44" r="12" fill="#FFD9B8" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<circle cx="50" cy="34" r="13" fill="#FFD9B8" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<circle cx="72" cy="44" r="12" fill="#FFD9B8" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<path d="M12 78c2-14 8-20 16-20s14 6 16 20z" fill="#8FC7F0" stroke="#3E2F2A" stroke-width="4" stroke-linejoin="round"/>'
+      + '<path d="M34 78c2-16 8-24 16-24s14 8 16 24z" fill="#FF9DB4" stroke="#3E2F2A" stroke-width="4" stroke-linejoin="round"/>'
+      + '<path d="M56 78c2-14 8-20 16-20s14 6 16 20z" fill="#FFC94D" stroke="#3E2F2A" stroke-width="4" stroke-linejoin="round"/>';
+  }
+  if(name === 'whistle'){
+    return '<circle cx="38" cy="58" r="19" fill="#FFC94D" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<circle cx="38" cy="58" r="7" fill="#FFF6E7" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<path d="M55 50h27a7 7 0 0 1 0 14H55z" fill="#FFC94D" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<path d="M72 50V36" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round"/>'
+      + '<circle cx="72" cy="33" r="6" fill="none" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<path d="M20 30l6 7M14 44l8 2" stroke="#FF8A3D" stroke-width="4" stroke-linecap="round"/>';
+  }
+  if(name === 'ear'){
+    return '<path d="M66 26c-18-10-38 2-38 24 0 15 9 22 9 32 0 6 5 10 11 8" fill="none" stroke="#3E2F2A" stroke-width="12" stroke-linecap="round"/>'
+      + '<path d="M60 34c-12-6-24 2-24 16 0 12 8 18 8 28" fill="none" stroke="#FFD9B8" stroke-width="7" stroke-linecap="round"/>'
+      + '<path d="M44 50c0-6 5-9 10-7" fill="none" stroke="#3E2F2A" stroke-width="4" stroke-linecap="round"/>';
+  }
+  if(name === 'leaf'){
+    return '<path d="M22 78C22 44 46 22 80 20c2 32-20 58-58 58z" fill="#8FD9BE" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<path d="M22 78l40-40" stroke="#3E2F2A" stroke-width="4" stroke-linecap="round"/>'
+      + '<path d="M42 58l-2-14M56 44l-2-12" stroke="#3E2F2A" stroke-width="3" stroke-linecap="round" opacity=".5"/>';
+  }
+  if(name === 'brake' || name === 'wheel'){
+    return '<circle cx="46" cy="52" r="26" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="8"/>'
+      + '<circle cx="46" cy="52" r="8" fill="#3E2F2A"/>'
+      + '<path d="M46 26v10M46 68v10M20 52h10M62 52h10" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round"/>'
+      + '<path d="M78 22l14-10M80 34h16" stroke="#D95757" stroke-width="5" stroke-linecap="round"/>';
+  }
+  if(name === 'home'){
+    return '<path d="M14 48L50 18l36 30v38H14z" fill="#FFF3D6" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<rect x="42" y="58" width="16" height="28" rx="3" fill="#FF8A3D" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<rect x="24" y="52" width="12" height="12" rx="2" fill="#BFE3FA" stroke="#3E2F2A" stroke-width="3.5"/>';
+  }
+  if(name === 'ball'){
+    return '<circle cx="50" cy="52" r="28" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<path d="M50 34l12 9-5 14H43l-5-14z" fill="#3E2F2A"/>'
+      + '<path d="M50 24v10M26 44l12 4M74 44l-12 4M34 76l9-12M66 76l-9-12" stroke="#3E2F2A" stroke-width="4"/>';
+  }
+  if(name === 'medal'){
+    return '<path d="M36 16l14 22M64 16L50 38" stroke="#4F9FE0" stroke-width="8" stroke-linecap="round"/>'
+      + '<circle cx="50" cy="56" r="22" fill="#FFC94D" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<path d="M50 42l4 9 10 1-7 7 2 10-9-5-9 5 2-10-7-7 10-1z" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="3" stroke-linejoin="round"/>';
+  }
+  if(name === 'speechbubble'){
+    return '<path d="M18 24h64v38H46L30 76V62H18z" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<path d="M30 38h40M30 50h26" stroke="#9AA7B5" stroke-width="4" stroke-linecap="round"/>';
+  }
+  if(name === 'clock'){
+    return '<circle cx="50" cy="52" r="28" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<path d="M50 32v21l13 8" fill="none" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round"/>'
+      + '<path d="M34 14l-8 8M66 14l8 8" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round"/>';
+  }
+  if(name === 'pencil'){
+    return '<path d="M24 78l5-17 38-38 12 12-38 38z" fill="#FFC94D" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<path d="M67 23l12 12M29 61l10 10" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<path d="M24 78l2-8 6 6z" fill="#3E2F2A"/>';
+  }
+  if(name === 'progress'){
+    return '<path d="M14 80h72" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round"/>'
+      + '<path d="M22 70l18-20 12 10 24-28" fill="none" stroke="#3FBFA0" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>'
+      + '<path d="M66 30h12v12" fill="none" stroke="#3FBFA0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>';
+  }
+  if(name === 'shop'){
+    return '<rect x="20" y="42" width="60" height="40" rx="4" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<path d="M16 42l8-20h52l8 20z" fill="#FF9DB4" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<path d="M34 42v-20M50 42v-20M66 42v-20" stroke="#FFFFFF" stroke-width="4"/>'
+      + '<rect x="42" y="58" width="16" height="24" rx="2" fill="#BFE3FA" stroke="#3E2F2A" stroke-width="4"/>';
+  }
+  if(name === 'grandma'){
+    return '<circle cx="50" cy="54" r="24" fill="#FFD9B8" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<path d="M26 46a24 24 0 0 1 48 0" fill="#D8D8D8" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<circle cx="50" cy="22" r="9" fill="#D8D8D8" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<circle cx="41" cy="54" r="7" fill="none" stroke="#3E2F2A" stroke-width="3"/><circle cx="59" cy="54" r="7" fill="none" stroke="#3E2F2A" stroke-width="3"/>'
+      + '<path d="M48 54h4" stroke="#3E2F2A" stroke-width="3"/>'
+      + '<path d="M44 68q6 5 12 0" fill="none" stroke="#3E2F2A" stroke-width="3.5" stroke-linecap="round"/>';
+  }
+  if(name === 'luggage'){
+    return '<rect x="26" y="34" width="48" height="48" rx="8" fill="#8FC7F0" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<path d="M38 34V22h24v12" fill="none" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round"/>'
+      + '<path d="M26 54h48M50 34v48" stroke="#FFFFFF" stroke-width="4"/>'
+      + '<circle cx="36" cy="86" r="5" fill="#3E2F2A"/><circle cx="64" cy="86" r="5" fill="#3E2F2A"/>';
+  }
+  if(name === 'angry'){
+    return '<circle cx="50" cy="54" r="28" fill="#FFD9B8" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<path d="M28 40l15 7M72 40l-15 7" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round"/>'
+      + '<circle cx="40" cy="54" r="3.8" fill="#3E2F2A"/><circle cx="60" cy="54" r="3.8" fill="#3E2F2A"/>'
+      + '<path d="M40 70q10-8 20 0" fill="none" stroke="#3E2F2A" stroke-width="4" stroke-linecap="round"/>'
+      + '<path d="M16 28l9 5M84 28l-9 5M18 40l8 1M82 40l-8 1" stroke="#D95757" stroke-width="4" stroke-linecap="round"/>';
+  }
+  if(name === 'stage'){
+    return '<path d="M16 18h68v14H16z" fill="#D95757" stroke="#3E2F2A" stroke-width="4" stroke-linejoin="round"/>'
+      + '<path d="M18 32h14v48c-8 0-14-5-14-11z" fill="#FF9DB4" stroke="#3E2F2A" stroke-width="4" stroke-linejoin="round"/>'
+      + '<path d="M82 32H68v48c8 0 14-5 14-11z" fill="#FF9DB4" stroke="#3E2F2A" stroke-width="4" stroke-linejoin="round"/>'
+      + '<rect x="34" y="42" width="32" height="34" rx="4" fill="#FFF6E7" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<path d="M50 47l4 8 9 1-6 6 1 9-8-4-8 4 1-9-6-6 9-1z" fill="#FFC94D" stroke="#3E2F2A" stroke-width="2.5" stroke-linejoin="round"/>'
+      + '<path d="M10 86h80" stroke="#3E2F2A" stroke-width="6" stroke-linecap="round"/>';
+  }
+  if(name === 'star'){
+    return '<path d="M50 14l11 23 25 3-18 18 4 25-22-12-22 12 4-25L14 40l25-3z" fill="#FFC94D" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>';
+  }
+  if(name === 'tree'){
+    return '<rect x="44" y="56" width="12" height="28" rx="4" fill="#C98A55" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<circle cx="50" cy="42" r="27" fill="#8FD9BE" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<circle cx="36" cy="30" r="4" fill="#FFFFFF" opacity=".8"/>';
+  }
+  if(name === 'note'){
+    return '<path d="M22 16h42l16 16v50a6 6 0 0 1-6 6H22a6 6 0 0 1-6-6V22a6 6 0 0 1 6-6z" fill="#FFF3D6" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<path d="M64 16v16h16" fill="#FFD98A" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+      + '<path d="M30 46h30M30 60h20" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round"/>';
+  }
+  if(name === 'wind'){
+    return '<path d="M12 34h42c8 0 13-5 13-11S62 12 55 13" fill="none" stroke="#7FB6E6" stroke-width="6" stroke-linecap="round"/>'
+      + '<path d="M12 54h56c8 0 13 5 13 11s-5 11-13 11" fill="none" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round"/>'
+      + '<path d="M12 74h26" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round"/>';
+  }
+  if(name === 'thermometer'){
+    return '<rect x="40" y="16" width="20" height="56" rx="10" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<rect x="44" y="38" width="12" height="28" rx="4" fill="#D95757"/>'
+      + '<circle cx="50" cy="78" r="12" fill="#D95757" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<path d="M50 22v10M46 26h8" stroke="#D95757" stroke-width="4" stroke-linecap="round"/>';
+  }
+  if(name === 'juice'){
+    return '<rect x="32" y="30" width="36" height="54" rx="5" fill="#FFC94D" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<rect x="32" y="30" width="36" height="18" rx="3" fill="#FF9DB4" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<path d="M42 18v12M58 18v12" stroke="#3E2F2A" stroke-width="4" stroke-linecap="round"/>'
+      + '<path d="M50 18v-6" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round"/>'
+      + '<circle cx="42" cy="50" r="3" fill="#FFFFFF" opacity=".7"/><circle cx="56" cy="58" r="3" fill="#FFFFFF" opacity=".7"/>'
+      + '<path d="M36 66h28" stroke="#FFFFFF" stroke-width="3" opacity=".6"/>';
+  }
+  if(name === 'flower'){
+    return '<circle cx="50" cy="32" r="10" fill="#FF9DB4" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<circle cx="32" cy="44" r="10" fill="#FF9DB4" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<circle cx="68" cy="44" r="10" fill="#FF9DB4" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<circle cx="38" cy="62" r="10" fill="#FF9DB4" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<circle cx="62" cy="62" r="10" fill="#FF9DB4" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<circle cx="50" cy="48" r="8" fill="#FFD166" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<path d="M50 72v18" stroke="#8FD9BE" stroke-width="5" stroke-linecap="round"/>'
+      + '<path d="M50 82l-8-6M50 78l8-6" fill="none" stroke="#8FD9BE" stroke-width="4" stroke-linecap="round"/>';
+  }
+  return '<circle cx="50" cy="50" r="26" fill="#FFE7BE" stroke="#3E2F2A" stroke-width="5"/>'
+    + '<path d="M50 36v18M50 62v2" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round"/>';
+}
+function pictoSvg(name, extra){
+  return '<svg viewBox="0 0 100 100" aria-hidden="true"' + (extra ? ' class="' + extra + '"' : '') + '>' + picto(name) + '</svg>';
+}
+/* 兩個圖示組合成一個小情境圖 */
+function exIcon(keys){
+  var k = (keys && keys.length) ? keys : ['star'];
+  var g = '<svg viewBox="0 0 100 100" aria-hidden="true">' + picto(k[0]);
+  if(k[1]){ g += '<g transform="translate(46,46) scale(.54)">' + picto(k[1]) + '</g>'; }
+  g += '</svg>';
+  return g;
+}
+
+/* Q 版小朋友（200×260） */
+function kid(o){
+  o = o || {};
+  var skin = o.skin || '#FFD9B8';
+  var hair = o.hair || '#4A342B';
+  var shirt = o.shirt || '#4F9FE0';
+  var mood = o.mood || 'happy';
+  var style = o.style || 'short';
+  var g = '';
+  g += '<ellipse cx="100" cy="248" rx="56" ry="9" fill="#3E2F2A" opacity=".12"/>';
+  g += '<rect x="78" y="198" width="17" height="40" rx="8" fill="#6B7C99" stroke="#3E2F2A" stroke-width="5"/>'
+    + '<rect x="105" y="198" width="17" height="40" rx="8" fill="#6B7C99" stroke="#3E2F2A" stroke-width="5"/>'
+    + '<ellipse cx="86" cy="240" rx="14" ry="9" fill="#3E2F2A"/>'
+    + '<ellipse cx="113" cy="240" rx="14" ry="9" fill="#3E2F2A"/>';
+  g += '<path d="M64 156c0-13 6-21 18-24h36c12 3 18 11 18 24v38c0 10-7 17-17 17H81c-10 0-17-7-17-17z" fill="' + shirt + '" stroke="#3E2F2A" stroke-width="6" stroke-linejoin="round"/>';
+
+  g += '<path d="M70 158c-11 10-16 26-15 42" fill="none" stroke="#3E2F2A" stroke-width="19" stroke-linecap="round"/>'
+    + '<path d="M70 158c-11 10-16 26-15 42" fill="none" stroke="' + skin + '" stroke-width="11" stroke-linecap="round"/>'
+    + '<path d="M130 158c11 10 16 26 15 42" fill="none" stroke="#3E2F2A" stroke-width="19" stroke-linecap="round"/>'
+    + '<path d="M130 158c11 10 16 26 15 42" fill="none" stroke="' + skin + '" stroke-width="11" stroke-linecap="round"/>'
+    + '<circle cx="55" cy="203" r="10" fill="' + skin + '" stroke="#3E2F2A" stroke-width="5"/>'
+    + '<circle cx="145" cy="203" r="10" fill="' + skin + '" stroke="#3E2F2A" stroke-width="5"/>';
+  g += '<circle cx="52" cy="96" r="10" fill="' + skin + '" stroke="#3E2F2A" stroke-width="5"/>'
+    + '<circle cx="148" cy="96" r="10" fill="' + skin + '" stroke="#3E2F2A" stroke-width="5"/>'
+    + '<circle cx="100" cy="92" r="48" fill="' + skin + '" stroke="#3E2F2A" stroke-width="6"/>';
+  if(style === 'bob'){
+    g += '<path d="M50 92c0-30 20-50 50-50s50 20 50 50v26c0 6-6 10-12 8-6-2-8-8-8-14v-16H70v16c0 6-2 12-8 14-6 2-12-2-12-8z" fill="' + hair + '" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>';
+  }else if(style === 'bun'){
+    g += '<circle cx="100" cy="34" r="16" fill="' + hair + '" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<path d="M54 88c0-28 20-46 46-46s46 18 46 46c-10-14-24-20-46-20s-36 6-46 20z" fill="' + hair + '" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>';
+  }else if(style === 'pigtail'){
+    g += '<circle cx="44" cy="108" r="17" fill="' + hair + '" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<circle cx="156" cy="108" r="17" fill="' + hair + '" stroke="#3E2F2A" stroke-width="5"/>'
+      + '<path d="M54 88c0-28 20-46 46-46s46 18 46 46c-12-16-26-22-46-22s-34 6-46 22z" fill="' + hair + '" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>';
+  }else{
+    g += '<path d="M54 90c0-29 20-48 46-48s46 19 46 48c-8-8-14-18-18-26-10 8-24 12-40 10-12-2-22-8-26-14-4 10-6 20-8 30z" fill="' + hair + '" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>';
+  }
+  if(mood === 'happy'){
+    g += '<circle cx="82" cy="96" r="6.5" fill="#3E2F2A"/><circle cx="118" cy="96" r="6.5" fill="#3E2F2A"/>'
+      + '<circle cx="84" cy="94" r="2" fill="#FFFFFF"/><circle cx="120" cy="94" r="2" fill="#FFFFFF"/>';
+  }else if(mood === 'wow'){
+    g += '<circle cx="82" cy="96" r="8" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="4"/><circle cx="118" cy="96" r="8" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="4"/>'
+      + '<circle cx="82" cy="97" r="4" fill="#3E2F2A"/><circle cx="118" cy="97" r="4" fill="#3E2F2A"/>';
+  }else{
+    g += '<path d="M75 96q7-6 14 0M111 96q7-6 14 0" fill="none" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round"/>';
+  }
+  g += '<circle cx="68" cy="114" r="8" fill="#FF9DB4" opacity=".45"/><circle cx="132" cy="114" r="8" fill="#FF9DB4" opacity=".45"/>';
+  g += mood === 'wow'
+    ? '<ellipse cx="100" cy="120" rx="9" ry="11" fill="#D95757" stroke="#3E2F2A" stroke-width="3.5"/>'
+    : '<path d="M88 116q12 12 24 0" fill="none" stroke="#3E2F2A" stroke-width="5" stroke-linecap="round"/>';
+  return '<g>' + g + '</g>';
+}
+
+/* 貓頭鷹老師表情（120×120） */
+function owlFace(mood){
+  var eyes = mood === 'think'
+    ? '<path d="M34 52q10-8 20 0M66 52q10-8 20 0" fill="none" stroke="#3E2F2A" stroke-width="4.5" stroke-linecap="round"/>'
+    : '<circle cx="44" cy="54" r="8" fill="#3E2F2A"/><circle cx="76" cy="54" r="8" fill="#3E2F2A"/><circle cx="47" cy="51" r="2.6" fill="#FFFFFF"/><circle cx="79" cy="51" r="2.6" fill="#FFFFFF"/>';
+  var mouth = mood === 'think'
+    ? '<path d="M52 74q8 4 16 0" fill="none" stroke="#3E2F2A" stroke-width="4" stroke-linecap="round"/>'
+    : '<path d="M50 72q10 12 20 0" fill="none" stroke="#3E2F2A" stroke-width="4.5" stroke-linecap="round"/>';
+  return '<svg viewBox="0 0 120 120" aria-hidden="true">'
+    + '<path d="M60 12c-26 0-42 19-42 43 0 27 19 45 42 45s42-18 42-45c0-24-16-43-42-43z" fill="#FFC94D" stroke="#3E2F2A" stroke-width="5"/>'
+    + '<path d="M30 26l-3-17 17 8zM90 26l3-17-17 8z" fill="#FFC94D" stroke="#3E2F2A" stroke-width="5" stroke-linejoin="round"/>'
+    + '<ellipse cx="60" cy="80" rx="24" ry="19" fill="#FFF3D6" stroke="#3E2F2A" stroke-width="4"/>'
+    + '<circle cx="44" cy="54" r="15" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="4"/>'
+    + '<circle cx="76" cy="54" r="15" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="4"/>'
+    + eyes
+    + '<path d="M60 64l7 10H53z" fill="#FF8A3D" stroke="#3E2F2A" stroke-width="3.5" stroke-linejoin="round"/>'
+    + mouth
+    + '</svg>';
+}
+
+/* 兩格漫畫式教學場景：兩張獨立小圖，手機上下排、箭頭自動轉向 */
+function kidFor(c, side){
+  if(side === 0){
+    if(c.id === 'c4') return {shirt:'#8E7BE0', style:'bob', mood:'happy'};
+    if(c.id === 'c5') return {shirt:'#F47C9C', style:'pigtail', mood:'wow'};
+    if(c.id === 'c6') return {shirt:'#E8A317', style:'bun', mood:'happy'};
+    if(c.id === 'c7') return {shirt:'#D24B6A', style:'pigtail', mood:'wow'};
+    if(c.id === 'c3') return {shirt:'#3FBFA0', style:'short', mood:'happy'};
+    if(c.id === 'c2') return {shirt:'#4F9FE0', style:'bob', mood:'wow'};
+    return {shirt:'#FF8A3D', style:'short', mood:'happy'};
+  }
+  if(c.id === 'c4') return {shirt:'#8E7BE0', style:'bun', mood:'happy'};
+  if(c.id === 'c7') return {shirt:'#3FBFA0', style:'bob', mood:'happy'};
+  return {shirt:'#3FBFA0', style:'pigtail', mood:'happy'};
+}
+
+function frameArt(c, side){
+  var sc = c.scene || {l:[c.art[0]], r:[c.art[1]]};
+  var keys = (side === 0 ? sc.l : sc.r) || [];
+  var chip = side === 0 ? c.flow.lw : c.flow.rw;
+  var label = side === 0 ? c.flow.left : c.flow.right;
+  var labelColor = (label === '結果') ? '#FF8A3D' : '#4F9FE0';
+  var k1 = keys[0], k2 = keys[1];
+  var chipW = chip.length * 26 + 34;
+  var labelW = label.length * 26 + 28;
+  var g = '<svg class="sframe" viewBox="0 0 340 330" role="img" aria-label="' + esc(label + '：' + chip) + '">'
+    + '<rect x="4" y="4" width="332" height="322" rx="28" fill="' + c.tint + '" stroke="#3E2F2A" stroke-width="5"/>'
+    + '<circle cx="300" cy="40" r="22" fill="#FFFFFF" opacity=".5"/>'
+    + '<circle cx="44" cy="286" r="16" fill="#FFFFFF" opacity=".45"/>'
+    + '<path d="M22 44l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#FFFFFF" opacity=".8"/>'
+    + '<ellipse cx="170" cy="262" rx="112" ry="26" fill="#FFFFFF" opacity=".45"/>'
+    + '<g transform="translate(12,104) scale(.58)">' + kid(kidFor(c, side)) + '</g>'
+    + '<g transform="translate(150,96) scale(1.24)">' + picto(k1) + '</g>';
+  if(k2){ g += '<g transform="translate(258,26) scale(.5)">' + picto(k2) + '</g>'; }
+  g += '<g transform="translate(16,14)">'
+    + '<rect x="0" y="0" width="' + chipW + '" height="46" rx="23" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="4"/>'
+    + '<text x="' + (chipW / 2) + '" y="32" text-anchor="middle" font-size="26" font-weight="900" fill="' + c.color + '" font-family="Noto Sans TC, PingFang TC, Microsoft JhengHei, sans-serif">' + esc(chip) + '</text></g>'
+    + '<rect x="' + (170 - labelW / 2) + '" y="270" width="' + labelW + '" height="46" rx="23" fill="' + labelColor + '" stroke="#3E2F2A" stroke-width="4"/>'
+    + '<text x="170" y="302" text-anchor="middle" font-size="26" font-weight="900" fill="#FFFFFF" font-family="Noto Sans TC, PingFang TC, Microsoft JhengHei, sans-serif">' + esc(label) + '</text>'
+    + '</svg>';
+  return g;
+}
+
+function sceneFrames(c){
+  var reverse = c.flow.dir === 'rl';
+  return '<div class="scene" role="img" aria-label="' + esc(c.flow.left + (reverse ? '與' : '到') + c.flow.right + '的看圖示意') + '">'
+    + '<div class="sf">' + frameArt(c, 0) + '</div>'
+    + '<span class="sarrow" aria-hidden="true">' + (reverse ? '←' : '→') + '</span>'
+    + '<div class="sf">' + frameArt(c, 1) + '</div>'
+    + '</div>';
+}
+
+/* 選單卡片小橫幅（360×120） */
+function cardBanner(c){
+  var l = (c.scene && c.scene.l ? c.scene.l[0] : c.art[0]);
+  var r = (c.scene && c.scene.r ? c.scene.r[0] : c.art[1]);
+  return '<svg class="banner-svg" viewBox="0 0 360 120" aria-hidden="true">'
+    + '<rect x="0" y="0" width="360" height="120" fill="' + c.tint + '"/>'
+    + '<circle cx="318" cy="22" r="26" fill="#FFFFFF" opacity=".55"/>'
+    + '<circle cx="40" cy="104" r="18" fill="#FFFFFF" opacity=".45"/>'
+    + '<g transform="translate(16,16) scale(.86)">' + picto(l) + '</g>'
+    + '<g transform="translate(96,40) scale(.54)">' + picto(r) + '</g>'
+    + '<path d="M104 60h44" stroke="#3E2F2A" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 7"/>'
+    + '<path d="M140 54l8 6-8 6" fill="none" stroke="#3E2F2A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>'
+    + '<rect x="170" y="30" width="174" height="42" rx="21" fill="#FFFFFF" stroke="#3E2F2A" stroke-width="4"/>'
+    + '<text x="257" y="58" text-anchor="middle" font-size="' + (c.short.length >= 8 ? 18 : 22) + '" font-weight="900" fill="' + c.color + '" font-family="Noto Sans TC, PingFang TC, Microsoft JhengHei, sans-serif">' + esc(c.short) + '</text>'
+    + '</svg>';
+}
+
+/* 題目情境圖（360×232）：大小三個圖示，下方一句看圖提示 */
+function qFigure(keys, tint, caption){
+  var k = (keys && keys.length) ? keys : ['star'];
+  var label = caption || '與題目相關的插圖';
+  var g = '<svg class="qfig-svg" viewBox="0 0 360 232" role="img" aria-label="' + esc(label) + '">'
+    + '<rect x="2" y="2" width="356" height="228" rx="28" fill="' + tint + '"/>'
+    + '<circle cx="314" cy="34" r="26" fill="#FFFFFF" opacity=".55"/>'
+    + '<circle cx="38" cy="198" r="28" fill="#FFFFFF" opacity=".42"/>'
+    + '<path d="M24 32l4 9 9 4-9 4-4 9-4-9-9-4 9-4z" fill="#FFFFFF" opacity=".9"/>'
+    + '<path d="M332 146l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#FFFFFF" opacity=".85"/>'
+    + '<ellipse cx="180" cy="204" rx="148" ry="15" fill="#FFFFFF" opacity=".5"/>'
+    + '<circle cx="116" cy="112" r="76" fill="#FFFFFF" opacity=".78"/>'
+    + '<circle cx="116" cy="112" r="76" fill="none" stroke="#3E2F2A" stroke-width="4" stroke-dasharray="3 10" opacity=".35"/>'
+    + '<g transform="translate(46,42) scale(1.4)">' + picto(k[0]) + '</g>'
+    + '<circle cx="268" cy="84" r="48" fill="#FFFFFF" opacity=".92"/>'
+    + '<g transform="translate(232,48) scale(.72)">' + picto(k[1] || 'star') + '</g>';
+  if(k[2]){
+    g += '<circle cx="276" cy="176" r="40" fill="#FFFFFF" opacity=".95"/>'
+      + '<g transform="translate(250,150) scale(.52)">' + picto(k[2]) + '</g>';
+  }else{
+    g += '<circle cx="276" cy="176" r="40" fill="#FFFFFF" opacity=".95"/>'
+      + '<g transform="translate(251,151) scale(.42)">' + owlFace('happy') + '</g>';
+  }
+  g += '</svg>'
+    + '<figcaption class="qfig-cap">' + esc(caption || '看圖想一想') + '</figcaption>';
+  return g;
+}
+
+/* 結果頁插圖 */
+function resultArt(stars){
+  var conf;
+  if(stars >= 2){
+    conf = '<circle cx="60" cy="60" r="7" fill="#FFC94D"/><circle cx="300" cy="80" r="9" fill="#FF9DB4"/>'
+      + '<rect x="92" y="26" width="10" height="10" rx="2" fill="#3FBFA0" transform="rotate(20 97 31)"/>'
+      + '<rect x="250" y="34" width="11" height="11" rx="2" fill="#8E7BE0" transform="rotate(-18 255 39)"/>'
+      + '<circle cx="264" cy="146" r="6" fill="#4F9FE0"/><circle cx="46" cy="140" r="5" fill="#FF8A3D"/>';
+  }else{
+    conf = '<circle cx="70" cy="56" r="5" fill="#FFC94D" opacity=".8"/><circle cx="286" cy="70" r="6" fill="#FF9DB4" opacity=".7"/>';
+  }
+  return '<svg class="result-art" viewBox="0 0 360 230" aria-hidden="true">'
+    + conf
+    + '<ellipse cx="180" cy="212" rx="120" ry="16" fill="#3E2F2A" opacity=".08"/>'
+    + '<g transform="translate(58,40) scale(1.16)">' + kid({shirt:'#FF8A3D', style:'pigtail', mood:'wow'}) + '</g>'
+    + '<g transform="translate(198,30)">' + owlFace(stars >= 2 ? 'happy' : 'think').replace('<svg ', '<svg width="128" height="128" ') + '</g>'
+    + '<g transform="translate(148,142) scale(.9)">' + picto('trophy') + '</g>'
+    + '</svg>';
+}
+
+/* 依題目內容挑圖：先比對關鍵詞，取前兩個不同的圖示 */
+var ART_RULES = [
+  ['冰淇淋', 'icecream'], ['雪糕', 'icecream'], ['肚子', 'tummy'], ['外套', 'coat'], ['花瓶', 'vase'],
+  ['小貓', 'cat'], ['貓', 'cat'], ['蛋糕', 'cake'], ['跑步', 'run'], ['強壯', 'muscle'],
+  ['颱風', 'typhoon'], ['停課', 'school'], ['學校', 'school'], ['圖書館', 'library'], ['裝修', 'library'],
+  ['道路', 'road'], ['校車', 'bus'], ['暴雨', 'rain'], ['大雨', 'rain'], ['下雨', 'rain'],
+  ['運動會', 'medal'], ['塌方', 'mountain'], ['山路', 'mountain'], ['旅行', 'luggage'],
+  ['功課', 'homework'], ['公園', 'park'], ['郊遊', 'park'], ['太陽', 'sun'], ['打球', 'ball'],
+  ['方案', 'board'], ['答應', 'promise'], ['妹妹', 'sister'], ['照顧', 'heart'],
+  ['考試', 'exam'], ['進步', 'progress'], ['複習', 'book'], ['小店', 'shop'], ['麵', 'noodles'],
+  ['書', 'book'], ['奶奶', 'grandma'], ['老師', 'teach'], ['打掃', 'broom'], ['乾淨', 'broom'],
+  ['上台', 'mic'], ['說話', 'speechbubble'], ['失敗', 'bandage'], ['齊心', 'team'], ['教練', 'whistle'],
+  ['聆聽', 'ear'], ['演講', 'mic'], ['空氣', 'leaf'], ['清新', 'leaf'], ['剎車', 'brake'],
+  ['乘客', 'bus'], ['巴士', 'bus'], ['家務', 'broom'], ['懂事', 'heart'], ['球隊', 'team'],
+  ['比賽', 'trophy'], ['成績', 'medal'], ['雨', 'cloud'], ['傘', 'umbrella'], ['熱', 'sun'],
+  ['冷', 'coat'], ['風', 'wind'], ['成功', 'trophy'], ['喜歡', 'heart'], ['開心', 'star']
+];
+
+function artKeysFor(text, c){
+  var out = [];
+  for(var i = 0; i < ART_RULES.length && out.length < 2; i++){
+    if(text.indexOf(ART_RULES[i][0]) >= 0 && out.indexOf(ART_RULES[i][1]) < 0){
+      out.push(ART_RULES[i][1]);
+    }
+  }
+  if(out.length === 0){
+    var sc = (c && c.scene) || null;
+    out.push(sc ? sc.l[0] : 'star');
+    if(sc && sc.r) out.push(sc.r[0]);
+  }
+  return out;
+}
+
+/* =========================================================
+   音效（Web Audio，自行合成，沒有外部檔案）
+   ========================================================= */
+var audioCtx = null;
+
+function ensureAudio(){
+  if(audioCtx){
+    if(audioCtx.state === 'suspended'){ try{ audioCtx.resume(); }catch(e){} }
+    return audioCtx;
+  }
+  try{
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC) return null;
+    audioCtx = new AC();
+  }catch(e){
+    audioCtx = null;
+  }
+  return audioCtx;
+}
+function beep(freq, start, dur, type, vol){
+  var ctx = audioCtx;
+  if(!ctx) return;
+  try{
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = type || 'sine';
+    o.frequency.value = freq;
+    var t0 = ctx.currentTime + start;
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.linearRampToValueAtTime(vol || 0.15, t0 + 0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g);
+    g.connect(ctx.destination);
+    o.start(t0);
+    o.stop(t0 + dur + 0.03);
+  }catch(e){}
+}
+function sfx(name){
+  if(state.muted) return;
+  if(!ensureAudio()) return;
+  if(name === 'click'){
+    beep(520, 0, 0.09, 'triangle', 0.09);
+    beep(760, 0.05, 0.08, 'triangle', 0.07);
+  }else if(name === 'place'){
+    beep(440, 0, 0.07, 'triangle', 0.09);
+  }else if(name === 'good'){
+    beep(660, 0, 0.14, 'sine', 0.16);
+    beep(880, 0.11, 0.16, 'sine', 0.15);
+    beep(1180, 0.24, 0.22, 'sine', 0.12);
+  }else if(name === 'bad'){
+    beep(250, 0, 0.16, 'sawtooth', 0.09);
+    beep(170, 0.14, 0.24, 'sawtooth', 0.09);
+  }else if(name === 'win'){
+    var notes = [523, 659, 784, 1046];
+    for(var i = 0; i < notes.length; i++){ beep(notes[i], i * 0.13, 0.32, 'sine', 0.14); }
+  }else if(name === 'star'){
+    beep(1180, 0, 0.1, 'sine', 0.11);
+    beep(1560, 0.08, 0.16, 'sine', 0.09);
+  }
+}
+
+var toastTimer = null;
+function toast(msg){
+  var el = $('#toast');
+  if(!el) return;
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ el.classList.remove('show'); }, 2200);
+}
+
+/* =========================================================
+   狀態
+   ========================================================= */
+var state = {
+  screen: 'home',
+  learn: 0,
+  muted: false,
+  cls: null,
+  mode: 0,
+  chips: [],
+  slots: [],
+  sel: -1,
+  order: [],
+  qi: 0,
+  correct: 0,
+  answered: false,
+  checked: false,
+  placed: [],
+  pool: [],
+  round: 0
+};
+
+var BEST_KEY = 'causal_game_best_v1';
+var MUTE_KEY = 'causal_game_mute_v1';
+
+function loadPrefs(){
+  try{
+    var raw = localStorage.getItem(BEST_KEY);
+    if(raw){
+      var o = JSON.parse(raw);
+      if(o && typeof o === 'object'){ state.best = o; }
+    }
+  }catch(e){ state.best = {}; }
+  if(!state.best){ state.best = {}; }
+  try{
+    if(localStorage.getItem(MUTE_KEY) === '1'){ state.muted = true; }
+  }catch(e){}
+}
+function saveBest(){
+  try{ localStorage.setItem(BEST_KEY, JSON.stringify(state.best)); }catch(e){}
+}
+function saveMute(){
+  try{ localStorage.setItem(MUTE_KEY, state.muted ? '1' : '0'); }catch(e){}
+}
+
+/* =========================================================
+   畫面切換
+   ========================================================= */
+function show(id){
+  $$('.screen').forEach(function(s){ s.classList.remove('is-active'); });
+  var el = document.getElementById('s-' + id);
+  if(el){ el.classList.add('is-active'); }
+  state.screen = id;
+  try{ window.scrollTo(0, 0); }catch(e){}
+  if(id === 'learn'){ renderLearn(); }
+  if(id === 'menu'){ renderMenu(); }
+}
+
+function updateSoundButtons(){
+  $$('.js-sound').forEach(function(btn){
+    btn.innerHTML = state.muted ? ICON.muted : ICON.sound;
+    btn.setAttribute('aria-pressed', state.muted ? 'true' : 'false');
+    btn.setAttribute('aria-label', state.muted ? '音效已關閉，點擊開啟' : '音效已開啟，點擊關閉');
+  });
+}
+
+/* =========================================================
+   首頁
+   ========================================================= */
+function renderHomeStrip(){
+  var box = $('#homeStrip');
+  if(!box) return;
+  var tiles = $$('.htile .hi');
+  var tileIcons = [['cloud','umbrella'], ['note'], ['board']];
+  tiles.forEach(function(el, i){
+    var keys = tileIcons[i] || ['star'];
+    var svg = '<svg viewBox="0 0 100 100" aria-hidden="true">' + picto(keys[0]);
+    if(keys[1]){ svg += '<g transform="translate(46,46) scale(.52)">' + picto(keys[1]) + '</g>'; }
+    svg += '</svg>';
+    el.innerHTML = svg;
+  });
+  var html = '';
+  DATA.forEach(function(c, i){
+    html += '<button type="button" data-learn="' + i + '" style="border-color:' + c.color + '">'
+      + '<span class="cs-ico" style="background:' + c.tint + '">' + pictoSvg(c.art[0]) + '</span>'
+      + '<span style="color:' + c.color + '">' + (i + 1) + '</span> ' + esc(c.short) + '</button>';
+  });
+  box.innerHTML = html;
+}
+
+/* =========================================================
+   教學
+   ========================================================= */
+function renderLearn(){
+  var c = DATA[state.learn];
+  var root = $('#learnRoot');
+  var html = '';
+
+  html += '<div class="learn-dots" aria-label="七組關聯詞">';
+  DATA.forEach(function(d, i){
+    var act = (i === state.learn);
+    html += '<button type="button" data-learn="' + i + '"' + (act ? ' aria-current="true"' : '') + ' aria-label="第' + d.no + '組 ' + esc(d.short) + '（' + (act ? '目前顯示' : '點擊查看') + '）"'
+      + (act ? ' style="background:' + d.color + ';border-color:#3E2F2A"' : '') + '>' + (i + 1) + '</button>';
+  });
+  html += '</div>';
+
+  html += '<article class="panel">';
+  html += '<div class="teach-grid">';
+  html += '<div class="art-col"><div class="art-box" style="background:' + c.tint + '">' + classArt(c) + '</div>'
+    + '<p class="art-cap">看圖：' + esc(c.scene.cap) + '</p></div>';
+  html += '<div>';
+  html += '<p class="kicker" style="color:' + c.color + '">第 ' + c.no + ' 組 · ' + esc(c.tag) + '</p>';
+  html += '<h2 class="pattern">' + esc(c.name) + '</h2>';
+  html += '<p class="intro">' + esc(c.intro) + '</p>';
+  html += '<ul class="rules">';
+  c.rules.forEach(function(r, i){
+    html += '<li><span class="num" style="background:' + c.color + '">' + (i + 1) + '</span><span>' + esc(r) + '</span></li>';
+  });
+  html += '</ul>';
+  html += '<div class="examples">';
+  c.examples.forEach(function(ex, i){
+    var ico = (c.exArt && c.exArt[i]) ? c.exArt[i] : [c.art[0]];
+    html += '<div class="ex"><span class="ex-ico" style="background:' + c.tint + '">' + exIcon(ico) + '</span>'
+      + '<span class="ex-txt"><span class="lab">例句 ' + (i + 1) + '</span><span>' + esc(ex) + '</span></span></div>';
+  });
+  html += '</div>';
+  html += '<div class="tip"><span class="tip-owl">' + owlFace('happy') + '</span><span>口訣：' + esc(c.tip) + '</span></div>';
+  html += '</div>';
+  html += '</div>';
+
+  html += '<div class="learn-controls">'
+    + '<button type="button" class="btn btn-ghost btn-sm" data-learn-prev="1">← 上一組</button>'
+    + '<button type="button" class="btn btn-primary btn-sm" data-practice="1">去挑戰</button>'
+    + '<button type="button" class="btn btn-ghost btn-sm" data-learn-next="1">下一組 →</button>'
+    + '</div>';
+  html += '</article>';
+
+  root.innerHTML = html;
+}
+
+/* =========================================================
+   遊戲選單
+   ========================================================= */
+function starsHtml(n){
+  var s = '<span class="stars" aria-label="已獲得 ' + n + ' 顆星，共 3 顆">';
+  for(var i = 0; i < 3; i++){ s += starSvg(i < n); }
+  s += '</span>';
+  return s;
+}
+function modeButton(c, mode, name, desc){
+  var key = c.id + '-m' + (mode + 1);
+  var stars = state.best[key] || 0;
+  return '<button type="button" class="mode-btn" data-mode="' + mode + '" data-cls="' + c.id + '">'
+    + '<span class="mi" style="background:' + c.tint + '">' + pictoSvg(mode === 0 ? 'note' : 'board') + '</span>'
+    + '<span class="mt">' + name + ' · 6 題<small>' + desc + '</small></span>'
+    + starsHtml(stars)
+    + '</button>';
+}
+function renderMenu(){
+  var html = '<div class="menu-head"><h2>選一組關聯詞</h2>'
+    + '<span style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center">'
+    + '<span class="chip">每組 2 種玩法 · 每種 6 題</span>'
+    + '<button type="button" class="btn btn-ghost btn-sm" data-go="learn">先看教學</button>'
+    + '</span></div>';
+  html += '<div class="menu-grid">';
+  DATA.forEach(function(c){
+    html += '<article class="mcard" style="border-color:' + c.tint + '">';
+    html += '<div class="mcard-banner">' + cardBanner(c) + '</div>'
+      + '<div class="mcard-head">'
+      + '<div class="mcard-ico" style="background:' + c.tint + ';color:' + c.color + '">' + pictoSvg(c.art[0]) + '</div>'
+      + '<div class="t"><b>' + esc(c.short) + '</b><span>第 ' + c.no + ' 組 · ' + esc(c.tag) + '</span></div>'
+      + '</div>';
+    html += '<div class="mcard-body">'
+      + modeButton(c, 0, '貼一貼', '點詞語貼紙填進句子')
+      + modeButton(c, 1, '排一排', '排回正確順序')
+      + '</div></article>';
+  });
+  html += '</div>';
+  html += '<p class="menu-note">答對 4 題以上可得 1 至 3 顆星，全部答對拿 3 顆星；星星會保存在這部裝置上。</p>';
+  $('#menuRoot').innerHTML = html;
+}
+
+/* =========================================================
+   遊戲
+   ========================================================= */
+function currentItem(){
+  var items = state.mode === 0 ? state.cls.m1 : state.cls.m2;
+  return items[state.order[state.qi]];
+}
+function startGame(clsId, mode){
+  var cls = null;
+  for(var i = 0; i < DATA.length; i++){ if(DATA[i].id === clsId){ cls = DATA[i]; break; } }
+  if(!cls) return;
+  state.cls = cls;
+  state.mode = mode;
+  var items = mode === 0 ? cls.m1 : cls.m2;
+  var idx = [];
+  for(var k = 0; k < items.length; k++){ idx.push(k); }
+  state.order = shuffle(idx);
+  state.qi = 0;
+  state.correct = 0;
+  show('game');
+  renderGame();
+}
+
+function renderGame(){
+  var c = state.cls;
+  var item = currentItem();
+
+  state.answered = false;
+  state.checked = false;
+  state.placed = [];
+  state.round += 1;
+
+  var modeName = (state.mode === 0 ? '貼一貼' : '排一排');
+  $('#gameTop').innerHTML = '<button type="button" class="icon-btn" data-quit="1" aria-label="返回遊戲選單">' + ICON.back + '</button>'
+    + '<div class="tb-title">句子小挑戰<small>' + modeName + ' · 第 ' + (state.qi + 1) + ' 題</small></div>'
+    + '<span class="pnum" style="font-size:1em" id="scoreNow">答對 ' + state.correct + ' 題</span>';
+
+  var pic = picFor(c, state.order[state.qi]);
+
+  var html = '<div class="progress-row"><div class="pbar"><i style="width:' + (state.qi / 6 * 100) + '%"></i></div>'
+    + '<span class="pnum" id="progText">已完成 ' + state.qi + ' 題</span></div>';
+
+  if(state.mode === 0){
+    state.chips = buildChips(item);
+    state.slots = [];
+    for(var si = 0; si < item.opts[item.ans].length; si++){ state.slots.push(null); }
+    state.sel = -1;
+
+    html += '<div class="qcard"><p class="qlabel">貼一貼 · 把詞語貼進句子</p>'
+      + '<div class="qbody"><figure class="qfig">' + qFigure(pic.k, c.tint, pic.cap) + '</figure>'
+      + '<div class="qcontent"><p class="qtext" id="qtext">' + buildFillSentence(item) + '</p>'
+      + '<div class="bank" id="bankWrap" aria-label="詞語貼紙"></div>'
+      + '<p class="bank-hint" id="bankHint">先點句子裏的空格，再點下面的詞語貼紙；貼好後按「檢查答案」。貼錯了，點空格上的貼紙就可以取回。</p>'
+      + '<div class="check-row"><button type="button" class="btn btn-primary" id="checkBtn" data-check="1" disabled>檢查答案</button></div>'
+      + '</div></div></div>';
+  }else{
+    state.pool = shuffle(item.c.map(function(_, i){ return i; }));
+    html += '<div class="qcard"><p class="qlabel">排一排 · 把句子排通順</p>'
+      + '<div class="qbody"><figure class="qfig">' + qFigure(pic.k, c.tint, pic.cap) + '</figure>'
+      + '<div class="qcontent">'
+      + '<p class="qtext" style="font-size:clamp(19px,2.1vw,27px);line-height:1.6">把下面的句子卡按正確順序排成一句通順的話。</p>'
+      + '<div class="slots" id="slotWrap"></div>'
+      + '<p class="pool-hint">點句子卡放到上面；點已放好的卡可以取回。</p>'
+      + '<div class="pool" id="poolWrap"></div>'
+      + '</div></div></div>';
+  }
+
+  html += '<div class="feedback" id="fb" role="status" aria-live="polite"></div>';
+  $('#gameRoot').innerHTML = html;
+
+  if(state.mode === 0){ paintFill(); } else { paintMode2(); }
+}
+
+/* 產生貼一貼的句子：空格是可點的貼紙位 */
+function buildFillSentence(item){
+  var parts = item.q.split('{}');
+  var html = '';
+  for(var i = 0; i < parts.length; i++){
+    html += esc(parts[i]);
+    if(i < parts.length - 1){
+      html += '<button type="button" class="fslot" id="slot' + i + '" data-fslot="' + i + '" aria-label="第' + (i + 1) + '個空格，未貼"><span class="sx">貼這裏</span></button>';
+    }
+  }
+  return html;
+}
+
+/* 每次重新抽一組詞語貼紙：正確詞＋隨機干擾詞，位置每次不同 */
+var CHIP_POOL = ['因為','所以','之所以','是因為','既然','就','由於','因此','正因為','才','雖然','但是','如果','只要','即使','於是','不但','而且','卻','便'];
+function buildChips(item){
+  var words = item.opts[item.ans].slice();
+  var plain = item.q.replace(/\{\}/g, '');
+  var pool = [];
+  for(var i = 0; i < CHIP_POOL.length; i++){
+    var w = CHIP_POOL[i];
+    if(words.indexOf(w) >= 0) continue;
+    if(plain.indexOf(w) >= 0) continue;
+    pool.push(w);
+  }
+  var need = 6 - words.length;
+  var picked = shuffle(pool).slice(0, need);
+  return shuffle(words.concat(picked)).map(function(w){ return { w: w, used: false }; });
+}
+function fillSentence(q, words){
+  var parts = q.split('{}');
+  var out = '';
+  for(var i = 0; i < parts.length; i++){
+    out += parts[i];
+    if(i < parts.length - 1){ out += (words[i] || ''); }
+  }
+  return out;
+}
+
+function paintMode2(){
+  var item = currentItem();
+  var slotHtml = '';
+  for(var i = 0; i < 3; i++){
+    var ci = state.placed[i];
+    if(ci === undefined){
+      slotHtml += '<div class="slot empty"><span class="sn">' + (i + 1) + '</span><span>放句子卡</span></div>';
+    }else{
+      slotHtml += '<button type="button" class="slot filled" data-slot="' + i + '"><span class="sn">' + (i + 1) + '</span><span>' + esc(item.c[ci]) + '</span></button>';
+    }
+  }
+  $('#slotWrap').innerHTML = slotHtml;
+
+  var poolHtml = '';
+  state.pool.forEach(function(ci){
+    if(state.placed.indexOf(ci) >= 0) return;
+    poolHtml += '<button type="button" class="chunk" data-chunk="' + ci + '">' + esc(item.c[ci]) + '</button>';
+  });
+  $('#poolWrap').innerHTML = poolHtml;
+}
+
+function updateScore(){
+  var el = $('#scoreNow');
+  if(el){ el.textContent = '答對 ' + state.correct + ' 題'; }
+}
+
+function updateGameProgress(doneAdd){
+  var bar = $('#gameRoot .pbar i');
+  var txt = $('#progText');
+  var done = state.qi + doneAdd;
+  if(bar){ bar.style.width = (done / 6 * 100) + '%'; }
+  if(txt){ txt.textContent = '已完成 ' + done + ' 題'; }
+}
+
+/* 貼一貼：畫面上的空格與貼紙 */
+function paintFill(){
+  for(var i = 0; i < state.slots.length; i++){
+    var el = $('#slot' + i);
+    if(!el) continue;
+    var ci = state.slots[i];
+    if(ci === null){
+      el.className = 'fslot' + (state.sel === i ? ' on' : '');
+      el.innerHTML = '<span class="sx">貼這裏</span>';
+      el.setAttribute('aria-label', '第' + (i + 1) + '個空格，未貼');
+    }else{
+      el.className = 'fslot set';
+      el.innerHTML = esc(state.chips[ci].w);
+      el.setAttribute('aria-label', '第' + (i + 1) + '個空格，已貼上' + state.chips[ci].w + '，點一下可取回');
+    }
+  }
+
+  var bank = $('#bankWrap');
+  if(bank){
+    var bhtml = '';
+    state.chips.forEach(function(ch, ci){
+      if(ch.used) return;
+      bhtml += '<button type="button" class="wchip" data-chip="' + ci + '">' + esc(ch.w) + '</button>';
+    });
+    bank.innerHTML = bhtml;
+  }
+
+  var done = state.slots.indexOf(null) < 0;
+  var btn = $('#checkBtn');
+  if(btn){ btn.disabled = !done; }
+  var hint = $('#bankHint');
+  if(hint){
+    hint.textContent = done
+      ? '貼好了！按「檢查答案」看看句子通不通。'
+      : '先點句子裏的空格，再點下面的詞語貼紙；貼好後按「檢查答案」。貼錯了，點空格上的貼紙就可以取回。';
+  }
+}
+
+function tapSlot(i){
+  if(state.answered) return;
+  if(i < 0 || i >= state.slots.length) return;
+  if(state.slots[i] !== null){
+    var ci = state.slots[i];
+    state.chips[ci].used = false;
+    state.slots[i] = null;
+    state.sel = i;
+    sfx('place');
+  }else{
+    state.sel = (state.sel === i ? -1 : i);
+    sfx('click');
+  }
+  paintFill();
+}
+
+function tapChip(ci){
+  if(state.answered) return;
+  var ch = state.chips[ci];
+  if(!ch || ch.used) return;
+  var target = (state.sel >= 0 && state.slots[state.sel] === null) ? state.sel : state.slots.indexOf(null);
+  if(target < 0){
+    toast('空格已經貼滿了，先按「檢查答案」吧！');
+    return;
+  }
+  state.slots[target] = ci;
+  ch.used = true;
+  var next = state.slots.indexOf(null);
+  state.sel = (next >= 0) ? next : -1;
+  sfx('place');
+  paintFill();
+}
+
+function checkFill(){
+  if(state.answered) return;
+  if(state.slots.indexOf(null) >= 0){ toast('還有空格未貼，選一張貼紙放進去。'); return; }
+  state.answered = true;
+
+  var item = currentItem();
+  var ans = item.opts[item.ans];
+  var ok = true;
+  for(var i = 0; i < ans.length; i++){
+    if(state.chips[state.slots[i]].w !== ans[i]){ ok = false; }
+  }
+  if(ok){ state.correct += 1; }
+  updateScore();
+  sfx(ok ? 'good' : 'bad');
+
+  for(var k = 0; k < ans.length; k++){
+    var el = $('#slot' + k);
+    if(!el) continue;
+    var w = state.chips[state.slots[k]].w;
+    var right = (w === ans[k]);
+    el.className = 'fslot ' + (right ? 'ok' : 'no');
+    el.innerHTML = '<span>' + esc(w) + '</span><span class="smk">' + (right ? ICON.check : ICON.cross) + '</span>';
+  }
+  $$('#bankWrap .wchip').forEach(function(b){ b.disabled = true; b.classList.add('used'); });
+  var btn = $('#checkBtn');
+  if(btn){ btn.disabled = true; }
+  var hint = $('#bankHint');
+  if(hint){ hint.textContent = ok ? '貼得真好，句子讀起來很順。' : '看看正確的貼法，再讀一次句子。'; }
+
+  showFeedback(ok, fillSentence(item.q, ans), item.ex, ans);
+  updateGameProgress(1);
+}
+
+function placeChunk(ci){
+  if(state.checked) return;
+  if(state.placed.length >= 3) return;
+  if(state.placed.indexOf(ci) >= 0) return;
+  state.placed.push(ci);
+  sfx('place');
+  paintMode2();
+  if(state.placed.length === 3){
+    var token = state.round;
+    setTimeout(function(){ if(token === state.round){ checkMode2(); } }, 260);
+  }
+}
+
+function checkMode2(){
+  if(state.checked) return;
+  if(state.placed.length !== 3) return;
+  state.checked = true;
+  var item = currentItem();
+  var ok = true;
+  for(var i = 0; i < 3; i++){
+    if(state.placed[i] !== i){ ok = false; }
+  }
+  if(ok){ state.correct += 1; }
+  updateScore();
+  sfx(ok ? 'good' : 'bad');
+
+  var slots = $$('#slotWrap .slot');
+  slots.forEach(function(el, i){
+    el.classList.remove('filled');
+    el.classList.add(state.placed[i] === i ? 'ok' : 'no');
+  });
+  $$('#poolWrap .chunk').forEach(function(b){
+    b.disabled = true;
+    b.classList.add('dim');
+  });
+
+  showFeedback(ok, item.c.join(''), item.ex, keyWords());
+  updateGameProgress(1);
+}
+
+var PRAISE = ['答對了！','太棒了！','就是這樣！','好眼力！','完全正確！','抓到重點了！'];
+var NUDGE = ['差一點點！','再看清楚前後句…','唔，這樣說不通…','這次貼錯了…','再讀一次句子吧…'];
+var lastPick = {p:-1, n:-1};
+function pickOne(arr, tag){
+  if(!arr || !arr.length) return '';
+  if(arr.length < 2) return arr[0];
+  var i = Math.floor(Math.random() * arr.length);
+  var guard = 0;
+  while(i === lastPick[tag] && guard < 12){ i = Math.floor(Math.random() * arr.length); guard += 1; }
+  lastPick[tag] = i;
+  return arr[i];
+}
+
+function markKeywords(text, words){
+  var html = esc(text);
+  (words || []).forEach(function(w){
+    if(!w) return;
+    var i = html.indexOf(w);
+    if(i >= 0){ html = html.slice(0, i) + '<em class="kw">' + w + '</em>' + html.slice(i + w.length); }
+  });
+  return html;
+}
+function keyWords(){
+  var f = state.cls.flow;
+  var arr = [];
+  if(f.lw && f.lw !== '前一句'){ arr.push(f.lw); }
+  if(f.rw){ arr.push(f.rw); }
+  return arr;
+}
+
+function showFeedback(ok, fullSentence, explanation, words){
+  var fb = $('#fb');
+  if(!fb) return;
+  var isLast = (state.qi === 5);
+  var kwHtml = '';
+  if(words && words.length){
+    kwHtml = '<div class="fb-kw"><span class="fb-kw-lab">本題關聯詞</span>';
+    words.forEach(function(w){ kwHtml += '<span class="kw-chip">' + esc(w) + '</span>'; });
+    kwHtml += '</div>';
+  }
+  fb.className = 'feedback show ' + (ok ? 'good' : 'bad');
+  fb.innerHTML = '<div class="fb-head"><span class="fb-ico">' + (ok ? ICON.check : ICON.cross) + '</span>'
+    + '<span class="fb-title">' + (ok ? pickOne(PRAISE, 'p') : pickOne(NUDGE, 'n')) + '</span>'
+    + '<span class="fb-owl">' + owlFace(ok ? 'happy' : 'think') + '</span></div>'
+    + kwHtml
+    + '<div class="fb-answer"><span style="font-size:.72em;color:#B98021;font-weight:900;display:block;margin-bottom:.15em">正確句子</span>' + markKeywords(fullSentence, words) + '</div>'
+    + '<p class="fb-ex"><b>說明：</b>' + esc(explanation) + '</p>'
+    + '<div class="fb-actions">'
+    + '<button type="button" class="btn btn-primary" data-next="1">' + (isLast ? '看成績' : '下一題') + '</button>'
+    + '</div>';
+  fb.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+}
+
+function nextQuestion(){
+  sfx('click');
+  if(state.qi >= 5){ finishGame(); return; }
+  state.qi += 1;
+  renderGame();
+  if(state.mode === 0){
+    var first = $('#gameRoot .fslot');
+    if(first){ try{ first.focus({preventScroll: true}); }catch(e){} }
+  }
+}
+
+function finishGame(){
+  var stars = state.correct >= 6 ? 3 : (state.correct === 5 ? 2 : (state.correct >= 4 ? 1 : 0));
+  var key = state.cls.id + '-m' + (state.mode + 1);
+  var prev = state.best[key] || 0;
+  if(stars > prev){
+    state.best[key] = stars;
+    saveBest();
+  }
+  show('result');
+  renderResult(stars);
+  sfx('win');
+}
+
+function renderResult(stars){
+  var c = state.cls;
+  var msg = stars === 3 ? '太厲害了，全部答對！'
+    : stars === 2 ? '很棒！只差一點點就全對。'
+    : stars === 1 ? '不錯，再練習一次會更好。'
+    : '別灰心，先看看教學再挑戰吧！';
+
+  var html = '<div class="result-wrap">';
+  html += resultArt(stars);
+  html += '<div class="result-stars">';
+  for(var i = 0; i < 3; i++){ html += starSvg(i < stars); }
+  html += '</div>';
+  html += '<h2>' + msg + '</h2>';
+  html += '<p class="score-line">答對 <b>' + state.correct + '</b> / 6 題<span class="dot">·</span><span class="nw">' + esc(c.short) + '</span><span class="dot">·</span><span class="nw">' + (state.mode === 0 ? '貼一貼' : '排一排') + '</span></p>';
+  html += '<div class="result-actions">'
+    + '<button type="button" class="btn btn-primary" data-again="1">再玩一次</button>'
+    + '<button type="button" class="btn btn-ghost" data-go="menu">換一種玩法</button>'
+    + '<button type="button" class="btn btn-ghost" data-go="learn">看教學</button>'
+    + '<button type="button" class="btn btn-ghost" data-go="home">回首頁</button>'
+    + '</div></div>';
+
+  $('#resultRoot').innerHTML = html;
+}
+
+/* =========================================================
+   事件
+   ========================================================= */
+document.addEventListener('click', function(e){
+  var target = e.target;
+
+  if(closest(target, '.js-sound')){
+    state.muted = !state.muted;
+    saveMute();
+    updateSoundButtons();
+    if(!state.muted){ sfx('click'); }
+    return;
+  }
+
+  var practiceBtn = closest(target, '[data-practice]');
+  if(practiceBtn){ sfx('click'); show('menu'); return; }
+
+  var learnBtn = closest(target, '[data-learn]');
+  if(learnBtn){
+    state.learn = Number(learnBtn.getAttribute('data-learn'));
+    sfx('click');
+    show('learn');
+    return;
+  }
+  var prevBtn = closest(target, '[data-learn-prev]');
+  if(prevBtn){
+    state.learn = (state.learn + DATA.length - 1) % DATA.length;
+    sfx('click');
+    renderLearn();
+    return;
+  }
+  var nextBtn = closest(target, '[data-learn-next]');
+  if(nextBtn){
+    state.learn = (state.learn + 1) % DATA.length;
+    sfx('click');
+    renderLearn();
+    return;
+  }
+
+  var modeBtnEl = closest(target, '[data-mode]');
+  if(modeBtnEl){
+    sfx('click');
+    startGame(modeBtnEl.getAttribute('data-cls'), Number(modeBtnEl.getAttribute('data-mode')));
+    return;
+  }
+
+  var chipBtn = closest(target, '[data-chip]');
+  if(chipBtn){
+    tapChip(Number(chipBtn.getAttribute('data-chip')));
+    return;
+  }
+
+  var fillSlot = closest(target, '[data-fslot]');
+  if(fillSlot){
+    tapSlot(Number(fillSlot.getAttribute('data-fslot')));
+    return;
+  }
+
+  var checkBtnEl = closest(target, '[data-check]');
+  if(checkBtnEl){
+    if(!checkBtnEl.disabled){ checkFill(); }
+    return;
+  }
+
+  var chunkBtn = closest(target, '[data-chunk]');
+  if(chunkBtn){
+    placeChunk(Number(chunkBtn.getAttribute('data-chunk')));
+    return;
+  }
+
+  var slotBtn = closest(target, '[data-slot]');
+  if(slotBtn){
+    if(state.checked) return;
+    var si = Number(slotBtn.getAttribute('data-slot'));
+    var removed = state.placed.splice(si, 1);
+    if(removed.length){ sfx('place'); paintMode2(); }
+    return;
+  }
+
+  var nextQ = closest(target, '[data-next]');
+  if(nextQ){ nextQuestion(); return; }
+
+  var again = closest(target, '[data-again]');
+  if(again){ sfx('click'); startGame(state.cls.id, state.mode); return; }
+
+  var quit = closest(target, '[data-quit]');
+  if(quit){ sfx('click'); show('menu'); return; }
+
+  var go = closest(target, '[data-go]');
+  if(go){ sfx('click'); show(go.getAttribute('data-go')); return; }
+}, false);
+
+/* 首次互動時解鎖音訊 */
+document.addEventListener('pointerdown', function once(){
+  ensureAudio();
+  document.removeEventListener('pointerdown', once);
+}, {passive: true});
+
+/* =========================================================
+   啟動
+   ========================================================= */
+(function init(){
+  loadPrefs();
+  updateSoundButtons();
+  renderHomeStrip();
+})();
+
+</script>
+</body>
+</html>

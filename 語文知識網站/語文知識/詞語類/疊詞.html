@@ -1,0 +1,1860 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>疊疊小鎮｜小學疊詞互動遊戲</title>
+<meta name="description" content="初小版與高小版，九種疊詞形式、十八個小遊戲：配對、拼字、填空、辨析、分類、句子診所。繁體字、Q版插畫、即時音效，手機可直接玩。">
+<script src="https://yiyanstatic.cdn.bcebos.com/advisory/tailwindcss.js"></script>
+<style>
+:root{
+  --ink:#22304A;
+  --paper:#FFFDF7;
+  --cream:#FFF4E2;
+  --coral:#FF6B5B;
+  --coral-soft:#FFE3DC;
+  --sun:#FFC53D;
+  --sun-soft:#FFF1C9;
+  --mint:#22C3A6;
+  --mint-soft:#D6F6EF;
+  --sky:#3FA9E0;
+  --sky-soft:#DCEFFB;
+  --grape:#8B7BF7;
+  --grape-soft:#E9E4FF;
+  --pink:#FF8FA8;
+  --pink-soft:#FFE4EA;
+  --muted:#7A6A5C;
+  --line:#E8D7C0;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  font-family:'Yuanti TC','YuanTi TC','PingFang TC','Hiragino Sans TC','Microsoft JhengHei','Noto Sans TC',sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 88% -4%, rgba(255,197,61,.42), transparent 38%),
+    radial-gradient(circle at -8% 20%, rgba(34,195,166,.20), transparent 34%),
+    radial-gradient(circle at 52% 104%, rgba(63,169,224,.22), transparent 44%),
+    var(--cream);
+  background-attachment:fixed;
+  min-height:100dvh;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(rgba(34,48,74,.10) 1px, transparent 1px);
+  background-size:20px 20px;
+  -webkit-mask-image:radial-gradient(circle at 50% 24%, #000 18%, transparent 80%);
+  mask-image:radial-gradient(circle at 50% 24%, #000 18%, transparent 80%);
+}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px dashed var(--coral);outline-offset:3px}
+.app{max-width:520px;margin:0 auto;padding:0 16px calc(28px + env(safe-area-inset-bottom));min-height:100dvh;position:relative;z-index:1}
+.screen{animation:rise .3s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:.94;transform:translateY(10px)}to{opacity:1;transform:none}}
+.bg-deco{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg-deco i{position:absolute;display:block;border:3px solid var(--ink);border-radius:18px;opacity:.13;transform:rotate(-14deg)}
+.bg-deco i:nth-child(1){width:96px;height:96px;background:var(--coral);left:-34px;top:16%}
+.bg-deco i:nth-child(2){width:70px;height:70px;background:var(--sun);right:-22px;top:44%;transform:rotate(18deg)}
+.bg-deco i:nth-child(3){width:120px;height:120px;background:var(--mint);left:-52px;bottom:6%;transform:rotate(10deg)}
+.bg-deco i:nth-child(4){width:54px;height:54px;background:var(--sky);right:-16px;bottom:18%;transform:rotate(-22deg)}
+
+/* ---------- 通用元件 ---------- */
+.topbar{display:flex;align-items:center;gap:9px;padding:calc(12px + env(safe-area-inset-top)) 0 8px;position:sticky;top:0;z-index:30;background:rgba(255,244,226,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.icon-btn{width:42px;height:42px;flex:0 0 42px;border:2.6px solid var(--ink);border-radius:13px;background:#fff;display:grid;place-items:center;box-shadow:0 3px 0 var(--ink);transition:transform .1s,box-shadow .1s}
+.icon-btn:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.icon-btn svg{width:19px;height:19px;display:block}
+.tb-title{flex:1;min-width:0}
+.tb-title b{display:block;font-size:16px;font-weight:900;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-title span{display:block;font-size:10.5px;font-weight:800;color:var(--muted);letter-spacing:1.2px;margin-top:1px}
+.stars{display:inline-flex;align-items:center;gap:2px}
+.stars svg{width:15px;height:15px;display:block}
+.star-on{fill:var(--sun);stroke:var(--ink);stroke-width:1.6}
+.star-off{fill:#EADCC8;stroke:var(--ink);stroke-width:1.5}
+
+/* ---------- 首頁 ---------- */
+.brand-row{display:flex;align-items:center;gap:9px;padding:calc(14px + env(safe-area-inset-top)) 0 4px}
+.brand-mark{width:40px;height:40px;flex:0 0 40px;border:2.6px solid var(--ink);border-radius:12px;background:var(--sun);display:grid;place-items:center;box-shadow:0 3px 0 var(--ink);transform:rotate(-4deg);padding:4px}
+.brand-mark svg{width:100%;height:100%;display:block}
+.brand-name{flex:1;min-width:0}
+.brand-name b{display:block;font-size:17px;font-weight:900;letter-spacing:2px}
+.brand-name span{display:block;font-size:9px;font-weight:800;letter-spacing:2px;color:var(--muted)}
+.hero{display:flex;align-items:center;gap:8px;padding:16px 0 10px;position:relative}
+.hero-copy{flex:1;min-width:0}
+.kicker{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:900;letter-spacing:2px;color:var(--muted);background:rgba(255,255,255,.72);border:2px solid var(--ink);border-radius:999px;padding:4px 9px;margin:0 0 9px;transform:rotate(-1.5deg)}
+.kicker::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--coral)}
+.hero h1{margin:0;font-size:38px;line-height:1.16;font-weight:900;letter-spacing:2px}
+.hero h1 em{font-style:normal;position:relative;display:inline-block;color:var(--coral);z-index:1}
+.hero h1 em::after{content:'';position:absolute;left:-2px;right:-2px;bottom:3px;height:11px;background:var(--sun);z-index:-1;border-radius:4px;transform:rotate(-1deg)}
+.lead{margin:9px 0 0;font-size:12.5px;line-height:1.65;font-weight:800;color:var(--muted);letter-spacing:.3px}
+.hero-art{width:118px;height:118px;flex:0 0 118px;position:relative}
+.hero-art .mascot{width:100%;height:100%;display:block;animation:bob 4.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-7px) rotate(1deg)}}
+.hero-art::after{content:'';position:absolute;left:12%;right:12%;bottom:2px;height:9px;background:rgba(34,48,74,.14);border-radius:50%;filter:blur(2px)}
+.sec-label{display:flex;align-items:baseline;gap:8px;margin:16px 0 10px}
+.sec-label b{font-size:16px;font-weight:900;letter-spacing:1px}
+.sec-label span{font-size:10.5px;font-weight:800;color:var(--muted);letter-spacing:.8px}
+.sec-label i{flex:1;height:3px;background:var(--ink);opacity:.14;border-radius:9px;margin-left:2px}
+
+.version-card{width:100%;display:flex;gap:12px;align-items:center;text-align:left;padding:14px;border:3px solid var(--ink);border-radius:23px;background:var(--paper);box-shadow:0 6px 0 var(--ink);position:relative;margin-bottom:14px;transition:transform .12s,box-shadow .12s;overflow:hidden}
+.version-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:9px;background:var(--vc)}
+.version-card:active{transform:translateY(4px);box-shadow:0 2px 0 var(--ink)}
+.vc-a{transform:rotate(-.7deg)}
+.vc-b{transform:rotate(.7deg)}
+.vc-num{position:absolute;right:12px;top:8px;font-size:34px;font-weight:900;color:var(--vc);opacity:.22;letter-spacing:-1px}
+.vc-art{width:78px;height:78px;flex:0 0 78px;border:2.8px solid var(--ink);border-radius:17px;background:var(--vc-soft);display:grid;place-items:center;padding:6px;position:relative;overflow:hidden}
+.vc-art svg{width:100%;height:100%;display:block}
+.vc-info{flex:1;min-width:0;padding-left:2px}
+.vc-title{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:2px}
+.vc-title .vc-name{font-size:21px;font-weight:900;letter-spacing:2px}
+.grade-tag{font-size:9.5px;font-weight:900;letter-spacing:.5px;padding:2px 6px;border:2px solid var(--ink);border-radius:6px;background:var(--vc-soft);transform:rotate(-2deg)}
+.vc-info p{margin:3px 0 7px;font-size:11.5px;font-weight:800;color:var(--muted);line-height:1.5}
+.vc-tags{display:flex;gap:5px;flex-wrap:wrap}
+.vc-tags span{font-size:9.5px;font-weight:900;letter-spacing:.5px;border:2px solid var(--ink);border-radius:6px;background:#fff;padding:2px 5px}
+.vc-tags span.hot{background:var(--sun-soft)}
+.vc-go{margin-left:auto;width:34px;height:34px;flex:0 0 34px;border:2.6px solid var(--ink);border-radius:50%;background:var(--vc);display:grid;place-items:center;box-shadow:0 2px 0 var(--ink)}
+.vc-go svg{width:16px;height:16px;display:block}
+.tint-coral{--vc:var(--coral);--vc-soft:var(--coral-soft);--f:var(--coral);--fsoft:var(--coral-soft)}
+.tint-mint{--vc:var(--mint);--vc-soft:var(--mint-soft);--f:var(--mint);--fsoft:var(--mint-soft)}
+.tint-sky{--vc:var(--sky);--vc-soft:var(--sky-soft);--f:var(--sky);--fsoft:var(--sky-soft)}
+.tint-grape{--vc:var(--grape);--vc-soft:var(--grape-soft);--f:var(--grape);--fsoft:var(--grape-soft)}
+.tint-sun{--vc:#E8A400;--vc-soft:var(--sun-soft);--f:#E8A400;--fsoft:var(--sun-soft)}
+.tint-pink{--vc:#E8658A;--vc-soft:var(--pink-soft);--f:#E8658A;--fsoft:var(--pink-soft)}
+
+.lesson{margin-top:18px;border:2.6px solid var(--ink);border-radius:18px;background:rgba(255,253,247,.9);padding:0 14px;box-shadow:0 4px 0 rgba(34,48,74,.16)}
+.lesson summary{list-style:none;cursor:pointer;padding:13px 0;font-size:13.5px;font-weight:900;display:flex;align-items:center;gap:8px;letter-spacing:.5px}
+.lesson summary::-webkit-details-marker{display:none}
+.lesson summary svg{width:18px;height:18px;flex:0 0 18px}
+.lesson summary .chev{margin-left:auto;transition:transform .2s;width:14px;height:14px}
+.lesson[open] summary .chev{transform:rotate(180deg)}
+.lesson-body{padding:0 0 14px;font-size:13px;line-height:1.8;font-weight:600;color:#56463B}
+.lesson-body b{color:var(--coral)}
+.lesson-body p{margin:0 0 7px}
+.lesson-body p:last-child{margin:0}
+.foot{margin-top:20px;text-align:center;font-size:10.5px;font-weight:800;color:var(--muted);letter-spacing:1px;line-height:1.9}
+.foot b{color:var(--ink)}
+
+
+@media (max-width:345px){
+  .form-pattern span{width:28px;height:33px;font-size:13.5px}
+  .form-pattern.p4 span{width:23px;font-size:12px}
+  .form-title h2{font-size:15.5px;letter-spacing:.8px;gap:4px}
+  .form-title h2 .adv-badge{font-size:7.5px;padding:1px 3px}
+  .form-count{font-size:8px;padding:2px 5px}
+  .form-head{padding:11px 10px;gap:8px}
+}
+
+/* ---------- 版本頁 ---------- */
+.ver-hero{display:flex;align-items:center;gap:12px;padding:8px 0 4px}
+.ver-hero .badge-big{width:64px;height:64px;flex:0 0 64px;border:3px solid var(--ink);border-radius:18px;display:grid;place-items:center;padding:5px;transform:rotate(-3deg);box-shadow:0 4px 0 var(--ink);background:var(--vc-soft)}
+.ver-hero .badge-big svg{width:100%;height:100%;display:block}
+.ver-hero h1{margin:0;font-size:27px;font-weight:900;letter-spacing:2px}
+.ver-hero p{margin:3px 0 0;font-size:11.5px;font-weight:800;color:var(--muted);line-height:1.5;letter-spacing:.4px}
+.ver-stars{display:flex;align-items:center;gap:6px;margin:10px 0 2px;font-size:10.5px;font-weight:900;color:var(--muted);letter-spacing:.5px}
+.ver-stars .stars svg{width:14px;height:14px}
+.ver-stars b{color:var(--ink);font-size:12px}
+
+.group-label{display:flex;align-items:flex-end;gap:8px;margin:20px 0 10px}
+.group-label b{display:block;font-size:15px;font-weight:900;letter-spacing:1px;line-height:1.3}
+.group-label span{display:block;font-size:10px;font-weight:800;color:var(--muted);letter-spacing:.4px;margin-top:2px;line-height:1.4}
+.group-label i{flex:1;height:3px;background:var(--ink);opacity:.14;border-radius:9px;margin-bottom:8px}
+.form-block{position:relative;margin-top:16px;border:3px solid var(--ink);border-radius:22px;background:var(--paper);box-shadow:0 6px 0 var(--ink);overflow:hidden}
+.form-head{display:flex;align-items:center;gap:10px;padding:12px 13px;background:var(--fsoft);border-bottom:2.6px solid var(--ink)}
+.form-pattern{display:flex;gap:3px}
+.form-pattern span{width:31px;height:36px;border:2.6px solid var(--ink);border-radius:9px;background:#fff;display:grid;place-items:center;font-size:15px;font-weight:900;letter-spacing:0;box-shadow:0 2px 0 var(--ink)}
+.form-pattern span:nth-child(2){transform:translateY(-3px) rotate(2deg);background:var(--f)}
+.form-pattern span:nth-child(3){transform:translateY(-6px) rotate(-2deg)}
+.form-pattern span:nth-child(4){transform:translateY(-9px) rotate(3deg);background:#fff}
+.form-title{flex:1;min-width:0}
+.form-title h2{margin:0;font-size:17px;font-weight:900;letter-spacing:1.5px;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;row-gap:2px}
+.form-title h2 .fname{white-space:nowrap}
+.form-pattern.p4 span{width:27px;font-size:13.5px}
+.form-title h2 small{font-size:9.5px;font-weight:900;letter-spacing:.6px;color:var(--muted)}
+.form-title h2 .adv-badge{font-size:8.5px;letter-spacing:.4px;color:#fff;background:var(--f);border:1.8px solid var(--ink);border-radius:6px;padding:1px 4px;transform:rotate(-2deg);white-space:nowrap}
+.form-title p{margin:2px 0 0;font-size:11px;font-weight:800;color:#5B4B3E;line-height:1.4}
+.form-count{font-size:9px;font-weight:900;letter-spacing:.6px;border:2px solid var(--ink);border-radius:999px;padding:3px 7px;background:#fff;white-space:nowrap}
+.form-body{padding:12px 13px 14px}
+.form-desc{margin:0 0 8px;font-size:12px;line-height:1.65;font-weight:700;color:#56463B}
+.ex-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+.ex-row span{font-size:11px;font-weight:900;letter-spacing:.5px;background:var(--fsoft);border:2px solid var(--ink);border-radius:7px;padding:3px 7px}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mode-tile{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;padding:10px 9px 9px;border:2.6px solid var(--ink);border-radius:15px;background:#fff;box-shadow:0 4px 0 var(--ink);transition:transform .1s,box-shadow .1s;min-height:112px}
+.mode-tile:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.mt-ico{width:32px;height:32px;flex:0 0 32px;border:2.2px solid var(--ink);border-radius:10px;background:var(--fsoft);display:grid;place-items:center;padding:5px}
+.mt-ico svg{width:100%;height:100%;display:block}
+.mt-name{font-size:13.5px;font-weight:900;letter-spacing:.5px;line-height:1.3}
+.mt-meta{font-size:9.5px;font-weight:800;color:var(--muted);letter-spacing:.3px;line-height:1.4}
+.mt-stars{position:absolute;right:7px;top:8px;display:flex;gap:1px}
+.mt-stars svg{width:11px;height:11px}
+.form-tip{margin-top:14px;display:flex;gap:8px;align-items:flex-start;padding:11px;border:2.4px dashed rgba(34,48,74,.42);border-radius:14px;background:rgba(255,255,255,.62);font-size:11px;line-height:1.65;font-weight:700;color:#56463B}
+.form-tip svg{width:17px;height:17px;flex:0 0 17px;margin-top:1px}
+
+/* ---------- 遊戲 ---------- */
+.game-head{display:flex;align-items:center;gap:9px;padding:calc(10px + env(safe-area-inset-top)) 0 0}
+.game-head .gtitle{flex:1;min-width:0}
+.game-head h2{margin:0;font-size:16px;font-weight:900;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.game-head .gsub{font-size:10px;font-weight:800;color:var(--muted);letter-spacing:1px;margin-top:1px}
+.prog-wrap{margin-top:11px}
+.prog-top{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;font-weight:900;letter-spacing:.5px;color:var(--muted);margin-bottom:5px}
+.prog-top b{color:var(--ink)}
+.prog{height:10px;border:2.4px solid var(--ink);border-radius:99px;background:#fff;overflow:hidden;box-shadow:0 2px 0 rgba(34,48,74,.16)}
+.prog i{display:block;height:100%;background:var(--mint);border-radius:99px;transition:width .35s cubic-bezier(.2,.8,.2,1)}
+.qcard{margin-top:13px;padding:15px;border:3px solid var(--ink);border-radius:23px;background:var(--paper);box-shadow:0 6px 0 var(--ink);position:relative}
+.q-eyebrow{font-size:9.5px;font-weight:900;letter-spacing:1.6px;color:var(--muted);margin-bottom:7px}
+.q-title{margin:0 0 4px;font-size:20px;font-weight:900;line-height:1.4;letter-spacing:.8px}
+.q-desc{margin:0;font-size:12px;font-weight:700;color:var(--muted);line-height:1.6}
+.q-desc b{color:var(--coral)}
+.q-sentence{margin:9px 0 0;font-size:17px;line-height:2;font-weight:800;letter-spacing:.5px}
+.blank{display:inline-block;min-width:66px;margin:0 3px;border-bottom:3px solid var(--ink);text-align:center;color:var(--coral);letter-spacing:1px;font-weight:900}
+.blank.filled{border-bottom-color:var(--mint);color:var(--ink);background:var(--mint-soft);border-radius:7px 7px 0 0;padding:0 4px}
+
+.prompt-card{display:flex;gap:11px;align-items:center;margin:10px 0 4px;padding:10px;border:2.6px solid var(--ink);border-radius:17px;background:linear-gradient(135deg,var(--fsoft),#fff);box-shadow:0 4px 0 var(--ink)}
+.prompt-art{width:74px;height:74px;flex:0 0 74px;border:2.4px solid var(--ink);border-radius:13px;background:#fff;padding:4px}
+.prompt-art svg{width:100%;height:100%;display:block}
+.prompt-copy{flex:1;min-width:0}
+.prompt-label{font-size:9px;font-weight:900;letter-spacing:1.4px;color:var(--muted);margin-bottom:2px}
+.prompt-text{margin:0;font-size:14px;line-height:1.7;font-weight:800}
+.scene-card{margin:10px 0 2px;padding:12px;border:2.6px solid var(--ink);border-radius:16px;background:#fff;box-shadow:0 4px 0 var(--ink);font-size:14.5px;line-height:1.85;font-weight:700}
+.scene-card .quote{font-size:9.5px;font-weight:900;letter-spacing:1.6px;color:var(--muted);display:block;margin-bottom:4px}
+
+.options{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.option{display:flex;align-items:center;gap:10px;width:100%;padding:12px 13px;background:#fff;border:2.6px solid var(--ink);border-radius:14px;box-shadow:0 4px 0 var(--ink);font-size:17px;font-weight:900;letter-spacing:1.2px;text-align:left;transition:transform .1s,box-shadow .1s,background .15s}
+.option:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.option .badge{width:26px;height:26px;flex:0 0 26px;border:2px solid var(--ink);border-radius:50%;background:var(--fsoft);display:grid;place-items:center;font-size:11.5px;font-weight:900;letter-spacing:0}
+.option .opt-txt{flex:1;min-width:0}
+.option .opt-mark{width:20px;height:20px;flex:0 0 20px;opacity:0}
+.option .opt-mark svg{width:100%;height:100%;display:block}
+.option.correct{background:var(--mint-soft)}
+.option.correct .opt-mark{opacity:1}
+.option.correct .badge{background:var(--mint);color:#fff}
+.option.wrong{background:var(--pink-soft)}
+.option.wrong .badge{background:var(--coral);color:#fff}
+.option.dim{opacity:.45}
+.option:disabled{cursor:default}
+.option:disabled:active{transform:none;box-shadow:0 4px 0 var(--ink)}
+
+.fb{margin-top:12px;padding:13px;border:3px solid var(--ink);border-radius:17px;background:var(--mint-soft);box-shadow:0 4px 0 var(--ink);animation:pop .26s cubic-bezier(.2,.8,.2,1)}
+.fb.bad{background:var(--pink-soft)}
+@keyframes pop{from{transform:scale(.975);opacity:.92}to{transform:scale(1);opacity:1}}
+.fb-head{display:flex;align-items:center;gap:7px;margin-bottom:5px}
+.fb-head svg{width:22px;height:22px;flex:0 0 22px}
+.fb-head h3{margin:0;font-size:15.5px;font-weight:900;letter-spacing:.5px}
+.fb p{margin:0 0 6px;font-size:12.5px;line-height:1.7;font-weight:700;color:#4B3D33}
+.fb .fb-answer{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:7px 0}
+.fb .big-word{font-size:21px;font-weight:900;letter-spacing:2px;color:var(--ink);background:#fff;border:2.4px solid var(--ink);border-radius:10px;padding:1px 10px;box-shadow:0 2px 0 var(--ink)}
+.fb .example{background:rgba(255,255,255,.72);border-left:4px solid var(--ink);border-radius:8px;padding:7px 9px;font-size:12px;line-height:1.65;font-weight:700;margin-top:6px}
+.fb .example b{color:var(--coral)}
+.fb-next{margin-top:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 17px;border:2.8px solid var(--ink);border-radius:14px;background:var(--sun);font-size:14px;font-weight:900;letter-spacing:.8px;box-shadow:0 4px 0 var(--ink);transition:transform .1s,box-shadow .1s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.btn.ghost{background:#fff}
+.btn.coral{background:var(--coral);color:#fff}
+.btn svg{width:16px;height:16px;display:block}
+
+/* 配對 */
+.pair-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}
+.pair-tile{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px 8px;border:2.6px solid var(--ink);border-radius:15px;background:#fff;box-shadow:0 3px 0 var(--ink);transition:transform .1s,box-shadow .1s}
+.pair-tile:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.pair-tile .p-art{width:86px;height:86px;display:block}
+.pair-tile .p-label{font-size:11px;font-weight:900;letter-spacing:.5px}
+.pair-tile.done{background:var(--mint-soft);pointer-events:none}
+.pair-tile.done::after{content:'';position:absolute;right:5px;top:5px;width:20px;height:20px;border-radius:50%;background:var(--mint);border:2px solid var(--ink);background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12.5l4.5 4.5L19 7'/></svg>");background-size:12px 12px;background-position:center;background-repeat:no-repeat}
+.pair-tile.shake{animation:shake .4s}
+@keyframes shake{0%,100%{transform:none}20%{transform:translateX(-6px) rotate(-1deg)}45%{transform:translateX(6px) rotate(1deg)}70%{transform:translateX(-3px)}}
+.tray-title{display:flex;align-items:center;justify-content:space-between;margin:13px 0 7px;font-size:10px;font-weight:900;letter-spacing:1.2px;color:var(--muted)}
+.tray-title b{color:var(--ink);font-size:11.5px}
+.word-tray{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+.wchip{padding:11px 4px;border:2.6px solid var(--ink);border-radius:12px;background:var(--sun-soft);font-size:16px;font-weight:900;letter-spacing:1px;box-shadow:0 3px 0 var(--ink);transition:transform .1s,box-shadow .1s,background .15s;white-space:nowrap}
+.wchip:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.wchip.sel{background:var(--sun);transform:translateY(-2px) rotate(-1.5deg);box-shadow:0 5px 0 var(--ink)}
+.wchip.used{visibility:hidden}
+.match-note{margin:11px 0 0;padding:9px 10px;border:2.4px dashed rgba(34,48,74,.34);border-radius:12px;background:rgba(255,255,255,.6);font-size:11.5px;line-height:1.6;font-weight:700;color:var(--muted);min-height:42px}
+.match-note b{color:var(--ink)}
+.hintline{margin:11px 0 0;font-size:11.5px;font-weight:800;color:var(--muted);text-align:center;letter-spacing:.3px}
+
+/* 拼字 */
+.build-stage{display:flex;align-items:center;gap:11px;margin:9px 0 12px;padding:9px;border:2.6px solid var(--ink);border-radius:16px;background:linear-gradient(135deg,var(--fsoft),#fff);box-shadow:0 4px 0 var(--ink)}
+.build-stage .bs-art{width:74px;height:74px;flex:0 0 74px;border:2.4px solid var(--ink);border-radius:12px;background:#fff;padding:4px}
+.build-stage .bs-art svg{width:100%;height:100%;display:block}
+.build-stage .bs-label{font-size:9.5px;font-weight:900;letter-spacing:1.4px;color:var(--muted)}
+.build-stage .bs-tip{font-size:13.5px;font-weight:900;line-height:1.55;margin-top:2px}
+.slots{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin:6px 0 14px}
+.slots.shake{animation:shake .42s}
+.slot{width:52px;height:56px;border:3px dashed rgba(34,48,74,.42);border-radius:12px;background:rgba(255,255,255,.72);display:grid;place-items:center;font-size:25px;font-weight:900;color:var(--ink);transition:background .15s,border-color .15s,transform .1s}
+.slot.filled{border-style:solid;background:#fff;box-shadow:0 3px 0 var(--ink)}
+.slot:active{transform:translateY(2px)}
+.slot .slot-dot{width:8px;height:8px;border-radius:50%;background:rgba(34,48,74,.2)}
+.tile-tray{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
+.ctile{min-width:52px;height:56px;padding:0 8px;border:3px solid var(--ink);border-radius:12px;background:var(--sun);font-size:25px;font-weight:900;box-shadow:0 4px 0 var(--ink);transition:transform .1s,box-shadow .1s,opacity .15s}
+.ctile:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.ctile.used{opacity:.24;pointer-events:none;box-shadow:none}
+
+/* 分半配對 */
+.split-board{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.split-col{display:flex;flex-direction:column;gap:7px}
+.split-head{font-size:9.5px;font-weight:900;letter-spacing:1.2px;color:var(--muted);text-align:center;margin-bottom:1px}
+.half{padding:11px 4px;border:2.6px solid var(--ink);border-radius:12px;background:#fff;font-size:17px;font-weight:900;letter-spacing:1.5px;box-shadow:0 3px 0 var(--ink);transition:transform .1s,box-shadow .1s,background .15s}
+.half:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.half.sel{background:var(--sun);transform:translateY(-2px) rotate(-1deg);box-shadow:0 5px 0 var(--ink)}
+.half.done{background:var(--mint-soft);color:var(--muted);pointer-events:none;box-shadow:none;border-style:dashed}
+.half.wrong{animation:shake .4s;background:var(--pink-soft)}
+.word-pairs{margin-top:11px;display:flex;flex-direction:column;gap:6px}
+.pair-line{display:flex;align-items:center;gap:8px;padding:8px 9px;border:2.4px solid var(--ink);border-radius:11px;background:var(--mint-soft);font-size:12px;font-weight:700;line-height:1.55}
+.pair-line b{font-size:14px;letter-spacing:1px;white-space:nowrap}
+
+/* 找疊詞 */
+.spot-line{margin:12px 0 4px;padding:12px 10px;border:2.6px solid var(--ink);border-radius:15px;background:#fff;box-shadow:0 4px 0 var(--ink);font-size:17px;line-height:2.1;font-weight:700;letter-spacing:.5px}
+.chunk{display:inline-block;padding:2px 4px;margin:2px 1px;border:2px dashed rgba(34,48,74,.26);border-radius:8px;transition:background .15s,border-color .15s,transform .1s}
+.chunk:active{transform:translateY(2px)}
+.chunk.correct{background:var(--mint-soft);border:2px solid var(--ink);font-weight:900}
+.chunk.wrong{animation:shake .4s;background:var(--pink-soft);border-color:var(--coral)}
+.chunk.dim{opacity:.42}
+.punct{display:inline-block;padding:2px 1px;margin:2px 0;font-weight:700}
+
+/* 詞語配解釋 */
+.match-board{display:flex;flex-direction:column;gap:7px;margin-top:10px}
+.match-row{display:grid;grid-template-columns:1fr 1.35fr;gap:7px;align-items:stretch}
+.match-cell{padding:10px 8px;border:2.6px solid var(--ink);border-radius:12px;background:#fff;font-size:12.5px;font-weight:700;line-height:1.55;text-align:left;box-shadow:0 3px 0 var(--ink);transition:transform .1s,box-shadow .1s,background .15s;min-height:52px;display:flex;align-items:center}
+.match-cell:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.match-cell.word{font-size:15px;font-weight:900;letter-spacing:1px;justify-content:center;background:var(--fsoft)}
+.match-cell.sel{background:var(--sun);transform:translateY(-2px)}
+.match-cell.done{background:var(--mint-soft);box-shadow:none;border-style:dashed;color:var(--muted);pointer-events:none}
+.match-cell.wrong{animation:shake .4s;background:var(--pink-soft)}
+
+/* 句子診所 */
+.clinic-sentence{margin:10px 0 2px;padding:12px 10px;border:2.6px solid var(--ink);border-radius:15px;background:#fff;box-shadow:0 4px 0 var(--ink);font-size:16px;line-height:2.05;font-weight:700}
+.seg{display:inline-block;padding:2px 4px;margin:1px;border-radius:8px;border:2px dashed rgba(34,48,74,.24);transition:background .15s,transform .1s}
+.seg:active{transform:translateY(2px)}
+.seg.found{background:var(--coral-soft);border:2px solid var(--coral);font-weight:900;text-decoration:underline;text-decoration-color:var(--coral);text-decoration-thickness:2px}
+.seg.fixed{background:var(--mint-soft);border:2px solid var(--mint);font-weight:900}
+.seg.wrong{animation:shake .4s;background:var(--pink-soft)}
+.step-tag{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:900;letter-spacing:1px;color:var(--muted);margin-bottom:2px}
+.step-tag i{width:18px;height:18px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-style:normal;font-size:10px}
+
+/* 分類 */
+.sort-words{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0 12px;min-height:44px}
+.sort-chip{padding:9px 11px;border:2.6px solid var(--ink);border-radius:11px;background:var(--fsoft);font-size:15px;font-weight:900;letter-spacing:1px;box-shadow:0 3px 0 var(--ink);transition:transform .1s,box-shadow .1s,background .15s}
+.sort-chip:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.sort-chip.sel{background:var(--sun);transform:translateY(-2px) rotate(-1deg);box-shadow:0 5px 0 var(--ink)}
+.sort-chip.done{display:none}
+.sort-bins{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sort-bin.shake{animation:shake .4s}
+.sort-bin{border:2.8px dashed var(--ink);border-radius:14px;background:rgba(255,255,255,.7);padding:9px 7px;min-height:118px;text-align:center;transition:background .15s}
+.sort-bin:active{background:var(--fsoft)}
+.sort-bin .bin-title{display:block;margin:0 0 6px;font-size:11.5px;font-weight:900;letter-spacing:.8px}
+.sort-bin .bin-word{display:inline-block;margin:2px;padding:4px 6px;border:2px solid var(--ink);border-radius:7px;background:var(--mint-soft);font-size:12px;font-weight:900;letter-spacing:.5px}
+.sort-bin .bin-empty{font-size:10px;font-weight:800;color:var(--muted);letter-spacing:1px}
+
+/* ---------- 結果 ---------- */
+.result-wrap{text-align:center;padding-top:8px;position:relative}
+.result-mascot{width:132px;height:132px;margin:2px auto -6px;display:block;position:relative;z-index:1}
+.rays{position:absolute;left:50%;top:64px;width:270px;height:270px;transform:translate(-50%,-50%);z-index:0;opacity:.55;animation:spin 26s linear infinite}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.result-card{position:relative;z-index:2;margin-top:6px;padding:18px 15px;border:3px solid var(--ink);border-radius:23px;background:var(--paper);box-shadow:0 6px 0 var(--ink)}
+.result-card h2{margin:0 0 3px;font-size:26px;font-weight:900;letter-spacing:2px}
+.result-card .rsub{font-size:11px;font-weight:800;color:var(--muted);letter-spacing:1px;margin-bottom:8px}
+.big-stars{display:flex;justify-content:center;gap:5px;margin:8px 0 4px}
+.big-stars svg{width:38px;height:38px;display:block}
+.big-stars svg:nth-child(2){transform:translateY(-5px) scale(1.08)}
+.rscore{display:inline-flex;align-items:center;gap:9px;margin-top:4px;padding:6px 12px;border:2.4px solid var(--ink);border-radius:999px;background:#fff;font-size:11.5px;font-weight:900;letter-spacing:.5px}
+.rscore b{font-size:16px;color:var(--coral)}
+.learned{margin:14px 0 4px;text-align:left}
+.learned h3{margin:0 0 7px;font-size:11px;font-weight:900;letter-spacing:1.4px;color:var(--muted)}
+.learned .lw{display:flex;flex-wrap:wrap;gap:5px}
+.learned .lw span{font-size:11.5px;font-weight:900;letter-spacing:.5px;padding:4px 7px;border:2px solid var(--ink);border-radius:7px;background:var(--fsoft)}
+.result-actions{display:flex;flex-direction:column;gap:8px;margin-top:15px}
+.result-actions .btn{width:100%}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
+.confetti i{position:absolute;width:9px;height:14px;top:-18px;border:2px solid var(--ink);border-radius:3px;animation:fall 2.6s cubic-bezier(.3,.7,.4,1) forwards}
+@keyframes fall{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(105vh) rotate(540deg);opacity:.9}}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:var(--ink);color:#FFF8EA;font-size:12px;font-weight:800;letter-spacing:.5px;padding:9px 15px;border-radius:999px;z-index:90;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 5px 0 rgba(34,48,74,.22)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.fadein{animation:rise .28s cubic-bezier(.2,.8,.2,1) both}
+
+@media (max-width:360px){
+  .form-head{gap:7px;padding:10px}
+  .form-pattern span{width:25px;height:30px;font-size:12px;border-width:2.2px;border-radius:7px}
+  .form-pattern span:nth-child(2){transform:translateY(-2px) rotate(2deg)}
+  .form-pattern span:nth-child(3){transform:translateY(-4px) rotate(-2deg)}
+  .form-pattern span:nth-child(4){transform:translateY(-6px) rotate(3deg)}
+  .form-title h2{font-size:14.5px;letter-spacing:.8px}
+  .form-title p{font-size:10px;line-height:1.35}
+  .form-count{font-size:8px;padding:2px 5px}
+  .mode-tile{padding:9px 8px 8px;min-height:104px}
+  .mt-name{font-size:12.5px}
+  .mt-meta{font-size:9px}
+  .hero h1{font-size:30px;letter-spacing:1px}
+  .hero-art{width:104px;height:104px;flex-basis:104px}
+  .vc-art{width:70px;height:70px;flex-basis:70px}
+  .vc-title .vc-name{font-size:19px}
+}
+@media (min-width:760px){
+  .app{max-width:560px;padding-left:20px;padding-right:20px}
+  .bg-deco i{opacity:.18}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+<div data-generated-by="aurora-frontend-design">
+  <div class="bg-deco" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="app" id="app" aria-live="polite"></div>
+  <div class="toast" id="toast" role="status"></div>
+</div>
+<script>
+/* =========================================================
+   疊疊小鎮 · 小學疊詞互動遊戲
+   初小版：AA / ABB / AABB
+   高小版：AA / ABB / AABB 進階 + AABC / ABAC / ABCC
+   每個形式兩種玩法，共 18 個遊戲
+   ========================================================= */
+
+/* ---------------- Q 版插畫 ---------------- */
+var ART = {
+  moon:'<circle cx="50" cy="50" r="29" fill="#FFE7A3" stroke="#22304A" stroke-width="3.4"/><circle cx="40" cy="41" r="5" fill="#F2C96B"/><circle cx="62" cy="63" r="6.5" fill="#F2C96B"/><circle cx="66" cy="38" r="3.4" fill="#F2C96B"/><path d="M39 53c2 3 6 3 8 0M55 53c2 3 6 3 8 0" stroke="#22304A" stroke-width="2.8" stroke-linecap="round" fill="none"/><path d="M46 62c3 3 7 3 10 0" stroke="#22304A" stroke-width="2.6" stroke-linecap="round" fill="none"/><circle cx="35" cy="61" r="3" fill="#FF9BB3" opacity=".65"/><circle cx="67" cy="61" r="3" fill="#FF9BB3" opacity=".65"/><path d="M18 24l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#FFC53D" stroke="#22304A" stroke-width="1.8"/><path d="M80 70l1.6 4 4 1.6-4 1.6-1.6 4-1.6-4-4-1.6 4-1.6z" fill="#FFC53D" stroke="#22304A" stroke-width="1.6"/>',
+  apple:'<path d="M50 31c-6-6-18-6-24 2-8 11-3 32 8 44 5 6 11 6 16 1 5 5 11 5 16-1 11-12 16-33 8-44-6-8-18-8-24-2z" fill="#FF6B5B" stroke="#22304A" stroke-width="3.4" stroke-linejoin="round"/><path d="M50 31c0-8 4-13 10-15" stroke="#22304A" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M60 19c7-4 14 0 14 6-7 4-13 1-14-6z" fill="#22C3A6" stroke="#22304A" stroke-width="2.8" stroke-linejoin="round"/><path d="M37 48c-1 6 1 12 4 16" stroke="#fff" stroke-width="3.4" opacity=".55" stroke-linecap="round"/><path d="M42 62c2 3 5 3 7 0M54 62c2 3 5 3 7 0" stroke="#22304A" stroke-width="2.6" stroke-linecap="round" fill="none"/><circle cx="34" cy="58" r="3" fill="#FF9BB3" opacity=".55"/><circle cx="66" cy="58" r="3" fill="#FF9BB3" opacity=".55"/>',
+  tree:'<path d="M46 62h8v24h-8z" fill="#C98A5B" stroke="#22304A" stroke-width="3.2" stroke-linejoin="round"/><path d="M50 70c-8 0-10-8-4-10" stroke="#22304A" stroke-width="2.8" fill="none" stroke-linecap="round"/><circle cx="50" cy="40" r="25" fill="#3FCB8E" stroke="#22304A" stroke-width="3.4"/><circle cx="31" cy="52" r="13" fill="#3FCB8E" stroke="#22304A" stroke-width="3.2"/><circle cx="69" cy="52" r="13" fill="#3FCB8E" stroke="#22304A" stroke-width="3.2"/><circle cx="40" cy="35" r="5.5" fill="#FF6B5B" stroke="#22304A" stroke-width="2.2"/><circle cx="60" cy="48" r="5.5" fill="#FF6B5B" stroke="#22304A" stroke-width="2.2"/><path d="M34 88l-4 6M66 88l4 6" stroke="#22304A" stroke-width="3" stroke-linecap="round"/>',
+  cake:'<path d="M24 46h52v32a6 6 0 01-6 6H30a6 6 0 01-6-6z" fill="#FFE1DA" stroke="#22304A" stroke-width="3.4" stroke-linejoin="round"/><path d="M24 58c6 5 12 5 18 0s12-5 18 0 10 5 16 0v-8H24z" fill="#FF8FA8" stroke="#22304A" stroke-width="2.8" stroke-linejoin="round"/><path d="M24 46c5-6 12-6 17 0 5-6 12-6 17 0 5-6 12-6 18 0" fill="#FFF6E6" stroke="#22304A" stroke-width="3" stroke-linejoin="round"/><path d="M50 20v18" stroke="#22304A" stroke-width="3" stroke-linecap="round"/><path d="M50 19c-5-6-1-12 5-12 1 6-1 10-5 12z" fill="#FFC53D" stroke="#22304A" stroke-width="2.4" stroke-linejoin="round"/><path d="M34 74h8M58 74h8" stroke="#22304A" stroke-width="2.6" stroke-linecap="round" opacity=".4"/>',
+  grass:'<path d="M10 78c8-18 24-28 40-28s32 10 40 28z" fill="#3FCB8E" stroke="#22304A" stroke-width="3.4" stroke-linejoin="round"/><path d="M28 78c0-10 2-16 6-22M40 78c0-12 1-18 4-24M58 78c1-11 0-17-3-23M70 78c1-8 3-13 6-17" stroke="#22304A" stroke-width="2.6" stroke-linecap="round" fill="none" opacity=".55"/><path d="M73 40c0-7 5-12 12-12 0 8-5 13-12 12z" fill="#FFC53D" stroke="#22304A" stroke-width="2.6" stroke-linejoin="round"/><circle cx="26" cy="52" r="4" fill="#FFF6E6" stroke="#22304A" stroke-width="2"/><path d="M18 34l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#FFC53D" stroke="#22304A" stroke-width="1.6"/>',
+  star:'<path d="M50 12l10.5 22.5L85 38l-18 17.5L71.5 81 50 69.5 28.5 81 33 55.5 15 38l24.5-3.5z" fill="#FFC53D" stroke="#22304A" stroke-width="3.4" stroke-linejoin="round"/><path d="M42 45c2 3 5 3 7 0M55 45c2 3 5 3 7 0" stroke="#22304A" stroke-width="2.6" stroke-linecap="round" fill="none"/><path d="M46 55c3 3 7 3 10 0" stroke="#22304A" stroke-width="2.4" stroke-linecap="round" fill="none"/><circle cx="36" cy="53" r="2.8" fill="#FF9BB3" opacity=".6"/><circle cx="64" cy="53" r="2.8" fill="#FF9BB3" opacity=".6"/>',
+  bear:'<circle cx="27" cy="32" r="13" fill="#C98A5B" stroke="#22304A" stroke-width="3.2"/><circle cx="73" cy="32" r="13" fill="#C98A5B" stroke="#22304A" stroke-width="3.2"/><circle cx="27" cy="32" r="6" fill="#E8B98C"/><circle cx="73" cy="32" r="6" fill="#E8B98C"/><circle cx="50" cy="55" r="29" fill="#E8AE72" stroke="#22304A" stroke-width="3.4"/><ellipse cx="50" cy="65" rx="16" ry="12" fill="#FFF6E6" stroke="#22304A" stroke-width="2.6"/><circle cx="50" cy="58" r="4.4" fill="#22304A"/><path d="M50 63v4M43 67c2 3 5 4 7 4s5-1 7-4" stroke="#22304A" stroke-width="2.5" stroke-linecap="round" fill="none"/><circle cx="39" cy="49" r="3.4" fill="#22304A"/><circle cx="61" cy="49" r="3.4" fill="#22304A"/><circle cx="32" cy="61" r="3.4" fill="#FF9BB3" opacity=".6"/><circle cx="68" cy="61" r="3.4" fill="#FF9BB3" opacity=".6"/><path d="M38 85c-2 3-2 6 0 8M62 85c2 3 2 6 0 8" stroke="#22304A" stroke-width="2.8" stroke-linecap="round"/>',
+  sun:'<circle cx="50" cy="50" r="22" fill="#FFC53D" stroke="#22304A" stroke-width="3.4"/><g stroke="#22304A" stroke-width="3.2" stroke-linecap="round"><path d="M50 14v9M50 77v9M14 50h9M77 50h9M25 25l6 6M69 69l6 6M75 25l-6 6M31 69l-6 6"/></g><path d="M42 48c2 3 5 3 7 0M54 48c2 3 5 3 7 0" stroke="#22304A" stroke-width="2.6" stroke-linecap="round" fill="none"/><path d="M44 57c3 4 9 4 12 0" stroke="#22304A" stroke-width="2.6" stroke-linecap="round" fill="none"/><circle cx="36" cy="55" r="3" fill="#FF8A5B" opacity=".55"/><circle cx="64" cy="55" r="3" fill="#FF8A5B" opacity=".55"/>',
+  turtle:'<ellipse cx="50" cy="60" rx="33" ry="25" fill="#3FCB8E" stroke="#22304A" stroke-width="3.4"/><path d="M50 36v48M24 52c16 8 36 8 52 0M26 68c15-6 33-6 48 0" stroke="#22304A" stroke-width="2.4" fill="none" opacity=".45"/><circle cx="82" cy="52" r="12" fill="#8FE0B8" stroke="#22304A" stroke-width="3.2"/><circle cx="85" cy="49" r="2.8" fill="#22304A"/><path d="M88 57c3 2 5 1 6-1" stroke="#22304A" stroke-width="2.2" stroke-linecap="round" fill="none"/><path d="M20 46c-6-4-10 0-8 6 2 5 7 5 9 2" fill="#3FCB8E" stroke="#22304A" stroke-width="2.8" stroke-linejoin="round"/><path d="M30 84l-4 7M62 84l4 7" stroke="#22304A" stroke-width="3" stroke-linecap="round"/>',
+  book:'<rect x="18" y="50" width="64" height="16" rx="5" fill="#3FA9E0" stroke="#22304A" stroke-width="3.2"/><rect x="24" y="33" width="52" height="17" rx="5" fill="#FFC53D" stroke="#22304A" stroke-width="3.2"/><rect x="30" y="18" width="40" height="15" rx="5" fill="#FF8FA8" stroke="#22304A" stroke-width="3.2"/><path d="M26 58h10M32 41h10M38 26h10" stroke="#22304A" stroke-width="2.4" stroke-linecap="round" opacity=".5"/><path d="M70 74c6 2 10 6 10 12" stroke="#22C3A6" stroke-width="3" fill="none" stroke-linecap="round"/>',
+  broom:'<path d="M60 16l14 14-30 30-14-14z" fill="#C98A5B" stroke="#22304A" stroke-width="3.2" stroke-linejoin="round"/><path d="M30 46L14 78l10 10 32-16z" fill="#FFC53D" stroke="#22304A" stroke-width="3.2" stroke-linejoin="round"/><path d="M20 72l14 14M27 64l14 14M34 56l14 14" stroke="#22304A" stroke-width="2.4" stroke-linecap="round"/><path d="M64 12l8 8" stroke="#22304A" stroke-width="3" stroke-linecap="round"/>',
+  gift:'<rect x="18" y="40" width="64" height="42" rx="6" fill="#FF8FA8" stroke="#22304A" stroke-width="3.4"/><rect x="16" y="32" width="68" height="14" rx="5" fill="#FFC53D" stroke="#22304A" stroke-width="3.2"/><path d="M50 32v50" stroke="#22304A" stroke-width="3.2"/><path d="M50 32c-12 0-20-4-20-11 0-5 4-8 8-6 6 3 10 9 12 17z" fill="#FFC53D" stroke="#22304A" stroke-width="2.8" stroke-linejoin="round"/><path d="M50 32c12 0 20-4 20-11 0-5-4-8-8-6-6 3-10 9-12 17z" fill="#FFC53D" stroke="#22304A" stroke-width="2.8" stroke-linejoin="round"/><path d="M26 60h8M66 60h8" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".6"/>',
+  sea:'<path d="M8 58c9-9 19-9 28 0s19 9 28 0 19-9 28 0" fill="none" stroke="#3FA9E0" stroke-width="7" stroke-linecap="round"/><path d="M8 74c9-9 19-9 28 0s19 9 28 0 19-9 28 0" fill="none" stroke="#7FC8F8" stroke-width="5" stroke-linecap="round"/><path d="M62 34c8-6 18-2 20 6 2 8-6 12-12 8" fill="#FFE1DA" stroke="#22304A" stroke-width="2.8" stroke-linejoin="round"/><path d="M66 40l4-4M72 42l4-4" stroke="#22304A" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="36" r="5" fill="#FFC53D" stroke="#22304A" stroke-width="2.2"/>',
+  flower:'<path d="M50 52v34" stroke="#22C3A6" stroke-width="4" stroke-linecap="round"/><path d="M50 68c-8-2-12-8-12-14 8 0 12 5 12 14z" fill="#3FCB8E" stroke="#22304A" stroke-width="2.6" stroke-linejoin="round"/><g fill="#FF8FA8" stroke="#22304A" stroke-width="3"><circle cx="50" cy="24" r="12"/><circle cx="74" cy="42" r="12"/><circle cx="64" cy="68" r="12"/><circle cx="36" cy="68" r="12"/><circle cx="26" cy="42" r="12"/></g><circle cx="50" cy="47" r="13" fill="#FFC53D" stroke="#22304A" stroke-width="3"/><path d="M45 45c2 2 3 2 5 0M52 45c2 2 3 2 5 0" stroke="#22304A" stroke-width="2" stroke-linecap="round" fill="none"/>',
+  crowd:'<circle cx="27" cy="40" r="14" fill="#FFD9C2" stroke="#22304A" stroke-width="3"/><path d="M10 82c0-13 8-21 17-21s17 8 17 21z" fill="#3FA9E0" stroke="#22304A" stroke-width="3" stroke-linejoin="round"/><circle cx="73" cy="40" r="14" fill="#E8AE72" stroke="#22304A" stroke-width="3"/><path d="M56 82c0-13 8-21 17-21s17 8 17 21z" fill="#FF8FA8" stroke="#22304A" stroke-width="3" stroke-linejoin="round"/><circle cx="50" cy="54" r="15" fill="#FFD9C2" stroke="#22304A" stroke-width="3"/><path d="M31 90c0-14 9-22 19-22s19 8 19 22z" fill="#FFC53D" stroke="#22304A" stroke-width="3" stroke-linejoin="round"/><circle cx="23" cy="37" r="2.6" fill="#22304A"/><circle cx="31" cy="37" r="2.6" fill="#22304A"/><circle cx="69" cy="37" r="2.6" fill="#22304A"/><circle cx="77" cy="37" r="2.6" fill="#22304A"/><circle cx="46" cy="51" r="2.6" fill="#22304A"/><circle cx="54" cy="51" r="2.6" fill="#22304A"/>',
+  mountain:'<path d="M10 80L38 28l16 28 10-16 26 40z" fill="#8FE0B8" stroke="#22304A" stroke-width="3.4" stroke-linejoin="round"/><path d="M38 28l9 16-6-2-5 6-3-8z" fill="#FFF6E6" stroke="#22304A" stroke-width="2.4" stroke-linejoin="round"/><path d="M54 56l5-8 4 6-4-1-3 5z" fill="#FFF6E6" stroke="#22304A" stroke-width="2" stroke-linejoin="round"/><circle cx="78" cy="24" r="9" fill="#FFC53D" stroke="#22304A" stroke-width="2.6"/><path d="M16 88h70" stroke="#22304A" stroke-width="3" stroke-linecap="round" opacity=".4"/>',
+  clock:'<path d="M28 26a6 6 0 016-6h4l-4 12h-6zM72 26a6 6 0 00-6-6h-4l4 12h6z" fill="#FFC53D" stroke="#22304A" stroke-width="3" stroke-linejoin="round"/><circle cx="50" cy="58" r="28" fill="#FFF1D6" stroke="#22304A" stroke-width="3.8"/><circle cx="50" cy="58" r="21" fill="#fff" stroke="#22304A" stroke-width="2.2"/><path d="M50 58V44M50 58l10 6" stroke="#22304A" stroke-width="3.2" stroke-linecap="round"/><circle cx="50" cy="58" r="3" fill="#FF6B5B" stroke="#22304A" stroke-width="1.6"/><path d="M34 88l-4 7M66 88l4 7" stroke="#22304A" stroke-width="3" stroke-linecap="round"/>',
+  lantern:'<path d="M50 10v10" stroke="#22304A" stroke-width="3.4" stroke-linecap="round"/><rect x="32" y="20" width="36" height="9" rx="3" fill="#FFC53D" stroke="#22304A" stroke-width="2.8"/><ellipse cx="50" cy="54" rx="28" ry="25" fill="#FF6B5B" stroke="#22304A" stroke-width="3.4"/><path d="M50 30v48M36 34c-4 12-4 28 0 40M64 34c4 12 4 28 0 40" stroke="#22304A" stroke-width="2.2" fill="none" opacity=".35"/><rect x="32" y="78" width="36" height="8" rx="3" fill="#FFC53D" stroke="#22304A" stroke-width="2.6"/><path d="M50 86v10M44 88l-3 9M56 88l3 9" stroke="#22304A" stroke-width="2.4" stroke-linecap="round"/>',
+  rainbow:'<path d="M16 70a34 34 0 0168 0" fill="none" stroke="#FF6B5B" stroke-width="8" stroke-linecap="round"/><path d="M24 70a26 26 0 0152 0" fill="none" stroke="#FFC53D" stroke-width="8" stroke-linecap="round"/><path d="M32 70a18 18 0 0136 0" fill="none" stroke="#3FCB8E" stroke-width="8" stroke-linecap="round"/><path d="M40 70a10 10 0 0120 0" fill="none" stroke="#3FA9E0" stroke-width="8" stroke-linecap="round"/><path d="M12 76h10M78 76h10" stroke="#22304A" stroke-width="3" stroke-linecap="round"/><circle cx="16" cy="82" r="5" fill="#FFF6E6" stroke="#22304A" stroke-width="2.4"/><circle cx="84" cy="82" r="5" fill="#FFF6E6" stroke="#22304A" stroke-width="2.4"/>',
+  fish:'<path d="M20 52c12-18 34-20 48-6 6 6 10 8 16 6-2 8-2 12 0 20-6-2-10 0-16 6-14 14-36 12-48-6-4-6-4-14 0-20z" fill="#7FC8F8" stroke="#22304A" stroke-width="3.4" stroke-linejoin="round"/><path d="M68 46c8-10 16-10 20 0-6 2-10 6-12 12" fill="#3FA9E0" stroke="#22304A" stroke-width="2.8" stroke-linejoin="round"/><circle cx="36" cy="48" r="4" fill="#22304A"/><circle cx="37.4" cy="46.6" r="1.4" fill="#fff"/><path d="M30 58c3 3 6 3 9 0" stroke="#22304A" stroke-width="2.4" stroke-linecap="round" fill="none"/><path d="M50 34c4 4 4 8 0 12M58 38c4 4 4 8 0 12" stroke="#fff" stroke-width="2.6" stroke-linecap="round" opacity=".6"/>',
+  chick:'<circle cx="50" cy="58" r="26" fill="#FFD447" stroke="#22304A" stroke-width="3.4"/><path d="M50 33c-1-8 5-13 12-11-4 3-5 7-3 10" fill="#FFD447" stroke="#22304A" stroke-width="3" stroke-linejoin="round"/><path d="M44 66l-11 5 11 5z" fill="#FF8A5B" stroke="#22304A" stroke-width="3" stroke-linejoin="round"/><circle cx="43" cy="53" r="3.4" fill="#22304A"/><circle cx="59" cy="53" r="3.4" fill="#22304A"/><circle cx="36" cy="62" r="3.2" fill="#FF9BB3" opacity=".75"/><path d="M30 62c-6-2-9 3-6 8 3 4 7 3 8-1" fill="#FFE27A" stroke="#22304A" stroke-width="2.6" stroke-linejoin="round"/><path d="M40 84l-4 7M62 84l4 7" stroke="#22304A" stroke-width="3" stroke-linecap="round"/>',
+  owl:'<path d="M24 46c0-14 11-24 26-24s26 10 26 24v18c0 10-11 18-26 18S24 74 24 64z" fill="#8B7BF7" stroke="#22304A" stroke-width="3.4"/><path d="M24 42c-6-8-4-16 2-18 5-2 9 2 10 8M76 42c6-8 4-16-2-18-5-2-9 2-10 8" fill="#8B7BF7" stroke="#22304A" stroke-width="3" stroke-linejoin="round"/><circle cx="39" cy="50" r="11" fill="#FFF6E6" stroke="#22304A" stroke-width="2.8"/><circle cx="61" cy="50" r="11" fill="#FFF6E6" stroke="#22304A" stroke-width="2.8"/><circle cx="39" cy="50" r="4.4" fill="#22304A"/><circle cx="61" cy="50" r="4.4" fill="#22304A"/><path d="M46 62h8l-4 6z" fill="#FFC53D" stroke="#22304A" stroke-width="2.4" stroke-linejoin="round"/><path d="M28 70c4 8 12 12 22 12s18-4 22-12" stroke="#22304A" stroke-width="2.6" fill="none" stroke-linecap="round" opacity=".35"/><path d="M34 82l-3 7M66 82l3 7" stroke="#22304A" stroke-width="3" stroke-linecap="round"/>',
+  dog:'<ellipse cx="50" cy="91" rx="24" ry="4.5" fill="#22304A" opacity=".12"/><path d="M27 45c-8-4-13 3-11 13 2 9 7 12 12 7" fill="#C98A5B" stroke="#22304A" stroke-width="3.2" stroke-linejoin="round"/><path d="M73 45c8-4 13 3 11 13-2 9-7 12-12 7" fill="#C98A5B" stroke="#22304A" stroke-width="3.2" stroke-linejoin="round"/><circle cx="50" cy="54" r="24" fill="#E8AE72" stroke="#22304A" stroke-width="3.4"/><ellipse cx="50" cy="64" rx="14" ry="10" fill="#FFF6E6" stroke="#22304A" stroke-width="2.8"/><circle cx="50" cy="58" r="4.2" fill="#22304A"/><path d="M50 63v4M44 68c2 3 4 4 6 4s4-1 6-4" stroke="#22304A" stroke-width="2.4" stroke-linecap="round" fill="none"/><circle cx="40" cy="48" r="3.2" fill="#22304A"/><circle cx="60" cy="48" r="3.2" fill="#22304A"/><circle cx="34" cy="59" r="3" fill="#FF9BB3" opacity=".7"/><circle cx="66" cy="59" r="3" fill="#FF9BB3" opacity=".7"/>',
+  cat:'<ellipse cx="50" cy="92" rx="24" ry="4.5" fill="#22304A" opacity=".12"/><path d="M30 42L24 20l18 10zM70 42L76 20 58 30z" fill="#FFB3C1" stroke="#22304A" stroke-width="3.2" stroke-linejoin="round"/><path d="M34 38l-3-9 8 4zM66 38l3-9-8 4z" fill="#FF8FA3"/><circle cx="50" cy="58" r="26" fill="#FFC2CE" stroke="#22304A" stroke-width="3.4"/><path d="M36 54c2-4 6-4 8 0M56 54c2-4 6-4 8 0" stroke="#22304A" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M46 64h8l-4 4z" fill="#22304A"/><path d="M50 68c-1 4-5 5-7 3M50 68c1 4 5 5 7 3" stroke="#22304A" stroke-width="2.2" stroke-linecap="round" fill="none"/><path d="M22 60h8M22 68h8M70 60h8M70 68h8" stroke="#22304A" stroke-width="2.2" stroke-linecap="round"/><circle cx="32" cy="66" r="3.4" fill="#FF8FA3" opacity=".75"/><circle cx="68" cy="66" r="3.4" fill="#FF8FA3" opacity=".75"/>'
+};
+function artSVG(name, cls){
+  return '<svg class="'+(cls||'')+'" viewBox="0 0 100 100" aria-hidden="true">'+(ART[name]||ART.star)+'</svg>';
+}
+function mascotSVG(cls){
+  return '<svg class="'+(cls||'')+'" viewBox="0 0 200 200" role="img" aria-label="疊疊小鎮吉祥物疊疊獸">'+
+    '<ellipse cx="100" cy="184" rx="52" ry="9" fill="#22304A" opacity=".14"/>'+
+    '<rect x="52" y="128" width="96" height="46" rx="14" fill="#22C3A6" stroke="#22304A" stroke-width="6"/>'+
+    '<rect x="66" y="96" width="68" height="40" rx="13" fill="#FF6B5B" stroke="#22304A" stroke-width="6"/>'+
+    '<path d="M41 138c-11 3-16 12-12 19 4 6 12 3 15-4" fill="#22C3A6" stroke="#22304A" stroke-width="5" stroke-linejoin="round"/>'+
+    '<path d="M159 138c11 3 16 12 12 19-4 6-12 3-15-4" fill="#22C3A6" stroke="#22304A" stroke-width="5" stroke-linejoin="round"/>'+
+    '<rect x="60" y="28" width="80" height="72" rx="17" fill="#FFC53D" stroke="#22304A" stroke-width="6"/>'+
+    '<path d="M60 55h80" stroke="#22304A" stroke-width="4" opacity=".25"/>'+
+    '<circle cx="86" cy="72" r="6.5" fill="#22304A"/><circle cx="114" cy="72" r="6.5" fill="#22304A"/>'+
+    '<path d="M91 84c4 6 14 6 18 0" stroke="#22304A" stroke-width="4.4" stroke-linecap="round" fill="none"/>'+
+    '<circle cx="72" cy="82" r="5" fill="#FF8FA8" opacity=".65"/><circle cx="128" cy="82" r="5" fill="#FF8FA8" opacity=".65"/>'+
+    '<rect x="76" y="14" width="48" height="15" rx="6" fill="#8B7BF7" stroke="#22304A" stroke-width="5"/>'+
+    '<circle cx="100" cy="10" r="6" fill="#FFC53D" stroke="#22304A" stroke-width="4"/>'+
+    '<path d="M70 176h20M110 176h20" stroke="#22304A" stroke-width="5" stroke-linecap="round"/>'+
+    '</svg>';
+}
+
+/* ---------------- 圖示 ---------------- */
+var ICO = {
+  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>',
+  arrow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 6l6 6-6 6"/></svg>',
+  chev:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>',
+  sound:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.6L13 19V5L7.6 9.5H4z"/><path d="M16.5 9a4.5 4.5 0 010 6"/><path d="M19 6.5a8 8 0 010 11"/></svg>',
+  mute:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.6L13 19V5L7.6 9.5H4z"/><path d="M17 10l4 4M21 10l-4 4"/></svg>',
+  star:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6.1 6.6.9-4.8 4.7 1.2 6.6L12 17.7 6.1 20.9l1.2-6.6L2.5 9.6l6.6-.9z"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.4" fill="#22C3A6" stroke="#22304A" stroke-width="2.2"/><path d="M7.8 12.4l2.8 2.8 5.6-6" stroke="#fff"/></svg>',
+  cross:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.4" fill="#FF6B5B" stroke="#22304A" stroke-width="2.2"/><path d="M8.6 8.6l6.8 6.8M15.4 8.6l-6.8 6.8" stroke="#fff"/></svg>',
+  replay:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 10-2.5 5.8"/><path d="M20 5v6h-6"/></svg>',
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11L12 3.5 20.5 11"/><path d="M6 9.8V20h12V9.8"/><path d="M10 20v-5h4v5"/></svg>',
+  cards:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="7" width="12" height="14" rx="2.4"/><path d="M8 7V5.4A2.4 2.4 0 0110.4 3H19a2.4 2.4 0 012.4 2.4V15"/><path d="M6.5 11h5M6.5 14.5h5"/></svg>',
+  pencil:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 20l1.2-4.4L16.6 4.2a2.2 2.2 0 013.1 0l.1.1a2.2 2.2 0 010 3.1L8.4 18.8z"/><path d="M14.8 6l3.2 3.2M5.2 15.6l3.2 3.2"/></svg>',
+  blocks:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="13" width="8" height="8" rx="1.8"/><rect x="13" y="13" width="8" height="8" rx="1.8"/><rect x="8" y="3" width="8" height="8" rx="1.8"/></svg>',
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>',
+  puzzle:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M10 3.5a2 2 0 114 0V6h3.5a1.5 1.5 0 011.5 1.5V11h2.5a2 2 0 110 4H19v3.5a1.5 1.5 0 01-1.5 1.5H14v-2.5a2 2 0 10-4 0V20H6.5A1.5 1.5 0 015 18.5V15H2.5a2 2 0 110-4H5V7.5A1.5 1.5 0 016.5 6H10z"/></svg>',
+  book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 4.5A2.5 2.5 0 016.5 2H20v17H6.5A2.5 2.5 0 004 21.5z"/><path d="M4 19a2.5 2.5 0 012.5-2.5H20"/><path d="M8 7h7M8 10.5h5"/></svg>',
+  scale:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 21h10M5 7h14"/><path d="M5 7L2.5 13a3 3 0 005 0zM19 7l-2.5 6a3 3 0 005 0z"/></svg>',
+  stetho:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a5 5 0 0010 0V3"/><path d="M11 14v2a4 4 0 008 0v-2"/><circle cx="19" cy="12" r="2.2"/></svg>',
+  bulb:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 18h5M10.5 21h3"/><path d="M12 3a6 6 0 00-3.6 10.8c.6.5.9 1.1.9 1.8V17h5.4v-1.4c0-.7.3-1.3.9-1.8A6 6 0 0012 3z"/></svg>',
+  spark:'<svg viewBox="0 0 24 24"><path d="M12 2.6l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" fill="#FFC53D" stroke="#22304A" stroke-width="1.6"/></svg>',
+  trophy:'<svg viewBox="0 0 64 64"><path d="M18 12h28v14c0 9-6.3 14-14 14s-14-5-14-14V12z" fill="#FF6B5B" stroke="#22304A" stroke-width="3.4" stroke-linejoin="round"/><path d="M18 16h-6a6 6 0 006 8M46 16h6a6 6 0 01-6 8" fill="none" stroke="#22304A" stroke-width="3.4" stroke-linecap="round"/><path d="M32 40v9M22 54h20" stroke="#22304A" stroke-width="3.6" stroke-linecap="round"/><path d="M26 24l4 4 8-8" fill="none" stroke="#FFF3DC" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+};
+function starSVG(on){
+  return '<svg viewBox="0 0 24 24" aria-hidden="true"><path class="'+(on?'star-on':'star-off')+'" d="M12 2.6l2.9 6.1 6.6.9-4.8 4.7 1.2 6.6L12 17.7 6.1 20.9l1.2-6.6L2.5 9.6l6.6-.9z"/></svg>';
+}
+function starRow(n,total){
+  var s='';
+  for(var i=0;i<(total||3);i++) s+=starSVG(i<n);
+  return '<span class="stars">'+s+'</span>';
+}
+
+/* ---------------- 內容資料 ---------------- */
+var DATA = {
+  junior:{
+    id:'junior', name:'初小版', grades:'P1–P3', tagline:'兩個字、三個字，越疊越有趣',
+    art:'chick', tint:'sun',
+    intro:'先選一種疊詞形式，再挑一個小遊戲。',
+    forms:[
+      {
+        id:'aa', pattern:['A','A'], name:'AA 式', nickname:'兩個字手牽手',
+        tint:'coral',
+        desc:'同一個字重複兩次，用來形容事物的樣子、顏色或感覺。',
+        examples:['圓圓','紅紅','高高','甜甜'],
+        tip:'AA 式是最簡單的疊詞。試試看：月亮圓圓、蘋果紅紅、大樹高高。',
+        modes:[
+          {
+            id:'aa-pair', name:'圖詞配一配', engine:'pair', icon:'cards', meta:'4 組圖詞配對',
+            tip:'配對成功會出現例句，跟着讀一次，印象會更深。',
+            words:['圓圓','紅紅','高高','甜甜'],
+            items:[
+              {word:'圓圓', art:'moon', label:'月亮', sentence:'月亮圓圓的，像一個大月餅。'},
+              {word:'紅紅', art:'apple', label:'蘋果', sentence:'蘋果紅紅的，看起來很好吃。'},
+              {word:'高高', art:'tree', label:'大樹', sentence:'大樹高高的，小鳥最愛在上面唱歌。'},
+              {word:'甜甜', art:'cake', label:'蛋糕', sentence:'蛋糕甜甜的，弟弟吃得笑呵呵。'}
+            ]
+          },
+          {
+            id:'aa-fill', name:'句子填一填', engine:'fill', icon:'pencil', meta:'4 題選詞填空',
+            tip:'讀一讀句子，選出最合適的 AA 疊詞。',
+            words:['白白','圓圓','甜甜','綠綠'],
+            questions:[
+              {sentence:'沙灘上的貝殼___的，非常漂亮。', answer:'白白', options:['白白','高高','甜甜','圓圓'], art:'sea', label:'沙灘', explain:'「白白」形容顏色雪白，最適合寫貝殼。'},
+              {sentence:'小貓的眼睛___的，像兩顆寶石。', answer:'圓圓', options:['圓圓','紅紅','綠綠','高高'], art:'cat', label:'小貓', explain:'貓的眼睛又圓又亮，所以用「圓圓」。'},
+              {sentence:'妹妹笑起來___的，很可愛。', answer:'甜甜', options:['甜甜','白白','彎彎','高高'], art:'flower', label:'妹妹', explain:'「甜甜」可以用來形容笑容，給人溫暖的感覺。'},
+              {sentence:'春天的草___的，鋪滿了山坡。', answer:'綠綠', options:['綠綠','紅紅','圓圓','甜甜'], art:'grass', label:'草地', explain:'草是綠色的，所以用「綠綠」。'}
+            ]
+          }
+        ]
+      },
+      {
+        id:'abb', pattern:['A','B','B'], name:'ABB 式', nickname:'後面兩個字一樣',
+        tint:'mint',
+        desc:'第一個字點出事物，後面兩個相同的字把它的樣子說得更生動。',
+        examples:['紅彤彤','綠油油','亮晶晶','胖乎乎'],
+        tip:'ABB 式像一個三層積木：先放「紅」，再疊兩個「彤」，就變成「紅彤彤」。',
+        modes:[
+          {
+            id:'abb-build', name:'三格積木', engine:'build', icon:'blocks', meta:'4 題拼字',
+            tip:'點字卡放進空格，排滿三格就會自動檢查。點空格可以取回字卡。',
+            words:['紅彤彤','綠油油','亮晶晶','胖乎乎'],
+            questions:[
+              {word:'紅彤彤', chars:['紅','彤','彤'], extra:'綠', art:'apple', label:'蘋果', sentence:'蘋果紅彤彤的，十分新鮮。', tip:'「紅彤彤」形容顏色很紅，像蘋果一樣。'},
+              {word:'綠油油', chars:['綠','油','油'], extra:'黃', art:'grass', label:'草地', sentence:'春天的草地綠油油的，像一塊地毯。', tip:'「綠油油」形容草木綠得發亮。'},
+              {word:'亮晶晶', chars:['亮','晶','晶'], extra:'閃', art:'star', label:'星星', sentence:'天上的星星亮晶晶的，一閃一閃。', tip:'「亮晶晶」形容光亮閃爍，常用來寫星星和露珠。'},
+              {word:'胖乎乎', chars:['胖','乎','乎'], extra:'呼', art:'bear', label:'小熊', sentence:'小熊胖乎乎的，抱起來很舒服。', tip:'「胖乎乎」形容圓潤可愛，多用來寫小孩或小動物。'}
+            ]
+          },
+          {
+            id:'abb-pick', name:'看圖選一選', engine:'choice', icon:'search', meta:'4 題看圖選詞',
+            tip:'先看圖畫，再讀句子，選出最貼切的 ABB 疊詞。',
+            words:['金燦燦','慢吞吞','亮晶晶','綠油油'],
+            questions:[
+              {art:'sun', label:'太陽', text:'太陽升起來了，沙灘上___的。', answer:'金燦燦', options:['金燦燦','綠油油','慢吞吞','亮晶晶'], explain:'「金燦燦」形容像金子一樣閃亮，最適合寫陽光。'},
+              {art:'turtle', label:'烏龜', text:'烏龜___地爬過馬路。', answer:'慢吞吞', options:['慢吞吞','胖乎乎','金燦燦','紅彤彤'], explain:'「慢吞吞」形容動作很慢，烏龜爬行正好合用。'},
+              {art:'star', label:'星星', text:'夜空中的星星___的。', answer:'亮晶晶', options:['亮晶晶','綠油油','胖乎乎','慢吞吞'], explain:'「亮晶晶」形容閃閃發亮，星星和露珠都合用。'},
+              {art:'grass', label:'草地', text:'雨後的山坡___的，充滿生機。', answer:'綠油油', options:['綠油油','紅彤彤','金燦燦','胖乎乎'], explain:'「綠油油」形容草木濃綠，雨後的山坡正好是這樣。'}
+            ]
+          }
+        ]
+      },
+      {
+        id:'aabb', pattern:['A','A','B','B'], name:'AABB 式', nickname:'前後各自疊一疊',
+        tint:'sky',
+        desc:'兩個不同的字各自重複一次，讀起來有節奏，常用來寫動作和心情。',
+        examples:['乾乾淨淨','整整齊齊','開開心心','安安靜靜'],
+        tip:'AABB 式可以拆成兩半來看：乾乾 + 淨淨，整整 + 齊齊。',
+        modes:[
+          {
+            id:'aabb-split', name:'前半後半', engine:'split', icon:'puzzle', meta:'4 組拼詞',
+            tip:'拼好一個詞，就會出現它的例句。',
+            words:['乾乾淨淨','整整齊齊','開開心心','安安靜靜'],
+            pairs:[
+              {a:'乾乾', b:'淨淨', word:'乾乾淨淨', art:'broom', sentence:'小明把房間打掃得乾乾淨淨。', hint:'沒有一點灰塵'},
+              {a:'整整', b:'齊齊', word:'整整齊齊', art:'book', sentence:'同學們把課本放得整整齊齊。', hint:'排列得很有秩序'},
+              {a:'開開', b:'心心', word:'開開心心', art:'gift', sentence:'妹妹開開心心地拆開禮物。', hint:'心情非常愉快'},
+              {a:'安安', b:'靜靜', word:'安安靜靜', art:'moon', sentence:'圖書館裏安安靜靜的，大家都在看書。', hint:'沒有半點聲音'}
+            ]
+          },
+          {
+            id:'aabb-spot', name:'句子尋寶', engine:'spot', icon:'search', meta:'4 題找出疊詞',
+            tip:'讀句子，點出藏在裏面的 AABB 疊詞。點錯可以再試。',
+            words:['乾乾淨淨','整整齊齊','開開心心','安安靜靜'],
+            questions:[
+              {chunks:['小明','把房間','打掃得','乾乾淨淨','。'], answer:'乾乾淨淨', explain:'「乾乾淨淨」是 AABB 式，形容一點灰塵也沒有。'},
+              {chunks:['同學們','整整齊齊','地排好隊','。'], answer:'整整齊齊', explain:'「整整齊齊」是 AABB 式，形容排列有秩序。'},
+              {chunks:['妹妹','開開心心','地拆禮物','。'], answer:'開開心心', explain:'「開開心心」是 AABB 式，形容心情愉快。'},
+              {chunks:['圖書館裏','安安靜靜','的','，大家都在看書','。'], answer:'安安靜靜', explain:'「安安靜靜」是 AABB 式，形容沒有聲音。'}
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  senior:{
+    id:'senior', name:'高小版', grades:'P4–P6', tagline:'由 AA 到 ABCC，六種形式兩層深度',
+    art:'owl', tint:'grape',
+    intro:'先重溫 AA、ABB、AABB 的進階用法，再挑戰四字疊詞。',
+    groups:[
+      {id:'basic', name:'初小形式 · 高小進階', sub:'同一形式，句子更長、選項更近義'},
+      {id:'advanced', name:'高小四字形式', sub:'成語與四字疊詞'}
+    ],
+    forms:[
+      {
+        id:'aa', pattern:['A','A'], name:'AA 式', nickname:'一字一頓，語氣更準',
+        tint:'coral', group:'basic', badge:'進階',
+        desc:'同一個字重複，語氣更強、畫面更清楚。高小要分辨近義 AA 詞的細微差別。',
+        examples:['潺潺','隆隆','簌簌','徐徐'],
+        tip:'先問自己：這個聲音是快是慢、是輕是重，再從近義詞中挑最準的一個。',
+        modes:[
+          {
+            id:'aa-adv-fill', name:'近義辨析', engine:'fill', icon:'scale', meta:'4 題近義選詞',
+            tip:'四個選項都是 AA 疊詞，讀完整句，留意聲音的快慢輕重。',
+            words:['潺潺','隆隆','簌簌','徐徐'],
+            questions:[
+              {sentence:'溪水___地流過石縫，聲音清脆悅耳。', answer:'潺潺', options:['潺潺','隆隆','簌簌','呼呼'], art:'mountain', label:'溪谷', explain:'「潺潺」專寫溪水流動的聲音，輕柔而連續；「隆隆」是雷聲或機器聲。'},
+              {sentence:'遠處傳來___的雷聲，看來大雨快要來了。', answer:'隆隆', options:['隆隆','潺潺','吱吱','簌簌'], art:'sea', label:'遠雷', explain:'「隆隆」形容低沉而連續的巨響，最適合寫雷聲。'},
+              {sentence:'秋風一吹，枯葉___地飄落下來。', answer:'簌簌', options:['簌簌','潺潺','隆隆','噹噹'], art:'tree', label:'落葉', explain:'「簌簌」形容細碎而連續的聲音，常寫落葉和眼淚。'},
+              {sentence:'晚風___吹來，帶着一點涼意。', answer:'徐徐', options:['徐徐','匆匆','簌簌','隆隆'], art:'moon', label:'晚風', explain:'「徐徐」形容緩慢而從容，常用來寫風和腳步；「匆匆」剛好相反。'}
+            ]
+          },
+          {
+            id:'aa-adv-clinic', name:'用詞診所', engine:'clinic', icon:'stetho', meta:'4 題找錯替換',
+            tip:'先讀完整句，找出語氣或意思不合的 AA 詞，再換上正確的一個。',
+            words:['匆匆','靜靜','汪汪','嗒嗒'],
+            questions:[
+              {segments:[{t:'他'},{t:'慢慢',bad:true},{t:'地吃完早飯，背起書包跑出家門。'}], answer:'匆匆', options:['匆匆','徐徐','姍姍','默默'], explain:'後文說「跑出家門」，可見時間緊迫；「慢慢」與語境矛盾，應換成「匆匆」。'},
+              {segments:[{t:'爺爺'},{t:'匆匆',bad:true},{t:'地坐在搖椅上，看着窗外的夕陽。'}], answer:'靜靜', options:['靜靜','匆匆','隆隆','簌簌'], explain:'看夕陽是悠閒的畫面，「匆匆」太急；「靜靜」才配合這份安寧。'},
+              {segments:[{t:'小狗聽見門鈴，'},{t:'徐徐',bad:true},{t:'地叫了兩聲。'}], answer:'汪汪', options:['汪汪','徐徐','潺潺','隆隆'], explain:'「徐徐」形容緩慢，不能形容狗叫；狗的叫聲是「汪汪」。'},
+              {segments:[{t:'雨點'},{t:'隆隆',bad:true},{t:'地打在窗上，像在敲小鼓。'}], answer:'嗒嗒', options:['嗒嗒','隆隆','徐徐','汪汪'], explain:'「隆隆」是低沉巨大的聲響；雨點打在窗上，應該是細碎清楚的「嗒嗒」。'}
+            ]
+          }
+        ]
+      },
+      {
+        id:'abb', pattern:['A','B','B'], name:'ABB 式', nickname:'三字一組，畫面更立體',
+        tint:'mint', group:'basic', badge:'進階',
+        desc:'ABB 把事物的狀態寫得更立體。高小要按語境選出最貼切的一個，還要提防同音字。',
+        examples:['濕漉漉','沉甸甸','懶洋洋','黑壓壓'],
+        tip:'ABB 的重點在後面兩個相同的字：漉漉寫濕、甸甸寫重、洋洋寫慵懶、壓壓寫密集。',
+        modes:[
+          {
+            id:'abb-adv-choice', name:'情境選詞', engine:'choice', icon:'search', meta:'4 題情境選詞',
+            tip:'先找出情境的關鍵：是濕、是重、是懶，還是黑？再選對應的 ABB。',
+            words:['濕漉漉','沉甸甸','懶洋洋','黑壓壓'],
+            questions:[
+              {scene:'剛下過雨，操場上滿是水窪，同學們的球鞋都沾滿了泥水。', answer:'濕漉漉', options:['濕漉漉','乾巴巴','油膩膩','涼絲絲'], explain:'「濕漉漉」形容濕得滴水，最配合雨後滿是水窪的操場。'},
+              {scene:'書包裏裝滿了課本，背在肩上走兩步就覺得吃力。', answer:'沉甸甸', options:['沉甸甸','輕飄飄','軟綿綿','硬邦邦'], explain:'「沉甸甸」形容分量重，正好寫裝滿課本的書包。'},
+              {scene:'暑假的午後，他躺在沙發上，連動也不想動。', answer:'懶洋洋', options:['懶洋洋','氣沖沖','興沖沖','急巴巴'], explain:'「懶洋洋」形容沒精打采、慵懶的樣子，最合這個午後。'},
+              {scene:'放學時抬頭一看，一大片烏雲壓在校舍上方，天色一下子暗了。', answer:'黑壓壓', options:['黑壓壓','白花花','金燦燦','綠油油'], explain:'「黑壓壓」形容又黑又密集，常用來寫烏雲和人群。'}
+            ]
+          },
+          {
+            id:'abb-adv-build', name:'拼字挑戰', engine:'build', icon:'blocks', meta:'4 題拼字（含干擾字）',
+            tip:'每題有五張字卡，只有三張能用。小心同音字，例如「漉」和「轆」。',
+            words:['濕漉漉','沉甸甸','懶洋洋','黑壓壓'],
+            questions:[
+              {word:'濕漉漉', chars:['濕','漉','漉'], extras:['轆','綠'], art:'dog', label:'小狗', sentence:'小狗從雨中跑回來，全身濕漉漉的。', tip:'「漉漉」寫水往下滴的樣子；「轆」是車輪，不要弄錯。'},
+              {word:'沉甸甸', chars:['沉','甸','甸'], extras:['電','墊'], art:'gift', label:'箱子', sentence:'這個箱子沉甸甸的，要兩個人一起抬。', tip:'「甸甸」形容沉重；「墊」是墊子，字形相近但意思不同。'},
+              {word:'懶洋洋', chars:['懶','洋','洋'], extras:['樣','羊'], art:'cat', label:'小貓', sentence:'小貓懶洋洋地趴在窗台上曬太陽。', tip:'「洋洋」在這裏寫慵懶的神態，不是「樣子」的「樣」。'},
+              {word:'黑壓壓', chars:['黑','壓','壓'], extras:['鴉','呀'], art:'crowd', label:'人群', sentence:'廣場上黑壓壓的一片，全是來看煙花的人。', tip:'「壓壓」形容密集而有壓迫感；「鴉」是烏鴉，別被同音字騙了。'}
+            ]
+          }
+        ]
+      },
+      {
+        id:'aabb', pattern:['A','A','B','B'], name:'AABB 式', nickname:'四字兩疊，節奏更分明',
+        tint:'sky', group:'basic', badge:'進階',
+        desc:'AABB 把動作、心情、景物寫得有節奏。高小要在一句之中，辨別近義 AABB 的語氣差別。',
+        examples:['熙熙攘攘','浩浩蕩蕩','鬱鬱蔥蔥','隱隱約約'],
+        tip:'AABB 通常前後兩半各自成義：熙熙＋攘攘寫熱鬧，隱隱＋約約寫看不分明。',
+        modes:[
+          {
+            id:'aabb-adv-spot', name:'句中尋詞', engine:'spot', icon:'search', meta:'4 題雙詞辨認',
+            tip:'句中有兩個疊詞，先看清題目要求的意思，再點出符合的一個。',
+            words:['熙熙攘攘','浩浩蕩蕩','隱隱約約','支支吾吾'],
+            questions:[
+              {prompt:'找出形容「人多熱鬧」的疊詞', chunks:['百貨公司裏','熙熙攘攘','，','他卻','孤孤單單','地站在門口','。'], answer:'熙熙攘攘', explain:'「熙熙攘攘」形容人來人往、非常熱鬧；「孤孤單單」寫的是獨自一人的寂寞。'},
+              {prompt:'找出形容「隊伍聲勢浩大」的疊詞', chunks:['同學們','浩浩蕩蕩','地走出校園','，隊伍依然','整整齊齊','。'], answer:'浩浩蕩蕩', explain:'「浩浩蕩蕩」形容隊伍聲勢浩大；「整整齊齊」只寫排列有序。'},
+              {prompt:'找出形容景物「看不分明」的疊詞', chunks:['湖面','平平靜靜','，','遠處的山','隱隱約約','，像一幅水墨畫','。'], answer:'隱隱約約', explain:'「隱隱約約」形容看起來模糊、不分明；「平平靜靜」寫的是湖面安穩。'},
+              {prompt:'找出形容「吞吞吐吐、不敢直說」的疊詞', chunks:['他','支支吾吾','了半天','，','最後才','斷斷續續','地把事情說完','。'], answer:'支支吾吾', explain:'「支支吾吾」形容說話含糊、閃躲；「斷斷續續」只表示中間有停頓。'}
+            ]
+          },
+          {
+            id:'aabb-adv-split', name:'拼詞進階', engine:'split', icon:'puzzle', meta:'4 組拼詞（含干擾）',
+            tip:'右邊有三個後半是干擾項，拼不成詞。先想清楚整個詞，再點下去。',
+            words:['熙熙攘攘','浩浩蕩蕩','鬱鬱蔥蔥','隱隱約約'],
+            decoys:['紛紛','茫茫','隆隆'],
+            pairs:[
+              {a:'熙熙', b:'攘攘', word:'熙熙攘攘', sentence:'年宵市場裏人來人往，熙熙攘攘。', hint:'人多熱鬧'},
+              {a:'浩浩', b:'蕩蕩', word:'浩浩蕩蕩', sentence:'遊行隊伍浩浩蕩蕩地走過大街。', hint:'聲勢浩大'},
+              {a:'鬱鬱', b:'蔥蔥', word:'鬱鬱蔥蔥', sentence:'後山的樹木鬱鬱蔥蔥，空氣特別清新。', hint:'草木茂盛'},
+              {a:'隱隱', b:'約約', word:'隱隱約約', sentence:'霧中的燈塔隱隱約約，看不清楚。', hint:'模糊不分明'}
+            ]
+          }
+        ]
+      },
+      {
+        id:'aabc', pattern:['A','A','B','C'], name:'AABC 式', nickname:'開頭兩個字一樣',
+        tint:'grape', group:'advanced',
+        tint:'grape',
+        desc:'開頭兩個字重複，後面接兩個不同的字，多數是成語。',
+        examples:['栩栩如生','津津有味','欣欣向榮','念念不忘'],
+        tip:'AABC 式很多都是成語，記住整個詞的意思，比死記字形更有效。',
+        modes:[
+          {
+            id:'aabc-fill', name:'成語補一補', engine:'fill', icon:'pencil', meta:'4 題選詞填空',
+            tip:'讀句子，選出最合適的 AABC 成語。',
+            words:['栩栩如生','津津樂道','欣欣向榮','津津有味'],
+            questions:[
+              {sentence:'博物館裏的恐龍模型___，彷彿隨時會動起來。', answer:'栩栩如生', options:['栩栩如生','津津有味','欣欣向榮','念念不忘'], art:'mountain', label:'博物館', explain:'「栩栩如生」形容形象逼真，像活的一樣。'},
+              {sentence:'爺爺最愛___地說起少年時代的趣事。', answer:'津津樂道', options:['津津樂道','栩栩如生','欣欣向榮','念念不忘'], art:'clock', label:'爺爺', explain:'「津津樂道」指興致勃勃地談論某事。'},
+              {sentence:'春天一到，校園裏的花草___。', answer:'欣欣向榮', options:['欣欣向榮','津津有味','栩栩如生','念念不忘'], art:'flower', label:'校園', explain:'「欣欣向榮」形容草木茂盛，也比喻事業蓬勃發展。'},
+              {sentence:'他捧着冒險小說，看得___，連吃飯也忘了。', answer:'津津有味', options:['津津有味','念念不忘','欣欣向榮','栩栩如生'], art:'book', label:'小說', explain:'「津津有味」形容興趣濃厚，吃得或讀得很有滋味。'}
+            ]
+          },
+          {
+            id:'aabc-match', name:'詞義連一連', engine:'match', icon:'book', meta:'4 組詞義配對',
+            tip:'配對成功會顯示用法提示，幫你記住這個成語。',
+            words:['栩栩如生','津津有味','欣欣向榮','念念不忘'],
+            pairs:[
+              {word:'栩栩如生', def:'形象逼真，像活的一樣', note:'常用來讚美畫作、雕塑或表演。'},
+              {word:'津津有味', def:'興趣濃厚，吃得或讀得很有滋味', note:'可以寫讀書，也可以寫吃東西。'},
+              {word:'欣欣向榮', def:'草木茂盛，比喻蓬勃發展', note:'多用來寫春天、校園或事業。'},
+              {word:'念念不忘', def:'牢記在心，時常想起', note:'形容印象很深，一直記掛着。'}
+            ]
+          }
+        ]
+      },
+      {
+        id:'abac', pattern:['A','B','A','C'], name:'ABAC 式', nickname:'一三相同，二四不同',
+        tint:'sun', group:'advanced',
+        desc:'第一個字和第三個字相同，第二個字和第四個字不同，意思多數互相補充。',
+        examples:['自言自語','無邊無際','全心全意','人山人海'],
+        tip:'ABAC 式的重點在兩個不同的字：自由＋自在、無邊＋無際，合起來才完整。',
+        modes:[
+          {
+            id:'abac-clinic', name:'句子診所', engine:'clinic', icon:'stetho', meta:'4 題找錯替換',
+            tip:'句子裏有一個疊詞用錯了。先點出它，再選正確的詞換上去。',
+            words:['自由自在','全心全意','一五一十','無邊無際'],
+            questions:[
+              {segments:[{t:'商場裏'},{t:'人山人海'},{t:'，他卻'},{t:'自言自語',bad:true},{t:'地逛街，一點也不着急。'}], answer:'自由自在', options:['自由自在','無邊無際','全心全意','一五一十'], explain:'「自言自語」是獨自說話，不能形容逛街的心情；「自由自在」才表示無拘無束。'},
+              {segments:[{t:'護士'},{t:'無邊無際',bad:true},{t:'地照顧病人，連飯也忘了吃。'}], answer:'全心全意', options:['全心全意','自由自在','一五一十','人山人海'], explain:'「無邊無際」形容空間廣闊；照顧病人投入，應該用「全心全意」。'},
+              {segments:[{t:'老師'},{t:'人山人海',bad:true},{t:'地把事情經過告訴我們。'}], answer:'一五一十', options:['一五一十','全心全意','自由自在','無邊無際'], explain:'「人山人海」形容人多；把事情原原本本說出來，要用「一五一十」。'},
+              {segments:[{t:'草原'},{t:'自言自語',bad:true},{t:'，望不到盡頭。'}], answer:'無邊無際', options:['無邊無際','全心全意','自由自在','一五一十'], explain:'草原廣闊、看不到盡頭，最貼切的是「無邊無際」。'}
+            ]
+          },
+          {
+            id:'abac-choice', name:'情境配一配', engine:'choice', icon:'cards', meta:'4 題情境選詞',
+            tip:'讀一讀情境，選出最能形容它的 ABAC 疊詞。',
+            words:['人山人海','自由自在','有始有終','一五一十'],
+            questions:[
+              {scene:'週末的旺角街頭擠滿了人，往前走一步都很困難。', answer:'人山人海', options:['人山人海','自由自在','有始有終','一五一十'], explain:'「人山人海」形容人非常多，像山和海一樣。'},
+              {scene:'小鳥在天空飛翔，想飛到哪裏就飛到哪裏，沒有人管牠。', answer:'自由自在', options:['自由自在','人山人海','一五一十','有始有終'], explain:'「自由自在」形容無拘無束，想做甚麼就做甚麼。'},
+              {scene:'弟弟答應媽媽每天練琴，即使很累，也堅持到最後一天。', answer:'有始有終', options:['有始有終','自由自在','人山人海','一五一十'], explain:'「有始有終」指做事堅持到底，不會半途而廢。'},
+              {scene:'老師把事情的經過，由頭到尾說得清清楚楚。', answer:'一五一十', options:['一五一十','有始有終','自由自在','人山人海'], explain:'「一五一十」指原原本本、清清楚楚地說出來。'}
+            ]
+          }
+        ]
+      },
+      {
+        id:'abcc', pattern:['A','B','C','C'], name:'ABCC 式', nickname:'最後兩個字一樣',
+        tint:'pink', group:'advanced',
+        desc:'最後兩個字重複，前面兩個字點出對象或情境，常用來寫神態和景物。',
+        examples:['興致勃勃','怒氣沖沖','波光粼粼','白雪皚皚'],
+        tip:'ABCC 式要先看最後兩個字：勃勃有精神，沖沖帶怒氣，粼粼寫水光。',
+        modes:[
+          {
+            id:'abcc-choice', name:'情境選一選', engine:'choice', icon:'search', meta:'4 題情境選詞',
+            tip:'讀情境，留意人物的心情或景物的樣子，再選 ABCC 疊詞。',
+            words:['興致勃勃','怒氣沖沖','波光粼粼','白雪皚皚'],
+            questions:[
+              {scene:'展覽還未開始，同學們已經迫不及待地排隊等候，臉上滿是期待。', answer:'興致勃勃', options:['興致勃勃','怒氣沖沖','波光粼粼','白雪皚皚'], explain:'「興致勃勃」形容興致濃厚、精神飽滿。'},
+              {scene:'他被弟弟弄壞了模型，握緊拳頭，大聲責罵。', answer:'怒氣沖沖', options:['怒氣沖沖','興致勃勃','白雪皚皚','波光粼粼'], explain:'「怒氣沖沖」形容非常憤怒，氣勢洶洶。'},
+              {scene:'夕陽照在湖面上，水波一閃一閃，像撒滿了金粉。', answer:'波光粼粼', options:['波光粼粼','白雪皚皚','怒氣沖沖','興致勃勃'], explain:'「波光粼粼」形容水面波光閃爍。'},
+              {scene:'寒冬的山頂一片雪白，看不見一點綠色。', answer:'白雪皚皚', options:['白雪皚皚','波光粼粼','興致勃勃','怒氣沖沖'], explain:'「白雪皚皚」形容雪白一片，多用來寫雪景。'}
+            ]
+          },
+          {
+            id:'abcc-sort', name:'疊詞分類', engine:'sort', icon:'scale', meta:'6 個詞分兩類',
+            tip:'放錯會晃一下，可以再試；全部放對就過關。',
+            words:['興致勃勃','怒氣沖沖','得意洋洋','波光粼粼','白雪皚皚','涼風習習'],
+            bins:[{id:'person', name:'人的神態'},{id:'scene', name:'景物樣貌'}],
+            items:[
+              {w:'興致勃勃', cat:'person', note:'寫人很有興致'},
+              {w:'怒氣沖沖', cat:'person', note:'寫人十分憤怒'},
+              {w:'得意洋洋', cat:'person', note:'寫人非常得意'},
+              {w:'波光粼粼', cat:'scene', note:'寫水面波光閃爍'},
+              {w:'白雪皚皚', cat:'scene', note:'寫雪景一片潔白'},
+              {w:'涼風習習', cat:'scene', note:'寫微風輕輕吹拂'}
+            ]
+          }
+        ]
+      }
+    ]
+  }
+};
+
+/* ---------------- 音效（Web Audio 即時合成） ---------------- */
+var Sfx = {
+  ctx:null, on:true, _nb:null,
+  init:function(){
+    if(!this.ctx){
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if(AC){ try{ this.ctx = new AC(); }catch(e){ this.ctx = null; } }
+    }
+    if(this.ctx && this.ctx.state === 'suspended'){ this.ctx.resume(); }
+    return this.ctx;
+  },
+  tone:function(freq, dur, type, vol, delay, slideTo){
+    if(!this.on) return;
+    var ctx = this.init(); if(!ctx) return;
+    var t0 = ctx.currentTime + (delay||0);
+    var osc = ctx.createOscillator(), g = ctx.createGain();
+    osc.type = type || 'sine';
+    osc.frequency.setValueAtTime(freq, t0);
+    if(slideTo) osc.frequency.exponentialRampToValueAtTime(Math.max(30,slideTo), t0+dur);
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(vol||0.05, t0+0.014);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+    osc.connect(g); g.connect(ctx.destination);
+    osc.start(t0); osc.stop(t0+dur+0.03);
+  },
+  noiseBuf:function(){
+    var ctx=this.ctx; if(this._nb) return this._nb;
+    var len=Math.floor(ctx.sampleRate*2);
+    var b=ctx.createBuffer(1,len,ctx.sampleRate), d=b.getChannelData(0);
+    for(var i=0;i<len;i++) d[i]=Math.random()*2-1;
+    this._nb=b; return b;
+  },
+  noise:function(dur, vol, filter, freq, delay){
+    if(!this.on) return;
+    var ctx=this.init(); if(!ctx) return;
+    var t0=ctx.currentTime+(delay||0);
+    var src=ctx.createBufferSource(); src.buffer=this.noiseBuf(); src.loop=true;
+    var bp=ctx.createBiquadFilter(); bp.type=filter||'lowpass'; bp.frequency.setValueAtTime(freq||1200,t0);
+    var g=ctx.createGain();
+    g.gain.setValueAtTime(0.0001,t0);
+    g.gain.exponentialRampToValueAtTime(vol||0.05,t0+0.03);
+    g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+    src.connect(bp); bp.connect(g); g.connect(ctx.destination);
+    src.start(t0); src.stop(t0+dur+0.03);
+  },
+  click:function(){ this.tone(560,0.055,'triangle',0.03); },
+  pop:function(){ this.tone(760,0.09,'sine',0.05); },
+  stack:function(){ this.tone(420,0.07,'square',0.028); this.tone(640,0.08,'sine',0.04,0.03); },
+  unstack:function(){ this.tone(500,0.07,'sine',0.035); this.tone(340,0.09,'sine',0.03,0.04); },
+  correct:function(){ var self=this; [523,659,784].forEach(function(f,i){ self.tone(f,0.16,'sine',0.055,i*0.075); }); },
+  wrong:function(){ this.tone(300,0.12,'sine',0.045); this.tone(215,0.19,'sine',0.038,0.11); },
+  win:function(){ var self=this; [523,659,784,1047].forEach(function(f,i){ self.tone(f,0.22,'triangle',0.05,i*0.095); }); },
+  star:function(i){ this.tone(660+i*140,0.15,'sine',0.045); }
+};
+
+/* ---------------- 工具 ---------------- */
+var app = document.getElementById('app');
+var toastEl = document.getElementById('toast');
+var toastTimer = null;
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 1600);
+}
+function esc(str){
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function shuffle(arr){
+  var a = arr.slice();
+  for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+  return a;
+}
+function highlightWord(sentence, word){
+  var s = esc(sentence);
+  if(!word) return s;
+  var w = esc(word);
+  return s.split(w).join('<b>'+w+'</b>');
+}
+
+/* ---------------- 儲存進度 ---------------- */
+var STORE_KEY = 'ddtown-v1';
+var BEST = (function(){
+  try{ return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }catch(e){ return {}; }
+})();
+function saveBest(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(BEST)); }catch(e){} }
+function modeBest(v,m){
+  var b = BEST[v] && BEST[v][m];
+  return b ? b : {stars:0,correct:0,total:0};
+}
+function setBest(v,m,stars,correct,total){
+  var old = modeBest(v,m);
+  BEST[v] = BEST[v] || {};
+  BEST[v][m] = {stars:Math.max(old.stars||0,stars), correct:Math.max(old.correct||0,correct), total:total};
+  saveBest();
+}
+function versionStars(v){
+  var data = DATA[v], sum = 0;
+  data.forms.forEach(function(f){ f.modes.forEach(function(m){ sum += modeBest(v,m.id).stars; }); });
+  return sum;
+}
+function maxStars(v){
+  var data = DATA[v], n = 0;
+  data.forms.forEach(function(f){ n += f.modes.length*3; });
+  return n;
+}
+
+/* ---------------- 狀態 ---------------- */
+var S = {screen:'home', version:null, formId:null, modeId:null};
+var G = null;
+function getVersion(){ return S.version ? DATA[S.version] : null; }
+function getForm(){
+  var v = getVersion(); if(!v) return null;
+  for(var i=0;i<v.forms.length;i++){ if(v.forms[i].id===S.formId) return v.forms[i]; }
+  return null;
+}
+function getMode(){
+  var f = getForm(); if(!f) return null;
+  for(var i=0;i<f.modes.length;i++){ if(f.modes[i].id===S.modeId) return f.modes[i]; }
+  return null;
+}
+function modeTotal(mode){
+  if(mode.engine==='pair') return mode.items.length;
+  if(mode.engine==='split' || mode.engine==='match') return mode.pairs.length;
+  if(mode.engine==='sort') return mode.items.length;
+  return mode.questions.length;
+}
+
+/* ---------------- 音效按鈕 ---------------- */
+function soundBtn(){
+  return '<button class="icon-btn" data-act="mute" aria-label="'+(Sfx.on?'關閉音效':'開啟音效')+'">'+(Sfx.on?ICO.sound:ICO.mute)+'</button>';
+}
+
+/* ---------------- 首頁 ---------------- */
+function homeHTML(){
+  var j = DATA.junior, s = DATA.senior;
+  return '<div class="screen">'+
+    '<div class="brand-row">'+
+      '<div class="brand-mark">'+mascotSVG('')+'</div>'+
+      '<div class="brand-name"><b>疊疊小鎮</b><span>REDUPLICATION TOWN</span></div>'+
+      soundBtn()+
+    '</div>'+
+    '<section class="hero">'+
+      '<div class="hero-copy">'+
+        '<p class="kicker">小學語文 · 疊詞遊戲</p>'+
+        '<h1>疊一疊，<br><em>字就活了。</em></h1>'+
+        '<p class="lead">9 種疊詞形式 · 18 個小遊戲<br>先選程度，再挑玩哪一種。</p>'+
+      '</div>'+
+      '<div class="hero-art">'+mascotSVG('mascot')+'</div>'+
+    '</section>'+
+    '<div class="sec-label"><b>第一步：選擇程度</b><span>先分初小與高小</span><i></i></div>'+
+    versionCard(j,'01','vc-a','sun')+
+    versionCard(s,'02','vc-b','grape')+
+    '<details class="lesson">'+
+      '<summary>'+ICO.bulb+' 一分鐘看懂疊詞 '+ICO.chev.replace('<svg','<svg class="chev"')+'</summary>'+
+      '<div class="lesson-body">'+
+        '<p><b>AA 式</b>：圓圓、紅紅。同一個字重複，強調樣子或顏色。</p>'+
+        '<p><b>ABB 式</b>：紅彤彤、綠油油。後面兩個字相同，畫面更生動。</p>'+
+        '<p><b>AABB 式</b>：乾乾淨淨、開開心心。前後各自疊一疊，讀起來有節奏。</p>'+
+        '<p><b>AABC 式</b>：栩栩如生、津津有味。多數是成語，開頭兩個字相同。</p>'+
+        '<p><b>ABAC 式</b>：自言自語、無邊無際。一、三相同，二、四不同。</p>'+
+        '<p><b>ABCC 式</b>：興致勃勃、波光粼粼。最後兩個字相同，常用來寫神態和景物。</p>'+
+        '<p><b>高小進階</b>：AA、ABB、AABB 三種形式在高小版會用更長的句子、更接近的選項，考驗辨析能力。</p>'+
+      '</div>'+
+    '</details>'+
+    '<p class="foot">繁體字 · Q 版插畫 · 即時音效 · 手機直玩<br><b>每個遊戲 4 題，摘滿 3 顆星</b></p>'+
+  '</div>';
+}
+function versionCard(v, num, cls, tint){
+  var forms = v.forms.map(function(f){ return '<span>'+f.name+'</span>'; }).join('');
+  var total = 0; v.forms.forEach(function(f){ total += f.modes.length; });
+  return '<button class="version-card '+cls+' tint-'+tint+'" data-act="gover" data-v="'+v.id+'">'+
+    '<span class="vc-num">'+num+'</span>'+
+    '<span class="vc-art">'+artSVG(v.art)+'</span>'+
+    '<span class="vc-info">'+
+      '<span class="vc-title"><span class="vc-name">'+v.name+'</span><span class="grade-tag">'+v.grades+'</span></span>'+
+      '<p>'+v.tagline+'</p>'+
+      '<span class="vc-tags">'+forms+'<span class="hot">'+total+' 個遊戲</span></span>'+
+    '</span>'+
+    '<span class="vc-go">'+ICO.arrow+'</span>'+
+  '</button>';
+}
+
+/* ---------------- 版本頁 ---------------- */
+function formBlockHTML(v, f){
+  var modesHTML = f.modes.map(function(m){
+    return '<button class="mode-tile" data-act="start" data-f="'+f.id+'" data-m="'+m.id+'">'+
+      '<span class="mt-stars">'+starRow(modeBest(v.id,m.id).stars,3)+'</span>'+
+      '<span class="mt-ico">'+ICO[m.icon]+'</span>'+
+      '<span class="mt-name">'+m.name+'</span>'+
+      '<span class="mt-meta">'+m.meta+'</span>'+
+    '</button>';
+  }).join('');
+  var pat = f.pattern.map(function(p){ return '<span>'+p+'</span>'; }).join('');
+  var patCls = f.pattern.length>3 ? ' p4' : '';
+  var ex = f.examples.map(function(w){ return '<span>'+w+'</span>'; }).join('');
+  return '<section class="form-block tint-'+f.tint+'">'+
+    '<div class="form-head">'+
+      '<div class="form-pattern'+patCls+'">'+pat+'</div>'+
+      '<div class="form-title"><h2><span class="fname">'+f.name+'</span>'+(f.badge?'<small class="adv-badge">'+f.badge+'</small>':'')+'</h2><p>'+f.nickname+'</p></div>'+
+      '<span class="form-count">'+f.modes.length+' 個遊戲</span>'+
+    '</div>'+
+    '<div class="form-body">'+
+      '<p class="form-desc">'+f.desc+'</p>'+
+      '<div class="ex-row">'+ex+'</div>'+
+      '<div class="mode-grid">'+modesHTML+'</div>'+
+    '</div>'+
+  '</section>';
+}
+function versionHTML(){
+  var v = getVersion();
+  var formsHTML;
+  if(v.groups){
+    formsHTML = v.groups.map(function(g){
+      var fs = v.forms.filter(function(f){ return f.group===g.id; });
+      if(!fs.length) return '';
+      return '<div class="group-label"><div><b>'+g.name+'</b><span>'+g.sub+'</span></div><i></i></div>'+
+        fs.map(function(f){ return formBlockHTML(v,f); }).join('');
+    }).join('');
+  }else{
+    formsHTML = v.forms.map(function(f){ return formBlockHTML(v,f); }).join('');
+  }
+  var formCount = v.forms.length, modeCount = 0;
+  v.forms.forEach(function(f){ modeCount += f.modes.length; });
+  return '<div class="screen tint-'+v.tint+'">'+
+    '<div class="topbar">'+
+      '<button class="icon-btn" data-act="home" aria-label="返回首頁">'+ICO.back+'</button>'+
+      '<div class="tb-title"><b>'+v.name+'</b><span>'+formCount+' 種形式 · '+modeCount+' 個遊戲</span></div>'+
+      soundBtn()+
+    '</div>'+
+    '<div class="ver-hero">'+
+      '<div class="badge-big">'+artSVG(v.art)+'</div>'+
+      '<div><h1>'+v.name+'</h1><p>'+v.intro+'</p></div>'+
+    '</div>'+
+    '<div class="ver-stars"><span class="stars">'+starSVG(true)+'</span> 已摘 <b>'+versionStars(v.id)+' / '+maxStars(v.id)+'</b> 顆星</div>'+
+    formsHTML+
+    '<div class="form-tip">'+ICO.bulb+'<div>小提示：每個形式都有兩個不同玩法。先玩「認詞」，再玩「用詞」，記得更牢。</div></div>'+
+    '<p class="foot"><b>進度會自動保存在這部裝置</b><br>可以隨時回來刷新紀錄</p>'+
+  '</div>';
+}
+
+/* ---------------- 遊戲頁 ---------------- */
+function progressInfo(mode){
+  var total = modeTotal(mode);
+  var done = 0, label = '';
+  if(mode.engine==='pair'){ done = G.done.length; label = '圖詞配對'; }
+  else if(mode.engine==='split'){ done = G.done.length; label = '前半後半'; }
+  else if(mode.engine==='match'){ done = G.done.length; label = '詞義配對'; }
+  else if(mode.engine==='sort'){ done = Object.keys(G.placed).length; label = '疊詞分類'; }
+  else { done = G.qi + (G.answered?1:0); label = '第 '+(G.qi+1)+' 題'; }
+  return {label:label, text:done+' / '+total, pct:Math.round(done/total*100)};
+}
+function gameHTML(){
+  var v = getVersion(), f = getForm(), m = getMode();
+  var p = progressInfo(m);
+  return '<div class="screen tint-'+f.tint+'">'+
+    '<div class="game-head">'+
+      '<button class="icon-btn" data-act="backver" aria-label="返回疊詞表">'+ICO.back+'</button>'+
+      '<div class="gtitle"><h2>'+m.name+'</h2><div class="gsub">'+v.name+' · '+f.name+' · '+m.meta+'</div></div>'+
+      soundBtn()+
+    '</div>'+
+    '<div class="prog-wrap">'+
+      '<div class="prog-top"><span>'+p.label+'</span><b>'+p.text+'</b></div>'+
+      '<div class="prog"><i style="width:'+p.pct+'%"></i></div>'+
+    '</div>'+
+    '<div id="gamebody">'+engineHTML(m)+'</div>'+
+  '</div>';
+}
+function engineHTML(mode){
+  if(mode.engine==='pair') return pairHTML(mode);
+  if(mode.engine==='fill') return fillHTML(mode);
+  if(mode.engine==='build') return buildHTML(mode);
+  if(mode.engine==='choice') return choiceHTML(mode);
+  if(mode.engine==='split') return splitHTML(mode);
+  if(mode.engine==='spot') return spotHTML(mode);
+  if(mode.engine==='match') return matchHTML(mode);
+  if(mode.engine==='clinic') return clinicHTML(mode);
+  if(mode.engine==='sort') return sortHTML(mode);
+  return '';
+}
+
+/* 回饋卡 */
+function exampleHTML(q){
+  var s = q.sentence || '';
+  var w = q.answer || q.word || '';
+  if(s.indexOf('___')>=0){
+    return esc(s).replace('___','<b>'+esc(w)+'</b>');
+  }
+  return highlightWord(s,w);
+}
+function feedbackHTML(mode,q){
+  var ok = G.lastOK;
+  var isLast = G.qi+1 >= modeTotal(mode);
+  return '<div class="fb '+(ok?'':'bad')+'">'+
+    '<div class="fb-head">'+(ok?ICO.check:ICO.cross)+'<h3>'+(ok?'答對了！':'差一點點')+'</h3></div>'+
+    (!ok?'<p>正確答案是：</p>':'')+
+    '<div class="fb-answer"><span class="big-word">'+esc(q.answer||q.word||'')+'</span></div>'+
+    '<p>'+esc(q.explain||q.tip||'')+'</p>'+
+    (q.sentence?'<div class="example">例句：'+exampleHTML(q)+'</div>':'')+
+    '<div class="fb-next"><button class="btn" data-act="next">'+(isLast?'看成績':'下一題')+ICO.arrow+'</button></div>'+
+  '</div>';
+}
+
+/* 1. 圖詞配對 */
+function pairHTML(mode){
+  var arts = mode.items.map(function(it,i){
+    var done = G.done.indexOf(i)>=0;
+    var shake = G.shakeArt===i;
+    return '<button class="pair-tile'+(done?' done':'')+(shake?' shake':'')+'" data-act="pairart" data-i="'+i+'" aria-label="'+esc(it.label)+'">'+
+      artSVG(it.art,'p-art')+
+      '<span class="p-label">'+esc(it.label)+'</span>'+
+    '</button>';
+  }).join('');
+  var words = G.wordOrder.map(function(idx){
+    var it = mode.items[idx];
+    var used = G.done.indexOf(idx)>=0;
+    var sel = G.selWord===idx;
+    return '<button class="wchip'+(used?' used':'')+(sel?' sel':'')+'" data-act="pairword" data-i="'+idx+'">'+esc(it.word)+'</button>';
+  }).join('');
+  return '<div class="qcard fadein">'+
+    '<div class="q-eyebrow">玩法 · 看圖配詞</div>'+
+    '<p class="q-title">把詞語和圖畫配起來</p>'+
+    '<p class="q-desc">先點一張詞語卡，再點對應的圖畫。</p>'+
+    '<div class="pair-grid">'+arts+'</div>'+
+    '<div class="tray-title"><span>詞語卡</span><b>'+G.done.length+' / '+mode.items.length+'</b></div>'+
+    '<div class="word-tray">'+words+'</div>'+
+    '<div class="match-note">'+(G.note?'<b>'+G.note.word+'</b>：'+esc(G.note.sentence):'配對成功後，例句會顯示在這裏。')+'</div>'+
+    '<p class="hintline">'+mode.tip+'</p>'+
+  '</div>';
+}
+
+/* 2. 句子填空 */
+function fillHTML(mode){
+  var q = mode.questions[G.qi];
+  var sentence = esc(q.sentence);
+  var blank = G.answered ? '<span class="blank filled">'+esc(q.answer)+'</span>' : '<span class="blank">?</span>';
+  sentence = sentence.replace('___', blank);
+  var opts = q.options.map(function(o,i){
+    var cls='option';
+    if(G.answered){
+      if(o===q.answer) cls+=' correct';
+      else if(o===G.picked) cls+=' wrong';
+      else cls+=' dim';
+    }
+    return '<button class="'+cls+'" data-act="answer" data-val="'+esc(o)+'" '+(G.answered?'disabled':'')+'>'+
+      '<span class="badge">'+'ABCD'[i]+'</span>'+
+      '<span class="opt-txt">'+esc(o)+'</span>'+
+      '<span class="opt-mark">'+(G.answered&&o===q.answer?ICO.check:(G.answered&&o===G.picked?ICO.cross:''))+'</span>'+
+    '</button>';
+  }).join('');
+  return '<div class="qcard fadein">'+
+    '<div class="q-eyebrow">第 '+(G.qi+1)+' 題 · 選詞填空</div>'+
+    '<div class="prompt-card">'+
+      '<div class="prompt-art">'+artSVG(q.art)+'</div>'+
+      '<div class="prompt-copy"><div class="prompt-label">'+esc(q.label)+'</div><p class="prompt-text">讀一讀句子，選出最合適的疊詞。</p></div>'+
+    '</div>'+
+    '<p class="q-sentence">'+sentence+'</p>'+
+    '<div class="options">'+opts+'</div>'+
+    (G.answered?feedbackHTML(mode,q):'')+
+    '<p class="hintline">'+mode.tip+'</p>'+
+  '</div>';
+}
+
+/* 3. 三格積木 */
+function buildHTML(mode){
+  var q = mode.questions[G.qi];
+  var slots = G.slots.map(function(idx,i){
+    var ch = idx===null ? '<span class="slot-dot"></span>' : esc(G.tiles[idx].ch);
+    return '<button class="slot'+(idx===null?'':' filled')+'" data-act="slot" data-i="'+i+'" aria-label="第 '+(i+1)+' 格">'+ch+'</button>';
+  }).join('');
+  var tiles = G.tiles.map(function(t,i){
+    return '<button class="ctile'+(t.used?' used':'')+'" data-act="tile" data-i="'+i+'">'+esc(t.ch)+'</button>';
+  }).join('');
+  return '<div class="qcard fadein">'+
+    '<div class="q-eyebrow">第 '+(G.qi+1)+' 題 · 拼出疊詞</div>'+
+    '<div class="build-stage">'+
+      '<div class="bs-art">'+artSVG(q.art)+'</div>'+
+      '<div><div class="bs-label">看圖拼詞</div><div class="bs-tip">'+esc(q.label)+'的疊詞是？</div></div>'+
+    '</div>'+
+    '<div class="slots'+(G.shake?' shake':'')+'">'+slots+'</div>'+
+    '<div class="tile-tray">'+tiles+'</div>'+
+    (G.answered?feedbackHTML(mode,q):'')+
+    '<p class="hintline">'+(G.answered?mode.tip:'點字卡放進空格；點空格可以取回字卡。')+'</p>'+
+  '</div>';
+}
+
+/* 4. 看圖／情境選詞 */
+function choiceHTML(mode){
+  var q = mode.questions[G.qi];
+  var prompt;
+  if(q.scene){
+    prompt = '<div class="scene-card"><span class="quote">情境</span>'+esc(q.scene)+'</div>';
+  }else{
+    prompt = '<div class="prompt-card">'+
+      '<div class="prompt-art">'+artSVG(q.art)+'</div>'+
+      '<div class="prompt-copy"><div class="prompt-label">'+esc(q.label)+'</div><p class="prompt-text">看圖畫，選出最合適的疊詞。</p></div>'+
+    '</div>';
+  }
+  var opts = q.options.map(function(o,i){
+    var cls='option';
+    if(G.answered){
+      if(o===q.answer) cls+=' correct';
+      else if(o===G.picked) cls+=' wrong';
+      else cls+=' dim';
+    }
+    return '<button class="'+cls+'" data-act="answer" data-val="'+esc(o)+'" '+(G.answered?'disabled':'')+'>'+
+      '<span class="badge">'+'ABCD'[i]+'</span>'+
+      '<span class="opt-txt">'+esc(o)+'</span>'+
+      '<span class="opt-mark">'+(G.answered&&o===q.answer?ICO.check:(G.answered&&o===G.picked?ICO.cross:''))+'</span>'+
+    '</button>';
+  }).join('');
+  var fullSentence = '';
+  if(!q.scene){
+    var text = esc(q.text);
+    var blank = G.answered ? '<span class="blank filled">'+esc(q.answer)+'</span>' : '<span class="blank">?</span>';
+    fullSentence = '<p class="q-sentence">'+text.replace('___', blank)+'</p>';
+  }
+  return '<div class="qcard fadein">'+
+    '<div class="q-eyebrow">第 '+(G.qi+1)+' 題 · '+(q.scene?'情境選詞':'看圖選詞')+'</div>'+
+    '<p class="q-title">哪個疊詞最適合？</p>'+
+    prompt+ fullSentence +
+    '<div class="options" style="margin-top:12px">'+opts+'</div>'+
+    (G.answered?feedbackHTML(mode,q):'')+
+    '<p class="hintline">'+mode.tip+'</p>'+
+  '</div>';
+}
+
+/* 5. 前半後半 */
+function splitHTML(mode){
+  var left = mode.pairs.map(function(p,i){
+    var done = G.done.indexOf(i)>=0;
+    return '<button class="half'+(done?' done':'')+(G.selA===i?' sel':'')+'" data-act="splitA" data-i="'+i+'">'+esc(p.a)+'</button>';
+  }).join('');
+  var right = G.rightOrder.map(function(o,k){
+    var isPair = o.type==='pair';
+    var done = isPair && G.done.indexOf(o.i)>=0;
+    var txt = isPair ? mode.pairs[o.i].b : o.b;
+    return '<button class="half'+(done?' done':'')+(G.shakeB===k?' wrong':'')+'" data-act="splitB" data-k="'+k+'">'+esc(txt)+'</button>';
+  }).join('');
+  var lines = G.done.map(function(i){
+    var p = mode.pairs[i];
+    return '<div class="pair-line"><b>'+esc(p.word)+'</b><span>'+esc(p.sentence)+'</span></div>';
+  }).join('');
+  return '<div class="qcard fadein">'+
+    '<div class="q-eyebrow">玩法 · 拼出疊詞</div>'+
+    '<p class="q-title">把兩半拼成疊詞</p>'+
+    '<p class="q-desc">先點左邊的前半，再點右邊的後半。</p>'+
+    '<div class="split-board">'+
+      '<div class="split-col"><div class="split-head">前半</div>'+left+'</div>'+
+      '<div class="split-col"><div class="split-head">後半</div>'+right+'</div>'+
+    '</div>'+
+    (lines?'<div class="word-pairs">'+lines+'</div>':'')+
+    '<p class="hintline">'+mode.tip+'</p>'+
+  '</div>';
+}
+
+/* 6. 句子尋寶 */
+function spotHTML(mode){
+  var q = mode.questions[G.qi];
+  var punct = /^[。，！？、；：]$/;
+  var chunks = q.chunks.map(function(c,i){
+    if(punct.test(c)) return '<span class="punct">'+esc(c)+'</span>';
+    var cls = 'chunk';
+    if(G.found && c===q.answer) cls += ' correct';
+    if(G.wrongChunk===i) cls += ' wrong';
+    if(G.found && c!==q.answer) cls += ' dim';
+    return '<button class="'+cls+'" data-act="spot" data-i="'+i+'">'+esc(c)+'</button>';
+  }).join('');
+  var sentence = q.chunks.join('');
+  var fq = {answer:q.answer, explain:q.explain, sentence:sentence};
+  return '<div class="qcard fadein">'+
+    '<div class="q-eyebrow">第 '+(G.qi+1)+' 題 · 句子尋寶</div>'+
+    '<p class="q-title">'+esc(q.prompt||'找出句中的 AABB 疊詞')+'</p>'+
+    '<p class="q-desc">點一點你認為是疊詞的部分。</p>'+
+    '<div class="spot-line">'+chunks+'</div>'+
+    (G.found?feedbackHTML(mode,fq):'')+
+    '<p class="hintline">'+(G.found?mode.tip:'點錯不要緊，可以再試。')+'</p>'+
+  '</div>';
+}
+
+/* 7. 詞義連一連 */
+function matchHTML(mode){
+  var words = mode.pairs.map(function(p,i){
+    var done = G.done.indexOf(i)>=0;
+    return '<button class="match-cell word'+(done?' done':'')+(G.selW===i?' sel':'')+'" data-act="matchW" data-i="'+i+'">'+esc(p.word)+'</button>';
+  }).join('');
+  var defs = G.defOrder.map(function(i){
+    var p = mode.pairs[i];
+    var done = G.done.indexOf(i)>=0;
+    return '<button class="match-cell'+(done?' done':'')+(G.shakeD===i?' wrong':'')+'" data-act="matchD" data-i="'+i+'">'+esc(p.def)+'</button>';
+  }).join('');
+  var lines = G.done.map(function(i){
+    var p = mode.pairs[i];
+    return '<div class="pair-line"><b>'+esc(p.word)+'</b><span>'+esc(p.note)+'</span></div>';
+  }).join('');
+  return '<div class="qcard fadein">'+
+    '<div class="q-eyebrow">玩法 · 詞義配對</div>'+
+    '<p class="q-title">把成語和意思配起來</p>'+
+    '<p class="q-desc">先點左邊的成語，再點右邊的意思。</p>'+
+    '<div class="split-board">'+
+      '<div class="split-col"><div class="split-head">成語</div>'+words+'</div>'+
+      '<div class="split-col"><div class="split-head">意思</div>'+defs+'</div>'+
+    '</div>'+
+    (lines?'<div class="word-pairs">'+lines+'</div>':'')+
+    '<p class="hintline">'+mode.tip+'</p>'+
+  '</div>';
+}
+
+/* 8. 句子診所 */
+function clinicHTML(mode){
+  var q = mode.questions[G.qi];
+  var segs = q.segments.map(function(sg,i){
+    var cls = 'seg';
+    var txt = sg.t;
+    if(G.step===2 && i===G.badIdx) cls += ' found';
+    if(G.answered && i===G.badIdx){ cls += ' fixed'; txt = q.answer; }
+    if(G.wrongSeg===i) cls += ' wrong';
+    if(G.step===2 && i!==G.badIdx) cls += '';
+    return '<button class="'+cls+'" data-act="clinicSeg" data-i="'+i+'">'+esc(txt)+'</button>';
+  }).join('');
+  var body = '';
+  if(G.step===2){
+    var opts = q.options.map(function(o,i){
+      var cls='option';
+      if(G.answered){
+        if(o===q.answer) cls+=' correct';
+        else if(o===G.picked) cls+=' wrong';
+        else cls+=' dim';
+      }
+      return '<button class="'+cls+'" data-act="clinicOpt" data-val="'+esc(o)+'" '+(G.answered?'disabled':'')+'>'+
+        '<span class="badge">'+'ABCD'[i]+'</span><span class="opt-txt">'+esc(o)+'</span>'+
+        '<span class="opt-mark">'+(G.answered&&o===q.answer?ICO.check:(G.answered&&o===G.picked?ICO.cross:''))+'</span>'+
+      '</button>';
+    }).join('');
+    body = '<p class="step-tag"><i>2</i>選一個正確的詞換上去</p><div class="options">'+opts+'</div>';
+    if(G.answered) body += feedbackHTML(mode,{answer:q.answer, explain:q.explain});
+  }else{
+    body = '<p class="step-tag"><i>1</i>先點出句子中用錯的疊詞</p>';
+  }
+  return '<div class="qcard fadein">'+
+    '<div class="q-eyebrow">第 '+(G.qi+1)+' 題 · 句子診所</div>'+
+    '<p class="q-title">哪個詞用錯了？</p>'+
+    '<div class="clinic-sentence">'+segs+'</div>'+
+    body+
+    '<p class="hintline">'+mode.tip+'</p>'+
+  '</div>';
+}
+
+/* 9. 疊詞分類 */
+function sortHTML(mode){
+  var byWord = {};
+  mode.items.forEach(function(it){ byWord[it.w] = it; });
+  var remaining = G.sortOrder.map(function(w){ return byWord[w]; }).filter(function(it){ return it && !G.placed[it.w]; });
+  var chips = remaining.map(function(it){
+    return '<button class="sort-chip'+(G.sel===it.w?' sel':'')+'" data-act="sortChip" data-w="'+esc(it.w)+'">'+esc(it.w)+'</button>';
+  }).join('');
+  var bins = mode.bins.map(function(b){
+    var inBin = mode.items.filter(function(it){ return G.placed[it.w]===b.id; });
+    var words = inBin.map(function(it){ return '<span class="bin-word">'+esc(it.w)+'</span>'; }).join('');
+    return '<button class="sort-bin'+(G.wrongBin===b.id?' shake':'')+'" data-act="sortBin" data-bin="'+b.id+'">'+
+      '<span class="bin-title">'+esc(b.name)+'</span>'+
+      (words||'<span class="bin-empty">點這裏放進來</span>')+
+    '</button>';
+  }).join('');
+  return '<div class="qcard fadein">'+
+    '<div class="q-eyebrow">玩法 · 分類</div>'+
+    '<p class="q-title">把疊詞放進正確的籃子</p>'+
+    '<p class="q-desc">先點一個疊詞，再點它所屬的類別。</p>'+
+    '<div class="sort-words">'+chips+'</div>'+
+    '<div class="sort-bins">'+bins+'</div>'+
+    '<div class="match-note">'+(G.note?'<b>'+G.note.w+'</b>：'+esc(G.note.note):'放對的詞會留在籃子裏。')+'</div>'+
+    '<p class="hintline">'+mode.tip+'</p>'+
+  '</div>';
+}
+
+/* ---------------- 建立新局 ---------------- */
+function setupBuild(g, mode){
+  var q = mode.questions[g.qi];
+  var arr = [];
+  q.chars.forEach(function(c){ arr.push({ch:c, used:false}); });
+  var extras = q.extras || (q.extra ? [q.extra] : []);
+  extras.forEach(function(c){ arr.push({ch:c, used:false}); });
+  g.tiles = shuffle(arr);
+  g.slots = [];
+  for(var i=0;i<q.word.length;i++) g.slots.push(null);
+  g.shake = false;
+}
+function newGame(mode){
+  var g = {qi:0, mistakes:0, correct:0, qMistakes:0, itemMistakes:0, answered:false, picked:null, lastOK:null, note:null};
+  if(mode.engine==='pair'){
+    g.done = [];
+    g.selWord = null;
+    g.wordOrder = shuffle(mode.items.map(function(_,i){ return i; }));
+    g.shakeArt = null;
+  }else if(mode.engine==='build'){
+    setupBuild(g, mode);
+  }else if(mode.engine==='split'){
+    g.done = [];
+    g.selA = null;
+    var rights = mode.pairs.map(function(_,i){ return {type:'pair', i:i}; });
+    (mode.decoys||[]).forEach(function(b){ rights.push({type:'decoy', b:b}); });
+    g.rightOrder = shuffle(rights);
+    g.shakeB = null;
+  }else if(mode.engine==='spot'){
+    g.found = false;
+    g.wrongChunk = -1;
+  }else if(mode.engine==='match'){
+    g.done = [];
+    g.selW = null;
+    g.defOrder = shuffle(mode.pairs.map(function(_,i){ return i; }));
+    g.shakeD = null;
+  }else if(mode.engine==='clinic'){
+    g.step = 1;
+    g.badIdx = null;
+    g.wrongSeg = -1;
+  }else if(mode.engine==='sort'){
+    g.placed = {};
+    g.sel = null;
+    g.sortOrder = shuffle(mode.items.map(function(it){ return it.w; }));
+    g.wrongBin = null;
+  }
+  return g;
+}
+
+/* ---------------- 導航 ---------------- */
+function render(){
+  if(S.screen==='home') app.innerHTML = homeHTML();
+  else if(S.screen==='version') app.innerHTML = versionHTML();
+  else if(S.screen==='game') app.innerHTML = gameHTML();
+  else if(S.screen==='result') app.innerHTML = resultHTML();
+}
+function goHome(){
+  S.screen='home'; S.version=null; S.formId=null; S.modeId=null; G=null;
+  render(); window.scrollTo(0,0);
+}
+function goVersion(v){
+  S.screen='version'; S.version=v; S.formId=null; S.modeId=null; G=null;
+  render(); window.scrollTo(0,0);
+}
+function startMode(fid, mid){
+  var v = getVersion();
+  S.formId = fid; S.modeId = mid;
+  var mode = getMode();
+  G = newGame(mode);
+  S.screen='game';
+  render(); window.scrollTo(0,0);
+}
+function restartMode(){
+  var mode = getMode();
+  G = newGame(mode);
+  S.screen='game';
+  render(); window.scrollTo(0,0);
+}
+function nextQuestion(){
+  var mode = getMode();
+  var total = modeTotal(mode);
+  if(G.qi+1 >= total){ finishGame(); return; }
+  G.qi++;
+  G.answered = false;
+  G.picked = null;
+  G.lastOK = null;
+  G.qMistakes = 0;
+  G.itemMistakes = 0;
+  G.found = false;
+  G.wrongChunk = -1;
+  G.note = null;
+  if(mode.engine==='build') setupBuild(G, mode);
+  if(mode.engine==='clinic'){ G.step = 1; G.badIdx = null; G.wrongSeg = -1; }
+  render(); window.scrollTo(0,0);
+}
+function finishGame(){
+  var mode = getMode();
+  var total = modeTotal(mode);
+  var stars = G.mistakes===0 ? 3 : (G.mistakes<=2 ? 2 : 1);
+  G.stars = stars;
+  setBest(S.version, mode.id, stars, G.correct, total);
+  S.screen = 'result';
+  render(); window.scrollTo(0,0);
+  Sfx.win();
+  if(stars===3){
+    [0,1,2].forEach(function(i){
+      setTimeout(function(){ Sfx.star(i); }, 420 + i*150);
+    });
+  }
+}
+function scrollFeedback(){
+  setTimeout(function(){
+    var fb = document.querySelector('.fb');
+    if(fb && fb.scrollIntoView) fb.scrollIntoView({block:'nearest', behavior:'smooth'});
+  }, 40);
+}
+
+/* ---------------- 結果頁 ---------------- */
+function resultHTML(){
+  var v = getVersion(), f = getForm(), m = getMode();
+  var total = modeTotal(m);
+  var stars = G.stars || 1;
+  var title = stars===3 ? '完美過關！' : (stars===2 ? '過關啦！' : '完成了！');
+  var sub = stars===3 ? '一次答對，摘下三顆星' : (stars===2 ? '再細心一點，就能摘三顆星' : '多玩一次，一定會更熟練');
+  var words = (m.words||[]).map(function(w){ return '<span>'+esc(w)+'</span>'; }).join('');
+  var rays = '';
+  for(var i=0;i<12;i++){
+    rays += '<line x1="100" y1="10" x2="100" y2="24" transform="rotate('+(i*30)+' 100 100)"/>';
+  }
+  var conf = '';
+  if(stars===3){
+    var colors = ['#FF6B5B','#FFC53D','#22C3A6','#3FA9E0','#8B7BF7','#FF8FA8'];
+    var bits = '';
+    for(var k=0;k<20;k++){
+      bits += '<i style="left:'+(Math.random()*100).toFixed(1)+'%;background:'+colors[k%colors.length]+';animation-delay:'+(Math.random()*1.2).toFixed(2)+'s;transform:rotate('+Math.floor(Math.random()*180)+'deg)"></i>';
+    }
+    conf = '<div class="confetti" aria-hidden="true">'+bits+'</div>';
+  }
+  return conf+'<div class="screen result-wrap tint-'+f.tint+'">'+
+    '<svg class="rays" viewBox="0 0 200 200" aria-hidden="true" style="color:#FFC53D"><g stroke="#FFC53D" stroke-width="7" stroke-linecap="round">'+rays+'</g></svg>'+
+    mascotSVG('result-mascot')+
+    '<div class="result-card">'+
+      '<div class="big-stars">'+starSVG(stars>=1)+starSVG(stars>=2)+starSVG(stars>=3)+'</div>'+
+      '<h2>'+title+'</h2>'+
+      '<div class="rsub">'+v.name+' · '+f.name+' · '+m.name+'<br>'+sub+'</div>'+
+      '<div class="rscore">一次答對 <b>'+G.correct+'</b> / '+total+' <span>·</span> 失誤 <b>'+G.mistakes+'</b></div>'+
+      '<div class="learned"><h3>今天認識的疊詞</h3><div class="lw">'+words+'</div></div>'+
+      '<div class="result-actions">'+
+        '<button class="btn" data-act="replay">'+ICO.replay+'再玩一次</button>'+
+        '<button class="btn ghost" data-act="backver">'+ICO.arrow+'返回本級疊詞表</button>'+
+        '<button class="btn ghost" data-act="home">'+ICO.home+'回到首頁</button>'+
+      '</div>'+
+    '</div>'+
+    '<p class="foot">每個遊戲都可以重玩，刷新自己的星星紀錄<br><b>記住：疊詞不是背，是拿來用的。</b></p>'+
+  '</div>';
+}
+
+/* ---------------- 事件 ---------------- */
+app.addEventListener('click', function(e){
+  var el = e.target.closest('[data-act]');
+  if(!el) return;
+  var act = el.getAttribute('data-act');
+
+  if(act==='mute'){
+    Sfx.on = !Sfx.on;
+    if(Sfx.on){ Sfx.init(); Sfx.click(); }
+    render();
+    return;
+  }
+  if(act==='home'){ Sfx.init(); Sfx.click(); goHome(); return; }
+  if(act==='gover'){ Sfx.init(); Sfx.click(); goVersion(el.getAttribute('data-v')); return; }
+  if(act==='backver'){
+    Sfx.click();
+    S.screen='version'; G=null;
+    render(); window.scrollTo(0,0);
+    return;
+  }
+  if(act==='start'){
+    Sfx.init(); Sfx.click();
+    startMode(el.getAttribute('data-f'), el.getAttribute('data-m'));
+    return;
+  }
+  if(act==='replay'){ Sfx.click(); restartMode(); return; }
+  if(act==='next'){ Sfx.click(); nextQuestion(); return; }
+
+  if(S.screen!=='game' || !G) return;
+  var mode = getMode();
+  if(!mode) return;
+
+  /* 圖詞配對 */
+  if(act==='pairword'){
+    var wi = parseInt(el.getAttribute('data-i'),10);
+    if(G.done.indexOf(wi)>=0) return;
+    if(G.selWord!==wi) G.itemMistakes = 0;
+    G.selWord = wi;
+    Sfx.click();
+    render();
+    return;
+  }
+  if(act==='pairart'){
+    var ai = parseInt(el.getAttribute('data-i'),10);
+    if(G.done.indexOf(ai)>=0) return;
+    if(G.selWord===null){ toast('先點一張詞語卡，再點圖畫'); return; }
+    var target = mode.items[ai], chosen = mode.items[G.selWord];
+    if(target.word === chosen.word){
+      G.done.push(ai);
+      if(G.itemMistakes===0) G.correct++;
+      G.note = {word:target.word, sentence:target.sentence};
+      G.selWord = null;
+      Sfx.correct();
+      if(G.done.length === mode.items.length){ finishGame(); return; }
+    }else{
+      G.mistakes++; G.itemMistakes++;
+      G.shakeArt = ai;
+      Sfx.wrong();
+      toast('這張圖和詞語不配，再試一次');
+      render();
+      setTimeout(function(){ if(G && G.shakeArt===ai){ G.shakeArt=null; render(); } }, 450);
+      return;
+    }
+    render();
+    return;
+  }
+
+  /* 句子填空 / 看圖選詞 */
+  if(act==='answer'){
+    if(G.answered) return;
+    var qa = mode.questions[G.qi];
+    var val = el.getAttribute('data-val');
+    G.picked = val;
+    G.answered = true;
+    if(val === qa.answer){
+      G.lastOK = true;
+      if(G.qMistakes===0) G.correct++;
+      Sfx.correct();
+    }else{
+      G.lastOK = false;
+      G.mistakes++; G.qMistakes++;
+      Sfx.wrong();
+    }
+    render();
+    scrollFeedback();
+    return;
+  }
+
+  /* 三格積木 */
+  if(act==='tile'){
+    if(G.answered) return;
+    var ti = parseInt(el.getAttribute('data-i'),10);
+    if(G.tiles[ti].used) return;
+    var empty = G.slots.indexOf(null);
+    if(empty<0) return;
+    G.tiles[ti].used = true;
+    G.slots[empty] = ti;
+    Sfx.stack();
+    var full = G.slots.every(function(x){ return x!==null; });
+    render();
+    if(full){
+      setTimeout(function(){ checkBuild(); }, 320);
+    }
+    return;
+  }
+  if(act==='slot'){
+    if(G.answered) return;
+    var si = parseInt(el.getAttribute('data-i'),10);
+    var tileIdx = G.slots[si];
+    if(tileIdx===null) return;
+    G.tiles[tileIdx].used = false;
+    G.slots[si] = null;
+    Sfx.unstack();
+    render();
+    return;
+  }
+
+  /* 前半後半 */
+  if(act==='splitA'){
+    var sa = parseInt(el.getAttribute('data-i'),10);
+    if(G.done.indexOf(sa)>=0) return;
+    if(G.selA!==sa) G.itemMistakes = 0;
+    G.selA = sa;
+    Sfx.click();
+    render();
+    return;
+  }
+  if(act==='splitB'){
+    if(G.selA===null){ toast('先點左邊的前半'); return; }
+    var sk = parseInt(el.getAttribute('data-k'),10);
+    var ro = G.rightOrder[sk];
+    if(!ro) return;
+    if(ro.type==='pair' && G.done.indexOf(ro.i)>=0) return;
+    if(ro.type==='pair' && ro.i === G.selA){
+      G.done.push(ro.i);
+      if(G.itemMistakes===0) G.correct++;
+      G.note = {word:mode.pairs[ro.i].word, sentence:mode.pairs[ro.i].sentence};
+      G.selA = null;
+      Sfx.correct();
+      if(G.done.length === mode.pairs.length){ finishGame(); return; }
+    }else{
+      G.mistakes++; G.itemMistakes++;
+      G.shakeB = sk;
+      Sfx.wrong();
+      toast('這兩半拼不成疊詞，再試一次');
+      render();
+      setTimeout(function(){ if(G && G.shakeB===sk){ G.shakeB=null; render(); } }, 450);
+      return;
+    }
+    render();
+    return;
+  }
+
+  /* 句子尋寶 */
+  if(act==='spot'){
+    if(G.found) return;
+    var qi = parseInt(el.getAttribute('data-i'),10);
+    var qs = mode.questions[G.qi];
+    if(qs.chunks[qi] === qs.answer){
+      G.found = true; G.lastOK = true;
+      if(G.qMistakes===0) G.correct++;
+      Sfx.correct();
+      render(); scrollFeedback();
+    }else{
+      G.mistakes++; G.qMistakes++;
+      G.wrongChunk = qi;
+      Sfx.wrong();
+      render();
+      setTimeout(function(){ if(G && G.wrongChunk===qi){ G.wrongChunk=-1; render(); } }, 430);
+    }
+    return;
+  }
+
+  /* 詞義連一連 */
+  if(act==='matchW'){
+    var mw = parseInt(el.getAttribute('data-i'),10);
+    if(G.done.indexOf(mw)>=0) return;
+    if(G.selW!==mw) G.itemMistakes = 0;
+    G.selW = mw;
+    Sfx.click();
+    render();
+    return;
+  }
+  if(act==='matchD'){
+    if(G.selW===null){ toast('先點左邊的成語'); return; }
+    var md = parseInt(el.getAttribute('data-i'),10);
+    if(G.done.indexOf(md)>=0) return;
+    if(md === G.selW){
+      G.done.push(md);
+      if(G.itemMistakes===0) G.correct++;
+      G.note = {word:mode.pairs[md].word, sentence:mode.pairs[md].note};
+      G.selW = null;
+      Sfx.correct();
+      if(G.done.length === mode.pairs.length){ finishGame(); return; }
+    }else{
+      G.mistakes++; G.itemMistakes++;
+      G.shakeD = md;
+      Sfx.wrong();
+      toast('意思配不上，再想一想');
+      render();
+      setTimeout(function(){ if(G && G.shakeD===md){ G.shakeD=null; render(); } }, 450);
+      return;
+    }
+    render();
+    return;
+  }
+
+  /* 句子診所 */
+  if(act==='clinicSeg'){
+    if(G.step!==1) return;
+    var ci = parseInt(el.getAttribute('data-i'),10);
+    var cq = mode.questions[G.qi];
+    if(cq.segments[ci].bad){
+      G.step = 2;
+      G.badIdx = ci;
+      Sfx.pop();
+      render();
+    }else{
+      G.mistakes++; G.qMistakes++;
+      G.wrongSeg = ci;
+      Sfx.wrong();
+      render();
+      setTimeout(function(){ if(G && G.wrongSeg===ci){ G.wrongSeg=-1; render(); } }, 430);
+    }
+    return;
+  }
+  if(act==='clinicOpt'){
+    if(G.answered) return;
+    var cq2 = mode.questions[G.qi];
+    var cv = el.getAttribute('data-val');
+    G.picked = cv;
+    G.answered = true;
+    if(cv === cq2.answer){
+      G.lastOK = true;
+      if(G.qMistakes===0) G.correct++;
+      Sfx.correct();
+    }else{
+      G.lastOK = false;
+      G.mistakes++; G.qMistakes++;
+      Sfx.wrong();
+    }
+    render();
+    scrollFeedback();
+    return;
+  }
+
+  /* 疊詞分類 */
+  if(act==='sortChip'){
+    var sw = el.getAttribute('data-w');
+    if(G.sel!==sw) G.itemMistakes = 0;
+    G.sel = sw;
+    Sfx.click();
+    render();
+    return;
+  }
+  if(act==='sortBin'){
+    if(!G.sel){ toast('先點一個疊詞'); return; }
+    var bin = el.getAttribute('data-bin');
+    var item = null;
+    mode.items.forEach(function(it){ if(it.w===G.sel) item = it; });
+    if(!item) return;
+    if(item.cat === bin){
+      G.placed[item.w] = bin;
+      if(G.itemMistakes===0) G.correct++;
+      G.note = item;
+      G.sel = null;
+      Sfx.correct();
+      if(Object.keys(G.placed).length === mode.items.length){ finishGame(); return; }
+    }else{
+      G.mistakes++; G.itemMistakes++;
+      G.wrongBin = bin;
+      Sfx.wrong();
+      toast('這個詞不屬於這一類，再試試');
+      render();
+      setTimeout(function(){ if(G && G.wrongBin===bin){ G.wrongBin=null; render(); } }, 450);
+      return;
+    }
+    render();
+    return;
+  }
+});
+
+/* 三格積木自動檢查 */
+function checkBuild(){
+  if(!G || S.screen!=='game') return;
+  var mode = getMode();
+  if(!mode || mode.engine!=='build' || G.answered) return;
+  var q = mode.questions[G.qi];
+  var guess = G.slots.map(function(idx){ return idx===null ? '' : G.tiles[idx].ch; }).join('');
+  if(guess === q.word){
+    G.answered = true;
+    G.lastOK = true;
+    if(G.qMistakes===0) G.correct++;
+    Sfx.correct();
+    render();
+    scrollFeedback();
+  }else{
+    G.mistakes++; G.qMistakes++;
+    G.shake = true;
+    Sfx.wrong();
+    render();
+    setTimeout(function(){
+      if(!G) return;
+      G.shake = false;
+      G.tiles.forEach(function(t){ t.used = false; });
+      G.slots = G.slots.map(function(){ return null; });
+      render();
+    }, 520);
+  }
+}
+
+/* 首次觸碰解鎖音效 */
+document.addEventListener('pointerdown', function once(){
+  Sfx.init();
+  document.removeEventListener('pointerdown', once);
+}, {passive:true});
+window.addEventListener('keydown', function(e){
+  if(e.key==='Escape' && S.screen!=='home'){
+    if(S.screen==='game'){ S.screen='version'; G=null; render(); }
+  }
+});
+
+/* 啟動 */
+render();
+</script>
+</body>
+</html>

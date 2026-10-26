@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>敘事六要素互動遊戲｜初小 · 高小</title>
+<meta name="description" content="小學中文敘事六要素互動學習遊戲，分初小版與高小版，含圖解教學與兩種遊戲模式，支援手機、平板及電腦，離線可用。" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23FF8A3D'/%3E%3Ctext x='32' y='43' font-size='30' font-family='sans-serif' font-weight='bold' fill='%23fff' text-anchor='middle'%3E%E5%85%AD%3C/text%3E%3C/svg%3E" />
+<style>
+:root{
+  --ink:#2B2A3C;
+  --paper:#FFF9F0;
+  --c-time:#3E8BF0;
+  --c-place:#2FB98A;
+  --c-person:#FF8A3D;
+  --c-cause:#9B7EDE;
+  --c-process:#F2688F;
+  --c-result:#E8B33A;
+  --muted:#6B6880;
+  --line:rgba(43,42,60,.14);
+  --fs-sm:clamp(13px,0.7vw + 11px,15px);
+  --fs-body:clamp(16px,0.95vw + 13px,20px);
+  --fs-lead:clamp(18px,1.1vw + 14px,23px);
+  --fs-h3:clamp(20px,1.3vw + 15px,27px);
+  --fs-h2:clamp(24px,1.9vw + 17px,36px);
+  --fs-h1:clamp(34px,4.6vw + 16px,68px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:'PingFang HK','PingFang TC','Noto Sans HK','Noto Sans TC','Microsoft JhengHei','Heiti TC','Apple LiGothic',sans-serif;
+  font-size:16px;line-height:1.5;
+  color:var(--ink);
+  background-color:var(--paper);
+  background-image:
+    radial-gradient(circle at 9% 4%, rgba(255,201,77,.40), transparent 34%),
+    radial-gradient(circle at 94% 8%, rgba(62,139,240,.20), transparent 32%),
+    radial-gradient(circle at 50% 103%, rgba(47,185,138,.22), transparent 40%),
+    radial-gradient(rgba(43,42,60,.07) 1.5px, transparent 1.6px);
+  background-size:auto,auto,auto,24px 24px;
+  background-attachment:fixed;
+  min-height:100vh;
+  -webkit-text-size-adjust:100%;
+  -webkit-tap-highlight-color:transparent;
+}
+button{font-family:inherit;color:inherit}
+:focus-visible{outline:4px solid rgba(62,139,240,.9);outline-offset:3px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.app-shell{max-width:1240px;margin:0 auto;padding:clamp(12px,2.4vw,26px) clamp(12px,3vw,28px) calc(40px + env(safe-area-inset-bottom))}
+
+/* ---------- topbar ---------- */
+.topbar{
+  display:flex;align-items:center;gap:10px;
+  padding:4px 0 14px;
+}
+.icon-btn{
+  width:clamp(46px,5vw,54px);height:clamp(46px,5vw,54px);
+  display:inline-flex;align-items:center;justify-content:center;
+  background:#fff;border:3px solid var(--ink);border-radius:16px;
+  box-shadow:0 5px 0 var(--ink);cursor:pointer;flex:0 0 auto;
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.icon-btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+.icon-btn svg{width:24px;height:24px;display:block}
+.topbar-mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.topbar-kicker{font-size:var(--fs-sm);color:var(--muted);letter-spacing:.08em;font-weight:600}
+.topbar-title{font-size:clamp(16px,1.2vw + 12px,20px);font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar-right{display:flex;gap:8px;flex:0 0 auto}
+.pill{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#fff;border:2.5px solid var(--ink);border-radius:999px;
+  padding:6px 12px;font-size:var(--fs-sm);font-weight:800;
+}
+
+/* ---------- views ---------- */
+.view{display:none}
+.view.active{display:block;animation:viewIn .4s cubic-bezier(.2,.8,.2,1) both}
+@keyframes viewIn{from{opacity:.92;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* ---------- home ---------- */
+.hero{padding:clamp(6px,2vw,22px) 0 clamp(10px,2vw,18px)}
+.kicker{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(43,42,60,.06);border:2px solid var(--line);
+  border-radius:999px;padding:6px 14px;font-size:var(--fs-sm);font-weight:800;color:var(--muted);
+  letter-spacing:.06em;
+}
+.hero h1{
+  font-size:var(--fs-h1);line-height:1.08;letter-spacing:-.02em;
+  margin:14px 0 6px;font-weight:900;
+}
+.hero h1 .hl{
+  position:relative;display:inline-block;z-index:0;
+  color:var(--c-person);
+}
+.hero h1 .hl::after{
+  content:"";position:absolute;left:2%;right:2%;bottom:.04em;height:.22em;
+  background:rgba(255,201,77,.55);border-radius:99px;z-index:-1;
+}
+.hero-lead{
+  font-size:var(--fs-lead);line-height:1.65;color:#4A4760;margin:10px 0 0;max-width:34em;font-weight:500;
+}
+.hero-icons{
+  display:flex;flex-wrap:wrap;gap:clamp(6px,1.6vw,16px);margin:clamp(16px,3vw,26px) 0 clamp(18px,3vw,30px);
+}
+.hero-icons .mini{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  flex:0 0 auto;
+  animation:bob 3.6s ease-in-out infinite;
+}
+.hero-icons .mini svg{width:clamp(46px,7vw,72px);height:clamp(46px,7vw,72px);display:block}
+.hero-icons .mini span{font-size:var(--fs-sm);font-weight:800;letter-spacing:.04em}
+@media(max-width:480px){.hero-icons{display:grid;grid-template-columns:repeat(3,1fr);justify-items:center;row-gap:10px}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+
+.grade-grid{display:grid;grid-template-columns:1fr;gap:clamp(12px,2vw,20px)}
+@media(min-width:760px){.grade-grid{grid-template-columns:1fr 1fr}}
+.grade-card{
+  width:100%;font:inherit;color:inherit;
+  position:relative;display:flex;align-items:center;gap:clamp(12px,2vw,20px);
+  background:#fff;border:3.5px solid var(--ink);border-radius:26px;
+  box-shadow:0 8px 0 var(--ink);padding:clamp(16px,2.4vw,26px);
+  cursor:pointer;text-align:left;transition:transform .14s ease,box-shadow .14s ease;
+  overflow:hidden;
+}
+.grade-card:hover{transform:translateY(-3px);box-shadow:0 11px 0 var(--ink)}
+.grade-card:active{transform:translateY(5px);box-shadow:0 3px 0 var(--ink)}
+.grade-card .band{
+  position:absolute;inset:0 auto 0 0;width:12px;
+}
+.grade-card .gc-body{flex:1;min-width:0;padding-left:8px}
+.grade-card .gc-tag{
+  font-size:var(--fs-sm);font-weight:800;letter-spacing:.1em;color:var(--muted);
+}
+.grade-card h2{margin:2px 0 6px;font-size:clamp(26px,2.6vw + 14px,40px);line-height:1.1;font-weight:900}
+.grade-card p{margin:0;font-size:var(--fs-body);line-height:1.55;color:#4A4760}
+.grade-card .gc-fig{flex:0 0 auto;width:clamp(74px,12vw,110px);height:clamp(74px,12vw,110px)}
+.grade-card .gc-fig svg{width:100%;height:100%;display:block}
+.foot-note{
+  margin-top:clamp(18px,3vw,30px);font-size:var(--fs-sm);color:var(--muted);
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:600;
+}
+.foot-note .dot{width:6px;height:6px;border-radius:50%;background:var(--muted);opacity:.5}
+
+
+.hero-txt{min-width:0}
+.hero-art{display:none}
+@media(min-width:900px){
+  .hero{display:grid;grid-template-columns:1.3fr .7fr;gap:24px;align-items:center}
+  .hero-art{display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative}
+  .hero-art .hero-kid{width:clamp(180px,16vw,250px);height:clamp(180px,16vw,250px)}
+  .hero-art .hero-kid svg{width:100%;height:100%;display:block}
+  .hero-art .bubble{
+    background:#fff;border:3.5px solid var(--ink);border-radius:22px;
+    box-shadow:0 6px 0 var(--ink);padding:12px 18px;margin-bottom:14px;
+    font-size:clamp(16px,1.1vw + 10px,20px);font-weight:900;line-height:1.5;text-align:center;
+    position:relative;
+  }
+  .hero-art .bubble::after{
+    content:"";position:absolute;left:50%;bottom:-13px;margin-left:-9px;
+    width:18px;height:18px;background:#fff;border-right:3.5px solid var(--ink);
+    border-bottom:3.5px solid var(--ink);transform:rotate(45deg) ;
+  }
+}
+.slot-exp{font-size:clamp(14px,0.9vw + 11px,17px)}
+
+/* ---------- menu ---------- */
+.menu-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.menu-head h2{margin:0;font-size:var(--fs-h2);font-weight:900;line-height:1.15}
+.menu-head p{margin:6px 0 0;font-size:var(--fs-body);color:var(--muted);line-height:1.55}
+.menu-grid{display:grid;grid-template-columns:1fr;gap:clamp(12px,2vw,18px);margin-top:clamp(14px,2.4vw,22px)}
+@media(min-width:860px){.menu-grid{grid-template-columns:1.15fr 1fr 1fr}}
+.menu-card{
+  background:#fff;border:3.5px solid var(--ink);border-radius:24px;
+  box-shadow:0 7px 0 var(--ink);padding:clamp(16px,2.2vw,24px);
+  display:flex;flex-direction:column;gap:10px;text-align:left;cursor:pointer;
+  transition:transform .14s ease,box-shadow .14s ease;
+}
+.menu-card:hover{transform:translateY(-3px);box-shadow:0 10px 0 var(--ink)}
+.menu-card:active{transform:translateY(4px);box-shadow:0 3px 0 var(--ink)}
+.menu-card .mc-top{display:flex;align-items:center;gap:12px}
+.menu-card .mc-top svg{width:clamp(52px,7vw,64px);height:clamp(52px,7vw,64px);flex:0 0 auto}
+.menu-card h3{margin:0;font-size:var(--fs-h3);font-weight:900;line-height:1.2}
+.menu-card .mc-tag{font-size:var(--fs-sm);font-weight:800;color:var(--muted);letter-spacing:.06em}
+.menu-card p{margin:0;font-size:var(--fs-body);line-height:1.6;color:#4A4760}
+.menu-card .mc-cta{
+  margin-top:auto;display:inline-flex;align-items:center;gap:8px;
+  font-size:var(--fs-body);font-weight:900;
+}
+.menu-card .mc-cta svg{width:20px;height:20px;flex:0 0 auto}
+
+/* ---------- learn ---------- */
+.chant{
+  background:var(--ink);color:#FFF6E6;border-radius:22px;
+  padding:clamp(14px,2vw,20px) clamp(16px,2.4vw,26px);
+  display:flex;align-items:center;gap:clamp(12px,2vw,20px);flex-wrap:wrap;
+  box-shadow:0 7px 0 rgba(43,42,60,.28);
+}
+.chant .chant-ico{width:clamp(40px,5vw,52px);height:clamp(40px,5vw,52px);flex:0 0 auto}
+.chant .chant-txt{font-size:clamp(17px,1.3vw + 13px,24px);font-weight:800;line-height:1.5;letter-spacing:.02em}
+.chant .chant-txt b{color:#FFC94D}
+
+.section-label{
+  display:flex;align-items:center;gap:10px;margin:clamp(22px,3.4vw,34px) 0 clamp(10px,2vw,16px);
+  font-size:var(--fs-h3);font-weight:900;
+}
+.section-label .bar{width:8px;height:1.1em;border-radius:99px;background:var(--c-person)}
+
+.el-grid{display:grid;grid-template-columns:1fr;gap:clamp(12px,2vw,18px)}
+@media(min-width:700px){.el-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.el-grid{grid-template-columns:1fr 1fr 1fr}}
+.el-card{
+  background:#fff;border:3.5px solid var(--ink);border-radius:24px;
+  box-shadow:0 6px 0 var(--ink);padding:clamp(14px,2vw,20px);
+  display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;
+}
+.el-card .el-strip{position:absolute;top:0;left:0;right:0;height:10px}
+.el-card .el-top{display:flex;align-items:center;gap:12px;margin-top:6px}
+.el-card .el-top svg{width:clamp(56px,8vw,72px);height:clamp(56px,8vw,72px);flex:0 0 auto}
+.el-card h3{margin:0;font-size:clamp(23px,2vw + 15px,32px);font-weight:900;line-height:1.1}
+.el-card .el-q{margin:2px 0 0;font-size:var(--fs-sm);font-weight:800;opacity:.75}
+.el-card .el-eg{
+  font-size:var(--fs-body);line-height:1.6;
+  background:rgba(43,42,60,.045);border-radius:14px;padding:10px 14px;
+  border-left:6px solid currentColor;
+}
+.el-card .el-tip{
+  font-size:var(--fs-body);line-height:1.6;color:#4A4760;
+  border-top:2px dashed var(--line);padding-top:10px;
+}
+.el-card .el-tip b{color:var(--ink)}
+
+.demo{
+  background:#fff;border:3.5px solid var(--ink);border-radius:26px;
+  box-shadow:0 7px 0 var(--ink);padding:clamp(16px,2.6vw,28px);
+}
+.demo h3{margin:0 0 4px;font-size:var(--fs-h3);font-weight:900}
+.demo .demo-sub{margin:0 0 14px;font-size:var(--fs-sm);color:var(--muted);font-weight:700}
+.demo-body{font-size:clamp(18px,1.05vw + 15px,24px);line-height:2.1}
+.tk{
+  border-radius:8px;padding:1px 5px;font-weight:800;
+  box-decoration-break:clone;-webkit-box-decoration-break:clone;
+}
+.demo-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.demo-legend span{
+  display:inline-flex;align-items:center;gap:6px;font-size:var(--fs-sm);font-weight:800;
+  border-radius:999px;padding:5px 12px;border:2px solid currentColor;
+}
+.demo-legend i{width:10px;height:10px;border-radius:50%;background:currentColor;display:block}
+
+/* ---------- quiz shell ---------- */
+.quiz-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:clamp(12px,2vw,18px)}
+.dots{display:flex;gap:7px;flex:1;min-width:120px}
+.dots i{
+  height:12px;flex:1;border-radius:99px;background:rgba(43,42,60,.14);
+  transition:background .3s ease,transform .3s ease;display:block;
+}
+.dots i.done{background:var(--c-place)}
+.dots i.now{background:var(--c-person);transform:scaleY(1.35)}
+.dots i.wrongmark{background:var(--c-process)}
+.counter{font-size:var(--fs-body);font-weight:900;white-space:nowrap}
+.counter small{font-size:var(--fs-sm);color:var(--muted);font-weight:800}
+
+.qcard{
+  background:#fff;border:3.5px solid var(--ink);border-radius:26px;
+  box-shadow:0 7px 0 var(--ink);padding:clamp(16px,2.6vw,30px);
+  margin-bottom:clamp(14px,2.2vw,22px);
+}
+.qcard .q-label{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:var(--fs-sm);font-weight:900;letter-spacing:.1em;
+  background:rgba(43,42,60,.06);border-radius:999px;padding:5px 14px;margin-bottom:12px;
+}
+.q-sentence{
+  font-size:clamp(22px,2.1vw + 14px,38px);line-height:1.6;font-weight:800;margin:0;
+  letter-spacing:.01em;
+}
+.q-sentence .q-quote{opacity:.35;font-weight:900}
+.q-hint{margin:12px 0 0;font-size:var(--fs-body);color:var(--muted);line-height:1.6}
+
+.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(9px,1.6vw,14px)}
+@media(min-width:640px){.opts{grid-template-columns:repeat(3,1fr)}}
+.opt{
+  display:flex;align-items:center;gap:10px;
+  background:#fff;border:3px solid var(--ink);border-radius:20px;
+  box-shadow:0 5px 0 var(--ink);padding:clamp(10px,1.5vw,14px) clamp(10px,1.6vw,16px);
+  cursor:pointer;text-align:left;font-size:clamp(18px,1.1vw + 14px,24px);font-weight:900;
+  transition:transform .12s ease,box-shadow .12s ease,background .2s ease,opacity .2s ease;
+  min-height:64px;
+}
+.opt svg{width:clamp(38px,4.6vw,48px);height:clamp(38px,4.6vw,48px);flex:0 0 auto}
+.opt:hover{transform:translateY(-2px)}
+.opt:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+.opt.picked{outline:4px solid rgba(43,42,60,.18)}
+.opt.right{background:#E9F9F2;border-color:var(--c-place);box-shadow:0 5px 0 var(--c-place)}
+.opt.wrong{background:#FDEDF1;border-color:var(--c-process);box-shadow:0 5px 0 var(--c-process)}
+.opt.dim{opacity:.42}
+.opt:disabled{cursor:default}
+
+/* ---------- feedback ---------- */
+.feedback{
+  margin-top:clamp(14px,2vw,20px);
+  border:3.5px solid var(--ink);border-radius:24px;padding:clamp(14px,2vw,22px);
+  background:#fff;box-shadow:0 6px 0 var(--ink);
+  display:none;
+}
+.feedback.show{display:block;animation:popIn .34s cubic-bezier(.2,.8,.2,1) both}
+@keyframes popIn{from{opacity:.9;transform:scale(.97)}to{opacity:1;transform:none}}
+.fb-head{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.fb-head svg{width:clamp(38px,5vw,50px);height:clamp(38px,5vw,50px);flex:0 0 auto}
+.fb-head strong{font-size:clamp(20px,1.6vw + 14px,28px);font-weight:900}
+.fb-body{font-size:var(--fs-body);line-height:1.72;color:#403D53}
+.fb-body p{margin:0 0 8px}
+.fb-body p:last-child{margin:0}
+.fb-key{
+  display:inline-block;border-radius:8px;padding:1px 8px;font-weight:900;color:#fff;
+}
+.fb-actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  border:3px solid var(--ink);border-radius:18px;padding:13px 22px;
+  background:#fff;font-size:var(--fs-body);font-weight:900;cursor:pointer;
+  box-shadow:0 5px 0 var(--ink);transition:transform .12s ease,box-shadow .12s ease;
+  min-height:54px;
+}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+.btn.primary{background:var(--c-person);color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.18)}
+.btn.go{background:var(--c-place);color:#fff}
+.btn.ghost{background:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:0 5px 0 var(--ink)}
+.btn svg{width:22px;height:22px;flex:0 0 auto}
+
+/* ---------- mode B ---------- */
+.pool-wrap{margin-bottom:clamp(14px,2vw,20px)}
+.pool-title{font-size:var(--fs-sm);font-weight:900;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+.pool{
+  display:flex;flex-wrap:wrap;gap:10px;
+  background:rgba(255,255,255,.7);border:3px dashed rgba(43,42,60,.28);
+  border-radius:22px;padding:clamp(10px,1.6vw,16px);min-height:72px;
+}
+.chip{
+  background:#fff;border:3px solid var(--ink);border-radius:16px;
+  box-shadow:0 4px 0 var(--ink);padding:10px 14px;cursor:pointer;
+  font-size:var(--fs-body);font-weight:700;line-height:1.45;text-align:left;
+  transition:transform .12s ease,box-shadow .12s ease;max-width:100%;
+}
+.chip:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.chip.sel{background:#FFF3D6;border-color:var(--c-person);box-shadow:0 4px 0 var(--c-person);transform:translateY(-2px)}
+.chip.used{display:none}
+.pool-empty{font-size:var(--fs-body);color:var(--muted);font-weight:700;padding:6px 4px}
+
+.slots{display:grid;grid-template-columns:1fr;gap:clamp(9px,1.5vw,14px)}
+@media(min-width:680px){.slots{grid-template-columns:1fr 1fr}}
+.slot{
+  background:#fff;border:3px solid var(--ink);border-radius:20px;
+  box-shadow:0 5px 0 var(--ink);padding:12px 14px;cursor:pointer;
+  transition:transform .12s ease,box-shadow .12s ease,background .2s ease,border-color .2s ease;
+  display:flex;flex-direction:column;gap:8px;min-height:96px;
+}
+.slot:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink)}
+.slot .slot-head{display:flex;align-items:center;gap:8px}
+.slot .slot-head svg{width:clamp(30px,3.6vw,38px);height:clamp(30px,3.6vw,38px);flex:0 0 auto}
+.slot .slot-name{font-size:var(--fs-sm);font-weight:900;letter-spacing:.06em}
+.slot .slot-body{font-size:var(--fs-body);line-height:1.55;font-weight:700;min-height:1.6em;color:#6B6880}
+.slot.filled .slot-body{color:var(--ink)}
+.slot.target{border-color:var(--c-person);box-shadow:0 0 0 4px rgba(255,138,61,.28),0 5px 0 var(--c-person)}
+.slot.ok{border-color:var(--c-place);box-shadow:0 5px 0 var(--c-place);background:#F2FBF7}
+.slot.no{border-color:var(--c-process);box-shadow:0 5px 0 var(--c-process);background:#FEF3F6}
+.slot .slot-mark{width:26px;height:26px;margin-left:auto;flex:0 0 auto;display:none}
+.slot.ok .slot-mark,.slot.no .slot-mark{display:block}
+.slot-exp{
+  font-size:clamp(14px,0.45vw + 12.5px,17px);line-height:1.62;border-top:2px dashed var(--line);
+  padding-top:8px;margin-top:2px;display:none;
+}
+.slot-exp.show{display:block}
+.slot-exp b{color:var(--ink)}
+.slot-exp .fix{display:block;margin-top:4px;color:#B23A5A;font-weight:800}
+
+.sticky-bar{
+  position:sticky;bottom:0;z-index:8;
+  padding:10px 0 calc(10px + env(safe-area-inset-bottom));
+  background:var(--paper);
+  border-top:2px solid var(--line);
+  display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;
+}
+.sticky-bar .btn{flex:1;min-width:150px}
+@media(min-width:700px){.sticky-bar .btn{flex:0 0 320px;margin-left:auto}}
+
+/* ---------- result ---------- */
+.result{
+  background:#fff;border:3.5px solid var(--ink);border-radius:30px;
+  box-shadow:0 9px 0 var(--ink);padding:clamp(20px,4vw,44px);
+  text-align:center;max-width:640px;margin:clamp(10px,3vw,30px) auto 0;
+}
+.result .stars{display:flex;justify-content:center;gap:8px;margin-bottom:10px}
+.result .stars svg{width:clamp(52px,10vw,78px);height:clamp(52px,10vw,78px);display:block}
+.result .stars svg.off{opacity:.18}
+.result h2{margin:6px 0 6px;font-size:var(--fs-h2);font-weight:900}
+.result .r-sub{margin:0 0 18px;font-size:var(--fs-body);color:var(--muted);line-height:1.6;font-weight:600}
+.result .score{
+  font-size:clamp(44px,9vw,80px);font-weight:900;line-height:1;
+  letter-spacing:-.02em;margin-bottom:4px;
+}
+.result .score small{font-size:var(--fs-h3);color:var(--muted);font-weight:800}
+.result .r-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0 22px;text-align:left}
+.result .r-cell{background:rgba(43,42,60,.045);border-radius:16px;padding:12px 14px}
+.result .r-cell span{display:block;font-size:var(--fs-sm);color:var(--muted);font-weight:800;letter-spacing:.06em}
+.result .r-cell strong{font-size:var(--fs-lead);font-weight:900}
+.result .r-cell strong.r-mode{font-size:var(--fs-body)}
+.result .r-actions{display:flex;flex-direction:column;gap:10px}
+@media(min-width:520px){.result .r-actions{flex-direction:row;justify-content:center}}
+
+
+.chant .chant-ico svg{width:100%;height:100%;display:block}
+.slot .slot-mark svg{width:100%;height:100%;display:block}
+
+/* toast */
+.toast{
+  position:fixed;left:50%;top:calc(12px + env(safe-area-inset-top));transform:translate(-50%,-16px);
+  background:var(--ink);color:#FFF6E6;font-weight:800;font-size:var(--fs-body);
+  padding:12px 20px;border-radius:999px;opacity:0;pointer-events:none;
+  transition:opacity .25s ease,transform .25s ease;z-index:50;max-width:88vw;text-align:center;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001s !important;transition-duration:.001s !important}
+}
+</style>
+</head>
+<body>
+<div id="app" data-generated-by="vibe-coding-frontend-design">
+  <div class="app-shell">
+
+    <header class="topbar">
+      <button class="icon-btn" id="btn-back" aria-label="返回上一頁" title="返回">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2B2A3C" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12l7 7"/></svg>
+      </button>
+      <div class="topbar-mid">
+        <div class="topbar-kicker" id="tb-kicker">小學中文 · 閱讀與寫作</div>
+        <div class="topbar-title" id="tb-title">敘事六要素</div>
+      </div>
+      <div class="topbar-right">
+        <button class="icon-btn" id="btn-sound" aria-label="開啟或關閉音效" aria-pressed="true" title="音效">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#2B2A3C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" id="sound-ico"><path d="M11 5 6.5 9H3v6h3.5L11 19z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="stage">
+
+      <!-- HOME -->
+      <section class="view active" id="view-home">
+        <div class="hero">
+          <div class="hero-txt">
+            <span class="kicker">六個好幫手 · 說好一個故事</span>
+            <h1>敘事<span class="hl">六要素</span><br>互動學習遊戲</h1>
+            <p class="hero-lead">一個故事要說得清楚，就要有時間、地點、人物，還有起因、經過和結果。先看圖學一學，再玩遊戲考考自己。</p>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <div class="bubble">六個要素，<br>缺一不可！</div>
+            <div class="hero-kid" id="hero-kid"></div>
+          </div>
+        </div>
+        <div class="hero-icons" id="home-icons" aria-hidden="true"></div>
+        <div class="grade-grid">
+          <div class="grade-card" data-grade="junior" role="button" tabindex="0" aria-label="進入初小版，小一至小三">
+            <span class="band" style="background:var(--c-person)"></span>
+            <div class="gc-body">
+              <div class="gc-tag">初小版 · 小一至小三</div>
+              <h2>初小版</h2>
+              <p>由一句話開始，用圖畫和口訣，認出六個要素。</p>
+            </div>
+            <div class="gc-fig" id="fig-junior" aria-hidden="true"></div>
+          </div>
+          <div class="grade-card" data-grade="senior" role="button" tabindex="0" aria-label="進入高小版，小四至小六">
+            <span class="band" style="background:var(--c-time)"></span>
+            <div class="gc-body">
+              <div class="gc-tag">高小版 · 小四至小六</div>
+              <h2>高小版</h2>
+              <p>讀完整篇故事，找出藏在句子裏的要素。</p>
+            </div>
+            <div class="gc-fig" id="fig-senior" aria-hidden="true"></div>
+          </div>
+        </div>
+        <div class="foot-note">
+          <span>適用於手機、平板及電腦</span><span class="dot"></span>
+          <span>繁體字</span><span class="dot"></span>
+          <span>可開啟音效</span>
+        </div>
+      </section>
+
+      <!-- MENU -->
+      <section class="view" id="view-menu">
+        <div class="menu-head">
+          <div>
+            <h2 id="menu-title">初小版</h2>
+            <p id="menu-sub">先學後玩，一步一步來。</p>
+          </div>
+        </div>
+        <div class="menu-grid" id="menu-grid"></div>
+      </section>
+
+      <!-- LEARN -->
+      <section class="view" id="view-learn">
+        <div class="chant" id="chant"></div>
+        <div class="section-label"><span class="bar"></span><span>六個好幫手</span></div>
+        <div class="el-grid" id="learn-grid"></div>
+        <div class="section-label"><span class="bar" style="background:var(--c-time)"></span><span id="demo-label">範文拆解</span></div>
+        <div class="demo" id="demo"></div>
+        <div style="margin-top:22px;display:flex;gap:12px;flex-wrap:wrap">
+          <button class="btn primary" id="learn-to-game">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+            學完了，去玩遊戲
+          </button>
+        </div>
+      </section>
+
+      <!-- MODE A -->
+      <section class="view" id="view-a">
+        <div class="quiz-top">
+          <div class="dots" id="dots-a"></div>
+          <div class="counter" id="counter-a"></div>
+        </div>
+        <div class="qcard" id="qcard-a"></div>
+        <div class="opts" id="opts-a"></div>
+        <div class="feedback" id="fb-a" aria-live="polite"></div>
+      </section>
+
+      <!-- MODE B -->
+      <section class="view" id="view-b">
+        <div class="quiz-top">
+          <div class="dots" id="dots-b"></div>
+          <div class="counter" id="counter-b"></div>
+        </div>
+        <div class="qcard" id="qcard-b"></div>
+        <div class="pool-wrap">
+          <div class="pool-title">句子卡 · 點一張，再點下面的格子</div>
+          <div class="pool" id="pool-b"></div>
+        </div>
+        <div class="slots" id="slots-b"></div>
+        <div class="feedback" id="fb-b" aria-live="polite"></div>
+        <div class="sticky-bar">
+          <button class="btn go" id="btn-check-b" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+            檢查答案
+          </button>
+        </div>
+      </section>
+
+      <!-- RESULT -->
+      <section class="view" id="view-result">
+        <div class="result" id="result-box"></div>
+      </section>
+
+    </main>
+  </div>
+  <div class="toast" id="toast"></div>
+</div>
+<script>
+/* ===== 六大要素定義 ===== */
+const ELS = [
+  { k:'time',    name:'時間', color:'#3E8BF0', ask:'故事發生在甚麼時候？',
+    explain:'它告訴我們故事發生在甚麼時候。',
+    howto:'找出表示時間的詞語，例如「早上」、「放學後」、「中秋節晚上」。' },
+  { k:'place',   name:'地點', color:'#2FB98A', ask:'故事發生在甚麼地方？',
+    explain:'它告訴我們故事發生在甚麼地方。',
+    howto:'找出表示地方的字，例如「在……」、「……裏」、「……上」。' },
+  { k:'person',  name:'人物', color:'#FF8A3D', ask:'故事裏有誰？',
+    explain:'它告訴我們故事裏有誰。',
+    howto:'找出句子裏的人或身份，例如「我和媽媽」、「班長」、「村長」。' },
+  { k:'cause',   name:'起因', color:'#9B7EDE', ask:'為甚麼會發生這件事？',
+    explain:'它告訴我們事情為甚麼會發生。',
+    howto:'找出事情發生的原因，常見提示是「因為」、「想」、「要不是」。' },
+  { k:'process', name:'經過', color:'#F2688F', ask:'事情怎樣一步步發生？',
+    explain:'它寫出人物做過的事，告訴我們事情怎樣一步步發生。',
+    howto:'找出人物做過的事，通常是一連串動作，也是故事最長的部分。' },
+  { k:'result',  name:'結果', color:'#E8B33A', ask:'最後怎樣了？',
+    explain:'它告訴我們事情最後怎樣結束。',
+    howto:'找出事情最後的結局，常見提示是「最後」、「終於」、「結果」。' }
+];
+const EM = {};
+ELS.forEach(function(e){ EM[e.k] = e; });
+
+/* ===== 題庫 ===== */
+const DATA = {
+  junior: {
+    name:'初小版', sub:'小一至小三',
+    menuSub:'先看圖學一學，再玩遊戲。每題都有解釋，錯了也不要緊。',
+    chant:'時間、地點、人物，<b>起因、經過、結果</b>。',
+    chantTail:'六個好幫手，說好一個故事。',
+    learn: {
+      time:  { eg:'星期日早上，', tip:'找一找「早上」、「放學後」、「中秋節晚上」這些說時間的詞語。' },
+      place: { eg:'在公園裏，', tip:'「在……」、「……裏」、「……上」常常提示地點。' },
+      person:{ eg:'哥哥和我', tip:'人物不一定只有一個，也可以是一家人、一班同學。' },
+      cause: { eg:'我們想放風箏，', tip:'起因是事情的開頭，通常有「因為」、「想」、「希望」。' },
+      process:{ eg:'可是風太小，風箏飛不起來。我們拉着線，一起向前跑。', tip:'經過是事情的中間部分，最長，也最多動作。' },
+      result:{ eg:'最後，風箏終於飛上天空。', tip:'結果在最後，常有「最後」、「終於」、「結果」。' }
+    },
+    demo: {
+      title:'範文拆解：放風箏',
+      sub:'顏色代表不同的要素，看看它們排在哪裏。',
+      parts:[
+        { k:'time', t:'星期日早上，' },
+        { k:'person', t:'我和哥哥' },
+        { k:'place', t:'在公園裏' },
+        { k:'cause', t:'想放風箏。' },
+        { k:'process', t:'可是風太小，風箏飛不起來。我們拉着線，一起向前跑。' },
+        { k:'result', t:'最後，風箏終於飛上天空。' }
+      ],
+      note:'先寫時間、地點、人物，再寫起因、經過、結果，這是最容易明白的寫法。'
+    },
+    a: [
+      { s:'上星期六下午', k:'time',
+        why:'這個片段只說「甚麼時候」，沒有說地方，也沒有提到人物。「上星期六」和「下午」都是表示時間的詞語。' },
+      { s:'在屋邨的遊樂場', k:'place',
+        why:'「在……的遊樂場」說的是地方，所以是地點。留意「在」字，它常常帶出地點。' },
+      { s:'小美和她的爺爺', k:'person',
+        why:'「小美」和「爺爺」都是故事裏的人，所以是人物。' },
+      { s:'因為小貓迷路了', k:'cause',
+        why:'句子用「因為」開頭，說明事情為甚麼會發生，所以是起因。' },
+      { s:'他沿着海邊一邊走一邊叫', k:'process',
+        why:'「走」和「叫」都是他做過的事，寫出事情怎樣進行，所以是經過。' },
+      { s:'最後，他們在樹下找到小貓', k:'result',
+        why:'「最後」表示事情完結，「找到小貓」就是結局，所以是結果。句中的「樹下」只是地點，不是這句要回答的重點。' }
+    ],
+    b: [
+      { title:'雨後的蝸牛', note:'「一隻一隻」寫出人物怎樣做，是經過的一部分；結局也可以寫出人物的心情。',
+        items:[
+          { k:'time', t:'昨天下午' },
+          { k:'place', t:'學校的小花園' },
+          { k:'person', t:'我和同學小明' },
+          { k:'cause', t:'下雨後，花園裏爬出很多蝸牛' },
+          { k:'process', t:'我們蹲下來，把蝸牛一隻一隻放回草叢' },
+          { k:'result', t:'蝸牛慢慢爬走，我們笑着走回課室' }
+        ] },
+      { title:'分享水壺', note:'一件小事也可以有六個要素，只要把事情說清楚。',
+        items:[
+          { k:'time', t:'放學後' },
+          { k:'place', t:'學校的操場' },
+          { k:'person', t:'我和同學小欣' },
+          { k:'cause', t:'小欣忘了帶水壺，口渴得很' },
+          { k:'process', t:'我把自己的水壺遞給她，請她慢慢喝' },
+          { k:'result', t:'小欣笑着向我道謝，我們一起回家' }
+        ] },
+      { title:'天台的月亮', note:'「我覺得……」也可以寫在結果裏，說出人物最後的心情。',
+        items:[
+          { k:'time', t:'中秋節晚上' },
+          { k:'place', t:'屋邨的天台' },
+          { k:'person', t:'爸爸、媽媽和我' },
+          { k:'cause', t:'我們想一起賞月' },
+          { k:'process', t:'媽媽拿出月餅，爸爸指着月亮說故事' },
+          { k:'result', t:'我覺得月亮又圓又亮，心裏很開心' }
+        ] },
+      { title:'安靜的課室', note:'人物不一定是一個名字，也可以是一個身份，例如「班長」。',
+        items:[
+          { k:'time', t:'星期一的早上' },
+          { k:'place', t:'課室裏' },
+          { k:'person', t:'班長小樂' },
+          { k:'cause', t:'老師還未到，同學們很吵' },
+          { k:'process', t:'小樂請大家安靜，帶着我們一起讀課文' },
+          { k:'result', t:'老師進來時，課室已經很安靜' }
+        ] },
+      { title:'一把傘', note:'起因寫得清楚，讀者就明白為甚麼「我」要走過去幫忙。',
+        items:[
+          { k:'time', t:'下雨的傍晚' },
+          { k:'place', t:'巴士站' },
+          { k:'person', t:'一位老婆婆和我' },
+          { k:'cause', t:'老婆婆沒有帶傘，看着大雨發愁' },
+          { k:'process', t:'我舉起傘，陪她走過馬路' },
+          { k:'result', t:'老婆婆摸摸我的頭，說我是好孩子' }
+        ] },
+      { title:'廚房裏的蛋', note:'結果不一定要成功，有一點小意外，故事反而更真實。',
+        items:[
+          { k:'time', t:'星期六下午' },
+          { k:'place', t:'家裏的廚房' },
+          { k:'person', t:'我和媽媽' },
+          { k:'cause', t:'我想學煎蛋' },
+          { k:'process', t:'媽媽握着我的手，教我慢慢把蛋打進鍋裏' },
+          { k:'result', t:'雖然蛋有點焦，我們還是吃得很開心' }
+        ] }
+    ]
+  },
+
+  senior: {
+    name:'高小版', sub:'小四至小六',
+    menuSub:'讀完整篇故事，找出藏在句子裏的要素。答案會解釋為甚麼。',
+    chant:'何時？何地？有誰？<b>為甚麼？怎麼做？結果呢？</b>',
+    chantTail:'六個問題，就是六個要素。',
+    learn: {
+      time:  { eg:'颱風來臨前的傍晚，', tip:'高小的時間常常寫成「……之前」、「……那年」，不一定有「早上」兩個字。' },
+      place: { eg:'在學校圖書館的角落，', tip:'地點可以寫得很細，例如「三樓的舊報紙閱覽室」。' },
+      person:{ eg:'我和圖書管理員陳老師', tip:'有些句子不寫人名，只寫身份，例如「村長和幾位村民」。' },
+      cause: { eg:'我發現一本快要散開的舊故事書，', tip:'起因有時藏在「要不是……」、「因為……」的句子裏。' },
+      process:{ eg:'陳老師教我小心地用膠紙一頁一頁修補，我們花了整個下午。', tip:'經過通常最長，會有多個動作，甚至對話。' },
+      result:{ eg:'最後，那本書重新放回書架。', tip:'結果是事情完結的樣子，也可以寫出人物的感受。' }
+    },
+    demo: {
+      title:'範文拆解：圖書館的舊書',
+      sub:'六種顏色，就是六個要素。看看作者怎樣把它們串起來。',
+      parts:[
+        { k:'time', t:'上個月的一個下午，' },
+        { k:'place', t:'學校圖書館的角落，' },
+        { k:'person', t:'我' },
+        { k:'cause', t:'發現一本快要散開的舊故事書。' },
+        { k:'process', t:'圖書管理員陳老師看見了，教我小心地用膠紙一頁一頁修補。我們花了整個下午，手指都黏黏的。' },
+        { k:'result', t:'最後，那本書重新放回書架。我把它借回家，讀完了那個故事。' }
+      ],
+      note:'高小的文章，要素不一定按順序出現，但只要逐句問「這是何時、何地、何人、為何、如何、結果」，就可以找出來。'
+    },
+    a: [
+      { s:'天還未亮，公雞的叫聲已經響遍整個村落。', k:'time',
+        why:'「天還未亮」說的是時間。句子雖然提到村落，但重點是「甚麼時候」，所以不是地點。' },
+      { s:'我們相約在圖書館三樓的舊報紙閱覽室見面。', k:'place',
+        why:'「在……閱覽室」回答的是「在哪裏見面」。「相約」是動作，但這句的重點是地方。' },
+      { s:'這次話劇的佈景，由六年級的陳志明負責。', k:'person',
+        why:'句子說明「誰」負責佈景，答案是陳志明。人物不一定排在句子開頭，要看句子回答的是「誰」。' },
+      { s:'要不是那一場連夜大雨，山路也不會塌下來。', k:'cause',
+        why:'「要不是……」是假設的原因，說出事情為甚麼會發生，所以是起因，不是結果。' },
+      { s:'他一手拿着地圖，一手握着電筒，沿着濕滑的石階一步一步向上走。', k:'process',
+        why:'「拿着、握着、走」是一連串動作，寫出事情怎樣進行，所以是經過。雖然句中有「他」，但這句要回答的是「怎樣做」。' },
+      { s:'三個小時後，他們終於在山頂看見了日出。', k:'result',
+        why:'「終於」和「看見了日出」表示事情有了結局。「三個小時後」只是附帶的時間，不是這句的重點。' }
+    ],
+    b: [
+      { title:'巴士上的錢包', note:'這篇的要素順序很標準，適合用來溫習六要素的排列；起因寫得具體，經過才顯得合理。',
+        items:[
+          { k:'time', t:'星期二的黃昏' },
+          { k:'place', t:'擠滿人的巴士車廂' },
+          { k:'person', t:'我和一位抱着嬰兒的姨姨' },
+          { k:'cause', t:'她的手袋沒有拉好，錢包掉了出來' },
+          { k:'process', t:'我彎身拾起錢包，追上前交還給她' },
+          { k:'result', t:'她鬆了一口氣，連聲道謝' }
+        ] },
+      { title:'接力賽', note:'這篇的結果不是「拿第一」，而是「跑出最好的時間」，結局可以出乎意料。',
+        items:[
+          { k:'time', t:'運動會最後一天的下午' },
+          { k:'place', t:'運動場的紅色跑道' },
+          { k:'person', t:'我們班的四位接力隊員' },
+          { k:'cause', t:'第三棒的小傑在初賽拉傷了腳' },
+          { k:'process', t:'後備的嘉欣臨時上場，我們互相打氣，一棒一棒追上去' },
+          { k:'result', t:'我們沒有拿到第一，卻跑出全隊最好的時間' }
+        ] },
+      { title:'颱風前的一夜', note:'時間寫在「颱風來臨前」，地點和人物都用群體來寫，很適合報道式記事。',
+        items:[
+          { k:'time', t:'颱風來臨前的傍晚' },
+          { k:'place', t:'海邊的漁村' },
+          { k:'person', t:'村長和幾位村民' },
+          { k:'cause', t:'天文台發出八號風球的預警' },
+          { k:'process', t:'他們把漁船一隻一隻拉上岸，用繩索牢牢綁好' },
+          { k:'result', t:'颱風過後，漁船一隻也沒有少' }
+        ] },
+      { title:'天台上的菜園', note:'「每天澆水、捉蟲」是經過，寫得具體，讀者才看得見畫面。',
+        items:[
+          { k:'time', t:'復活節假期' },
+          { k:'place', t:'學校天台的菜園' },
+          { k:'person', t:'常識科老師和我們這一組' },
+          { k:'cause', t:'我們想在校慶賣自己種的菜' },
+          { k:'process', t:'我們每天澆水、捉蟲，還把生長情況記錄下來' },
+          { k:'result', t:'校慶那天，我們的菜全部賣光' }
+        ] },
+      { title:'走散的導盲犬', note:'起因可以是一個意外，不一定是一個願望。故事角色也不一定是人，導盲犬同樣是這篇的重要角色。',
+        items:[
+          { k:'time', t:'星期日早上' },
+          { k:'place', t:'地鐵站的出口' },
+          { k:'person', t:'我和一隻導盲犬' },
+          { k:'cause', t:'牠和主人走散了，在人群中團團轉' },
+          { k:'process', t:'我牽着牠在原地等，又請站長幫忙廣播' },
+          { k:'result', t:'半小時後，主人趕來，緊緊抱住牠' }
+        ] },
+      { title:'一張舊照片', note:'這篇用「發現照片」帶出一個故事，起因和經過之間有很自然的連結。',
+        items:[
+          { k:'time', t:'搬家那天' },
+          { k:'place', t:'舊屋的雜物房' },
+          { k:'person', t:'我和外婆' },
+          { k:'cause', t:'我在紙箱底找到一張發黃的照片' },
+          { k:'process', t:'外婆戴上眼鏡，慢慢說出照片裏的故事' },
+          { k:'result', t:'我們把照片放進新相架，掛在新屋的牆上' }
+        ] }
+    ]
+  }
+};
+
+/* ===== 小工具 ===== */
+function $(sel, root){ return (root || document).querySelector(sel); }
+function $$(sel, root){ return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+function seededShuffle(arr, seed){
+  const a = arr.slice();
+  let s = seed || 1;
+  for (let i = a.length - 1; i > 0; i--){
+    s = (s * 9301 + 49297) % 233280;
+    const j = Math.floor((s / 233280) * (i + 1));
+    const t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+/* ===== 音效 ===== */
+let ac = null;
+let soundOn = true;
+function audioCtx(){
+  if (!ac){
+    try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){ ac = null; }
+  }
+  if (ac && ac.state === 'suspended'){ ac.resume(); }
+  return ac;
+}
+function tone(freq, start, dur, type, vol){
+  const c = audioCtx();
+  if (!c) return;
+  const o = c.createOscillator();
+  const g = c.createGain();
+  o.type = type || 'sine';
+  o.frequency.setValueAtTime(freq, c.currentTime + start);
+  g.gain.setValueAtTime(0.0001, c.currentTime + start);
+  g.gain.exponentialRampToValueAtTime(vol || 0.16, c.currentTime + start + 0.015);
+  g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + start + dur);
+  o.connect(g); g.connect(c.destination);
+  o.start(c.currentTime + start);
+  o.stop(c.currentTime + start + dur + 0.04);
+}
+function sfx(name){
+  if (!soundOn) return;
+  if (name === 'tap'){ tone(680, 0, 0.07, 'triangle', 0.10); }
+  else if (name === 'pick'){ tone(880, 0, 0.08, 'sine', 0.10); }
+  else if (name === 'right'){
+    tone(660, 0, 0.11, 'sine', 0.15);
+    tone(880, 0.09, 0.13, 'sine', 0.15);
+    tone(1175, 0.19, 0.20, 'sine', 0.13);
+  }
+  else if (name === 'wrong'){
+    tone(300, 0, 0.14, 'triangle', 0.13);
+    tone(220, 0.11, 0.22, 'triangle', 0.12);
+  }
+  else if (name === 'win'){
+    [523, 659, 784, 1046].forEach(function(f, i){ tone(f, i * 0.11, 0.22, 'sine', 0.15); });
+    tone(1318, 0.46, 0.40, 'sine', 0.10);
+  }
+  else if (name === 'drop'){ tone(520, 0, 0.09, 'sine', 0.10); }
+}
+
+/* ===== 圖示 ===== */
+function iconSVG(k){
+  const c = EM[k].color;
+  const st = 'fill="none" stroke="#2B2A3C" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"';
+  const base = '<circle cx="32" cy="32" r="24" fill="' + c + '" stroke="#2B2A3C" stroke-width="4"/>';
+  let body = '';
+  if (k === 'time'){
+    body = '<rect x="20" y="6" width="9" height="8" rx="3.5" fill="#fff" stroke="#2B2A3C" stroke-width="3" stroke-linejoin="round"/>' +
+      '<rect x="35" y="6" width="9" height="8" rx="3.5" fill="#fff" stroke="#2B2A3C" stroke-width="3" stroke-linejoin="round"/>' +
+      '<circle cx="32" cy="34" r="17" fill="#fff" stroke="#2B2A3C" stroke-width="3.4"/>' +
+      '<circle cx="27" cy="31" r="2.4" fill="#2B2A3C"/><circle cx="37" cy="31" r="2.4" fill="#2B2A3C"/>' +
+      '<path d="M27.5 37.5c2.6 2.6 6.4 2.6 9 0" ' + st + '/>' +
+      '<path d="M32 22v4" stroke="#2B2A3C" stroke-width="3.2" stroke-linecap="round"/>';
+  } else if (k === 'place'){
+    body = '<path d="M32 8c-9 0-16.5 7-16.5 15.8C15.5 35.5 32 55 32 55s16.5-19.5 16.5-31.2C48.5 15 41 8 32 8z" fill="#fff" stroke="#2B2A3C" stroke-width="3.4" stroke-linejoin="round"/>' +
+      '<circle cx="27" cy="23" r="2.5" fill="#2B2A3C"/><circle cx="37" cy="23" r="2.5" fill="#2B2A3C"/>' +
+      '<path d="M27.5 29.5c2.6 2.6 6.4 2.6 9 0" ' + st + '/>';
+  } else if (k === 'person'){
+    body = '<circle cx="32" cy="24" r="11.5" fill="#fff" stroke="#2B2A3C" stroke-width="3.4"/>' +
+      '<circle cx="28" cy="23" r="2.2" fill="#2B2A3C"/><circle cx="36" cy="23" r="2.2" fill="#2B2A3C"/>' +
+      '<path d="M28.4 27.6c2.2 2.2 5 2.2 7.2 0" ' + st + '/>' +
+      '<path d="M13 51c0-9.4 8.5-15.5 19-15.5S51 41.6 51 51z" fill="#fff" stroke="#2B2A3C" stroke-width="3.4" stroke-linejoin="round"/>';
+  } else if (k === 'cause'){
+    body = '<path d="M37 7 19 34h10.5L26 57l18-27H33z" fill="#fff" stroke="#2B2A3C" stroke-width="3.2" stroke-linejoin="round"/>';
+  } else if (k === 'process'){
+    body = '<ellipse cx="23" cy="23" rx="6.6" ry="9.2" transform="rotate(-14 23 23)" fill="#fff" stroke="#2B2A3C" stroke-width="3"/>' +
+      '<ellipse cx="41" cy="38" rx="6.6" ry="9.2" transform="rotate(-14 41 38)" fill="#fff" stroke="#2B2A3C" stroke-width="3"/>' +
+      '<path d="M16 47c8 4.5 17 3.5 23-3" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="3 6"/>';
+  } else if (k === 'result'){
+    body = '<path d="M23 11h18v9.5c0 6.4-4 10.8-9 10.8s-9-4.4-9-10.8z" fill="#fff" stroke="#2B2A3C" stroke-width="3.2" stroke-linejoin="round"/>' +
+      '<path d="M23 15.5h-6v3.2c0 4.2 2.6 6.8 6.4 6.8" fill="none" stroke="#2B2A3C" stroke-width="3.2" stroke-linecap="round"/>' +
+      '<path d="M41 15.5h6v3.2c0 4.2-2.6 6.8-6.4 6.8" fill="none" stroke="#2B2A3C" stroke-width="3.2" stroke-linecap="round"/>' +
+      '<path d="M30.5 31h3v7h-3z" fill="#fff" stroke="#2B2A3C" stroke-width="2.6"/>' +
+      '<rect x="23" y="37.5" width="18" height="7.5" rx="3.4" fill="#fff" stroke="#2B2A3C" stroke-width="3.2"/>';
+  }
+  return '<svg viewBox="0 0 64 64" aria-hidden="true">' + base + body + '</svg>';
+}
+
+function uiIcon(name){
+  const ring = {
+    book:'#F2688F', search:'#3E8BF0', puzzle:'#2FB98A'
+  }[name];
+  let body = '';
+  if (name === 'book'){
+    body = '<path d="M32 22c-5-4-12-5-16-4v24c4-1 11 0 16 4z" fill="#fff" stroke="#2B2A3C" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M32 22c5-4 12-5 16-4v24c-4-1-11 0-16 4z" fill="#fff" stroke="#2B2A3C" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M32 23v23" stroke="#2B2A3C" stroke-width="3" stroke-linecap="round"/>';
+  } else if (name === 'search'){
+    body = '<circle cx="28" cy="28" r="13" fill="#fff" stroke="#2B2A3C" stroke-width="3.4"/>' +
+      '<path d="M38 38l11 11" stroke="#2B2A3C" stroke-width="5" stroke-linecap="round"/>' +
+      '<circle cx="24" cy="26" r="2.2" fill="#2B2A3C"/><circle cx="32" cy="26" r="2.2" fill="#2B2A3C"/>' +
+      '<path d="M24.5 32c2.2 2 5 2 7 0" fill="none" stroke="#2B2A3C" stroke-width="2.6" stroke-linecap="round"/>';
+  } else {
+    body = '<path d="M22 14h13a5 5 0 0 1 5 5v13H27a5 5 0 0 0-5 5z" fill="#fff" stroke="#2B2A3C" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M42 20h5a5 5 0 0 1 5 5v13H39a5 5 0 0 0-5 5V30" fill="#fff" stroke="#2B2A3C" stroke-width="3" stroke-linejoin="round"/>';
+  }
+  return '<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="' + ring + '" stroke="#2B2A3C" stroke-width="4"/>' + body + '</svg>';
+}
+
+function charSVG(senior){
+  const hat = senior ? '#3E8BF0' : '#FF8A3D';
+  const extra = senior
+    ? '<rect x="60" y="66" width="26" height="19" rx="4" fill="#FFF" stroke="#2B2A3C" stroke-width="3.2"/>' +
+      '<path d="M60 73h26" stroke="#2B2A3C" stroke-width="2.6"/>'
+    : '<path d="M76 66l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#FFC94D" stroke="#2B2A3C" stroke-width="2.8" stroke-linejoin="round"/>';
+  return '<svg viewBox="0 0 100 100" aria-hidden="true">' +
+    '<ellipse cx="50" cy="92" rx="28" ry="5.5" fill="rgba(43,42,60,.10)"/>' +
+    '<path d="M24 92c0-15 11.6-25 26-25s26 10 26 25z" fill="#fff" stroke="#2B2A3C" stroke-width="3.4" stroke-linejoin="round"/>' +
+    '<circle cx="50" cy="48" r="23" fill="#FFE3C0" stroke="#2B2A3C" stroke-width="3.4"/>' +
+    '<path d="M27 46c0-15.5 10.3-25 23-25s23 9.5 23 25" fill="' + hat + '" stroke="#2B2A3C" stroke-width="3.2" stroke-linejoin="round"/>' +
+    '<rect x="21" y="42" width="58" height="8" rx="4" fill="' + hat + '" stroke="#2B2A3C" stroke-width="3"/>' +
+    '<circle cx="41" cy="53" r="3.2" fill="#2B2A3C"/><circle cx="59" cy="53" r="3.2" fill="#2B2A3C"/>' +
+    '<path d="M44 61c3.4 3.4 8.6 3.4 12 0" fill="none" stroke="#2B2A3C" stroke-width="3" stroke-linecap="round"/>' +
+    '<circle cx="32" cy="58" r="4" fill="#FFB3C1" opacity=".85"/><circle cx="68" cy="58" r="4" fill="#FFB3C1" opacity=".85"/>' +
+    extra + '</svg>';
+}
+
+/* ===== 狀態與導覽 ===== */
+const state = {
+  grade:'junior',
+  view:'home',
+  mode:null,
+  idx:0,
+  score:0,
+  bPlaced:{},
+  bSelected:null,
+  bChecked:false
+};
+
+const VIEWS = {
+  home:   { title:'敘事六要素', kicker:'小學中文 · 閱讀與寫作', back:null },
+  menu:   { title:'選擇活動', kicker:'', back:'home' },
+  learn:  { title:'學一學：六個好幫手', kicker:'', back:'menu' },
+  a:      { title:'遊戲一：要素偵探', kicker:'', back:'menu' },
+  b:      { title:'遊戲二：故事拼圖', kicker:'', back:'menu' },
+  result: { title:'成績', kicker:'', back:'menu' }
+};
+
+function setView(name){
+  state.view = name;
+  $$('.view').forEach(function(v){ v.classList.remove('active'); });
+  const target = $('#view-' + name);
+  if (target) target.classList.add('active');
+  const cfg = VIEWS[name];
+  $('#tb-title').textContent = cfg.title;
+  var kick = cfg.kicker;
+  if (!kick && (cfg.title.indexOf('遊戲') === 0 || name === 'menu' || name === 'learn' || name === 'result')){
+    kick = DATA[state.grade].name + ' · ' + DATA[state.grade].sub;
+  }
+  $('#tb-kicker').textContent = kick || '';
+  $('#btn-back').style.visibility = cfg.back ? 'visible' : 'hidden';
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+function goBack(){
+  const cfg = VIEWS[state.view];
+  if (!cfg || !cfg.back) return;
+  sfx('tap');
+  if (cfg.back === 'menu'){ renderMenu(); }
+  setView(cfg.back);
+}
+
+/* ===== 首頁 ===== */
+function renderHomeIcons(){
+  const box = $('#home-icons');
+  box.innerHTML = ELS.map(function(e, i){
+    return '<div class="mini" style="animation-delay:' + (i * 0.22) + 's">' + iconSVG(e.k) +
+      '<span style="color:' + e.color + '">' + e.name + '</span></div>';
+  }).join('');
+}
+
+/* ===== 選單 ===== */
+function renderMenu(){
+  const d = DATA[state.grade];
+  $('#menu-title').textContent = d.name;
+  $('#menu-sub').textContent = d.menuSub;
+  $('#tb-kicker').textContent = d.name + ' · ' + d.sub;
+
+  const cards = [
+    { act:'learn', icon:'book', tag:'先學後玩', title:'學一學：六個好幫手',
+      desc:'用圖示和例句，認識時間、地點、人物、起因、經過、結果。', cta:'開始學習' },
+    { act:'a', icon:'search', tag:'遊戲一', title:'要素偵探',
+      desc:'看一句話，判斷它屬於哪一個要素。共六題，每題都有解釋。', cta:'進入遊戲' },
+    { act:'b', icon:'puzzle', tag:'遊戲二', title:'故事拼圖',
+      desc:'六張句子卡打亂了，把它們放回正確的要素格子。共六篇故事。', cta:'進入遊戲' }
+  ];
+
+  $('#menu-grid').innerHTML = cards.map(function(c){
+    return '<button class="menu-card" data-act="' + c.act + '">' +
+      '<div class="mc-top">' + uiIcon(c.icon) +
+      '<div><div class="mc-tag">' + c.tag + '</div><h3>' + c.title + '</h3></div></div>' +
+      '<p>' + c.desc + '</p>' +
+      '<span class="mc-cta">' + c.cta +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>' +
+      '</span></button>';
+  }).join('');
+}
+
+/* ===== 學習頁 ===== */
+function renderLearn(){
+  const d = DATA[state.grade];
+  $('#tb-kicker').textContent = d.name + ' · 教學';
+  $('#chant').innerHTML =
+    '<div class="chant-ico">' + iconSVG('time') + '</div>' +
+    '<div class="chant-txt">' + d.chant + '<br><span style="opacity:.72;font-size:.82em;font-weight:600">' + d.chantTail + '</span></div>';
+
+  $('#learn-grid').innerHTML = ELS.map(function(e){
+    const info = d.learn[e.k];
+    return '<article class="el-card">' +
+      '<span class="el-strip" style="background:' + e.color + '"></span>' +
+      '<div class="el-top">' + iconSVG(e.k) +
+      '<div><h3>' + e.name + '</h3><p class="el-q">' + e.ask + '</p></div></div>' +
+      '<div class="el-eg" style="border-left-color:' + e.color + '">' + info.eg + '</div>' +
+      '<div class="el-tip"><b>怎樣找？</b>' + info.tip + '</div>' +
+      '</article>';
+  }).join('');
+
+  $('#demo-label').textContent = d.demo.title;
+  const body = d.demo.parts.map(function(p){
+    return '<span class="tk" style="background:' + EM[p.k].color + '22;color:#2B2A3C;border-bottom:4px solid ' + EM[p.k].color + '">' + p.t + '</span>';
+  }).join('');
+  const legend = ELS.map(function(e){
+    return '<span style="color:' + e.color + '"><i></i>' + e.name + '</span>';
+  }).join('');
+  $('#demo').innerHTML =
+    '<h3>' + d.demo.title + '</h3>' +
+    '<p class="demo-sub">' + d.demo.sub + '</p>' +
+    '<div class="demo-body">' + body + '</div>' +
+    '<div class="demo-legend">' + legend + '</div>' +
+    '<p class="el-tip" style="border-top:2px dashed var(--line);margin-top:16px;padding-top:12px">' + d.demo.note + '</p>';
+}
+
+
+/* ===== 畫面輔助 ===== */
+function scrollToEl(el, offset){
+  if (!el) return;
+  const top = el.getBoundingClientRect().top + window.pageYOffset - (offset == null ? 14 : offset);
+  window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+}
+
+/* ===== 遊戲一：要素偵探 ===== */
+function startModeA(){
+  state.mode = 'a';
+  state.idx = 0;
+  state.score = 0;
+  renderModeA();
+  setView('a');
+}
+
+function renderModeA(){
+  const d = DATA[state.grade];
+  const q = d.a[state.idx];
+
+  $('#dots-a').innerHTML = d.a.map(function(_, i){
+    return '<i class="' + (i < state.idx ? 'done' : (i === state.idx ? 'now' : '')) + '"></i>';
+  }).join('');
+  $('#counter-a').innerHTML = '第 ' + (state.idx + 1) + ' 題 <small>/ ' + d.a.length + '</small>';
+
+  $('#qcard-a').innerHTML =
+    '<span class="q-label">要素偵探 · 找出主要要素</span>' +
+    '<p class="q-sentence"><span class="q-quote">「</span>' + q.s + '<span class="q-quote">」</span></p>' +
+    '<p class="q-hint">這個片段最主要的要素是甚麼？點一個答案。</p>';
+
+  $('#opts-a').innerHTML = ELS.map(function(e){
+    return '<button class="opt" data-k="' + e.k + '">' + iconSVG(e.k) + '<span>' + e.name + '</span></button>';
+  }).join('');
+
+  $('#fb-a').className = 'feedback';
+  $('#fb-a').innerHTML = '';
+
+  $$('#opts-a .opt').forEach(function(b){
+    b.addEventListener('click', function(){ answerA(b.dataset.k); });
+  });
+}
+
+function answerA(k){
+  const d = DATA[state.grade];
+  const q = d.a[state.idx];
+  const right = (k === q.k);
+  if (right) state.score++;
+  sfx(right ? 'right' : 'wrong');
+
+  $$('#opts-a .opt').forEach(function(b){
+    b.disabled = true;
+    if (b.dataset.k === q.k) b.classList.add('right');
+    else if (b.dataset.k === k) b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+
+  const c = EM[q.k].color;
+  const picked = EM[k];
+  const last = state.idx === d.a.length - 1;
+  const fb = $('#fb-a');
+  fb.className = 'feedback show';
+  fb.innerHTML =
+    '<div class="fb-head">' + iconSVG(q.k) +
+      '<strong style="color:' + c + '">' + (right ? '答對了！' : '差一點點') + '</strong></div>' +
+    '<div class="fb-body">' +
+      '<p>正確答案是 <span class="fb-key" style="background:' + c + '">' + EM[q.k].name + '</span>。</p>' +
+      '<p>' + q.why + '</p>' +
+      (right ? '' : '<p>你選了「' + picked.name + '」，但這個片段沒有回答「' + picked.ask + '」這個問題。</p>') +
+      '<p style="color:#6B6880">小提示：' + EM[q.k].howto + '</p>' +
+    '</div>' +
+    '<div class="fb-actions"><button class="btn primary" id="next-a">' +
+      (last ? '看成績' : '下一題') +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>' +
+    '</button></div>';
+
+  $('#next-a').addEventListener('click', function(){
+    sfx('tap');
+    if (last){ showResult(); }
+    else { state.idx++; renderModeA(); window.scrollTo({ top:0, behavior:'smooth' }); }
+  });
+  scrollToEl(fb, 10);
+}
+
+/* ===== 遊戲二：故事拼圖 ===== */
+function startModeB(){
+  state.mode = 'b';
+  state.idx = 0;
+  state.score = 0;
+  renderModeB();
+  setView('b');
+}
+
+function renderModeB(){
+  const d = DATA[state.grade];
+  const g = d.b[state.idx];
+  state.bPlaced = {};
+  state.bSelected = null;
+  state.bChecked = false;
+  state.poolOrder = seededShuffle(g.items.map(function(_, i){ return i; }), (state.idx + 1) * 17 + 5);
+
+  $('#dots-b').innerHTML = d.b.map(function(_, i){
+    return '<i class="' + (i < state.idx ? 'done' : (i === state.idx ? 'now' : '')) + '"></i>';
+  }).join('');
+  $('#counter-b').innerHTML = '第 ' + (state.idx + 1) + ' 組 <small>/ ' + d.b.length + '</small>';
+
+  $('#qcard-b').innerHTML =
+    '<span class="q-label">故事拼圖 · 第 ' + (state.idx + 1) + ' 篇</span>' +
+    '<p class="q-sentence" style="font-size:clamp(22px,1.7vw + 15px,30px)">《' + g.title + '》</p>' +
+    '<p class="q-hint">先點一張句子卡，再點下面的要素格子。放錯了，可以再點格子把句子取回。</p>';
+
+  $('#fb-b').className = 'feedback';
+  $('#fb-b').innerHTML = '';
+  const btn = $('#btn-check-b');
+  btn.disabled = true;
+  btn.className = 'btn go';
+  btn.innerHTML = '還差 6 格';
+
+  renderPoolB();
+  renderSlotsB();
+}
+
+function renderPoolB(){
+  const g = DATA[state.grade].b[state.idx];
+  const used = Object.keys(state.bPlaced).map(function(k){ return state.bPlaced[k]; });
+  const left = state.poolOrder.filter(function(i){ return used.indexOf(i) === -1; });
+  const pool = $('#pool-b');
+  pool.removeAttribute('aria-hidden');
+
+  if (!left.length){
+    pool.innerHTML = '<div class="pool-empty">句子卡都放好了，按「檢查答案」看看對不對。</div>';
+  } else {
+    pool.innerHTML = left.map(function(i){
+      return '<button class="chip' + (state.bSelected === i ? ' sel' : '') + '" data-i="' + i + '">' + g.items[i].t + '</button>';
+    }).join('');
+  }
+
+  $$('#pool-b .chip').forEach(function(ch){
+    ch.addEventListener('click', function(){
+      const i = parseInt(ch.dataset.i, 10);
+      state.bSelected = (state.bSelected === i) ? null : i;
+      sfx('pick');
+      renderPoolB();
+      renderSlotsB();
+      const again = $('#pool-b .chip[data-i="' + i + '"]');
+      if (again) again.focus({ preventScroll: true });
+    });
+  });
+}
+
+function renderSlotsB(){
+  const g = DATA[state.grade].b[state.idx];
+  const box = $('#slots-b');
+
+  box.innerHTML = ELS.map(function(e){
+    const idx = state.bPlaced[e.k];
+    const item = (idx != null) ? g.items[idx] : null;
+    const canTarget = (state.bSelected != null && !item && !state.bChecked);
+    return '<div class="slot' + (item ? ' filled' : '') + (canTarget ? ' target' : '') + '" data-k="' + e.k + '"' +
+      ' role="button" tabindex="0" aria-label="' + e.name + '：' + (item ? item.t : '未放置句子') + '">' +
+      '<div class="slot-head">' + iconSVG(e.k) +
+        '<span class="slot-name" style="color:' + e.color + '">' + e.name + '</span>' +
+      '</div>' +
+      '<div class="slot-body">' + (item ? item.t : '點一下，把句子放在這裏') + '</div>' +
+    '</div>';
+  }).join('');
+
+  $$('#slots-b .slot').forEach(function(slot){
+    slot.addEventListener('click', function(){ tapSlot(slot.dataset.k); });
+    slot.addEventListener('keydown', function(ev){
+      if (ev.key === 'Enter' || ev.key === ' ' || ev.key === 'Spacebar'){
+        ev.preventDefault();
+        tapSlot(slot.dataset.k);
+      }
+    });
+  });
+}
+
+function tapSlot(k){
+  if (state.bChecked) return;
+  const g = DATA[state.grade].b[state.idx];
+  const idx = state.bPlaced[k];
+  let focusSel = '';
+
+  if (idx != null){
+    delete state.bPlaced[k];
+    state.bSelected = idx;
+    focusSel = '#pool-b .chip[data-i="' + idx + '"]';
+    sfx('tap');
+  } else if (state.bSelected != null){
+    // 若這句已放在別的格子，先取回
+    Object.keys(state.bPlaced).forEach(function(key){
+      if (state.bPlaced[key] === state.bSelected) delete state.bPlaced[key];
+    });
+    state.bPlaced[k] = state.bSelected;
+    state.bSelected = null;
+    focusSel = '#slots-b .slot[data-k="' + k + '"]';
+    sfx('drop');
+  } else {
+    toast('先點一張句子卡，再點格子');
+    return;
+  }
+
+  renderPoolB();
+  renderSlotsB();
+  if (focusSel){
+    const el = $(focusSel);
+    if (el) el.focus({ preventScroll: true });
+  }
+  const filled = Object.keys(state.bPlaced).length;
+  const btn = $('#btn-check-b');
+  btn.disabled = filled < 6;
+  btn.innerHTML = filled < 6
+    ? '還差 ' + (6 - filled) + ' 格'
+    : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>檢查答案';
+  if (filled === 6){
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>檢查答案';
+  }
+}
+
+function checkB(){
+  const d = DATA[state.grade];
+  const g = d.b[state.idx];
+  state.bChecked = true;
+
+  let correct = 0;
+  const marks = {};
+
+  ELS.forEach(function(e){
+    const idx = state.bPlaced[e.k];
+    const item = (idx != null) ? g.items[idx] : null;
+    const ok = !!(item && item.k === e.k);
+    if (ok) correct++;
+    marks[e.k] = { item:item, ok:ok, answer:(g.items.filter(function(x){ return x.k === e.k; })[0] || {}).t };
+  });
+
+  state.score += correct;
+  sfx(correct >= 5 ? 'win' : (correct >= 3 ? 'right' : 'wrong'));
+
+  $('#slots-b').innerHTML = ELS.map(function(e){
+    const m = marks[e.k];
+    const cls = m.ok ? 'ok' : 'no';
+    const actual = m.item ? EM[m.item.k] : null;
+    const exp = m.ok
+      ? '這一句是「' + e.name + '」：' + e.explain
+      : '這一格是「' + e.name + '」，但放入的句子其實是' + (actual ? '「' + actual.name + '」' : '空的') + '。<span class="fix">「' + e.name + '」應放：' + m.answer + '</span>';
+    return '<div class="slot filled ' + cls + '" data-k="' + e.k + '" role="group" tabindex="-1">' +
+      '<div class="slot-head">' + iconSVG(e.k) +
+        '<span class="slot-name" style="color:' + e.color + '">' + e.name + '</span>' +
+        '<span class="slot-mark">' + (m.ok
+          ? '<svg viewBox="0 0 24 24" fill="none" stroke="#2FB98A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m4 13 5 5L20 7"/></svg>'
+          : '<svg viewBox="0 0 24 24" fill="none" stroke="#F2688F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>') +
+        '</span>' +
+      '</div>' +
+      '<div class="slot-body">' + (m.item ? m.item.t : '（沒有放入句子）') + '</div>' +
+      '<div class="slot-exp show">' + exp + '</div>' +
+    '</div>';
+  }).join('');
+
+  $('#pool-b').innerHTML = '<div class="pool-empty">這一篇已完成，請看下面每一格的解釋。</div>';
+  $('#pool-b').setAttribute('aria-hidden', 'true');
+
+  const fb = $('#fb-b');
+  fb.className = 'feedback show';
+  fb.innerHTML =
+    '<div class="fb-head">' + iconSVG('result') +
+      '<strong>這一篇放對了 ' + correct + ' / 6 格</strong></div>' +
+    '<div class="fb-body">' +
+      '<p>' + (correct === 6 ? '六個要素全部歸位，很準確！' : '看看每一格下面的解釋，就知道為甚麼要這樣放。') + '</p>' +
+      '<p>' + g.note + '</p>' +
+    '</div>';
+
+  const btn = $('#btn-check-b');
+  btn.disabled = false;
+  btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>' +
+    (state.idx === d.b.length - 1 ? '看成績' : '下一篇');
+  scrollToEl($('#slots-b'), 12);
+}
+
+/* ===== 成績 ===== */
+function starSVG(filled, color){
+  return '<svg viewBox="0 0 24 24" class="' + (filled ? '' : 'off') + '" aria-hidden="true">' +
+    '<path d="M12 2.4l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.46l-5.9 3.11 1.13-6.57L2.45 9.34l6.6-.96z" fill="' + (filled ? color : '#2B2A3C') + '" stroke="#2B2A3C" stroke-width="1.5" stroke-linejoin="round"/></svg>';
+}
+
+function showResult(){
+  const d = DATA[state.grade];
+  const isA = state.mode === 'a';
+  const total = isA ? d.a.length : d.b.length * 6;
+  const unit = isA ? '題' : '格';
+  const pct = Math.round((state.score / total) * 100);
+  const stars = pct >= 90 ? 3 : (pct >= 65 ? 2 : (pct >= 35 ? 1 : 0));
+
+  let msg = '';
+  if (stars === 3) msg = '六個要素都認得清清楚楚，可以做小老師了。';
+  else if (stars === 2) msg = '很接近了，再讀一次解釋，下次一定更好。';
+  else if (stars === 1) msg = '不錯的開始，回去「學一學」再看一次圖示。';
+  else msg = '不要灰心，先看圖學一學，再玩一次。';
+
+  const starColor = stars === 3 ? '#E8B33A' : (stars === 2 ? '#FFC94D' : '#FF8A3D');
+
+  $('#result-box').innerHTML =
+    '<div class="stars">' + starSVG(stars > 0, starColor) + starSVG(stars > 1, starColor) + starSVG(stars > 2, starColor) + '</div>' +
+    '<h2>' + (stars === 3 ? '太棒了！' : (stars >= 1 ? '做得不錯！' : '再試一次吧')) + '</h2>' +
+    '<p class="r-sub">' + msg + '</p>' +
+    '<div class="score">' + state.score + '<small> / ' + total + ' ' + unit + '</small></div>' +
+    '<div class="r-grid">' +
+      '<div class="r-cell"><span>答對率</span><strong>' + pct + '%</strong></div>' +
+      '<div class="r-cell"><span>遊戲模式</span><strong class="r-mode">' + (isA ? '要素偵探' : '故事拼圖') + '</strong></div>' +
+    '</div>' +
+    '<div class="r-actions">' +
+      '<button class="btn primary" id="r-again">再玩一次</button>' +
+      '<button class="btn ghost" id="r-menu">選其他遊戲</button>' +
+    '</div>';
+
+  sfx('win');
+  setView('result');
+
+  $('#r-again').addEventListener('click', function(){
+    sfx('tap');
+    if (isA) startModeA(); else startModeB();
+  });
+  $('#r-menu').addEventListener('click', function(){
+    sfx('tap');
+    renderMenu();
+    setView('menu');
+  });
+}
+
+/* ===== 提示 ===== */
+let toastTimer = null;
+function toast(msg){
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 1800);
+}
+
+/* ===== 音效按鈕 ===== */
+function updateSoundIcon(){
+  const svg = $('#sound-ico');
+  if (soundOn){
+    svg.innerHTML = '<path d="M11 5 6.5 9H3v6h3.5L11 19z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/>';
+    svg.style.opacity = '1';
+  } else {
+    svg.innerHTML = '<path d="M11 5 6.5 9H3v6h3.5L11 19z"/><path d="m16.5 9.5 4.5 5"/><path d="m21 9.5-4.5 5"/>';
+    svg.style.opacity = '.5';
+  }
+}
+
+/* ===== 初始化 ===== */
+function init(){
+  renderHomeIcons();
+  $('#fig-junior').innerHTML = charSVG(false);
+  $('#fig-senior').innerHTML = charSVG(true);
+  var hk = $('#hero-kid');
+  if (hk) hk.innerHTML = charSVG(false);
+  setView('home');
+
+  $$('.grade-card').forEach(function(card){
+    function enterGrade(){
+      sfx('tap');
+      audioCtx();
+      state.grade = card.dataset.grade;
+      renderMenu();
+      setView('menu');
+    }
+    card.addEventListener('click', enterGrade);
+    card.addEventListener('keydown', function(ev){
+      if (ev.key === 'Enter' || ev.key === ' ' || ev.key === 'Spacebar'){
+        ev.preventDefault();
+        enterGrade();
+      }
+    });
+  });
+
+  $('#btn-back').addEventListener('click', goBack);
+
+  $('#btn-sound').addEventListener('click', function(){
+    soundOn = !soundOn;
+    updateSoundIcon();
+    $('#btn-sound').setAttribute('aria-pressed', soundOn ? 'true' : 'false');
+    toast(soundOn ? '音效已開啟' : '音效已關閉');
+    if (soundOn){ audioCtx(); sfx('right'); }
+  });
+
+  $('#menu-grid').addEventListener('click', function(ev){
+    const btn = ev.target.closest('.menu-card');
+    if (!btn) return;
+    sfx('tap');
+    audioCtx();
+    const act = btn.dataset.act;
+    if (act === 'learn'){ renderLearn(); setView('learn'); }
+    else if (act === 'a'){ startModeA(); }
+    else if (act === 'b'){ startModeB(); }
+  });
+
+  $('#learn-to-game').addEventListener('click', function(){
+    sfx('tap');
+    startModeA();
+  });
+
+  $('#btn-check-b').addEventListener('click', function(){
+    if (state.bChecked){
+      const total = DATA[state.grade].b.length;
+      if (state.idx === total - 1){ showResult(); }
+      else {
+        state.idx++;
+        renderModeB();
+        window.scrollTo({ top:0, behavior:'smooth' });
+      }
+    } else {
+      checkB();
+    }
+  });
+}
+
+init();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,2362 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>句式變變變｜直述句與轉述句互動教室</title>
+<meta name="description" content="香港小學繁體中文教具：圖示化教學卡加上三種互動遊戲，初小與高小雙版本，手機、平板、電腦均可使用。">
+<style>
+svg{display:block;}
+.icn{width:1.25rem;height:1.25rem;flex:none;}
+.hero-eyebrow > svg{width:1.05rem;height:1.05rem;flex:none;}
+
+:root{
+  --cream:#FFF6E8;
+  --paper:#FFFDF7;
+  --ink:#3E2F23;
+  --ink-2:#6E5844;
+  --ink-3:#9A8570;
+  --coral:#FF8A5B;
+  --coral-d:#E4673A;
+  --mint:#6FCBA4;
+  --mint-d:#3E9E78;
+  --sky:#6EC1E4;
+  --sky-d:#3F94B8;
+  --sun:#FFCF5C;
+  --berry:#F2739E;
+  --violet:#A48BE0;
+  --ok:#3E9E78;
+  --no:#E4673A;
+  --line:3px solid var(--ink);
+  --r-xl:30px;
+  --r-lg:24px;
+  --r-md:16px;
+  --r-sm:12px;
+  --sh:0 6px 0 rgba(62,47,35,.15);
+  --sh-hard:0 5px 0 var(--ink);
+  --pad:clamp(.85rem,2.2vw,1.7rem);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{
+  font-size:clamp(16.5px,1.02vw + 9.4px,21px);
+  -webkit-text-size-adjust:100%;
+}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--ink);
+  font-family:"Noto Sans TC","PingFang TC","Hiragino Sans CNS","Microsoft JhengHei","Heiti TC",system-ui,-apple-system,sans-serif;
+  font-weight:600;
+  line-height:1.6;
+  background-color:var(--cream);
+  background-image:
+    radial-gradient(circle at 8% 4%, rgba(255,207,92,.42), transparent 40%),
+    radial-gradient(circle at 94% 10%, rgba(110,193,228,.32), transparent 42%),
+    radial-gradient(circle at 50% 104%, rgba(111,203,164,.30), transparent 52%),
+    radial-gradient(rgba(62,47,35,.055) 1.3px, transparent 1.4px);
+  background-size:auto,auto,auto,18px 18px;
+}
+button{font-family:inherit;}
+[hidden]{display:none !important;}
+:focus-visible{outline:4px solid var(--sky-d);outline-offset:3px;border-radius:10px;}
+
+/* ============ 頂欄 ============ */
+.topbar{
+  position:sticky;top:0;z-index:40;
+  display:flex;align-items:center;gap:.5rem;
+  padding:.45rem clamp(.6rem,2vw,1.6rem);
+  padding-top:max(.45rem,env(safe-area-inset-top));
+  background:rgba(255,246,232,.94);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-bottom:3px solid rgba(62,47,35,.13);
+}
+.brand{display:flex;align-items:center;gap:.45rem;min-width:0;flex:1;}
+.brand .logo{width:2.35rem;height:2.35rem;flex:none;color:var(--coral);}
+.brand-txt{min-width:0;}
+.brand-txt b{display:block;font-size:1.02rem;line-height:1.2;letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.brand-txt span{display:block;font-size:.68rem;color:var(--ink-2);font-weight:700;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.top-actions{display:flex;align-items:center;gap:.4rem;flex:none;}
+.icon-btn{
+  width:2.85rem;height:2.85rem;flex:none;
+  display:inline-flex;align-items:center;justify-content:center;
+  border:2.5px solid var(--ink);border-radius:14px;
+  background:var(--paper);color:var(--ink);
+  cursor:pointer;box-shadow:0 3px 0 rgba(62,47,35,.6);
+  transition:transform .07s ease,box-shadow .07s ease,background .15s;
+}
+.icon-btn svg{width:1.45rem;height:1.45rem;}
+.icon-btn:active{transform:translateY(3px);box-shadow:0 0 0 rgba(62,47,35,.6);}
+.icon-btn[aria-pressed="false"]{background:#EFE3D1;color:var(--ink-3);}
+
+/* ============ 版面 ============ */
+main{width:min(1180px,100%);margin-inline:auto;padding:var(--pad);padding-bottom:max(2rem, env(safe-area-inset-bottom));}
+.view{animation:viewIn .26s cubic-bezier(.2,.9,.3,1.05) both;}
+@keyframes viewIn{from{opacity:0;transform:translateY(14px) scale(.994);}to{opacity:1;transform:none;}}
+
+/* ============ 通用按鈕 ============ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.45rem;
+  min-height:3.15rem;padding:.55rem 1.25rem;
+  font-size:1.02em;font-weight:800;letter-spacing:.02em;
+  color:var(--ink);background:var(--paper);
+  border:var(--line);border-radius:999px;
+  box-shadow:0 5px 0 rgba(62,47,35,.78);
+  cursor:pointer;user-select:none;touch-action:manipulation;
+  transition:transform .07s ease,box-shadow .07s ease,filter .15s;
+}
+.btn:active{transform:translateY(5px);box-shadow:0 0 0 rgba(62,47,35,.78);}
+.btn svg{width:1.3rem;height:1.3rem;flex:none;}
+.btn-coral{background:var(--coral);}
+.btn-mint{background:var(--mint);}
+.btn-sky{background:var(--sky);}
+.btn-sun{background:var(--sun);}
+.btn-berry{background:var(--berry);}
+.btn-ghost{background:var(--paper);}
+.btn-lg{min-height:3.7rem;font-size:1.12em;padding:.7rem 1.6rem;}
+.btn-sm{min-height:2.6rem;font-size:.92em;padding:.35rem .95rem;box-shadow:0 4px 0 rgba(62,47,35,.7);}
+.btn[disabled]{filter:grayscale(.35) opacity(.55);cursor:not-allowed;transform:none;}
+.btn-block{width:100%;}
+
+/* ============ 首頁 ============ */
+.hero{
+  display:grid;gap:clamp(1rem,2.6vw,2.2rem);
+  grid-template-columns:1fr;
+  align-items:center;
+  padding-block:.4rem;
+}
+@media (min-width:900px){.hero{grid-template-columns:1.08fr .92fr;}}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:.45rem;
+  padding:.32rem .9rem;border:2.5px solid var(--ink);border-radius:999px;
+  background:var(--sun);font-size:.8rem;font-weight:800;letter-spacing:.08em;
+  box-shadow:0 3px 0 rgba(62,47,35,.6);
+}
+.hero h1{
+  margin:.7rem 0 .35rem;
+  font-size:clamp(2.1rem,5.4vw,3.6rem);
+  line-height:1.16;letter-spacing:.01em;
+}
+.hero h1 em{font-style:normal;color:var(--coral);text-shadow:0 3px 0 rgba(62,47,35,.12);}
+.hero-sub{font-size:clamp(1rem,1.6vw,1.22rem);color:var(--ink-2);margin:0 0 1.1rem;font-weight:700;max-width:34em;}
+.hero-points{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.3rem;}
+.chip{
+  display:inline-flex;align-items:center;gap:.35rem;
+  padding:.3rem .8rem;border:2.5px solid var(--ink);border-radius:999px;
+  background:var(--paper);font-size:.82rem;font-weight:800;
+}
+.chip svg{width:1rem;height:1rem;}
+.hero-art{position:relative;display:flex;justify-content:center;align-items:center;}
+.hero-art .scene{width:100%;max-width:26rem;height:auto;}
+.bubble-float{
+  position:absolute;top:2%;right:0;
+  padding:.5rem .9rem;background:var(--paper);
+  border:3px solid var(--ink);border-radius:18px 18px 18px 4px;
+  font-size:.9rem;font-weight:800;box-shadow:0 4px 0 rgba(62,47,35,.35);
+  transform:rotate(3deg);
+}
+@media (max-width:640px){.bubble-float{font-size:.78rem;right:-2%;}}
+
+#versions-anchor{scroll-margin-top:6.5rem;}
+.version-title{display:flex;align-items:center;gap:.6rem;margin:1.6rem 0 .8rem;font-size:1.1rem;}
+.version-title .rule{flex:1;height:3px;background:repeating-linear-gradient(90deg,rgba(62,47,35,.35) 0 8px,transparent 8px 16px);border-radius:2px;}
+.version-grid{display:grid;gap:clamp(.8rem,2vw,1.2rem);grid-template-columns:1fr;}
+@media (min-width:720px){.version-grid{grid-template-columns:1fr 1fr;}}
+.version-card{
+  position:relative;display:flex;flex-direction:column;gap:.55rem;
+  padding:clamp(1rem,2.2vw,1.5rem);
+  border:var(--line);border-radius:var(--r-xl);
+  background:var(--paper);box-shadow:var(--sh-hard);
+  cursor:pointer;text-align:left;color:var(--ink);
+  transition:transform .12s ease,box-shadow .12s ease;
+  min-height:11rem;
+}
+.version-card:hover{transform:translateY(-3px);box-shadow:0 8px 0 var(--ink);}
+.version-card:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink);}
+.version-card .badge{
+  align-self:flex-start;padding:.18rem .7rem;border:2.5px solid var(--ink);
+  border-radius:999px;font-size:.72rem;font-weight:800;letter-spacing:.09em;
+}
+.version-card.jr .badge{background:var(--mint);}
+.version-card.sr .badge{background:var(--sky);}
+.version-card .vtitle{display:block;margin:.1rem 0 0;font-size:clamp(1.35rem,2.6vw,1.75rem);line-height:1.25;font-weight:800;}
+.version-card .vdesc{display:block;margin:0;color:var(--ink-2);font-size:.95rem;font-weight:700;line-height:1.55;}
+.version-card .art-row{display:flex;gap:.2rem;align-items:flex-end;margin-top:auto;padding-top:.5rem;}
+.version-card .art-row svg{width:3.1rem;height:3.1rem;}
+.version-card .go{
+  position:absolute;right:1rem;top:1rem;
+  width:2.5rem;height:2.5rem;border-radius:50%;
+  display:grid;place-items:center;border:2.5px solid var(--ink);
+  background:var(--sun);
+}
+.version-card .go svg{width:1.3rem;height:1.3rem;}
+
+/* ============ 選單 ============ */
+.menu-head{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem;flex-wrap:wrap;}
+.menu-head h2{margin:0;font-size:clamp(1.5rem,3.4vw,2.1rem);line-height:1.25;}
+.menu-head .sub{color:var(--ink-2);font-size:.9rem;font-weight:700;}
+@media (max-width:560px){.menu-head{display:block;}.menu-head .btn{margin-top:.55rem;}}
+.menu-grid{display:grid;gap:clamp(.75rem,1.8vw,1.1rem);grid-template-columns:1fr;}
+@media (min-width:640px){.menu-grid{grid-template-columns:1fr 1fr;}}
+@media (min-width:1024px){.menu-grid{grid-template-columns:repeat(4,1fr);}}
+.menu-card{
+  display:flex;flex-direction:column;gap:.4rem;align-items:flex-start;
+  padding:1.15rem 1.1rem;border:var(--line);border-radius:var(--r-lg);
+  background:var(--paper);box-shadow:var(--sh-hard);
+  cursor:pointer;color:var(--ink);text-align:left;min-height:10.5rem;
+  transition:transform .12s ease,box-shadow .12s ease;
+}
+.menu-card:hover{transform:translateY(-3px);box-shadow:0 8px 0 var(--ink);}
+.menu-card:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink);}
+.menu-card .mc-icon{
+  width:3.2rem;height:3.2rem;border-radius:16px;border:2.5px solid var(--ink);
+  display:grid;place-items:center;background:var(--sun);
+}
+.menu-card .mc-icon svg{width:2rem;height:2rem;}
+.menu-card .mtitle{display:block;margin:.3rem 0 0;font-size:1.18rem;line-height:1.3;font-weight:800;}
+.menu-card .mdesc{display:block;margin:0;font-size:.88rem;color:var(--ink-2);font-weight:700;line-height:1.45;}
+.menu-card .meta{
+  margin-top:auto;padding-top:.5rem;font-size:.74rem;font-weight:800;
+  color:var(--ink-2);letter-spacing:.04em;display:flex;align-items:center;gap:.3rem;
+}
+.menu-card .stars{display:inline-flex;gap:.12rem;}
+.menu-card .stars svg{width:.95rem;height:.95rem;color:#E8D9C4;}
+.menu-card .stars svg.on{color:var(--sun);}
+
+/* ============ 教學 ============ */
+.teach-wrap{max-width:60rem;margin-inline:auto;}
+.teach-progress{display:flex;align-items:center;gap:.35rem;justify-content:center;margin-bottom:.9rem;flex-wrap:wrap;}
+.dot{
+  width:.72rem;height:.72rem;border-radius:50%;
+  border:2.5px solid var(--ink);background:var(--paper);
+  transition:background .2s,transform .2s;
+}
+.dot.on{background:var(--coral);transform:scale(1.25);}
+.teach-card{
+  background:var(--paper);border:var(--line);border-radius:var(--r-xl);
+  box-shadow:var(--sh-hard);padding:clamp(1rem,3vw,2.1rem);
+  display:grid;gap:clamp(.8rem,2.4vw,1.8rem);grid-template-columns:1fr;
+}
+@media (min-width:820px){.teach-card.has-art{grid-template-columns:.82fr 1.18fr;align-items:center;}}
+.teach-art{display:grid;place-items:center;position:relative;}
+.teach-art svg{width:100%;max-width:19rem;height:auto;}
+.teach-body{min-width:0;}
+.teach-step-tag{
+  display:inline-flex;align-items:center;gap:.4rem;
+  font-size:.76rem;font-weight:800;letter-spacing:.12em;color:var(--coral-d);
+  text-transform:uppercase;
+}
+.teach-body h2{
+  margin:.25rem 0 .6rem;
+  font-size:clamp(1.5rem,3.6vw,2.15rem);line-height:1.3;
+}
+.teach-body p{margin:0 0 .8rem;font-size:clamp(1.04rem,1.55vw,1.2rem);line-height:1.75;color:var(--ink);}
+.teach-body p.soft{color:var(--ink-2);font-size:clamp(.95rem,1.35vw,1.05rem);}
+.teach-list{list-style:none;margin:0;padding:0;display:grid;gap:.55rem;}
+.teach-list li{
+  display:flex;gap:.6rem;align-items:flex-start;
+  padding:.62rem .8rem;border:2.5px solid rgba(62,47,35,.22);
+  border-radius:var(--r-md);background:rgba(255,207,92,.16);
+  font-size:clamp(1rem,1.45vw,1.12rem);line-height:1.6;
+}
+.teach-list li .num{
+  flex:none;width:1.75rem;height:1.75rem;border-radius:50%;
+  background:var(--sun);border:2.5px solid var(--ink);
+  display:grid;place-items:center;font-size:.85rem;font-weight:800;
+}
+.teach-list li b{color:var(--coral-d);}
+.teach-nav{display:flex;gap:.6rem;justify-content:space-between;align-items:center;margin-top:1rem;flex-wrap:wrap;}
+.teach-nav .mid{font-size:.85rem;color:var(--ink-2);font-weight:800;}
+
+/* 句式對照 */
+.cmp{display:grid;gap:.6rem;margin:.2rem 0 .4rem;}
+.cmp-row{
+  display:grid;grid-template-columns:auto 1fr;gap:.6rem;align-items:center;
+  padding:.6rem .75rem;border:2.5px solid var(--ink);border-radius:var(--r-md);
+  background:#FFF;
+}
+.cmp-row .tag{
+  font-size:.72rem;font-weight:800;padding:.2rem .5rem;border-radius:999px;
+  border:2px solid var(--ink);white-space:nowrap;
+}
+.cmp-row.direct .tag{background:var(--mint);}
+.cmp-row.indirect .tag{background:var(--sky);}
+.cmp-row .txt{font-size:clamp(.95rem,1.5vw,1.1rem);line-height:1.55;}
+.cmp-row .txt mark{background:rgba(255,207,92,.75);border-radius:4px;padding:0 .1em;color:inherit;}
+
+/* ============ 遊戲共用 ============ */
+.game-top{display:flex;align-items:center;gap:.6rem;margin-bottom:.7rem;flex-wrap:wrap;}
+.game-top h2{margin:0;font-size:clamp(1.2rem,2.6vw,1.6rem);line-height:1.25;}
+.game-top .sub{font-size:.8rem;color:var(--ink-2);font-weight:800;}
+.progress{
+  flex:1;min-width:8rem;height:.85rem;border:2.5px solid var(--ink);
+  border-radius:999px;background:var(--paper);overflow:hidden;
+}
+.progress > i{display:block;height:100%;width:0%;background:var(--mint);transition:width .35s ease;}
+.pips{display:flex;gap:.25rem;flex-wrap:wrap;}
+.pips span{
+  width:.85rem;height:.85rem;border-radius:50%;
+  border:2.5px solid var(--ink);background:var(--paper);flex:none;
+}
+.pips span.ok{background:var(--mint);}
+.pips span.miss{background:var(--coral);}
+
+.panel{
+  background:var(--paper);border:var(--line);border-radius:var(--r-xl);
+  box-shadow:var(--sh-hard);padding:clamp(1rem,2.6vw,1.9rem);
+}
+.q-label{display:flex;align-items:center;gap:.45rem;font-size:.86rem;font-weight:800;color:var(--ink-2);letter-spacing:.1em;margin-bottom:.6rem;}
+.q-label b{color:var(--coral-d);}
+
+/* 句子卡 */
+.sentence-card{
+  position:relative;
+  border:3px solid var(--ink);border-radius:var(--r-lg);
+  background:linear-gradient(180deg,#FFFFFF,#FFF8EA);
+  padding:clamp(1rem,2.6vw,1.7rem);
+  font-size:clamp(1.28rem,2.9vw,1.95rem);
+  line-height:1.65;font-weight:800;letter-spacing:.02em;
+  box-shadow:inset 0 -5px 0 rgba(62,47,35,.06);
+}
+.sentence-card .mark{color:var(--coral-d);}
+.speaker-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem;}
+.speaker-row svg{width:3.2rem;height:3.2rem;flex:none;}
+.speaker-row .who{font-size:.85rem;font-weight:800;color:var(--ink-2);}
+.speaker-row .who b{color:var(--ink);font-size:1rem;}
+
+/* 選項 */
+.options{display:grid;gap:.65rem;grid-template-columns:1fr;}
+@media (min-width:560px){.options.two{grid-template-columns:1fr 1fr;}}
+.opt{
+  display:flex;align-items:center;gap:.7rem;
+  width:100%;min-height:3.6rem;padding:.7rem 1rem;
+  font-size:clamp(1rem,2vw,1.16rem);font-weight:800;
+  text-align:left;color:var(--ink);
+  border:3px solid var(--ink);border-radius:var(--r-md);
+  background:#fff;box-shadow:0 5px 0 rgba(62,47,35,.72);
+  cursor:pointer;touch-action:manipulation;
+  transition:transform .07s,box-shadow .07s,background .15s;
+}
+.opt:active{transform:translateY(5px);box-shadow:0 0 0 rgba(62,47,35,.72);}
+.opt .key{
+  flex:none;width:2rem;height:2rem;border-radius:9px;border:2.5px solid var(--ink);
+  display:grid;place-items:center;font-size:.9rem;background:rgba(255,207,92,.5);
+}
+.opt .txt{flex:1;min-width:0;}
+.opt .ic{flex:none;width:1.6rem;height:1.6rem;display:none;}
+.opt.is-ok{background:rgba(111,203,164,.35);}
+.opt.is-ok .ic{display:block;color:var(--ok);}
+.opt.is-no{background:rgba(255,138,91,.28);}
+.opt.is-no .ic{display:block;color:var(--no);}
+.opt[disabled]{cursor:default;}
+.opt.dim{opacity:.5;}
+
+/* 分類兩大按鈕 */
+.sort-choices{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.2rem;}
+.sort-btn{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;
+  min-height:6.2rem;padding:.7rem .4rem;
+  border:3px solid var(--ink);border-radius:var(--r-lg);
+  font-size:clamp(1.05rem,2.4vw,1.3rem);font-weight:800;color:var(--ink);
+  box-shadow:0 6px 0 rgba(62,47,35,.75);cursor:pointer;
+  touch-action:manipulation;transition:transform .07s,box-shadow .07s,filter .15s;
+}
+.sort-btn:active{transform:translateY(6px);box-shadow:0 0 0 rgba(62,47,35,.75);}
+.sort-btn .ico{width:2.5rem;height:2.5rem;}
+.sort-btn.d{background:linear-gradient(180deg,#9FE0C2,#6FCBA4);}
+.sort-btn.i{background:linear-gradient(180deg,#A9DCF0,#6EC1E4);}
+.sort-btn small{font-size:.72rem;font-weight:700;color:var(--ink-2);}
+.sort-btn.picked{outline:5px solid var(--sun);outline-offset:3px;}
+.sort-btn[disabled]{cursor:default;}
+.sort-btn.dim{opacity:.5;}
+.sort-btn.right{outline:5px solid var(--ok);outline-offset:3px;}
+.sort-btn.wrong{outline:5px solid var(--no);outline-offset:3px;}
+
+/* 步驟（變身魔法） */
+.steps{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.8rem;}
+.step-pill{
+  display:inline-flex;align-items:center;gap:.35rem;
+  padding:.28rem .7rem;border:2.5px solid var(--ink);border-radius:999px;
+  font-size:.78rem;font-weight:800;background:var(--paper);color:var(--ink-3);
+}
+.step-pill.done{background:var(--mint);color:var(--ink);}
+.step-pill.now{background:var(--sun);color:var(--ink);box-shadow:0 3px 0 rgba(62,47,35,.6);}
+.step-box{
+  border:3px dashed rgba(62,47,35,.35);border-radius:var(--r-lg);
+  padding:clamp(.85rem,2.2vw,1.3rem);background:rgba(255,207,92,.10);
+}
+.step-box h4{margin:0 0 .2rem;font-size:.86rem;letter-spacing:.12em;color:var(--coral-d);font-weight:800;}
+.step-box .q{font-size:clamp(1.02rem,2vw,1.2rem);font-weight:800;margin:0 0 .7rem;line-height:1.5;}
+
+/* 捉錯 chips */
+.chips{display:flex;flex-wrap:wrap;gap:.15rem .28rem;align-items:center;line-height:1.7;}
+.chip-tok{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:.24rem .45rem;border-radius:10px;
+  border:3px solid transparent;border-bottom:3px dashed rgba(62,47,35,.28);background:transparent;
+  font-size:clamp(1.22rem,2.7vw,1.75rem);font-weight:800;
+  cursor:pointer;touch-action:manipulation;color:var(--ink);
+  transition:background .15s,border-color .15s,transform .1s;
+}
+.chip-tok:hover{background:rgba(255,207,92,.5);border-bottom-color:var(--ink);}
+button.chip-tok{min-height:2.6rem;}
+.chip-tok:active{transform:scale(.97);}
+.chip-tok.guess{background:rgba(255,138,91,.35);border-color:var(--coral-d);}
+.chip-tok.hit{background:rgba(111,203,164,.45);border-color:var(--ok);}
+.chip-tok.nope{background:rgba(62,47,35,.10);border-style:dashed;border-color:var(--ink-3);}
+.chips-static .chip-tok{cursor:default;border-color:transparent;background:transparent;padding:.05rem 0;}
+.chips-static .chip-tok:hover{background:transparent;}
+
+/* 回饋 */
+.feedback{
+  margin-top:.85rem;border:3px solid var(--ink);border-radius:var(--r-lg);
+  background:#fff;padding:clamp(.8rem,2.2vw,1.2rem);
+  animation:popIn .28s cubic-bezier(.2,1.2,.4,1) both;
+}
+@keyframes popIn{from{opacity:0;transform:translateY(10px) scale(.98);}to{opacity:1;transform:none;}}
+.feedback.good{background:rgba(111,203,164,.16);}
+.feedback.bad{background:rgba(255,138,91,.14);}
+.fb-head{display:flex;align-items:center;gap:.5rem;font-size:1.1rem;font-weight:800;margin-bottom:.4rem;}
+.fb-head svg{width:1.7rem;height:1.7rem;flex:none;}
+.fb-head.good{color:var(--ok);}
+.fb-head.bad{color:var(--no);}
+.explain{display:grid;gap:.45rem;margin-top:.2rem;}
+.explain .row{
+  display:grid;grid-template-columns:4.6rem 1fr;gap:.5rem;align-items:start;
+  padding:.42rem .55rem;border-radius:var(--r-sm);
+  background:rgba(62,47,35,.045);
+}
+.explain .k{
+  font-size:.78rem;font-weight:800;letter-spacing:.04em;
+  color:var(--ink-2);padding-top:.15rem;
+}
+.explain .v{font-size:clamp(.96rem,1.5vw,1.08rem);font-weight:700;line-height:1.55;min-width:0;}
+.explain .v b{color:var(--coral-d);}
+.answer-line{
+  display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;
+  margin-top:.6rem;padding:.55rem .7rem;border-radius:var(--r-md);
+  border:2.5px solid var(--ok);background:rgba(111,203,164,.14);
+  font-size:clamp(1rem,2vw,1.15rem);font-weight:800;line-height:1.5;
+}
+.answer-line svg{width:1.4rem;height:1.4rem;color:var(--ok);flex:none;}
+.fb-actions{display:flex;gap:.5rem;justify-content:flex-end;margin-top:.8rem;flex-wrap:wrap;}
+.hint{
+  margin-top:.6rem;font-size:.95rem;font-weight:700;color:var(--ink-2);
+  display:flex;align-items:center;gap:.4rem;
+}
+.hint svg{width:1.2rem;height:1.2rem;flex:none;}
+.scene-line{display:flex;align-items:flex-start;gap:.4rem;margin:0 0 .55rem;padding:.45rem .6rem;border-radius:var(--r-sm);background:rgba(255,207,92,.18);font-size:.9rem;font-weight:700;color:var(--ink-2);line-height:1.5;}
+.scene-line svg{width:1.15rem;height:1.15rem;flex:none;margin-top:.05rem;color:var(--coral-d);}
+
+/* 結算 */
+.result-wrap{max-width:44rem;margin-inline:auto;text-align:center;}
+.result-wrap .medal{width:9rem;height:9rem;margin-inline:auto;display:block;}
+.result-wrap h2{font-size:clamp(1.6rem,4vw,2.4rem);margin:.5rem 0 .2rem;line-height:1.25;}
+.result-wrap .score-line{font-size:clamp(1.05rem,2.4vw,1.3rem);font-weight:800;color:var(--ink-2);margin:0 0 .8rem;}
+.star-row{display:flex;justify-content:center;gap:.35rem;margin:.3rem 0 1rem;}
+.star-row svg{width:clamp(2rem,6vw,3rem);height:clamp(2rem,6vw,3rem);color:#E3D3BE;}
+.star-row svg.on{color:var(--sun);animation:starPop .4s cubic-bezier(.2,1.6,.4,1) both;}
+@keyframes starPop{from{transform:scale(.3) rotate(-25deg);opacity:0;}to{transform:none;opacity:1;}}
+.result-list{
+  text-align:left;display:grid;gap:.45rem;margin:1rem 0 1.2rem;
+  max-height:14rem;overflow:auto;padding-right:.2rem;
+}
+.result-item{
+  display:grid;grid-template-columns:1.6rem 1fr;gap:.55rem;align-items:start;
+  padding:.5rem .65rem;border-radius:var(--r-sm);
+  border:2.5px solid rgba(62,47,35,.16);background:rgba(255,255,255,.7);
+  font-size:.96rem;font-weight:700;line-height:1.5;
+}
+.result-item svg{width:1.5rem;height:1.5rem;color:var(--ink-3);}
+.result-item.ok svg{color:var(--ok);}
+.result-item.no svg{color:var(--no);}
+.result-actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;}
+
+/* 小工具 */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+.shake{animation:shake .4s ease;}
+@keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-7px);}40%{transform:translateX(6px);}60%{transform:translateX(-4px);}80%{transform:translateX(3px);}}
+.pop{animation:pop .35s cubic-bezier(.2,1.5,.4,1);}
+@keyframes pop{0%{transform:scale(.96);}60%{transform:scale(1.015);}100%{transform:scale(1);}}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:60;}
+.spark{position:absolute;width:.55rem;height:.55rem;border-radius:50%;animation:fall linear forwards;}
+@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:0;}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
+}
+@media (min-width:1100px){
+  .sentence-card{font-size:2rem;}
+}
+@media (max-width:420px){
+  .explain .row{grid-template-columns:1fr;gap:.1rem;}
+  .explain .k{font-size:.68rem;}
+  .sort-btn{min-height:5.6rem;}
+}
+
+/* 教學插畫容器 */
+.teach-art > svg{width:100%;max-width:19rem;height:auto;display:block;}
+.teach-art .ico-wrap{
+  width:min(15rem,74%);aspect-ratio:1;border-radius:50%;
+  display:grid;place-items:center;
+  background:radial-gradient(circle at 35% 30%,#FFF3D2,#FFE3A8);
+  border:3px dashed rgba(62,47,35,.28);
+}
+.teach-art .ico-wrap svg{width:48%;height:48%;color:var(--coral-d);}
+.result-wrap .panel{margin-top:.2rem;}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
+<defs>
+  <!-- 角色 -->
+  <symbol id="i-owl" viewBox="0 0 100 100">
+    <path d="M23 32 L18 9 L41 21 Z" fill="#F3B24C" stroke="#3E2F23" stroke-width="3.4" stroke-linejoin="round"/>
+    <path d="M77 32 L82 9 L59 21 Z" fill="#F3B24C" stroke="#3E2F23" stroke-width="3.4" stroke-linejoin="round"/>
+    <ellipse cx="50" cy="56" rx="33" ry="35" fill="#F7C566" stroke="#3E2F23" stroke-width="3.4"/>
+    <ellipse cx="50" cy="70" rx="21" ry="21" fill="#FFE7BE"/>
+    <circle cx="37" cy="49" r="13" fill="#fff" stroke="#3E2F23" stroke-width="3"/>
+    <circle cx="63" cy="49" r="13" fill="#fff" stroke="#3E2F23" stroke-width="3"/>
+    <circle cx="38.5" cy="50" r="5.6" fill="#3E2F23"/>
+    <circle cx="64.5" cy="50" r="5.6" fill="#3E2F23"/>
+    <circle cx="40.5" cy="47.6" r="2" fill="#fff"/>
+    <circle cx="66.5" cy="47.6" r="2" fill="#fff"/>
+    <path d="M50 58 L57.5 68 L42.5 68 Z" fill="#FF9F5B" stroke="#3E2F23" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M20 70 q-4 12 6 18" fill="none" stroke="#3E2F23" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+    <path d="M80 70 q4 12 -6 18" fill="none" stroke="#3E2F23" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+  </symbol>
+
+  <symbol id="i-boy" viewBox="0 0 100 100">
+    <path d="M23 50 q0-27 27-27 q27 0 27 27 v12 q0 22-27 22 q-27 0-27-22z" fill="#FFD9BC" stroke="#3E2F23" stroke-width="3.4"/>
+    <path d="M23 47 q3-28 27-28 q24 0 27 28 q-9-13-27-13 q-18 0-27 13z" fill="#4A3728"/>
+    <circle cx="39" cy="53" r="4.2" fill="#3E2F23"/>
+    <circle cx="61" cy="53" r="4.2" fill="#3E2F23"/>
+    <circle cx="30" cy="63" r="5" fill="#FFB3B3" opacity=".72"/>
+    <circle cx="70" cy="63" r="5" fill="#FFB3B3" opacity=".72"/>
+    <path d="M45 65 q5 6.5 10 0" fill="none" stroke="#3E2F23" stroke-width="3.2" stroke-linecap="round"/>
+    <path d="M33 82 q17-8 34 0 l4 15 q-21 6 -42 0z" fill="#6EC1E4" stroke="#3E2F23" stroke-width="3.4"/>
+    <path d="M50 82 v15" stroke="#3E2F23" stroke-width="2.2" opacity=".35"/>
+  </symbol>
+
+  <symbol id="i-girl" viewBox="0 0 100 100">
+    <ellipse cx="20" cy="58" rx="9" ry="16" fill="#7A4A34" stroke="#3E2F23" stroke-width="3.2"/>
+    <ellipse cx="80" cy="58" rx="9" ry="16" fill="#7A4A34" stroke="#3E2F23" stroke-width="3.2"/>
+    <path d="M24 50 q0-26 26-26 q26 0 26 26 v12 q0 21-26 21 q-26 0-26-21z" fill="#FFDCC2" stroke="#3E2F23" stroke-width="3.4"/>
+    <path d="M24 46 q4-26 26-26 q22 0 26 26 q-10-10-26-10 q-16 0-26 10z" fill="#8A563C"/>
+    <circle cx="39" cy="54" r="4.1" fill="#3E2F23"/>
+    <circle cx="61" cy="54" r="4.1" fill="#3E2F23"/>
+    <circle cx="31" cy="63" r="4.8" fill="#FFA8B8" opacity=".72"/>
+    <circle cx="69" cy="63" r="4.8" fill="#FFA8B8" opacity=".72"/>
+    <path d="M45 66 q5 6 10 0" fill="none" stroke="#3E2F23" stroke-width="3.1" stroke-linecap="round"/>
+    <path d="M34 82 q16-7 32 0 l6 15 q-22 7 -44 0z" fill="#F2739E" stroke="#3E2F23" stroke-width="3.4"/>
+    <circle cx="50" cy="88" r="2.4" fill="#FFE7BE"/>
+  </symbol>
+
+  <symbol id="i-bear" viewBox="0 0 100 100">
+    <circle cx="26" cy="30" r="11" fill="#C98E5C" stroke="#3E2F23" stroke-width="3.2"/>
+    <circle cx="74" cy="30" r="11" fill="#C98E5C" stroke="#3E2F23" stroke-width="3.2"/>
+    <circle cx="26" cy="30" r="5" fill="#F0C39B"/>
+    <circle cx="74" cy="30" r="5" fill="#F0C39B"/>
+    <circle cx="50" cy="56" r="31" fill="#D9A06B" stroke="#3E2F23" stroke-width="3.4"/>
+    <ellipse cx="50" cy="66" rx="16" ry="13" fill="#F5D7B6"/>
+    <circle cx="39" cy="50" r="4.2" fill="#3E2F23"/>
+    <circle cx="61" cy="50" r="4.2" fill="#3E2F23"/>
+    <ellipse cx="50" cy="61" rx="5.5" ry="4" fill="#3E2F23"/>
+    <path d="M50 65 v4 M50 69 q-5 5 -9 1 M50 69 q5 5 9 1" fill="none" stroke="#3E2F23" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M18 44 q-6 2 -8 8 q10 2 14-2z" fill="#B8763F" stroke="#3E2F23" stroke-width="2.8" stroke-linejoin="round"/>
+    <path d="M22 26 q28-14 56 0 q-4-13-16-16 h-24 q-12 3-16 16z" fill="#8C6244" stroke="#3E2F23" stroke-width="3.2" stroke-linejoin="round"/>
+    <path d="M27 22 q23-9 46 0" fill="none" stroke="#3E2F23" stroke-width="2.4" opacity=".5"/>
+    <circle cx="72" cy="18" r="3" fill="#FFCF5C" stroke="#3E2F23" stroke-width="2"/>
+  </symbol>
+
+  <symbol id="i-rabbit" viewBox="0 0 100 100">
+    <ellipse cx="36" cy="26" rx="8" ry="20" fill="#FFF6EE" stroke="#3E2F23" stroke-width="3.2" transform="rotate(-10 36 26)"/>
+    <ellipse cx="64" cy="24" rx="8" ry="21" fill="#FFF6EE" stroke="#3E2F23" stroke-width="3.2" transform="rotate(10 64 24)"/>
+    <ellipse cx="36" cy="27" rx="3.4" ry="13" fill="#FFC2CE" transform="rotate(-10 36 27)"/>
+    <ellipse cx="64" cy="25" rx="3.4" ry="14" fill="#FFC2CE" transform="rotate(10 64 25)"/>
+    <circle cx="50" cy="63" r="29" fill="#FFF6EE" stroke="#3E2F23" stroke-width="3.4"/>
+    <circle cx="39" cy="58" r="4.1" fill="#3E2F23"/>
+    <circle cx="61" cy="58" r="4.1" fill="#3E2F23"/>
+    <circle cx="41" cy="56" r="1.5" fill="#fff"/>
+    <circle cx="63" cy="56" r="1.5" fill="#fff"/>
+    <ellipse cx="50" cy="68" rx="4.6" ry="3.4" fill="#FF9AAF"/>
+    <path d="M50 71 v3 M50 74 q-4 4 -7 1 M50 74 q4 4 7 1" fill="none" stroke="#3E2F23" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="30" cy="68" r="4.6" fill="#FFC2CE" opacity=".8"/>
+    <circle cx="70" cy="68" r="4.6" fill="#FFC2CE" opacity=".8"/>
+    <path d="M26 40 q24-8 48 0 l-6 8 q-18-5-36 0z" fill="#4A3728" stroke="#3E2F23" stroke-width="3"/>
+    <rect x="34" y="32" width="32" height="10" rx="3" fill="#6B4B33" stroke="#3E2F23" stroke-width="3"/>
+    <path d="M50 32 v10" stroke="#3E2F23" stroke-width="2.2" opacity=".5"/>
+    <circle cx="50" cy="20" r="3.4" fill="#FFCF5C" stroke="#3E2F23" stroke-width="2"/>
+  </symbol>
+
+  <!-- 對話氣泡 -->
+  <symbol id="i-bubble" viewBox="0 0 100 100">
+    <path d="M12 16 h76 a8 8 0 0 1 8 8 v34 a8 8 0 0 1 -8 8 h-38 l-18 16 v-16 h-20 a8 8 0 0 1 -8 -8 v-34 a8 8 0 0 1 8 -8z" fill="#FFFDF7" stroke="#3E2F23" stroke-width="4" stroke-linejoin="round"/>
+  </symbol>
+
+  <!-- 圖標 24x24 -->
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.6l2.9 6 6.6.9-4.8 4.6 1.2 6.5-5.9-3.2-5.9 3.2 1.2-6.5L2.5 9.5l6.6-.9z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="currentColor" opacity=".18"/><path d="M7 12.4l3.4 3.4L17.2 9" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="currentColor" opacity=".16"/><path d="M8.2 8.2l7.6 7.6M15.8 8.2l-7.6 7.6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3.4 10.6L12 3.4l8.6 7.2V20a1 1 0 0 1-1 1h-5v-6h-5.2v6h-5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-sound-on" viewBox="0 0 24 24"><path d="M4 9.5h3.4L12 5.4v13.2L7.4 14.5H4z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15.4 8.6a4.8 4.8 0 0 1 0 6.8M18 6.2a8.2 8.2 0 0 1 0 11.6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="i-sound-off" viewBox="0 0 24 24"><path d="M4 9.5h3.4L12 5.4v13.2L7.4 14.5H4z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15.6 9.4l5 5.2M20.6 9.4l-5 5.2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="i-speak" viewBox="0 0 24 24"><rect x="8" y="2.6" width="8" height="12" rx="4" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M5 11.4a7 7 0 0 0 14 0M12 18.4V21.4M9 21.4h6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4.6h6a2.4 2.4 0 0 1 2 1.2 2.4 2.4 0 0 1 2-1.2h6v14h-6a2.4 2.4 0 0 0-2 1.2 2.4 2.4 0 0 0-2-1.2H4z" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/><path d="M12 5.8v14" stroke="currentColor" stroke-width="2.1"/></symbol>
+  <symbol id="i-game" viewBox="0 0 24 24"><rect x="2.4" y="7" width="19.2" height="10.6" rx="4.4" fill="none" stroke="currentColor" stroke-width="2.1"/><path d="M7 10.4v4M5 12.4h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="16.2" cy="11.4" r="1.3" fill="currentColor"/><circle cx="18.6" cy="14" r="1.3" fill="currentColor"/></symbol>
+  <symbol id="i-wand" viewBox="0 0 24 24"><path d="M4.2 19.8L15 9M13.4 7.4l3.2 3.2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M18 2.6l1 2.4 2.4 1-2.4 1-1 2.4-1-2.4-2.4-1 2.4-1z" fill="currentColor"/><path d="M7.4 3.4l.7 1.7 1.7.7-1.7.7-.7 1.7-.7-1.7-1.7-.7 1.7-.7z" fill="currentColor" opacity=".65"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.6" cy="10.6" r="6.6" fill="none" stroke="currentColor" stroke-width="2.3"/><path d="M15.6 15.6L21 21" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M7.4 3.4h9.2v5.2a4.6 4.6 0 0 1-9.2 0z" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/><path d="M7.4 5H4.6v1.6a3.4 3.4 0 0 0 3.4 3.4M16.6 5h2.8v1.6a3.4 3.4 0 0 1-3.4 3.4" fill="none" stroke="currentColor" stroke-width="2.1"/><path d="M12 13.4v4M8.6 20.6h6.8M9.6 20.6l.6-3.2h3.6l.6 3.2" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9.4 17.4a6 6 0 1 1 5.2 0" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M9.6 17.4h4.8v2.4H9.6zM10.4 21.4h3.2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.6" y="10" width="14.8" height="10.4" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M8 10V7.6a4 4 0 0 1 8 0V10" fill="none" stroke="currentColor" stroke-width="2.2"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M20 12H6M11 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.7-6" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/><path d="M20 3.4V9h-5.6" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-scene" viewBox="0 0 300 220">
+    <ellipse cx="150" cy="203" rx="114" ry="9" fill="#3E2F23" opacity=".10"/>
+    <circle cx="150" cy="104" r="90" fill="#FFCF5C" opacity=".20"/>
+    <path d="M34 32 h92 a8 8 0 0 1 8 8 v34 a8 8 0 0 1 -8 8 h-56 l-16 14 v-14 h-20 a8 8 0 0 1 -8 -8 v-34 a8 8 0 0 1 8 -8z" fill="#FFFDF7" stroke="#3E2F23" stroke-width="3.4" stroke-linejoin="round"/>
+    <text x="84" y="62" text-anchor="middle" font-size="17" font-weight="700" fill="#3E2F23" font-family="sans-serif">我很累</text>
+    <path d="M170 42 h94 a8 8 0 0 1 8 8 v32 a8 8 0 0 1 -8 8 h-22 v13 l-15 -13 h-57 a8 8 0 0 1 -8 -8 v-32 a8 8 0 0 1 8 -8z" fill="#A9DCF0" stroke="#3E2F23" stroke-width="3.4" stroke-linejoin="round"/>
+    <text x="218" y="68" text-anchor="middle" font-size="16" font-weight="700" fill="#3E2F23" font-family="sans-serif">她很累</text>
+    <use href="#i-boy" x="16" y="112" width="72" height="72"/>
+    <use href="#i-girl" x="212" y="112" width="72" height="72"/>
+    <path d="M114 158 h70" stroke="#E4673A" stroke-width="4" stroke-linecap="round" stroke-dasharray="7 6"/>
+    <path d="M178 152l8 6-8 6" fill="none" stroke="#E4673A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="i-quote" viewBox="0 0 300 220">
+    <ellipse cx="150" cy="204" rx="104" ry="8" fill="#3E2F23" opacity=".10"/>
+    <path d="M42 26 h216 a14 14 0 0 1 14 14 v96 a14 14 0 0 1 -14 14 h-112 l-34 28 v-28 h-70 a14 14 0 0 1 -14 -14 v-96 a14 14 0 0 1 14 -14z" fill="#FFFDF7" stroke="#3E2F23" stroke-width="4" stroke-linejoin="round"/>
+    <rect x="118" y="44" width="64" height="26" rx="13" fill="#FFCF5C" stroke="#3E2F23" stroke-width="3"/>
+    <text x="150" y="63" text-anchor="middle" font-size="15" font-weight="800" fill="#3E2F23" font-family="sans-serif">原話</text>
+    <text x="106" y="132" text-anchor="middle" font-size="58" font-weight="700" fill="#FF8A5B" font-family="sans-serif">「</text>
+    <text x="194" y="132" text-anchor="middle" font-size="58" font-weight="700" fill="#FF8A5B" font-family="sans-serif">」</text>
+    <path d="M112 148 h76" stroke="#6FCBA4" stroke-width="7" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-medal" viewBox="0 0 120 120">
+    <path d="M42 8h36l-9 30H51z" fill="#6EC1E4" stroke="#3E2F23" stroke-width="3.4" stroke-linejoin="round"/>
+    <circle cx="60" cy="72" r="38" fill="#FFCF5C" stroke="#3E2F23" stroke-width="4"/>
+    <circle cx="60" cy="72" r="28" fill="#FFF0C9" stroke="#3E2F23" stroke-width="2.6"/>
+    <path d="M60 52l6.4 13 14.4 2-10.4 10.2 2.5 14.3L60 84.6l-12.9 6.9 2.5-14.3L39.2 67l14.4-2z" fill="#FF9F5B" stroke="#3E2F23" stroke-width="3" stroke-linejoin="round"/>
+  </symbol>
+</defs>
+</svg>
+
+<header class="topbar">
+  <div class="brand">
+    <svg class="logo" viewBox="0 0 100 100" aria-hidden="true"><use href="#i-owl"/></svg>
+    <div class="brand-txt">
+      <b>句式變變變</b>
+      <span id="brandSub">直述句 · 轉述句互動教室</span>
+    </div>
+  </div>
+  <div class="top-actions">
+    <button class="icon-btn" id="btnSound" type="button" aria-pressed="true" aria-label="音效開關" title="音效開關">
+      <svg aria-hidden="true"><use href="#i-sound-on"/></svg>
+    </button>
+    <button class="icon-btn" id="btnHome" type="button" aria-label="返回主頁" title="返回主頁">
+      <svg aria-hidden="true"><use href="#i-home"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="stage" data-generated-by="vibe-coding-frontend-design">
+  <section id="view-home" class="view" aria-label="開始頁"></section>
+  <section id="view-menu" class="view" hidden aria-label="主選單"></section>
+  <section id="view-teach" class="view" hidden aria-label="教學"></section>
+  <section id="view-game" class="view" hidden aria-label="遊戲"></section>
+  <section id="view-result" class="view" hidden aria-label="成績"></section>
+</main>
+
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+<script>
+/* ============================================================
+   題 庫 — 初小版（P1–P3）／高小版（P4–P6）
+   三個模式各 6 題，兩版共 36 題，全部不重複。
+   ============================================================ */
+const DB = {
+  junior: {
+    key: 'junior',
+    label: '初小版',
+    range: '小一至小三',
+    tone: 'mint',
+    intro: '由最簡單的標點和人稱開始，一步一步學會轉述。',
+    teach: [
+      {
+        tag: '開始之前',
+        title: '一句話，兩種說法',
+        art: 'scene',
+        body: '同一句話，可以用兩種方法說出來：一種是原原本本說出來，一種是轉告給別人。',
+        rows: [
+          { type: 'direct', tag: '直述句', text: '媽媽說：「我很累。」' },
+          { type: 'indirect', tag: '轉述句', text: '媽媽說她很累。' }
+        ],
+        note: '看下去，你就會知道句子怎樣「變身」。'
+      },
+      {
+        tag: '第一種',
+        title: '直述句：原原本本說出來',
+        art: 'bubble',
+        body: '直述句把說話人的原話完整寫出來。句子裡面有冒號「：」和引號「」，引號內就是說話人的原話。',
+        bullets: [
+          '有冒號「：」，表示下面要開始說話。',
+          '有引號「」，把原話整整齊齊包住。',
+          '原話裡面常有「我」、「你」這些字。'
+        ],
+        note: '小提示：看到引號「」，多數就是直述句。'
+      },
+      {
+        tag: '第二種',
+        title: '轉述句：用自己的話轉告',
+        art: 'owl',
+        body: '轉述句是把別人的話轉告給第三個人。它不用引號，說話人和內容之間可以用逗號「，」，也可以直接連起來。',
+        rows: [
+          { type: 'direct', tag: '直述句', text: '媽媽說：「我很累。」' },
+          { type: 'indirect', tag: '轉述句', text: '媽媽說她很累。' }
+        ],
+        bullets: [
+          '沒有引號「」。',
+          '可用逗號「，」連接，也可以不用。',
+          '人稱要跟着改變。'
+        ]
+      },
+      {
+        tag: '變身 1',
+        title: '第一步：改標點',
+        art: 'wand',
+        body: '把冒號「：」改成逗號「，」，再刪去引號。',
+        rows: [
+          { type: 'direct', tag: '原句', text: '媽媽說：「我很累。」' },
+          { type: 'indirect', tag: '變身後', text: '媽媽說她很累。' }
+        ],
+        note: '也可以在「說」後面加逗號，寫成「媽媽說，她很累。」'
+      },
+      {
+        tag: '變身 2',
+        title: '第二步：改人稱',
+        art: 'boy',
+        body: '由你轉述時，句子裡的「我」和「你」也要跟着變。',
+        bullets: [
+          '「我」→「他」或「她」',
+          '「你」→「我」（轉述給聽話的人時）',
+          '「我們」→「他們」'
+        ],
+        note: '想一想：是誰在說話？他是在對誰說？'
+      },
+      {
+        tag: '總結',
+        title: '變身三步曲',
+        art: 'owl',
+        body: '每次做轉述句，照這三步做，就不會漏。',
+        bullets: [
+          '找出誰在說話。',
+          '改標點：冒號、引號 → 逗號。',
+          '改人稱：「我」→「他／她」；「你」→「我」。'
+        ],
+        note: '做完記得讀一次，看看句子通不通順。'
+      }
+    ],
+    sort: [
+      {
+        id: 'j-s1', speaker: 'girl', who: '媽媽',
+        sentence: '媽媽說：「快點做功課。」',
+        type: 'direct',
+        clue: '句子有冒號「：」和引號「」，引號內是媽媽的原話。',
+        why: '原原本本寫出說話人的話，所以是直述句。'
+      },
+      {
+        id: 'j-s2', speaker: 'girl', who: '陳老師',
+        sentence: '陳老師說她明天會派回作業。',
+        type: 'indirect',
+        clue: '句子沒有引號，用「她」代替陳老師。',
+        why: '把陳老師的話轉告別人，所以是轉述句。'
+      },
+      {
+        id: 'j-s3', speaker: 'girl', who: '小美',
+        sentence: '小美說：「我喜歡吃蘋果。」',
+        type: 'direct',
+        clue: '有冒號和引號，引號內有「我」。',
+        why: '這是小美親口說的話，所以是直述句。'
+      },
+      {
+        id: 'j-s4', speaker: 'boy', who: '爸爸',
+        sentence: '爸爸說他星期天帶我去公園。',
+        type: 'indirect',
+        clue: '沒有引號，用「他」代替爸爸。',
+        why: '這是把爸爸的話轉告別人，所以是轉述句。'
+      },
+      {
+        id: 'j-s5', speaker: 'boy', who: '哥哥',
+        sentence: '哥哥說：「這本書很好看。」',
+        type: 'direct',
+        clue: '有冒號和引號，引號內是完整的原話。',
+        why: '原話被完整保留下來，所以是直述句。'
+      },
+      {
+        id: 'j-s6', speaker: 'girl', who: '姐姐',
+        sentence: '姐姐說她會借鉛筆給我。',
+        type: 'indirect',
+        clue: '沒有引號，用「她」代替姐姐。',
+        why: '把姐姐的話轉告別人，所以是轉述句。'
+      }
+    ],
+    shift: [
+      {
+        id: 'j-h1', speaker: 'girl', who: '媽媽',
+        original: '媽媽說：「我很累。」',
+        answer: '媽媽說她很累。',
+        steps: [
+          { tag: '人稱', q: '「我」要改成甚麼？', options: ['她', '你', '我'], answer: 0, note: '說話人是媽媽，轉述時用「她」。' },
+          { tag: '標點', q: '冒號和引號要怎樣改？', options: ['保留冒號和引號', '改成逗號，刪去引號', '改成感歎號'], answer: 1, note: '轉述時不用引號，冒號改成逗號。' }
+        ],
+        explain: {
+          k1: '原本是甚麼', v1: '媽媽親口說「我很累」，句子有冒號和引號。',
+          k2: '為甚麼要改', v2: '轉述時，媽媽是第三個人，要用「她」；引號也要刪去。',
+          k3: '改成甚麼', v3: '媽媽說她很累。'
+        }
+      },
+      {
+        id: 'j-h2', speaker: 'boy', who: '弟弟',
+        original: '弟弟說：「我會自己穿鞋。」',
+        answer: '弟弟說他會自己穿鞋。',
+        steps: [
+          { tag: '人稱', q: '「我」要改成甚麼？', options: ['他', '我', '你'], answer: 0, note: '說話人是弟弟，用「他」。' },
+          { tag: '標點', q: '標點要怎樣改？', options: ['保留引號', '改成逗號，刪去引號', '加問號'], answer: 1, note: '轉述句不用引號。' }
+        ],
+        explain: {
+          k1: '原本是甚麼', v1: '弟弟親口說「我會自己穿鞋」，用引號包住。',
+          k2: '為甚麼要改', v2: '轉述時，弟弟是第三個人，要用「他」，而且不再用引號。',
+          k3: '改成甚麼', v3: '弟弟說他會自己穿鞋。'
+        }
+      },
+      {
+        id: 'j-h3', speaker: 'girl', who: '陳老師',
+        original: '陳老師說：「我明天請假。」',
+        answer: '陳老師說她明天請假。',
+        steps: [
+          { tag: '人稱', q: '「我」要改成甚麼？', options: ['她', '他', '你'], answer: 0, note: '陳老師是女士，用「她」。' },
+          { tag: '標點', q: '冒號和引號要怎樣改？', options: ['改成逗號，刪去引號', '保留冒號', '加書名號'], answer: 0, note: '冒號改逗號，引號刪去。' }
+        ],
+        explain: {
+          k1: '原本是甚麼', v1: '陳老師說「我明天請假」，有冒號和引號。',
+          k2: '為甚麼要改', v2: '轉述時要說明是「她」請假，引號也要刪去。',
+          k3: '改成甚麼', v3: '陳老師說她明天請假。'
+        }
+      },
+      {
+        id: 'j-h4', speaker: 'girl', who: '小美',
+        original: '小美說：「我做完功課了。」',
+        answer: '小美說她做完功課了。',
+        steps: [
+          { tag: '人稱', q: '「我」要改成甚麼？', options: ['你', '她', '我'], answer: 1, note: '小美是女孩子，用「她」。' },
+          { tag: '標點', q: '標點要怎樣改？', options: ['保留引號', '改成逗號，刪去引號', '改成句號'], answer: 1, note: '冒號改逗號，引號刪去。' }
+        ],
+        explain: {
+          k1: '原本是甚麼', v1: '小美說「我做完功課了」，原話在引號內。',
+          k2: '為甚麼要改', v2: '轉述時，小美是第三個人，要用「她」，句子不再用引號。',
+          k3: '改成甚麼', v3: '小美說她做完功課了。'
+        }
+      },
+      {
+        id: 'j-h5', speaker: 'boy', who: '爸爸',
+        original: '爸爸說：「我今晚早點回家。」',
+        answer: '爸爸說他今晚早點回家。',
+        steps: [
+          { tag: '人稱', q: '「我」要改成甚麼？', options: ['他', '她', '你'], answer: 0, note: '爸爸是男士，用「他」。' },
+          { tag: '標點', q: '標點要怎樣改？', options: ['加引號', '改成逗號，刪去引號', '加問號'], answer: 1, note: '轉述句不用冒號和引號。' }
+        ],
+        explain: {
+          k1: '原本是甚麼', v1: '爸爸說「我今晚早點回家」，用引號包住原話。',
+          k2: '為甚麼要改', v2: '轉述時要用「他」代替爸爸，並刪去引號。',
+          k3: '改成甚麼', v3: '爸爸說他今晚早點回家。'
+        }
+      },
+      {
+        id: 'j-h6', speaker: 'girl', who: '婆婆',
+        original: '婆婆說：「我喜歡吃月餅。」',
+        answer: '婆婆說她喜歡吃月餅。',
+        steps: [
+          { tag: '人稱', q: '「我」要改成甚麼？', options: ['她', '他', '我'], answer: 0, note: '婆婆是女士，用「她」。' },
+          { tag: '標點', q: '冒號和引號要怎樣改？', options: ['改成逗號，刪去引號', '保留冒號和引號', '改成頓號'], answer: 0, note: '冒號改逗號，引號刪去。' }
+        ],
+        explain: {
+          k1: '原本是甚麼', v1: '婆婆說「我喜歡吃月餅」，原話有引號。',
+          k2: '為甚麼要改', v2: '轉述時，婆婆是第三個人，要用「她」，也要刪去引號。',
+          k3: '改成甚麼', v3: '婆婆說她喜歡吃月餅。'
+        }
+      }
+    ],
+    detect: [
+      {
+        id: 'j-d1', speaker: 'girl', who: '媽媽',
+        original: '媽媽說：「我很累。」',
+        wrong: '媽媽說我很累。',
+        tokens: ['媽媽說', '我', '很累。'],
+        bad: 1,
+        options: ['她', '你', '我'],
+        answer: 0,
+        correct: '媽媽說她很累。',
+        explain: {
+          k1: '原本是甚麼', v1: '媽媽親口說「我很累」。',
+          k2: '為甚麼要改', v2: '轉述時，媽媽是第三個人，句中的「我」要改成「她」。',
+          k3: '改成甚麼', v3: '媽媽說她很累。'
+        }
+      },
+      {
+        id: 'j-d2', speaker: 'boy', who: '弟弟',
+        original: '弟弟說：「我會自己穿鞋。」',
+        wrong: '弟弟說我會自己穿鞋。',
+        tokens: ['弟弟說', '我', '會自己穿鞋。'],
+        bad: 1,
+        options: ['你', '他', '我'],
+        answer: 1,
+        correct: '弟弟說他會自己穿鞋。',
+        explain: {
+          k1: '原本是甚麼', v1: '弟弟親口說「我會自己穿鞋」。',
+          k2: '為甚麼要改', v2: '轉述時，弟弟是第三個人，要用「他」，不可保留「我」。',
+          k3: '改成甚麼', v3: '弟弟說他會自己穿鞋。'
+        }
+      },
+      {
+        id: 'j-d3', speaker: 'girl', who: '陳老師',
+        original: '陳老師說：「我明天請假。」',
+        wrong: '陳老師說你明天請假。',
+        tokens: ['陳老師說', '你', '明天請假。'],
+        bad: 1,
+        options: ['我', '你', '她'],
+        answer: 2,
+        correct: '陳老師說她明天請假。',
+        explain: {
+          k1: '原本是甚麼', v1: '陳老師說「我明天請假」。',
+          k2: '為甚麼要改', v2: '「你」是指聽的人；請假的是陳老師，要用「她」。',
+          k3: '改成甚麼', v3: '陳老師說她明天請假。'
+        }
+      },
+      {
+        id: 'j-d4', speaker: 'girl', who: '姐姐',
+        scene: '姐姐當時對你說，你現在向媽媽轉述。',
+        original: '姐姐對我說：「你要準時回家。」',
+        wrong: '姐姐說你要準時回家。',
+        tokens: ['姐姐說', '你', '要準時回家。'],
+        bad: 1,
+        options: ['我', '你', '她'],
+        answer: 0,
+        correct: '姐姐說我要準時回家。',
+        explain: {
+          k1: '原本是甚麼', v1: '姐姐對着「我」說「你要準時回家」。',
+          k2: '為甚麼要改', v2: '轉述時，姐姐口中的「你」就是「我」。',
+          k3: '改成甚麼', v3: '姐姐說我要準時回家。'
+        }
+      },
+      {
+        id: 'j-d5', speaker: 'boy', who: '爸爸',
+        original: '爸爸說：「我今晚早點回家。」',
+        wrong: '爸爸說：他今晚早點回家。',
+        tokens: ['爸爸說', '：', '他今晚早點回家。'],
+        bad: 1,
+        options: ['改成逗號', '保留冒號', '改成句號'],
+        answer: 0,
+        correct: '爸爸說他今晚早點回家。',
+        explain: {
+          k1: '原本是甚麼', v1: '原句有冒號和引號，是直述句。',
+          k2: '為甚麼要改', v2: '轉述句不用冒號，要改成逗號，並刪去引號。',
+          k3: '改成甚麼', v3: '爸爸說他今晚早點回家。'
+        }
+      },
+      {
+        id: 'j-d6', speaker: 'girl', who: '陳老師',
+        original: '陳老師對我們說：「你們要安靜。」',
+        wrong: '陳老師說你們要安靜。',
+        tokens: ['陳老師說', '你們', '要安靜。'],
+        bad: 1,
+        options: ['我們', '你們', '他們'],
+        answer: 0,
+        correct: '陳老師說我們要安靜。',
+        explain: {
+          k1: '原本是甚麼', v1: '陳老師對着我們說「你們要安靜」。',
+          k2: '為甚麼要改', v2: '轉述時，陳老師口中的「你們」就是「我們」。',
+          k3: '改成甚麼', v3: '陳老師說我們要安靜。'
+        }
+      }
+    ]
+  },
+
+  senior: {
+    key: 'senior',
+    label: '高小版',
+    range: '小四至小六',
+    tone: 'sky',
+    intro: '在人稱之外，還要處理指示詞、方位詞和時間詞。',
+    teach: [
+      {
+        tag: '回顧',
+        title: '直述句與轉述句',
+        art: 'scene',
+        body: '直述句照原話寫出來；轉述句把話轉告別人。除了標點，人稱、指示詞和時間詞都會改變。',
+        rows: [
+          { type: 'direct', tag: '直述句', text: '小美說：「我今天在這裏買了這本書。」' },
+          { type: 'indirect', tag: '轉述句', text: '小美說她那天在那裏買了那本書。' }
+        ],
+        note: '一句話可以同時有幾個地方要改，要逐項檢查。'
+      },
+      {
+        tag: '特徵',
+        title: '直述句：三個特徵',
+        art: 'bubble',
+        body: '直述句把說話人的原話完整保留下來。',
+        bullets: [
+          '有冒號「：」，提示下面是原話。',
+          '有引號「」，把原話完整包住。',
+          '原話中的「我、你、這、今天」都照樣保留。'
+        ],
+        note: '引號內的文字一個字也不改，這叫「照錄」。'
+      },
+      {
+        tag: '特徵',
+        title: '轉述句：四個改動',
+        art: 'owl',
+        body: '轉述句要同時處理四個地方，漏一個就會出錯。',
+        bullets: [
+          '標點：刪去引號，冒號改逗號。',
+          '人稱：「我」→「他／她」；「你」→「我」（視情況）。',
+          '指示詞與方位詞：「這」→「那」，「這裏」→「那裏」。',
+          '時間詞：「今天」→「那天」，「明天」→「第二天」。'
+        ]
+      },
+      {
+        tag: '改動 1',
+        title: '人稱變身表',
+        art: 'boy',
+        body: '先問自己：誰在說話？說給誰聽？轉述給誰聽？',
+        bullets: [
+          '「我」→「他」或「她」',
+          '「你」→「我」',
+          '「我們」→「他們」',
+          '「你們」→「我們」'
+        ],
+        note: '人稱要看情況，沒有一成不變的答案。'
+      },
+      {
+        tag: '改動 2',
+        title: '指示詞、方位詞和方向',
+        art: 'bear',
+        body: '說話人在現場會說「這」、「這裏」；轉述時距離遠了，就要改成「那」、「那裏」。',
+        bullets: [
+          '「這」→「那」；「這些」→「那些」',
+          '「這裏」→「那裏」',
+          '「這樣」→「那樣」',
+          '「來」→「去」（按方向調整）'
+        ],
+        note: '記住一句：近的變遠，用「那」。'
+      },
+      {
+        tag: '改動 3',
+        title: '時間詞也要變',
+        art: 'rabbit',
+        body: '說話的時間過去了，時間詞就要跟着調整。',
+        bullets: [
+          '「今天」→「那天」',
+          '「明天」→「第二天」',
+          '「昨天」→「前一天」',
+          '「現在」→「當時」'
+        ],
+        note: '如果是即日轉述，時間詞可以保留下來。'
+      },
+      {
+        tag: '總結',
+        title: '變身四步曲',
+        art: 'owl',
+        body: '做轉述句時，按這四步逐項檢查。',
+        bullets: [
+          '刪引號，冒號改逗號。',
+          '改人稱。',
+          '改指示詞、方位詞和方向。',
+          '改時間詞，再讀一次。'
+        ],
+        note: '最常見的錯誤：只改了人稱，忘了「這」和「今天」。'
+      }
+    ],
+    sort: [
+      {
+        id: 's-s1', speaker: 'girl', who: '陳老師',
+        sentence: '陳老師說：「你們明天要把這份練習交給我。」',
+        type: 'direct',
+        clue: '有冒號和引號，引號內是完整原話。',
+        why: '原話被完整保留下來，所以是直述句。'
+      },
+      {
+        id: 's-s2', speaker: 'girl', who: '陳老師',
+        sentence: '陳老師說我們第二天要把那份練習交給她。',
+        type: 'indirect',
+        clue: '沒有引號，人稱、指示詞和時間詞都改了。',
+        why: '把老師的話轉告同學，所以是轉述句。'
+      },
+      {
+        id: 's-s3', speaker: 'boy', who: '班長',
+        sentence: '班長說：「老師叫你們到操場集合。」',
+        type: 'direct',
+        clue: '有冒號和引號，是班長親口說的話。',
+        why: '原話完整保留，所以是直述句。'
+      },
+      {
+        id: 's-s4', speaker: 'boy', who: '班長',
+        sentence: '班長說老師叫我們到操場集合。',
+        type: 'indirect',
+        clue: '沒有引號，「你們」改成了「我們」。',
+        why: '把班長的話轉告其他人，所以是轉述句。'
+      },
+      {
+        id: 's-s5', speaker: 'boy', who: '爺爺',
+        sentence: '爺爺說：「這裏從前是一片農田。」',
+        type: 'direct',
+        clue: '有冒號和引號，句中有「這裏」。',
+        why: '爺爺的原話被照錄，所以是直述句。'
+      },
+      {
+        id: 's-s6', speaker: 'boy', who: '爺爺',
+        sentence: '爺爺說那裏從前是一片農田。',
+        type: 'indirect',
+        clue: '沒有引號，「這裏」改成了「那裏」。',
+        why: '把爺爺的話轉告別人，所以是轉述句。'
+      }
+    ],
+    shift: [
+      {
+        id: 's-h1', speaker: 'girl', who: '小美',
+        original: '小美說：「我今天生病了。」',
+        answer: '小美說她那天生病了。',
+        steps: [
+          { tag: '人稱', q: '「我」要改成甚麼？', options: ['她', '我', '你'], answer: 0, note: '說話人是小美，用「她」。' },
+          { tag: '時間詞', q: '「今天」要改成甚麼？', options: ['那天', '今天', '明天'], answer: 0, note: '說話的日子已過去，要改「那天」。' },
+          { tag: '標點', q: '冒號和引號要怎樣改？', options: ['保留冒號和引號', '改成逗號，刪去引號', '加感歎號'], answer: 1, note: '轉述句不用冒號和引號。' }
+        ],
+        explain: {
+          k1: '原本是甚麼', v1: '小美在當天說「我」「今天」，句子有冒號和引號。',
+          k2: '為甚麼要改', v2: '轉述時，小美是第三個人，要用「她」；時間也過去了，引號要刪去。',
+          k3: '改成甚麼', v3: '小美說她那天生病了。'
+        }
+      },
+      {
+        id: 's-h2', speaker: 'boy', who: '叔叔',
+        original: '叔叔說：「我明天來探望你們。」',
+        answer: '叔叔說他第二天來探望我們。',
+        steps: [
+          { tag: '人稱', q: '「我」要改成甚麼？', options: ['你', '他', '我'], answer: 1, note: '說話人是叔叔，用「他」。' },
+          { tag: '人稱', q: '「你們」要改成甚麼？', options: ['我們', '你們', '他們'], answer: 0, note: '叔叔口中的「你們」，就是「我們」。' },
+          { tag: '時間詞', q: '「明天」要改成甚麼？', options: ['明天', '第二天', '昨天'], answer: 1, note: '隔了一段時間才轉述，用「第二天」。' }
+        ],
+        explain: {
+          k1: '原本是甚麼', v1: '叔叔說「我明天來探望你們」。',
+          k2: '為甚麼要改', v2: '轉述時，叔叔是第三個人，要用「他」；「你們」變「我們」，時間也變成「第二天」。叔叔是來我們這邊，所以「來」可以保留。',
+          k3: '改成甚麼', v3: '叔叔說他第二天來探望我們。'
+        }
+      },
+      {
+        id: 's-h3', speaker: 'girl', who: '陳老師',
+        original: '陳老師說：「你們把這些書搬到這裏。」',
+        answer: '陳老師說我們把那些書搬到那裏。',
+        steps: [
+          { tag: '人稱', q: '「你們」要改成甚麼？', options: ['他們', '我們', '你們'], answer: 1, note: '陳老師對我們說「你們」，轉述時是「我們」。' },
+          { tag: '指示詞', q: '「這些」要改成甚麼？', options: ['那些', '這些', '哪些'], answer: 0, note: '距離遠了，近指變遠指。' },
+          { tag: '方位詞', q: '「這裏」要改成甚麼？', options: ['這裏', '那裏', '哪裏'], answer: 1, note: '「這裏」要改成「那裏」。' },
+          { tag: '標點', q: '標點要怎樣改？', options: ['保留冒號', '改成逗號，刪去引號', '加問號'], answer: 1, note: '冒號改逗號，引號刪去。' }
+        ],
+        explain: {
+          k1: '原本是甚麼', v1: '陳老師在現場說「你們」「這些書」「這裏」。',
+          k2: '為甚麼要改', v2: '轉述時人稱、指示詞和方位詞都要跟着距離改變。',
+          k3: '改成甚麼', v3: '陳老師說我們把那些書搬到那裏。'
+        }
+      },
+      {
+        id: 's-h4', speaker: 'girl', who: '姐姐',
+        original: '姐姐說：「這條裙子是我最喜歡的。」',
+        answer: '姐姐說那條裙子是她最喜歡的。',
+        steps: [
+          { tag: '指示詞', q: '「這條」要改成甚麼？', options: ['那條', '這條', '哪條'], answer: 0, note: '「這條」要改成「那條」。' },
+          { tag: '人稱', q: '「我」要改成甚麼？', options: ['你', '她', '我'], answer: 1, note: '說話人是姐姐，用「她」。' },
+          { tag: '標點', q: '標點要怎樣改？', options: ['保留引號', '改成逗號，刪去引號', '加問號'], answer: 1, note: '轉述句不用引號。' }
+        ],
+        explain: {
+          k1: '原本是甚麼', v1: '姐姐說「這條裙子是我最喜歡的」。',
+          k2: '為甚麼要改', v2: '「這條」要變「那條」，「我」要變「她」，再刪去引號。',
+          k3: '改成甚麼', v3: '姐姐說那條裙子是她最喜歡的。'
+        }
+      },
+      {
+        id: 's-h5', speaker: 'boy', who: '爸爸',
+        original: '爸爸說：「我下星期帶你去露營。」',
+        answer: '爸爸說他下星期帶我去露營。',
+        steps: [
+          { tag: '人稱', q: '「我」要改成甚麼？', options: ['你', '他', '我'], answer: 1, note: '說話人是爸爸，用「他」。' },
+          { tag: '人稱', q: '「你」要改成甚麼？', options: ['我', '你', '他'], answer: 0, note: '爸爸口中的「你」，就是「我」。' },
+          { tag: '標點', q: '標點要怎樣改？', options: ['保留冒號', '改成逗號，刪去引號', '加問號'], answer: 1, note: '冒號改逗號，引號刪去。' }
+        ],
+        explain: {
+          k1: '原本是甚麼', v1: '爸爸說「我下星期帶你去露營」。',
+          k2: '為甚麼要改', v2: '「我」變「他」，「你」變「我」；「下星期」可以保留。',
+          k3: '改成甚麼', v3: '爸爸說他下星期帶我去露營。'
+        }
+      },
+      {
+        id: 's-h6', speaker: 'girl', who: '外婆',
+        original: '外婆說：「我家裏種了很多花，你們來看看吧。」',
+        answer: '外婆說她家裏種了很多花，我們去看看吧。',
+        steps: [
+          { tag: '人稱', q: '「我」要改成甚麼？', options: ['你', '她', '我'], answer: 1, note: '說話人是外婆，用「她」。' },
+          { tag: '人稱', q: '「你們」要改成甚麼？', options: ['他們', '我們', '你們'], answer: 1, note: '外婆口中的「你們」，就是「我們」。' },
+          { tag: '方位詞', q: '「來」要改成甚麼？', options: ['去', '來', '走'], answer: 0, note: '由外婆的角度變成我們的角度，用「去」。' },
+          { tag: '標點', q: '標點要怎樣改？', options: ['保留冒號', '改成逗號，刪去引號', '加問號'], answer: 1, note: '冒號改逗號，引號刪去。' }
+        ],
+        explain: {
+          k1: '原本是甚麼', v1: '外婆說「我家裏種了很多花，你們來看看吧」。',
+          k2: '為甚麼要改', v2: '人稱要改「她」和「我們」；由遠處看，方向由「來」變「去」。',
+          k3: '改成甚麼', v3: '外婆說她家裏種了很多花，我們去看看吧。'
+        }
+      }
+    ],
+    detect: [
+      {
+        id: 's-d1', speaker: 'girl', who: '媽媽',
+        original: '媽媽對我說：「你今天要早點回家。」',
+        wrong: '媽媽說你要早點回家。',
+        tokens: ['媽媽說', '你', '要早點回家。'],
+        bad: 1,
+        options: ['我', '你', '她'],
+        answer: 0,
+        correct: '媽媽說我要早點回家。',
+        explain: {
+          k1: '原本是甚麼', v1: '媽媽對着「我」說「你要早點回家」。',
+          k2: '為甚麼要改', v2: '轉述時，媽媽口中的「你」就是「我」。',
+          k3: '改成甚麼', v3: '媽媽說我要早點回家。'
+        }
+      },
+      {
+        id: 's-d2', speaker: 'boy', who: '教練',
+        scene: '你也是隊員，正向隊友轉述教練的話。',
+        original: '教練說：「你們要準時到球場。」',
+        wrong: '教練說你們要準時到球場。',
+        tokens: ['教練說', '你們', '要準時到球場。'],
+        bad: 1,
+        options: ['他們', '我們', '你們'],
+        answer: 1,
+        correct: '教練說我們要準時到球場。',
+        explain: {
+          k1: '原本是甚麼', v1: '教練對隊員說「你們要準時到球場」。',
+          k2: '為甚麼要改', v2: '轉述給隊員聽時，「你們」要改成「我們」。',
+          k3: '改成甚麼', v3: '教練說我們要準時到球場。'
+        }
+      },
+      {
+        id: 's-d3', speaker: 'boy', who: '爸爸',
+        original: '爸爸說：「我把車停在樓下。」',
+        wrong: '爸爸說我把車停在樓下。',
+        tokens: ['爸爸說', '我', '把車停在樓下。'],
+        bad: 1,
+        options: ['他', '我', '你'],
+        answer: 0,
+        correct: '爸爸說他把車停在樓下。',
+        explain: {
+          k1: '原本是甚麼', v1: '爸爸說「我把車停在樓下」。',
+          k2: '為甚麼要改', v2: '停車的是爸爸，轉述時「我」要改成「他」。',
+          k3: '改成甚麼', v3: '爸爸說他把車停在樓下。'
+        }
+      },
+      {
+        id: 's-d4', speaker: 'girl', who: '婆婆',
+        scene: '你收下了糖果，正向家人轉述婆婆的話。',
+        original: '婆婆說：「這盒糖果是送給你的。」',
+        wrong: '婆婆說這盒糖果是送給我的。',
+        tokens: ['婆婆說', '這盒糖果', '是送給我的。'],
+        bad: 1,
+        options: ['那盒糖果', '這盒糖果', '哪盒糖果'],
+        answer: 0,
+        correct: '婆婆說那盒糖果是送給我的。',
+        explain: {
+          k1: '原本是甚麼', v1: '婆婆拿着糖果說「這盒糖果」。',
+          k2: '為甚麼要改', v2: '轉述時已不在現場，近指「這」要改成遠指「那」。',
+          k3: '改成甚麼', v3: '婆婆說那盒糖果是送給我的。'
+        }
+      },
+      {
+        id: 's-d5', speaker: 'boy', who: '導遊',
+        scene: '你已離開公園，正向朋友轉述導遊的話。',
+        original: '導遊說：「這裏是香港公園。」',
+        wrong: '導遊說這裏是香港公園。',
+        tokens: ['導遊說', '這裏', '是香港公園。'],
+        bad: 1,
+        options: ['哪裏', '這裏', '那裏'],
+        answer: 2,
+        correct: '導遊說那裏是香港公園。',
+        explain: {
+          k1: '原本是甚麼', v1: '導遊在公園裏說「這裏是香港公園」。',
+          k2: '為甚麼要改', v2: '轉述時已離開現場，方位詞要改成「那裏」。',
+          k3: '改成甚麼', v3: '導遊說那裏是香港公園。'
+        }
+      },
+      {
+        id: 's-d6', speaker: 'boy', who: '鄰居',
+        scene: '鄰居昨天這樣說，你今天向家人轉述。',
+        original: '鄰居說：「我家今天裝修。」',
+        wrong: '鄰居說他家今天裝修。',
+        tokens: ['鄰居說', '他家', '今天', '裝修。'],
+        bad: 2,
+        options: ['那天', '今天', '明天'],
+        answer: 0,
+        correct: '鄰居說他家那天裝修。',
+        explain: {
+          k1: '原本是甚麼', v1: '鄰居在當天說「我家今天裝修」。',
+          k2: '為甚麼要改', v2: '轉述時日子已過去，「今天」要改成「那天」。',
+          k3: '改成甚麼', v3: '鄰居說他家那天裝修。'
+        }
+      }
+    ]
+  }
+};
+
+const MODES = {
+  sort: {
+    key: 'sort',
+    name: '句子分類機',
+    short: '分類',
+    desc: '把句子分入「直述句」或「轉述句」，練好基本判斷。',
+    icon: 'i-game',
+    tone: 'mint',
+    count: 6
+  },
+  shift: {
+    key: 'shift',
+    name: '變身魔法',
+    short: '變身',
+    desc: '一步一步替換標點、人稱和時間詞，把直述句變成轉述句。',
+    icon: 'i-wand',
+    tone: 'coral',
+    count: 6
+  },
+  detect: {
+    key: 'detect',
+    name: '捉錯小偵探',
+    short: '捉錯',
+    desc: '找出轉述句裡的錯處，再選出正確的改法。',
+    icon: 'i-search',
+    tone: 'sky',
+    count: 6
+  }
+};
+
+/* ============================================================
+   1. 狀態
+   ============================================================ */
+const S = {
+  version: null,
+  view: 'home',
+  sound: true,
+  teachIndex: 0,
+  mode: null,
+  index: 0,
+  marks: [],
+  run: null,
+  best: {}
+};
+
+const STORE_KEY = 'jfbb-progress-v1';
+const SOUND_KEY = 'jfbb-sound-v1';
+const TOTAL = 6;
+
+let stepTimer = null;
+let liveTimer = null;
+
+function clearTimers() {
+  if (stepTimer) { clearTimeout(stepTimer); stepTimer = null; }
+  if (liveTimer) { clearTimeout(liveTimer); liveTimer = null; }
+}
+
+/* ============================================================
+   2. 工具
+   ============================================================ */
+const $id = function (x) { return document.getElementById(x); };
+
+function icon(name, cls) {
+  return '<svg class="icn ' + (cls || '') + '" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#' + name + '"/></svg>';
+}
+function fig(name, cls) {
+  return '<svg class="' + (cls || '') + '" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><use href="#' + name + '"/></svg>';
+}
+function esc(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+function starRow(n, total) {
+  let out = '';
+  for (let i = 0; i < total; i++) {
+    out += '<svg class="' + (i < n ? 'on' : '') + '" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-star"/></svg>';
+  }
+  return out;
+}
+function bestOf(mode) {
+  return S.best[S.version + '-' + mode] || 0;
+}
+function announce(text) {
+  const live = $id('live-region');
+  if (!live) return;
+  live.textContent = '';
+  liveTimer = setTimeout(function () { live.textContent = text; }, 60);
+}
+
+/* ============================================================
+   3. 音效（Web Audio 合成，無外部檔案）
+   ============================================================ */
+const Sound = (function () {
+  let ctx = null;
+  let broken = false;
+
+  function ensure() {
+    if (broken) return null;
+    try {
+      if (!ctx) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) { broken = true; return null; }
+        ctx = new AC();
+      }
+      if (ctx.state === 'suspended') { ctx.resume().catch(function () {}); }
+      return ctx;
+    } catch (e) {
+      broken = true;
+      return null;
+    }
+  }
+
+  function note(freq, startAt, dur, type, vol) {
+    const c = ensure();
+    if (!c) return;
+    try {
+      const t0 = c.currentTime + startAt;
+      const osc = c.createOscillator();
+      const gain = c.createGain();
+      osc.type = type || 'sine';
+      osc.frequency.setValueAtTime(freq, t0);
+      gain.gain.setValueAtTime(0.0001, t0);
+      gain.gain.exponentialRampToValueAtTime(vol || 0.16, t0 + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+      osc.connect(gain);
+      gain.connect(c.destination);
+      osc.start(t0);
+      osc.stop(t0 + dur + 0.03);
+    } catch (e) { /* 忽略單次發聲失敗 */ }
+  }
+
+  return {
+    unlock: function () { ensure(); },
+    play: function (name) {
+      if (!S.sound) return;
+      if (!ensure()) return;
+      switch (name) {
+        case 'tap':
+          note(720, 0, 0.06, 'square', 0.05);
+          break;
+        case 'pop':
+          note(880, 0, 0.08, 'sine', 0.12);
+          note(1174, 0.05, 0.09, 'sine', 0.07);
+          break;
+        case 'good':
+          note(523.25, 0, 0.12, 'sine', 0.14);
+          note(659.25, 0.09, 0.12, 'sine', 0.14);
+          note(783.99, 0.18, 0.18, 'sine', 0.13);
+          break;
+        case 'bad':
+          note(233.08, 0, 0.13, 'triangle', 0.13);
+          note(185.00, 0.11, 0.18, 'triangle', 0.12);
+          break;
+        case 'win':
+          note(523.25, 0, 0.13, 'sine', 0.13);
+          note(659.25, 0.11, 0.13, 'sine', 0.13);
+          note(783.99, 0.22, 0.13, 'sine', 0.13);
+          note(1046.5, 0.33, 0.28, 'sine', 0.12);
+          break;
+        default:
+          break;
+      }
+    }
+  };
+})();
+
+/* ============================================================
+   4. 粵語朗讀（SpeechSynthesis，失敗即靜默降級）
+   ============================================================ */
+let voiceCache = null;
+
+function pickVoice() {
+  if (!('speechSynthesis' in window)) return null;
+  let voices = [];
+  try { voices = window.speechSynthesis.getVoices() || []; } catch (e) { return null; }
+  if (!voices.length) return null;
+  let v = voices.find(function (x) { return /zh[-_]HK/i.test(x.lang) || /yue/i.test(x.lang); });
+  if (!v) v = voices.find(function (x) { return /zh[-_]TW/i.test(x.lang); });
+  if (!v) v = voices.find(function (x) { return /^zh/i.test(x.lang); });
+  return v || null;
+}
+
+function stopSpeak() {
+  if (!('speechSynthesis' in window)) return;
+  try { window.speechSynthesis.cancel(); } catch (e) { /* 忽略 */ }
+}
+
+function speak(text) {
+  if (!S.sound) return;
+  if (!('speechSynthesis' in window)) return;
+  try {
+    window.speechSynthesis.cancel();
+    const clean = String(text).replace(/[「」『』]/g, '').replace(/：/g, '，').replace(/／/g, '或');
+    const u = new SpeechSynthesisUtterance(clean);
+    u.lang = 'zh-HK';
+    u.rate = 0.86;
+    u.pitch = 1.03;
+    if (!voiceCache) voiceCache = pickVoice();
+    if (voiceCache) u.voice = voiceCache;
+    u.onerror = function () { /* 沒有可用語音時靜默，不影響遊戲 */ };
+    window.speechSynthesis.speak(u);
+  } catch (e) { /* 忽略 */ }
+}
+
+function speakButton(text) {
+  return '<button class="icon-btn" type="button" data-action="speak" data-text="' + esc(text) + '" aria-label="朗讀句子" title="朗讀句子" style="width:2.55rem;height:2.55rem;box-shadow:0 3px 0 rgba(62,47,35,.5)">' +
+    icon('i-speak') + '</button>';
+}
+
+/* ============================================================
+   5. 進度儲存
+   ============================================================ */
+function loadBest() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    const obj = raw ? JSON.parse(raw) : {};
+    return (obj && typeof obj === 'object') ? obj : {};
+  } catch (e) { return {}; }
+}
+function saveBest() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(S.best)); } catch (e) { /* 私隱模式時忽略 */ }
+}
+function loadSound() {
+  try {
+    const v = localStorage.getItem(SOUND_KEY);
+    if (v === '0') return false;
+  } catch (e) { /* 忽略 */ }
+  return true;
+}
+function saveSound() {
+  try { localStorage.setItem(SOUND_KEY, S.sound ? '1' : '0'); } catch (e) { /* 忽略 */ }
+}
+
+/* ============================================================
+   6. 畫面切換
+   ============================================================ */
+function show(view) {
+  S.view = view;
+  const views = ['home', 'menu', 'teach', 'game', 'result'];
+  views.forEach(function (name) {
+    const node = $id('view-' + name);
+    if (!node) return;
+    const on = name === view;
+    node.hidden = !on;
+  });
+  const sub = $id('brandSub');
+  if (sub) {
+    if (S.version && view !== 'home') {
+      sub.textContent = DB[S.version].label + ' · ' + DB[S.version].range;
+    } else {
+      sub.textContent = '直述句 · 轉述句互動教室';
+    }
+  }
+  window.scrollTo(0, 0);
+}
+
+/* ============================================================
+   7. 首頁
+   ============================================================ */
+function renderHome() {
+  const host = $id('view-home');
+  host.innerHTML =
+    '<div class="hero">' +
+      '<div>' +
+        '<span class="hero-eyebrow">' + icon('i-book') + '香港小學 · 中文科</span>' +
+        '<h1>句子會<em>變身</em>？</h1>' +
+        '<p class="hero-sub">直述句和轉述句，用眼睛看、用耳朵聽、用手指玩。三個遊戲、兩版合共三十六道題目，一步步學會把別人的話轉告別人。</p>' +
+        '<div class="hero-points">' +
+          '<span class="chip">' + icon('i-bulb') + '圖示教學</span>' +
+          '<span class="chip">' + icon('i-game') + '三種玩法</span>' +
+          '<span class="chip">' + icon('i-speak') + '語音朗讀</span>' +
+          '<span class="chip">' + icon('i-star') + '進度記錄</span>' +
+        '</div>' +
+        '<button class="btn btn-coral btn-lg" type="button" data-action="to-versions">' +
+          icon('i-arrow') + '選擇學習版本' +
+        '</button>' +
+      '</div>' +
+      '<div class="hero-art">' +
+        '<svg class="scene" viewBox="0 0 300 220" role="img" aria-label="兩個小朋友示範直述句和轉述句"><use href="#i-scene"/></svg>' +
+      '</div>' +
+    '</div>' +
+    '<div class="version-title" id="versions-anchor">' +
+      '<span>選擇版本</span><span class="rule"></span>' +
+    '</div>' +
+    '<div class="version-grid">' +
+      versionCard('junior') +
+      versionCard('senior') +
+    '</div>';
+
+}
+
+function versionCard(key) {
+  const v = DB[key];
+  const isJr = key === 'junior';
+  return '<button class="version-card ' + (isJr ? 'jr' : 'sr') + '" type="button" data-action="version" data-version="' + key + '">' +
+    '<span class="badge">' + v.label + '</span>' +
+    '<span class="go">' + icon('i-arrow') + '</span>' +
+    '<span class="vtitle">' + v.range + '</span>' +
+    '<span class="vdesc">' + v.intro + '</span>' +
+    '<span class="art-row">' +
+      fig('i-boy') + fig(isJr ? 'i-girl' : 'i-bear') + fig('i-owl') +
+    '</span>' +
+  '</button>';
+}
+
+/* ============================================================
+   8. 主選單
+   ============================================================ */
+function renderMenu() {
+  const v = DB[S.version];
+  const host = $id('view-menu');
+  const cards = [
+    {
+      action: 'teach', title: '教學專區', icon: 'i-book', tone: 'sun',
+      desc: '六張圖示教學卡，看懂兩種句式的分別。', meta: '約 3 分鐘'
+    },
+    {
+      action: 'mode', mode: 'sort', title: MODES.sort.name, icon: MODES.sort.icon, tone: 'mint',
+      desc: MODES.sort.desc, meta: '6 題'
+    },
+    {
+      action: 'mode', mode: 'shift', title: MODES.shift.name, icon: MODES.shift.icon, tone: 'coral',
+      desc: MODES.shift.desc, meta: '6 題'
+    },
+    {
+      action: 'mode', mode: 'detect', title: MODES.detect.name, icon: MODES.detect.icon, tone: 'sky',
+      desc: MODES.detect.desc, meta: '6 題'
+    }
+  ];
+
+  let html =
+    '<div class="menu-head">' +
+      '<div style="flex:1;min-width:12rem">' +
+        '<h2>' + v.label + ' · ' + v.range + '</h2>' +
+        '<div class="sub">' + v.intro + '</div>' +
+      '</div>' +
+      '<button class="btn btn-sm btn-ghost" type="button" data-action="home">' + icon('i-back') + '切換版本</button>' +
+    '</div>' +
+    '<div class="menu-grid">';
+
+  cards.forEach(function (c) {
+    let starHtml = '';
+    if (c.mode) {
+      const n = bestOf(c.mode);
+      starHtml = '<span class="stars" aria-label="已獲得 ' + n + ' 顆星，滿分 6 顆">' + starRow(n, TOTAL) + '</span>';
+    }
+    html +=
+      '<button class="menu-card" type="button" data-action="' + c.action + '"' +
+        (c.mode ? ' data-mode="' + c.mode + '"' : '') + '>' +
+        '<span class="mc-icon" style="background:' + toneColor(c.tone) + '">' + icon(c.icon) + '</span>' +
+        '<span class="mtitle">' + c.title + '</span>' +
+        '<span class="mdesc">' + c.desc + '</span>' +
+        '<span class="meta">' + starHtml + (c.mode ? '' : '<span>' + c.meta + '</span>') + '</span>' +
+      '</button>';
+  });
+
+  html += '</div>';
+  host.innerHTML = html;
+}
+
+function toneColor(tone) {
+  switch (tone) {
+    case 'mint': return 'var(--mint)';
+    case 'coral': return 'var(--coral)';
+    case 'sky': return 'var(--sky)';
+    case 'berry': return 'var(--berry)';
+    default: return 'var(--sun)';
+  }
+}
+
+/* ============================================================
+   9. 教學
+   ============================================================ */
+function teachArt(name) {
+  if (name === 'scene') {
+    return '<svg viewBox="0 0 300 220" role="img" aria-label="兩個小朋友示範直述句和轉述句"><use href="#i-scene"/></svg>';
+  }
+  if (name === 'bubble') {
+    return '<svg viewBox="0 0 300 220" role="img" aria-label="原話氣泡插圖"><use href="#i-quote"/></svg>';
+  }
+  if (name === 'wand') {
+    return '<div class="ico-wrap">' + icon('i-wand') + '</div>';
+  }
+  return fig(name);
+}
+
+function renderTeach() {
+  const v = DB[S.version];
+  const list = v.teach;
+  const i = Math.min(S.teachIndex, list.length - 1);
+  const p = list[i];
+  const host = $id('view-teach');
+
+  let dots = '';
+  list.forEach(function (_, k) {
+    dots += '<span class="dot' + (k === i ? ' on' : '') + '"></span>';
+  });
+
+  let body = '<div class="teach-body">' +
+    '<span class="teach-step-tag">' + esc(p.tag) + '</span>' +
+    '<h2>' + esc(p.title) + '</h2>' +
+    '<p>' + esc(p.body) + '</p>';
+
+  if (p.rows && p.rows.length) {
+    body += '<div class="cmp">';
+    p.rows.forEach(function (r) {
+      const cls = r.type === 'direct' ? 'direct' : 'indirect';
+      body += '<div class="cmp-row ' + cls + '">' +
+        '<span class="tag">' + esc(r.tag) + '</span>' +
+        '<span class="txt">' + esc(r.text) + '</span>' +
+      '</div>';
+    });
+    body += '</div>';
+  }
+
+  if (p.bullets && p.bullets.length) {
+    body += '<ul class="teach-list">';
+    p.bullets.forEach(function (t, k) {
+      body += '<li><span class="num">' + (k + 1) + '</span><span>' + esc(t) + '</span></li>';
+    });
+    body += '</ul>';
+  }
+
+  if (p.note) {
+    body += '<p class="soft" style="margin-top:.9rem;display:flex;gap:.45rem;align-items:flex-start">' +
+      '<span style="flex:none;width:1.4rem;height:1.4rem;color:var(--coral-d)">' + icon('i-bulb') + '</span>' +
+      '<span>' + esc(p.note) + '</span></p>';
+  }
+  body += '</div>';
+
+  const isFirst = i === 0;
+  const isLast = i === list.length - 1;
+
+  host.innerHTML =
+    '<div class="teach-wrap">' +
+      '<div class="teach-progress">' + dots + '</div>' +
+      '<div class="teach-card has-art">' +
+        '<div class="teach-art">' + teachArt(p.art) + '</div>' +
+        body +
+      '</div>' +
+      '<div class="teach-nav">' +
+        '<button class="btn btn-ghost" type="button" data-action="teach-prev"' + (isFirst ? ' disabled' : '') + '>' +
+          icon('i-back') + '上一頁</button>' +
+        '<span class="mid">' + (i + 1) + ' / ' + list.length + '</span>' +
+        (isLast
+          ? '<button class="btn btn-mint" type="button" data-action="teach-finish">去玩遊戲' + icon('i-arrow') + '</button>'
+          : '<button class="btn btn-coral" type="button" data-action="teach-next">下一頁' + icon('i-arrow') + '</button>') +
+      '</div>' +
+    '</div>';
+
+  window.scrollTo(0, 0);
+}
+
+/* ============================================================
+   10. 遊戲：共用
+   ============================================================ */
+function startMode(mode) {
+  clearTimers();
+  stopSpeak();
+  S.mode = mode;
+  S.index = 0;
+  S.marks = [];
+  initRun();
+  show('game');
+  renderGame();
+}
+
+function initRun() {
+  if (S.mode === 'sort') {
+    S.run = { answered: false, correct: false, chosen: null };
+  } else if (S.mode === 'shift') {
+    S.run = { step: 0, done: [], mistakes: 0, finished: false, flash: null, chosen: null };
+  } else {
+    S.run = { phase: 'find', guess: -1, nope: [], correct: false };
+  }
+}
+
+function gameHeader(title, sub) {
+  let pips = '';
+  for (let i = 0; i < TOTAL; i++) {
+    let cls = '';
+    if (i < S.index) cls = S.marks[i] ? 'ok' : 'miss';
+    else if (i === S.index) cls = '';
+    pips += '<span class="' + cls + '"></span>';
+  }
+  return '<div class="game-top">' +
+    '<button class="btn btn-sm btn-ghost" type="button" data-action="menu">' + icon('i-back') + '選單</button>' +
+    '<div style="min-width:0">' +
+      '<h2>' + esc(title) + '</h2>' +
+      '<div class="sub">' + esc(sub) + '</div>' +
+    '</div>' +
+    '<div class="pips" aria-hidden="true">' + pips + '</div>' +
+  '</div>';
+}
+
+function nextLabel() {
+  return S.index + 1 >= TOTAL ? '看成績' + icon('i-trophy') : '下一題' + icon('i-arrow');
+}
+
+function explainBlock(rows) {
+  let out = '<div class="explain">';
+  rows.forEach(function (r) {
+    out += '<div class="row"><span class="k">' + esc(r.k) + '</span><span class="v">' + esc(r.v) + '</span></div>';
+  });
+  out += '</div>';
+  return out;
+}
+
+function renderGame() {
+  const host = $id('view-game');
+  if (S.mode === 'sort') host.innerHTML = sortView();
+  else if (S.mode === 'shift') host.innerHTML = shiftView();
+  else host.innerHTML = detectView();
+}
+
+/* ---------- 10.1 句子分類機 ---------- */
+function sortView() {
+  const q = DB[S.version].sort[S.index];
+  let head = gameHeader(MODES.sort.name, '第 ' + (S.index + 1) + ' 題，共 ' + TOTAL + ' 題');
+  let html = '<div class="panel">' +
+    '<div class="q-label">這是哪一種句子？</div>' +
+    '<div class="speaker-row">' + fig(q.speaker) +
+      '<span class="who">說話人：<b>' + esc(q.who) + '</b></span>' +
+      speakButton(q.sentence) +
+    '</div>' +
+    '<div class="sentence-card">' + esc(q.sentence) + '</div>' +
+    '<div class="sort-choices">' +
+      sortChoice('direct', 'd', 'i-bubble', '直述句', '原原本本說出來') +
+      sortChoice('indirect', 'i', 'i-arrow', '轉述句', '轉告給別人') +
+    '</div>';
+
+  if (S.run.answered) {
+    const ok = S.run.correct;
+    const right = q.type;
+    html += '<div class="feedback ' + (ok ? 'good' : 'bad') + '">' +
+      '<div class="fb-head ' + (ok ? 'good' : 'bad') + '">' +
+        icon(ok ? 'i-check' : 'i-cross') +
+        (ok ? '答對了！' : '差一點，這是「' + (right === 'direct' ? '直述句' : '轉述句') + '」。') +
+      '</div>' +
+      explainBlock([
+        { k: '判斷線索', v: q.clue },
+        { k: '為甚麼', v: q.why }
+      ]) +
+      '<div class="fb-actions">' +
+        '<button class="btn btn-mint" type="button" data-action="next">' + nextLabel() + '</button>' +
+      '</div>' +
+    '</div>';
+  }
+  html += '</div>';
+  return head + html;
+}
+
+function sortChoice(type, tone, ic, label, sub) {
+  const q = DB[S.version].sort[S.index];
+  let cls = 'sort-btn ' + tone;
+  let lock = '';
+  if (S.run.answered) {
+    lock = ' disabled';
+    if (type === q.type) cls += ' right';
+    else if (type === S.run.chosen) cls += ' wrong';
+    else cls += ' dim';
+  }
+  return '<button class="' + cls + '" type="button" data-action="sort" data-type="' + type + '"' + lock + '>' +
+    icon(ic, 'ico') + label + '<small>' + sub + '</small>' +
+  '</button>';
+}
+
+function answerSort(type) {
+  if (!S.run || S.run.answered) return;
+  const q = DB[S.version].sort[S.index];
+  const ok = type === q.type;
+  S.run.answered = true;
+  S.run.correct = ok;
+  S.run.chosen = type;
+  S.marks[S.index] = ok;
+  if (ok) {
+    Sound.play('good');
+    speak(q.sentence);
+    announce('答對了。' + q.clue);
+  } else {
+    Sound.play('bad');
+    announce('答錯了。正確答案：' + (q.type === 'direct' ? '直述句' : '轉述句'));
+  }
+  renderGame();
+}
+
+/* ---------- 10.2 變身魔法 ---------- */
+function shiftView() {
+  const q = DB[S.version].shift[S.index];
+  let head = gameHeader(MODES.shift.name, '第 ' + (S.index + 1) + ' 題，共 ' + TOTAL + ' 題');
+  let html = '<div class="panel">';
+
+  if (S.run.finished) {
+    html += '<div class="q-label">變身完成</div>' +
+      '<div class="speaker-row">' + fig(q.speaker) +
+        '<span class="who">說話人：<b>' + esc(q.who) + '</b></span>' +
+        speakButton(q.answer) +
+      '</div>' +
+      '<div class="feedback good" style="margin-top:0">' +
+        '<div class="fb-head good">' + icon('i-check') + '句子變身成功！</div>' +
+        '<div class="answer-line">' + icon('i-check') + '<span>' + esc(q.answer) + '</span></div>' +
+        '<div style="margin-top:.7rem">' + explainBlock([
+          { k: '原本是甚麼', v: q.explain.v1 },
+          { k: '為甚麼要改', v: q.explain.v2 },
+          { k: '改成甚麼', v: q.explain.v3 }
+        ]) + '</div>' +
+        '<div class="fb-actions">' +
+          '<button class="btn btn-mint" type="button" data-action="next">' + nextLabel() + '</button>' +
+        '</div>' +
+      '</div>';
+    html += '</div>';
+    return head + html;
+  }
+
+  const step = q.steps[S.run.step];
+  let pills = '';
+  q.steps.forEach(function (s, k) {
+    let cls = 'step-pill';
+    if (k < S.run.step) cls += ' done';
+    else if (k === S.run.step) cls += ' now';
+    pills += '<span class="' + cls + '">' + (k < S.run.step ? '✓ ' : (k + 1) + '. ') + esc(s.tag) + '</span>';
+  });
+
+  let opts = '';
+  step.options.forEach(function (o, k) {
+    const disabled = S.run.flash && S.run.flash.ok;
+    let cls = 'opt';
+    if (disabled) cls += (k === step.answer ? ' is-ok' : ' dim');
+    else if (S.run.flash && !S.run.flash.ok && k === S.run.chosen) cls += ' is-no';
+    opts += '<button class="' + cls + '" type="button" data-action="shift-opt" data-i="' + k + '"' +
+      (disabled ? ' disabled' : '') + '>' +
+      '<span class="key">' + 'ABC'.charAt(k) + '</span>' +
+      '<span class="txt">' + esc(o) + '</span>' +
+      icon('i-check', 'ic') +
+    '</button>';
+  });
+
+  html += '<div class="q-label">把直述句變成轉述句</div>' +
+    '<div class="speaker-row">' + fig(q.speaker) +
+      '<span class="who">' + esc(q.who) + '說：</span>' +
+      speakButton(q.original) +
+    '</div>' +
+    '<div class="sentence-card">' + esc(q.original) + '</div>' +
+    '<div class="steps" style="margin-top:.9rem">' + pills + '</div>' +
+    '<div class="step-box">' +
+      '<h4>第 ' + (S.run.step + 1) + ' 步 · ' + esc(step.tag) + '</h4>' +
+      '<p class="q">' + esc(step.q) + '</p>' +
+      '<div class="options two">' + opts + '</div>' +
+    '</div>';
+
+  if (S.run.flash) {
+    html += '<div class="feedback ' + (S.run.flash.ok ? 'good' : 'bad') + '">' +
+      '<div class="fb-head ' + (S.run.flash.ok ? 'good' : 'bad') + '">' +
+        icon(S.run.flash.ok ? 'i-check' : 'i-cross') + esc(S.run.flash.title) +
+      '</div>' +
+      '<div style="font-size:.95rem;font-weight:700;line-height:1.55">' + esc(S.run.flash.text) + '</div>' +
+    '</div>';
+  }
+
+  html += '</div>';
+  return head + html;
+}
+
+function answerShift(idx) {
+  if (!S.run || S.run.finished) return;
+  if (S.run.flash && S.run.flash.ok) return;
+  const q = DB[S.version].shift[S.index];
+  const step = q.steps[S.run.step];
+  const correct = idx === step.answer;
+
+  if (!correct) {
+    S.run.mistakes += 1;
+    S.run.chosen = idx;
+    S.run.flash = { ok: false, title: '再想一想', text: step.note };
+    Sound.play('bad');
+    announce('再想一想。' + step.note);
+    renderGame();
+    return;
+  }
+
+  S.run.done.push(S.run.step);
+  S.run.chosen = idx;
+  S.run.flash = { ok: true, title: '正確！', text: step.note };
+  announce('正確。' + step.note);
+  Sound.play('good');
+  renderGame();
+
+  stepTimer = setTimeout(function () {
+    if (!S.run || S.run.finished) return;
+    S.run.step += 1;
+    S.run.flash = null;
+    S.run.chosen = null;
+    if (S.run.step >= q.steps.length) {
+      S.run.finished = true;
+      S.marks[S.index] = S.run.mistakes === 0;
+      Sound.play('win');
+      speak(q.answer);
+      announce('完成。答案是：' + q.answer);
+    }
+    renderGame();
+  }, 1700);
+}
+
+/* ---------- 10.3 捉錯小偵探 ---------- */
+function detectView() {
+  const q = DB[S.version].detect[S.index];
+  let head = gameHeader(MODES.detect.name, '第 ' + (S.index + 1) + ' 題，共 ' + TOTAL + ' 題');
+  let html = '<div class="panel">';
+  const done = S.run.phase === 'done';
+
+  html += '<div class="q-label">' + (done ? '找到錯處了' : '句子裡有一個錯處') + '</div>';
+
+  if (q.scene) {
+    html += '<div class="scene-line">' + icon('i-bulb') + '<span>情境：' + esc(q.scene) + '</span></div>';
+  }
+  html += '<div class="hint" style="margin:0 0 .6rem">' +
+    icon('i-search') +
+    '<span>原句：' + esc(q.original) + '</span>' +
+    '</div>';
+
+  let chips = '';
+  q.tokens.forEach(function (t, k) {
+    let cls = 'chip-tok';
+    if (done) { if (k === q.bad) cls += ' hit'; }
+    else if (S.run.phase === 'fix' && k === q.bad) cls += ' hit';
+    else if (S.run.nope.indexOf(k) >= 0) cls += ' nope';
+    if (done || S.run.phase === 'fix') {
+      chips += '<span class="' + cls + '">' + esc(t) + '</span>';
+    } else {
+      chips += '<button class="' + cls + '" type="button" data-action="tok" data-i="' + k + '">' + esc(t) + '</button>';
+    }
+  });
+
+  html += '<div class="sentence-card"><div class="chips">' + chips + '</div></div>';
+
+  if (S.run.phase === 'find') {
+    html += '<div class="hint">' + icon('i-bulb') +
+      '<span>點一下你認為出錯的部分。</span></div>';
+    if (S.run.nope.length) {
+      html += '<div class="feedback bad" style="margin-top:.7rem">' +
+        '<div class="fb-head bad">' + icon('i-cross') + '不是這裡，再找找。</div>' +
+        '<div style="font-size:.92rem;font-weight:700">提示：留意句中的「我、你、這、今天」，以及冒號和引號。</div>' +
+      '</div>';
+    }
+  }
+
+  if (S.run.phase === 'fix') {
+    let opts = '';
+    q.options.forEach(function (o, k) {
+      opts += '<button class="opt" type="button" data-action="detect-opt" data-i="' + k + '">' +
+        '<span class="key">' + 'ABC'.charAt(k) + '</span>' +
+        '<span class="txt">' + esc(o) + '</span>' +
+        icon('i-check', 'ic') +
+      '</button>';
+    });
+    html += '<div class="step-box" style="margin-top:.8rem">' +
+      '<h4>找到了</h4>' +
+      '<p class="q">「' + esc(q.tokens[q.bad]) + '」應該改成甚麼？</p>' +
+      '<div class="options">' + opts + '</div>' +
+    '</div>';
+  }
+
+  if (S.run.phase === 'done') {
+    html += '<div class="feedback ' + (S.run.correct ? 'good' : 'bad') + '">' +
+      '<div class="fb-head ' + (S.run.correct ? 'good' : 'bad') + '">' +
+        icon(S.run.correct ? 'i-check' : 'i-bulb') +
+        (S.run.correct ? '捉到了！' : '差一點，正確答案是「' + q.options[q.answer] + '」。') +
+      '</div>' +
+      '<div class="answer-line">' + icon('i-check') + '<span>' + esc(q.correct) + '</span></div>' +
+      '<div style="margin-top:.6rem">' + explainBlock([
+        { k: '原本是甚麼', v: q.explain.v1 },
+        { k: '為甚麼要改', v: q.explain.v2 },
+        { k: '改成甚麼', v: q.explain.v3 }
+      ]) + '</div>' +
+      '<div class="fb-actions">' +
+        '<button class="btn btn-mint" type="button" data-action="next">' + nextLabel() + '</button>' +
+      '</div>' +
+    '</div>';
+  }
+
+  html += '</div>';
+  return head + html;
+}
+
+function pickToken(i) {
+  if (!S.run || S.run.phase !== 'find') return;
+  const q = DB[S.version].detect[S.index];
+  if (i === q.bad) {
+    S.run.phase = 'fix';
+    Sound.play('pop');
+    announce('找到了，請選擇正確的改法。');
+  } else {
+    if (S.run.nope.indexOf(i) < 0) S.run.nope.push(i);
+    Sound.play('bad');
+    announce('不是這裡，再找找。');
+  }
+  renderGame();
+}
+
+function answerDetect(i) {
+  if (!S.run || S.run.phase !== 'fix') return;
+  const q = DB[S.version].detect[S.index];
+  const ok = i === q.answer;
+  S.run.phase = 'done';
+  S.run.correct = ok;
+  S.marks[S.index] = ok;
+  if (ok) {
+    Sound.play('good');
+    speak(q.correct);
+    announce('正確。' + q.explain.v2);
+  } else {
+    Sound.play('bad');
+    announce('差一點。正確答案是「' + q.options[q.answer] + '」。' + q.explain.v2);
+  }
+  renderGame();
+}
+
+/* ---------- 10.4 下一題 / 結算 ---------- */
+function nextQuestion() {
+  clearTimers();
+  stopSpeak();
+  if (S.index + 1 >= TOTAL) {
+    finishMode();
+    return;
+  }
+  S.index += 1;
+  initRun();
+  renderGame();
+  window.scrollTo(0, 0);
+}
+
+function finishMode() {
+  clearTimers();
+  const stars = S.marks.filter(Boolean).length;
+  const key = S.version + '-' + S.mode;
+  if (!S.best[key] || stars > S.best[key]) {
+    S.best[key] = stars;
+    saveBest();
+  }
+  Sound.play(stars >= 4 ? 'win' : 'pop');
+  show('result');
+  renderResult(stars);
+  announce('獲得 ' + stars + ' 顆星，共 ' + TOTAL + ' 題。');
+}
+
+function renderResult(stars) {
+  const host = $id('view-result');
+  const v = DB[S.version];
+  const mode = MODES[S.mode];
+  const list = v[S.mode];
+  const pct = Math.round((stars / TOTAL) * 100);
+
+  let title = '再試一次吧！';
+  let sub = '慢慢來，先回教學專區再看一次。';
+  if (stars >= 6) { title = '全部答對，太厲害了！'; sub = '你已經完全掌握這個模式了。'; }
+  else if (stars >= 4) { title = '做得很好！'; sub = '只差一點點就滿分了。'; }
+  else if (stars >= 2) { title = '繼續努力！'; sub = '錯的地方看一看說明，再玩一次。'; }
+
+  let items = '';
+  list.forEach(function (q, i) {
+    const ok = !!S.marks[i];
+    let txt = '';
+    if (S.mode === 'sort') txt = q.sentence + '（' + (q.type === 'direct' ? '直述句' : '轉述句') + '）';
+    else if (S.mode === 'shift') txt = q.original + ' → ' + q.answer;
+    else txt = q.wrong + ' → ' + q.correct;
+    items += '<div class="result-item ' + (ok ? 'ok' : 'no') + '">' +
+      icon(ok ? 'i-check' : 'i-cross') +
+      '<span>' + esc(txt) + '</span>' +
+    '</div>';
+  });
+
+  host.innerHTML =
+    '<div class="result-wrap">' +
+      '<svg class="medal" viewBox="0 0 120 120" role="img" aria-label="獎牌"><use href="#i-medal"/></svg>' +
+      '<h2>' + esc(title) + '</h2>' +
+      '<p class="score-line">' + esc(mode.name) + ' · ' + esc(v.label) + '</p>' +
+      '<div class="star-row" aria-label="獲得 ' + stars + ' 顆星，滿分 6 顆">' + starRow(stars, TOTAL) + '</div>' +
+      '<p class="score-line">首答答對 <b style="color:var(--coral-d)">' + stars + '</b> / ' + TOTAL + ' 題　·　正確率 ' + pct + '%</p>' +
+      '<div class="panel" style="text-align:left">' +
+        '<div class="q-label">逐題回顧</div>' +
+        '<div class="result-list">' + items + '</div>' +
+      '</div>' +
+      '<div class="result-actions" style="margin-top:1.1rem">' +
+        '<button class="btn btn-coral" type="button" data-action="retry">' + icon('i-refresh') + '再玩一次</button>' +
+        '<button class="btn btn-mint" type="button" data-action="menu">' + icon('i-game') + '其他模式</button>' +
+      '</div>' +
+    '</div>';
+}
+
+/* ============================================================
+   11. 事件
+   ============================================================ */
+function route(action, node) {
+  switch (action) {
+    case 'version': {
+      const key = node.getAttribute('data-version');
+      if (!DB[key]) return;
+      S.version = key;
+      S.teachIndex = 0;
+      renderMenu();
+      show('menu');
+      break;
+    }
+    case 'home':
+      clearTimers();
+      stopSpeak();
+      S.version = null;
+      show('home');
+      break;
+    case 'to-versions': {
+      const a = $id('versions-anchor');
+      if (a) a.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      break;
+    }
+    case 'teach':
+      if (!S.version) return;
+      S.teachIndex = 0;
+      renderTeach();
+      show('teach');
+      break;
+    case 'teach-prev':
+      S.teachIndex = Math.max(0, S.teachIndex - 1);
+      renderTeach();
+      break;
+    case 'teach-next':
+      S.teachIndex = Math.min(DB[S.version].teach.length - 1, S.teachIndex + 1);
+      renderTeach();
+      break;
+    case 'teach-finish':
+      renderMenu();
+      show('menu');
+      break;
+    case 'mode':
+      if (!S.version) return;
+      startMode(node.getAttribute('data-mode'));
+      break;
+    case 'menu':
+      clearTimers();
+      stopSpeak();
+      if (S.version) renderMenu();
+      show(S.version ? 'menu' : 'home');
+      break;
+    case 'sort':
+      answerSort(node.getAttribute('data-type'));
+      break;
+    case 'shift-opt':
+      answerShift(Number(node.getAttribute('data-i')));
+      break;
+    case 'tok':
+      pickToken(Number(node.getAttribute('data-i')));
+      break;
+    case 'detect-opt':
+      answerDetect(Number(node.getAttribute('data-i')));
+      break;
+    case 'next':
+      nextQuestion();
+      break;
+    case 'retry':
+      startMode(S.mode);
+      break;
+    case 'speak':
+      speak(node.getAttribute('data-text') || '');
+      break;
+    default:
+      break;
+  }
+}
+
+function bindEvents() {
+  const stage = $id('stage');
+  stage.addEventListener('click', function (e) {
+    const node = e.target.closest('[data-action]');
+    if (!node) return;
+    if (node.disabled) return;
+    const action = node.getAttribute('data-action');
+    if (action !== 'speak') Sound.play('tap');
+    route(action, node);
+  });
+
+  const soundBtn = $id('btnSound');
+  soundBtn.addEventListener('click', function () {
+    S.sound = !S.sound;
+    saveSound();
+    updateSoundBtn();
+    if (S.sound) {
+      Sound.unlock();
+      Sound.play('pop');
+    } else if ('speechSynthesis' in window) {
+      try { window.speechSynthesis.cancel(); } catch (e) { /* 忽略 */ }
+    }
+  });
+
+  $id('btnHome').addEventListener('click', function () {
+    clearTimers();
+    if ('speechSynthesis' in window) {
+      try { window.speechSynthesis.cancel(); } catch (e) { /* 忽略 */ }
+    }
+    S.version = null;
+    renderHome();
+    show('home');
+  });
+
+  document.addEventListener('pointerdown', function once() {
+    Sound.unlock();
+    document.removeEventListener('pointerdown', once);
+  }, { once: true });
+
+  if ('speechSynthesis' in window) {
+    try {
+      window.speechSynthesis.addEventListener('voiceschanged', function () {
+        voiceCache = pickVoice();
+      });
+    } catch (e) { /* 忽略 */ }
+  }
+}
+
+function updateSoundBtn() {
+  const b = $id('btnSound');
+  if (!b) return;
+  b.setAttribute('aria-pressed', S.sound ? 'true' : 'false');
+  b.innerHTML = icon(S.sound ? 'i-sound-on' : 'i-sound-off');
+  b.setAttribute('aria-label', S.sound ? '音效已開啟，點擊關閉' : '音效已關閉，點擊開啟');
+}
+
+/* ============================================================
+   12. 啟動
+   ============================================================ */
+function init() {
+  S.sound = loadSound();
+  S.best = loadBest();
+  updateSoundBtn();
+  renderHome();
+  bindEvents();
+  show('home');
+  const live = document.createElement('div');
+  live.id = 'live-region';
+  live.className = 'sr-only';
+  live.setAttribute('aria-live', 'polite');
+  document.body.appendChild(live);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
+</script>
+</body>
+</html>

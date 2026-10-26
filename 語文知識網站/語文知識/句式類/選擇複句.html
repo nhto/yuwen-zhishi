@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FFF9EF">
+<title>選擇關係複句 · 詞語小精靈</title>
+<meta name="description" content="小學中文選擇關係複句互動教學：六類關聯詞圖文講解，兩種遊戲模式各六題，附答案解析與音效。">
+<style>
+  :root{
+    color-scheme:light;
+    --ink:#2C3357;
+    --ink-2:#5C6485;
+    --cream:#FFF9EF;
+    --sky:#2E9BE6;
+    --coral:#FF7A59;
+    --grape:#8B7BE8;
+    --mint:#1FB98C;
+    --sun:#F5A623;
+    --rose:#E8608C;
+    --font-tc:'Yuanti TC','Yuanti SC','YouYuan','PingFang TC','PingFang HK','Microsoft JhengHei','Noto Sans TC','Heiti TC','Microsoft YaHei',sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:78px}
+  body{
+    margin:0;
+    font-family:var(--font-tc);
+    color:var(--ink);
+    font-size:18px;
+    line-height:1.85;
+    background-color:#FFF9EF;
+    background-image:
+      radial-gradient(circle at 8% -2%, rgba(255,214,133,.6), transparent 40%),
+      radial-gradient(circle at 94% 2%, rgba(178,224,255,.65), transparent 42%),
+      radial-gradient(rgba(44,51,87,.07) 1.4px, transparent 1.4px);
+    background-size:auto,auto,26px 26px;
+    background-attachment:fixed,fixed,scroll;
+  }
+  @media (min-width:768px){ body{font-size:19px} }
+  h1,h2,h3,h4,p{margin:0}
+  button{font-family:inherit;color:inherit}
+  button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid #2E9BE6;outline-offset:3px}
+
+  /* ---------- 頂欄 ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:60;
+    background:rgba(255,249,239,.88);
+    -webkit-backdrop-filter:blur(14px);
+    backdrop-filter:blur(14px);
+    border-bottom:2px solid rgba(44,51,87,.1);
+  }
+  .topbar-inner{
+    max-width:1220px;margin:0 auto;padding:9px 16px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--ink);font-weight:900;font-size:clamp(15px,1.6vw,19px);white-space:nowrap}
+  .brand-mark{width:38px;height:38px;flex:0 0 auto}
+  .nav{display:flex;gap:6px;margin-left:auto}
+  .nav a{
+    text-decoration:none;color:var(--ink);font-weight:800;
+    font-size:clamp(14px,1.4vw,17px);
+    padding:.42em .85em;border-radius:999px;border:2.5px solid transparent;
+    white-space:nowrap;
+  }
+  .nav a:hover{background:rgba(46,155,230,.12);border-color:rgba(46,155,230,.35)}
+  .sound-btn{
+    width:44px;height:44px;flex:0 0 auto;border-radius:999px;cursor:pointer;
+    border:2.5px solid var(--ink);background:#fff;display:grid;place-items:center;
+    box-shadow:0 3px 0 rgba(44,51,87,.35);
+  }
+  .sound-btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(44,51,87,.35)}
+  .sound-btn svg{width:24px;height:24px}
+  .sound-btn .ic-off{display:none}
+  .sound-btn[aria-pressed="false"] .ic-on{display:none}
+  .sound-btn[aria-pressed="false"] .ic-off{display:block}
+
+  @media (max-width:430px){ .brand span{display:none} .nav a{padding:.42em .6em} }
+  @media (max-width:520px){
+    .mode-tabs{flex-direction:column}
+    .mode-tab{width:100%;justify-content:center}
+    .fb .btn{width:100%}
+  }
+  @media (min-width:1400px){ body{font-size:20px} .wrap{max-width:1260px} }
+  /* ---------- 版面 ---------- */
+  .wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+  .sec{padding-top:clamp(30px,5vw,58px)}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    background:#fff;border:2.5px solid var(--ink);border-radius:999px;
+    padding:.25em .9em;font-weight:900;font-size:clamp(13px,1.3vw,15px);
+    letter-spacing:.06em;box-shadow:0 3px 0 rgba(44,51,87,.18);
+  }
+  .h-sec{font-size:clamp(25px,3.4vw,38px);line-height:1.28;font-weight:900;letter-spacing:-.01em}
+
+  /* ---------- 首屏 ---------- */
+  .hero{
+    margin-top:clamp(16px,2.4vw,26px);
+    background:#fff;
+    border:3px solid var(--ink);
+    border-radius:34px;
+    box-shadow:0 10px 0 rgba(44,51,87,.13);
+    padding:clamp(20px,3.4vw,40px);
+    display:grid;grid-template-columns:1fr;gap:18px;
+    position:relative;overflow:hidden;
+  }
+  .hero:before{
+    content:"";position:absolute;right:-70px;top:-70px;width:240px;height:240px;border-radius:50%;
+    background:radial-gradient(circle,#DFF2FF 0%,rgba(223,242,255,0) 70%);
+  }
+  .hero:after{
+    content:"";position:absolute;left:-60px;bottom:-80px;width:210px;height:210px;border-radius:50%;
+    background:radial-gradient(circle,#FFEFCB 0%,rgba(255,239,203,0) 70%);
+  }
+  @media (min-width:900px){
+    .hero{grid-template-columns:1.15fr .85fr;align-items:center;gap:10px}
+  }
+  .hero h1{
+    font-size:clamp(34px,5.4vw,58px);line-height:1.14;font-weight:900;letter-spacing:-.02em;
+    margin:.28em 0 .3em;
+  }
+  .hero h1 .hl{
+    position:relative;display:inline-block;
+    background:linear-gradient(180deg,transparent 62%,#FFE08A 62%,#FFE08A 92%,transparent 92%);
+  }
+  .hero p.lead{
+    font-size:clamp(18px,1.9vw,22px);line-height:1.85;color:#3E466A;max-width:35em;
+  }
+  .pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .pill{
+    display:inline-flex;align-items:center;gap:7px;
+    border:2.5px solid var(--ink);border-radius:999px;background:#fff;
+    padding:.34em .85em;font-weight:900;font-size:clamp(14px,1.4vw,17px);
+    box-shadow:0 4px 0 rgba(44,51,87,.15);
+  }
+  .pill svg{width:19px;height:19px;flex:0 0 auto}
+  .hero-art{position:relative;display:flex;justify-content:center;align-items:center}
+  .hero-art svg{width:min(100%,330px);height:auto;display:block}
+  .bubble{
+    position:absolute;top:2%;right:0;
+    background:#fff;border:3px solid var(--ink);border-radius:20px;
+    padding:8px 14px;font-weight:900;font-size:clamp(14px,1.4vw,17px);
+    box-shadow:0 5px 0 rgba(44,51,87,.14);white-space:nowrap;
+  }
+  .bubble:after{
+    content:"";position:absolute;left:26px;bottom:-13px;width:0;height:0;
+    border:7px solid transparent;border-top-color:var(--ink);border-bottom:0;
+  }
+  @media (max-width:899px){
+    .hero-art{flex-direction:column}
+    .bubble{position:static;order:-1;margin-bottom:12px;white-space:normal;text-align:center;max-width:100%}
+    .bubble:after{display:none}
+  }
+
+  /* ---------- 教學卡 ---------- */
+  .kw-grid{display:grid;grid-template-columns:1fr;gap:18px;margin-top:22px}
+  @media (min-width:700px){ .kw-grid{grid-template-columns:repeat(2,1fr)} }
+  @media (min-width:1180px){ .kw-grid{grid-template-columns:repeat(3,1fr)} }
+
+  .kw-card{
+    background:#fff;border:3px solid var(--ink);border-radius:28px;
+    padding:16px 16px 18px;display:flex;flex-direction:column;gap:13px;
+    box-shadow:0 8px 0 rgba(44,51,87,.13);
+    transition:transform .18s cubic-bezier(.2,.8,.2,1), box-shadow .18s;
+  }
+  .kw-card:hover{transform:translateY(-4px);box-shadow:0 12px 0 rgba(44,51,87,.13)}
+  .kw-art{border-radius:20px;overflow:hidden;line-height:0;background:var(--soft)}
+  .kw-art svg{display:block;width:100%;height:auto}
+  .kw-body{display:flex;flex-direction:column;gap:11px}
+  .kw-tag{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:13px;font-weight:900;letter-spacing:.05em;
+    color:#fff;background:var(--c);border:2px solid var(--ink);
+    border-radius:999px;padding:.15em .8em;align-self:flex-start;
+  }
+  .kw-name{font-size:clamp(22px,2.3vw,28px);font-weight:900;line-height:1.3;color:var(--ink);letter-spacing:.01em}
+  .kw-desc{font-size:clamp(17px,1.5vw,19px);line-height:1.85;color:#3E466A}
+  .kw-eg{
+    background:var(--soft);border-radius:16px;padding:11px 14px;
+    font-size:clamp(17px,1.5vw,19px);line-height:1.9;color:#2C3357;
+  }
+  .kw-eg b{color:var(--c);font-weight:900}
+  .kw-note{
+    font-size:clamp(15px,1.35vw,17px);line-height:1.8;color:#5C6485;
+    border-left:5px solid var(--c);padding-left:10px;
+  }
+  .kw-note b{color:var(--ink)}
+
+  /* ---------- 總結 ---------- */
+  .sum-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:22px}
+  @media (min-width:820px){ .sum-grid{grid-template-columns:1fr 1fr} }
+  .sum-card{
+    border:3px solid var(--ink);border-radius:26px;padding:20px;
+    box-shadow:0 7px 0 rgba(44,51,87,.13);background:#fff;
+  }
+  .sum-card.tone-a{background:linear-gradient(160deg,#EAF6FF,#FFFFFF 65%)}
+  .sum-card.tone-b{background:linear-gradient(160deg,#FFF3DC,#FFFFFF 65%)}
+  .sum-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .sum-head svg{width:40px;height:40px;flex:0 0 auto}
+  .sum-head h4{font-size:clamp(19px,2vw,23px);font-weight:900}
+  .sum-card p{font-size:clamp(15px,1.45vw,17px);color:#4A5273;margin-bottom:12px}
+  .taglist{display:flex;flex-wrap:wrap;gap:8px}
+  .tag{
+    border:2.5px solid var(--ink);border-radius:12px;background:#fff;
+    padding:.28em .7em;font-weight:900;font-size:clamp(14px,1.4vw,17px);
+  }
+  .tag em{font-style:normal;font-weight:700;font-size:.82em;color:#7A82A0}
+
+  .care{display:grid;grid-template-columns:1fr;gap:14px;margin-top:18px}
+  @media (min-width:820px){ .care{grid-template-columns:1fr 1fr} }
+  .care-item{
+    background:#fff;border:3px dashed #C9CFE4;border-radius:22px;padding:16px 18px;
+    display:flex;gap:12px;align-items:flex-start;
+  }
+  .care-item svg{width:34px;height:34px;flex:0 0 auto;margin-top:2px}
+  .care-item > div > strong{display:block;font-size:clamp(17px,1.55vw,19px);margin-bottom:2px}
+  .care-item span{font-size:clamp(16px,1.45vw,18px);color:#4A5273;line-height:1.8}
+  .care-item span strong{display:inline;font-size:inherit;color:var(--ink);font-weight:900}
+  .care-item .nowrap{white-space:nowrap}
+
+  /* ---------- 遊戲 ---------- */
+  .play-head{display:flex;flex-direction:column;gap:14px}
+  .mode-tabs{display:flex;flex-wrap:wrap;gap:10px}
+  .mode-tab{
+    border:3px solid var(--ink);border-radius:999px;background:#fff;cursor:pointer;
+    padding:.62em 1.15em;font-weight:900;font-size:clamp(16px,1.6vw,19px);
+    box-shadow:0 5px 0 rgba(44,51,87,.18);
+    display:inline-flex;align-items:center;gap:8px;
+    transition:transform .12s,box-shadow .12s,background .15s,color .15s;
+  }
+  .mode-tab svg{width:22px;height:22px;flex:0 0 auto}
+  .mode-tab:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(44,51,87,.18)}
+  .mode-tab[aria-selected="true"]{background:var(--ink);color:#fff;box-shadow:0 5px 0 rgba(44,51,87,.45)}
+  .mode-tab[aria-selected="true"] svg *{stroke:#fff}
+  .mode-tab[aria-selected="true"] svg circle{fill:#fff}
+
+  #play{padding-top:clamp(48px,7vw,88px)}
+  .game-shell{
+    margin:18px auto 0;max-width:1000px;background:#fff;border:3px solid var(--ink);border-radius:32px;
+    padding:clamp(16px,2.6vw,32px);box-shadow:0 10px 0 rgba(44,51,87,.14);
+  }
+  .game-top{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding-bottom:14px;border-bottom:2px dashed #DDE2EF;flex-wrap:wrap;
+    scroll-margin-top:88px;
+  }
+  .dots{display:flex;gap:7px;align-items:center}
+  .dot{
+    width:16px;height:16px;border-radius:999px;border:2.5px solid var(--ink);background:#fff;
+    transition:background .2s,transform .2s;
+  }
+  .dot.on{background:var(--sun)}
+  .dot.bad{background:#FFB7A6}
+  .dot.cur{background:#BFD9FF;transform:scale(1.16)}
+  .score{
+    display:inline-flex;align-items:center;gap:7px;font-weight:900;
+    font-size:clamp(16px,1.6vw,19px);
+    background:#FFF7E0;border:2.5px solid var(--ink);border-radius:999px;padding:.2em .85em;
+  }
+  .score svg{width:22px;height:22px;flex:0 0 auto;color:#F5A623}
+
+  .q-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:18px 0 12px}
+  .q-badge{
+    background:#EAF5FF;border:2.5px solid #9CCDF3;border-radius:999px;
+    padding:.18em .8em;font-weight:900;font-size:clamp(14px,1.35vw,16px);color:#1B6FA8;
+  }
+  .q-tip{font-size:clamp(14px,1.35vw,16px);color:#6A7292;font-weight:700}
+  .q-sentence{
+    font-size:clamp(22px,2.5vw,32px);line-height:2.05;font-weight:800;letter-spacing:.01em;
+    background:#FFFCF5;border:3px solid #F0E4CC;border-radius:22px;
+    padding:clamp(16px,2.4vw,26px);margin-bottom:20px;
+  }
+  .blank{
+    display:inline-block;min-width:2.5em;text-align:center;
+    border:2.5px dashed #B9C0D8;border-radius:12px;
+    padding:0 .35em;margin:0 .18em;color:#AAB1C7;
+    background:#fff;
+  }
+  .blank.filled{border-style:solid;border-color:var(--c,#2E9BE6);color:var(--c,#2E9BE6);background:#F7FBFF}
+
+  .opt-grid{display:grid;grid-template-columns:1fr;gap:12px}
+  @media (min-width:640px){ .opt-grid{grid-template-columns:1fr 1fr} }
+  .opt{
+    border:3px solid var(--ink);border-radius:20px;background:#fff;cursor:pointer;
+    padding:.75em 1em;font-weight:900;font-size:clamp(19px,2vw,24px);
+    box-shadow:0 6px 0 rgba(44,51,87,.16);
+    transition:transform .12s,box-shadow .12s,background .15s,border-color .15s;
+    text-align:center;line-height:1.5;
+  }
+  .opt:hover:not(.is-locked){transform:translateY(-2px);background:#F7FBFF}
+  .opt:active:not(.is-locked){transform:translateY(3px);box-shadow:0 2px 0 rgba(44,51,87,.16)}
+  .opt.is-locked{cursor:default}
+  .opt.is-right{background:#E2F9EF;border-color:#12996F;box-shadow:0 6px 0 #12996F;color:#0B6B4E}
+  .opt.is-wrong{background:#FFEDE7;border-color:#DE5B41;box-shadow:0 6px 0 #DE5B41;color:#B03A24;animation:shake .42s}
+  .opt.is-dim{opacity:.5}
+
+  /* 拼圖 */
+  .slot-list{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+  .slot{
+    display:flex;align-items:center;gap:12px;
+    border:3px dashed #BFC6DA;border-radius:18px;background:#FFFDF8;
+    padding:10px 14px;min-height:64px;cursor:default;
+  }
+  .slot.filled{border-style:solid;border-color:var(--ink);background:#fff;cursor:pointer}
+  .slot.filled:hover{background:#FFF6F1}
+  .slot-no{
+    width:34px;height:34px;flex:0 0 auto;border-radius:999px;background:#EAF0FB;
+    border:2.5px solid #B9C0D8;display:grid;place-items:center;
+    font-weight:900;font-size:16px;color:#6A7292;
+  }
+  .slot.filled .slot-no{background:var(--ink);border-color:var(--ink);color:#fff}
+  .slot-txt{font-size:clamp(17px,1.8vw,22px);font-weight:800;line-height:1.6;color:#2C3357}
+  .slot:not(.filled) .slot-txt{color:#A6ADC4;font-weight:700;font-size:clamp(15px,1.4vw,17px)}
+  .slot.target{border-color:#2E9BE6;background:#F3FAFF;border-style:solid}
+  .slot.target .slot-no{background:#EAF5FF;border-color:#2E9BE6;color:#1B6FA8}
+  .slot.ok{border-color:#12996F;background:#E9FBF2;border-style:solid}
+  .slot.ok .slot-no{background:#12996F;border-color:#12996F;color:#fff}
+  .slot.bad{border-color:#DE5B41;background:#FFF0EB;border-style:solid}
+  .slot.bad .slot-no{background:#DE5B41;border-color:#DE5B41;color:#fff}
+
+  .pool{
+    display:flex;flex-wrap:wrap;gap:10px;
+    background:#F6F8FE;border:2.5px dashed #C9D2E8;border-radius:20px;
+    padding:14px;min-height:76px;margin-bottom:16px;
+  }
+  .chip{
+    border:3px solid var(--ink);border-radius:16px;background:#fff;cursor:pointer;
+    padding:.45em .85em;font-weight:800;font-size:clamp(17px,1.7vw,21px);line-height:1.5;
+    box-shadow:0 5px 0 rgba(44,51,87,.16);
+    transition:transform .12s,box-shadow .12s;
+    text-align:left;
+  }
+  .chip:hover:not(:disabled){transform:translateY(-2px)}
+  .chip:active:not(:disabled){transform:translateY(3px);box-shadow:0 2px 0 rgba(44,51,87,.16)}
+  .chip.used{opacity:.28;cursor:default;box-shadow:none;transform:none;pointer-events:none}
+  .pool-empty{font-size:clamp(14px,1.4vw,16px);color:#8B93AC;font-weight:700;align-self:center;padding:6px 4px}
+  .pool-tip{font-size:clamp(13px,1.3vw,15px);color:#6A7292;font-weight:700;margin:-6px 0 14px}
+
+  .hint-box{
+    margin-top:12px;background:#FFF8E6;border:2.5px dashed #E9C46A;border-radius:16px;
+    padding:10px 14px;font-size:clamp(15px,1.45vw,17px);font-weight:700;color:#8A5B00;
+    display:flex;gap:9px;align-items:flex-start;
+  }
+  .hint-box svg{width:22px;height:22px;flex:0 0 auto;margin-top:2px}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    border:3px solid var(--ink);border-radius:999px;background:#fff;cursor:pointer;
+    padding:.66em 1.5em;font-weight:900;font-size:clamp(16px,1.6vw,19px);
+    box-shadow:0 6px 0 rgba(44,51,87,.2);
+    transition:transform .12s,box-shadow .12s,background .15s;
+  }
+  .btn:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(44,51,87,.2)}
+  .btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:0 6px 0 rgba(44,51,87,.12)}
+  .btn-primary{background:var(--ink);color:#fff;box-shadow:0 6px 0 rgba(44,51,87,.45)}
+  .btn-sun{background:#FFD166;color:#4A3300}
+  .btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+
+  .fb{
+    margin-top:18px;scroll-margin-top:88px;border-radius:22px;padding:18px 20px;border:3px solid;
+    animation:pop .28s cubic-bezier(.2,.8,.2,1);
+  }
+  .fb.ok{background:#E9FBF2;border-color:#12996F}
+  .fb.no{background:#FFF0EB;border-color:#DE5B41}
+  .fb-head{display:flex;align-items:center;gap:9px;font-size:clamp(19px,2vw,24px);font-weight:900;margin-bottom:8px}
+  .fb.ok .fb-head{color:#0B6B4E}
+  .fb.no .fb-head{color:#B03A24}
+  .fb-head svg{width:30px;height:30px;flex:0 0 auto}
+  .fb-ans{font-size:clamp(16px,1.6vw,19px);font-weight:800;margin-bottom:6px;color:#2C3357}
+  .fb-ans b{color:#0B6B4E;border-bottom:3px solid #A6E7CB;padding-bottom:1px}
+  .fb.no .fb-ans b{color:#B03A24;border-bottom-color:#FFC7B7}
+  .fb-full{
+    font-size:clamp(18px,1.8vw,22px);font-weight:800;line-height:1.9;
+    background:#fff;border-radius:14px;padding:10px 14px;margin:8px 0 10px;color:#2C3357;
+  }
+  .fb-your{font-size:clamp(15px,1.5vw,18px);font-weight:800;background:#fff;border-radius:14px;padding:8px 14px;margin:0 0 10px;color:#B03A24;border:2px dashed #FFC7B7}
+  .fb-exp{font-size:clamp(16px,1.5vw,19px);line-height:1.9;color:#414A6B}
+  .fb .btn{margin-top:14px}
+
+  /* 結算 */
+  .result{text-align:center;padding:clamp(10px,2vw,24px) 0 6px}
+  .result h3{font-size:clamp(24px,3vw,34px);font-weight:900;margin:10px 0 6px}
+  .result .mascot{width:min(62%,220px);height:auto;margin:0 auto}
+  .stars{display:flex;justify-content:center;gap:6px;margin:12px 0 6px;flex-wrap:wrap}
+  .stars svg{width:clamp(30px,5vw,44px);height:clamp(30px,5vw,44px);color:#F5A623}
+  .stars svg path{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linejoin:round}
+  .stars svg.on path{fill:currentColor}
+  .result .big{font-size:clamp(19px,2.2vw,25px);font-weight:900;margin-top:6px}
+  .result .comment{font-size:clamp(16px,1.6vw,19px);color:#4A5273;margin-top:6px}
+  .result .btn-row{justify-content:center;margin-top:20px}
+
+  /* 頁腳 */
+  .foot{
+    margin-top:clamp(36px,5vw,64px);padding:22px 16px 34px;text-align:center;
+    color:#6A7292;font-size:15px;line-height:1.8;
+  }
+
+  @keyframes pop{from{opacity:.93;transform:scale(.988)}to{opacity:1;transform:scale(1)}}
+  @keyframes shake{
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-7px)}
+    40%{transform:translateX(6px)}
+    60%{transform:translateX(-4px)}
+    80%{transform:translateX(3px)}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.001ms !important;transition-duration:.001ms !important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+<div data-generated-by="aurora-frontend-design">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#top" aria-label="回到頁面頂部">
+        <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true">
+          <circle cx="24" cy="26" r="17" fill="#8FE0B8" stroke="#2C3357" stroke-width="3.5"/>
+          <circle cx="18" cy="24" r="3.4" fill="#2C3357"/>
+          <circle cx="30" cy="24" r="3.4" fill="#2C3357"/>
+          <path d="M19 32 q5 5 10 0" stroke="#2C3357" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M24 9 V4" stroke="#2C3357" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="24" cy="4" r="3" fill="#FFD166" stroke="#2C3357" stroke-width="2.5"/>
+        </svg>
+        <span>詞語小精靈</span>
+      </a>
+      <nav class="nav" aria-label="頁面導覽">
+        <a href="#learn">教學</a>
+        <a href="#play">遊戲</a>
+      </nav>
+      <button id="soundBtn" class="sound-btn" type="button" aria-pressed="true" aria-label="關閉音效">
+        <svg class="ic-on" viewBox="0 0 24 24" aria-hidden="true" fill="none">
+          <path d="M4 9.5h3.4L12 5.6v12.8L7.4 14.5H4z" stroke="#2C3357" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M15.6 8.6a4.8 4.8 0 0 1 0 6.8M18.2 6a8.2 8.2 0 0 1 0 12" stroke="#2C3357" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <svg class="ic-off" viewBox="0 0 24 24" aria-hidden="true" fill="none">
+          <path d="M4 9.5h3.4L12 5.6v12.8L7.4 14.5H4z" stroke="#2C3357" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M16 9.5l5 5M21 9.5l-5 5" stroke="#2C3357" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ================= 教學區 ================= -->
+    <section class="wrap sec" id="learn">
+      <div class="hero">
+        <div>
+          <span class="eyebrow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 6.5C4 5.7 4.7 5 5.5 5H11v14H5.5C4.7 19 4 18.3 4 17.5z" stroke="#2C3357" stroke-width="2"/>
+              <path d="M20 6.5c0-.8-.7-1.5-1.5-1.5H13v14h5.5c.8 0 1.5-.7 1.5-1.5z" stroke="#2C3357" stroke-width="2"/>
+            </svg>
+            小學中文 · 句子練習
+          </span>
+          <h1>選擇關係<span class="hl">複句</span></h1>
+          <p class="lead">一句話裡有「兩種情況」，要從中<strong>挑一個</strong>，這就是選擇關係複句。關聯詞，就是幫我們把兩個選項連起來的小幫手。</p>
+          <div class="pills">
+            <span class="pill">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18L18 6M18 6h-6M18 6v6" stroke="#2E9BE6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              二選一
+            </span>
+            <span class="pill">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v9m0 0l-3.5-3.5M12 13l3.5-3.5" stroke="#FF7A59" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17.5h16" stroke="#FF7A59" stroke-width="2.4" stroke-linecap="round"/></svg>
+              有取捨
+            </span>
+            <span class="pill">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h9M4 12h16M4 17h7" stroke="#1FB98C" stroke-width="2.4" stroke-linecap="round"/></svg>
+              靠關聯詞
+            </span>
+          </div>
+        </div>
+        <div class="hero-art">
+          <div class="bubble">兩種情況，挑一個就好！</div>
+          <svg viewBox="0 0 260 250" role="img" aria-label="詞語小精靈豆豆">
+            <ellipse cx="130" cy="228" rx="66" ry="12" fill="rgba(44,51,87,.12)"/>
+            <path d="M130 74 V48" stroke="#2C3357" stroke-width="6" stroke-linecap="round"/>
+            <circle cx="130" cy="40" r="13" fill="#FFD166" stroke="#2C3357" stroke-width="6"/>
+            <circle cx="130" cy="140" r="72" fill="#8FE0B8" stroke="#2C3357" stroke-width="6"/>
+            <ellipse cx="130" cy="160" rx="46" ry="40" fill="#F4FFF9" stroke="#2C3357" stroke-width="4.5"/>
+            <circle cx="106" cy="126" r="16" fill="#fff" stroke="#2C3357" stroke-width="5"/>
+            <circle cx="154" cy="126" r="16" fill="#fff" stroke="#2C3357" stroke-width="5"/>
+            <circle cx="109" cy="129" r="7" fill="#2C3357"/>
+            <circle cx="157" cy="129" r="7" fill="#2C3357"/>
+            <circle cx="112" cy="125" r="2.4" fill="#fff"/>
+            <circle cx="160" cy="125" r="2.4" fill="#fff"/>
+            <ellipse cx="84" cy="154" rx="11" ry="7.5" fill="#FFB3C1" opacity=".9"/>
+            <ellipse cx="176" cy="154" rx="11" ry="7.5" fill="#FFB3C1" opacity=".9"/>
+            <path d="M118 158 q12 14 24 0" stroke="#2C3357" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <path d="M60 142 q-16 12 -8 30" stroke="#2C3357" stroke-width="7" fill="none" stroke-linecap="round"/>
+            <circle cx="50" cy="178" r="11" fill="#8FE0B8" stroke="#2C3357" stroke-width="5"/>
+            <path d="M200 142 q16 12 8 30" stroke="#2C3357" stroke-width="7" fill="none" stroke-linecap="round"/>
+            <circle cx="210" cy="178" r="11" fill="#8FE0B8" stroke="#2C3357" stroke-width="5"/>
+            <ellipse cx="106" cy="208" rx="19" ry="10" fill="#6FCFA3" stroke="#2C3357" stroke-width="5"/>
+            <ellipse cx="154" cy="208" rx="19" ry="10" fill="#6FCFA3" stroke="#2C3357" stroke-width="5"/>
+          </svg>
+        </div>
+      </div>
+
+      <div style="margin-top:clamp(26px,4vw,46px);display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div>
+          <span class="eyebrow" style="background:#EAF6FF">六大類關聯詞</span>
+          <h2 class="h-sec" style="margin-top:10px">六個小法寶，句子變身！</h2>
+          <p style="color:#5C6485;font-size:clamp(16px,1.6vw,19px);margin-top:6px">每一類都有一個固定搭檔，記住口訣就不會用錯。</p>
+        </div>
+      </div>
+
+      <div class="kw-grid">
+
+        <article class="kw-card" style="--c:#2E9BE6;--soft:#E4F1FD">
+          <div class="kw-art">
+            <svg viewBox="0 0 240 150" role="img" aria-label="書本和風箏兩個選擇">
+              <rect width="240" height="150" fill="#E4F1FD"/>
+              <circle cx="34" cy="26" r="7" fill="#BFE0FA"/>
+              <circle cx="206" cy="122" r="10" fill="#BFE0FA"/>
+              <circle cx="216" cy="34" r="5" fill="#CFE9FD"/>
+              <rect x="26" y="40" width="66" height="66" rx="20" fill="#fff" stroke="#2C3357" stroke-width="3.5"/>
+              <path d="M46 82 V64 c4-2.5 8-2.5 12 0 v18 c-4-2.5-8-2.5-12 0z" fill="#CFE7FF" stroke="#2C3357" stroke-width="2.6" stroke-linejoin="round"/>
+              <path d="M72 82 V64 c-4-2.5-8-2.5-12 0 v18 c4-2.5 8-2.5 12 0z" fill="#EAF5FF" stroke="#2C3357" stroke-width="2.6" stroke-linejoin="round"/>
+              <rect x="148" y="40" width="66" height="66" rx="20" fill="#fff" stroke="#2C3357" stroke-width="3.5"/>
+              <path d="M181 54 L196 74 L181 94 L166 74 Z" fill="#FFD166" stroke="#2C3357" stroke-width="2.6" stroke-linejoin="round"/>
+              <path d="M181 54 V94" stroke="#2C3357" stroke-width="2"/>
+              <path d="M181 94 q10 8 0 16" stroke="#2C3357" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+              <circle cx="120" cy="73" r="20" fill="#2E9BE6" stroke="#2C3357" stroke-width="3.5"/>
+              <text x="120" y="83" text-anchor="middle" font-size="25" font-weight="700" fill="#fff" font-family="sans-serif">?</text>
+            </svg>
+          </div>
+          <div class="kw-body">
+            <span class="kw-tag">第 1 類 · 兩邊都行</span>
+            <h3 class="kw-name">或者……或者……</h3>
+            <p class="kw-desc">兩件事都可以做，口氣輕鬆，常用來讓別人自己決定。</p>
+            <div class="kw-eg">週末我們<b>或者</b>去圖書館看書，<b>或者</b>去公園放風箏。</div>
+            <p class="kw-note">口訣：<b>兩邊都可以，你挑一個。</b></p>
+          </div>
+        </article>
+
+        <article class="kw-card" style="--c:#FF7A59;--soft:#FFEDE7">
+          <div class="kw-art">
+            <svg viewBox="0 0 240 150" role="img" aria-label="時鐘和門，只能選一個">
+              <rect width="240" height="150" fill="#FFEDE7"/>
+              <circle cx="34" cy="26" r="7" fill="#FFD3C6"/>
+              <circle cx="206" cy="122" r="10" fill="#FFD3C6"/>
+              <circle cx="214" cy="34" r="5" fill="#FFDDD3"/>
+              <rect x="26" y="40" width="66" height="66" rx="20" fill="#fff" stroke="#2C3357" stroke-width="3.5"/>
+              <circle cx="59" cy="73" r="18" fill="#FFE3D9" stroke="#2C3357" stroke-width="2.8"/>
+              <path d="M59 62 V73 L67 78" stroke="#2C3357" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="148" y="40" width="66" height="66" rx="20" fill="#fff" stroke="#2C3357" stroke-width="3.5"/>
+              <rect x="168" y="56" width="26" height="36" rx="5" fill="#FFD3C6" stroke="#2C3357" stroke-width="2.8"/>
+              <circle cx="188" cy="76" r="2.6" fill="#2C3357"/>
+              <circle cx="120" cy="73" r="20" fill="#FF7A59" stroke="#2C3357" stroke-width="3.5"/>
+              <text x="120" y="83" text-anchor="middle" font-size="25" font-weight="700" fill="#fff" font-family="sans-serif">?</text>
+            </svg>
+          </div>
+          <div class="kw-body">
+            <span class="kw-tag">第 2 類 · 口氣堅定</span>
+            <h3 class="kw-name">要麼……要麼……</h3>
+            <p class="kw-desc">兩件事一定要選一件，通常是因為時間或規定，沒得商量。</p>
+            <div class="kw-eg">明天<b>要麼</b>你早點起床，<b>要麼</b>我們就趕不上校車了。</div>
+            <p class="kw-note">口訣：<b>只能選一個，口氣很堅定。</b></p>
+          </div>
+        </article>
+
+        <article class="kw-card" style="--c:#8B7BE8;--soft:#EFEBFF">
+          <div class="kw-art">
+            <svg viewBox="0 0 240 150" role="img" aria-label="兩種口味的冰淇淋，用問句選一個">
+              <rect width="240" height="150" fill="#EFEBFF"/>
+              <circle cx="34" cy="26" r="7" fill="#D8D0FF"/>
+              <circle cx="206" cy="122" r="10" fill="#D8D0FF"/>
+              <circle cx="214" cy="34" r="5" fill="#E3DDFF"/>
+              <rect x="26" y="40" width="66" height="66" rx="20" fill="#fff" stroke="#2C3357" stroke-width="3.5"/>
+              <path d="M59 78 L49 96 L69 96 Z" fill="#F2C38B" stroke="#2C3357" stroke-width="2.6" stroke-linejoin="round"/>
+              <circle cx="59" cy="68" r="14" fill="#FFB3C1" stroke="#2C3357" stroke-width="2.6"/>
+              <circle cx="55" cy="64" r="2" fill="#fff"/>
+              <rect x="148" y="40" width="66" height="66" rx="20" fill="#fff" stroke="#2C3357" stroke-width="3.5"/>
+              <path d="M181 78 L171 96 L191 96 Z" fill="#F2C38B" stroke="#2C3357" stroke-width="2.6" stroke-linejoin="round"/>
+              <circle cx="181" cy="68" r="14" fill="#B98A5E" stroke="#2C3357" stroke-width="2.6"/>
+              <circle cx="177" cy="64" r="2" fill="#fff"/>
+              <circle cx="120" cy="73" r="20" fill="#8B7BE8" stroke="#2C3357" stroke-width="3.5"/>
+              <text x="120" y="83" text-anchor="middle" font-size="25" font-weight="700" fill="#fff" font-family="sans-serif">?</text>
+            </svg>
+          </div>
+          <div class="kw-body">
+            <span class="kw-tag">第 3 類 · 用問句選</span>
+            <h3 class="kw-name">是……還是……</h3>
+            <p class="kw-desc">把兩個選項變成問題，請對方回答，句末通常用問號。</p>
+            <div class="kw-eg">你想要的<b>是</b>草莓蛋糕，<b>還是</b>巧克力蛋糕？</div>
+            <p class="kw-note">口訣：<b>用問句讓人挑，句末要問號。</b></p>
+          </div>
+        </article>
+
+        <article class="kw-card" style="--c:#1FB98C;--soft:#E4F8F1">
+          <div class="kw-art">
+            <svg viewBox="0 0 240 150" role="img" aria-label="足球和畫筆，只有兩種可能">
+              <rect width="240" height="150" fill="#E4F8F1"/>
+              <circle cx="34" cy="26" r="7" fill="#BFEFDD"/>
+              <circle cx="206" cy="122" r="10" fill="#BFEFDD"/>
+              <circle cx="214" cy="34" r="5" fill="#D3F5E9"/>
+              <rect x="26" y="40" width="66" height="66" rx="20" fill="#fff" stroke="#2C3357" stroke-width="3.5"/>
+              <circle cx="59" cy="73" r="18" fill="#fff" stroke="#2C3357" stroke-width="2.8"/>
+              <path d="M59 63 L66 68 L63 76 L55 76 L52 68 Z" fill="#2C3357"/>
+              <path d="M59 55 V63 M41 68 L52 68 M45 84 L49 76 M73 84 L69 76 M77 68 L66 68" stroke="#2C3357" stroke-width="2"/>
+              <rect x="148" y="40" width="66" height="66" rx="20" fill="#fff" stroke="#2C3357" stroke-width="3.5"/>
+              <path d="M170 86 L186 58" stroke="#2C3357" stroke-width="10" stroke-linecap="round"/>
+              <path d="M186 58 l6-10 l-3 12z" fill="#FFD166" stroke="#2C3357" stroke-width="2.4" stroke-linejoin="round"/>
+              <circle cx="120" cy="73" r="20" fill="#1FB98C" stroke="#2C3357" stroke-width="3.5"/>
+              <text x="120" y="83" text-anchor="middle" font-size="25" font-weight="700" fill="#fff" font-family="sans-serif">?</text>
+            </svg>
+          </div>
+          <div class="kw-body">
+            <span class="kw-tag">第 4 類 · 一定中一個</span>
+            <h3 class="kw-name">不是……就是……</h3>
+            <p class="kw-desc">強調只有兩種可能：不是這個，就是那個，沒有第三種。</p>
+            <div class="kw-eg">放學後，弟弟<b>不是</b>在球場打球，<b>就是</b>在房間畫畫。</div>
+            <p class="kw-note">小心：<b>不是……而是……</b>是否定一個、肯定另一個，<b>不是選擇</b>。</p>
+          </div>
+        </article>
+
+        <article class="kw-card" style="--c:#F5A623;--soft:#FFF3DC">
+          <div class="kw-art">
+            <svg viewBox="0 0 240 150" role="img" aria-label="比較之後，選擇後面那一個">
+              <rect width="240" height="150" fill="#FFF3DC"/>
+              <circle cx="34" cy="26" r="7" fill="#FFE0A6"/>
+              <circle cx="206" cy="122" r="10" fill="#FFE0A6"/>
+              <circle cx="214" cy="34" r="5" fill="#FFEBCC"/>
+              <rect x="26" y="40" width="66" height="66" rx="20" fill="#fff" stroke="#2C3357" stroke-width="3.5"/>
+              <rect x="40" y="66" width="38" height="20" rx="7" fill="#D9DEEA" stroke="#2C3357" stroke-width="2.6"/>
+              <rect x="40" y="56" width="38" height="12" rx="6" fill="#C4CBDB" stroke="#2C3357" stroke-width="2.6"/>
+              <rect x="36" y="80" width="6" height="10" rx="3" fill="#2C3357"/>
+              <rect x="76" y="80" width="6" height="10" rx="3" fill="#2C3357"/>
+              <rect x="148" y="40" width="66" height="66" rx="20" fill="#fff" stroke="#2C3357" stroke-width="3.5"/>
+              <circle cx="181" cy="64" r="11" fill="#FFD166" stroke="#2C3357" stroke-width="2.6"/>
+              <path d="M181 47 V42 M181 86 V81 M164 64 H159 M203 64 H198 M169 52 L165 48 M197 80 L193 76 M193 52 L197 48 M165 80 L169 76" stroke="#2C3357" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M158 92 q23 -10 46 0" stroke="#7BD3A8" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <circle cx="120" cy="73" r="20" fill="#F5A623" stroke="#2C3357" stroke-width="3.5"/>
+              <path d="M111 73 h15 M121 67 l6 6 -6 6" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="kw-body">
+            <span class="kw-tag">第 5 類 · 比較後取捨</span>
+            <h3 class="kw-name">與其……不如……</h3>
+            <p class="kw-desc">先說不想選的，再說更想選的，重點放在「不如」後面。</p>
+            <div class="kw-eg"><b>與其</b>坐在電視前發呆，<b>不如</b>到樓下幫奶奶提菜。</div>
+            <p class="kw-note">口訣：<b>比較之後，選後面那一個。</b></p>
+          </div>
+        </article>
+
+        <article class="kw-card" style="--c:#E8608C;--soft:#FFE9F0">
+          <div class="kw-art">
+            <svg viewBox="0 0 240 150" role="img" aria-label="寧願自己淋雨，也不讓同學淋濕">
+              <rect width="240" height="150" fill="#FFE9F0"/>
+              <circle cx="34" cy="26" r="7" fill="#FFCEDF"/>
+              <circle cx="206" cy="122" r="10" fill="#FFCEDF"/>
+              <circle cx="214" cy="34" r="5" fill="#FFDCE7"/>
+              <rect x="26" y="40" width="66" height="66" rx="20" fill="#fff" stroke="#2C3357" stroke-width="3.5"/>
+              <path d="M59 60 q-20 0 -20 16 h40 q0 -16 -20 -16z" fill="#FF9BB8" stroke="#2C3357" stroke-width="2.6" stroke-linejoin="round"/>
+              <path d="M59 76 V88 q0 6 7 6" stroke="#2C3357" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+              <rect x="148" y="40" width="66" height="66" rx="20" fill="#fff" stroke="#2C3357" stroke-width="3.5"/>
+              <path d="M170 58 q5 8 0 12 q-5 -4 0 -12z" fill="#7CC7F5" stroke="#2C3357" stroke-width="2"/>
+              <path d="M190 68 q5 8 0 12 q-5 -4 0 -12z" fill="#7CC7F5" stroke="#2C3357" stroke-width="2"/>
+              <path d="M180 84 q5 8 0 12 q-5 -4 0 -12z" fill="#7CC7F5" stroke="#2C3357" stroke-width="2"/>
+              <circle cx="120" cy="73" r="20" fill="#E8608C" stroke="#2C3357" stroke-width="3.5"/>
+              <path d="M129 73 h-15 M119 67 l-6 6 6 6" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="kw-body">
+            <span class="kw-tag">第 6 類 · 態度堅決</span>
+            <h3 class="kw-name">寧可……也不……</h3>
+            <p class="kw-desc">情願承受前面的代價，也絕對不做後面那件事，態度很堅決。</p>
+            <div class="kw-eg">小美<b>寧可</b>自己淋雨，<b>也不</b>願意讓同學淋濕衣服。</div>
+            <p class="kw-note">口訣：<b>寧願自己吃虧，也絕對不……</b></p>
+          </div>
+        </article>
+
+      </div>
+
+      <div style="margin-top:clamp(30px,4.6vw,52px)">
+        <span class="eyebrow" style="background:#FFF3DC">比一比</span>
+        <h2 class="h-sec" style="margin-top:10px">兩種口氣，別搞混</h2>
+        <div class="sum-grid">
+          <div class="sum-card tone-a">
+            <div class="sum-head">
+              <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                <circle cx="24" cy="24" r="19" fill="#DCEFFF" stroke="#2C3357" stroke-width="3"/>
+                <path d="M15 24h18M24 15v18" stroke="#2E9BE6" stroke-width="3.4" stroke-linecap="round"/>
+              </svg>
+              <h4>口氣一：兩種情況，挑一個</h4>
+            </div>
+            <p>前四類都是在兩個情況中挑一個：有的輕鬆，有的堅定，有的用問句，有的用推測。</p>
+            <div class="taglist">
+              <span class="tag">或者……或者…… <em>都可以</em></span>
+              <span class="tag">要麼……要麼…… <em>必須選</em></span>
+              <span class="tag">是……還是…… <em>提問</em></span>
+              <span class="tag">不是……就是…… <em>推測</em></span>
+            </div>
+          </div>
+          <div class="sum-card tone-b">
+            <div class="sum-head">
+              <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                <circle cx="24" cy="24" r="19" fill="#FFEDC9" stroke="#2C3357" stroke-width="3"/>
+                <path d="M24 13l3.6 7.4 8.1 1.1-5.9 5.6 1.5 8-7.3-3.9-7.3 3.9 1.5-8-5.9-5.6 8.1-1.1z" fill="#F5A623" stroke="#2C3357" stroke-width="2"/>
+              </svg>
+              <h4>口氣二：比較之後，取捨一個</h4>
+            </div>
+            <p>後兩類都是心裡先有了決定，再從兩個情況中取捨：放棄一個，選擇另一個。重點常常落在後半句。</p>
+            <div class="taglist">
+              <span class="tag">與其……不如…… <em>選後面</em></span>
+              <span class="tag">寧可……也不…… <em>寧願前者</em></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="care">
+          <div class="care-item">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" stroke="#E8608C" stroke-width="2.2"/>
+              <path d="M12 7.5v5.5M12 16.4v.2" stroke="#E8608C" stroke-width="2.4" stroke-linecap="round"/>
+            </svg>
+            <div>
+              <strong>別把<span class="nowrap">「不是……就是……」</span>和<span class="nowrap">「不是……而是……」</span>搞混</strong>
+              <span>前者是<strong>二選一</strong>（兩個都有可能）；後者是<strong>否定一個、肯定另一個</strong>，句子裡只肯定其中一個。</span>
+            </div>
+          </div>
+          <div class="care-item">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" stroke="#2E9BE6" stroke-width="2.2"/>
+              <path d="M9.4 9.2a2.7 2.7 0 1 1 3.6 2.5c-.7.3-1 .9-1 1.6v.4" stroke="#2E9BE6" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M12 17v.2" stroke="#2E9BE6" stroke-width="2.4" stroke-linecap="round"/>
+            </svg>
+            <div>
+              <strong><span class="nowrap">「是……還是……」</span>用來提問，句末用問號</strong>
+              <span>它用來提問時，句末寫「？」，回答時常說「我要……」。如果寫成句號，就變成陳述，語氣會怪怪的。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 遊戲區 ================= -->
+    <section class="wrap sec" id="play">
+      <div class="play-head">
+        <span class="eyebrow" style="background:#E9FBF2;align-self:flex-start;box-shadow:0 3px 0 rgba(44,51,87,.18)">闖關時間</span>
+        <h2 class="h-sec">選一個模式，開始挑戰</h2>
+        <p style="color:#5C6485;font-size:clamp(16px,1.6vw,19px)">兩種模式各 6 關，每一關對應一類關聯詞。揭曉答案時會告訴你「為什麼」。</p>
+        <div class="mode-tabs" role="tablist" aria-label="遊戲模式">
+          <button type="button" class="mode-tab" role="tab" data-mode="a" aria-selected="true" aria-controls="stage">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="4" stroke="#2C3357" stroke-width="2"/>
+              <path d="M7 10h4M7 14h7" stroke="#2C3357" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="16.6" cy="9.6" r="1.6" fill="#2C3357"/>
+            </svg>
+            模式一 · 詞卡填空
+          </button>
+          <button type="button" class="mode-tab" role="tab" data-mode="b" aria-selected="false" aria-controls="stage">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="3" y="4" width="8" height="7" rx="2" stroke="#2C3357" stroke-width="2"/>
+              <rect x="13" y="4" width="8" height="7" rx="2" stroke="#2C3357" stroke-width="2"/>
+              <rect x="3" y="13" width="8" height="7" rx="2" stroke="#2C3357" stroke-width="2"/>
+              <rect x="13" y="13" width="8" height="7" rx="2" stroke="#2C3357" stroke-width="2"/>
+            </svg>
+            模式二 · 句子拼圖
+          </button>
+        </div>
+      </div>
+
+      <div class="game-shell">
+        <div class="game-top">
+          <div class="dots" id="dots" aria-hidden="true"></div>
+          <div class="score">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9z" fill="#F5A623" stroke="#2C3357" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+            <span id="scoreText">0 / 6</span>
+          </div>
+        </div>
+        <div id="stage" role="tabpanel" aria-live="polite"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="foot">
+    <p>詞語小精靈 · 小學中文「選擇關係複句」互動練習</p>
+    <p>六類關聯詞 · 兩種遊戲模式 · 共 12 道練習題</p>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ==================== 音效（Web Audio，無外部檔案） ==================== */
+  var audioCtx = null;
+  var soundOn = true;
+
+  function ensureAudio(){
+    try{
+      if(!audioCtx && (window.AudioContext || window.webkitAudioContext)){
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if(audioCtx && audioCtx.state === 'suspended'){
+        audioCtx.resume();
+      }
+    }catch(err){
+      audioCtx = null;
+    }
+    return audioCtx;
+  }
+
+  function beep(freq, dur, delay, type, vol){
+    if(!soundOn) return;
+    var ctx = ensureAudio();
+    if(!ctx) return;
+    var t0 = ctx.currentTime + (delay || 0);
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.type = type || 'sine';
+    osc.frequency.setValueAtTime(freq, t0);
+    gain.gain.setValueAtTime(0.0001, t0);
+    gain.gain.exponentialRampToValueAtTime(vol || 0.15, t0 + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + (dur || 0.16));
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(t0);
+    osc.stop(t0 + (dur || 0.16) + 0.03);
+  }
+
+  function sfx(name){
+    if(!soundOn) return;
+    if(name === 'click'){ beep(700, 0.07, 0, 'triangle', 0.08); }
+    else if(name === 'drop'){ beep(480, 0.08, 0, 'sine', 0.09); beep(720, 0.06, 0.05, 'sine', 0.06); }
+    else if(name === 'correct'){
+      beep(523.25, 0.14, 0, 'sine', 0.14);
+      beep(659.25, 0.14, 0.09, 'sine', 0.14);
+      beep(783.99, 0.24, 0.18, 'sine', 0.13);
+    }
+    else if(name === 'wrong'){
+      beep(311.13, 0.16, 0, 'triangle', 0.12);
+      beep(233.08, 0.26, 0.13, 'triangle', 0.12);
+    }
+    else if(name === 'win'){
+      [523.25, 659.25, 783.99, 1046.5].forEach(function(f, i){
+        beep(f, 0.22, i * 0.11, 'sine', 0.13);
+      });
+    }
+  }
+
+  /* ==================== 題庫 ==================== */
+  var DATA_A = [
+    {
+      sentence: '放學以後，我們______在教室下棋，______到操場跳繩，你決定就好。',
+      options: ['或者……或者……','因為……所以……','雖然……但是……','只要……就……'],
+      answer: 0,
+      explain: '「在教室下棋」和「到操場跳繩」兩件事都可以，語氣輕鬆，還把決定權交給對方，所以用「或者……或者……」。'
+    },
+    {
+      sentence: '______你現在把功課寫完，______今晚就不能看卡通，沒有第三個選擇。',
+      options: ['不但……而且……','要麼……要麼……','如果……就……','是……還是……'],
+      answer: 1,
+      explain: '「寫完功課」和「不能看卡通」是二選一，而且口氣堅定、沒有商量餘地，所以用「要麼……要麼……」。'
+    },
+    {
+      sentence: '你想要的______藍色的書包，______紅色的書包？',
+      options: ['寧可……也不……','與其……不如……','是……還是……','無論……都……'],
+      answer: 2,
+      explain: '用提問的方式請對方挑一個，句末是問號，所以用「是……還是……」。回答時可以說「我想要藍色的」。'
+    },
+    {
+      sentence: '妹妹的鉛筆盒______在書包裡，______在抽屜裡，一定找得到。',
+      options: ['不是……就是……','不是……而是……','一邊……一邊……','即使……也……'],
+      answer: 0,
+      explain: '強調「只會是這兩種情況之一」，所以用「不是……就是……」。注意「不是……而是……」是否定一個、肯定另一個，不是選擇。'
+    },
+    {
+      sentence: '______一直抱怨功課太難，______先問老師哪一步不懂。',
+      options: ['寧可……也不……','與其……不如……','又……又……','之所以……是因為……'],
+      answer: 1,
+      explain: '比較兩件事之後，捨棄前面、選擇後面，重點落在「不如」後面，所以用「與其……不如……」。'
+    },
+    {
+      sentence: '小明______多走十分鐘的路，______闖紅燈過馬路。',
+      options: ['或者……或者……','不但……反而……','寧可……也不……','一……就……'],
+      answer: 2,
+      explain: '寧願多走路、多花時間，也堅決不闖紅燈，態度很堅決，所以用「寧可……也不……」。「寧可」也可以換成「寧願」。'
+    }
+  ];
+
+  var DATA_B = [
+    {
+      pieces: ['或者','我們去山上賞鳥，','或者','我們留在教室下棋。'],
+      hint: '「或者」放最前面，兩個分句一前一後，中間再用一個「或者」。',
+      explain: '「或者……或者……」把兩個都可以的選擇並列：先說一個，再說另一個。兩件事都能做，順序對調也不會改變意思。'
+    },
+    {
+      pieces: ['要麼','我們現在把教室打掃乾淨，','要麼','今天就不能留下來佈置教室。'],
+      hint: '「要麼」開頭，先說要做的事，再說做不到的後果。',
+      explain: '「要麼……要麼……」口氣堅定，兩件事只能選一件：要麼現在把教室打掃乾淨，要麼今天就不能留下來佈置教室。'
+    },
+    {
+      pieces: ['你想要的','是海洋生物的貼紙，','還是','恐龍的貼紙？'],
+      hint: '最後一塊是問句，問號要放在最後。',
+      explain: '用「是……還是……」提問，先把第一個選項說出來，再用「還是」帶出第二個選項，句末用問號。'
+    },
+    {
+      pieces: ['不是','妹妹把餅乾吃光了，','就是','小狗偷偷叼走了。'],
+      hint: '先猜第一個可能，再用「就是」說出第二個可能。',
+      explain: '「不是……就是……」表示只會是這兩種情況之一：先說一個可能，再說另一個可能，中間用「就是」連接。'
+    },
+    {
+      pieces: ['與其','一直羨慕同學跑得快，','不如','每天放學後練習十分鐘。'],
+      hint: '「與其」後面放不想要的，「不如」後面放更想選的。',
+      explain: '「與其……不如……」先說不想要的作法，再說更好的作法，重點在「不如」後面。'
+    },
+    {
+      pieces: ['寧可','多花五分鐘檢查功課，','也不','讓一個粗心的錯誤害自己丟分。'],
+      hint: '「寧可」後面是願意做的事，「也不」後面是絕對不做的事。',
+      explain: '「寧可……也不……」先說寧願付出的代價，再說堅決不接受的事，態度非常堅決。'
+    }
+  ];
+
+  /* ==================== 狀態 ==================== */
+  var state = {
+    mode: 'a',
+    idx: 0,
+    score: 0,
+    results: [null, null, null, null, null, null],
+    locked: false,
+    picks: [null, null, null, null],
+    pool: [0, 1, 2, 3],
+    optOrder: [0, 1, 2, 3],
+    target: 0,
+    hint: false
+  };
+
+  var stage = document.getElementById('stage');
+  var dotsEl = document.getElementById('dots');
+  var scoreText = document.getElementById('scoreText');
+  var soundBtn = document.getElementById('soundBtn');
+
+  /* ==================== 小工具 ==================== */
+  function esc(str){
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function shuffle(arr){
+    var a = arr.slice();
+    for(var i = a.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function iconOk(){
+    return '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#12996F"/><path d="M7.4 12.4l3.1 3.1 6.1-6.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  }
+  function iconNo(){
+    return '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#DE5B41"/><path d="M8.6 8.6l6.8 6.8M15.4 8.6l-6.8 6.8" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>';
+  }
+  function iconBulb(){
+    return '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 17h6M10 20h4" stroke="#B8860B" stroke-width="2" stroke-linecap="round"/><path d="M12 3a6 6 0 0 0-3.4 10.9c.5.4.8 1 .8 1.6v.5h5.2v-.5c0-.6.3-1.2.8-1.6A6 6 0 0 0 12 3z" stroke="#B8860B" stroke-width="2" stroke-linejoin="round"/></svg>';
+  }
+
+  function mascotSVG(){
+    return '<svg class="mascot" viewBox="0 0 260 250" aria-hidden="true">' +
+      '<ellipse cx="130" cy="228" rx="62" ry="11" fill="rgba(44,51,87,.12)"/>' +
+      '<path d="M130 74 V48" stroke="#2C3357" stroke-width="6" stroke-linecap="round"/>' +
+      '<circle cx="130" cy="40" r="12" fill="#FFD166" stroke="#2C3357" stroke-width="6"/>' +
+      '<circle cx="130" cy="140" r="70" fill="#8FE0B8" stroke="#2C3357" stroke-width="6"/>' +
+      '<ellipse cx="130" cy="160" rx="44" ry="38" fill="#F4FFF9" stroke="#2C3357" stroke-width="4.5"/>' +
+      '<circle cx="106" cy="126" r="15" fill="#fff" stroke="#2C3357" stroke-width="5"/>' +
+      '<circle cx="154" cy="126" r="15" fill="#fff" stroke="#2C3357" stroke-width="5"/>' +
+      '<circle cx="109" cy="129" r="6.5" fill="#2C3357"/>' +
+      '<circle cx="157" cy="129" r="6.5" fill="#2C3357"/>' +
+      '<ellipse cx="84" cy="154" rx="10" ry="7" fill="#FFB3C1" opacity=".9"/>' +
+      '<ellipse cx="176" cy="154" rx="10" ry="7" fill="#FFB3C1" opacity=".9"/>' +
+      '<path d="M118 158 q12 14 24 0" stroke="#2C3357" stroke-width="5" fill="none" stroke-linecap="round"/>' +
+      '</svg>';
+  }
+
+  /* ==================== 進度 ==================== */
+  function updateHUD(){
+    var html = '';
+    for(var i = 0; i < 6; i++){
+      var cls = 'dot';
+      if(state.results[i] === true) cls += ' on';
+      else if(state.results[i] === false) cls += ' bad';
+      else if(i === state.idx) cls += ' cur';
+      html += '<span class="' + cls + '"></span>';
+    }
+    dotsEl.innerHTML = html;
+    scoreText.textContent = state.score + ' / 6';
+  }
+
+  /* ==================== 渲染 ==================== */
+  function render(){
+    if(state.idx >= 6){
+      renderResult();
+      updateHUD();
+      return;
+    }
+    if(state.mode === 'a'){ renderA(); }
+    else { renderB(); }
+    updateHUD();
+  }
+
+  function renderA(){
+    var q = DATA_A[state.idx];
+    var parts = q.sentence.split('______');
+    var sHtml = '';
+    for(var i = 0; i < parts.length; i++){
+      sHtml += esc(parts[i]);
+      if(i < parts.length - 1){ sHtml += '<span class="blank" aria-label="填上關聯詞">　</span>'; }
+    }
+    var opts = state.optOrder.map(function(oi){
+      return '<button type="button" class="opt" data-action="opt" data-i="' + oi + '">' + esc(q.options[oi]) + '</button>';
+    }).join('');
+
+    stage.innerHTML =
+      '<div class="q-top">' +
+        '<span class="q-badge">第 ' + (state.idx + 1) + ' 關 · 共 6 關</span>' +
+        '<span class="q-tip">選出最合適的關聯詞</span>' +
+      '</div>' +
+      '<p class="q-sentence">' + sHtml + '</p>' +
+      '<div class="opt-grid">' + opts + '</div>' +
+      '<div id="fb"></div>';
+
+    state.locked = false;
+  }
+
+  function renderB(){
+    var q = DATA_B[state.idx];
+
+    var slots = state.picks.map(function(p, i){
+      var filled = (p !== null);
+      var cls = 'slot';
+      if(filled){ cls += ' filled'; }
+      else if(i === state.target){ cls += ' target'; }
+      var placeholder = (i === state.target && !filled) ? '點下面的碎片放進來' : '';
+      var slotLabel = '第 ' + (i + 1) + ' 格' + (filled ? '，已放入' + q.pieces[p] : '，空格');
+      return '<div class="' + cls + '" data-action="slot" data-s="' + i + '" role="button" tabindex="0" aria-label="' + esc(slotLabel) + '">' +
+        '<span class="slot-no">' + (i + 1) + '</span>' +
+        '<span class="slot-txt">' + (filled ? esc(q.pieces[p]) : placeholder) + '</span>' +
+        '</div>';
+    }).join('');
+
+    var avail = state.pool.filter(function(pi){ return state.picks.indexOf(pi) === -1; });
+    var chips = avail.map(function(pi){
+      return '<button type="button" class="chip" data-action="chip" data-p="' + pi + '">' + esc(q.pieces[pi]) + '</button>';
+    }).join('');
+    if(!avail.length){
+      chips = '<span class="pool-empty">碎片都用完了，按「檢查答案」看看排得對不對。</span>';
+    }
+
+    var full = state.picks.every(function(p){ return p !== null; });
+    var hintHtml = state.hint ? '<div class="hint-box" id="hintWrap">' + iconBulb() + '<span>' + esc(q.hint) + '</span></div>' : '';
+
+    stage.innerHTML =
+      '<div class="q-top">' +
+        '<span class="q-badge">第 ' + (state.idx + 1) + ' 關 · 共 6 關</span>' +
+        '<span class="q-tip">把碎片排成一句通順的話</span>' +
+      '</div>' +
+      '<div class="slot-list">' + slots + '</div>' +
+      '<div class="pool">' + chips + '</div>' +
+      '<p class="pool-tip">先點要放的空格，再點下面的碎片；點已放好的碎片可以拿回來。</p>' +
+      '<div class="btn-row">' +
+        '<button type="button" class="btn btn-primary" data-action="check"' + (full ? '' : ' disabled') + '>檢查答案</button>' +
+        '<button type="button" class="btn" data-action="hint">小提示</button>' +
+      '</div>' +
+      hintHtml +
+      '<div id="fb"></div>';
+  }
+
+  function renderResult(){
+    sfx('win');
+    var s = state.score;
+    var stars = '';
+    for(var i = 0; i < 6; i++){
+      stars += '<svg class="' + (i < s ? 'on' : '') + '" viewBox="0 0 24 24" aria-hidden="true">' +
+        '<path d="M12 2.8l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.5 6.2 20.7l1.1-6.5L2.6 9.6l6.5-.9z"/></svg>';
+    }
+    var comment = '';
+    if(s === 6){ comment = '太厲害了！你已經是關聯詞小達人，六類關聯詞都難不倒你。'; }
+    else if(s === 5){ comment = '很棒！只差一點點就滿分，再挑戰一次就能全對。'; }
+    else if(s >= 3){ comment = '不錯喔！回到教學區再看一遍口訣，你會更熟練。'; }
+    else { comment = '別灰心，先讀一讀上面的六張卡片，再回來挑戰一次。'; }
+
+    var name = (state.mode === 'a') ? '詞卡填空' : '句子拼圖';
+
+    stage.innerHTML =
+      '<div class="result">' +
+        mascotSVG() +
+        '<h3>' + name + ' · 完成！</h3>' +
+        '<div class="stars">' + stars + '</div>' +
+        '<p class="big">你答對了 ' + s + ' / 6 題</p>' +
+        '<p class="comment">' + comment + '</p>' +
+        '<div class="btn-row">' +
+          '<button type="button" class="btn btn-primary" data-action="retry">再玩一次</button>' +
+          '<button type="button" class="btn" data-action="switch">試試另一個模式</button>' +
+        '</div>' +
+      '</div>';
+  }
+
+  /* ==================== 模式一：詞卡填空 ==================== */
+  function pickA(i, btn){
+    if(state.locked) return;
+    state.locked = true;
+
+    var q = DATA_A[state.idx];
+    var ok = (i === q.answer);
+    state.results[state.idx] = ok;
+    if(ok){ state.score++; }
+
+    var opts = stage.querySelectorAll('.opt');
+    Array.prototype.forEach.call(opts, function(b){
+      b.classList.add('is-locked');
+      if(parseInt(b.getAttribute('data-i'), 10) === q.answer){
+        b.classList.add('is-right');
+      } else if(b !== btn){
+        b.classList.add('is-dim');
+      }
+    });
+    if(!ok){ btn.classList.add('is-wrong'); }
+
+    var words = q.options[q.answer].split('……');
+    var blanks = stage.querySelectorAll('.blank');
+    Array.prototype.forEach.call(blanks, function(b, k){
+      b.textContent = words[k] || '';
+      b.setAttribute('aria-label', words[k] || '關聯詞');
+      b.classList.add('filled');
+    });
+
+    sfx(ok ? 'correct' : 'wrong');
+    updateHUD();
+
+    var fb = document.getElementById('fb');
+    if(fb){
+      fb.innerHTML =
+        '<div class="fb ' + (ok ? 'ok' : 'no') + '">' +
+          '<div class="fb-head">' + (ok ? iconOk() + '答對了！' : iconNo() + '差一點點～') + '</div>' +
+          '<p class="fb-ans">正確答案：<b>' + esc(q.options[q.answer]) + '</b></p>' +
+          '<p class="fb-exp">' + esc(q.explain) + '</p>' +
+          '<button type="button" class="btn btn-primary" data-action="next">' + (state.idx === 5 ? '看成績' : '下一題') + '</button>' +
+        '</div>';
+      fb.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  /* ==================== 模式二：句子拼圖 ==================== */
+  function placeChip(pi){
+    if(state.locked) return;
+    if(state.picks.indexOf(pi) !== -1) return;
+    var slot = state.target;
+    if(slot < 0 || state.picks[slot] !== null){
+      slot = state.picks.indexOf(null);
+    }
+    if(slot === -1) return;
+    state.picks[slot] = pi;
+    state.target = state.picks.indexOf(null);
+    sfx('drop');
+    renderB();
+  }
+
+  function clearSlot(s){
+    if(state.locked) return;
+    if(state.picks[s] === null){
+      state.target = s;
+      renderB();
+      return;
+    }
+    state.picks[s] = null;
+    state.target = s;
+    sfx('click');
+    renderB();
+  }
+
+  function showHint(){
+    if(state.locked) return;
+    state.hint = true;
+    sfx('click');
+    renderB();
+    var w = document.getElementById('hintWrap');
+    if(w){ w.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+  }
+
+  function checkB(){
+    if(state.locked) return;
+    var q = DATA_B[state.idx];
+    var built = state.picks.map(function(p){ return q.pieces[p]; }).join('');
+    var ok = built === q.pieces.join('');
+
+    state.locked = true;
+    state.results[state.idx] = ok;
+    if(ok){ state.score++; }
+    updateHUD();
+    sfx(ok ? 'correct' : 'wrong');
+
+    var slots = stage.querySelectorAll('.slot');
+    Array.prototype.forEach.call(slots, function(el, i){
+      var same = state.picks[i] !== null && q.pieces[state.picks[i]] === q.pieces[i];
+      el.classList.add(same ? 'ok' : 'bad');
+    });
+    var checkBtn = stage.querySelector('[data-action="check"]');
+    if(checkBtn){ checkBtn.disabled = true; }
+    var hintBtn = stage.querySelector('[data-action="hint"]');
+    if(hintBtn){ hintBtn.disabled = true; }
+
+    var fb = document.getElementById('fb');
+    if(!fb) return;
+    var yourHtml = ok ? '' : '<p class="fb-your">你的排列：' + esc(built) + '</p>';
+    fb.innerHTML =
+      '<div class="fb ' + (ok ? 'ok' : 'no') + '">' +
+        '<div class="fb-head">' + (ok ? iconOk() + '答對了！句子排好了！' : iconNo() + '順序還不太對～') + '</div>' +
+        '<p class="fb-ans">完整句子：</p>' +
+        '<p class="fb-full">' + esc(q.pieces.join('')) + '</p>' +
+        yourHtml +
+        '<p class="fb-exp">' + esc(q.explain) + '</p>' +
+        '<button type="button" class="btn btn-primary" data-action="next">' + (state.idx === 5 ? '看成績' : '下一題') + '</button>' +
+      '</div>';
+    fb.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  /* ==================== 流程 ==================== */
+  function next(){
+    sfx('click');
+    state.idx++;
+    state.locked = false;
+    state.picks = [null, null, null, null];
+    state.pool = shuffle([0, 1, 2, 3]);
+    state.optOrder = shuffle([0, 1, 2, 3]);
+    state.target = 0;
+    state.hint = false;
+    render();
+    var anchor = document.querySelector('.game-top');
+    if(anchor){ anchor.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  }
+
+  function switchMode(m){
+    state.mode = m;
+    state.idx = 0;
+    state.score = 0;
+    state.results = [null, null, null, null, null, null];
+    state.locked = false;
+    state.picks = [null, null, null, null];
+    state.pool = shuffle([0, 1, 2, 3]);
+    state.optOrder = shuffle([0, 1, 2, 3]);
+    state.target = 0;
+    state.hint = false;
+    var tabs = document.querySelectorAll('.mode-tab');
+    Array.prototype.forEach.call(tabs, function(t){
+      t.setAttribute('aria-selected', t.getAttribute('data-mode') === m ? 'true' : 'false');
+    });
+    render();
+  }
+
+  /* ==================== 事件 ==================== */
+  stage.addEventListener('click', function(e){
+    var el = e.target.closest ? e.target.closest('[data-action]') : null;
+    if(!el || !stage.contains(el)) return;
+    var action = el.getAttribute('data-action');
+
+    if(action === 'opt'){
+      pickA(parseInt(el.getAttribute('data-i'), 10), el);
+    } else if(action === 'chip'){
+      placeChip(parseInt(el.getAttribute('data-p'), 10));
+    } else if(action === 'slot'){
+      clearSlot(parseInt(el.getAttribute('data-s'), 10));
+    } else if(action === 'check'){
+      checkB();
+    } else if(action === 'hint'){
+      showHint();
+    } else if(action === 'next'){
+      next();
+    } else if(action === 'retry'){
+      sfx('click');
+      switchMode(state.mode);
+    } else if(action === 'switch'){
+      sfx('click');
+      switchMode(state.mode === 'a' ? 'b' : 'a');
+    }
+  });
+
+  stage.addEventListener('keydown', function(e){
+    if(e.key !== 'Enter' && e.key !== ' ') return;
+    var el = e.target.closest ? e.target.closest('.slot') : null;
+    if(!el || !stage.contains(el)) return;
+    e.preventDefault();
+    el.click();
+  });
+
+  var tabsAll = document.querySelectorAll('.mode-tab');
+  Array.prototype.forEach.call(tabsAll, function(btn){
+    btn.addEventListener('click', function(){
+      var m = btn.getAttribute('data-mode');
+      if(m !== state.mode){
+        sfx('click');
+        switchMode(m);
+      }
+    });
+  });
+
+  soundBtn.addEventListener('click', function(){
+    soundOn = !soundOn;
+    soundBtn.setAttribute('aria-pressed', soundOn ? 'true' : 'false');
+    soundBtn.setAttribute('aria-label', soundOn ? '關閉音效' : '開啟音效');
+    if(soundOn){
+      ensureAudio();
+      sfx('click');
+    }
+  });
+
+  document.addEventListener('pointerdown', function once(){
+    ensureAudio();
+    document.removeEventListener('pointerdown', once);
+  }, { passive: true });
+
+  /* ==================== 啟動 ==================== */
+  state.pool = shuffle([0, 1, 2, 3]);
+  state.optOrder = shuffle([0, 1, 2, 3]);
+  render();
+})();
+</script>
+</body>
+</html>
