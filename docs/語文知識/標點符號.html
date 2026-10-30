@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>標點精靈大冒險｜小學標點符號互動學習</title>
-<meta name="description" content="為香港小學生設計的標點符號互動學習遊戲：12 種標點圖文教學（含括號）、兩種互動練習、初階與高階混合挑戰，對應《香港小學學習字詞表》標準用字，附即時解說與音效，支援手機、平板及電腦。">
+<meta name="description" content="為香港小學生設計的標點符號互動學習遊戲：12 種標點圖文教學、兩種互動練習、初階與高階混合挑戰，附即時解說與音效，支援手機、平板及電腦。">
 <style>
   :root{
     --cream:#FFF8EC;
@@ -26,7 +26,7 @@
   html{-webkit-text-size-adjust:100%}
   body{
     margin:0;
-    font-family:"Noto Sans HK","Noto Sans TC","PingFang HK","PingFang TC","Microsoft JhengHei","Heiti TC","Source Han Sans HK","Source Han Sans TC",system-ui,-apple-system,sans-serif;
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei","Heiti TC","Source Han Sans TC",system-ui,-apple-system,sans-serif;
     background:var(--cream);
     color:var(--ink);
     line-height:1.7;
@@ -154,6 +154,7 @@
   .examples li{background:#FFF9EF;border:2px solid var(--line);border-radius:14px;padding:12px 16px;font-size:clamp(19px,1.75vw,23px);font-weight:700;line-height:1.95}
   .hl{color:#C2410C;background:#FFE3D2;border-radius:6px;padding:0 2px}
   .mk-dash{display:inline-block;width:1.72em;height:.17em;background:currentColor;border-radius:999px;vertical-align:.30em;margin:0 .04em}
+  .mk-dots{display:inline-block;width:1.62em;height:.245em;fill:currentColor;vertical-align:.04em;margin:0 .02em}
   .tip{background:#FFF4D6;border-color:#E0A93B}
   .tip h3{color:#8A5A00}
   .teach-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;margin-top:clamp(16px,2.4vw,26px)}
@@ -165,7 +166,8 @@
   .level-badge{display:inline-flex;align-items:center;justify-content:center;border:3px solid var(--ink);border-radius:14px;padding:6px 16px;font-weight:900;font-size:clamp(16px,1.6vw,20px);box-shadow:0 3px 0 rgba(46,42,38,.2)}
   .level-badge.easy{background:var(--teal)}
   .level-badge.hard{background:var(--coral)}
-  .level-head p{margin:0;color:var(--muted);font-weight:600;font-size:clamp(13px,1.25vw,16px)}
+  .level-head p{margin:0;color:var(--muted);font-weight:600;font-size:clamp(13px,1.25vw,16px);display:flex;flex-wrap:wrap;gap:2px 12px}
+  .level-head p span{white-space:nowrap}
   .group-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:clamp(10px,1.6vw,16px)}
   .group-btn{display:flex;flex-direction:column;align-items:flex-start;gap:4px;background:#fff;border:3px solid var(--ink);border-radius:20px;padding:14px 16px;cursor:pointer;font:inherit;color:var(--ink);text-align:left;box-shadow:0 4px 0 rgba(46,42,38,.16);transition:transform .14s}
   .group-btn:hover{transform:translateY(-3px)}
@@ -178,7 +180,8 @@
   .mode-legend i{width:10px;height:10px;border-radius:50%;background:var(--teal);display:inline-block}
   .mode-legend i.multi{background:var(--purple)}
   .group-btn b{font-size:clamp(16px,1.5vw,19px);white-space:nowrap}
-  .group-btn small{color:var(--muted);font-size:clamp(13px,1.15vw,15px);font-weight:600;line-height:1.45}
+  .group-btn small{display:flex;flex-wrap:wrap;align-items:center;gap:3px 7px;color:var(--muted);font-size:clamp(13px,1.15vw,15px);font-weight:600;line-height:1.45}
+  .group-btn .g-n{white-space:nowrap;font-size:clamp(10px,.95vw,12px);font-weight:800;background:rgba(46,42,38,.07);border-radius:999px;padding:1px 8px;line-height:1.6}
   .stars{display:flex;gap:2px;margin-top:4px}
   .stars svg{width:18px;height:18px}
 
@@ -194,13 +197,16 @@
   .q-card{padding:clamp(18px,2.6vw,30px)}
   .q-type{display:inline-flex;align-items:center;gap:6px;font-size:clamp(12px,1.15vw,14px);font-weight:800;color:#5B4CB8;background:rgba(155,140,245,.14);border-radius:999px;padding:4px 14px;margin-bottom:12px}
   .sentence{font-size:clamp(26px,2.9vw,38px);line-height:2.15;font-weight:800;margin:4px 0 clamp(16px,2vw,22px);word-break:normal;overflow-wrap:break-word}
+  .sentence .pn{border-bottom-width:3px;padding-bottom:0;line-height:1.15}
+  .pn-note{display:flex;align-items:center;gap:10px;margin:-4px 0 clamp(12px,2vw,18px);font-size:clamp(13px,1.2vw,15px);font-weight:700;color:var(--muted);line-height:1.5}
+  .pn-note .pn{font-size:clamp(16px,1.5vw,18px);color:var(--ink);font-weight:800}
   .slot{
     display:inline-flex;align-items:center;justify-content:center;
-    min-width:1.5em;height:1.45em;padding:0 .1em;margin:0 .04em;
-    border:0;border-bottom:5px dashed var(--coral);
-    background:rgba(255,122,89,.10);border-radius:10px 10px 4px 4px;
+    min-width:1.7em;height:1.55em;padding:0 .14em;margin:0 .06em;
+    border:3px solid rgba(46,42,38,.28);border-bottom:6px solid var(--coral);
+    background:#FFF4EF;border-radius:12px;
     font:inherit;font-size:.9em;font-weight:900;color:var(--ink);
-    vertical-align:-0.12em;cursor:pointer;line-height:1;
+    vertical-align:-0.14em;cursor:pointer;line-height:1;
   }
   .slot.wide{min-width:2.1em}
   .keep{white-space:nowrap;word-break:keep-all;overflow-wrap:normal}
@@ -208,6 +214,11 @@
   .slot.wrong{border-bottom-color:#D93B3B;background:rgba(217,59,59,.13)}
   .slot.reveal{border-bottom-color:#D93B3B;background:rgba(217,59,59,.08)}
   .slot:focus-visible{outline:3px solid var(--purple);outline-offset:2px}
+  .sentence.ask{font-size:clamp(21px,2.2vw,27px);line-height:1.9;font-weight:800}
+  /* 長句（如三段式列舉）在手機上自動收一級字號，避免一題要滑兩屏 */
+  .sentence.long{font-size:clamp(21px,2.5vw,32px);line-height:1.95}
+  .pn{display:inline-block;border-bottom:3px solid currentColor;padding-bottom:2px;line-height:1.2}
+  .opt.txt{font-size:clamp(20px,2.3vw,28px);-webkit-text-stroke:0;line-height:1.3;padding:0 8px}
   .options{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(10px,1.4vw,14px)}
   .tray{grid-template-columns:repeat(3,1fr)}
   .opt{
@@ -220,6 +231,7 @@
     line-height:1;
   }
   .tray .opt{font-size:clamp(26px,3.4vw,38px);min-height:clamp(62px,8vw,84px)}
+  .opt{-webkit-text-stroke:.4px currentColor}
   .opt:hover:not([disabled]){transform:translateY(-2px)}
   .opt:active:not([disabled]){transform:translateY(3px);box-shadow:0 1px 0 rgba(46,42,38,.18)}
   .opt:focus-visible{outline:3px solid var(--purple);outline-offset:3px}
@@ -243,6 +255,8 @@
   .feedback h4{margin:0 0 4px;font-size:clamp(16px,1.55vw,19px);line-height:1.3}
   .feedback p{margin:0;font-size:clamp(16px,1.45vw,18px);line-height:1.7;font-weight:600}
   .feedback .ans{font-weight:900;color:#B03A1C;background:#FFE2D3;border-radius:6px;padding:0 5px}
+  .feedback .or{font-weight:800;color:var(--ink);opacity:.65;padding:0 2px;font-size:.92em}
+  .feedback .altnote{display:block;margin-top:6px;padding-top:6px;border-top:2px dashed rgba(46,42,38,.18);font-weight:700}
 
   .quiz-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:clamp(14px,2vw,20px);flex-wrap:wrap}
   .quiz-actions .btn{min-width:150px}
@@ -291,7 +305,11 @@
     .tray{grid-template-columns:repeat(3,1fr)}
     .mark-grid{grid-template-columns:repeat(2,1fr)}
     .group-grid{grid-template-columns:repeat(2,1fr)}
-    .sentence{font-size:clamp(24px,6.4vw,30px);line-height:2.2}
+    .sentence{font-size:clamp(26px,7.2vw,32px);line-height:2.15}
+    .opt{font-size:38px;min-height:82px}
+    .tray .opt{font-size:36px;min-height:76px}
+    .opt.txt{font-size:20px;min-height:78px;line-height:1.3;padding:0 6px}
+    .sentence.ask{font-size:19.5px;line-height:1.85}
     .hero h1{font-size:clamp(38px,11vw,52px)}
     .quiz-actions{flex-direction:column-reverse}
     .quiz-actions .btn{width:100%}
@@ -397,39 +415,42 @@ const DATA = {
       "practice": [
         {
           "mode": "single",
-          "text": "早上起來▢我先刷牙，再吃早餐。",
-          "answer": "，",
-          "options": [
-            "，",
-            "。",
-            "、",
-            "；"
-          ],
-          "explain": "句子還未說完，中間停一停，用逗號。"
-        },
-        {
-          "mode": "single",
-          "text": "爺爺年紀大了▢走路卻很有精神。",
-          "answer": "，",
-          "options": [
-            "，",
-            "。",
-            "；",
-            "！"
-          ],
-          "explain": "兩個分句關係緊密，中間用逗號；整句說完才用句號。"
-        },
-        {
-          "mode": "single",
           "text": "這本書▢我已經看過三次了。",
           "answer": "，",
           "options": [
+            "；",
+            "、",
             "，",
+            "。"
+          ],
+          "explain": "「這本書」後面稍作停頓，句子還未說完，用逗號。",
+          "_where": "教學練習/逗號"
+        },
+        {
+          "mode": "single",
+          "text": "放學的路上▢我看見一隻小花貓。",
+          "answer": "，",
+          "options": [
+            "、",
             "。",
-            "：",
+            "！",
+            "，"
+          ],
+          "explain": "「放學的路上」是時間和地點背景，句子還未說完，用逗號。",
+          "_where": "教學練習/逗號"
+        },
+        {
+          "mode": "single",
+          "text": "妹妹一邊唱歌▢一邊跳舞。",
+          "answer": "，",
+          "options": [
+            "，",
+            "、",
+            "。",
             "？"
           ],
-          "explain": "主語「這本書」後面稍作停頓，用逗號；句子到最後才用句號。"
+          "explain": "「一邊……一邊……」連接兩個動作，中間用逗號。",
+          "_where": "教學練習/逗號"
         }
       ]
     },
@@ -447,7 +468,7 @@ const DATA = {
         "句子說完才用，未說完用逗號。"
       ],
       "examples": [
-        "今天的天氣十分晴朗。",
+        "今天早上的氣溫是二十二度。",
         "弟弟正在房間裏看圖書。"
       ],
       "tip": "看到「嗎」、「呢」等疑問語氣詞，句末要用問號，不是句號。",
@@ -461,24 +482,26 @@ const DATA = {
           "text": "我最喜歡的科目是常識▢",
           "answer": "。",
           "options": [
-            "。",
             "，",
+            "。",
             "？",
-            "！"
+            "、"
           ],
-          "explain": "一句話完整說完，句末用句號。"
+          "explain": "一句話完整說完，句末用句號。",
+          "_where": "教學練習/句號"
         },
         {
           "mode": "single",
           "text": "放學後，同學們排隊離開課室▢",
           "answer": "。",
           "options": [
-            "。",
             "，",
             "！",
-            "？"
+            "；",
+            "。"
           ],
-          "explain": "陳述一件事，語氣平靜，用句號。"
+          "explain": "陳述一件事，語氣平靜，用句號。",
+          "_where": "教學練習/句號"
         },
         {
           "mode": "single",
@@ -486,11 +509,12 @@ const DATA = {
           "answer": "。",
           "options": [
             "。",
+            "，",
             "！",
-            "？",
-            "，"
+            "？"
           ],
-          "explain": "陳述姐姐上學的時間，句子完整，用句號。"
+          "explain": "陳述姐姐上學的時間，句子完整，用句號。",
+          "_where": "教學練習/句號"
         }
       ]
     },
@@ -522,57 +546,60 @@ const DATA = {
           "text": "你昨天有沒有完成功課▢",
           "answer": "？",
           "options": [
-            "？",
+            "，",
             "。",
-            "！",
-            "，"
+            "？",
+            "！"
           ],
-          "explain": "這是一條問句，句末要用問號。"
+          "explain": "這是一條問句，句末要用問號。",
+          "_where": "教學練習/問號"
         },
         {
           "mode": "single",
           "text": "為甚麼天空是藍色的▢",
           "answer": "？",
           "options": [
+            "、",
             "？",
-            "。",
             "，",
-            "！"
+            "。"
           ],
-          "explain": "有「為甚麼」，表示疑問，用問號。"
+          "explain": "有「為甚麼」，表示疑問，用問號。",
+          "_where": "教學練習/問號"
         },
         {
           "mode": "single",
           "text": "請問圖書館是不是在禮堂旁邊▢",
           "answer": "？",
           "options": [
-            "？",
-            "。",
             "！",
-            "："
+            "；",
+            "。",
+            "？"
           ],
-          "explain": "「請問」開頭，句子在發問，用問號。"
+          "explain": "「請問」開頭，句子在發問，用問號。",
+          "_where": "教學練習/問號"
         }
       ]
     },
     {
       "id": "exclaim",
       "glyph": "！",
-      "name": "感嘆號",
+      "name": "感歎號",
       "color": "#D94A6A",
       "bg": "#FFE4EA",
       "tagline": "把感情放大",
-      "definition": "表示強烈的感情，例如驚喜、讚嘆、生氣或命令。",
+      "definition": "表示強烈的感情，例如驚喜、讚歎、生氣或命令。",
       "points": [
-        "讚嘆、驚喜、生氣、命令，句末用感嘆號。",
-        "感嘆號只寫一個，不要寫成「！！！」。",
+        "讚歎、驚喜、生氣、命令，句末用感歎號。",
+        "感歎號只寫一個，不要寫成「！！！」。",
         "語氣平淡的陳述句用句號。"
       ],
       "examples": [
         "這幅畫真漂亮啊！",
         "小心，前面有車！"
       ],
-      "tip": "有「啊」、「真」、「多麼」等詞，語氣強烈時多用感嘆號。",
+      "tip": "有「啊」、「真」、「多麼」等詞，語氣強烈時多用感歎號。",
       "hl": [
         "！"
       ],
@@ -584,35 +611,38 @@ const DATA = {
           "answer": "！",
           "options": [
             "！",
+            "，",
             "。",
-            "？",
-            "，"
+            "？"
           ],
-          "explain": "有「真……啊」，表示讚嘆，用感嘆號。"
+          "explain": "有「真……啊」，表示讚歎，用感歎號。",
+          "_where": "教學練習/感歎號"
         },
         {
           "mode": "single",
-          "text": "弟弟考了第一名，真厲害▢",
+          "text": "這朵花開得多麼美啊▢",
           "answer": "！",
           "options": [
-            "！",
-            "。",
             "？",
-            "；"
+            "！",
+            "、",
+            "。"
           ],
-          "explain": "語氣強烈，表示驚喜和讚賞，用感嘆號。"
+          "explain": "有「多麼……啊」，語氣強烈，用感歎號。",
+          "_where": "教學練習/感歎號"
         },
         {
           "mode": "single",
-          "text": "班長大聲說：「起立▢」",
+          "text": "「救命啊▢」{{小明}}大聲呼救。",
           "answer": "！",
           "options": [
             "！",
+            "，",
             "。",
-            "？",
-            "，"
+            "、"
           ],
-          "explain": "這是口令，語氣強烈，用感嘆號。"
+          "explain": "大聲呼救，語氣強烈，用感歎號。",
+          "_where": "教學練習/感歎號"
         }
       ]
     },
@@ -631,7 +661,7 @@ const DATA = {
       ],
       "examples": [
         "我愛吃蘋果、香蕉和橙。",
-        "書包裏有課本、鉛筆和擦膠。"
+        "書包裏有課本、鉛筆和橡皮擦。"
       ],
       "tip": "頓號只隔開詞語，不隔開句子。",
       "hl": [
@@ -644,36 +674,39 @@ const DATA = {
           "text": "廚房裏有番茄▢雞蛋和青瓜。",
           "answer": "、",
           "options": [
-            "、",
             "，",
+            "、",
             "。",
             "；"
           ],
-          "explain": "番茄、雞蛋、青瓜是並列詞語，中間用頓號。"
-        },
-        {
-          "mode": "single",
-          "text": "運動會設有跑步▢跳遠和擲豆袋三個項目。",
-          "answer": "、",
-          "options": [
-            "、",
-            "，",
-            "？",
-            "。"
-          ],
-          "explain": "項目名稱並列，用頓號。"
+          "explain": "番茄、雞蛋、青瓜是並列詞語，中間用頓號。",
+          "_where": "教學練習/頓號"
         },
         {
           "mode": "single",
           "text": "文具店裏有鉛筆▢顏色筆和畫紙。",
           "answer": "、",
           "options": [
-            "、",
             "，",
             "。",
+            "？",
+            "、"
+          ],
+          "explain": "三種文具並列，用頓號。",
+          "_where": "教學練習/頓號"
+        },
+        {
+          "mode": "single",
+          "text": "我喜歡紅色▢藍色和綠色。",
+          "answer": "、",
+          "options": [
+            "、",
+            "。",
+            "，",
             "："
           ],
-          "explain": "三種文具並列，用頓號。"
+          "explain": "顏色並列，用頓號。",
+          "_where": "教學練習/頓號"
         }
       ]
     },
@@ -687,16 +720,16 @@ const DATA = {
       "definition": "提示下文，用在說話內容、列舉或補充說明之前。",
       "points": [
         "提示下面的說話內容，用冒號。",
-        "提示列舉，用冒號。",
+        "先總說、再分說（第一、第二；一是、二是），用冒號提示下面的項目；這種分項列舉的位置不用破折號。",
         "後面的話補充說明前面的意思，也可以用冒號。",
-        "冒號後面不再加逗號。"
+        "冒號寫在提示語之後；「有」字後面直接列出名稱時，不加冒號。"
       ],
       "examples": [
         "媽媽說：「快點吃飯。」",
-        "我最喜歡的水果有：蘋果、香蕉和西瓜。",
+        "我最喜歡的水果有三種：蘋果、香蕉和西瓜。",
         "這次比賽我們贏了：這是三年來第一次。"
       ],
-      "tip": "冒號要寫在提示語之後，不能放在句子開頭。冒號和破折號都可以引出補充說明，題目只會提供其中一個。",
+      "tip": "冒號要寫在提示語之後，不能放在句子開頭，也不要緊接在「有」字後面。冒號和破折號都可以引出補充說明，題目只會提供其中一個。",
       "hl": [
         "："
       ],
@@ -708,23 +741,25 @@ const DATA = {
           "answer": "：",
           "options": [
             "：",
-            "，",
-            "。",
-            "；"
-          ],
-          "explain": "提示媽媽提醒的說話內容，用冒號。"
-        },
-        {
-          "mode": "single",
-          "text": "今天的值日生有▢小明、小美和小強。",
-          "answer": "：",
-          "options": [
-            "：",
-            "，",
+            "；",
             "、",
             "。"
           ],
-          "explain": "冒號提示下面的名單。"
+          "explain": "提示媽媽提醒的說話內容，用冒號。",
+          "_where": "教學練習/冒號"
+        },
+        {
+          "mode": "single",
+          "text": "今天的值日生名單如下▢{{小明}}、{{小美}}和{{小強}}。",
+          "answer": "：",
+          "options": [
+            "。",
+            "；",
+            "：",
+            "？"
+          ],
+          "explain": "「如下」提示下面的名單，用冒號。",
+          "_where": "教學練習/冒號"
         },
         {
           "mode": "single",
@@ -733,10 +768,11 @@ const DATA = {
           "options": [
             "：",
             "、",
-            "；",
-            "！"
+            "？",
+            "；"
           ],
-          "explain": "後面的話補充說明「贏了」有甚麼特別，用冒號；冒號也可以引出補充說明。"
+          "explain": "後面的話補充說明「贏了」有甚麼特別，用冒號。",
+          "_where": "教學練習/冒號"
         }
       ]
     },
@@ -776,14 +812,15 @@ const DATA = {
             "」"
           ],
           "tray": [
-            "：",
-            "「",
             "」",
+            "「",
             "，",
+            "；",
             "。",
-            "；"
+            "："
           ],
-          "explain": "先冒號提示說話，說話內容用引號包住，前後成對。"
+          "explain": "先冒號提示說話，說話內容用引號包住，前後成對。",
+          "_where": "教學練習/引號"
         },
         {
           "mode": "multi",
@@ -793,14 +830,15 @@ const DATA = {
             "」"
           ],
           "tray": [
-            "「",
-            "」",
             "《",
+            "」",
             "》",
-            "〈",
-            "〉"
+            "；",
+            "「",
+            "，"
           ],
-          "explain": "「小博士」是特別強調的稱號，用引號包住。"
+          "explain": "「小博士」是特別強調的稱號，用引號包住。",
+          "_where": "教學練習/引號"
         },
         {
           "mode": "multi",
@@ -810,14 +848,15 @@ const DATA = {
             "』"
           ],
           "tray": [
-            "『",
-            "』",
-            "「",
-            "」",
+            "》",
             "《",
-            "》"
+            "』",
+            "」",
+            "『",
+            "「"
           ],
-          "explain": "引號內再用引號，內層改用『』，外層仍是「」。"
+          "explain": "引號內再用引號，內層改用『』，外層仍是「」。",
+          "_where": "教學練習/引號"
         }
       ]
     },
@@ -830,20 +869,20 @@ const DATA = {
       "tagline": "書名篇名穿外套",
       "definition": "標示書名、篇名、報刊名或歌曲名。",
       "points": [
-        "書名、報刊名用《》。",
-        "篇章名、詩名用〈〉。",
+        "書名、篇名、報刊名、歌曲名，都用《》。",
+        "詩名、文章題目也是作品名稱，同樣用《》。",
         "書名號要成對使用。"
       ],
       "examples": [
         "我最喜歡看《西遊記》。",
-        "今天我們學了〈靜夜思〉這首詩。"
+        "今天我們學了《靜夜思》這首詩。",
+        "音樂課上，我們一起唱《義勇軍進行曲》。",
+        "弟弟借了一本《十萬個為甚麼》。"
       ],
       "tip": "書名號不是引號，不要把書名寫成「西遊記」。",
       "hl": [
         "《",
-        "》",
-        "〈",
-        "〉"
+        "》"
       ],
       "modeLabel": "排一排 · 配對填空",
       "practice": [
@@ -855,31 +894,33 @@ const DATA = {
             "》"
           ],
           "tray": [
-            "《",
-            "》",
-            "〈",
-            "〉",
             "「",
-            "」"
+            "」",
+            "《",
+            "；",
+            "》",
+            "，"
           ],
-          "explain": "書名用《》，前後成對。"
+          "explain": "書名用《》，前後成對。",
+          "_where": "教學練習/書名號"
         },
         {
           "mode": "multi",
           "text": "老師教我們朗讀▢詠鵝▢這首詩。",
           "answers": [
-            "〈",
-            "〉"
+            "《",
+            "》"
           ],
           "tray": [
-            "〈",
-            "〉",
             "《",
-            "》",
+            "」",
+            "；",
+            "，",
             "「",
-            "」"
+            "》"
           ],
-          "explain": "詩篇名用〈〉，書名才用《》。"
+          "explain": "詩名也是作品名稱，用《》，前後成對。",
+          "_where": "教學練習/書名號"
         },
         {
           "mode": "multi",
@@ -889,14 +930,15 @@ const DATA = {
             "》"
           ],
           "tray": [
+            "，",
+            "；",
             "《",
-            "》",
-            "〈",
-            "〉",
             "「",
-            "」"
+            "」",
+            "》"
           ],
-          "explain": "報刊名用《》。"
+          "explain": "報刊名用《》。",
+          "_where": "教學練習/書名號"
         }
       ]
     },
@@ -911,13 +953,16 @@ const DATA = {
       "points": [
         "後面是解釋說明，用破折號。",
         "說話聲音拉長，用破折號。",
-        "破折號是一條連續的長線，佔兩個字位。"
+        "破折號是一條連續的長線，佔兩個字位。",
+        "聲音拉長時，破折號後面直接接下文，不再加感歎號。",
+        "聲音拉長用破折號；說話斷斷續續才用省略號，兩者不要混淆。",
+        "後面接名詞短語、解釋那是甚麼，用破折號；後面接的是一句完整的話、語氣只是停一停，破折號和省略號都通。"
       ],
       "examples": [
-        "他只有一個願望——到迪士尼玩一天。",
-        "「快——點回來！」媽媽大叫。"
+        "他只有一個願望——到{{迪士尼}}玩一天。",
+        "「喂——你在哪裏？」媽媽在樓下大聲喊。"
       ],
-      "tip": "破折號是一條連起來的長線，中間不要斷開。補充說明也可以用冒號，兩種寫法都通；題目只會提供其中一種。",
+      "tip": "破折號是一條連起來的長線，中間不要斷開。聲音拉長時，破折號後面直接接下文，不要再加感歎號。引出補充說明時冒號也通；但「先總說、再分項列舉」（第一、第二）的位置，只用冒號。",
       "hl": [
         "——"
       ],
@@ -925,39 +970,42 @@ const DATA = {
       "practice": [
         {
           "mode": "single",
-          "text": "這次比賽的冠軍是▢我們班的班長。",
+          "text": "輪船「嗚▢」的一聲長鳴，慢慢駛離碼頭。",
           "answer": "——",
           "options": [
-            "——",
-            "……",
             "，",
+            "……",
+            "——",
             "。"
           ],
-          "explain": "後面補充說明冠軍是誰，用破折號。"
+          "explain": "輪船的汽笛聲拉得長長的，用破折號；這裏是聲音延長，不是省去了內容，所以不用省略號。",
+          "_where": "教學練習/破折號"
         },
         {
           "mode": "single",
-          "text": "我們班的班長是▢小明。",
+          "text": "他有一個心願▢到外國看看不同的風景。",
           "answer": "——",
           "options": [
+            "？",
             "——",
-            "，",
-            "。",
-            "？"
+            "；",
+            "、"
           ],
-          "explain": "後面補充說明班長是誰，用破折號。"
+          "explain": "後面解釋「心願」是甚麼，用破折號。",
+          "_where": "教學練習/破折號"
         },
         {
           "mode": "single",
-          "text": "「加▢油！」同學們大聲打氣。",
+          "text": "大家都喜歡我們的班主任▢一位總是笑臉迎人的老師。",
           "answer": "——",
           "options": [
-            "——",
-            "，",
             "。",
-            "；"
+            "；",
+            "？",
+            "——"
           ],
-          "explain": "聲音拉長，用破折號；破折號要寫成一條連續的長線。"
+          "explain": "後面解釋班主任是怎樣的人，用破折號。",
+          "_where": "教學練習/破折號"
         }
       ]
     },
@@ -986,15 +1034,16 @@ const DATA = {
       "practice": [
         {
           "mode": "single",
-          "text": "妹妹指着天空數：一、二、三▢",
+          "text": "「明天我們一起▢」話還沒說完，媽媽就叫我回家了。",
           "answer": "……",
           "options": [
-            "……",
             "。",
             "，",
-            "、"
+            "：",
+            "……"
           ],
-          "explain": "數目還沒有數完，用省略號表示省略。"
+          "explain": "話還沒有說完，用省略號表示聲音未完。",
+          "_where": "教學練習/省略號"
         },
         {
           "mode": "single",
@@ -1002,23 +1051,25 @@ const DATA = {
           "answer": "……",
           "options": [
             "……",
-            "，",
-            "。",
-            "？"
+            "：",
+            "；",
+            "。"
           ],
-          "explain": "說話斷斷續續，用省略號。"
+          "explain": "說話斷斷續續，用省略號。",
+          "_where": "教學練習/省略號"
         },
         {
           "mode": "single",
-          "text": "「明天我們一起▢」話還沒說完，媽媽就叫我回家了。",
+          "text": "中秋節的晚上，桌上擺滿了月餅、柚子、楊桃▢多得數不清。",
           "answer": "……",
           "options": [
-            "……",
-            "。",
-            "，",
-            "？"
+            "；",
+            "、",
+            "？",
+            "……"
           ],
-          "explain": "話還沒有說完，用省略號表示聲音未完。"
+          "explain": "先列出幾樣，用省略號表示還有其他，後面用「多得數不清」總結。",
+          "_where": "教學練習/省略號"
         }
       ]
     },
@@ -1048,15 +1099,16 @@ const DATA = {
       "practice": [
         {
           "mode": "single",
-          "text": "早上，我搭校車回校▢下午，我走路回家。",
+          "text": "早上，我乘校車回校▢下午，我步行回家。",
           "answer": "；",
           "options": [
-            "；",
             "，",
-            "。",
-            "、"
+            "、",
+            "；",
+            "！"
           ],
-          "explain": "兩個並列分句，分句內已有逗號，中間用分號。"
+          "explain": "兩個並列分句，分句內已有逗號，中間用分號。",
+          "_where": "教學練習/分號"
         },
         {
           "mode": "single",
@@ -1064,101 +1116,97 @@ const DATA = {
           "answer": "；",
           "options": [
             "；",
+            "、",
             "，",
-            "。",
-            "："
+            "？"
           ],
-          "explain": "前後是結構相近的並列分句，分句內已有逗號，用分號。"
+          "explain": "前後是結構相近的並列分句，分句內已有逗號，用分號。",
+          "_where": "教學練習/分號"
         },
         {
           "mode": "single",
           "text": "秋天，樹葉變黃▢冬天，天氣寒冷。",
           "answer": "；",
           "options": [
-            "；",
+            "、",
             "，",
-            "。",
+            "；",
             "！"
           ],
-          "explain": "兩個並列分句，分句內已有逗號，用分號。"
+          "explain": "兩個並列分句，分句內已有逗號，用分號。",
+          "_where": "教學練習/分號"
         }
       ]
     },
     {
-      "id": "bracket",
-      "glyph": "（）",
-      "name": "括號",
-      "color": "#C0504D",
-      "bg": "#FBE9E7",
-      "tagline": "註解補充放這裏",
-      "definition": "標示文中註釋、補充說明的部分，要前後成對使用。",
+      "id": "propername",
+      "glyph": "＿",
+      "name": "專名號",
+      "color": "#3E7A5A",
+      "bg": "#E3F2E9",
+      "tagline": "人名地名畫底線",
+      "definition": "標示人名、地名、國名、機構名等專有名稱，在名稱下面畫一條直線。",
       "points": [
-        "補充說明或註釋的文字，用括號包住。",
-        "括號要成對使用，有「（」就有「）」。",
-        "註釋句子中某個詞語，括號緊貼在該詞語之後。",
-        "註釋整句話，括號放在句末標點之後。"
+        "人名、地名、國名、機構名，都在名稱下面畫一條直線。",
+        "一個名稱畫一條線，線的長度與名稱一樣長，中間不要斷開。",
+        "姓氏加稱謂指某一位特定的人，例如「李老師」、「陳校長」，也要加專名號。",
+        "普通名詞不用專名號，例如「老師」、「公園」、「書包」。",
+        "直線畫在字的下面，不要寫成波浪線，也不要寫在字的中間。"
       ],
       "examples": [
-        "李白（唐代大詩人）寫了很多有名的詩。",
-        "明天（星期六）我們會去郊遊。"
+        "{{孫中山}}先生是偉大的革命家。",
+        "{{香港}}是重要的國際城市。",
+        "我們一家人到{{日本}}旅行。",
+        "{{李老師}}稱讚我們班很守秩序。"
       ],
-      "tip": "括號裏的內容是補充說明，就算刪掉，句子仍然通順。",
-      "hl": [
-        "（",
-        "）"
-      ],
-      "modeLabel": "排一排 · 配對填空",
+      "tip": "專名號又叫私名號，是一條直線，畫在名字下面，不是標在左邊；引號「」用來標示說話或特別強調的詞語，兩者不要混淆。書名、篇名、報刊名要用書名號《》，例如《西遊記》、《明報》，不加專名號。",
+      "hl": [],
+      "modeLabel": "選一選 · 找出專名",
       "practice": [
         {
-          "mode": "multi",
-          "text": "弟弟▢小明▢今年讀三年級。",
-          "answers": [
-            "（",
-            "）"
+          "mode": "single",
+          "prompt": "選一選 · 找出專名",
+          "text": "陳小明和姐姐到圖書館借書。句中的哪一個詞語要用專名號？",
+          "answer": "陳小明",
+          "options": [
+            "陳小明",
+            "姐姐",
+            "圖書館",
+            "借書"
           ],
-          "tray": [
-            "（",
-            "）",
-            "「",
-            "」",
-            "《",
-            "》"
-          ],
-          "explain": "「小明」是補充說明弟弟的名字，用括號包住。"
+          "hint": "想一想：哪一個詞語是人的姓名？",
+          "explain": "「陳小明」是人的姓名，屬於專名，要在下面畫一條直線；「姐姐」、「圖書館」、「借書」是普通詞語，不用專名號。",
+          "_where": "教學練習/專名號"
         },
         {
-          "mode": "multi",
-          "text": "端午節▢農曆五月初五▢是中國的傳統節日。",
-          "answers": [
-            "（",
-            "）"
+          "mode": "single",
+          "prompt": "選一選 · 找出專名",
+          "text": "外婆住在廣州，每年暑假我們都去探望她。句中的哪一個詞語要用專名號？",
+          "answer": "廣州",
+          "options": [
+            "廣州",
+            "外婆",
+            "暑假",
+            "探望"
           ],
-          "tray": [
-            "（",
-            "）",
-            "「",
-            "」",
-            "：",
-            "——"
-          ],
-          "explain": "後面是補充說明端午節的日期，用括號包住。"
+          "hint": "想一想：哪一個詞語是地方的名稱？",
+          "explain": "「廣州」是地名，要加專名號；「外婆」是稱謂，「暑假」是時間，「探望」是動作，都不用專名號。",
+          "_where": "教學練習/專名號"
         },
         {
-          "mode": "multi",
-          "text": "我們明天到海洋公園▢香港最著名的主題公園▢遊玩。",
-          "answers": [
-            "（",
-            "）"
+          "mode": "single",
+          "prompt": "選一選 · 找出專名",
+          "text": "我們一家人坐飛機到日本旅行。句中的哪一個詞語要用專名號？",
+          "answer": "日本",
+          "options": [
+            "日本",
+            "飛機",
+            "旅行",
+            "一家人"
           ],
-          "tray": [
-            "（",
-            "）",
-            "「",
-            "」",
-            "《",
-            "》"
-          ],
-          "explain": "「香港最著名的主題公園」是補充說明海洋公園，用括號包住。"
+          "hint": "想一想：哪一個詞語是國家的名稱？",
+          "explain": "「日本」是國名，要加專名號；「飛機」、「旅行」、「一家人」是普通詞語，不用專名號。",
+          "_where": "教學練習/專名號"
         }
       ]
     }
@@ -1166,7 +1214,7 @@ const DATA = {
   "challenges": {
     "easy": {
       "title": "初階版",
-      "subtitle": "7 關 · 每關 4 題 · 包含括號練習",
+      "subtitle": "6 關 · 每關 10 題 · 由單空格開始",
       "groups": [
         {
           "name": "第 1 關",
@@ -1174,39 +1222,42 @@ const DATA = {
           "qs": [
             {
               "mode": "single",
-              "text": "你今天為甚麼遲到▢",
-              "answer": "？",
-              "options": [
-                "？",
-                "。",
-                "！",
-                "，"
-              ],
-              "explain": "有「為甚麼」，是問句，用問號。"
-            },
-            {
-              "mode": "single",
-              "text": "這朵花開得真美▢",
-              "answer": "！",
-              "options": [
-                "！",
-                "。",
-                "？",
-                "，"
-              ],
-              "explain": "表示讚嘆，用感嘆號。"
-            },
-            {
-              "mode": "single",
               "text": "我每天七時起床▢",
               "answer": "。",
               "options": [
-                "。",
                 "，",
+                "。",
+                "！",
+                "？"
+              ],
+              "explain": "陳述習慣，句子完整，用句號。",
+              "_where": "easy/第 1 關"
+            },
+            {
+              "mode": "single",
+              "text": "你今天為甚麼遲到▢",
+              "answer": "？",
+              "options": [
+                "，",
+                "。",
                 "？",
                 "！"
               ],
-              "explain": "陳述習慣，句子完整，用句號。"
+              "explain": "有「為甚麼」，是問句，用問號。",
+              "_where": "easy/第 1 關"
+            },
+            {
+              "mode": "single",
+              "text": "多麼好吃的蛋糕啊▢",
+              "answer": "！",
+              "options": [
+                "。",
+                "？",
+                "，",
+                "！"
+              ],
+              "explain": "有「多麼……啊」，表示讚歎，用感歎號。",
+              "_where": "easy/第 1 關"
             },
             {
               "mode": "single",
@@ -1214,11 +1265,90 @@ const DATA = {
               "answer": "。",
               "options": [
                 "。",
+                "？",
+                "，",
+                "！"
+              ],
+              "explain": "陳述一個事實，句子完整，用句號。",
+              "_where": "easy/第 1 關"
+            },
+            {
+              "mode": "single",
+              "text": "你是不是忘記帶手冊了▢",
+              "answer": "？",
+              "options": [
+                "。",
+                "？",
                 "！",
+                "，"
+              ],
+              "explain": "「是不是」表示疑問，句子末尾用問號。",
+              "_where": "easy/第 1 關"
+            },
+            {
+              "mode": "single",
+              "text": "太陽每天從東邊升起▢",
+              "answer": "。",
+              "options": [
+                "？",
+                "！",
+                "。",
+                "，"
+              ],
+              "explain": "陳述一個事實，句子完整，用句號。",
+              "_where": "easy/第 1 關"
+            },
+            {
+              "mode": "single",
+              "text": "這碗湯真鮮甜▢",
+              "answer": "！",
+              "options": [
+                "。",
+                "？",
+                "；",
+                "！"
+              ],
+              "explain": "「真……」表示讚歎，用感歎號。",
+              "_where": "easy/第 1 關"
+            },
+            {
+              "mode": "single",
+              "text": "誰把雨傘放在課室門口▢",
+              "answer": "？",
+              "options": [
+                "？",
+                "！",
+                "。",
+                "、"
+              ],
+              "explain": "「誰」是疑問詞，問句末尾用問號。",
+              "_where": "easy/第 1 關"
+            },
+            {
+              "mode": "single",
+              "text": "媽媽，我今天要留校參加合唱團練習▢",
+              "answer": "。",
+              "options": [
+                "！",
+                "。",
                 "？",
                 "，"
               ],
-              "explain": "陳述一個事實，句子完整，用句號。"
+              "explain": "這是陳述句，語氣平和，句末用句號。",
+              "_where": "easy/第 1 關"
+            },
+            {
+              "mode": "single",
+              "text": "多麼壯觀的{{維港}}夜景▢",
+              "answer": "！",
+              "options": [
+                "，",
+                "。",
+                "！",
+                "？"
+              ],
+              "explain": "有「多麼」，表示讚歎，用感歎號。",
+              "_where": "easy/第 1 關"
             }
           ]
         },
@@ -1231,48 +1361,120 @@ const DATA = {
               "text": "下課後▢我們一起到操場玩耍。",
               "answer": "，",
               "options": [
-                "，",
-                "。",
+                "；",
                 "、",
-                "；"
-              ],
-              "explain": "「下課後」是時間背景，句子還未說完，用逗號。"
-            },
-            {
-              "mode": "single",
-              "text": "媽媽走進廚房▢開始準備晚飯。",
-              "answer": "，",
-              "options": [
                 "，",
-                "。",
-                "、",
-                "！"
+                "。"
               ],
-              "explain": "兩個動作連續發生，中間用逗號。"
+              "explain": "「下課後」是時間背景，句子還未說完，中間用逗號。"
             },
             {
               "mode": "single",
               "text": "雖然今天下雨▢但是同學們都很開心。",
               "answer": "，",
               "options": [
-                "，",
-                "；",
+                "、",
                 "。",
+                "；",
+                "，"
+              ],
+              "explain": "「雖然……但是……」連接兩個分句，中間用逗號。"
+            },
+            {
+              "mode": "single",
+              "text": "春天的公園裏，開滿了不同的花朵▢",
+              "answer": "。",
+              "options": [
+                "。",
+                "，",
+                "？",
                 "、"
               ],
-              "explain": "關聯詞「雖然……但是」之間用逗號。"
+              "explain": "句子已經說完，句末用句號；逗號只用在句子中間。"
+            },
+            {
+              "mode": "single",
+              "text": "媽媽走進廚房▢開始準備晚飯。",
+              "answer": "，",
+              "options": [
+                "。",
+                "，",
+                "！",
+                "、"
+              ],
+              "explain": "兩個動作連續發生，中間用逗號。"
             },
             {
               "mode": "single",
               "text": "因為明天要早起▢我今晚要早點睡。",
               "answer": "，",
               "options": [
-                "，",
                 "。",
                 "；",
+                "，",
                 "、"
               ],
               "explain": "「因為」引出原因，句子還未說完，中間用逗號。"
+            },
+            {
+              "mode": "single",
+              "text": "這件外套雖然舊，但是很暖和▢",
+              "answer": "。",
+              "options": [
+                "，",
+                "！",
+                "；",
+                "。"
+              ],
+              "explain": "句子已經說完，句末用句號；不要用逗號收尾。"
+            },
+            {
+              "mode": "single",
+              "text": "爺爺喜歡下棋▢也喜歡看報紙。",
+              "answer": "，",
+              "options": [
+                "，",
+                "、",
+                "；",
+                "。"
+              ],
+              "explain": "兩個喜好並列，句子還未說完，中間用逗號。"
+            },
+            {
+              "mode": "single",
+              "text": "如果明天下雨▢運動會就改期舉行。",
+              "answer": "，",
+              "options": [
+                "、",
+                "，",
+                "。",
+                "；"
+              ],
+              "explain": "「如果……就……」連接分句，中間用逗號。"
+            },
+            {
+              "mode": "single",
+              "text": "早上，我幫媽媽澆花▢",
+              "answer": "。",
+              "options": [
+                "，",
+                "：",
+                "。",
+                "、"
+              ],
+              "explain": "一句話說完，句末用句號。"
+            },
+            {
+              "mode": "single",
+              "text": "首先▢我們要把材料準備好。",
+              "answer": "，",
+              "options": [
+                "。",
+                "：",
+                "、",
+                "，"
+              ],
+              "explain": "「首先」是次序詞，後面稍作停頓，用逗號。"
             }
           ]
         },
@@ -1285,48 +1487,120 @@ const DATA = {
               "text": "小賣部有糖果▢餅乾和飲品。",
               "answer": "、",
               "options": [
-                "、",
                 "，",
                 "。",
+                "；",
+                "、"
+              ],
+              "explain": "三種食物並列，中間用頓號。"
+            },
+            {
+              "mode": "single",
+              "text": "花園裏有玫瑰▢百合和菊花。",
+              "answer": "、",
+              "options": [
+                "、",
+                "，",
+                "：",
+                "。"
+              ],
+              "explain": "花名並列，中間用頓號。"
+            },
+            {
+              "mode": "single",
+              "text": "課室裏有黑板、書桌和椅子▢",
+              "answer": "。",
+              "options": [
+                "、",
+                "。",
+                "，",
+                "！"
+              ],
+              "explain": "並列詞語之間已用頓號；整句說完，句末用句號。"
+            },
+            {
+              "mode": "single",
+              "text": "筆袋裏有鉛筆▢直尺和橡皮擦。",
+              "answer": "、",
+              "options": [
+                "。",
+                "！",
+                "、",
+                "，"
+              ],
+              "explain": "文具並列，中間用頓號。"
+            },
+            {
+              "mode": "single",
+              "text": "動物園裏有猴子▢大象和長頸鹿。",
+              "answer": "、",
+              "options": [
+                "：",
+                "，",
+                "！",
+                "、"
+              ],
+              "explain": "三種動物並列，中間用頓號。"
+            },
+            {
+              "mode": "single",
+              "text": "中秋節我們吃了月餅、柚子和楊桃▢",
+              "answer": "。",
+              "options": [
+                "。",
+                "，",
+                "、",
                 "；"
               ],
-              "explain": "三個並列詞語，用頓號。"
+              "explain": "並列詞語之間用頓號；句子說完，句末用句號。"
             },
             {
               "mode": "single",
               "text": "運動會設有跑步▢跳遠和擲豆袋三個項目。",
               "answer": "、",
               "options": [
-                "、",
                 "，",
-                "？",
-                "。"
+                "、",
+                "。",
+                "？"
               ],
-              "explain": "項目名稱並列，用頓號。"
+              "explain": "項目名稱並列，中間用頓號。"
             },
             {
               "mode": "single",
-              "text": "我喜歡紅色▢藍色和綠色。",
-              "answer": "、",
+              "text": "我喜歡的運動有游泳、跳繩和羽毛球▢",
+              "answer": "。",
               "options": [
                 "、",
+                "？",
+                "。",
+                "，"
+              ],
+              "explain": "句子已經說完，句末用句號，不要用頓號收尾。"
+            },
+            {
+              "mode": "single",
+              "text": "媽媽買了白菜▢馬鈴薯和番茄。",
+              "answer": "、",
+              "options": [
                 "，",
                 "。",
-                "："
+                "：",
+                "、"
               ],
-              "explain": "顏色並列，用頓號。"
+              "explain": "三種蔬菜並列，中間用頓號。"
             },
             {
               "mode": "single",
-              "text": "筆袋裏有鉛筆▢間尺和擦膠。",
-              "answer": "、",
+              "text": "美勞課要準備剪刀、膠水和畫紙▢",
+              "answer": "。",
               "options": [
-                "、",
+                "。",
                 "，",
-                "！",
-                "。"
+                "；",
+                "、"
               ],
-              "explain": "文具並列，用頓號。"
+              "explain": "一句話說完，句末用句號。"
             }
           ]
         },
@@ -1340,19 +1614,19 @@ const DATA = {
               "answer": "：",
               "options": [
                 "：",
-                "，",
                 "。",
+                "，",
                 "；"
               ],
-              "explain": "提示說話內容，用冒號。"
+              "explain": "直接引述老師的話，提示語後面用冒號。"
             },
             {
               "mode": "single",
               "text": "圖書館的開放時間如下▢上午九時至下午五時。",
               "answer": "：",
               "options": [
+                "；",
                 "：",
-                "，",
                 "、",
                 "。"
               ],
@@ -1360,27 +1634,99 @@ const DATA = {
             },
             {
               "mode": "single",
-              "text": "爸爸問我▢「你做完功課了嗎？」",
-              "answer": "：",
+              "text": "媽媽說▢她今天要早點回家。",
+              "answer": "，",
               "options": [
-                "：",
+                "！",
+                "。",
                 "，",
-                "？",
-                "！"
+                "；"
               ],
-              "explain": "提示爸爸問的內容，用冒號。"
+              "explain": "「她」指媽媽，這是轉述媽媽的話，不是她的原話，所以提示語後面用逗號，不用冒號，也不必加引號。"
             },
             {
               "mode": "single",
-              "text": "這本書只有一個缺點▢字太小。",
+              "text": "爸爸問我▢「你做完功課了嗎？」",
+              "answer": "：",
+              "options": [
+                "；",
+                "？",
+                "、",
+                "："
+              ],
+              "explain": "直接引述爸爸的問話，提示語後面用冒號。"
+            },
+            {
+              "mode": "single",
+              "text": "這本書只有一個缺點▢字體太小。",
               "answer": "：",
               "options": [
                 "：",
                 "、",
-                "；",
-                "！"
+                "？",
+                "；"
               ],
-              "explain": "後面的話補充說明「缺點」是甚麼，用冒號；冒號也可以引出補充說明。"
+              "explain": "後面的話補充說明「缺點」是甚麼，用冒號。"
+            },
+            {
+              "mode": "single",
+              "text": "老師提醒我們▢明天要帶手冊。",
+              "answer": "，",
+              "options": [
+                "！",
+                "，",
+                "。",
+                "、"
+              ],
+              "explain": "轉述老師的話，沒有引號，用逗號。"
+            },
+            {
+              "mode": "single",
+              "text": "媽媽吩咐我▢「放學後要立刻回家。」",
+              "answer": "：",
+              "options": [
+                "，",
+                "。",
+                "：",
+                "；"
+              ],
+              "explain": "直接引述媽媽的吩咐，提示語後面用冒號。"
+            },
+            {
+              "mode": "single",
+              "text": "我今天有三項功課▢中文、數學和常識。",
+              "answer": "：",
+              "options": [
+                "，",
+                "、",
+                "；",
+                "："
+              ],
+              "explain": "先總說「三項功課」，再用冒號提示下面的項目。"
+            },
+            {
+              "mode": "single",
+              "text": "妹妹告訴我▢她明天要去旅行。",
+              "answer": "，",
+              "options": [
+                "，",
+                "！",
+                "。",
+                "？"
+              ],
+              "explain": "轉述妹妹的話，沒有引號，用逗號。"
+            },
+            {
+              "mode": "single",
+              "text": "請注意以下幾點▢第一，準時出席；第二，帶齊用具。",
+              "answer": "：",
+              "options": [
+                "。",
+                "：",
+                "，",
+                "、"
+              ],
+              "explain": "「以下幾點」提示下面的內容，用冒號。"
             }
           ]
         },
@@ -1396,31 +1742,14 @@ const DATA = {
                 "》"
               ],
               "tray": [
+                "「",
+                "；",
+                "，",
                 "《",
                 "》",
-                "〈",
-                "〉",
-                "「",
                 "」"
               ],
               "explain": "書名用《》，前後成對。"
-            },
-            {
-              "mode": "multi",
-              "text": "今天我們學了▢靜夜思▢這首詩。",
-              "answers": [
-                "〈",
-                "〉"
-              ],
-              "tray": [
-                "〈",
-                "〉",
-                "《",
-                "》",
-                "「",
-                "」"
-              ],
-              "explain": "詩篇名用〈〉。"
             },
             {
               "mode": "multi",
@@ -1430,31 +1759,150 @@ const DATA = {
                 "》"
               ],
               "tray": [
+                "「",
                 "《",
                 "》",
-                "〈",
-                "〉",
-                "「",
+                "；",
+                "，",
                 "」"
               ],
               "explain": "報刊名用《》。"
             },
             {
               "mode": "multi",
-              "text": "姐姐在閱讀▢小紅帽▢這個故事。",
+              "text": "圖書館的書架上放着一本▢唐詩三百首▢。",
               "answers": [
                 "《",
                 "》"
               ],
               "tray": [
                 "《",
+                "」",
+                "，",
                 "》",
-                "〈",
-                "〉",
+                "「",
+                "；"
+              ],
+              "explain": "《唐詩三百首》是書名，用《》，前後成對。"
+            },
+            {
+              "mode": "multi",
+              "text": "姐姐在圖書館借了一本▢小紅帽▢。",
+              "answers": [
+                "《",
+                "》"
+              ],
+              "tray": [
+                "《",
+                "，",
+                "》",
+                "』",
+                "「",
+                "；"
+              ],
+              "explain": "這是一本書的書名，用《》，前後成對。"
+            },
+            {
+              "mode": "multi",
+              "text": "爸爸每天早上都看▢明報▢。",
+              "answers": [
+                "《",
+                "》"
+              ],
+              "tray": [
+                "」",
+                "「",
+                "；",
+                "，",
+                "》",
+                "《"
+              ],
+              "explain": "報刊名用《》，前後成對。"
+            },
+            {
+              "mode": "multi",
+              "text": "妹妹最喜歡聽▢小星星▢這首歌。",
+              "answers": [
+                "《",
+                "》"
+              ],
+              "tray": [
+                "》",
+                "「",
+                "」",
+                "《",
+                "，",
+                "；"
+              ],
+              "explain": "歌曲名也是作品名稱，用《》，前後成對。"
+            },
+            {
+              "mode": "multi",
+              "text": "音樂課上，我們學會唱▢茉莉花▢。",
+              "answers": [
+                "《",
+                "》"
+              ],
+              "tray": [
+                "》",
+                "《",
+                "，",
+                "；",
                 "「",
                 "」"
               ],
-              "explain": "故事名用《》。"
+              "explain": "歌曲名用《》，前後成對。"
+            },
+            {
+              "mode": "multi",
+              "text": "表哥送了我一套▢十萬個為甚麼▢。",
+              "answers": [
+                "《",
+                "》"
+              ],
+              "tray": [
+                "《",
+                "」",
+                "，",
+                "；",
+                "》",
+                "「"
+              ],
+              "explain": "這是一套書的書名，用《》，前後成對。"
+            },
+            {
+              "mode": "multi",
+              "text": "老師介紹了一篇▢木蘭辭▢給我們。",
+              "answers": [
+                "《",
+                "》"
+              ],
+              "tray": [
+                "「",
+                "，",
+                "《",
+                "》",
+                "」",
+                "；"
+              ],
+              "explain": "《木蘭辭》是篇名，也是作品名稱，用《》，前後成對。"
+            },
+            {
+              "mode": "multi",
+              "text": "書架上有一本▢安徒生童話集▢。",
+              "answers": [
+                "《",
+                "》"
+              ],
+              "tray": [
+                "》",
+                "《",
+                "；",
+                "』",
+                "，",
+                "「"
+              ],
+              "explain": "書名用《》，前後成對。"
             }
           ]
         },
@@ -1467,24 +1915,26 @@ const DATA = {
               "text": "你喜歡吃蘋果還是香蕉▢",
               "answer": "？",
               "options": [
-                "？",
-                "，",
                 "。",
-                "、"
+                "、",
+                "？",
+                "，"
               ],
-              "explain": "「還是」表示選擇疑問，用問號。"
+              "explain": "「還是」表示選擇疑問，用問號。",
+              "_where": "easy/第 6 關"
             },
             {
               "mode": "single",
-              "text": "花園裏有玫瑰▢百合和菊花。",
+              "text": "姐姐的興趣是畫畫▢彈琴和唱歌。",
               "answer": "、",
               "options": [
-                "、",
-                "，",
                 "。",
-                "；"
+                "；",
+                "，",
+                "、"
               ],
-              "explain": "花名並列，用頓號。"
+              "explain": "三項興趣並列，用頓號。",
+              "_where": "easy/第 6 關"
             },
             {
               "mode": "single",
@@ -1492,97 +1942,103 @@ const DATA = {
               "answer": "：",
               "options": [
                 "：",
+                "。",
+                "，",
+                "？"
+              ],
+              "explain": "提示說話內容，用冒號。",
+              "_where": "easy/第 6 關"
+            },
+            {
+              "mode": "single",
+              "text": "這道彩虹真美麗啊▢",
+              "answer": "！",
+              "options": [
+                "。",
+                "！",
+                "？",
+                "，"
+              ],
+              "explain": "表示讚歎，用感歎號。",
+              "_where": "easy/第 6 關"
+            },
+            {
+              "mode": "single",
+              "text": "請問洗手間在哪裏▢",
+              "answer": "？",
+              "options": [
+                "。",
+                "！",
+                "？",
+                "，"
+              ],
+              "explain": "「請問……」是問句，用問號。",
+              "_where": "easy/第 6 關"
+            },
+            {
+              "mode": "single",
+              "text": "花園裏有玫瑰▢百合和太陽花。",
+              "answer": "、",
+              "options": [
+                "，",
+                "。",
+                "；",
+                "、"
+              ],
+              "explain": "三種花並列，用頓號。",
+              "_where": "easy/第 6 關"
+            },
+            {
+              "mode": "single",
+              "text": "媽媽說▢「吃飯前要洗手。」",
+              "answer": "：",
+              "options": [
+                "：",
                 "，",
                 "。",
                 "？"
               ],
-              "explain": "提示說話內容，用冒號。"
+              "explain": "提示說話內容，用冒號。",
+              "_where": "easy/第 6 關"
             },
             {
               "mode": "single",
               "text": "這幅畫真漂亮▢",
               "answer": "！",
               "options": [
-                "！",
                 "。",
+                "！",
                 "？",
+                "、"
+              ],
+              "explain": "表示讚歎，用感歎號。",
+              "_where": "easy/第 6 關"
+            },
+            {
+              "mode": "single",
+              "text": "今天早上的氣溫是二十二度▢",
+              "answer": "。",
+              "options": [
+                "！",
+                "，",
+                "。",
+                "？"
+              ],
+              "explain": "只是報告氣溫的數字，語氣平實，句子完整，用句號；句末沒有要表達的強烈感情，所以不用感歎號。",
+              "_where": "easy/第 6 關"
+            },
+            {
+              "mode": "single",
+              "text": "下課後▢我們到圖書館借書。",
+              "answer": "，",
+              "options": [
+                "、",
+                "。",
+                "！",
                 "，"
               ],
-              "explain": "表示讚嘆，用感嘆號。"
-            }
-          ]
-        },
-        {
-          "name": "第 7 關",
-          "theme": "括號補充",
-          "qs": [
-            {
-              "mode": "multi",
-              "text": "我的姐姐▢小美▢今年讀六年級。",
-              "answers": [
-                "（",
-                "）"
-              ],
-              "tray": [
-                "（",
-                "）",
-                "「",
-                "」",
-                "《",
-                "》"
-              ],
-              "explain": "「小美」是補充說明姐姐的名字，用括號包住。"
-            },
-            {
-              "mode": "multi",
-              "text": "中國的首都▢北京▢是一個美麗的城市。",
-              "answers": [
-                "（",
-                "）"
-              ],
-              "tray": [
-                "（",
-                "）",
-                "「",
-                "」",
-                "《",
-                "》"
-              ],
-              "explain": "「北京」是補充說明中國的首都，用括號包住。"
-            },
-            {
-              "mode": "multi",
-              "text": "今天是復活節▢紀念耶穌復活的節日▢。",
-              "answers": [
-                "（",
-                "）"
-              ],
-              "tray": [
-                "（",
-                "）",
-                "：",
-                "——",
-                "「",
-                "」"
-              ],
-              "explain": "中間是補充說明復活節，用括號包住。"
-            },
-            {
-              "mode": "multi",
-              "text": "李白▢詩仙▢寫了很多有名的詩。",
-              "answers": [
-                "（",
-                "）"
-              ],
-              "tray": [
-                "（",
-                "）",
-                "「",
-                "」",
-                "《",
-                "》"
-              ],
-              "explain": "「詩仙」是補充說明李白的稱號，用括號包住。"
+              "explain": "「下課後」是時間背景，句子還未說完，用逗號。",
+              "_where": "easy/第 6 關"
             }
           ]
         }
@@ -1590,29 +2046,12 @@ const DATA = {
     },
     "hard": {
       "title": "高階版",
-      "subtitle": "7 關 · 每關 3-4 題 · 多空格與綜合運用",
+      "subtitle": "6 關 · 每關 10 題 · 多空格與綜合運用",
       "groups": [
         {
           "name": "第 1 關",
           "theme": "逗號 vs 頓號",
           "qs": [
-            {
-              "mode": "multi",
-              "text": "我喜歡吃蘋果▢香蕉▢橙和西瓜。",
-              "answers": [
-                "、",
-                "、"
-              ],
-              "tray": [
-                "、",
-                "，",
-                "。",
-                "；",
-                "：",
-                "？"
-              ],
-              "explain": "並列詞語之間全部用頓號。"
-            },
             {
               "mode": "multi",
               "text": "放學後▢我和妹妹到公園玩▢因為那裏有很多花草樹木。",
@@ -1621,14 +2060,15 @@ const DATA = {
                 "，"
               ],
               "tray": [
-                "，",
                 "、",
-                "。",
-                "；",
+                "？",
                 "：",
-                "！"
+                "，",
+                "！",
+                "；"
               ],
-              "explain": "時間背景後用逗號；「因為」引出原因，前面也用逗號。"
+              "explain": "時間背景後用逗號；「因為」引出原因，前面也用逗號。",
+              "_where": "hard/第 1 關"
             },
             {
               "mode": "multi",
@@ -1639,14 +2079,159 @@ const DATA = {
                 "、"
               ],
               "tray": [
-                "、",
                 "，",
+                "、",
+                "：",
+                "？",
+                "。",
+                "；"
+              ],
+              "explain": "五種食物並列，用頓號隔開，最後兩項用「和」連接。",
+              "_where": "hard/第 1 關"
+            },
+            {
+              "mode": "multi",
+              "text": "妹妹最喜歡吃香蕉▢橙和葡萄。媽媽說要多吃水果▢",
+              "answers": [
+                "、",
+                "。"
+              ],
+              "tray": [
+                "。",
+                "：",
+                "！",
+                "；",
+                "、",
+                "，"
+              ],
+              "explain": "水果名稱並列用頓號；「妹妹最喜歡吃香蕉、橙和葡萄」已是一句完整的話，下一句要另起，所以中間用句號；末句句末也用句號。",
+              "_where": "hard/第 1 關"
+            },
+            {
+              "mode": "multi",
+              "text": "我喜歡吃蘋果▢香蕉▢橙和西瓜。",
+              "answers": [
+                "、",
+                "、"
+              ],
+              "tray": [
+                "，",
+                "；",
+                "？",
+                "：",
+                "。",
+                "、"
+              ],
+              "explain": "並列詞語之間全部用頓號。",
+              "_where": "hard/第 1 關"
+            },
+            {
+              "mode": "multi",
+              "text": "書包裏有課本▢作業簿和筆袋。",
+              "answers": [
+                "、"
+              ],
+              "tray": [
+                "？",
                 "。",
                 "；",
+                "，",
                 "：",
-                "？"
+                "、"
               ],
-              "explain": "五種食物並列，用頓號隔開，最後兩項用「和」連接。"
+              "explain": "並列詞語之間用頓號，最後兩項用「和」連接。"
+            },
+            {
+              "mode": "multi",
+              "text": "早上▢我和爸爸到公園跑步▢跑了大約半小時。",
+              "answers": [
+                "，",
+                "，"
+              ],
+              "tray": [
+                "？",
+                "：",
+                "、",
+                "；",
+                "。",
+                "，"
+              ],
+              "explain": "時間背景後用逗號；兩個動作之間也用逗號。",
+              "_where": "hard/第 1 關"
+            },
+            {
+              "mode": "multi",
+              "text": "這次旅行▢我們去了{{海洋公園}}▢{{太平山頂}}和{{香港科學館}}。",
+              "answers": [
+                "，",
+                "、"
+              ],
+              "tray": [
+                "，",
+                "、",
+                "；",
+                "。",
+                "！",
+                "："
+              ],
+              "explain": "「這次旅行」後用逗號；景點名稱並列用頓號。",
+              "_where": "hard/第 1 關"
+            },
+            {
+              "mode": "multi",
+              "text": "秋天的公園裏▢楓葉紅了▢菊花也開了▢而且到處都是拍照的遊人。",
+              "answers": [
+                "，",
+                "，",
+                "，"
+              ],
+              "tray": [
+                "、",
+                "。",
+                "；",
+                "，",
+                "：",
+                "！"
+              ],
+              "explain": "「秋天的公園裏」只是背景，句子還未說完；「而且」連接下文，三處都用逗號。",
+              "_where": "hard/第 1 關"
+            },
+            {
+              "mode": "multi",
+              "text": "媽媽買了蘋果▢雪梨▢橙▢香蕉和葡萄。",
+              "answers": [
+                "、",
+                "、",
+                "、"
+              ],
+              "tray": [
+                "、",
+                "：",
+                "；",
+                "？",
+                "，",
+                "。"
+              ],
+              "explain": "五種水果並列，用頓號隔開，最後兩項用「和」連接。",
+              "_where": "hard/第 1 關"
+            },
+            {
+              "mode": "multi",
+              "text": "圖書館裏有故事書▢科普書和漫畫▢種類十分豐富。",
+              "answers": [
+                "、",
+                "，"
+              ],
+              "tray": [
+                "、",
+                "，",
+                "：",
+                "；",
+                "？",
+                "。"
+              ],
+              "explain": "三類書並列用頓號；「種類十分豐富」是對前面館藏的總結，前面要停一停，用逗號。",
+              "_where": "hard/第 1 關"
             }
           ]
         },
@@ -1662,48 +2247,175 @@ const DATA = {
                 "，"
               ],
               "tray": [
-                "：",
-                "，",
                 "；",
+                "」",
                 "。",
                 "「",
-                "」"
-              ],
-              "explain": "冒號提示說話；「要努力」後面停一停，用逗號。"
-            },
-            {
-              "mode": "multi",
-              "text": "春天，花兒開了▢夏天，陽光很猛烈▢秋天，天氣涼爽。",
-              "answers": [
-                "；",
-                "；"
-              ],
-              "tray": [
-                "；",
                 "，",
-                "。",
-                "、",
-                "：",
-                "！"
+                "："
               ],
-              "explain": "三個並列分句之間用分號。"
+              "explain": "冒號提示說話；「要努力」後面停一停，用逗號。",
+              "_where": "hard/第 2 關"
             },
             {
               "mode": "multi",
-              "text": "老師提醒大家▢「明天運動會▢記得穿運動服。」",
+              "text": "老師提醒大家▢「運動會那天▢記得穿運動服。」",
               "answers": [
                 "：",
                 "，"
               ],
               "tray": [
-                "：",
-                "，",
                 "；",
+                "，",
                 "。",
+                "：",
                 "、",
                 "「"
               ],
-              "explain": "冒號提示說話內容，引號內的分句用逗號。"
+              "explain": "冒號提示說話內容，引號內的分句用逗號。",
+              "_where": "hard/第 2 關"
+            },
+            {
+              "mode": "multi",
+              "text": "下雨天，我喜歡留在家裏看書▢晴天，我喜歡到公園跑步。",
+              "answers": [
+                "；"
+              ],
+              "tray": [
+                "？",
+                "；",
+                "，",
+                "：",
+                "！",
+                "、"
+              ],
+              "explain": "前後是結構相近的並列分句，分句內已有逗號，之間用分號。",
+              "_where": "hard/第 2 關"
+            },
+            {
+              "mode": "multi",
+              "text": "運動會的安排如下▢上午，各級進行初賽▢下午，舉行決賽和頒獎禮。",
+              "answers": [
+                "：",
+                "；"
+              ],
+              "tray": [
+                "。",
+                "，",
+                "：",
+                "！",
+                "、",
+                "；"
+              ],
+              "explain": "「如下」提示下文，用冒號；兩個分項內已有逗號，之間用分號。",
+              "_where": "hard/第 2 關"
+            },
+            {
+              "mode": "multi",
+              "text": "媽媽說▢「你要記住▢做事要有始有終。」",
+              "answers": [
+                "：",
+                "，"
+              ],
+              "tray": [
+                "」",
+                "；",
+                "。",
+                "「",
+                "，",
+                "："
+              ],
+              "explain": "冒號提示說話內容；引號內的分句用逗號。",
+              "_where": "hard/第 2 關"
+            },
+            {
+              "mode": "multi",
+              "text": "明天要帶的物品如下▢手冊、課本和顏色筆。",
+              "answers": [
+                "："
+              ],
+              "tray": [
+                "；",
+                "。",
+                "，",
+                "：",
+                "、",
+                "？"
+              ],
+              "explain": "「如下」提示下面的內容，用冒號；項目之間用頓號。",
+              "_where": "hard/第 2 關"
+            },
+            {
+              "mode": "multi",
+              "text": "圖書館有兩條規則▢第一，保持安靜▢第二，按時還書。",
+              "answers": [
+                "：",
+                "；"
+              ],
+              "tray": [
+                "、",
+                "——",
+                "，",
+                "：",
+                "？",
+                "；"
+              ],
+              "explain": "冒號提示規則；「第一」「第二」兩項並列，分句內已有逗號，之間用分號。",
+              "_where": "hard/第 2 關"
+            },
+            {
+              "mode": "multi",
+              "text": "晴天，我們在操場跑步▢雨天，我們在禮堂做體操。",
+              "answers": [
+                "；"
+              ],
+              "tray": [
+                "！",
+                "。",
+                "、",
+                "；",
+                "：",
+                "，"
+              ],
+              "explain": "兩個結構相近的並列分句，分句內已有逗號，之間用分號。",
+              "_where": "hard/第 2 關"
+            },
+            {
+              "mode": "multi",
+              "text": "這次旅行的目的有三個▢一是認識大自然，走進山林▢二是學習與同學合作，彼此照應▢三是鍛鍊身體，磨練意志。",
+              "answers": [
+                "：",
+                "；",
+                "；"
+              ],
+              "tray": [
+                "；",
+                "：",
+                "——",
+                "、",
+                "，",
+                "？"
+              ],
+              "explain": "冒號提示下面三項目的；每一項內部已經用了逗號，項與項之間要用分號，層次才清楚；三項都在同一句裏並列，中間不宜用句號。",
+              "_where": "hard/第 2 關"
+            },
+            {
+              "mode": "multi",
+              "text": "秋天有兩個特點▢天氣清涼，陽光柔和▢樹葉轉黃，景色迷人。",
+              "answers": [
+                "：",
+                "；"
+              ],
+              "tray": [
+                "；",
+                "！",
+                "——",
+                "、",
+                "，",
+                "："
+              ],
+              "explain": "先總說「兩個特點」，用冒號提示下文；兩個特點內已有逗號，之間用分號。",
+              "_where": "hard/第 2 關"
             }
           ]
         },
@@ -1720,31 +2432,33 @@ const DATA = {
                 "」"
               ],
               "tray": [
-                "：",
-                "「",
                 "」",
+                "：",
                 "《",
+                "「",
                 "》",
                 "，"
               ],
-              "explain": "冒號提示說話，引號成對包住說話內容。"
+              "explain": "冒號提示說話，引號成對包住說話內容。",
+              "_where": "hard/第 3 關"
             },
             {
               "mode": "multi",
-              "text": "圖書館有▢小小科學家▢這本雜誌。",
+              "text": "圖書館裏有▢小小科學家▢這本雜誌。",
               "answers": [
                 "《",
                 "》"
               ],
               "tray": [
-                "《",
-                "》",
-                "〈",
-                "〉",
+                "；",
                 "「",
-                "」"
+                "，",
+                "」",
+                "《",
+                "》"
               ],
-              "explain": "雜誌名用《》。"
+              "explain": "雜誌名用《》。",
+              "_where": "hard/第 3 關"
             },
             {
               "mode": "multi",
@@ -1754,14 +2468,145 @@ const DATA = {
                 "」"
               ],
               "tray": [
+                "；",
+                "》",
+                "《",
                 "「",
+                "，",
+                "」"
+              ],
+              "explain": "特別強調的詞語用引號，不是書名號。",
+              "_where": "hard/第 3 關"
+            },
+            {
+              "mode": "multi",
+              "text": "老師說▢▢請大家翻開課本。▢",
+              "answers": [
+                "：",
+                "「",
+                "」"
+              ],
+              "tray": [
+                "「",
+                "》",
+                "，",
+                "：",
+                "」",
+                "《"
+              ],
+              "explain": "冒號提示說話，引號成對包住說話內容。",
+              "_where": "hard/第 3 關"
+            },
+            {
+              "mode": "multi",
+              "text": "這本▢十萬個為甚麼▢內容十分豐富。",
+              "answers": [
+                "《",
+                "》"
+              ],
+              "tray": [
+                "《",
+                "」",
+                "，",
+                "「",
+                "》",
+                "；"
+              ],
+              "explain": "書名用《》，前後成對。",
+              "_where": "hard/第 3 關"
+            },
+            {
+              "mode": "multi",
+              "text": "爸爸稱讚我是一個▢小幫手▢。",
+              "answers": [
+                "「",
+                "」"
+              ],
+              "tray": [
+                "「",
+                "；",
                 "」",
                 "《",
-                "》",
-                "〈",
-                "〉"
+                "，",
+                "》"
               ],
-              "explain": "特別強調的詞語用引號，不是書名號。"
+              "explain": "特別強調的詞語用引號，不是書名號。",
+              "_where": "hard/第 3 關"
+            },
+            {
+              "mode": "multi",
+              "text": "圖書館裏有▢三國演義▢和▢水滸傳▢兩本小說。",
+              "answers": [
+                "《",
+                "》",
+                "《",
+                "》"
+              ],
+              "tray": [
+                "《",
+                "，",
+                "「",
+                "》",
+                "」",
+                "；"
+              ],
+              "explain": "兩個書名各自用《》包住，前後成對。",
+              "_where": "hard/第 3 關"
+            },
+            {
+              "mode": "multi",
+              "text": "老師在黑板上寫了▢團結就是力量▢幾個大字。",
+              "answers": [
+                "「",
+                "」"
+              ],
+              "tray": [
+                "，",
+                "；",
+                "」",
+                "「",
+                "《",
+                "》"
+              ],
+              "explain": "引號標示黑板上寫着的話。",
+              "_where": "hard/第 3 關"
+            },
+            {
+              "mode": "multi",
+              "text": "我最喜歡的雜誌是▢科學少年▢。",
+              "answers": [
+                "《",
+                "》"
+              ],
+              "tray": [
+                "」",
+                "》",
+                "，",
+                "《",
+                "「",
+                "；"
+              ],
+              "explain": "雜誌名用《》，前後成對。",
+              "_where": "hard/第 3 關"
+            },
+            {
+              "mode": "multi",
+              "text": "媽媽問▢▢你做完功課了嗎？▢",
+              "answers": [
+                "：",
+                "「",
+                "」"
+              ],
+              "tray": [
+                "」",
+                "：",
+                "「",
+                "》",
+                "《",
+                "？"
+              ],
+              "explain": "冒號提示說話，引號成對包住問句。",
+              "_where": "hard/第 3 關"
             }
           ]
         },
@@ -1771,27 +2616,29 @@ const DATA = {
           "qs": [
             {
               "mode": "single",
-              "text": "這份禮物是▢媽媽親手做的。",
+              "text": "媽媽送我的禮物很特別▢一個親手造的音樂盒。",
               "answer": "——",
               "options": [
+                "；",
+                "。",
                 "——",
-                "……",
-                "，",
-                "。"
+                "……"
               ],
-              "explain": "後面補充說明禮物是誰做的，用破折號。"
+              "explain": "後面解釋禮物特別在哪裏，用破折號。",
+              "_where": "hard/第 4 關"
             },
             {
               "mode": "single",
-              "text": "「我▢我……」小明低着頭說。",
+              "text": "「我▢我……」{{小明}}低着頭說。",
               "answer": "……",
               "options": [
-                "……",
-                "，",
                 "。",
-                "？"
+                "：",
+                "；",
+                "……"
               ],
-              "explain": "說話斷斷續續，用省略號。"
+              "explain": "說話斷斷續續，用省略號。",
+              "_where": "hard/第 4 關"
             },
             {
               "mode": "single",
@@ -1799,11 +2646,103 @@ const DATA = {
               "answer": "……",
               "options": [
                 "……",
-                "。",
-                "，",
-                "？"
+                "；",
+                "？",
+                "、"
               ],
-              "explain": "列舉未盡，用省略號表示還有其他水果。"
+              "explain": "列舉未盡，用省略號表示還有其他水果。",
+              "_where": "hard/第 4 關"
+            },
+            {
+              "mode": "single",
+              "text": "窗外傳來一陣聲音▢沙沙的雨聲。",
+              "answer": "——",
+              "options": [
+                "；",
+                "——",
+                "？",
+                "。"
+              ],
+              "explain": "「沙沙的雨聲」是名詞短語，說明前面的「一陣聲音」是甚麼，用破折號；後面不是一句完整的話，所以不用省略號。",
+              "_where": "hard/第 4 關"
+            },
+            {
+              "mode": "single",
+              "text": "我終於明白媽媽的苦心▢她都是為了我。",
+              "answer": "——",
+              "options": [
+                "；",
+                "。",
+                "——",
+                "、"
+              ],
+              "explain": "「她都是為了我」解釋前面「明白」的是甚麼，用破折號引出；句子意思已經完整，不必用省略號；前後也不是並列的詞語，所以不用頓號。",
+              "_where": "hard/第 4 關"
+            },
+            {
+              "mode": "single",
+              "text": "沙灘上有貝殼、珊瑚、小石子▢多得數不清。",
+              "answer": "……",
+              "options": [
+                "。",
+                "；",
+                "！",
+                "……"
+              ],
+              "explain": "列舉未盡，用省略號表示還有其他東西。",
+              "_where": "hard/第 4 關"
+            },
+            {
+              "mode": "single",
+              "text": "「我▢我忘記帶手冊了。」他低着頭說。",
+              "answer": "……",
+              "options": [
+                "……",
+                "，",
+                "：",
+                "。"
+              ],
+              "explain": "說話斷斷續續，用省略號。",
+              "_where": "hard/第 4 關"
+            },
+            {
+              "mode": "single",
+              "text": "「轟▢」的一聲，雷聲由遠而近，雨下得更大了。",
+              "answer": "——",
+              "options": [
+                "……",
+                "——",
+                "。",
+                "，"
+              ],
+              "explain": "雷聲「轟」的一聲拖得很長，用破折號；聲音是連續拉長的，不是說話斷斷續續，所以不用省略號。",
+              "_where": "hard/第 4 關"
+            },
+            {
+              "mode": "single",
+              "text": "文具店裏有鉛筆、橡皮擦、直尺、顏色筆▢",
+              "answer": "……",
+              "options": [
+                "。",
+                "！",
+                "……",
+                "、"
+              ],
+              "explain": "列舉未盡，用省略號表示還有其他文具。",
+              "_where": "hard/第 4 關"
+            },
+            {
+              "mode": "single",
+              "text": "我們班的班長是{{小美}}▢一個樂於助人的女孩。",
+              "answer": "——",
+              "options": [
+                "；",
+                "……",
+                "、",
+                "——"
+              ],
+              "explain": "後面解釋班長是怎樣的人，用破折號。",
+              "_where": "hard/第 4 關"
             }
           ]
         },
@@ -1813,57 +2752,200 @@ const DATA = {
           "qs": [
             {
               "mode": "multi",
-              "text": "早上▢我背着書包出門▢媽媽說▢「路上小心。」",
+              "text": "早上▢我背着書包出門▢媽媽便在門口說▢「路上小心。」",
               "answers": [
                 "，",
-                "。",
+                "，",
                 "："
               ],
-              "tray": [
-                "，",
-                "。",
-                "：",
-                "「",
-                "」",
-                "；"
+              "alts": [
+                [],
+                [
+                  "。"
+                ],
+                []
               ],
-              "explain": "時間背景後用逗號，一句話說完用句號，提示說話用冒號。"
+              "tray": [
+                "：",
+                "，",
+                "「",
+                "；",
+                "」",
+                "。"
+              ],
+              "explain": "時間背景後用逗號；「便」連接前後動作，前面用逗號（一句話說完用句號也通）；提示說話用冒號。",
+              "altNote": "第二個空格填句號也通：「……背着書包出門。媽媽便在門口說：……」——一句話說完，再開新句。",
+              "_where": "hard/第 5 關"
             },
             {
               "mode": "multi",
-              "text": "今天的早餐很豐富▢有麵包▢雞蛋和牛奶。",
+              "text": "今天的早餐很豐富，有麵包▢雞蛋和牛奶▢",
               "answers": [
-                "：",
                 "、",
                 "。"
               ],
               "tray": [
-                "：",
-                "、",
                 "。",
                 "，",
                 "；",
-                "！"
+                "！",
+                "：",
+                "、"
               ],
-              "explain": "冒號提示列舉，並列詞語用頓號，句末用句號。"
+              "explain": "並列詞語用頓號，句末用句號；「有」字後面直接寫名稱，不加冒號。",
+              "_where": "hard/第 5 關"
             },
             {
               "mode": "multi",
-              "text": "春天▢花兒開了▢夏天▢陽光很猛烈。",
+              "text": "圖書館裏，有人在看書▢公園裏，有人在跑步▢商場裏，有人在購物▢",
               "answers": [
-                "，",
                 "；",
-                "，"
+                "；",
+                "。"
               ],
               "tray": [
                 "，",
-                "；",
                 "。",
+                "？",
+                "！",
+                "、",
+                "；"
+              ],
+              "explain": "三個並列分句之間用分號，最後一句說完用句號。",
+              "_where": "hard/第 5 關"
+            },
+            {
+              "mode": "multi",
+              "text": "上學的路上▢我看見{{李老師}}▢便向她問好▢她也笑着向我點頭▢",
+              "answers": [
+                "，",
+                "，",
+                "，",
+                "。"
+              ],
+              "tray": [
+                "！",
+                "，",
+                "；",
                 "、",
                 "：",
-                "！"
+                "。"
               ],
-              "explain": "分句內停頓用逗號，並列分句之間用分號。"
+              "explain": "「上學的路上」是地點背景，用逗號；「便」、「也」連接前後動作，前面用逗號；句子說完，句末用句號。",
+              "_where": "hard/第 5 關"
+            },
+            {
+              "mode": "multi",
+              "text": "圖書館有三條規則▢第一，不可高聲談話▢第二，不可在館內飲食▢第三，借書要按時歸還▢",
+              "answers": [
+                "：",
+                "；",
+                "；",
+                "。"
+              ],
+              "tray": [
+                "、",
+                "，",
+                "！",
+                "：",
+                "；",
+                "。"
+              ],
+              "explain": "冒號提示三條規則；三個分項內已有逗號，之間用分號；最後用句號。",
+              "_where": "hard/第 5 關"
+            },
+            {
+              "mode": "multi",
+              "text": "中秋節的晚上▢公園裏有以下活動▢賞月▢玩燈籠和猜燈謎。",
+              "answers": [
+                "，",
+                "：",
+                "、"
+              ],
+              "tray": [
+                "，",
+                "：",
+                "。",
+                "！",
+                "；",
+                "、"
+              ],
+              "explain": "時間背景後用逗號；「以下」提示活動項目，用冒號；並列活動用頓號。",
+              "_where": "hard/第 5 關"
+            },
+            {
+              "mode": "multi",
+              "text": "老師說▢「你們要記住▢做人要誠實。」",
+              "answers": [
+                "：",
+                "，"
+              ],
+              "tray": [
+                "。",
+                "：",
+                "，",
+                "」",
+                "；",
+                "「"
+              ],
+              "explain": "冒號提示說話；引號內的分句用逗號。",
+              "_where": "hard/第 5 關"
+            },
+            {
+              "mode": "multi",
+              "text": "花園裏有紅色的玫瑰▢黃色的向日葵▢紫色的薰衣草▢真是色彩繽紛。",
+              "answers": [
+                "、",
+                "、",
+                "……"
+              ],
+              "tray": [
+                "；",
+                "：",
+                "？",
+                "！",
+                "……",
+                "、"
+              ],
+              "explain": "三種花並列用頓號；園裏的花不止三種，用省略號表示還有其他，句子還未說完，所以第三格不用句號；「真是色彩繽紛」是接着省略號的總結。",
+              "_where": "hard/第 5 關"
+            },
+            {
+              "mode": "multi",
+              "text": "小賣部裏有糖果▢餅乾和飲品▢吸引了不少同學。",
+              "answers": [
+                "、",
+                "，"
+              ],
+              "tray": [
+                "、",
+                "？",
+                "。",
+                "：",
+                "，",
+                "；"
+              ],
+              "explain": "並列食物用頓號；「吸引了不少同學」承接前文，前面用逗號。",
+              "_where": "hard/第 5 關"
+            },
+            {
+              "mode": "multi",
+              "text": "妹妹問我▢「哥哥▢你可以教我畫畫嗎▢」",
+              "answers": [
+                "：",
+                "，",
+                "？"
+              ],
+              "tray": [
+                "。",
+                "，",
+                "」",
+                "？",
+                "：",
+                "「"
+              ],
+              "explain": "冒號提示說話；稱呼語後用逗號；問句用問號。",
+              "_where": "hard/第 5 關"
             }
           ]
         },
@@ -1880,31 +2962,33 @@ const DATA = {
                 "」"
               ],
               "tray": [
-                "：",
                 "「",
-                "」",
-                "，",
+                "：",
                 "。",
-                "《"
+                "」",
+                "《",
+                "，"
               ],
-              "explain": "冒號提示說話，外層用「」包住說話內容；說話中再引述的詞語，內層改用『』。"
+              "explain": "冒號提示說話，外層用「」包住說話內容；說話中再引述的詞語，內層改用『』。",
+              "_where": "hard/第 6 關"
             },
             {
               "mode": "multi",
-              "text": "圖書館裏有《西遊記》▢《三國演義》和〈靜夜思〉▢",
+              "text": "圖書館裏有《西遊記》▢《三國演義》和《唐詩三百首》▢",
               "answers": [
                 "、",
                 "。"
               ],
               "tray": [
-                "、",
+                "！",
                 "，",
-                "。",
-                "；",
                 "：",
-                "！"
+                "、",
+                "；",
+                "。"
               ],
-              "explain": "並列書名之間用頓號，句末用句號。"
+              "explain": "並列書名之間用頓號，句末用句號。",
+              "_where": "hard/第 6 關"
             },
             {
               "mode": "multi",
@@ -1914,86 +2998,157 @@ const DATA = {
                 "！"
               ],
               "tray": [
+                "，",
+                "；",
+                "」",
+                "「",
+                "：",
+                "！"
+              ],
+              "explain": "提示說話用冒號，命令語氣用感歎號。",
+              "_where": "hard/第 6 關"
+            },
+            {
+              "mode": "multi",
+              "text": "我最喜歡的書是▢西遊記▢▢你呢▢",
+              "answers": [
+                "《",
+                "》",
+                "，",
+                "？"
+              ],
+              "tray": [
+                "，",
+                "《",
+                "》",
+                "「",
+                "」",
+                "？"
+              ],
+              "explain": "書名用《》，前後成對；「你呢」前面要停一停，用逗號；問對方用問號。"
+            },
+            {
+              "mode": "multi",
+              "text": "媽媽說▢▢吃完飯要幫忙洗碗▢▢",
+              "answers": [
+                "：",
+                "「",
+                "。",
+                "」"
+              ],
+              "tray": [
+                "。",
+                "，",
+                "《",
+                "：",
+                "」",
+                "「"
+              ],
+              "explain": "冒號提示說話，引號成對，句末用句號。",
+              "_where": "hard/第 6 關"
+            },
+            {
+              "mode": "multi",
+              "text": "校園裏有禮堂▢操場和圖書館▢設施十分齊全。",
+              "answers": [
+                "、",
+                "，"
+              ],
+              "tray": [
                 "：",
                 "！",
                 "。",
-                "，",
-                "「",
-                "」"
+                "；",
+                "、",
+                "，"
               ],
-              "explain": "提示說話用冒號，命令語氣用感嘆號。"
-            }
-          ]
-        },
-        {
-          "name": "第 7 關",
-          "theme": "括號與綜合運用",
-          "qs": [
+              "explain": "三處地方並列用頓號；「設施十分齊全」是總結，前面用逗號。",
+              "_where": "hard/第 6 關"
+            },
             {
               "mode": "multi",
-              "text": "媽媽說：「明天▢星期日▢我們去海洋公園。」",
+              "text": "圖書館裏，有人看書，有人找資料▢課室裏，有人討論，有人抄筆記▢",
               "answers": [
-                "（",
-                "）"
-              ],
-              "tray": [
-                "（",
-                "）",
-                "「",
-                "」",
-                "，",
+                "；",
                 "。"
               ],
-              "explain": "引號內對日期的補充說明，用括號包住；外層已經有成對的「」引號。"
-            },
-            {
-              "mode": "multi",
-              "text": "我最愛讀▢西遊記▢▢吳承恩寫的▢。",
-              "answers": [
-                "《",
-                "》",
-                "（",
-                "）"
-              ],
               "tray": [
-                "《",
-                "》",
-                "（",
-                "）",
-                "「",
-                "」"
-              ],
-              "explain": "書名用《》，作者補充說明用括號（）包住。"
-            },
-            {
-              "mode": "multi",
-              "text": "今天是祖母的生日▢農曆八月十六▢我們一起去吃大餐吧▢",
-              "answers": [
-                "（",
-                "）",
-                "！"
-              ],
-              "tray": [
-                "（",
-                "）",
-                "！",
                 "。",
-                "，",
-                "："
+                "、",
+                "：",
+                "！",
+                "；",
+                "，"
               ],
-              "explain": "「農曆八月十六」是補充說明生日日期，用括號包住；句末提議一起吃大餐，語氣興奮用感嘆號。"
+              "explain": "兩個並列的大分句，分句內已有逗號，之間用分號；整段說完，句末用句號。",
+              "_where": "hard/第 6 關"
+            },
+            {
+              "mode": "multi",
+              "text": "老師問▢「誰願意幫忙派作業▢」同學們都舉起手來▢",
+              "answers": [
+                "：",
+                "？",
+                "。"
+              ],
+              "tray": [
+                "，",
+                "」",
+                "。",
+                "：",
+                "「",
+                "？"
+              ],
+              "explain": "冒號提示問話；問句用問號；陳述句末用句號。",
+              "_where": "hard/第 6 關"
+            },
+            {
+              "mode": "multi",
+              "text": "我最喜歡的季節是秋天▢你呢▢",
+              "answers": [
+                "，",
+                "？"
+              ],
+              "tray": [
+                "，",
+                "、",
+                "？",
+                "！",
+                "：",
+                "；"
+              ],
+              "explain": "先說自己的喜好，停一停用逗號；再問對方，用問號。",
+              "_where": "hard/第 6 關"
+            },
+            {
+              "mode": "multi",
+              "text": "{{小明}}說▢「我們一起溫習吧▢」於是我拿出課本溫習。",
+              "answers": [
+                "：",
+                "。"
+              ],
+              "tray": [
+                "：",
+                "。",
+                "；",
+                "」",
+                "「",
+                "，"
+              ],
+              "explain": "冒號提示說話；引號內句末用句號。",
+              "_where": "hard/第 6 關"
             }
           ]
         }
       ]
     }
   }
-};
+}
 
 /* ======================= 狀態 ======================= */
 const app = document.getElementById('app');
 const toastEl = document.getElementById('toast');
-const KEY = 'punctuation-adventure-v2-hk';
+const KEY = 'punctuation-adventure-v1';
 
 const state = {
   screen: 'home',
@@ -2106,15 +3261,21 @@ const ICON = {
 /* ======================= 插畫 ======================= */
 function sticker(m, size){
   const g = m.glyph;
-  // 破折號、省略號是水平長線/點，需縮小並垂直居中；
-  // 成對標點（「」『』《》〈〉（））高度正常，用大字體即可
-  const isWide = /^(——|……)$/.test(g);
-  const fs = isWide ? 30 : 44;
-  const y = isWide ? 72 : 78;
+  const fs = g.length >= 2 ? 30 : 44;
+  const y = g.length >= 2 ? 72 : 78;
   const isDash = /^—+$/.test(g);
-  const glyph = isDash
-    ? '<rect x="21" y="61" width="58" height="8.5" rx="4.25" fill="' + m.color + '"/>'
-    : '<text x="50" y="' + y + '" text-anchor="middle" font-size="' + fs + '" font-weight="900" fill="' + m.color + '" font-family="inherit" letter-spacing="' + (g.length >= 2 && !isWide ? '-1' : '0') + '">' + esc(g) + '</text>';
+  const isUnder = g === '＿';
+  let glyph;
+  if(isUnder){
+    glyph = '<rect x="18" y="68" width="64" height="7" rx="3.5" fill="' + m.color + '"/>' +
+      '<rect x="26" y="54" width="14" height="5" rx="2.5" fill="' + m.color + '" opacity=".45"/>' +
+      '<rect x="44" y="54" width="14" height="5" rx="2.5" fill="' + m.color + '" opacity=".45"/>' +
+      '<rect x="62" y="54" width="12" height="5" rx="2.5" fill="' + m.color + '" opacity=".45"/>';
+  }else if(isDash){
+    glyph = '<rect x="21" y="61" width="58" height="8.5" rx="4.25" fill="' + m.color + '"/>';
+  }else{
+    glyph = '<text x="50" y="' + y + '" text-anchor="middle" font-size="' + fs + '" font-weight="900" fill="' + m.color + '" font-family="inherit">' + esc(g) + '</text>';
+  }
   return '<svg class="sticker" viewBox="0 0 100 100" width="' + (size || 64) + '" height="' + (size || 64) + '" aria-hidden="true">' +
     '<rect x="4" y="4" width="92" height="92" rx="26" fill="' + m.bg + '" stroke="' + m.color + '" stroke-width="4"/>' +
     '<circle cx="32" cy="24" r="4.4" fill="#2E2A26"/>' +
@@ -2170,10 +3331,12 @@ function pageHead(title, sub, backAction, backLabel){
 }
 function markHTML(v){
   if(/^—+$/.test(v)) return '<span class="mk-dash" role="img" aria-label="破折號"></span>';
+  if(v === '……') return '<svg class="mk-dots" viewBox="0 0 70 10" role="img" aria-label="省略號"><circle cx="5" cy="5" r="4"></circle><circle cx="17" cy="5" r="4"></circle><circle cx="29" cy="5" r="4"></circle><circle cx="41" cy="5" r="4"></circle><circle cx="53" cy="5" r="4"></circle><circle cx="65" cy="5" r="4"></circle></svg>';
   return esc(v);
 }
 function richText(v){
   let s = esc(v);
+  s = s.replace(/\{\{([^{}]+)\}\}/g, '<span class="pn">$1</span>');
   s = s.split('——').join(markHTML('——'));
   s = s.split('—').join(markHTML('—'));
   return s;
@@ -2185,6 +3348,7 @@ function highlight(text, m){
     if(!t) return;
     s = s.split(esc(t)).join('<span class="hl">' + esc(t) + '</span>');
   });
+  s = s.replace(/\{\{([^{}]+)\}\}/g, '<span class="pn">$1</span>');
   s = s.split('——').join(markHTML('——'));
   s = s.split('—').join(markHTML('—'));
   return s;
@@ -2204,18 +3368,18 @@ function viewHome(){
           '<button class="btn primary big" data-action="go-map">開始學習</button>' +
           '<button class="btn accent big" data-action="go-challenge">混合挑戰</button>' +
         '</div>' +
-        '<div class="chips"><span class="chip">圖文教學</span><span class="chip">兩種玩法</span><span class="chip">即時解說</span><span class="chip">85 道題目</span></div>' +
+        '<div class="chips"><span class="chip">圖文教學</span><span class="chip">兩種玩法</span><span class="chip">即時解說</span><span class="chip">156 道題目</span></div>' +
       '</div>' +
       '<div class="hero-art">' + mascot() +
-        '<span class="float-mark m1">（）</span><span class="float-mark m2">！</span><span class="float-mark m3">？</span>' +
+        '<span class="float-mark m1">，</span><span class="float-mark m2">！</span><span class="float-mark m3">？</span>' +
       '</div>' +
     '</div>' +
     '<div class="stats">' +
       '<div class="stat"><b>' + learned + ' / 12</b><span>已認識的標點</span></div>' +
-      '<div class="stat"><b>' + cleared + ' / 14</b><span>已完成的挑戰</span></div>' +
-      '<div class="stat"><b>85</b><span>道練習題目</span></div>' +
+      '<div class="stat"><b>' + cleared + ' / 12</b><span>已完成的挑戰</span></div>' +
+      '<div class="stat"><b>156</b><span>道練習題目</span></div>' +
     '</div>' +
-    '<div class="home-note">' + ICON.bulb + '<span>建議玩法：先到「標點地圖」逐個學習（共12種，含括號），完成每類的即學即練，再到「混合挑戰」測試實力。用字對應《香港小學學習字詞表》，教師可投屏到課室大屏，與全班一起作答。</span></div>' +
+    '<div class="home-note">' + ICON.bulb + '<span>建議玩法：先到「標點地圖」逐個學習，完成每類的即學即練，再到「混合挑戰」測試實力。教師可投影到課室的大屏幕，與全班一起作答。</span></div>' +
     '<div class="home-tools"><button class="link-btn" data-action="reset-progress">重置學習進度</button></div>' +
   '</section>';
 }
@@ -2232,7 +3396,7 @@ function viewMap(){
     '</button>';
   }).join('');
   return '<section class="screen">' + topbar() +
-    pageHead('標點地圖', '揀一種標點，先看教學，再即學即練', 'go-home', '返回首頁') +
+    pageHead('標點地圖', '選一種標點，先看完教學，再做即學即練', 'go-home', '返回首頁') +
     '<div class="mark-grid">' + cards + '</div>' +
     '<div class="home-note" style="margin-top:24px">' + ICON.bulb + '<span>12 種標點各自成類。每類有 3 題即學即練，完成後可到「混合挑戰」挑戰初階與高階關卡。</span></div>' +
   '</section>';
@@ -2300,7 +3464,7 @@ function viewChallenge(){
         : (mm === 'single' ? '<span class="g-mode">選一選</span>' : '<span class="g-mode multi">混合</span>');
       return '<button class="group-btn" data-action="start-group" data-level="' + key + '" data-g="' + i + '">' +
         '<span class="g-top"><b>' + esc(g.name) + '</b>' + badge + '</span>' +
-        '<small>' + esc(g.theme) + ' · ' + g.qs.length + ' 題</small>' +
+        '<small><span>' + esc(g.theme) + '</span><span class="g-n">' + g.qs.length + ' 題</span></small>' +
         starsSVG(starN, 16) +
       '</button>';
     }).join('');
@@ -2308,17 +3472,17 @@ function viewChallenge(){
     return '<div class="card level-card">' +
       '<div class="level-head">' +
         '<span class="level-badge ' + key + '">' + esc(lv.title) + '</span>' +
-        '<p>' + esc(lv.subtitle) + '　·　已通關 ' + done + ' / 7</p>' +
+        '<p><span>' + esc(lv.subtitle) + '</span><span class="lh-prog">已通關 ' + done + ' / 6</span></p>' +
       '</div>' +
       '<div class="group-grid">' + groups + '</div>' +
     '</div>';
   }
   return '<section class="screen">' + topbar() +
-    pageHead('混合挑戰', '兩種難度，各 7 關，題庫不重複', 'go-home', '返回首頁') +
+    pageHead('混合挑戰', '兩種難度，各 6 關，題庫不重複', 'go-home', '返回首頁') +
     '<div class="mode-legend"><span><i></i>選一選：' + countMode('single') + ' 關</span><span><i class="multi"></i>排一排：' + countMode('multi') + ' 關</span></div>' +
     levelBlock('easy') +
     levelBlock('hard') +
-    '<div class="home-note">' + ICON.bulb + '<span>初階版以單空格判斷為主，高階版以多空格推理為主；全個挑戰區共有 14 關（初階7關 + 高階7關）。每題揭曉答案時都會說明理由。</span></div>' +
+    '<div class="home-note">' + ICON.bulb + '<span>初階版以單空格判斷為主，高階版以多空格推理為主；整個挑戰區共有「選一選」6 關、「排一排」6 關。每題揭曉答案時都會說明理由。</span></div>' +
   '</section>';
 }
 
@@ -2360,13 +3524,38 @@ function startQuiz(config){
 function currentQ(){
   return state.quiz ? state.quiz.questions[state.quiz.index] : null;
 }
+/* 同一位置可接受的標點：有些題目兩種寫法都通 */
+function okMark(q, mark){
+  if(mark === q.answer) return true;
+  return !!(q.alt && q.alt.indexOf(mark) >= 0);
+}
+function okSlot(q, i, mark){
+  if(mark === q.answers[i]) return true;
+  return !!(q.alts && q.alts[i] && q.alts[i].indexOf(mark) >= 0);
+}
+function choseAlt(q, qz){
+  if(q.mode === 'single') return !!qz.filled[0] && qz.filled[0] !== q.answer;
+  for(let i = 0; i < q.answers.length; i++){
+    if(qz.filled[i] && qz.filled[i] !== q.answers[i]) return true;
+  }
+  return false;
+}
+function answerHTML(q){
+  const wrap = function(list){
+    return list.map(markHTML).join('<span class="or">或</span>');
+  };
+  if(q.mode === 'single') return wrap([q.answer].concat(q.alt || []));
+  return q.answers.map(function(a, i){
+    return wrap([a].concat((q.alts && q.alts[i]) || []));
+  }).join('　');
+}
 function chooseOption(mark){
   const qz = state.quiz;
   if(!qz || qz.status !== 'answering') return;
   const q = currentQ();
   if(!q || q.mode !== 'single') return;
   if(qz.wrongOpts.indexOf(mark) >= 0) return;
-  if(mark === q.answer){
+  if(okMark(q, mark)){
     qz.filled = [mark];
     qz.score += (qz.attempts === 0 ? 2 : 1);
     qz.results.push({ first: qz.attempts === 0 });
@@ -2425,7 +3614,7 @@ function checkAnswer(){
   if(!q || q.mode !== 'multi') return;
   if(qz.filled.some(function(v){ return !v; })){ toast('還有空格未填啊！'); return; }
   const wrong = [];
-  q.answers.forEach(function(a, i){ if(qz.filled[i] !== a) wrong.push(i); });
+  q.answers.forEach(function(a, i){ if(!okSlot(q, i, qz.filled[i])) wrong.push(i); });
   if(wrong.length === 0){
     qz.score += (qz.attempts === 0 ? 2 : 1);
     qz.results.push({ first: qz.attempts === 0 });
@@ -2493,17 +3682,30 @@ function finishQuiz(){
 }
 
 /* ======================= 答題頁 ======================= */
+function tailSplit(p){
+  var units = [], last = 0, m;
+  var re = /\{\{[^{}]*\}\}/g;
+  while((m = re.exec(p))){
+    if(m.index > last){ Array.from(p.slice(last, m.index)).forEach(function(ch){ units.push(ch); }); }
+    units.push(m[0]);
+    last = m.index + m[0].length;
+  }
+  Array.from(p.slice(last)).forEach(function(ch){ units.push(ch); });
+  if(units.length <= 2) return ['', p];
+  var tail = units.slice(-2).join('');
+  return [p.slice(0, p.length - tail.length), tail];
+}
 function renderSentence(q, qz){
   const parts = q.text.split('▢');
   let html = '';
   parts.forEach(function(p, i){
     if(i >= parts.length - 1){ html += richText(p); return; }
-    const cut = Math.max(0, p.length - 2);
-    html += richText(p.slice(0, cut)) + '<span class="keep">' + richText(p.slice(cut));
+    const sp = tailSplit(p);
+    html += richText(sp[0]) + '<span class="keep">' + richText(sp[1]);
     {
       const val = qz.filled[i] || '';
       const expected = q.mode === 'single' ? q.answer : (q.answers[i] || '');
-      const wide = (expected === '——' || expected === '……') ? ' wide' : '';
+      const wide = (expected === '——' || expected === '……' || val === '——' || val === '……') ? ' wide' : '';
       let cls = 'slot' + wide;
       if(val){
         cls += ' filled';
@@ -2513,7 +3715,7 @@ function renderSentence(q, qz){
           cls += ' wrong';
         }
       }
-      html += '<button class="' + cls + '" data-action="tap-slot" data-i="' + i + '" aria-label="' + esc('第 ' + (i + 1) + ' 個空格' + (val ? '，已填 ' + (val === '——' ? '破折號' : val) : '')) + '">' + markHTML(val) + '</button>';
+      html += '<button class="' + cls + '" data-action="tap-slot" data-i="' + i + '" aria-label="' + esc('第 ' + (i + 1) + ' 個空格' + (val ? '，已填 ' + (val === '——' ? '破折號' : (val === '……' ? '省略號' : val)) : '')) + '">' + markHTML(val) + '</button>';
     }
     html += '</span>';
   });
@@ -2525,21 +3727,22 @@ function feedbackHTML(q, qz){
       return '<div class="feedback hint" role="status">' +
         '<span class="fb-icon">' + ICON.bulb + '</span>' +
         '<div><h4>再想一想</h4><p>' +
-        (q.mode === 'single'
+        (q.hint ? q.hint : (q.mode === 'single'
           ? '讀一讀整句：這個位置是句子中間、句子末尾，還是說話內容之前？'
-          : '有空格放錯了。點一下放錯的空格取回，再想想每個位置的作用。') +
+          : '有空格放錯了。點一下放錯的空格取回，再想想每個位置的作用。')) +
         '</p></div></div>';
     }
     return '';
   }
   const first = qz.results.length ? qz.results[qz.results.length - 1].first : false;
+  const note = q.altNote ? '<span class="altnote">' + richText(q.altNote) + '</span>' : '';
   if(first){
     return '<div class="feedback ok" role="status"><span class="fb-icon">' + ICON.check + '</span>' +
-      '<div><h4>答對了！</h4><p>' + esc(q.explain) + '</p></div></div>';
+      '<div><h4>答對了！</h4><p>' + richText(q.explain) + (choseAlt(q, qz) ? note : '') + '</p></div></div>';
   }
-  const ans = q.mode === 'single' ? markHTML(q.answer) : q.answers.map(markHTML).join('　');
+  const ans = answerHTML(q);
   return '<div class="feedback no" role="status"><span class="fb-icon">' + ICON.cross + '</span>' +
-    '<div><h4>正確答案是 <span class="ans">' + ans + '</span></h4><p>' + richText(q.explain) + '</p></div></div>';
+    '<div><h4>正確答案是 <span class="ans">' + ans + '</span></h4><p>' + richText(q.explain) + note + '</p></div></div>';
 }
 function viewQuiz(){
   const qz = state.quiz;
@@ -2550,9 +3753,9 @@ function viewQuiz(){
   let optionsHTML = '';
   if(q.mode === 'single'){
     optionsHTML = '<div class="options">' + q.options.map(function(o){
-      let cls = 'opt';
+      let cls = 'opt' + (o.length > 2 ? ' txt' : '');
       if(qz.status === 'resolved'){
-        if(o === q.answer) cls += ' correct';
+        if(o === qz.filled[0]) cls += ' correct';
         else cls += ' dim';
       }else if(qz.wrongOpts.indexOf(o) >= 0){
         cls += ' wrong';
@@ -2580,8 +3783,9 @@ function viewQuiz(){
       '</div>' +
       '<div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '"><i style="width:' + pct + '%"></i></div>' +
       '<div class="card q-card">' +
-        '<span class="q-type">' + (q.mode === 'single' ? '選一選：把正確標點填入空格' : '排一排：依序點選標點；點已填空格可取回') + '</span>' +
-        '<p class="sentence">' + renderSentence(q, qz) + '</p>' +
+        '<span class="q-type">' + (q.prompt || (q.mode === 'single' ? '選一選：把正確標點填入空格' : '排一排：順序點選標點填入空格（同一個標點可重複使用）；點已填的空格可取回')) + '</span>' +
+        '<p class="sentence' + (q.prompt ? ' ask' : (q.text.replace(/\{\{[^{}]*\}\}/g,'').length > 40 ? ' long' : '')) + '">' + renderSentence(q, qz) + '</p>' +
+        (/\{\{/.test(q.text) ? '<p class="pn-note"><span class="pn">小明</span><span>名字下面的直線，就是專名號</span></p>' : '') +
         optionsHTML +
         '<div aria-live="polite">' + feedbackHTML(q, qz) + '</div>' +
         '<div class="quiz-actions">' + actions + '</div>' +
@@ -2654,17 +3858,7 @@ function render(){
 /* ======================= 導航 ======================= */
 function requestQuizExit(){
   const qz = state.quiz;
-  if(!qz){ goHome(); return; }
-  /* 如果已做完最後一題（result 頁），直接返回；否則彈確認 */
-  if(qz.status === 'resolved' && qz.index >= qz.questions.length - 1){
-    state.modal = null;
-    if(qz.backTo){
-      if(qz.backTo.screen === 'teach'){ state.markIndex = qz.backTo.markIndex; state.screen = 'teach'; }
-      else { state.screen = 'challenge'; }
-    }else{ state.screen = 'home'; }
-    render();
-    return;
-  }
+  if(!qz || qz.status === 'resolved' && qz.index >= qz.questions.length - 1){ /* 仍可離開 */ }
   state.modal = { kind: 'exit', title: '離開練習？', text: '本題組的作答進度不會保存，確定要離開嗎？' };
   render();
 }
